@@ -14,8 +14,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             soundType = SoundID.Tink;
-            mineResist = 3f;
-            minPick = 210;
+            mineResist = 2.1f;
             drop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlate>();
             AddMapEntry(new Color(51, 99, 75));
         }

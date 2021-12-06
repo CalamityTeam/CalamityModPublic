@@ -51,76 +51,7 @@ namespace CalamityMod.NPCs
 
 			// Do not provide free hearts for certain boss NPCs in Rev+.
 			if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type))
-			{
-				switch (npc.type)
-				{
-					case NPCID.EaterofWorldsHead:
-					case NPCID.EaterofWorldsBody:
-					case NPCID.EaterofWorldsTail:
-
-						int numDrops = Main.rand.Next(1, 3);
-						if (Main.rand.NextBool())
-						{
-							if (Main.expertMode)
-								numDrops++;
-
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ShadowScale, numDrops);
-						}
-
-						if (Main.rand.NextBool())
-						{
-							numDrops = Main.rand.Next(2, 6);
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemoniteOre, numDrops);
-						}
-
-						if (npc.boss)
-						{
-							if (Main.expertMode)
-							{
-								npc.DropBossBags();
-							}
-							else
-							{
-								numDrops = Main.rand.Next(10, 30);
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemoniteOre, numDrops);
-								numDrops = Main.rand.Next(10, 31);
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemoniteOre, numDrops);
-
-								if (Main.rand.NextBool(20))
-									Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.EatersBone);
-
-								if (Main.rand.NextBool(7))
-									Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.EaterMask, 1, noBroadcast: false, -1);
-							}
-						}
-
-						break;
-
-					case NPCID.Creeper:
-
-						int numDrops2 = Main.rand.Next(2, 6);
-						if (Main.rand.Next(3) != 0)
-						{
-							if (Main.expertMode)
-								numDrops2 += Main.rand.Next(2, 6);
-
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TissueSample, numDrops2);
-						}
-
-						if (Main.rand.Next(3) != 0)
-						{
-							numDrops2 = Main.rand.Next(5, 13);
-							if (Main.expertMode)
-								numDrops2 += Main.rand.Next(6, 14);
-
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimtaneOre, numDrops2);
-						}
-
-						break;
-				}
-
 				return false;
-			}
 
             //
             // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot
@@ -172,6 +103,7 @@ namespace CalamityMod.NPCs
 				// Legendary drops for Eye of Cthulhu
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), true, CalamityWorld.malice);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CounterScarf>(), true, CalamityWorld.malice);
+
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat, 1, 1);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
@@ -198,7 +130,8 @@ namespace CalamityMod.NPCs
 						ItemID.BeesKnees,
 						ItemID.BeeGun,
 					};
-					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, queenBeeWeapons);
+					// It's already 33.33% in vanilla normal, so we shouldn't lower the drop rate to 25%
+					DropHelper.DropEntireSet(npc, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
 					DropHelper.BlockDrops(queenBeeWeapons);
 				}
 
@@ -616,15 +549,27 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.Mimic && !npc.SpawnedFromStatue)
 			{
 				float w = DropHelper.BagWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack(ItemID.StarCloak, w),
-					DropHelper.WeightStack(ItemID.CrossNecklace, w),
-					DropHelper.WeightStack(ItemID.TitanGlove, w),
-					DropHelper.WeightStack(ItemID.DualHook, w),
-					DropHelper.WeightStack(ItemID.MagicDagger, w),
-					DropHelper.WeightStack(ItemID.Compass, w),
-					DropHelper.WeightStack(ItemID.PhilosophersStone, w)
-				);
+				// Change to NPCID.IceMimic in 1.4 TMod
+				if (npc.ai[3] == 4f)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack(ItemID.Frostbrand, w),
+						DropHelper.WeightStack(ItemID.IceBow, w),
+						DropHelper.WeightStack(ItemID.FlowerofFrost, w),
+						DropHelper.WeightStack(ItemID.ToySled, 0.05f)
+					);
+				}
+				else
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack(ItemID.StarCloak, w),
+						DropHelper.WeightStack(ItemID.CrossNecklace, w),
+						DropHelper.WeightStack(ItemID.TitanGlove, w),
+						DropHelper.WeightStack(ItemID.DualHook, w),
+						DropHelper.WeightStack(ItemID.MagicDagger, w),
+						DropHelper.WeightStack(ItemID.PhilosophersStone, w)
+					);
+				}
 
 				int[] mimicDrops = new int[]
 				{
@@ -632,9 +577,12 @@ namespace CalamityMod.NPCs
 					ItemID.CrossNecklace,
 					ItemID.TitanGlove,
 					ItemID.DualHook,
-                    ItemID.MagicDagger,
-					ItemID.Compass,
-					ItemID.PhilosophersStone
+					ItemID.MagicDagger,
+					ItemID.PhilosophersStone,
+					ItemID.Frostbrand,
+					ItemID.IceBow,
+					ItemID.FlowerofFrost,
+					ItemID.ToySled
 				};
 				DropHelper.BlockDrops(mimicDrops);
 			}

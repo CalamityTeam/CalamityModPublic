@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 180;
+            projectile.MaxUpdates = 2;
         }
 
         public override void AI()

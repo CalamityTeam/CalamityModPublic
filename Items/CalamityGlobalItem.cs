@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -836,7 +837,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !player.Calamity().bossZen;
+                return !player.HasBuff(ModContent.BuffType<BossZen>());
             }
             if (item.type == ItemID.RodofDiscord)
             {
@@ -1059,36 +1060,28 @@ namespace CalamityMod.Items
 				player.meleeDamage += 0.1f;
 				player.meleeSpeed += 0.1f;
 				player.meleeCrit += 10;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Lightning Aura can now crit and strikes faster\n" +
-							"10% increased melee speed, minion and melee damage";
+				player.setBonus += "\n10% increased melee speed, crit, and damage\n" +
+							"15% increased minion damage";
 			}
 			else if (set == "SquireTier2")
 			{
 				player.lifeRegen += 3;
 				player.minionDamage += 0.15f;
 				player.meleeCrit += 15;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Ballista pierces more targets and panics when you take damage\n" +
-							"Increases your life regeneration\n" +
+				player.setBonus += "\nIncreases your life regeneration\n" +
 							"15% increased minion damage and melee critical strike chance";
 			}
 			else if (set == "HuntressTier2")
 			{
 				player.minionDamage += 0.1f;
 				player.rangedDamage += 0.1f;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Explosive Traps recharge faster and oil enemies\n" +
-							"Set oiled enemies on fire for extra damage\n" +
-							"10% increased minion and ranged damage";
+				player.setBonus += "\n10% increased minion and ranged damage";
 			}
 			else if (set == "ApprenticeTier2")
 			{
 				player.minionDamage += 0.05f;
 				player.magicCrit += 15;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Flameburst field of view and range are dramatically increased\n" +
-							"5% increased minion damage and 15% increased magic critical strike chance";
+				player.setBonus += "\n5% increased minion damage and 15% increased magic critical strike chance";
 			}
 			else if (set == "MonkTier3")
 			{
@@ -1096,9 +1089,7 @@ namespace CalamityMod.Items
 				player.meleeSpeed += 0.1f;
 				player.meleeDamage += 0.1f;
 				player.meleeCrit += 10;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Greatly enhances Lightning Aura effectiveness\n" +
-							"10% increased melee damage, melee critical strike chance and melee speed\n" +
+				player.setBonus += "\n10% increased melee damage, melee critical strike chance and melee speed\n" +
 							"30% increased minion damage";
 			}
 			else if (set == "SquireTier3")
@@ -1106,26 +1097,20 @@ namespace CalamityMod.Items
 				player.lifeRegen += 6;
 				player.minionDamage += 0.1f;
 				player.meleeCrit += 10;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Greatly enhances Ballista effectiveness\n" +
-							"Massively increased life regeneration\n" +
+				player.setBonus += "\nMassively increased life regeneration\n" +
 							"10% increased minion damage and melee critical strike chance";
 			}
 			else if (set == "HuntressTier3")
 			{
 				player.minionDamage += 0.1f;
 				player.rangedDamage += 0.1f;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Greatly enhances Explosive Traps effectiveness\n" +
-							"10% increased minion and ranged damage";
+				player.setBonus += "\n10% increased minion and ranged damage";
 			}
 			else if (set == "ApprenticeTier3")
 			{
 				player.minionDamage += 0.1f;
 				player.magicCrit += 15;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Greatly enhances Flameburst effectiveness\n" +
-							"10% increased minion damage and 15% increased magic critical strike chance";
+				player.setBonus += "\n10% increased minion damage and 15% increased magic critical strike chance";
 			}
         }
         #endregion

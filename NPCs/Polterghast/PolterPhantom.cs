@@ -151,8 +151,7 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 
 			// Predictiveness
-			float chargePredictionAmt = 5f + 20f * (tileEnrageMult - 1f);
-			Vector2 predictionVector = chargePhase && revenge ? player.velocity * chargePredictionAmt : Vector2.Zero;
+			Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
 			Vector2 lookAt = player.Center + predictionVector;
 			Vector2 rotationVector = lookAt - vector;
 

@@ -89,6 +89,7 @@ namespace CalamityMod
         public static ModHotKey AngelicAllianceHotKey;
         public static ModHotKey GodSlayerDashHotKey;
         public static ModHotKey ExoChairSpeedupHotkey;
+        public static ModHotKey ExoChairSlowdownHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -203,6 +204,7 @@ namespace CalamityMod
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
             GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
             ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
+            ExoChairSlowdownHotkey = RegisterHotKey("Exo Chair Slow Down", "RightShift");
 
             if (!Main.dedServ)
                 LoadClient();

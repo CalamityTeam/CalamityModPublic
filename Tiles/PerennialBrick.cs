@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles
 
             drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
             soundType = SoundID.Tink;
-            minPick = 150;
             AddMapEntry(new Color(17, 133, 46));
             animationFrameHeight = 90;
         }

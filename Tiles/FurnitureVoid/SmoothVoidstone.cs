@@ -21,8 +21,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             CalamityUtils.MergeWithAbyss(Type);
 
             soundType = SoundID.Tink;
-            mineResist = 7f;
-            minPick = 180;
+            mineResist = 2.1f;
             drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }

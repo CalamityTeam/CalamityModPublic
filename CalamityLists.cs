@@ -2197,10 +2197,6 @@ namespace CalamityMod
             heartDropBlockList = new List<int>()
             {
                 NPCID.ServantofCthulhu,
-                NPCID.EaterofWorldsHead,
-                NPCID.EaterofWorldsBody,
-                NPCID.EaterofWorldsTail,
-                NPCID.Creeper,
                 NPCID.TheHungryII,
                 NPCID.LeechHead,
                 NPCID.LeechBody,
@@ -2583,7 +2579,7 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
-            heartDropBlockList = null;
+			heartDropBlockList = null;
             pierceResistList = null;
             pierceResistExceptionList = null;
 

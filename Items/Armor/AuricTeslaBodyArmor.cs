@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
+            item.width = 38;
+            item.height = 34;
             item.value = Item.buyPrice(1, 44, 0, 0);
             item.defense = 48;
             item.Calamity().customRarity = CalamityRarity.Violet;

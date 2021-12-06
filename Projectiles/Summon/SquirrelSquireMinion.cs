@@ -25,13 +25,18 @@ namespace CalamityMod.Projectiles.Summon
                 bool groundSolid = false;
                 for (int i = (int)projectile.Left.X / 16 - 1; i < (int)projectile.Right.X / 16 + 1; i++)
                 {
-                    bool bottomTileSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16);
-                    bool firstTileDownSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16 + 1);
-                    bool secondTileDownSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16 + 2);
+                    bool bottomTileSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16).IsTileSolidGround();
+                    bool firstTileDownSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16 + 1).IsTileSolidGround();
+                    bool secondTileDownSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16 + 2).IsTileSolidGround();
                     groundSolid |= bottomTileSolid || firstTileDownSolid || secondTileDownSolid;
                 }
                 return projectile.velocity.Y == 0f && groundSolid;
             }
+        }
+        public bool Attacking
+        {
+            get => projectile.localAI[1] == 1f;
+            set => projectile.localAI[1] = value.ToInt();
         }
         public Player Owner => Main.player[projectile.owner];
 
@@ -95,11 +100,15 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
 
+            Attacking = false;
             NPC potentialTarget = projectile.Center.MinionHoming(800f, Owner, false);
             if (potentialTarget is null)
                 FollowOwner();
             else
+            {
+                Attacking = true;
                 AttackTarget(potentialTarget);
+            }
 
             projectile.rotation = 0f;
             projectile.tileCollide = true;
@@ -239,8 +248,8 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.spriteDirection = (target.Center.X > projectile.Center.X).ToDirectionInt();
                     Vector2 acornSpawnPosition = projectile.Center + new Vector2(projectile.spriteDirection * 6f, 10f);
-                    float acornShootSpeed = 14f;
-                    Vector2 acornShootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(acornSpawnPosition, target.Center + target.velocity * 25f, SquirrelSquireAcorn.Gravity, acornShootSpeed);
+                    float acornShootSpeed = MathHelper.Lerp(15f, 32f, projectile.Distance(target.Center) / 800f);
+                    Vector2 acornShootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(acornSpawnPosition, target.Top + target.velocity * 25f, SquirrelSquireAcorn.Gravity, acornShootSpeed);
 
                     if (projectile.WithinRange(target.Center, 200f))
                         acornShootVelocity = (target.Center - acornSpawnPosition).SafeNormalize(-Vector2.UnitY) * acornShootSpeed;
@@ -255,7 +264,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            fallThrough = false;
+            fallThrough = !Attacking && projectile.Bottom.Y < Owner.Top.Y;
             return true;
         }
 

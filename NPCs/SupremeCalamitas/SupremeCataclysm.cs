@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -261,6 +262,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				for (int i = 0; i < heartAmt; i++)
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
 			}
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCataclysmTrophy>(), 10);
         }
 
         public override bool CheckActive() => false;

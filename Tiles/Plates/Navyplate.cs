@@ -29,7 +29,6 @@ namespace CalamityMod.Tiles.Plates
 
             soundType = SoundID.Tink;
             mineResist = 1f;
-            minPick = 65;
             drop = ModContent.ItemType<Items.Placeables.Plates.Navyplate>();
             AddMapEntry(new Color(85, 151, 196));
         }

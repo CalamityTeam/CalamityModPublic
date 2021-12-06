@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
             projectile.alpha = 255;
-            projectile.extraUpdates = 5;
+            projectile.MaxUpdates = 6;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;

@@ -24,9 +24,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 60; // Lasts so long due to visuals.
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 600; // Under absolutely no circumstances should this explosion hit more than once.
         }
 
         public override void AI()
@@ -124,11 +124,6 @@ namespace CalamityMod.Projectiles.Typeless
         {
             target.AddBuff(BuffID.OnFire, 300);
             projectile.direction = Main.player[projectile.owner].direction;
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            damage = (int)(damage * 0.3);
         }
     }
 }

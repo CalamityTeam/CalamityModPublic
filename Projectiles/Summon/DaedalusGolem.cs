@@ -81,9 +81,16 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 destination;
             NPC potentialTarget = projectile.Center.MinionHoming(900f, Owner);
             if (potentialTarget is null)
-                destination = Owner.Center + Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f);
+                destination = Owner.Center - Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f) * Owner.direction;
 			else
-                destination = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+			{
+				Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+				Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+				if ((projectile.Center - destA).Length() < (projectile.Center - destB).Length())
+					destination = destA;
+				else
+					destination = destB;
+			}
 
             // Go upwards, and check down again to discover any height differences before deciding where to move.
             // There's a chance that this will encounter a null tile. If it us, just skip this step.
@@ -178,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public bool MoveToDestination(Vector2 destination)
         {
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16) + 1);
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16));
 
             // Float to the destination if stuck.
             if (Stuck)
@@ -212,7 +219,7 @@ namespace CalamityMod.Projectiles.Summon
 
             do
             {
-                tileBelowAhead = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16) + currentWalkDirection, (int)(projectile.Bottom.Y / 16) + 1);
+                tileBelowAhead = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16) + currentWalkDirection, (int)(projectile.Bottom.Y / 16));
 
                 if (tileBelowAhead.IsTileSolidGround())
                     break;
@@ -283,7 +290,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Walking frames. Moves more quickly the faster the walk.
             projectile.frameCounter++;
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16) + 1);
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16));
 
             if (Stuck)
             {

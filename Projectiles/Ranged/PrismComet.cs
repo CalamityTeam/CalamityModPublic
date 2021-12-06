@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-            projectile.melee = true;
+            projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.alpha = 50;
         }

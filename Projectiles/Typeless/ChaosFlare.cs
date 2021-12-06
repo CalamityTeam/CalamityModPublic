@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.extraUpdates = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 105 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -33,19 +33,19 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
+                Main.PlaySound(SoundID.Item20, projectile.position);
                 projectile.localAI[0] += 1f;
             }
 
-            for (int num457 = 0; num457 < 6; num457++)
+            for (int i = 0; i < 6; i++)
             {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1.2f);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.5f;
+                Main.dust[d].velocity += projectile.velocity * 0.1f;
             }
 
-			if (projectile.timeLeft < 90)
+			if (projectile.timeLeft < 105)
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 20f);
         }
 
