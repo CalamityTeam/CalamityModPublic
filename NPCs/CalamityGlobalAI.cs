@@ -7199,14 +7199,14 @@ namespace CalamityMod.NPCs
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    // Ring of lasers if laser is dead
-                    if (!laserAlive)
+                    // Ring of lasers and rocket spread if all arms are dead
+                    if (allArmsDead)
                     {
-                        npc.localAI[1] += allArmsDead ? 2f : 1f;
+                        npc.localAI[1] += 1f;
                         if (phase3)
-                            npc.localAI[1] += 1f;
+                            npc.localAI[1] += 0.5f;
 
-                        if (npc.localAI[1] >= 480f)
+                        if (npc.localAI[1] >= 240f)
                         {
                             npc.localAI[1] = 0f;
 
@@ -7227,25 +7227,21 @@ namespace CalamityMod.NPCs
 							}
 							calamityGlobalNPC.newAI[3] += 1f;
 						}
-                    }
 
-                    // Spread of rockets if cannon is dead
-                    if (!cannonAlive)
-                    {
-                        npc.localAI[2] += allArmsDead ? 1.5f : 1f;
-                        if (phase3)
-                            npc.localAI[2] += 0.5f;
+						npc.localAI[2] += 1f;
+						if (phase3)
+							npc.localAI[2] += 0.25f;
 
-                        if (npc.localAI[2] >= 300f)
-                        {
-                            npc.localAI[2] = 0f;
-                            float num502 = 1f;
+						if (npc.localAI[2] >= 200f)
+						{
+							npc.localAI[2] = 0f;
+							float num502 = 1f;
 							int type = ProjectileID.RocketSkeleton;
 							int damage = npc.GetProjectileDamage(type);
 							Vector2 value19 = Main.player[npc.target].Center - npc.Center;
-                            value19.Normalize();
-                            value19 *= num502;
-                            int numProj = 2;
+							value19.Normalize();
+							value19 *= num502;
+							int numProj = 2;
 							float rotation = MathHelper.ToRadians(5);
 							if (malice)
 							{
@@ -7265,8 +7261,8 @@ namespace CalamityMod.NPCs
 									Projectile.NewProjectile(npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
 								}
 							}
-                        }
-                    }
+						}
+					}
                 }
 
                 npc.rotation = npc.velocity.X / 15f;
@@ -7392,9 +7388,9 @@ namespace CalamityMod.NPCs
                         Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
                     // Spin for 3 seconds then return to floating phase
-                    float phaseTimer = 180f;
+                    float phaseTimer = 240f;
                     if (phase2 && !phase3)
-                        phaseTimer += 120f;
+                        phaseTimer += 60f;
 
                     if (npc.ai[2] >= (phaseTimer - (death ? 60f * (1f - lifeRatio) : 0f)))
                     {
@@ -7411,9 +7407,9 @@ namespace CalamityMod.NPCs
 
                     float speed = BossRushEvent.BossRushActive ? 9f : 6f;
                     if (phase2)
-                        speed += 1f;
+                        speed += 0.5f;
                     if (phase3)
-                        speed += 1f;
+                        speed += 0.5f;
 
 					if (num457 > 150f)
 					{
