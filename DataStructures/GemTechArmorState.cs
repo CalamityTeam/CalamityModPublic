@@ -198,6 +198,10 @@ namespace CalamityMod.DataStructures
 
         public void PlayerOnHitEffects(int hitDamage)
         {
+            // Don't do anything if the player is not wearing the Gem Tech set.
+            if (!Owner.Calamity().GemTechSet)
+                return;
+
             bool gemWasLost = false;
             int gemDamage = 0;
             if (hitDamage >= GemTechHeadgear.GemBreakDamageLowerBound)
