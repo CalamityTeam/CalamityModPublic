@@ -7214,7 +7214,7 @@ namespace CalamityMod.NPCs
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ProjectileID.DeathLaser;
 							int damage = npc.GetProjectileDamage(type);
-							float velocity = 5f;
+							float velocity = 4f;
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;
 							float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -7235,7 +7235,7 @@ namespace CalamityMod.NPCs
 						if (npc.localAI[2] >= 200f)
 						{
 							npc.localAI[2] = 0f;
-							float num502 = 1f;
+							float num502 = 0.5f;
 							int type = ProjectileID.RocketSkeleton;
 							int damage = npc.GetProjectileDamage(type);
 							Vector2 value19 = Main.player[npc.target].Center - npc.Center;
