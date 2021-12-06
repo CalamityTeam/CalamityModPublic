@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = projectile.height = 16;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 240;
             projectile.penetrate = 1;
             projectile.magic = true;
         }
@@ -35,9 +35,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.frameCounter++;
             projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            projectile.Opacity = Utils.InverseLerp(0f, 15f, projectile.timeLeft, true);
 
             if (Time > AttackDelay)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 700f, 14f, 32f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 32f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

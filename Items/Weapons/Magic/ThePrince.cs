@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<PrinceFlameLarge>();
             item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             item.rare = ItemRarityID.Purple;
+            item.Calamity().donorItem = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

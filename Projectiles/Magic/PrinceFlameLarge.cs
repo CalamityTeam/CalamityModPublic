@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public ref float Time => ref projectile.ai[0];
         public const int Lifetime = 60;
+        public const int FadeoutTime = 25;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fireball");
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = Lifetime;
-            projectile.penetrate = -1;
+            projectile.penetrate = 4;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 11;
             projectile.magic = true;
@@ -50,11 +51,24 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.localAI[0] = 1f;
             }
 
-            // Dissipate at the end of the projectile's lifetime.
-            if (projectile.timeLeft < 26f)
+            // Explode before dissipating.
+            if (projectile.timeLeft == FadeoutTime)
+                ExplodeIntoFireballs();
+
+            bool dissipating = projectile.timeLeft < FadeoutTime;
+
+            for (int i = 0; i < (dissipating ? 2 : 1); i++)
             {
-                projectile.rotation = projectile.rotation.AngleLerp(0f, 0.15f);
-                projectile.frame = (int)Math.Round(MathHelper.Lerp(4f, 7f, Utils.InverseLerp(26f, 0f, projectile.timeLeft, true)));
+                Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire);
+                fire.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 6f);
+                fire.scale *= Main.rand.NextFloat(1.15f, 1.7f);
+                fire.noGravity = Main.rand.NextBool();
+            }
+
+            // Dissipate at the end of the projectile's lifetime.
+            if (dissipating)
+            {
+                projectile.frame = (int)Math.Round(MathHelper.Lerp(4f, 7f, Utils.InverseLerp(FadeoutTime, 0f, projectile.timeLeft, true)));
                 projectile.velocity *= 0.95f;
                 return;
             }
@@ -77,15 +91,29 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire);
-            fire.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 6f);
-            fire.scale *= Main.rand.NextFloat(1.15f, 1.7f);
-            fire.noGravity = Main.rand.NextBool();
-
             Time++;
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             projectile.frameCounter++;
             projectile.frame = projectile.frameCounter / 5 % 4;
+        }
+
+        public void ExplodeIntoFireballs()
+        {
+            // Play a fizzle sound.
+            Main.PlaySound(SoundID.DD2_KoboldIgnite, projectile.Center);
+            if (Main.myPlayer != projectile.owner)
+                return;
+
+            // And explode into a burst of fire.
+            int damage = (int)(projectile.damage * 0.66f);
+            float kb = projectile.knockBack * 0.4f;
+            float offsetAngle = Main.rand.NextFloatDirection() * 0.31f;
+            for (int i = 0; i < ThePrince.FlameSplitCount; i++)
+            {
+                Vector2 shootVelocity = (MathHelper.TwoPi * i / ThePrince.FlameSplitCount + offsetAngle).ToRotationVector2() * 8f;
+                Vector2 flameSpawnPosition = projectile.Center + shootVelocity;
+                Projectile.NewProjectile(flameSpawnPosition, shootVelocity, ModContent.ProjectileType<PrinceFlameSmall>(), damage, kb, projectile.owner);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -98,16 +126,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            if (Main.myPlayer != projectile.owner)
-                return;
+            if (timeLeft > FadeoutTime)
+                ExplodeIntoFireballs();
 
-            int damage = (int)(projectile.damage * 0.66f);
-            float kb = projectile.knockBack * 0.4f;
-            for (int i = 0; i < ThePrince.FlameSplitCount; i++)
+            for (int i = 0; i < 30; i++)
             {
-                Vector2 shootVelocity = (MathHelper.TwoPi * i / ThePrince.FlameSplitCount).ToRotationVector2() * 8f;
-                Vector2 flameSpawnPosition = projectile.Center + shootVelocity;
-                Projectile.NewProjectile(flameSpawnPosition, shootVelocity, ModContent.ProjectileType<PrinceFlameSmall>(), damage, kb, projectile.owner);
+                Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire);
+                fire.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(3f, 8f);
+                fire.position += fire.velocity.RotatedBy(MathHelper.PiOver2) * 2f;
+                fire.scale *= Main.rand.NextFloat(1.15f, 1.7f);
+                fire.noGravity = true;
             }
         }
     }
