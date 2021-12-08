@@ -220,19 +220,26 @@ namespace CalamityMod
             });
         }
 
-        public static void EditPumpkinMoonSummonRecipe() // I never undestood why these recipes are the way that they are. These two standarizes their recipes.
+        public static void EditPumpkinMoonSummonRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.PumpkinMoonMedallion).ToList().ForEach(s =>
             {
                 s.requiredItem[0].SetDefaults(ItemID.Pumpkin, false);
-                s.requiredItem[0].stack = 20;
-                s.requiredItem[1].SetDefaults(ItemID.IronBar, false);
-                s.requiredItem[1].stack = 5;
-                s.anyIronBar = true;
-                s.requiredItem[2].SetDefaults(ItemID.Ectoplasm, false);
-                s.requiredItem[2].stack = 5;
+                s.requiredItem[0].stack = 30;
+                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[1].stack = 15;
+                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
+                s.requiredItem[2].stack = 10;
             });
+
+            ModRecipe r = GetNewRecipe();  // Vanilla items don't like custom item groups so I have to do this instead.
+            r.AddIngredient(ItemID.Pumpkin, 30);
+            r.AddIngredient(ItemID.Ectoplasm, 15);
+            r.AddIngredient(ItemID.PlatinumBar, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.PumpkinMoonMedallion);
+            r.AddRecipe();
         }
 
         public static void EditFrostMoonSummonRecipe()
@@ -242,11 +249,19 @@ namespace CalamityMod
             {
                 s.requiredItem[0].SetDefaults(ItemID.Silk, false);
                 s.requiredItem[0].stack = 20;
-                s.requiredItem[1].SetDefaults(ModContent.ItemType<EssenceofEleum>(), false);
-                s.requiredItem[1].stack = 5;
-                s.requiredItem[2].SetDefaults(ItemID.Ectoplasm, false);
-                s.requiredItem[2].stack = 5;
+                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[1].stack = 15;
+                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
+                s.requiredItem[2].stack = 10;
             });
+
+            ModRecipe r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 20);
+            r.AddIngredient(ItemID.Ectoplasm, 15);
+            r.AddIngredient(ItemID.PlatinumBar, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.NaughtyPresent);
+            r.AddRecipe();
         }
 
         private static void EditWingRecipes()
