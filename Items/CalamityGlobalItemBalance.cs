@@ -371,7 +371,7 @@ namespace CalamityMod.Items
 				// { ItemID.Smolstar, Do(AutoReuse, UseExact(25)) },
 				{ ItemID.SniperRifle, pointBlank },
 				{ ItemID.SnowballCannon, pointBlank },
-				{ ItemID.SnowGlobe, Do(MaxStack(20)) },
+				{ ItemID.SnowGlobe, nonConsumableBossSummon },
 				{ ItemID.SolarEruption, Do(DamageRatio(1.5f)) },
 				{ ItemID.SolarFlareBreastplate, Do(DefenseDelta(+7)) },
 				{ ItemID.SolarFlareChainsaw, trueMelee },
