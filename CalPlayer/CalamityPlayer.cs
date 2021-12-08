@@ -9512,20 +9512,24 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f; // Reset acceleration when you attack
 
             float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
+			float stealthToLose = rogueStealthMax * lossReductionRatio;
+			// You cannot lose less than one stealth point.
+			if (stealthToLose < 0.01f)
+				stealthToLose = 0.01f;
             if (stealthStrikeHalfCost)
             {
-                rogueStealth -= 0.5f * rogueStealthMax - lossReductionRatio;
+                rogueStealth -= 0.5f * stealthToLose;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
             else if (stealthStrike75Cost)
 			{
-                rogueStealth -= 0.75f * rogueStealthMax - lossReductionRatio;
+                rogueStealth -= 0.75f * stealthToLose;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
 			else
-                rogueStealth = lossReductionRatio;
+                rogueStealth = stealthToLose;
         }
         #endregion
 
