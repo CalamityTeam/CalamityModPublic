@@ -79,11 +79,8 @@ namespace CalamityMod.NPCs
 
 		public float TimedDRScaleFactor { get; set; } = 0f;
 		private const float timedDR_Disabled = 0f;
-		private const float timedDR_Normal = 1.5f;
 		private const float timedDR_Malice = 2f;
-		private const float timedDR_Thanatos = 2f;
 		private const float timedDR_Worm = 3f;
-		private const float timedDR_MaliceWorm = 4f;
 		private const float timedDR_NightProvi = 10f;
 		private const float timedDRMult_Normal = 0.67f;
 		private const float timedDRMult_Expert = 0.85f;
@@ -1470,23 +1467,26 @@ namespace CalamityMod.NPCs
 				case NPCID.WallofFlesh:
 				case NPCID.WallofFleshEye:
 
-					TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled :
-						malice ? timedDR_Malice : timedDR_Normal;
+					TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
+
+					break;
+
+				// The Destroyer
+				case NPCID.TheDestroyer:
+				case NPCID.TheDestroyerBody:
+				case NPCID.TheDestroyerTail:
+
+					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Worm : timedDR_Disabled;
 
 					break;
 
 				// Early Hardmode bosses
 				case NPCID.Spazmatism:
 				case NPCID.Retinazer:
-				case NPCID.TheDestroyer:
-				case NPCID.TheDestroyerBody:
-				case NPCID.TheDestroyerTail:
 				case NPCID.SkeletronPrime:
 				case NPCID.Plantera:
 
-					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled :
-						malice ? (DestroyerIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
-						(DestroyerIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
 
 					break;
 
@@ -1499,8 +1499,7 @@ namespace CalamityMod.NPCs
 				case NPCID.MoonLordHead:
 				case NPCID.MoonLordHand:
 
-					TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled :
-						malice ? timedDR_Malice : timedDR_Normal;
+					TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
 
 					break;
 			}
@@ -1531,36 +1530,27 @@ namespace CalamityMod.NPCs
 
 			if (preHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled :
-					malice ? (DesertScourgeIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
-					timedDR_Normal;
+				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? (DesertScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (earlyHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled :
-					malice ? (AquaticScourgeIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
-					(AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? (AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (lateHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled :
-					malice ? (AstrumDeusIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
-					(AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? (AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (postMLPreProviCalamityBosses)
 			{
-				TimedDRScaleFactor = removePostMLPreProviTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Normal;
+				TimedDRScaleFactor = removePostMLPreProviTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
 			}
 			else if (postProviPreDoGCalamityBosses)
 			{
-				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled :
-					malice ? (StormWeaverIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
-					(StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled : malice ? (StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (postDoGCalamityBosses)
 			{
-				TimedDRScaleFactor = removePostDoGTimedDR ? timedDR_Disabled :
-					malice ? timedDR_Malice : (ThanatosIDs.Contains(npc.type) ? timedDR_Thanatos : timedDR_Normal);
+				TimedDRScaleFactor = removePostDoGTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
 			}
 
 			// Reduce timed DR in lower difficulties
