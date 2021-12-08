@@ -1144,7 +1144,7 @@ namespace CalamityMod.World
                 #region BrimstoneCrag
                 tasks.Insert(FinalIndex + 1, new PassLegacy("BrimstoneCrag", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "Creating the ruins of a fallen empire";
+                    progress.Message = "Uncovering the ruins of a fallen empire";
 
                     int x = Main.maxTilesX;
 
