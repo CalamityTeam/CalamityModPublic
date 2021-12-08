@@ -842,16 +842,9 @@ namespace CalamityMod
 				fargos.Call("AddSummon", order, "CalamityMod", summonItemName, downed, price);
 			}
 
-			void AddToAbomShop(float order, string summonItemName, Func<bool> downed, int price)
-			{
-				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price);
-			}
-
 			fargos.Call("AbominationnClearEvents", "CalamityMod", CalamityWorld.rainingAcid, true);
 
 			AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 8));
-
-			AddToAbomShop(InvasionDifficulty["Acid Rain Initial"], "CausticTear", DownedAcidRainInitial, Item.buyPrice(gold: 3));
 		}
 
 		private static void CensusSupport()
