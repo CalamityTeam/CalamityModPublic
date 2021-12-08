@@ -82,13 +82,6 @@ namespace CalamityMod
             r.SetResult(ItemID.HallowedBar);
             r.AddRecipe();
 
-            // Ectoplasm from Ectoblood
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.Ectoplasm);
-            r.AddRecipe();
-
             // Rocket I from Empty Bullet
             r = GetNewRecipe();
             r.AddIngredient(ItemID.EmptyBullet, 20);
