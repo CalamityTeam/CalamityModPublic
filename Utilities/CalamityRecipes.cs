@@ -594,6 +594,15 @@ namespace CalamityMod
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
 
+            // Frost Legion recipe for consistency
+            r = GetNewRecipe();
+            r.AddRecipeGroup("AnySnowBlock", 50);
+            r.AddIngredient(ItemID.Glass, 10);
+            r.AddIngredient(ItemID.SoulofLight, 3);
+            r.AddIngredient(ItemID.SoulofNight, 3);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.SnowGlobe);
+
             // Temple Key
             r = GetNewRecipe();
             r.AddIngredient(ItemID.JungleSpores, 15);
