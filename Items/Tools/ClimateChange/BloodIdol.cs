@@ -40,8 +40,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("EvilPowder", 10);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
+            recipe.AddRecipeGroup("EvilPowder", 20);
+            recipe.AddIngredient(ItemID.SoulofNight, 20);
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
