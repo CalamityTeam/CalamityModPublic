@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Potions
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
-            item.maxStack = 999;
+            item.maxStack = 30;
             item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
@@ -39,8 +39,10 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
             recipe.AddIngredient(ModContent.ItemType<AldebaranAlewife>());
             recipe.AddTile(TileID.AlchemyTable);
+            recipe.alchemy = true;
             recipe.SetResult(this);
             recipe.AddRecipe();
+			// Blood orb recipes don't get the Alchemy Table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
