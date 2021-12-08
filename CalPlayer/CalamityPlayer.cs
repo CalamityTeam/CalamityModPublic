@@ -9513,10 +9513,10 @@ namespace CalamityMod.CalPlayer
 
             float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
 			float remainingStealth = rogueStealthMax * lossReductionRatio;
-			// You cannot lose less than one stealth point.
-			if (remainingStealth < 0.01f)
-				remainingStealth = 0.01f;
 			float stealthToLose = rogueStealthMax - remainingStealth
+			// You cannot lose less than one stealth point.
+			if (stealthToLose < 0.01f)
+				stealthToLose = 0.01f;
             if (stealthStrikeHalfCost)
             {
                 rogueStealth -= 0.5f * stealthToLose;
