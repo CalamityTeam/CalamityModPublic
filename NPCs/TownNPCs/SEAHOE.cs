@@ -372,14 +372,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
-            if (CalamityWorld.downedEoCAcidRain)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CausticTear>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(gold: 3);
-				if (Main.LocalPlayer.discount)
-				  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
-            }
             if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
