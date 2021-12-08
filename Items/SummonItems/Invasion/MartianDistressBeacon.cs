@@ -12,19 +12,20 @@ namespace CalamityMod.Items.SummonItems.Invasion
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Martian Distress Beacon");
-            Tooltip.SetDefault("Summons the Martian Madness");
+            Tooltip.SetDefault("Summons the Martian Madness\n" +
+                "Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
             item.height = 60;
-            item.maxStack = 99;
+            item.maxStack = 1;
             item.rare = ItemRarityID.Yellow;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player) => Main.invasionType == InvasionID.None;
