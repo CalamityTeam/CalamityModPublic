@@ -334,10 +334,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// These event enemies set shop variables and since those depend on downed bools they must be done in PreNPCLoot.
-			else if (npc.type == NPCID.Pumpking)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedHalloweenKing);
-			}
 			else if (npc.type == NPCID.Everscream)
 			{
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, NPC.downedChristmasTree || !NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
@@ -348,7 +344,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.IceQueen)
 			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedChristmasIceQueen);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || !NPC.downedChristmasSantank || NPC.downedChristmasIceQueen);
 			}
 
