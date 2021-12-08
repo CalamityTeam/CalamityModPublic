@@ -31,6 +31,7 @@ namespace CalamityMod
             EditLeatherRecipe();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
+            EditSpiritFlameRecipe();
             EditGoblinArmySummonRecipe();
             EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
@@ -174,6 +175,37 @@ namespace CalamityMod
 
                 s.createItem.SetDefaults(ItemID.FireGauntlet, false);
                 s.createItem.stack = 1;
+            });
+        }
+
+        private static void EditSpiritFlameRecipe() // This is here to keep the Forbidden Fragment stuff on the same tier.
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.SpiritFlame).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.DjinnLamp, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.AncientBattleArmorMaterial, false);
+                s.requiredItem[1].stack = 2;
+                s.requiredItem[2].SetDefaults(ItemID.SoulofNight, false);
+                s.requiredItem[2].stack = 12;
+                s.requiredItem[3].SetDefaults(ItemID.AdamantiteBar, false);
+                s.requiredItem[3].stack = 2;
+                s.createItem.SetDefaults(ItemID.SpiritFlame, false);
+                s.createItem.stack = 1;
+
+                ModRecipe r = GetNewRecipe();  // Vanilla items don't like custom item groups.
+                r.AddIngredient(ItemID.DjinnLamp);
+                r.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
+                r.AddIngredient(ItemID.SoulofNight, 12);
+                r.AddIngredient(ItemID.TitaniumBar, 2);
+                r.AddTile(TileID.MythrilAnvil);
+                r.SetResult(ItemID.SpiritFlame);
+                r.AddRecipe();
             });
         }
 

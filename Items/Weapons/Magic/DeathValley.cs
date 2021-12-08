@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.FossilOre, 25);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
             recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 5);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 5); // This is here to keep the Forbidden Fragment stuff on the same tier.
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
