@@ -903,7 +903,7 @@ namespace CalamityMod.Projectiles
 
 					return false;
 				}
-				else if (projectile.type == ProjectileID.CultistBossLightningOrbArc)
+				else if (projectile.type == ProjectileID.CultistBossLightningOrbArc && !projectile.friendly)
 				{
 					projectile.frameCounter++;
 					if (projectile.velocity == Vector2.Zero)
