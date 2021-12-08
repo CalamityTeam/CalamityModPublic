@@ -43,8 +43,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
+            recipe.AddIngredient(ItemID.SandBlock, 50);
+            recipe.anySand = true;
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 10);
+            recipe.AddIngredient(ItemID.AncientCloth, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
