@@ -379,6 +379,7 @@ namespace CalamityMod.Items
 				{ ItemID.SolarFlareHelmet, Do(DefenseDelta(+5)) },
 				{ ItemID.SolarFlareLeggings, Do(DefenseDelta(+4)) },
 				{ ItemID.SolarFlarePickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
+				{ ItemID.SolarTablet, nonConsumableBossSummon },
 				{ ItemID.SoulDrain, Do(DamageRatio(1.33f)) },
 				{ ItemID.SpaceGun, Do(DamageExact(25)) },
 				{ ItemID.Spear, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },

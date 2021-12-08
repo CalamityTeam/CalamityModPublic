@@ -10,20 +10,19 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             DisplayName.SetDefault("Arid Artifact");
             Tooltip.SetDefault("Summons a sandstorm\n" +
-                               "The sandstorm will happen shortly after the item is used");
+                               "The sandstorm will happen shortly after the item is used\n" +
+							   "Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Pink;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item66;
-            item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
