@@ -2545,7 +2545,7 @@ namespace CalamityMod.Projectiles
 						}
                     }
 
-                    if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
+                    if (modPlayer.scuttlersJewel && stealthStrike)
                     {
                         int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
