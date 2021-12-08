@@ -602,6 +602,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofNight, 3);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.SnowGlobe);
+            r.AddRecipe();
 
             // Temple Key
             r = GetNewRecipe();
