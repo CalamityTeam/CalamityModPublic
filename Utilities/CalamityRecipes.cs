@@ -35,10 +35,12 @@ namespace CalamityMod
             EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
             EditMechBossSummonRecipes();
+            EditPumpkinMoonSummonRecipe();
+            EditFrostMoonSummonRecipe();
             EditWingRecipes();
             EditEvilBulletRecipes();
             EditPhasesaberRecipes();
-            EditOpticStaffRecipes();
+            EditOpticStaffRecipe();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -209,12 +211,41 @@ namespace CalamityMod
             });
         }
 
-        private static void EditMechBossSummonRecipes()
+        private static void EditMechBossSummonRecipes() 
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
             {
                 s.requiredTile[0] = TileID.Anvils;
+            });
+        }
+
+        public static void EditPumpkinMoonSummonRecipe() // I never undestood why these recipes are the way that they are. These two standarizes their recipes.
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.PumpkinMoonMedallion).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].SetDefaults(ItemID.Pumpkin, false);
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].SetDefaults(ItemID.IronBar, false);
+                s.requiredItem[1].stack = 5;
+                s.anyIronBar = true;
+                s.requiredItem[2].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[2].stack = 5;
+            });
+        }
+
+        public static void EditFrostMoonSummonRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.NaughtyPresent).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].SetDefaults(ItemID.Silk, false);
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].SetDefaults(ModContent.ItemType<EssenceofEleum>(), false);
+                s.requiredItem[1].stack = 5;
+                s.requiredItem[2].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[2].stack = 5;
             });
         }
 
@@ -249,7 +280,7 @@ namespace CalamityMod
         }
 
         // Remove Hallowed Bars from Optic Staff
-        private static void EditOpticStaffRecipes()
+        private static void EditOpticStaffRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.OpticStaff).ToList().ForEach(s =>
