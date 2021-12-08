@@ -43,7 +43,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            int i = Main.myPlayer;
             float num72 = item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -71,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num133 *= num80;
                 float x2 = vector2.X;
                 float y2 = vector2.Y;
-                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), damage, knockBack, i, 0f, 1f);
+                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), damage, knockBack, player.whoAmI);
             }
             else
             {
@@ -88,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Magic
                     num133 *= num80;
                     float x2 = vector2.X;
                     float y2 = vector2.Y;
-                    Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), damage, knockBack, i, 0f, 0f);
+                    Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), damage, knockBack, player.whoAmI);
                 }
             }
             return false;
