@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Potions
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BottledWater);
 			recipe.AddIngredient(ModContent.ItemType<SeaPrism>());
-			recipe.AddRecipeGroup("AnyGoldOre", 2);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteOre>(), 2);
 			recipe.AddTile(TileID.Bottles);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
