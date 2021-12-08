@@ -8263,7 +8263,7 @@ namespace CalamityMod.CalPlayer
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+							npc.AddBuff(BuffID.Frostburn, 300);
 
                             player.GiveIFrames(OrnateShield.ShieldSlamIFrames, false);
                         }
