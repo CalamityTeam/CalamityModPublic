@@ -594,9 +594,10 @@ namespace CalamityMod.Items
 			// Non-consumable boss summon items
 			#region Vanilla Boss Summon Non-consumable Tooltips
 			if (item.type == ItemID.SlimeCrown || item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.GoblinBattleStandard ||
-                item.type == ItemID.WormFood ||item.type == ItemID.BloodySpine || item.type == ItemID.Abeemination || item.type == ItemID.PirateMap ||
-                item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull ||
-                item.type == ItemID.NaughtyPresent ||item.type == ItemID.PumpkinMoonMedallion || item.type == ItemID.SolarTablet || item.type == ItemID.CelestialSigil)
+                item.type == ItemID.WormFood || item.type == ItemID.BloodySpine || item.type == ItemID.Abeemination || item.type == ItemID.PirateMap ||
+                item.type == ItemID.SnowGlobe || item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull ||
+                item.type == ItemID.NaughtyPresent ||item.type == ItemID.PumpkinMoonMedallion || item.type == ItemID.SolarTablet ||item.type == ItemID.SolarTablet ||
+                item.type == ItemID.CelestialSigil)
 
 				EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
 			#endregion
