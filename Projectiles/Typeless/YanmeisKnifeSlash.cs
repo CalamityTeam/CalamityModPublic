@@ -126,7 +126,11 @@ namespace CalamityMod.Projectiles.Typeless
 					dust.noGravity = true;
 				}
 			}
-			Main.PlaySound(SoundID.Zombie, Main.player[projectile.owner].Center, 104);
+			if (projectile.ai[0] == 0f)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/YanmeiKnifeHit"), (int)projectile.position.X, (int)projectile.position.Y);
+				projectile.ai[0] = 1f;
+			}
 			Main.player[projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);
 		}
 		public override Color? GetAlpha(Color lightColor) => new Color(0, 215, 0, 0);
