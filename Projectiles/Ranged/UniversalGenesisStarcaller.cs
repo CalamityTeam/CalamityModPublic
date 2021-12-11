@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Ranged
 			for (int n = 0; n < 2; n++)
 			{
 				Projectile star = CalamityUtils.ProjectileRain(targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), projectile.damage * 2, projectile.knockBack * 2f, projectile.owner);
-				star.projectile.ai[0] = n;
+				star.ai[0] = n;
 			}
 		}
 
