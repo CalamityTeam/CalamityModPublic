@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Pumpler");
             Tooltip.SetDefault("33% chance to not consume ammo\n" +
-                "Hold left click to load up to five pumpkin bombs for a 100% organic blast" );
+                "Hold left click to load up to five pumpkin bombs for a 100% organic blast");
         }
 
         public override void SetDefaults()
@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
-        
+        public override Vector2? HoldoutOffset() => new Vector2(-30f, 0f);
 
         public override bool CanUseItem(Player player)
         {
@@ -48,10 +48,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             return player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
         }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			return 1f;
-		}
+        public override float UseTimeMultiplier(Player player)
+        {
+            return 1f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -83,3 +83,4 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
     }
 }
+
