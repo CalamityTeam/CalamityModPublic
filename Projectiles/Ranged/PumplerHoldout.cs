@@ -29,8 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private Player Owner => Main.player[projectile.owner];
 
-        private RenderTarget2D PumplerTarget;
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed; 
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref projectile.ai[0];
         private ref float PumpkinsCharge => ref projectile.ai[1];
         private ref float FramesToLoadNextPumpkin => ref projectile.localAI[0];
@@ -57,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
-            
+
 
 
 
@@ -73,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 
                 //Animation stuff start
-                projectile.frameCounter++; 
+                projectile.frameCounter++;
                 if (projectile.frameCounter >= 10) //10 fps anim
                 {
                     projectile.frame++;
@@ -103,11 +102,10 @@ namespace CalamityMod.Projectiles.Ranged
                 if (FramesToLoadNextPumpkin == 0f)
                 {
                     FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation;
-                    PumplerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 }
 
-            // Actually make progress towards loading more arrows. Also, make smoke come out eventually perhaps
-            ++CurrentChargingFrames;
+                // Actually make progress towards loading more arrows. Also, make smoke come out eventually perhaps
+                ++CurrentChargingFrames;
 
 
                 // If it is time to load an pumpkin, produce a pulse of dust and add a pumpkin
@@ -138,9 +136,9 @@ namespace CalamityMod.Projectiles.Ranged
 
                 //If the pumpkins have been charging for too long, unload that mf!!!
                 if (CurrentChargingFrames >= 160)
-                    {
+                {
                     Overfilled = 1f;
-                    }
+                }
 
             }
 
@@ -175,14 +173,14 @@ namespace CalamityMod.Projectiles.Ranged
             //Spread calculation doesn't work with only one pumpkin loaded
             if (PumpkinsCharge == 1)
                 ShootProjectiles(tipPosition, 0);
-            
+
             else
             {
                 for (int i = 0; i < PumpkinsCharge; i++)
                 {
                     float spreadForThisProjectile = MathHelper.Lerp(-angularSpread, angularSpread, i / (float)(PumpkinsCharge - 1f));
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
-                    
+
                 }
             }
 
@@ -201,8 +199,8 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            int PumpkinDamage = (int)(heldItem.damage * Owner.RangedDamage()); 
-            float shootSpeed = heldItem.shootSpeed * 1.5f; 
+            int PumpkinDamage = (int)(heldItem.damage * Owner.RangedDamage());
+            float shootSpeed = heldItem.shootSpeed * 1.5f;
             float knockback = heldItem.knockBack;
 
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
@@ -210,7 +208,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             //Might have to change its ammo into grenades or something like that since it doesnt even fire bullets anymore LOL. That or don't use ammo at all
             //really don't wanna make players go through the annoyance of farming pumpkins just to fire a funny weapon
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref PumpkinDamage, ref knockback, false); 
+            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref PumpkinDamage, ref knockback, false);
             projectileType = ProjectileID.JackOLantern;
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
@@ -237,7 +235,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 
             //Please someone kill me i dont want to deal with offset moments,
-            projectile.position = armPosition - projectile.Size * 0.5f;
+            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 30f;
             projectile.rotation = projectile.velocity.ToRotation();
             if (projectile.spriteDirection == -1)
                 projectile.rotation += MathHelper.Pi;
@@ -258,7 +256,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
 
             spriteBatch.EnterShaderRegion();
-            if (PumpkinsCharge > 0 && Overfilled==0f)
+            if (PumpkinsCharge > 0 && Overfilled == 0f)
             {
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.25f * CurrentChargingFrames, 0f, 1f)); //tint effect is visible if its charging
             }
@@ -267,7 +265,7 @@ namespace CalamityMod.Projectiles.Ranged
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
             }
 
-            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.04f*(PumpkinsCharge-1), 0.8f, 1f));
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.04f * (PumpkinsCharge - 1), 0.8f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
 
@@ -287,8 +285,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool CanDamage() => false;
 
-       
-        
+
+
 
 
 
