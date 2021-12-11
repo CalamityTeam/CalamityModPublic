@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Reduces the amount of defense damage you take by 50%\n" +
                 "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +
                 "Nanomachines, son");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 11));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
+            item.width = 52;
+            item.height = 68;
             item.accessory = true;
 			item.expert = true;
 			item.rare = ItemRarityID.Red;
