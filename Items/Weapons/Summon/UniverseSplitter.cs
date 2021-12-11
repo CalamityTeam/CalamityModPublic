@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonsRemote>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DraedonsRemote>());
             recipe.AddIngredient(ModContent.ItemType<Abomination>());
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
