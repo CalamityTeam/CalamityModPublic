@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			DisplayName.SetDefault("Universal Genesis");
 			Tooltip.SetDefault("Seeing the cosmos makes you realize how insignificant we are\n" +
 				"Fires a spread of bullets from the gun and a spread of stars above the cursor\n" +
+				"Converts musket balls into starcaller shots that summon additional stars on enemy hits\n" +
 				"50% chance to not consume ammo");
 		}
 
@@ -51,21 +52,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 			Vector2 gunTip = position + shootDirection * item.scale * 100f;
 			gunTip.Y -= 10f;
 			float tightness = 1f;
+			if (type == ProjectileID.Bullet)
+				type = ModContent.ProjectileType<UniversalGenesisStarcaller>();
 			for (float i = -tightness * 5f; i <= tightness * 5f; i += tightness * 2f)
 			{
 				Vector2 perturbedSpeed = shootVelocity.RotatedBy(MathHelper.ToRadians(i));
 				Projectile.NewProjectile(gunTip, perturbedSpeed, type, damage, knockBack, player.whoAmI);
 			}
+
 			// Stars from above
 			float speed = item.shootSpeed;
 			Vector2 spawnPos = player.RotatedRelativePoint(player.MountedCenter, true);
 			int starAmt = 6;
-			int starDmg = damage * 2;
+			int starDmg = (int)(damage * 0.7);
 			for (int i = 0; i < starAmt; i++)
 			{
-				spawnPos = new Vector2(player.Center.X + (Main.rand.Next(51) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-				spawnPos.X = (spawnPos.X + player.Center.X) / 2f + Main.rand.Next(-50, 51);
-				spawnPos.Y -= 100 + 20 * i;
+				spawnPos = new Vector2(player.Center.X + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+				spawnPos.X = (spawnPos.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				spawnPos.Y -= 100 + i;
 				float xDist = Main.mouseX + Main.screenPosition.X - spawnPos.X;
 				float yDist = Main.mouseY + Main.screenPosition.Y - spawnPos.Y;
 				if (yDist < 0f)
@@ -80,9 +84,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 				travelDist = speed / travelDist;
 				xDist *= travelDist;
 				yDist *= travelDist;
-				float xVel = xDist + Main.rand.NextFloat(-0.3f, 0.3f);
-				float yVel = yDist + Main.rand.NextFloat(-0.3f, 0.3f);
-				Projectile.NewProjectile(spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockBack, player.whoAmI, i);
+				float xVel = xDist + Main.rand.NextFloat(-0.6f, 0.6f);
+				float yVel = yDist + Main.rand.NextFloat(-0.6f, 0.6f);
+				int star = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockBack, player.whoAmI, i);
+				Main.projectile[star].extraUpdates = 2;
+				Main.projectile[star].localNPCHitCooldown = 30;
 			}
 			return false;
 		}

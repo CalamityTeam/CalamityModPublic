@@ -27,13 +27,12 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.tileCollide = false;
 			projectile.penetrate = 5;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
-			projectile.extraUpdates = 2;
+			projectile.localNPCHitCooldown = 10;
 		}
 
 		public override void AI()
 		{
-			if (projectile.soundDelay == 0 && projectile.ai[0] == 1f)
+			if (projectile.soundDelay == 0 && projectile.ai[0] == 0f)
 			{
 				projectile.soundDelay = 20 + Main.rand.Next(40);
 				if (Main.rand.NextBool(5))
