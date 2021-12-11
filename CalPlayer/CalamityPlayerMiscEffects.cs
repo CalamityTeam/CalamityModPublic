@@ -22,6 +22,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
@@ -2820,11 +2821,27 @@ namespace CalamityMod.CalPlayer
 				if (player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
 					modPlayer.planarSpeedBoost = 0;
 			}
-
 			if (modPlayer.brimlashBusterBoost)
 			{
-				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>() && player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
+				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
 					modPlayer.brimlashBusterBoost = false;
+			}
+			if (modPlayer.evilSmasherBoost > 0)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
+					modPlayer.evilSmasherBoost = 0;
+			}
+			if (modPlayer.searedPanCounter > 0)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<SearedPan>())
+				{
+					modPlayer.searedPanCounter = 0;
+					modPlayer.searedPanTimer = 0;
+				}
+				else if (modPlayer.searedPanTimer < SearedPan.ConsecutiveHitOpening)
+					modPlayer.searedPanTimer++;
+				else
+					modPlayer.searedPanCounter = 0;
 			}
 			if (modPlayer.animusBoost > 1f)
 			{

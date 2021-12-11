@@ -109,6 +109,8 @@ namespace CalamityMod.CalPlayer
 		public int evilSmasherBoost = 0;
 		public int hellbornBoost = 0;
         public float animusBoost = 1f;
+		public int searedPanCounter = 0;
+		public int searedPanTimer = 0;
         public int potionTimer = 0;
         public bool noWings = false;
         public bool blockAllDashes = false;
@@ -2516,6 +2518,8 @@ namespace CalamityMod.CalPlayer
 			evilSmasherBoost = 0;
 			hellbornBoost = 0;
             animusBoost = 1f;
+			searedPanCounter = 0;
+			searedPanTimer = 0;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
             persecutedEnchantSummonTimer = 0;
