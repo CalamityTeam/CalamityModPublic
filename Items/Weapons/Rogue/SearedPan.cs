@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Violet;
 			item.shoot = ModContent.ProjectileType<SearedPanProjectile>();
-			item.shootSpeed = 12f;
+			item.shootSpeed = 15f;
             item.Calamity().donorItem = true;
 		}
 
