@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anechoic Coating");
-            Tooltip.SetDefault("Reduces creature's ability to detect you in the abyss");
+            Tooltip.SetDefault("Reduces creatures' ability to detect you in the abyss");
         }
 
         public override void SetDefaults()
