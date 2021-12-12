@@ -154,16 +154,15 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.dedServ)
                 return;
 
-
-            //here im supposed to do smoke that goes bazinga but rn its kinda just copypasted from condemnation. Method aint even fucking used
-
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2 * PumpkinsCharge; i++)
             {
-                Dust chargeMagic = Dust.NewDustPerfect(tipPosition + Main.rand.NextVector2Circular(20f, 20f), 267);
-                chargeMagic.velocity = (tipPosition - chargeMagic.position) * 0.1f + Owner.velocity;
-                chargeMagic.scale = Main.rand.NextFloat(1f, 1.5f);
-                chargeMagic.color = projectile.GetAlpha(Color.White);
-                chargeMagic.noGravity = true;
+                Dust dust = Dust.NewDustPerfect(tipPosition + Main.rand.NextVector2Circular(20f, 20f), ModContent.DustType<PumplerDust>());
+
+                dust.velocity = (dust.position - Owner.Center) * 0.3f + Owner.velocity;
+                dust.scale = Main.rand.NextFloat(0.3f, 0.8f);
+                dust.alpha = Main.rand.Next(50) + 100;
+                dust.rotation = Main.rand.NextFloat(6.28f);
+
             }
         }
 
@@ -185,6 +184,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             Main.PlaySound(SoundID.Item96);//play the sound
+            SmokeBurst(tipPosition);
             FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation; //reset the reload time
             PumpkinsCharge = 0; //Unload the barrel
             if (!(Overfilled == 1f))
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Ranged
             //Might have to change its ammo into grenades or something like that since it doesnt even fire bullets anymore LOL. That or don't use ammo at all
             //really don't wanna make players go through the annoyance of farming pumpkins just to fire a funny weapon
             Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref PumpkinDamage, ref knockback, false);
-            projectileType = ProjectileID.JackOLantern;
+            projectileType = ProjectileID.FlamingJack;
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
             Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
@@ -233,8 +233,8 @@ namespace CalamityMod.Projectiles.Ranged
 
 
 
-
             //Please someone kill me i dont want to deal with offset moments,
+            //Dom oomfie!
             projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 30f;
             projectile.rotation = projectile.velocity.ToRotation();
             if (projectile.spriteDirection == -1)
@@ -258,14 +258,15 @@ namespace CalamityMod.Projectiles.Ranged
             spriteBatch.EnterShaderRegion();
             if (PumpkinsCharge > 0 && Overfilled == 0f)
             {
-                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.25f * CurrentChargingFrames, 0f, 1f)); //tint effect is visible if its charging
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.20f * CurrentChargingFrames - 0.1f*(5f-PumpkinsCharge) , 0f, 1f)); 
+                //tint effect is visible if its charging. The more pumpkins are loaded, the more opacity
             }
             else
             {
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
             }
 
-            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.04f * (PumpkinsCharge - 1), 0.8f, 0.5f));
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - 0.04f * (PumpkinsCharge - 1), 0.8f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
 
@@ -289,13 +290,6 @@ namespace CalamityMod.Projectiles.Ranged
 
 
 
-
-
-
-
-
-
-
         //netcode hell 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -309,6 +303,64 @@ namespace CalamityMod.Projectiles.Ranged
 
 
     }
+
+    public class PumplerDust : ModDust
+    {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "CalamityMod/Dusts/SmallSmoke";
+            return true;
+        }
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = true;
+            dust.frame = new Rectangle(0, 0, 24, 24);
+        }
+
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            Color gray = new Color(25, 25, 25);
+            Color ret;
+            if (dust.alpha < 130)
+            {
+                ret = Color.Lerp(Color.Yellow, Color.Orange, dust.alpha / 130f);
+            }
+            else if (dust.alpha < 195)
+            {
+                ret = Color.Lerp(Color.Orange, gray, (dust.alpha - 130) / 65);
+            }
+
+            else
+                ret = gray;
+
+            return ret * ((255 - dust.alpha) / 255f);
+        }
+
+        public override bool Update(Dust dust)
+        {
+            dust.velocity *= 0.85f;
+
+            if (dust.alpha < 165)
+            {
+                Lighting.AddLight(dust.position, dust.color.ToVector3() * 0.1f);
+                dust.scale += 0.01f;
+                dust.alpha += 3;
+            }
+            else
+            {
+                dust.scale *= 0.975f;
+                dust.alpha += 2;
+            }
+
+            dust.position += dust.velocity;
+            if (dust.alpha >= 255)
+                dust.active = false;
+
+            return false;
+        }
+    }
+
+
 
 
 }
