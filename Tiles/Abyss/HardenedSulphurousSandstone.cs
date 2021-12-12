@@ -67,7 +67,7 @@ namespace CalamityMod.Tiles.Abyss
                         bool flag13 = false;
                         for (int num52 = num8; num52 > num8 - 10; num52--)
                         {
-                            if (Main.tile[i, num52].bottomSlope())
+                            if (CalamityUtils.ParanoidTileRetrieval(i, num52).bottomSlope())
                             {
                                 flag13 = false;
                                 break;

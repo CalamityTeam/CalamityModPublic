@@ -23,7 +23,7 @@ namespace CalamityMod.World
         #region Dungeon Biome Chests
         public static void GenerateBiomeChests(GenerationProgress progress)
         {
-            progress.Message = "Calamity Mod: Biome Chests";
+            progress.Message = "Adding a new Biome Chest";
 
             // Get dungeon size field infos. These fields are private for some reason
             int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 25;

@@ -8,6 +8,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Tiles.FurnitureExo;
 using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -101,6 +102,8 @@ namespace CalamityMod.ILEditing
         private static int labDoorClosed = -1;
         private static int aLabDoorOpen = -1;
         private static int aLabDoorClosed = -1;
+        private static int exoDoorOpen = -1;
+        private static int exoDoorClosed = -1;
 
         #region Load / Unload
         /// <summary>
@@ -112,11 +115,13 @@ namespace CalamityMod.ILEditing
             var updateTime = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
             VanillaSpawnTownNPCs = Delegate.CreateDelegate(typeof(Action), updateTime) as Action;
 
-            // Cache the four lab door tile types for efficiency.
+            // Cache the six lab door tile types for efficiency.
             labDoorOpen = ModContent.TileType<LaboratoryDoorOpen>();
             labDoorClosed = ModContent.TileType<LaboratoryDoorClosed>();
             aLabDoorOpen = ModContent.TileType<AgedLaboratoryDoorOpen>();
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
+            exoDoorOpen = ModContent.TileType<ExoDoorOpen>();
+            exoDoorClosed = ModContent.TileType<ExoDoorClosed>();
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
@@ -189,7 +194,7 @@ namespace CalamityMod.ILEditing
         internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
-            labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
+            labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = exoDoorClosed = exoDoorOpen = -1;
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
@@ -449,6 +454,8 @@ namespace CalamityMod.ILEditing
                 return OpenLabDoor(tile, i, j, labDoorOpen);
             else if (tile.type == aLabDoorClosed)
                 return OpenLabDoor(tile, i, j, aLabDoorOpen);
+            else if (tile.type == exoDoorClosed)
+                return OpenLabDoor(tile, i, j, exoDoorOpen);
 
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, direction);
@@ -466,6 +473,8 @@ namespace CalamityMod.ILEditing
                 return CloseLabDoor(tile, i, j, labDoorClosed);
             else if (tile.type == aLabDoorOpen)
                 return CloseLabDoor(tile, i, j, aLabDoorClosed);
+            else if (tile.type == exoDoorOpen)
+                return CloseLabDoor(tile, i, j, exoDoorClosed);
 
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, forced);

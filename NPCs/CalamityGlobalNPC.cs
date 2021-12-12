@@ -4185,7 +4185,7 @@ namespace CalamityMod.NPCs
 
 				WeightedRandom<int> pool = new WeightedRandom<int>();
 				pool.Add(NPCID.None, 0f);
-				pool.Add(NPCType<RepairUnitCritter>(), 0.5f);
+				pool.Add(NPCType<RepairUnitCritter>(), 0.2f);
 
 				int typeToSpawn = pool.Get();
 				if (typeToSpawn != NPCID.None)

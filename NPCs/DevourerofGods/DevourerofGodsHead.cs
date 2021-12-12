@@ -22,8 +22,11 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Events;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -119,6 +122,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private int preventBullshitHitsAtStartofFinalPhaseTimer = 0;
 		private const float alphaGateValue = 669f;
 
+		// Death animation variables
+		public bool Dying;
+		public int DeathAnimationTimer;
+		public int DestroyedSegmentCount;
+
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Devourer of Gods");
@@ -195,6 +203,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(preventBullshitHitsAtStartofFinalPhaseTimer);
 			writer.Write(teleportTimer);
 			writer.Write(npc.alpha);
+
+			// Death animation syncs
+			writer.Write(Dying);
+			writer.Write(DeathAnimationTimer);
+			writer.Write(DestroyedSegmentCount);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -225,6 +238,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 			preventBullshitHitsAtStartofFinalPhaseTimer = reader.ReadInt32();
 			teleportTimer = reader.ReadInt32();
 			npc.alpha = reader.ReadInt32();
+
+			// Death animation syncs
+			Dying = reader.ReadBoolean();
+			DeathAnimationTimer = reader.ReadInt32();
+			DestroyedSegmentCount = reader.ReadInt32();
 		}
 
         public override void AI()
@@ -410,8 +428,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Phase 2
 				else
 				{
-					// Immunity after teleport
-					npc.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0;
+					// Immunity after teleport and when dying
+					npc.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0 || Dying;
 
 					// Teleport
 					if (teleportTimer >= 0)
@@ -419,6 +437,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 						teleportTimer--;
 						if (teleportTimer == 0)
 							Teleport(player, malice, death, revenge, expertMode, phase5);
+					}
+
+					// Do the death animation once killed.
+					if (Dying)
+					{
+						teleportTimer = 0;
+						DoDeathAnimation();
+						return;
 					}
 
 					// Laser walls
@@ -1320,7 +1346,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 						{
 							int segment;
 							if (segmentSpawn >= 0 && segmentSpawn < minLength)
+							{
 								segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsBody>(), npc.whoAmI);
+								Main.npc[segment].ModNPC<DevourerofGodsBody>().SegmentIndex = maxLength - segmentSpawn;
+							}
 							else
 								segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsTail>(), npc.whoAmI);
 
@@ -2039,6 +2068,115 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), player.Center);
 		}
 
+		public void DoDeathAnimation()
+		{
+			// Play a sound at the start.
+			if (DeathAnimationTimer == 1f)
+			{
+				var soundInstance = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), npc.Center);
+				if (soundInstance != null)
+					soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.6f, 0f, 1f);
+			}
+
+			// Close the health bar, fade in, and stop doing contact damage.
+			npc.Calamity().CanHaveBossHealthBar = false;
+			npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.1f, 0f, 1f);
+			npc.dontTakeDamage = true;
+			npc.damage = 0;
+
+			void destroySegment(int index, ref int destroyedSegments)
+			{
+				if (Main.rand.NextBool(5))
+					Main.PlaySound(SoundID.Item94, npc.Center);
+
+				List<int> segments = new List<int>()
+				{
+					ModContent.NPCType<DevourerofGodsBody>(),
+					ModContent.NPCType<DevourerofGodsTail>()
+				};
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (segments.Contains(Main.npc[i].type) && Main.npc[i].active && 
+						(Main.npc[i].type == segments[1] || Main.npc[i].ModNPC<DevourerofGodsBody>().SegmentIndex == index))
+					{
+						for (int j = 0; j < 20; j++)
+						{
+							Dust cosmicBurst = Dust.NewDustPerfect(Main.npc[i].Center + Main.rand.NextVector2Circular(25f, 25f), 234);
+							cosmicBurst.scale = 1.7f;
+							cosmicBurst.velocity = Main.rand.NextVector2Circular(9f, 9f);
+							cosmicBurst.noGravity = true;
+						}
+
+						Main.npc[i].life = 0;
+						Main.npc[i].HitEffect();
+						Main.npc[i].active = false;
+						Main.npc[i].netUpdate = true;
+						destroyedSegments++;
+						break;
+					}
+				}
+			}
+
+			// Slow down but maintain a specific direction.
+			float idealSpeed = MathHelper.Lerp(8.4f, 4f, Utils.InverseLerp(15f, 210f, DeathAnimationTimer, true));
+			if (npc.velocity.Length() != idealSpeed)
+				npc.velocity = npc.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(npc.velocity.Length(), idealSpeed, 0.08f);
+
+			// Stay within the world.
+			if (npc.Center.X < 300f || npc.Center.X > Main.maxTilesX * 16f - 300f)
+				npc.velocity.X *= -1f;
+			if (npc.Center.Y < 300f || npc.Center.Y > Main.maxTilesY * 16f - 300f)
+				npc.velocity.Y *= -1f;
+
+			if (DeathAnimationTimer >= 120f && DeathAnimationTimer < 370f && DeathAnimationTimer % 3f == 0f)
+			{
+				int segmentToDestroy = (int)(Utils.InverseLerp(120f, 370f, DeathAnimationTimer, true) * 60f);
+				destroySegment(segmentToDestroy, ref DestroyedSegmentCount);
+			}
+
+			if (DeathAnimationTimer == 452f)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<DoGDeathBoom>(), 0, 0f);
+
+				if (Main.netMode != NetmodeID.Server)
+				{
+					var soundInstance = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), npc.Center);
+					if (soundInstance != null)
+						soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.6f, 0f, 1f);
+
+					for (int i = 0; i < 3; i++)
+					{
+						soundInstance = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), npc.Center);
+						if (soundInstance != null)
+						{
+							soundInstance.Pitch = -MathHelper.Lerp(0.1f, 0.4f, i / 3f);
+							soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.4f, 0f, 1f);
+						}
+					}
+				}
+			}
+
+			if (DeathAnimationTimer >= 410f && DeathAnimationTimer < 470f && DeathAnimationTimer % 2f == 0f)
+			{
+				int segmentToDestroy = (int)(Utils.InverseLerp(410f, 470f, DeathAnimationTimer, true) * 10f) + 60;
+				destroySegment(segmentToDestroy, ref DeathAnimationTimer);
+			}
+
+			float light = Utils.InverseLerp(430f, 465f, DeathAnimationTimer, true);
+			MoonlordDeathDrama.RequestLight(light, Main.LocalPlayer.Center);
+
+			if (DeathAnimationTimer >= 485f)
+			{
+				npc.life = 0;
+				npc.HitEffect();
+				npc.NPCLoot();
+				npc.active = false;
+				npc.netUpdate = true;
+			}
+			DeathAnimationTimer++;
+		}
+
 		private Vector2 GetRiftLocation(bool spawnDust)
 		{
 			for (int i = 0; i < Main.maxProjectiles; i++)
@@ -2057,6 +2195,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			float disintegrationFactor = DeathAnimationTimer / 800f;
+			if (disintegrationFactor > 0f)
+			{
+				spriteBatch.EnterShaderRegion();
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseOpacity(disintegrationFactor);
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseSaturation(npc.whoAmI);
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage("Images/Misc/Perlin");
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].Apply();
+			}
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -2082,6 +2230,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
+
+			if (disintegrationFactor > 0f)
+				spriteBatch.ExitShaderRegion();
 
 			return false;
 		}
@@ -2203,8 +2354,16 @@ namespace CalamityMod.NPCs.DevourerofGods
                 Color messageColor = Color.Cyan;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return false;
-            }
-            return true;
+			}
+
+			if (!Dying && (damage * (crit ? 2D : 1D)) >= npc.life)
+			{
+				damage = 0D;
+				CheckDead();
+				return false;
+			}
+
+			return true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -2218,7 +2377,20 @@ namespace CalamityMod.NPCs.DevourerofGods
             return false;
         }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override bool CheckDead()
+		{
+			if (!Dying)
+			{
+				Dying = true;
+				npc.life = 1;
+				npc.dontTakeDamage = true;
+				npc.active = true;
+				npc.netUpdate = true;
+			}
+			return false;
+		}
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.soundDelay == 0)
 			{
