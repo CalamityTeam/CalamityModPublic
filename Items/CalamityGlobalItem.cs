@@ -117,8 +117,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            // All items that stack to 30, 99 , or 999 now stack to 9999 instead.
-			if (item.maxStack == 30 || item.maxStack == 99 || item.maxStack == 999)
+            // All items that stack to 30, 50, 99 , or 999 now stack to 9999 instead.
+			if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
 
 			// Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
@@ -144,6 +144,8 @@ namespace CalamityMod.Items
 
 			SetDefaults_ApplyBalance(item);
 
+			// TODO -- these properties should be some sort of dictionary.
+			// Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system
 			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
 
