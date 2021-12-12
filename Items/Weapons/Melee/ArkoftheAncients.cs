@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 50;
-            item.damage = 92;
+            item.damage = 58;
             item.melee = true;
             item.useAnimation = 22;
             item.useTime = 22;
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }
@@ -102,7 +102,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.EnchantedSword);
-            recipe.AddIngredient(ItemID.Excalibur);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -111,7 +110,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.Arkhalis);
-            recipe.AddIngredient(ItemID.Excalibur);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
