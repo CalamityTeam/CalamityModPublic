@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
     {
         public override void SetDefaults()
         {
-            this.SetUpBookcase(true, false);
+            this.SetUpBookcase(true, false, false);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Amalgam");
             AddMapEntry(new Color(191, 142, 111), name);

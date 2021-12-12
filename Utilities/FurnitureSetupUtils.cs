@@ -604,7 +604,8 @@ namespace CalamityMod
 		/// <param name="mt">The ModTile which is being initialized.</param>
 		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
 		/// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
-		internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true)
+		/// <param name="solidTop">Whether this tile counts as a table for housing. Defaults to true.</param>
+		internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool table = true)
 		{
 			Main.tileSolidTop[mt.Type] = solidTop;
 			Main.tileLighted[mt.Type] = true;
@@ -616,8 +617,9 @@ namespace CalamityMod
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
 			TileObjectData.addTile(mt.Type);
 
-			// All bookcases count as tables.
-			mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			// All bookcases count as tables. Monolith Amalgam does not count as a table.
+			if (table)
+				mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 		}
 
 		/// <summary>
