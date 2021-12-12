@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             name.SetDefault("Monolith Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

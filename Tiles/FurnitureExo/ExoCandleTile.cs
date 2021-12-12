@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             name.SetDefault("Exo Candle");
             AddMapEntry(new Color(71, 95, 114), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candles };
             drop = ModContent.ItemType<ExoCandle>();
         }
 

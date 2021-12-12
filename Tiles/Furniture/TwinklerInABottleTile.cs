@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Furniture
             animationFrameHeight = 36;
 
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

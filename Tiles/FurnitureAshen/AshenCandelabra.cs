@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 36;
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

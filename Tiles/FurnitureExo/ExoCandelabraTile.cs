@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             name.SetDefault("Exo Candelabra");
             AddMapEntry(new Color(71, 95, 114), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CanExplode(int i, int j) => false;

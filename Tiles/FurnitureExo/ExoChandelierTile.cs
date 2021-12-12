@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exo Chandelier");
             AddMapEntry(new Color(71, 95, 114), name);
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CanExplode(int i, int j) => false;

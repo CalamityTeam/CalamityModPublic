@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             name.SetDefault("Silva Candle");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candles };
             drop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCandle>();
         }
 

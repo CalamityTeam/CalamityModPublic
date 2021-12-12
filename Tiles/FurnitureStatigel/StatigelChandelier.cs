@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
