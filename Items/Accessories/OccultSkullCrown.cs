@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Head)]
-    public class CultistHat : ModItem
+    public class OccultSkullCrown : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cultist Hat");
+            DisplayName.SetDefault("Occult Skull Crown");
             Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +
                                "Converts certain debuffs into buffs and extends their durations\n" +
