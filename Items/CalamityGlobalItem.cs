@@ -117,8 +117,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            // All items that stack to 99 now stack to 999 instead.
-			if (item.maxStack == 99 || item.maxStack == 999)
+            // All items that stack to 30, 99 , or 999 now stack to 9999 instead.
+			if (item.maxStack == 30 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
 
 			// Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
