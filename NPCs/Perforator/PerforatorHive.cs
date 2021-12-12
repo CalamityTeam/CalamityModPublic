@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30, 5);
                 DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
                 DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
                 if (Main.hardMode)
