@@ -36,6 +36,11 @@ namespace CalamityMod.Tiles.Furniture
 			}
         }
 
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			frameYOffset = this.GetAnimationOffset(i, j, 15, 16, 18, 1, 2, animationFrameHeight);
+		}
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 13, 0f, 0f, 0, new Color(), 1f);

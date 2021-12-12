@@ -42,38 +42,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
 		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
 		{
-			int frameX = Main.tile[i, j].frameX;
-			int frameY = Main.tile[i, j].frameY;
-			int frameAmt = 4;
-
-			// Tweak the frame drawn so tiles next to each other are off-sync and look much more interesting.
-			int xLength = 18;
-			int xTiles = 3;
-			frameX %= (xLength * xTiles);
-            i -= frameX / xLength;
-
-			int yLength = 18;
-			int yTiles = 2;
-			frameY %= (yLength * yTiles);
-			j -= frameY / yLength;
-
-			int uniqueAnimationFrame = Main.tileFrame[Type] + j;
-			if (i % 2 == 0)
-				uniqueAnimationFrame += 5;
-			if (i % 3 == 0)
-				uniqueAnimationFrame += 5;
-			if (i % 4 == 0)
-				uniqueAnimationFrame += 5;
-			if (j % 2 == 0)
-				uniqueAnimationFrame += 5;
-			if (j % 3 == 0)
-				uniqueAnimationFrame += 5;
-			if (j % 4 == 0)
-				uniqueAnimationFrame += 5;
-
-			uniqueAnimationFrame %= frameAmt;
-
-			frameYOffset = uniqueAnimationFrame * animationFrameHeight;
+			frameYOffset = this.GetAnimationOffset(i, j, 4, 18, 18, 3, 2, animationFrameHeight);
 		}
 
         public override bool CanExplode(int i, int j) => false;

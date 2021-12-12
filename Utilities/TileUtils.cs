@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
 
@@ -184,6 +185,51 @@ namespace CalamityMod
 				Main.spriteBatch.Draw(flameTexture, new Vector2(item.position.X - Main.screenPosition.X + item.width * 0.5f + shakeX, item.position.Y - Main.screenPosition.Y + item.height - flameTexture.Height * 0.5f + 2f + shakeY), new Rectangle(0, 0, width, height), new Color(100, 100, 100, 0), 0f, default, 1f, SpriteEffects.None, 0f);
 			}
 		}
+
+		/// <summary>
+		/// Generates an framing offset for individual tiles to be animated off-sync.  DOES NOT WORK WITHOUT EVEN ANIMATIONS!!! (e.g. Flak Hermit Cages don't work with this.)
+		/// </summary>
+		/// <param name="mt">The ModTile which is being initialized.</param>
+		/// <param name="i">X position of the tile.</param>
+		/// <param name="j">Y position of the tile.</param>
+		/// <param name="frameAmt">The number of frames the tile has.</param>
+		/// <param name="xLength">The number of pixels of one tile of the furniture in the X direction (ImageHeight / frameAmt / xTiles).</param>
+		/// <param name="yLength">The number of pixels of one tile of the furniture in the Y direction (ImageWidth / frameAmt / yTiles).</param>
+		/// <param name="xTiles">The number of tiles wide the furniture is.</param>
+		/// <param name="yTiles">The number of tiles tall the furniture is.</param>
+		/// <param name="animationFrameLength">This is animationFrameHeight in vertical animated tiles and animationFrameWidth in horizontal animated tiles.</param>
+		/// <returns>The offset for the animation. This is set to frameXOffset in horizontal animations and frameYOffset in vertical animations in the AnimateIndividualTile() function.</returns>
+		internal static int GetAnimationOffset(this ModTile mt, int i, int j, int frameAmt, int xLength, int yLength, int xTiles, int yTiles, int animationFrameLength)
+		{
+			int frameX = Main.tile[i, j].frameX;
+			int frameY = Main.tile[i, j].frameY;
+
+			// Tweak the frame drawn so tiles next to each other are off-sync and look much more interesting.
+			frameX %= (xLength * xTiles);
+            i -= frameX / xLength;
+
+			frameY %= (yLength * yTiles);
+			j -= frameY / yLength;
+
+			int uniqueAnimationFrame = Main.tileFrame[mt.Type] + j;
+			if (i % 2 == 0)
+				uniqueAnimationFrame += 5;
+			if (i % 3 == 0)
+				uniqueAnimationFrame += 5;
+			if (i % 4 == 0)
+				uniqueAnimationFrame += 5;
+			if (j % 2 == 0)
+				uniqueAnimationFrame += 5;
+			if (j % 3 == 0)
+				uniqueAnimationFrame += 5;
+			if (j % 4 == 0)
+				uniqueAnimationFrame += 5;
+
+			uniqueAnimationFrame %= frameAmt;
+
+			return uniqueAnimationFrame * animationFrameLength;
+		}
+
 		public static Tile ParanoidTileRetrieval(int x, int y)
 		{
 			if (!WorldGen.InWorld(x, y))
@@ -196,6 +242,7 @@ namespace CalamityMod
 			}
 			return tile;
 		}
+
 		public static bool TileSelectionSolid(int x, int y, int width, int height)
 		{
 			for (int i = x; i != x + width; i += Math.Sign(width))
@@ -210,6 +257,7 @@ namespace CalamityMod
 			}
 			return true;
 		}
+
 		public static bool TileSelectionSolidSquare(int x, int y, int width, int height)
 		{
 			for (int i = x - width; i != x + width; i += Math.Sign(width))
@@ -224,6 +272,7 @@ namespace CalamityMod
 			}
 			return true;
 		}
+
 		public static bool TileActiveAndOfType(int x, int y, int type)
 		{
 			return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).type == type;
