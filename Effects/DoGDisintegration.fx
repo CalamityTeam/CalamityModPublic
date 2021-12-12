@@ -13,8 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-// This is a shader. You are on your own with shaders. Compile shaders in an XNB project.
-
+// This shader is largely based on code used for ExampleMod's cool death animation thing; it is suprisingly useful for this use case.
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
