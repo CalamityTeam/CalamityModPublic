@@ -213,17 +213,17 @@ namespace CalamityMod
 
 			int uniqueAnimationFrame = Main.tileFrame[mt.Type] + j;
 			if (i % 2 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 			if (i % 3 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 			if (i % 4 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 			if (j % 2 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 			if (j % 3 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 			if (j % 4 == 0)
-				uniqueAnimationFrame += 5;
+				uniqueAnimationFrame += 3;
 
 			uniqueAnimationFrame %= frameAmt;
 
