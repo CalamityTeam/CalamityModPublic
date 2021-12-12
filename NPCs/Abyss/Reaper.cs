@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 280;
             npc.height = 150;
             npc.defense = 70;
-            npc.lifeMax = 190000;
+            npc.lifeMax = 100000; // Previously 190,000
             npc.aiStyle = -1;
             aiType = -1;
             npc.timeLeft = NPC.activeTime * 30;
