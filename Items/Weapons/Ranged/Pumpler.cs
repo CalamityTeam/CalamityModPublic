@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Pumpler");
             Tooltip.SetDefault("33% chance to not consume ammo\n" +
-                "Hold left click to load up to five pumpkin bombs for a 100% organic blast");
+                "Hold left click to load up to five pumpkin grenades into the gun");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 20;
             item.ranged = true;
             item.width = 72;
             item.height = 34;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item20;
             item.channel = true;
-            return player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<PumplerHoldout>()] <= 0;
         }
 
         public override float UseTimeMultiplier(Player player)

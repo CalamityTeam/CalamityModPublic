@@ -25,8 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
             Main.projFrames[projectile.type] = 9;
         }
 
-
-
         private Player Owner => Main.player[projectile.owner];
 
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
@@ -34,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
         private ref float PumpkinsCharge => ref projectile.ai[1];
         private ref float FramesToLoadNextPumpkin => ref projectile.localAI[0];
         private ref float Overfilled => ref projectile.localAI[1]; //This functionally is a "IsPlayingShootAnim" variable
-        private float angularSpread = MathHelper.ToRadians(20);
+        private float angularSpread = MathHelper.ToRadians(15);
 
         public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerHoldout";
 
@@ -49,16 +47,10 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
         }
 
-
-
-
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
-
-
-
 
             // Unloads all pumpkins if you can't shoot/stop holding out the projectile or if the gun is overfilled
             if (!OwnerCanShoot || Overfilled == 1f)
@@ -70,7 +62,6 @@ namespace CalamityMod.Projectiles.Ranged
                     return;
                 }
 
-
                 //Animation stuff start
                 projectile.frameCounter++;
                 if (projectile.frameCounter >= 10) //10 fps anim
@@ -80,50 +71,35 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.frame = 0;
                     projectile.frameCounter = 0;
                 }
-
                 // Shoot anim is done? Remove the shoot anim tag
                 if (projectile.frame == 0 && Overfilled == 1f)
                     Overfilled = 0f;
                 //Animation stuff end
-
 
                 // Fire the spread of pumpkins & empty the barrel
                 if (PumpkinsCharge >= 1)
                     UnloadChamber(tipPosition);
             }
 
-
-
-
             else
             {
-
                 // Frame 1 effects: Initialize the shoot speed 
                 if (FramesToLoadNextPumpkin == 0f)
                 {
                     FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation;
                 }
-
                 // Actually make progress towards loading more arrows. Also, make smoke come out eventually perhaps
                 ++CurrentChargingFrames;
-
-
                 // If it is time to load an pumpkin, produce a pulse of dust and add a pumpkin
                 // Also accelerate charging, because it's fucking awesome. <- Agreeing with dom so hard i made it increase harder
                 if (CurrentChargingFrames >= FramesToLoadNextPumpkin && PumpkinsCharge < Pumpler.MaxPumpkins)
                 {
-
                     projectile.frame = (projectile.frame + 1); //next anim frame
                     CurrentChargingFrames = 0f;
                     ++PumpkinsCharge;
                     FramesToLoadNextPumpkin *= 0.850f;
-
-
-
                     //CombatText.NewText(projectile.Hitbox, new Color(255*(PumpkinsCharge/5), 151 * (PumpkinsCharge / 5), 78 * (PumpkinsCharge / 5)), ((int)PumpkinsCharge).ToString(), true);
                     //Colors don't properly shift towards orange, they remain white fsr. I assume its float fuckery. Also the numbers appear too high up
-
-
                     if (PumpkinsCharge >= Pumpler.MaxPumpkins)
                         Main.PlaySound(SoundID.Item69);
                     else
@@ -133,21 +109,16 @@ namespace CalamityMod.Projectiles.Ranged
                             loadSound.Volume *= 0.3f;
                     }
                 }
-
                 //If the pumpkins have been charging for too long, unload that mf!!!
                 if (CurrentChargingFrames >= 160)
                 {
                     Overfilled = 1f;
                 }
-
             }
 
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
         }
-
-        //eventually make the gun flash colors on every step with a shader but like ripping stuff off  from slr is complicated
-
 
         public void SmokeBurst(Vector2 tipPosition)
         {
@@ -156,23 +127,19 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 2 * PumpkinsCharge; i++)
             {
-                Dust dust = Dust.NewDustPerfect(tipPosition + Main.rand.NextVector2Circular(20f, 20f), ModContent.DustType<PumplerDust>());
-
+                Dust dust = Dust.NewDustPerfect(tipPosition + Main.rand.NextVector2Circular(10f, 10f), ModContent.DustType<PumplerDust>());
                 dust.velocity = (dust.position - Owner.Center) * 0.3f + Owner.velocity;
                 dust.scale = Main.rand.NextFloat(0.3f, 0.8f);
                 dust.alpha = Main.rand.Next(50) + 100;
                 dust.rotation = Main.rand.NextFloat(6.28f);
-
             }
         }
-
 
         public void UnloadChamber(Vector2 tipPosition)
         {
             //Spread calculation doesn't work with only one pumpkin loaded
             if (PumpkinsCharge == 1)
                 ShootProjectiles(tipPosition, 0);
-
             else
             {
                 for (int i = 0; i < PumpkinsCharge; i++)
@@ -182,7 +149,6 @@ namespace CalamityMod.Projectiles.Ranged
 
                 }
             }
-
             Main.PlaySound(SoundID.Item96);//play the sound
             SmokeBurst(tipPosition);
             FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation; //reset the reload time
@@ -190,7 +156,6 @@ namespace CalamityMod.Projectiles.Ranged
             if (!(Overfilled == 1f))
                 Overfilled = 1f; //Make the shoot anim play
             projectile.frame = 6; //Initialize the animation
-
         }
 
         public void ShootProjectiles(Vector2 tipPosition, float projectileRotation)
@@ -209,7 +174,7 @@ namespace CalamityMod.Projectiles.Ranged
             //Might have to change its ammo into grenades or something like that since it doesnt even fire bullets anymore LOL. That or don't use ammo at all
             //really don't wanna make players go through the annoyance of farming pumpkins just to fire a funny weapon
             Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref PumpkinDamage, ref knockback, false);
-            projectileType = ProjectileID.FlamingJack;
+            projectileType = ModContent.ProjectileType<PumplerGrenade>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
             Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
@@ -254,7 +219,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
             spriteBatch.EnterShaderRegion();
             if (PumpkinsCharge > 0 && Overfilled == 0f)
             {
@@ -265,29 +229,19 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
             }
-
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - 0.04f * (PumpkinsCharge - 1), 0.8f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Rectangle frameRectangle = Main.projectileTexture[projectile.type].Frame(1, 9, 0, projectile.frame);
-
             spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, frameRectangle, Color.White, projectile.rotation, frameRectangle.Size() * 0.5f, 1f, projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             spriteBatch.ExitShaderRegion();
 
-
             return false;
         }
 
-
-
-
         public override bool CanDamage() => false;
-
-
-
 
 
         //netcode hell 
@@ -319,20 +273,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            Color gray = new Color(25, 25, 25);
+            Color gray = new Color(40, 40, 40);
             Color ret;
-            if (dust.alpha < 130)
-            {
-                ret = Color.Lerp(Color.Yellow, Color.Orange, dust.alpha / 130f);
-            }
-            else if (dust.alpha < 195)
-            {
-                ret = Color.Lerp(Color.Orange, gray, (dust.alpha - 130) / 65);
-            }
-
-            else
-                ret = gray;
-
+            ret = Color.Lerp(Color.Orange, gray, MathHelper.Clamp((float)(dust.alpha - 100) / 80 , 0f, 1f));
             return ret * ((255 - dust.alpha) / 255f);
         }
 
@@ -360,7 +303,77 @@ namespace CalamityMod.Projectiles.Ranged
         }
     }
 
+    public class PumplerGrenade : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Squash Shell");
+        }
 
+        public override void SetDefaults()
+        {
+            projectile.width = 16;
+            projectile.height = 22;
+            projectile.friendly = true;
+            projectile.timeLeft = 180;
+            projectile.penetrate = 1;
+            projectile.ranged = true;
+            projectile.ignoreWater = true;
+
+        }
+        public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerGrenade";
+
+        private void Explode()
+        {
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+            if (Main.myPlayer == projectile.owner)
+            {
+                for (int i = 0; i < 15; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(15f, 15f), ModContent.DustType<PumplerDust>());
+                    dust.velocity = (dust.position - projectile.Center) * 0.2f + projectile.velocity;
+                    dust.scale = Main.rand.NextFloat(0.8f, 1.6f);
+                    dust.alpha = Main.rand.Next(30) + 100;
+                    dust.rotation = Main.rand.NextFloat(6.28f);
+                }
+                //CalamityUtils.ExplosionGores(projectile.Center, 1);
+            }
+            projectile.Kill();
+        }
+        public override void AI()
+        {
+            if (projectile.timeLeft == 1)
+                Explode();
+
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Point tileCoords = projectile.Bottom.ToTileCoordinates();
+            if (Main.tile[tileCoords.X, tileCoords.Y + 1].nactive() &&
+                WorldGen.SolidTile(Main.tile[tileCoords.X, tileCoords.Y + 1]) && projectile.timeLeft < 165)
+            {
+                Explode();
+                projectile.Kill();
+            }
+            else
+            {
+                projectile.velocity.Y += 0.4f;
+                if (projectile.velocity.Y > 16f)
+                    projectile.velocity.Y = 16f;
+            }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.velocity *= -1f;
+            return false;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+            Explode();
+        }
+    }
 
 
 }
+
+
+
