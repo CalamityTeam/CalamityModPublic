@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Eutrophic Shelf");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Torches };
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
