@@ -142,7 +142,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
 				item.rare = ItemRarityID.LightRed;
 
-			SetDefaults_ApplyBalance(item);
+			SetDefaults_ApplyTweaks(item);
 
 			// TODO -- these properties should be some sort of dictionary.
 			// Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system

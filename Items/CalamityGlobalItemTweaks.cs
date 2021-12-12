@@ -8,20 +8,20 @@ namespace CalamityMod.Items
 	public partial class CalamityGlobalItem : GlobalItem
 	{
 		#region Database and Initialization
-		internal static SortedDictionary<int, IBalanceRule[]> balance = null;
+		internal static SortedDictionary<int, IItemTweak[]> currentTweaks = null;
 
-		internal static void LoadBalance()
+		internal static void LoadTweaks()
 		{
 			// Various shorthands for items which receive very simple changes, such as setting one flag.
-			IBalanceRule[] trueMelee = Do(TrueMelee);
-			IBalanceRule[] pointBlank = Do(PointBlank);
-			IBalanceRule[] autoReuse = Do(AutoReuse);
-			IBalanceRule[] maxStack999 = Do(MaxStack(999));
-			IBalanceRule[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable);
+			IItemTweak[] trueMelee = Do(TrueMelee);
+			IItemTweak[] pointBlank = Do(PointBlank);
+			IItemTweak[] autoReuse = Do(AutoReuse);
+			IItemTweak[] maxStack999 = Do(MaxStack(999));
+			IItemTweak[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable);
 
 			// Please keep this strictly alphabetical. It's the only way to keep it sane. Thanks in advance.
 			// - Ozzatron
-			balance = new SortedDictionary<int, IBalanceRule[]>
+			currentTweaks = new SortedDictionary<int, IItemTweak[]>
 			{
 				{ ItemID.Abeemination, nonConsumableBossSummon },
 				{ ItemID.AdamantiteChainsaw, Do(TrueMelee, AxePower(90), UseTimeExact(4), TileBoostExact(+0)) },
@@ -181,7 +181,7 @@ namespace CalamityMod.Items
 				{ ItemID.GladiatorBreastplate, Do(DefenseDelta(+2)) },
 				{ ItemID.GladiatorHelmet, Do(DefenseDelta(+1)) },
 				{ ItemID.GladiatorLeggings, Do(DefenseDelta(+2)) },
-                { ItemID.GoblinBattleStandard, nonConsumableBossSummon },
+				{ ItemID.GoblinBattleStandard, nonConsumableBossSummon },
 				{ ItemID.GoldAxe, Do(AxePower(80), UseTimeExact(14), TileBoostExact(+0)) },
 				{ ItemID.GoldBow, Do(PointBlank, DamageRatio(1.1f)) },
 				{ ItemID.GoldBroadsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
@@ -268,7 +268,7 @@ namespace CalamityMod.Items
 				{ ItemID.MythrilRepeater, Do(PointBlank, DamageRatio(1.1f)) },
 				{ ItemID.MythrilSword, Do(UseTurn, ScaleRatio(1.5f), DamageExact(100), UseExact(25)) },
 				{ ItemID.MythrilWaraxe, Do(AxePower(140), UseTimeExact(11), TileBoostExact(+0)) },
-                { ItemID.NaughtyPresent, nonConsumableBossSummon },
+				{ ItemID.NaughtyPresent, nonConsumableBossSummon },
 				{ ItemID.NebulaChainsaw, trueMelee },
 				{ ItemID.NebulaDrill, Do(TrueMelee, PickPower(225), UseTimeExact(3), TileBoostExact(+4)) },
 				{ ItemID.NebulaPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
@@ -317,7 +317,7 @@ namespace CalamityMod.Items
 				{ ItemID.ProximityMineLauncher, Do(DamageRatio(2f)) },
 				{ ItemID.PsychoKnife, Do(UseTurn, DamageRatio(4f)) },
 				{ ItemID.PulseBow, Do(PointBlank, DamageRatio(1.66f)) },
-                { ItemID.PumpkinMoonMedallion, nonConsumableBossSummon },
+				{ ItemID.PumpkinMoonMedallion, nonConsumableBossSummon },
 				{ ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.5f), DamageExact(45), KnockbackExact(10f)) },
 				{ ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
 				{ ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
@@ -478,37 +478,37 @@ namespace CalamityMod.Items
 			};
 		}
 
-		internal static void UnloadBalance()
+		internal static void UnloadTweaks()
 		{
-			balance.Clear();
-			balance = null;
+			currentTweaks.Clear();
+			currentTweaks = null;
 		}
 		#endregion
 
-		#region SetDefaults (Item Balance Applied Here)
-		internal void SetDefaults_ApplyBalance(Item item)
+		#region SetDefaults (Item Tweaks Applied Here)
+		internal void SetDefaults_ApplyTweaks(Item item)
 		{
-			// Do nothing if the balance database is not defined.
-			if (balance is null)
+			// Do nothing if the tweaks database is not defined.
+			if (currentTweaks is null)
 				return;
 
-			// Grab the balancing to apply, if any. If nothing comes back, do nothing.
-			bool needsBalancing = balance.TryGetValue(item.type, out IBalanceRule[] rules);
-			if (!needsBalancing)
+			// Grab the tweaking or balancing to apply, if any. If nothing comes back, do nothing.
+			bool needsTweaking = currentTweaks.TryGetValue(item.type, out IItemTweak[] tweaks);
+			if (!needsTweaking)
 				return;
 
-			// Apply all balance changes sequentially, assuming they are relevant.
-			foreach (IBalanceRule rule in rules)
-				if (rule.AppliesTo(item))
-					rule.ApplyBalance(item);
+			// Apply all alterations sequentially, assuming they are relevant.
+			foreach (IItemTweak tweak in tweaks)
+				if (tweak.AppliesTo(item))
+					tweak.ApplyTweak(item);
 		}
 		#endregion
 
 		#region Internal Structures
 
-		// This function simply concatenates a bunch of Balance Rules into an array.
-		// It looks a lot nicer than constantly typing "new IBalanceRule[]".
-		internal static IBalanceRule[] Do(params IBalanceRule[] r) => r;
+		// This function simply concatenates a bunch of Item Tweaks into an array.
+		// It looks a lot nicer than constantly typing "new IItemTweak[]".
+		internal static IItemTweak[] Do(params IItemTweak[] r) => r;
 
 		#region Applicability Lambdas
 		internal static bool DealsDamage(Item it) => it.damage > 0;
@@ -523,403 +523,403 @@ namespace CalamityMod.Items
 		internal static bool UsesMana(Item it) => IsUsable(it); // Only usable items cost mana, but items must be able to have their mana cost disabled or enabled at will.
 		#endregion
 
-		#region Balance Rules
-		internal interface IBalanceRule
+		#region Item Tweak Definitions
+		internal interface IItemTweak
 		{
 			bool AppliesTo(Item it);
-			void ApplyBalance(Item it);
+			void ApplyTweak(Item it);
 		}
 
-		internal class AutoReuseRule : IBalanceRule
+		internal class AutoReuseRule : IItemTweak
 		{
 			internal readonly bool flag = true;
 
 			public AutoReuseRule(bool ar) => flag = ar;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it) => it.autoReuse = flag;
+			public void ApplyTweak(Item it) => it.autoReuse = flag;
 		}
-		internal static IBalanceRule AutoReuse => new AutoReuseRule(true);
-		internal static IBalanceRule NoAutoReuse => new AutoReuseRule(false);
+		internal static IItemTweak AutoReuse => new AutoReuseRule(true);
+		internal static IItemTweak NoAutoReuse => new AutoReuseRule(false);
 
 		// Uses the values shown by Terraria, which are multiplied by 5, not the internal values
-		internal class AxePowerRule : IBalanceRule
+		internal class AxePowerRule : IItemTweak
 		{
 			internal readonly int newAxePower = 0;
 
 			public AxePowerRule(int newDisplayedAxePower) => newAxePower = newDisplayedAxePower / 5;
 			public bool AppliesTo(Item it) => IsAxe(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.axe = newAxePower;
 				if (it.axe < 0)
 					it.axe = 0;
 			}
 		}
-		internal static IBalanceRule AxePower(int a) => new AxePowerRule(a);
+		internal static IItemTweak AxePower(int a) => new AxePowerRule(a);
 
-		internal class ConsumableRule : IBalanceRule
+		internal class ConsumableRule : IItemTweak
 		{
 			internal readonly bool flag = false;
 
 			public ConsumableRule(bool c) => flag = c;
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it) => it.consumable = flag;
+			public void ApplyTweak(Item it) => it.consumable = flag;
 		}
-		internal static IBalanceRule Consumable => new ConsumableRule(true);
-		internal static IBalanceRule NotConsumable => new ConsumableRule(false);
+		internal static IItemTweak Consumable => new ConsumableRule(true);
+		internal static IItemTweak NotConsumable => new ConsumableRule(false);
 
 		#region Damage
-		internal class DamageDeltaRule : IBalanceRule
+		internal class DamageDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public DamageDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => DealsDamage(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.damage += delta;
 				if (it.damage < 0)
 					it.damage = 0;
 			}
 		}
-		internal static IBalanceRule DamageDelta(int d) => new DamageDeltaRule(d);
+		internal static IItemTweak DamageDelta(int d) => new DamageDeltaRule(d);
 
-		internal class DamageExactRule : IBalanceRule
+		internal class DamageExactRule : IItemTweak
 		{
 			internal readonly int newDamage = 0;
 
 			public DamageExactRule(int dmg) => newDamage = dmg;
 			public bool AppliesTo(Item it) => DealsDamage(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.damage = newDamage;
 				if (it.damage < 0)
 					it.damage = 0;
 			}
 		}
-		internal static IBalanceRule DamageExact(int d) => new DamageExactRule(d);
+		internal static IItemTweak DamageExact(int d) => new DamageExactRule(d);
 
-		internal class DamageRatioRule : IBalanceRule
+		internal class DamageRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public DamageRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => DealsDamage(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.damage = (int)(it.damage * ratio);
 				if (it.damage < 0)
 					it.damage = 0;
 			}
 		}
-		internal static IBalanceRule DamageRatio(float f) => new DamageRatioRule(f);
+		internal static IItemTweak DamageRatio(float f) => new DamageRatioRule(f);
 		#endregion
 
-		internal class DefenseDeltaRule : IBalanceRule
+		internal class DefenseDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public DefenseDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => HasDefense(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.defense += delta;
 				if (it.defense < 0)
 					it.defense = 0;
 			}
 		}
-		internal static IBalanceRule DefenseDelta(int d) => new DefenseDeltaRule(d);
+		internal static IItemTweak DefenseDelta(int d) => new DefenseDeltaRule(d);
 
-		internal class DefenseExactRule : IBalanceRule
+		internal class DefenseExactRule : IItemTweak
 		{
 			internal readonly int newDefense = 0;
 
 			public DefenseExactRule(int def) => newDefense = def;
 			public bool AppliesTo(Item it) => HasDefense(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.defense = newDefense;
 				if (it.defense < 0)
 					it.defense = 0;
 			}
 		}
-		internal static IBalanceRule DefenseExact(int d) => new DefenseExactRule(d);
+		internal static IItemTweak DefenseExact(int d) => new DefenseExactRule(d);
 
-		internal class HammerPowerRule : IBalanceRule
+		internal class HammerPowerRule : IItemTweak
 		{
 			internal readonly int newHammerPower = 0;
 
 			public HammerPowerRule(int h) => newHammerPower = h;
 			public bool AppliesTo(Item it) => IsHammer(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.hammer = newHammerPower;
 				if (it.hammer < 0)
 					it.hammer = 0;
 			}
 		}
-		internal static IBalanceRule HammerPower(int h) => new HammerPowerRule(h);
+		internal static IItemTweak HammerPower(int h) => new HammerPowerRule(h);
 
 		#region Knockback
-		internal class KnockbackDeltaRule : IBalanceRule
+		internal class KnockbackDeltaRule : IItemTweak
 		{
 			internal readonly float delta = 0;
 
 			public KnockbackDeltaRule(float d) => delta = d;
 			public bool AppliesTo(Item it) => HasKnockback(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.knockBack += delta;
 				if (it.knockBack < 0f)
 					it.knockBack = 0f;
 			}
 		}
-		internal static IBalanceRule KnockbackDelta(float d) => new KnockbackDeltaRule(d);
+		internal static IItemTweak KnockbackDelta(float d) => new KnockbackDeltaRule(d);
 
-		internal class KnockbackExactRule : IBalanceRule
+		internal class KnockbackExactRule : IItemTweak
 		{
 			internal readonly float newKnockback = 0;
 
 			public KnockbackExactRule(float kb) => newKnockback = kb;
 			public bool AppliesTo(Item it) => HasKnockback(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.knockBack = newKnockback;
 				if (it.knockBack < 0f)
 					it.knockBack = 0f;
 			}
 		}
-		internal static IBalanceRule KnockbackExact(float kb) => new KnockbackExactRule(kb);
+		internal static IItemTweak KnockbackExact(float kb) => new KnockbackExactRule(kb);
 
-		internal class KnockbackRatioRule : IBalanceRule
+		internal class KnockbackRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public KnockbackRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => HasKnockback(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.knockBack *= ratio;
 				if (it.knockBack < 0f)
 					it.knockBack = 0f;
 			}
 		}
-		internal static IBalanceRule KnockbackRatio(float r) => new KnockbackRatioRule(r);
+		internal static IItemTweak KnockbackRatio(float r) => new KnockbackRatioRule(r);
 		#endregion
 
 		#region Mana Cost
-		internal class ManaDeltaRule : IBalanceRule
+		internal class ManaDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public ManaDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => UsesMana(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.mana += delta;
 				if (it.mana < 0)
 					it.mana = 0;
 			}
 		}
-		internal static IBalanceRule ManaDelta(int d) => new ManaDeltaRule(d);
+		internal static IItemTweak ManaDelta(int d) => new ManaDeltaRule(d);
 
-		internal class ManaExactRule : IBalanceRule
+		internal class ManaExactRule : IItemTweak
 		{
 			internal readonly int newMana = 0;
 
 			public ManaExactRule(int m) => newMana = m;
 			public bool AppliesTo(Item it) => UsesMana(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.mana = newMana;
 				if (it.mana < 0)
 					it.mana = 0;
 			}
 		}
-		internal static IBalanceRule ManaExact(int m) => new ManaExactRule(m);
+		internal static IItemTweak ManaExact(int m) => new ManaExactRule(m);
 
-		internal class ManaRatioRule : IBalanceRule
+		internal class ManaRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public ManaRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => UsesMana(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.mana = (int)(it.mana * ratio);
 				if (it.mana < 0)
 					it.mana = 0;
 			}
 		}
-		internal static IBalanceRule ManaRatio(float f) => new ManaRatioRule(f);
+		internal static IItemTweak ManaRatio(float f) => new ManaRatioRule(f);
 		#endregion
 
-		internal class MaxStackRule : IBalanceRule // max stack plus - calamity style
+		internal class MaxStackRule : IItemTweak // max stack plus - calamity style
 		{
 			internal readonly int newMaxStack = 999;
 
 			public MaxStackRule(int stk) => newMaxStack = stk;
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.maxStack = newMaxStack;
 				if (it.maxStack < 1)
 					it.maxStack = 1;
 			}
 		}
-		internal static IBalanceRule MaxStack(int stk) => new MaxStackRule(stk);
+		internal static IItemTweak MaxStack(int stk) => new MaxStackRule(stk);
 		
-		internal class PickPowerRule : IBalanceRule
+		internal class PickPowerRule : IItemTweak
 		{
 			internal readonly int newPickPower = 0;
 
 			public PickPowerRule(int p) => newPickPower = p;
 			public bool AppliesTo(Item it) => IsPickaxe(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.pick = newPickPower;
 				if (it.pick < 0)
 					it.pick = 0;
 			}
 		}
-		internal static IBalanceRule PickPower(int p) => new PickPowerRule(p);
+		internal static IItemTweak PickPower(int p) => new PickPowerRule(p);
 
-		internal class PointBlankRule : IBalanceRule
+		internal class PointBlankRule : IItemTweak
 		{
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it) => it.Calamity().canFirePointBlankShots = true;
+			public void ApplyTweak(Item it) => it.Calamity().canFirePointBlankShots = true;
 		}
-		internal static IBalanceRule PointBlank => new PointBlankRule();
+		internal static IItemTweak PointBlank => new PointBlankRule();
 		
 		#region Scale (True Melee)
-		internal class ScaleDeltaRule : IBalanceRule
+		internal class ScaleDeltaRule : IItemTweak
 		{
 			internal readonly float delta = 0;
 
 			public ScaleDeltaRule(float d) => delta = d;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.scale += delta;
 				if (it.scale < 0f)
 					it.scale = 0f;
 			}
 		}
-		internal static IBalanceRule ScaleDelta(float d) => new ScaleDeltaRule(d);
+		internal static IItemTweak ScaleDelta(float d) => new ScaleDeltaRule(d);
 
-		internal class ScaleExactRule : IBalanceRule
+		internal class ScaleExactRule : IItemTweak
 		{
 			internal readonly float newScale = 0;
 
 			public ScaleExactRule(float s) => newScale = s;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.scale = newScale;
 				if (it.scale < 0f)
 					it.scale = 0f;
 			}
 		}
-		internal static IBalanceRule ScaleExact(float s) => new ScaleExactRule(s);
+		internal static IItemTweak ScaleExact(float s) => new ScaleExactRule(s);
 
-		internal class ScaleRatioRule : IBalanceRule
+		internal class ScaleRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public ScaleRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.scale *= ratio;
 				if (it.scale < 0f)
 					it.scale = 0f;
 			}
 		}
-		internal static IBalanceRule ScaleRatio(float f) => new ScaleRatioRule(f);
+		internal static IItemTweak ScaleRatio(float f) => new ScaleRatioRule(f);
 		#endregion
 
 		#region Shoot Speed (Velocity)
-		internal class ShootSpeedDeltaRule : IBalanceRule
+		internal class ShootSpeedDeltaRule : IItemTweak
 		{
 			internal readonly float delta = 0;
 
 			public ShootSpeedDeltaRule(float d) => delta = d;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.shootSpeed += delta;
 				if (it.shootSpeed < 0f)
 					it.shootSpeed = 0f;
 			}
 		}
-		internal static IBalanceRule ShootSpeedDelta(float d) => new ShootSpeedDeltaRule(d);
+		internal static IItemTweak ShootSpeedDelta(float d) => new ShootSpeedDeltaRule(d);
 
-		internal class ShootSpeedExactRule : IBalanceRule
+		internal class ShootSpeedExactRule : IItemTweak
 		{
 			internal readonly float newShootSpeed = 0;
 
 			public ShootSpeedExactRule(float ss) => newShootSpeed = ss;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.shootSpeed = newShootSpeed;
 				if (it.shootSpeed < 0f)
 					it.shootSpeed = 0f;
 			}
 		}
-		internal static IBalanceRule ShootSpeedExact(float s) => new ShootSpeedExactRule(s);
+		internal static IItemTweak ShootSpeedExact(float s) => new ShootSpeedExactRule(s);
 
-		internal class ShootSpeedRatioRule : IBalanceRule
+		internal class ShootSpeedRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public ShootSpeedRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => IsScalable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.shootSpeed *= ratio;
 				if (it.shootSpeed < 0f)
 					it.shootSpeed = 0f;
 			}
 		}
-		internal static IBalanceRule ShootSpeedRatio(float f) => new ShootSpeedRatioRule(f);
+		internal static IItemTweak ShootSpeedRatio(float f) => new ShootSpeedRatioRule(f);
 		#endregion
 
-		internal class TileBoostDeltaRule : IBalanceRule
+		internal class TileBoostDeltaRule : IItemTweak
 		{
 			private readonly int delta = 0;
 
 			public TileBoostDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it) => it.tileBoost += delta;
+			public void ApplyTweak(Item it) => it.tileBoost += delta;
 		}
-		internal static IBalanceRule TileBoostDelta(int d) => new TileBoostDeltaRule(d);
+		internal static IItemTweak TileBoostDelta(int d) => new TileBoostDeltaRule(d);
 
-		internal class TileBoostExactRule : IBalanceRule
+		internal class TileBoostExactRule : IItemTweak
 		{
 			private readonly int newTileBoost = 0;
 
 			public TileBoostExactRule(int tb) => newTileBoost = tb;
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it) => it.tileBoost = newTileBoost;
+			public void ApplyTweak(Item it) => it.tileBoost = newTileBoost;
 		}
-		internal static IBalanceRule TileBoostExact(int tb) => new TileBoostExactRule(tb);
+		internal static IItemTweak TileBoostExact(int tb) => new TileBoostExactRule(tb);
 		
-		internal class TrueMeleeRule : IBalanceRule
+		internal class TrueMeleeRule : IItemTweak
 		{
 			public bool AppliesTo(Item it) => IsMelee(it);
-			public void ApplyBalance(Item it) => it.Calamity().trueMelee = true;
+			public void ApplyTweak(Item it) => it.Calamity().trueMelee = true;
 		}
-		internal static IBalanceRule TrueMelee => new TrueMeleeRule();
+		internal static IItemTweak TrueMelee => new TrueMeleeRule();
 
 		#region Use Time and Use Animation
-		internal class UseDeltaRule : IBalanceRule
+		internal class UseDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public UseDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation += delta;
 				it.useTime += delta;
@@ -929,15 +929,15 @@ namespace CalamityMod.Items
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseDelta(int d) => new UseDeltaRule(d);
+		internal static IItemTweak UseDelta(int d) => new UseDeltaRule(d);
 
-		internal class UseExactRule : IBalanceRule
+		internal class UseExactRule : IItemTweak
 		{
 			internal readonly int newUseTime = 0;
 
 			public UseExactRule(int ut) => newUseTime = ut;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation = newUseTime;
 				it.useTime = newUseTime;
@@ -947,15 +947,15 @@ namespace CalamityMod.Items
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseExact(int ut) => new UseExactRule(ut);
+		internal static IItemTweak UseExact(int ut) => new UseExactRule(ut);
 
-		internal class UseRatioRule : IBalanceRule
+		internal class UseRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public UseRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation = (int)(it.useAnimation * ratio);
 				it.useTime = (int)(it.useTime * ratio);
@@ -965,125 +965,125 @@ namespace CalamityMod.Items
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseRatio(float f) => new UseRatioRule(f);
+		internal static IItemTweak UseRatio(float f) => new UseRatioRule(f);
 		
-		internal class UseAnimationDeltaRule : IBalanceRule
+		internal class UseAnimationDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public UseAnimationDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation += delta;
 				if (it.useAnimation < 1)
 					it.useAnimation = 1;
 			}
 		}
-		internal static IBalanceRule UseAnimationDelta(int d) => new UseAnimationDeltaRule(d);
+		internal static IItemTweak UseAnimationDelta(int d) => new UseAnimationDeltaRule(d);
 
-		internal class UseAnimationExactRule : IBalanceRule
+		internal class UseAnimationExactRule : IItemTweak
 		{
 			internal readonly int newUseAnimation = 0;
 
 			public UseAnimationExactRule(int ua) => newUseAnimation = ua;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation = newUseAnimation;
 				if (it.useAnimation < 1)
 					it.useAnimation = 1;
 			}
 		}
-		internal static IBalanceRule UseAnimationExact(int ua) => new UseAnimationExactRule(ua);
+		internal static IItemTweak UseAnimationExact(int ua) => new UseAnimationExactRule(ua);
 
-		internal class UseAnimationRatioRule : IBalanceRule
+		internal class UseAnimationRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public UseAnimationRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useAnimation = (int)(it.useAnimation * ratio);
 				if (it.useAnimation < 1)
 					it.useAnimation = 1;
 			}
 		}
-		internal static IBalanceRule UseAnimationRatio(float f) => new UseAnimationRatioRule(f);
+		internal static IItemTweak UseAnimationRatio(float f) => new UseAnimationRatioRule(f);
 
-		internal class UseTimeDeltaRule : IBalanceRule
+		internal class UseTimeDeltaRule : IItemTweak
 		{
 			internal readonly int delta = 0;
 
 			public UseTimeDeltaRule(int d) => delta = d;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useTime += delta;
 				if (it.useTime < 1)
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseTimeDelta(int d) => new UseTimeDeltaRule(d);
+		internal static IItemTweak UseTimeDelta(int d) => new UseTimeDeltaRule(d);
 
-		internal class UseTimeExactRule : IBalanceRule
+		internal class UseTimeExactRule : IItemTweak
 		{
 			internal readonly int newUseTime = 0;
 
 			public UseTimeExactRule(int ut) => newUseTime = ut;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useTime = newUseTime;
 				if (it.useTime < 1)
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseTimeExact(int ut) => new UseTimeExactRule(ut);
+		internal static IItemTweak UseTimeExact(int ut) => new UseTimeExactRule(ut);
 
-		internal class UseTimeRatioRule : IBalanceRule
+		internal class UseTimeRatioRule : IItemTweak
 		{
 			internal readonly float ratio = 1f;
 
 			public UseTimeRatioRule(float f) => ratio = f;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.useTime = (int)(it.useTime * ratio);
 				if (it.useTime < 1)
 					it.useTime = 1;
 			}
 		}
-		internal static IBalanceRule UseTimeRatio(float f) => new UseTimeRatioRule(f);
+		internal static IItemTweak UseTimeRatio(float f) => new UseTimeRatioRule(f);
 		#endregion
 
-		internal class UseTurnRule : IBalanceRule
+		internal class UseTurnRule : IItemTweak
 		{
 			internal readonly bool flag = true;
 
 			public UseTurnRule(bool ut) => flag = ut;
 			public bool AppliesTo(Item it) => IsUsable(it);
-			public void ApplyBalance(Item it) => it.useTurn = flag;
+			public void ApplyTweak(Item it) => it.useTurn = flag;
 		}
-		internal static IBalanceRule UseTurn => new UseTurnRule(true);
-		internal static IBalanceRule NoUseTurn => new UseTurnRule(false);
+		internal static IItemTweak UseTurn => new UseTurnRule(true);
+		internal static IItemTweak NoUseTurn => new UseTurnRule(false);
 
-		internal class ValueRule : IBalanceRule
+		internal class ValueRule : IItemTweak
 		{
 			internal readonly int newValue = 0;
 
 			public ValueRule(int v) => newValue = v;
 			public bool AppliesTo(Item it) => true;
-			public void ApplyBalance(Item it)
+			public void ApplyTweak(Item it)
 			{
 				it.value = newValue;
 				if (it.value < 0)
 					it.value = 0;
 			}
 		}
-		internal static IBalanceRule Value(int v) => new ValueRule(v);
-		internal static IBalanceRule Worthless => new ValueRule(0);
+		internal static IItemTweak Value(int v) => new ValueRule(v);
+		internal static IItemTweak Worthless => new ValueRule(0);
 		#endregion
 		#endregion
 	}
