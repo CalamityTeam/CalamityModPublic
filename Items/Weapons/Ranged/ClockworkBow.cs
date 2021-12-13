@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 30f;
+            item.shootSpeed = 15f;
             item.useAmmo = AmmoID.Arrow;
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 shootVelocity = new Vector2(speedX, speedY);
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
             // Charge-up. Done via a holdout projectile.
-            Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }
@@ -113,7 +113,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
 
                 if (LoadedBolts <= 0f) //If theres no arrows to shoot
-                {              
+                {
                     projectile.Kill();
                     return;
                 }
@@ -140,7 +140,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     CurrentChargingFrames = 0f;
                     ++LoadedBolts;
 
-                    if (LoadedBolts%2 == 0)
+                    if (LoadedBolts % 2 == 0)
                         CombatText.NewText(Owner.Hitbox, new Color(155, 255, 255), "Tock", true);
                     else
                         CombatText.NewText(Owner.Hitbox, new Color(255, 200, 100), "Tick", true);
@@ -170,8 +170,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 for (int i = 0; i < LoadedBolts; i++)
                 {
                     //Version that doesnt inclue the chargingframes bit , since its fully charged
-                    float increment = angularSpread * (LoadedBolts-1)/2;
-                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts-1));
+                    float increment = angularSpread * (LoadedBolts - 1) / 2;
+                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts - 1));
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
 
                 }
@@ -185,7 +185,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                         continue;
 
                     //Version that takes into account the progress of the arrow currently loading. It takes half the time it takes for the arrow to load for the range to adjust to its next position
-                    float increment = angularSpread * (LoadedBolts - 1 + MathHelper.Clamp((CurrentChargingFrames / FramesToLoadBolt) * 2, 0f, 1f))/2;
+                    float increment = angularSpread * (LoadedBolts - 1 + MathHelper.Clamp((CurrentChargingFrames / FramesToLoadBolt) * 2, 0f, 1f)) / 2;
                     float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts));
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
                 }
@@ -202,7 +202,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            int BoltDamage = (int)(heldItem.damage * Owner.RangedDamage() * (2-(ClockworkBow.MaxBolts-LoadedBolts)));
+            int BoltDamage = (int)(heldItem.damage * Owner.RangedDamage() * (LoadedBolts + 1) / (float)(ClockworkBow.MaxBolts + 1));
             float shootSpeed = heldItem.shootSpeed * 1.5f;
             float knockback = heldItem.knockBack;
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
@@ -252,7 +252,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 
-            float loops = LoadedBolts +1;
+            float loops = LoadedBolts + 1;
             if (LoadedBolts == ClockworkBow.MaxBolts) //If the bow is fully loaded, shave off the part where you draw the arrow that's charging currently
                 loops = LoadedBolts;
 
@@ -262,28 +262,28 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float Shift = 0;
 
                 if (LoadedBolts == 0) //We calculating angles YEAH!
-                    {
+                {
                     BoltAngle = 0;
-                    }
+                }
                 else if (LoadedBolts == ClockworkBow.MaxBolts)
-                    {
-                    float increment = angularSpread * (LoadedBolts - 1) / 2;                   
-                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts-1));
-                    }
+                {
+                    float increment = angularSpread * (LoadedBolts - 1) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts - 1));
+                }
                 else
-                    {
-                    float increment = angularSpread * (LoadedBolts - 1 + MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt) , 0f, 1f)) / 2;
-                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(LoadedBolts-1, LoadedBolts, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f))));
-                    }
+                {
+                    float increment = angularSpread * (LoadedBolts - 1 + MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f)) / 2;
+                    BoltAngle = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(LoadedBolts - 1, LoadedBolts, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f))));
+                }
 
                 if (i == LoadedBolts) //If the arrow we are looking at is the one being loaded, we give it some shift (used for position & alpha)
-                    Shift = 1-(CurrentChargingFrames / FramesToLoadBolt);
-                
-                if (i == LoadedBolts-1 || LoadedBolts == ClockworkBow.MaxBolts) //If the arrow we are looking at is the one that just got loaded, OR all arrows got loaded, we apply some flashiness
+                    Shift = 1 - (CurrentChargingFrames / FramesToLoadBolt);
+
+                if (i == LoadedBolts - 1 || LoadedBolts == ClockworkBow.MaxBolts) //If the arrow we are looking at is the one that just got loaded, OR all arrows got loaded, we apply some flashiness
                 {
                     spriteBatch.EnterShaderRegion();
                     GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f - MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f));
-                    GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - (LoadedBolts/ClockworkBow.MaxBolts), 0.8f, 0.85f));
+                    GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - (LoadedBolts / ClockworkBow.MaxBolts), 0.8f, 0.85f));
                     GameShaders.Misc["CalamityMod:BasicTint"].Apply();
                 }
 
@@ -292,7 +292,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
                 //Vector2 ShiftDown = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle - MathHelper.PiOver2), (float)Math.Sin(projectile.rotation + BoltAngle - MathHelper.PiOver2)); //Shift the arrow halfway down so it appears aligned. I'm also P sure theres a function to rotate a vector by an angle but i forgor
-                Vector2 drawPosition = Owner.Center+ PointingTo*(20f+(Shift*40)) - ShiftDown*(BoltTexture.Width/2) - Main.screenPosition;
+                Vector2 drawPosition = Owner.Center + PointingTo * (20f + (Shift * 40)) - ShiftDown * (BoltTexture.Width / 2) - Main.screenPosition;
                 float FlipFactor = projectile.direction == -1 ? MathHelper.Pi : 0f;
 
                 spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
@@ -318,11 +318,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 70;
+            projectile.width = 72;
+            projectile.height = 72;
             projectile.friendly = true;
             projectile.timeLeft = 119;
             projectile.penetrate = 1;
+            projectile.MaxUpdates = 2;
             projectile.ranged = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -331,27 +332,37 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override string Texture => "CalamityMod/Projectiles/Ranged/PrecisionBolt";
 
         private Vector2 Recalibrate()
-        {            
-            float Increment = MathHelper.ToRadians(80 * (projectile.timeLeft / 120)); //Get the rotation increment that should be applied to the bolt
+        {
+            // Choose the angular turn speed of bolt on recalibration.
+            // This will overshoot significantly at first but will regress to finer movements as time goes on.
+            // The exponent in the equation below serves to dampen the turn speed more quickly. It will not hit targets otherwise.
+            float turnSpeedFactor = (float)Math.Pow(projectile.timeLeft / 120f, 4D);
+            float turnAngle = MathHelper.ToRadians(turnSpeedFactor * 75f);
 
-            //return the velocity of the projectile rotated in the direction that makes it closer to its target. Doesnt work somehow
-            if (projectile.velocity.RotatedBy(Increment).AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center)) < projectile.velocity.RotatedBy(-Increment).AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center)))
-               return projectile.velocity.RotatedBy(Increment);
+            // Select the velocity which has less of a disparity in terms of angular distance compared to the ideal direction.
+            Vector2 leftTurnVelocity = projectile.velocity.RotatedBy(-turnAngle);
+            Vector2 righTurnVelocity = projectile.velocity.RotatedBy(turnAngle);
+            float leftDirectionImprecision = leftTurnVelocity.AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center));
+            float rightDirectionImprecision = righTurnVelocity.AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center));
+            if (leftDirectionImprecision < rightDirectionImprecision)
+                return leftTurnVelocity;
             else
-                return projectile.velocity.RotatedBy(-Increment);
+                return righTurnVelocity;
 
         }
+
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, Color.LightSteelBlue.ToVector3());
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (projectile.timeLeft % 10 ==0)
-                Main.PlaySound(SoundID.Item93, projectile.Center);
             if (potentialTarget == null)
                 potentialTarget = projectile.Center.ClosestNPCAt(1500f, true);
-            if (potentialTarget != null && projectile.timeLeft % 10 == 0)
+            if (potentialTarget != null && projectile.timeLeft % 6 == 0)
+            {
+                Main.PlaySound(SoundID.Item93, projectile.Center);
                 projectile.velocity = Recalibrate();
+            }
 
 
             Dust trail = Dust.NewDustPerfect(projectile.Center, 267); //Dust trail kinda poopy but idk how to make a cool trail :(
@@ -373,7 +384,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Dust zap = Dust.NewDustPerfect(projectile.Center, 267);
                 zap.velocity = projectile.velocity;
-                zap.color =  Color.Yellow;
+                zap.color = Color.Yellow;
                 zap.scale = Main.rand.NextFloat(1f, 1.1f);
                 zap.noGravity = true;
             }
