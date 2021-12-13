@@ -66,6 +66,8 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+                return 0f;
             if (spawnInfo.player.Calamity().disablePerfCystSpawns)
                 return 0f;
 
