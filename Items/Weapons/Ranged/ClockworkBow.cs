@@ -333,7 +333,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         private Vector2 Recalibrate()
         {
-            // Choose the angular turn speed of bolt on recalibration.
+            // Choose the angular turn speed of the bolt on recalibration.
             // This will overshoot significantly at first but will regress to finer movements as time goes on.
             // The exponent in the equation below serves to dampen the turn speed more quickly. It will not hit targets otherwise.
             float turnSpeedFactor = (float)Math.Pow(projectile.timeLeft / 120f, 4D);
