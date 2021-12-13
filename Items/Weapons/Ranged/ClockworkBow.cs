@@ -186,7 +186,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                     //Version that takes into account the progress of the arrow currently loading. It takes half the time it takes for the arrow to load for the range to adjust to its next position
                     float increment = angularSpread * (LoadedBolts - 1 + MathHelper.Clamp((CurrentChargingFrames / FramesToLoadBolt) * 2, 0f, 1f)) / 2;
-                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(LoadedBolts));
+                    float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(LoadedBolts - 1, LoadedBolts, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f))));
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
                 }
                 Main.PlaySound(SoundID.Item38);//play the sound
@@ -203,7 +203,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             Item heldItem = Owner.ActiveItem();
             int BoltDamage = (int)(heldItem.damage * Owner.RangedDamage() * (LoadedBolts + 1) / (float)(ClockworkBow.MaxBolts + 1));
-            float shootSpeed = heldItem.shootSpeed * 1.5f;
+            float shootSpeed = heldItem.shootSpeed * 1f;
             float knockback = heldItem.knockBack;
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
             int projectileType = 0;
@@ -291,7 +291,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 var BoltTexture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/PrecisionBolt");
                 Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
-                //Vector2 ShiftDown = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle - MathHelper.PiOver2), (float)Math.Sin(projectile.rotation + BoltAngle - MathHelper.PiOver2)); //Shift the arrow halfway down so it appears aligned. I'm also P sure theres a function to rotate a vector by an angle but i forgor
                 float FlipFactor = projectile.direction == -1 ? MathHelper.Pi : 0f;
                 Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (20f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
 
@@ -308,8 +307,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
     public class PrecisionBolt : ModProjectile
     {
-
-
         NPC potentialTarget = null;
         public override void SetStaticDefaults()
         {
@@ -333,6 +330,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         private Vector2 Recalibrate()
         {
+            
             // Choose the angular turn speed of the bolt on recalibration.
             // This will overshoot significantly at first but will regress to finer movements as time goes on.
             // The exponent in the equation below serves to dampen the turn speed more quickly. It will not hit targets otherwise.
@@ -344,25 +342,26 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 righTurnVelocity = projectile.velocity.RotatedBy(turnAngle);
             float leftDirectionImprecision = leftTurnVelocity.AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center));
             float rightDirectionImprecision = righTurnVelocity.AngleBetween(projectile.SafeDirectionTo(potentialTarget.Center));
+            potentialTarget = projectile.Center.ClosestNPCAt(512f, true);
+
             if (leftDirectionImprecision < rightDirectionImprecision)
                 return leftTurnVelocity;
             else
                 return righTurnVelocity;
-
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, Color.LightSteelBlue.ToVector3());
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-
+             
             if (potentialTarget == null) //(Re)target 
-                potentialTarget = projectile.Center.ClosestNPCAt(1500f, true);
+                potentialTarget = projectile.Center.ClosestNPCAt(512f, true);
 
             if (potentialTarget != null)
             {
                 //Do some funny slight homing just in case 
-                float angularTurnSpeed = MathHelper.ToRadians(1);
+                float angularTurnSpeed = MathHelper.ToRadians(2.5f);
                 float idealDirection = projectile.AngleTo(potentialTarget.Center);
                 float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
                 projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
@@ -379,6 +378,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             trail.color = Color.Yellow;
             trail.scale = Main.rand.NextFloat(1f, 1.1f);
             trail.noGravity = true;
+
         }
 
         public override void Kill(int timeLeft)
@@ -386,9 +386,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Release a burst of magic dust on death.
             if (Main.dedServ)
                 return;
-
             Main.PlaySound(SoundID.Item94, projectile.Center);
-
             for (int i = 0; i < 10; i++)
             {
                 Dust zap = Dust.NewDustPerfect(projectile.Center, 267);
