@@ -5567,18 +5567,14 @@ namespace CalamityMod.CalPlayer
             bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic) || (GemTechSet && GemTechState.IsBlueGemActive);
 
             double summonNerfMult = reducedNerf ? 0.75 : 0.5;
-            if (isSummon && !profanedCrystalBuffs)
+            if (isSummon && heldItem.type > ItemID.None && !profanedCrystalBuffs)
             {
-                if (heldItem.type > ItemID.None)
-                {
-                    if (!heldItem.summon &&
-                        (heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
-                        heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 &&
-                        !heldItem.accessory && heldItem.ammo == AmmoID.None)
-                    {
-                        damage = (int)(damage * summonNerfMult);
-                    }
-                }
+                bool classCheck = !heldItem.summon && (heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.thrown || heldItem.Calamity().rogue);
+                bool toolCheck = heldItem.pick == 0 && heldItem.axe == 0 && heldItem.hammer == 0;
+                bool itemCanBeUsed = heldItem.useStyle != 0;
+                bool notAccessoryOrAmmo = !heldItem.accessory && heldItem.ammo == AmmoID.None;
+                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo)
+                    damage = (int)(damage * summonNerfMult);
             }
 
             if (proj.ranged)
