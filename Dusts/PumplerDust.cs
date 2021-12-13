@@ -2,8 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Ranged { 
 
+namespace CalamityMod.Dusts { 
     public class PumplerDust : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
