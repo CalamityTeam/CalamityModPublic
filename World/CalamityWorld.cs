@@ -1092,7 +1092,7 @@ namespace CalamityMod.World
             {
                 tasks.Insert(islandIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "Evil Island";
+                    progress.Message = "Corrupting a floating island";
                     WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
@@ -1116,14 +1116,14 @@ namespace CalamityMod.World
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
             tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", delegate (GenerationProgress progress)
             {
-                progress.Message = "Building the jungle temple (Calamity)";
+                progress.Message = "Building a bigger jungle temple";
                 CustomTemple.NewJungleTemple();
             });
 
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
             tasks[JungleTempleIndex2] = new PassLegacy("Temple", delegate (GenerationProgress progress)
             {
-                progress.Message = "Building the jungle temple (Calamity)";
+                progress.Message = "Building a bigger jungle temple";
                 Main.tileSolid[162] = false;
                 Main.tileSolid[226] = true;
                 CustomTemple.NewJungleTemplePart2();
@@ -1133,7 +1133,7 @@ namespace CalamityMod.World
             int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
             tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", delegate (GenerationProgress progress)
             {
-                progress.Message = "Placing a Lihzahrd altar (Calamity)";
+                progress.Message = "Placing the Lihzahrd altar";
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
@@ -1144,7 +1144,7 @@ namespace CalamityMod.World
                 #region BrimstoneCrag
                 tasks.Insert(FinalIndex + 1, new PassLegacy("BrimstoneCrag", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "Brimstone Crag";
+                    progress.Message = "Uncovering the ruins of a fallen empire";
 
                     int x = Main.maxTilesX;
 
@@ -1183,14 +1183,14 @@ namespace CalamityMod.World
                 {
                     tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
                     {
-                        progress.Message = "Sulphur Sea";
+                        progress.Message = "Polluting the ocean";
                         SulphurousSea.PlaceSulphurSea();
                     }));
                 }
 
                 tasks.Insert(FinalIndex + 2, new PassLegacy("SpecialShrines", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "Special Shrines";
+                    progress.Message = "Placing Special Shrines";
                     UndergroundShrines.PlaceShrines();
                 }));
 
@@ -1227,13 +1227,13 @@ namespace CalamityMod.World
 
                 tasks.Insert(FinalIndex + 4, new PassLegacy("Abyss", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "The Abyss";
+                    progress.Message = "Discovering the new Challenger Deep"; //Putting the Mariana Trench to shame
                     Abyss.PlaceAbyss();
                 }));
 
                 tasks.Insert(FinalIndex + 5, new PassLegacy("Sulphur2", delegate (GenerationProgress progress)
                 {
-                    progress.Message = "Finishing Sulphur Sea";
+                    progress.Message = "Polluting the ocean more";
                     SulphurousSea.FinishGeneratingSulphurSea();
                 }));
 

@@ -334,10 +334,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// These event enemies set shop variables and since those depend on downed bools they must be done in PreNPCLoot.
-			else if (npc.type == NPCID.Pumpking)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedHalloweenKing);
-			}
 			else if (npc.type == NPCID.Everscream)
 			{
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, NPC.downedChristmasTree || !NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
@@ -348,7 +344,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.IceQueen)
 			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedChristmasIceQueen);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || !NPC.downedChristmasSantank || NPC.downedChristmasIceQueen);
 			}
 
@@ -1254,10 +1249,10 @@ namespace CalamityMod.NPCs
                     break;
             }
 
-            // All hardmode dungeon enemies drop Ectoblood
+            // All hardmode dungeon enemies have a 20% chance to drop 1 ectoplasm
             if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
             {
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
+                DropHelper.DropItemChance(npc, ItemID.Ectoplasm, 5, 1);
             }
 
             // Every type of moss hornet can drop stingers

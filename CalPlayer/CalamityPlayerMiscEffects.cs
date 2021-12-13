@@ -22,6 +22,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
@@ -933,7 +934,7 @@ namespace CalamityMod.CalPlayer
 						bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 							modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs || modPlayer.coldDivinity || modPlayer.eGauntlet;
 
-						bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || player.buffImmune[BuffID.Frozen] || modPlayer.aAmpoule || player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
+						bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || modPlayer.dodgeScarf || player.buffImmune[BuffID.Frozen] || modPlayer.aAmpoule || player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
 
 						bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
@@ -2820,11 +2821,27 @@ namespace CalamityMod.CalPlayer
 				if (player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
 					modPlayer.planarSpeedBoost = 0;
 			}
-
 			if (modPlayer.brimlashBusterBoost)
 			{
-				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>() && player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
+				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
 					modPlayer.brimlashBusterBoost = false;
+			}
+			if (modPlayer.evilSmasherBoost > 0)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
+					modPlayer.evilSmasherBoost = 0;
+			}
+			if (modPlayer.searedPanCounter > 0)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<SearedPan>())
+				{
+					modPlayer.searedPanCounter = 0;
+					modPlayer.searedPanTimer = 0;
+				}
+				else if (modPlayer.searedPanTimer < SearedPan.ConsecutiveHitOpening)
+					modPlayer.searedPanTimer++;
+				else
+					modPlayer.searedPanCounter = 0;
 			}
 			if (modPlayer.animusBoost > 1f)
 			{

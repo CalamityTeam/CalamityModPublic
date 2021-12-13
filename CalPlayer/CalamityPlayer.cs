@@ -109,6 +109,8 @@ namespace CalamityMod.CalPlayer
 		public int evilSmasherBoost = 0;
 		public int hellbornBoost = 0;
         public float animusBoost = 1f;
+		public int searedPanCounter = 0;
+		public int searedPanTimer = 0;
         public int potionTimer = 0;
         public bool noWings = false;
         public bool blockAllDashes = false;
@@ -2516,6 +2518,8 @@ namespace CalamityMod.CalPlayer
 			evilSmasherBoost = 0;
 			hellbornBoost = 0;
             animusBoost = 1f;
+			searedPanCounter = 0;
+			searedPanTimer = 0;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
             persecutedEnchantSummonTimer = 0;
@@ -9512,20 +9516,25 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f; // Reset acceleration when you attack
 
             float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
+			float remainingStealth = rogueStealthMax * lossReductionRatio;
+			float stealthToLose = rogueStealthMax - remainingStealth;
+			// You cannot lose less than one stealth point.
+			if (stealthToLose < 0.01f)
+				stealthToLose = 0.01f;
             if (stealthStrikeHalfCost)
             {
-                rogueStealth -= 0.5f * rogueStealthMax - lossReductionRatio;
+                rogueStealth -= 0.5f * stealthToLose;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
             else if (stealthStrike75Cost)
 			{
-                rogueStealth -= 0.75f * rogueStealthMax - lossReductionRatio;
+                rogueStealth -= 0.75f * stealthToLose;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
 			else
-                rogueStealth = lossReductionRatio;
+                rogueStealth = remainingStealth;
         }
         #endregion
 

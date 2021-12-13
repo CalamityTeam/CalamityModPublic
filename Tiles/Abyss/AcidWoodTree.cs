@@ -1,5 +1,5 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.Abyss

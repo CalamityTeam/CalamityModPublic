@@ -16,8 +16,7 @@ namespace CalamityMod.Particles
 		public override Color BorderColor => Color.Lerp(Color.Fuchsia, Color.Black, 0.55f) * 0.85f;
 		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
 
-		// Cached for efficiency when loading textures and shaders.
-		private static readonly List<Effect> _backgroundShaders = new List<Effect>()
+		public override List<Effect> BackgroundShaders => new List<Effect>()
 		{
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
@@ -25,7 +24,6 @@ namespace CalamityMod.Particles
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
 		};
-		public override List<Effect> BackgroundShaders => _backgroundShaders;
 		public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
 		{
 			ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1"),

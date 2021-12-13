@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             writer.Write(circling);
             writer.Write(circlingPlayer);
             writer.Write((double)floatyDistance);
-            writer.Write(target == null ? -1 : target.whoAmI);
+            writer.Write(target is null ? -1 : target.whoAmI);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -114,18 +114,21 @@ namespace CalamityMod.Projectiles.Summon
             else if (projectile.ai[1] >= 2f && projectile.timeLeft > 900)
             {
                 target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
-                projectile.timeLeft = 669;
-                projectile.ai[1]++;
-                circlingPlayer = false;
-                float height = target.getRect().Height;
-                float width = target.getRect().Width;
-                floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
-                if (floatyDistance > Main.LogicCheckScreenWidth / 3)
-                    floatyDistance = Main.LogicCheckScreenWidth / 3;
-                projectile.penetrate = -1;
-                projectile.usesIDStaticNPCImmunity = true;
-                projectile.idStaticNPCHitCooldown = 4;
-                projectile.netUpdate = true;
+				if (target != null)
+				{
+					projectile.timeLeft = 669;
+					projectile.ai[1]++;
+					circlingPlayer = false;
+					float height = target.getRect().Height;
+					float width = target.getRect().Width;
+					floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
+					if (floatyDistance > Main.LogicCheckScreenWidth / 3)
+						floatyDistance = Main.LogicCheckScreenWidth / 3;
+					projectile.penetrate = -1;
+					projectile.usesIDStaticNPCImmunity = true;
+					projectile.idStaticNPCHitCooldown = 4;
+					projectile.netUpdate = true;
+				}
             }
             if (circlingPlayer)
             {

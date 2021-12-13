@@ -31,13 +31,17 @@ namespace CalamityMod
             EditLeatherRecipe();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
+            EditSpiritFlameRecipe();
             EditGoblinArmySummonRecipe();
+            EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
             EditMechBossSummonRecipes();
+            EditPumpkinMoonSummonRecipe();
+            EditFrostMoonSummonRecipe();
             EditWingRecipes();
             EditEvilBulletRecipes();
             EditPhasesaberRecipes();
-            EditOpticStaffRecipes();
+            EditOpticStaffRecipe();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -68,7 +72,7 @@ namespace CalamityMod
             // Fallen Star
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Stardust>(), 5);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
@@ -77,13 +81,6 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
             r.AddTile(TileID.AdamantiteForge);
             r.SetResult(ItemID.HallowedBar);
-            r.AddRecipe();
-
-            // Ectoplasm from Ectoblood
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.Ectoplasm);
             r.AddRecipe();
 
             // Rocket I from Empty Bullet
@@ -181,12 +178,53 @@ namespace CalamityMod
             });
         }
 
+        private static void EditSpiritFlameRecipe() // This is here to keep the Forbidden Fragment stuff on the same tier.
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.SpiritFlame).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.DjinnLamp, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.AncientBattleArmorMaterial, false);
+                s.requiredItem[1].stack = 2;
+                s.requiredItem[2].SetDefaults(ItemID.SoulofNight, false);
+                s.requiredItem[2].stack = 12;
+                s.requiredItem[3].SetDefaults(ItemID.AdamantiteBar, false);
+                s.requiredItem[3].stack = 2;
+                s.createItem.SetDefaults(ItemID.SpiritFlame, false);
+                s.createItem.stack = 1;
+
+                ModRecipe r = GetNewRecipe();  // Vanilla items don't like custom item groups.
+                r.AddIngredient(ItemID.DjinnLamp);
+                r.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
+                r.AddIngredient(ItemID.SoulofNight, 12);
+                r.AddIngredient(ItemID.TitaniumBar, 2);
+                r.AddTile(TileID.MythrilAnvil);
+                r.SetResult(ItemID.SpiritFlame);
+                r.AddRecipe();
+            });
+        }
+
         private static void EditGoblinArmySummonRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
             {
                 s.requiredItem[0].stack = 5;
+            });
+        }
+
+        private static void EditEvilBossSummonRecipes() // Evil Mushroom spawns are inconsistent and it bothers me. - Merkalto
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.BloodySpine || x.createItem.type == ItemID.WormFood).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].stack = 10;
             });
         }
         private static void EditEarlyHardmodeRecipes()
@@ -198,13 +236,57 @@ namespace CalamityMod
             });
         }
 
-        private static void EditMechBossSummonRecipes()
+        private static void EditMechBossSummonRecipes() 
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
             {
                 s.requiredTile[0] = TileID.Anvils;
             });
+        }
+
+        public static void EditPumpkinMoonSummonRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.PumpkinMoonMedallion).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].SetDefaults(ItemID.Pumpkin, false);
+                s.requiredItem[0].stack = 30;
+                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[1].stack = 15;
+                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
+                s.requiredItem[2].stack = 10;
+            });
+
+            ModRecipe r = GetNewRecipe();  // Vanilla items don't like custom item groups so I have to do this instead.
+            r.AddIngredient(ItemID.Pumpkin, 30);
+            r.AddIngredient(ItemID.Ectoplasm, 15);
+            r.AddIngredient(ItemID.PlatinumBar, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.PumpkinMoonMedallion);
+            r.AddRecipe();
+        }
+
+        public static void EditFrostMoonSummonRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.NaughtyPresent).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].SetDefaults(ItemID.Silk, false);
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
+                s.requiredItem[1].stack = 15;
+                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
+                s.requiredItem[2].stack = 10;
+            });
+
+            ModRecipe r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 20);
+            r.AddIngredient(ItemID.Ectoplasm, 15);
+            r.AddIngredient(ItemID.PlatinumBar, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.NaughtyPresent);
+            r.AddRecipe();
         }
 
         private static void EditWingRecipes()
@@ -238,7 +320,7 @@ namespace CalamityMod
         }
 
         // Remove Hallowed Bars from Optic Staff
-        private static void EditOpticStaffRecipes()
+        private static void EditOpticStaffRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.OpticStaff).ToList().ForEach(s =>
@@ -510,6 +592,16 @@ namespace CalamityMod
             r.AddRecipeGroup("EvilPowder", 10);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
+            r.AddRecipe();
+
+            // Frost Legion recipe for consistency
+            r = GetNewRecipe();
+            r.AddRecipeGroup("AnySnowBlock", 50);
+            r.AddIngredient(ItemID.Glass, 10);
+            r.AddIngredient(ItemID.SoulofLight, 3);
+            r.AddIngredient(ItemID.SoulofNight, 3);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.SnowGlobe);
             r.AddRecipe();
 
             // Temple Key
@@ -936,7 +1028,7 @@ namespace CalamityMod
             // Megaphone (silence)
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Wire, 10);
-            r.AddIngredient(ItemID.HallowedBar, 5);
+            r.AddRecipeGroup("AnyCobaltBar", 5);
             r.AddIngredient(ItemID.Ruby, 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Megaphone);

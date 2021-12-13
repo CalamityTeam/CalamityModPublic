@@ -78,9 +78,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			// Sandstorm item
-			DropHelper.DropItem(npc, ModContent.ItemType<AridArtifact>());
-
 			// Weapons
 			float w = DropHelper.BagWeaponDropRateFloat;
 			DropHelper.DropEntireWeightedSet(npc,

@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
             Main.projFrames[projectile.type] = 13;
         }
 
