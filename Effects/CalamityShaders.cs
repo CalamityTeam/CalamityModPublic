@@ -24,6 +24,7 @@ namespace CalamityMod.Effects
         public static Effect ImpFlameTrailShader;
         public static Effect SCalShieldShader;
         public static Effect RancorMagicCircleShader;
+        public static Effect BasicTintShader;
         public static Effect DoGDisintegrationShader;
 
         public static Effect BaseFusableParticleEdgeShader;
@@ -52,6 +53,7 @@ namespace CalamityMod.Effects
             ImpFlameTrailShader = CalamityMod.Instance.GetEffect("Effects/ImpFlameTrail");
             SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
             RancorMagicCircleShader = CalamityMod.Instance.GetEffect("Effects/RancorMagicCircle");
+            BasicTintShader = CalamityMod.Instance.GetEffect("Effects/BasicTint");
             DoGDisintegrationShader = CalamityMod.Instance.GetEffect("Effects/DoGDisintegration");
 
             BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
@@ -78,6 +80,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:ImpFlameTrail"] = new MiscShaderData(new Ref<Effect>(ImpFlameTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:SupremeShield"] = new MiscShaderData(new Ref<Effect>(SCalShieldShader), "ShieldPass");
             GameShaders.Misc["CalamityMod:RancorMagicCircle"] = new MiscShaderData(new Ref<Effect>(RancorMagicCircleShader), "ShieldPass");
+            GameShaders.Misc["CalamityMod:BasicTint"] = new MiscShaderData(new Ref<Effect>(BasicTintShader), "TintPass");
             GameShaders.Misc["CalamityMod:DoGDisintegration"] = new MiscShaderData(new Ref<Effect>(DoGDisintegrationShader), "DisintegrationPass");
 
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
