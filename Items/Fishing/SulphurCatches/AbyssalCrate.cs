@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Magic;
@@ -14,7 +15,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 using CrateTile = CalamityMod.Tiles.Abyss.AbyssalCrateTile;
-using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {

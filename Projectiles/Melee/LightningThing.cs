@@ -32,9 +32,13 @@ namespace CalamityMod.Projectiles.Melee
                     MathHelper.PiOver2, Main.rand.Next(100));
 				if (idx.WithinBounds(Main.maxProjectiles))
 				{
-					Main.projectile[idx].Calamity().forceMelee = true;
 					Main.projectile[idx].usesLocalNPCImmunity = true;
 					Main.projectile[idx].localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
+					// In death mode (and under a few other select conditions), the lightning has a PreAI return false in global projectile
+					// So forceMelee won't work unless the projectile is friendly (because a friendly exception was added)
+					Main.projectile[idx].friendly = true;
+					Main.projectile[idx].hostile = false;
+					Main.projectile[idx].Calamity().forceMelee = true;
 				}
             }
         }

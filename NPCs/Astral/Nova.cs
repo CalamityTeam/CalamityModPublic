@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -284,6 +285,7 @@ namespace CalamityMod.NPCs.Astral
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<StellarCannon>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<GloriousEnd>(), 7, 1, 1);
         }
     }
 }

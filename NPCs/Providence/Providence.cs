@@ -69,6 +69,8 @@ namespace CalamityMod.NPCs.Providence
         private int healTimer = 0;
         internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
 		internal bool hasTakenDaytimeDamage = false;
+		public bool Dying = false;
+		public int DeathAnimationTimer;
 
 		public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
@@ -125,6 +127,8 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(npc.chaseable);
             writer.Write(npc.canGhostHeal);
 			writer.Write(npc.localAI[2]);
+			writer.Write(Dying);
+			writer.Write(DeathAnimationTimer);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
         }
@@ -143,6 +147,8 @@ namespace CalamityMod.NPCs.Providence
             npc.chaseable = reader.ReadBoolean();
             npc.canGhostHeal = reader.ReadBoolean();
 			npc.localAI[2] = reader.ReadSingle();
+			Dying = reader.ReadBoolean();
+			DeathAnimationTimer = reader.ReadInt32();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -352,7 +358,14 @@ namespace CalamityMod.NPCs.Providence
 
 			// Take damage or not
 			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
-			npc.dontTakeDamage = biomeEnraged && !malice;
+			npc.dontTakeDamage = (biomeEnraged && !malice) || Dying;
+
+			// Do the death animation once killed.
+			if (Dying)
+            {
+				DoDeathAnimation();
+				return;
+            }
 
             // Heal
             if (healerAlive)
@@ -1277,6 +1290,84 @@ namespace CalamityMod.NPCs.Providence
 			}
         }
 
+		public void DoDeathAnimation()
+        {
+			AIState = (int)Phase.HolyFire;
+			useDefenseFrames = false;
+			DeathAnimationTimer++;
+
+			// Slow down to a halt and define rotation based off of that.
+			npc.velocity *= 0.9f;
+			npc.rotation = npc.velocity.X * 0.004f;
+
+			// Play an animation sound immediately. Also delete various projectiles.
+			if (DeathAnimationTimer == 1f)
+			{
+				if (Main.netMode != NetmodeID.Server && Main.LocalPlayer.WithinRange(npc.Center, 4800f))
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceDeathAnimation").WithVolume(1.65f), Main.LocalPlayer.Center);
+
+				DespawnSpecificProjectiles();
+
+				int laserType = ModContent.ProjectileType<ProvidenceHolyRay>();
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (!Main.projectile[i].active || Main.projectile[i].type != laserType)
+						continue;
+					Main.projectile[i].Kill();
+				}
+			}
+
+			// Begin fading out before the exploding sun animation happens.
+			if (DeathAnimationTimer >= 370f)
+				npc.Opacity *= 0.97f;
+
+			// Create an explosive wave shortly after the death animation begins.
+			// The temporal offset coincides with the point at which the crystal shatter sound happens in the
+			// above defeat scene sound.
+			if (DeathAnimationTimer == 92f)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), npc.Center);
+				Main.PlaySound(npc.DeathSound, npc.Center);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionBoom>(), 0, 0f);
+			}
+
+			// Explode as an enormous holy star before dying and dropping loot.
+			if (Main.netMode != NetmodeID.MultiplayerClient && DeathAnimationTimer == 310f)
+			{
+				for (int i = 0; i < 80; i++)
+				{
+					Vector2 sparkleVelocity = Main.rand.NextVector2Circular(23f, 23f);
+					Projectile.NewProjectile(npc.Center, sparkleVelocity, ModContent.ProjectileType<MajesticSparkle>(), 0, 0f);
+				}
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<DyingSun>(), 0, 0f, 255);
+			}
+
+			// Idly release harmless cindiers.
+			int shootRate = (int)MathHelper.Lerp(12f, 5f, Utils.InverseLerp(0f, 250f, DeathAnimationTimer, true));
+			if (DeathAnimationTimer % shootRate == shootRate - 1f)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					Vector2 shootVelocity = Main.rand.NextVector2CircularEdge(13f, 13f) * Main.rand.NextFloat(0.7f, 1.3f);
+					Projectile.NewProjectile(npc.Center, shootVelocity, ModContent.ProjectileType<SwirlingFire>(), 0, 0f, 255);
+				}
+			}
+
+			// Do periodic syncs.
+			if (Main.netMode == NetmodeID.Server && DeathAnimationTimer % 45f == 44f)
+				npc.netUpdate = true;
+
+			// Die and create drops after the star is gone.
+			if (DeathAnimationTimer >= 345f)
+			{
+				npc.active = false;
+				npc.HitEffect();
+				npc.NPCLoot();
+				npc.netUpdate = true;
+			}
+		}
+
 		public float CalculateBurnIntensity()
         {
 			float distanceToTarget = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
@@ -1448,126 +1539,157 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			bool malice = CalamityWorld.malice;
-			bool nightTime = !Main.dayTime || malice;
+			void drawProvidenceInstance(Vector2 drawOffset, Color? colorOverride)
+			{
+				bool malice = CalamityWorld.malice;
+				bool nightTime = !Main.dayTime || malice;
 
-			string baseTextureString = "CalamityMod/NPCs/Providence/";
-			string baseGlowTextureString = baseTextureString + "Glowmasks/";
+				string baseTextureString = "CalamityMod/NPCs/Providence/";
+				string baseGlowTextureString = baseTextureString + "Glowmasks/";
 
-			string getTextureString = baseTextureString + "Providence";
-			string getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
-			string getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
+				string getTextureString = baseTextureString + "Providence";
+				string getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
+				string getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
 
-			if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
-            {
-				if (!useDefenseFrames)
+				if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
 				{
-					getTextureString = baseTextureString + "ProvidenceDefense";
-					getTextureGlowString = baseGlowTextureString + "ProvidenceDefenseGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceDefenseGlow2";
+					if (!useDefenseFrames)
+					{
+						getTextureString = baseTextureString + "ProvidenceDefense";
+						getTextureGlowString = baseGlowTextureString + "ProvidenceDefenseGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceDefenseGlow2";
+					}
+					else
+					{
+						getTextureString = baseTextureString + "ProvidenceDefenseAlt";
+						getTextureGlowString = baseGlowTextureString + "ProvidenceDefenseAltGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceDefenseAltGlow2";
+					}
 				}
 				else
 				{
-					getTextureString = baseTextureString + "ProvidenceDefenseAlt";
-					getTextureGlowString = baseGlowTextureString + "ProvidenceDefenseAltGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceDefenseAltGlow2";
+					if (frameUsed == 0)
+					{
+						getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
+					}
+					else if (frameUsed == 1)
+					{
+						getTextureString = baseTextureString + "ProvidenceAlt";
+						getTextureGlowString = baseGlowTextureString + "ProvidenceAltGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceAltGlow2";
+					}
+					else if (frameUsed == 2)
+					{
+						getTextureString = baseTextureString + "ProvidenceAttack";
+						getTextureGlowString = baseGlowTextureString + "ProvidenceAttackGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackGlow2";
+					}
+					else
+					{
+						getTextureString = baseTextureString + "ProvidenceAttackAlt";
+						getTextureGlowString = baseGlowTextureString + "ProvidenceAttackAltGlow";
+						getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackAltGlow2";
+					}
 				}
-            }
-            else
-            {
-				if (frameUsed == 0)
-				{
-					getTextureGlowString = baseGlowTextureString + "ProvidenceGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceGlow2";
-				}
-				else if (frameUsed == 1)
-				{
-					getTextureString = baseTextureString + "ProvidenceAlt";
-					getTextureGlowString = baseGlowTextureString + "ProvidenceAltGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceAltGlow2";
-				}
-				else if (frameUsed == 2)
-				{
-					getTextureString = baseTextureString + "ProvidenceAttack";
-					getTextureGlowString = baseGlowTextureString + "ProvidenceAttackGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackGlow2";
-				}
-				else
-				{
-					getTextureString = baseTextureString + "ProvidenceAttackAlt";
-					getTextureGlowString = baseGlowTextureString + "ProvidenceAttackAltGlow";
-					getTextureGlow2String = baseGlowTextureString + "ProvidenceAttackAltGlow2";
-				}
-            }
 
-			if (nightTime)
-			{
-				getTextureString += "Night";
-				getTextureGlowString += "Night";
-				getTextureGlow2String += "Night";
+				if (nightTime)
+				{
+					getTextureString += "Night";
+					getTextureGlowString += "Night";
+					getTextureGlow2String += "Night";
+				}
+
+				Texture2D texture = ModContent.GetTexture(getTextureString);
+				Texture2D textureGlow = ModContent.GetTexture(getTextureGlowString);
+				Texture2D textureGlow2 = ModContent.GetTexture(getTextureGlow2String);
+
+				SpriteEffects spriteEffects = SpriteEffects.None;
+				if (npc.spriteDirection == 1)
+					spriteEffects = SpriteEffects.FlipHorizontally;
+
+				Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+				Color color36 = Color.White;
+				float amount9 = 0.5f;
+				int num153 = 5;
+
+				if (CalamityConfig.Instance.Afterimages)
+				{
+					for (int num155 = 1; num155 < num153; num155 += 2)
+					{
+						Color color38 = lightColor;
+						color38 = Color.Lerp(color38, color36, amount9);
+						color38 = npc.GetAlpha(color38);
+						color38 *= (num153 - num155) / 15f;
+						if (colorOverride != null)
+							color38 = colorOverride.Value;
+
+						Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+						vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY) + drawOffset;
+						spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					}
+				}
+
+				Vector2 vector43 = npc.Center - Main.screenPosition;
+				vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+				vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY) + drawOffset;
+				spriteBatch.Draw(texture, vector43, npc.frame, colorOverride ?? npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				Color color37 = Color.Lerp(Color.White, nightTime ? Color.Cyan : Color.Yellow, 0.5f) * npc.Opacity;
+				Color color42 = Color.Lerp(Color.White, nightTime ? Color.BlueViolet : Color.Violet, 0.5f) * npc.Opacity;
+				if (colorOverride != null)
+				{
+					color37 = colorOverride.Value;
+					color42 = colorOverride.Value;
+				}
+
+				if (CalamityConfig.Instance.Afterimages)
+				{
+					for (int num163 = 1; num163 < num153; num163++)
+					{
+						Color color41 = color37;
+						color41 = Color.Lerp(color41, color36, amount9);
+						color41 = npc.GetAlpha(color41);
+						color41 *= (num153 - num163) / 15f;
+						if (colorOverride != null)
+							color41 = colorOverride.Value;
+
+						Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2(textureGlow.Width, textureGlow.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+						vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY) + drawOffset;
+						spriteBatch.Draw(textureGlow, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+						Color color43 = color42;
+						color43 = Color.Lerp(color43, color36, amount9);
+						color43 = npc.GetAlpha(color43);
+						color43 *= (num153 - num163) / 15f;
+						if (colorOverride != null)
+							color43 = colorOverride.Value;
+						spriteBatch.Draw(textureGlow2, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					}
+				}
+
+				spriteBatch.Draw(textureGlow, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				spriteBatch.Draw(textureGlow2, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
-			Texture2D texture = ModContent.GetTexture(getTextureString);
-			Texture2D textureGlow = ModContent.GetTexture(getTextureGlowString);
-			Texture2D textureGlow2 = ModContent.GetTexture(getTextureGlow2String);
-
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
-
-			if (CalamityConfig.Instance.Afterimages)
+			float burnIntensity = Utils.InverseLerp(0f, 45f, DeathAnimationTimer, true);
+			int totalProvidencesToDraw = (int)MathHelper.Lerp(1f, 30f, burnIntensity);
+			for (int i = 0; i < totalProvidencesToDraw; i++)
 			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
+				float offsetAngle = MathHelper.TwoPi * i * 2f / totalProvidencesToDraw;
+				float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTime * MathHelper.Pi);
+				drawOffsetFactor *= (float)Math.Pow(burnIntensity, 3f) * 50f;
+
+				Vector2 drawOffset = offsetAngle.ToRotationVector2() * drawOffsetFactor;
+				Color baseColor = Color.White * (MathHelper.Lerp(0.4f, 0.8f, burnIntensity) / totalProvidencesToDraw * 1.5f);
+				baseColor.A = 0;
+
+				baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
+				drawProvidenceInstance(drawOffset, totalProvidencesToDraw == 1 ? null : (Color?)baseColor);
 			}
-
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			Color color37 = Color.Lerp(Color.White, nightTime ? Color.Cyan : Color.Yellow, 0.5f) * npc.Opacity;
-			Color color42 = Color.Lerp(Color.White, nightTime ? Color.BlueViolet : Color.Violet, 0.5f) * npc.Opacity;
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 = npc.GetAlpha(color41);
-					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2(textureGlow.Width, textureGlow.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(textureGlow, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-					Color color43 = color42;
-					color43 = Color.Lerp(color43, color36, amount9);
-					color43 = npc.GetAlpha(color43);
-					color43 *= (num153 - num163) / 15f;
-					spriteBatch.Draw(textureGlow2, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			spriteBatch.Draw(textureGlow, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			spriteBatch.Draw(textureGlow2, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
 			return false;
         }
 
@@ -1577,7 +1699,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (!useDefenseFrames)
                 {
-                    npc.frameCounter += 1.0;
+                    npc.frameCounter += Dying ? 0.25 : 1.0;
                     if (npc.frameCounter > 8.0)
                     {
                         npc.frame.Y = npc.frame.Y + frameHeight;
@@ -1591,7 +1713,7 @@ namespace CalamityMod.NPCs.Providence
                 }
                 else
                 {
-                    npc.frameCounter += 1.0;
+                    npc.frameCounter += Dying ? 0.25 : 1.0;
                     if (npc.frameCounter > 8.0)
                     {
                         npc.frame.Y = npc.frame.Y + frameHeight;
@@ -1606,7 +1728,7 @@ namespace CalamityMod.NPCs.Providence
                 if (useDefenseFrames)
                     useDefenseFrames = false;
 
-                npc.frameCounter += 1.0;
+                npc.frameCounter += Dying ? 0.25 : 1.0;
                 if (npc.frameCounter > (npc.Calamity().newAI[3] < 180f ? 8.0 : 5.0))
                 {
                     npc.frameCounter = 0.0;
@@ -1721,11 +1843,36 @@ namespace CalamityMod.NPCs.Providence
 					netMessage.Send();
 				}
 			}
+		}
+
+		public override bool CheckDead()
+		{
+			if (!Dying)
+			{
+				Dying = true;
+				npc.life = 1;
+				npc.dontTakeDamage = true;
+				npc.active = true;
+				npc.netUpdate = true;
+			}
+			return false;
+		}
+
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+			if (!Dying && (damage * (crit ? 2D : 1D)) >= npc.life)
+            {
+				damage = 0D;
+				CheckDead();
+				return false;
+            }
+
+            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (npc.soundDelay == 0 && !Dying)
             {
                 npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);

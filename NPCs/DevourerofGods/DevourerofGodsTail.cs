@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -269,6 +270,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			float disintegrationFactor = Main.npc[npc.realLife].ModNPC<DevourerofGodsHead>().DeathAnimationTimer / 640f;
+			if (disintegrationFactor > 0f)
+			{
+				spriteBatch.EnterShaderRegion();
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseOpacity(disintegrationFactor);
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseSaturation(npc.whoAmI);
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage("Images/Misc/Perlin");
+				GameShaders.Misc["CalamityMod:DoGDisintegration"].Apply();
+			}
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -295,6 +306,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
+			if (disintegrationFactor > 0f)
+				spriteBatch.ExitShaderRegion();
 			return false;
 		}
 
@@ -360,10 +373,29 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
+			if ((damage * (crit ? 2D : 1D)) >= npc.life)
+			{
+				if (npc.realLife >= 0 && !Main.npc[npc.realLife].ModNPC<DevourerofGodsHead>().Dying)
+				{
+					damage = 0D;
+					npc.dontTakeDamage = true;
+					Main.npc[npc.realLife].ModNPC<DevourerofGodsHead>().Dying = true;
+					Main.npc[npc.realLife].life = 1;
+					Main.npc[npc.realLife].dontTakeDamage = true;
+					Main.npc[npc.realLife].active = true;
+					Main.npc[npc.realLife].netUpdate = true;
+				}
+				return false;
+            }
             return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-        }
+		}
 
-        public override bool CheckActive()
+		public override bool CheckDead()
+		{
+			return base.CheckDead();
+		}
+
+		public override bool CheckActive()
         {
             return false;
         }

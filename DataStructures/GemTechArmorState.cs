@@ -61,7 +61,9 @@ namespace CalamityMod.DataStructures
         public void Update()
         {
             // Calculate the gem that should be lost.
-            if (!Owner.ActiveItem().IsAir)
+            // The accessory check is to catch the edge-case of the Shield of Cthulhu
+            // having melee damage for some godforsaken reason.
+            if (!Owner.ActiveItem().IsAir && !Owner.ActiveItem().accessory)
             {
                 if (Owner.ActiveItem().melee)
                     GemThatShouldBeLost = GemTechArmorGemType.Melee;
@@ -122,7 +124,8 @@ namespace CalamityMod.DataStructures
                 MeleeCrystalCountdown--;
 
                 // Make the crystal fire countdown go down faster if holding a true melee item.
-                if (Owner.ActiveItem().melee && (Owner.ActiveItem().shoot == ProjectileID.None || Owner.ActiveItem().Calamity().trueMelee))
+                bool isHoldingMeleeItem = Owner.ActiveItem().melee && !Owner.ActiveItem().accessory;
+                if (isHoldingMeleeItem && (Owner.ActiveItem().shoot == ProjectileID.None || Owner.ActiveItem().Calamity().trueMelee))
                     MeleeCrystalCountdown--;
 
                 // Ensure the crystal cooldown does not go below 0 due to the second decrement.

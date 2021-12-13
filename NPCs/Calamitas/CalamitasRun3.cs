@@ -189,6 +189,11 @@ namespace CalamityMod.NPCs.Calamitas
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);
+				if (Main.rand.NextBool(10))
+				{
+					DropHelper.DropItem(npc, ModContent.ItemType<CalamityHood>());
+					DropHelper.DropItem(npc, ModContent.ItemType<CalamityRobes>());
+				}
             }
 
             // Abyss awakens after killing Calamitas

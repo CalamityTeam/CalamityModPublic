@@ -491,6 +491,7 @@ namespace CalamityMod.NPCs.Perforator
                 DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20, 2);
+                DropHelper.DropItem(npc, ItemID.CrimsonSeeds, 2, 4);
 
 				// Weapons
 				float w = DropHelper.NormalWeaponDropRateFloat;

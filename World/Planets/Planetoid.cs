@@ -13,7 +13,7 @@ namespace CalamityMod.World.Planets
 
         public static void GenerateAllBasePlanetoids(GenerationProgress progress)
         {
-            progress.Message = "Generating Planetoids...";
+            progress.Message = "Creating a new solar system";
 
             int GrassPlanetoidCount = Main.maxTilesX / 1100;
             int LCPlanetoidCount = Main.maxTilesX / 800;

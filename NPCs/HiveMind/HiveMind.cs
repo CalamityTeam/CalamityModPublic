@@ -1114,6 +1114,7 @@ namespace CalamityMod.NPCs.HiveMind
                 DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15, 3);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20, 2);
+                DropHelper.DropItem(npc, ItemID.CorruptSeeds, 2, 4);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

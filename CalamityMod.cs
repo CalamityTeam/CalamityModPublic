@@ -182,7 +182,7 @@ namespace CalamityMod
             CalamityLists.LoadLists();
 
             // Initialize Calamity Balance, since it is tightly coupled with the remaining lists
-            CalamityGlobalItem.LoadBalance();
+            CalamityGlobalItem.LoadTweaks();
 
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
@@ -369,7 +369,7 @@ namespace CalamityMod
             EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
-            CalamityGlobalItem.UnloadBalance();
+            CalamityGlobalItem.UnloadTweaks();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();

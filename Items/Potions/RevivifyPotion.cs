@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Potions
             item.width = 28;
             item.height = 36;
             item.useTurn = true;
-            item.maxStack = 999;
+            item.maxStack = 30;
             item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
@@ -41,8 +41,10 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
             recipe.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
             recipe.AddTile(TileID.AlchemyTable);
+            recipe.alchemy = true;
             recipe.SetResult(this, 5);
             recipe.AddRecipe();
+			// Blood orb recipes no alch table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 5);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 100);

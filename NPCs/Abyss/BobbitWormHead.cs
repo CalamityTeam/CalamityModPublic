@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.height = 40;
             npc.defense = 50;
 			npc.DR_NERD(0.25f);
-            npc.lifeMax = 7500;
+            npc.lifeMax = 6000;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
