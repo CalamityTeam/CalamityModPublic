@@ -30,7 +30,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PitbullBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

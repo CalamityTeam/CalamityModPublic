@@ -134,7 +134,9 @@ namespace CalamityMod.NPCs.Astral
 				target_walkAcceleration = 0.18f;
 				target_walkMaxSpeed = 3.2f;
 			}
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

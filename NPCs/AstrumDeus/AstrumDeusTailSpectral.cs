@@ -48,7 +48,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             npc.dontCountMe = true;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

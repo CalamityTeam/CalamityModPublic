@@ -32,7 +32,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.HitSound = SoundID.NPCHit1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MelterBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

@@ -62,7 +62,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
             bossBag = ModContent.ItemType<CeaselessVoidBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

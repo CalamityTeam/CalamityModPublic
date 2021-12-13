@@ -54,7 +54,10 @@ namespace CalamityMod.NPCs.Crabulon
             npc.HitSound = SoundID.NPCHit45;
             npc.DeathSound = SoundID.NPCDeath1;
             bossBag = ModContent.ItemType<CrabulonBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

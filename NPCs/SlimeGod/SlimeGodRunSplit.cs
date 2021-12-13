@@ -46,7 +46,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1;
             aiType = -1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

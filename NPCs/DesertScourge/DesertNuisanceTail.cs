@@ -29,6 +29,9 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
 			npc.dontCountMe = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

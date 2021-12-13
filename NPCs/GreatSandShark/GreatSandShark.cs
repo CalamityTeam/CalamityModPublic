@@ -49,7 +49,10 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.timeLeft = NPC.activeTime * 30;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GreatSandSharkBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

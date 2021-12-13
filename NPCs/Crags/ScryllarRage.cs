@@ -40,7 +40,10 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = ModContent.NPCType<Scryllar>();
             bannerItem = ModContent.ItemType<ScryllarBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void AI()
         {

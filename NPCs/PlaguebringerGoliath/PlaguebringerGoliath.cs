@@ -71,7 +71,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

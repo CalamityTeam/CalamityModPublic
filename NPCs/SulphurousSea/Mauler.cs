@@ -42,7 +42,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MaulerBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

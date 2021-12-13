@@ -54,7 +54,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.DD2_OgreRoar;
             npc.DeathSound = SoundID.NPCDeath52;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

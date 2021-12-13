@@ -30,7 +30,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath34;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StormlionBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

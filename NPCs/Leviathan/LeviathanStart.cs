@@ -35,7 +35,11 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.DeathSound = null;
 			npc.rarity = 2;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SirenLure") ?? -1;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

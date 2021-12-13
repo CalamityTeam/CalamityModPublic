@@ -42,7 +42,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.defense = 18;
                 npc.lifeMax = 310;
             }
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void FindFrame(int frameHeight)
         {

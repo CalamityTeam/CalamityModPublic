@@ -1,7 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.NPCs.Abyss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -40,7 +39,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.timeLeft = NPC.activeTime * 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EidolistBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

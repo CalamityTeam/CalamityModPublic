@@ -34,7 +34,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.chaseable = false;
             banner = ModContent.NPCType<OarfishHead>();
             bannerItem = ModContent.ItemType<OarfishBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

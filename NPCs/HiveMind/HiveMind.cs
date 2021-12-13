@@ -146,7 +146,10 @@ namespace CalamityMod.NPCs.HiveMind
 
             phase2timer = minimumDriftTime;
             rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
 		public override void BossHeadSlot(ref int index)
 		{

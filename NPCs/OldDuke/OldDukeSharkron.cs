@@ -44,6 +44,10 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.noGravity = true;
 			npc.dontTakeDamage = true;
 			npc.noTileCollide = true;
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

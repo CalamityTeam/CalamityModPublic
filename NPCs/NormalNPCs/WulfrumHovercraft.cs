@@ -75,7 +75,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

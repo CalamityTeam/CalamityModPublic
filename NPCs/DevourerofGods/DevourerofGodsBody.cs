@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
             npc.dontCountMe = true;
-        }
+		}
 
 		public override void BossHeadSlot(ref int index)
 		{

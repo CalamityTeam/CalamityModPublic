@@ -83,6 +83,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.boss = true;
 			npc.hide = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
         public override void SendExtraAI(BinaryWriter writer)

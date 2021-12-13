@@ -147,6 +147,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 		
 		public override void BossHeadSlot(ref int index)

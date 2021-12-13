@@ -51,7 +51,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PlaguebringerBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void AI()
         {

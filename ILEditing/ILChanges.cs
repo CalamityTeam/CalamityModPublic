@@ -1478,7 +1478,7 @@ namespace CalamityMod.ILEditing
 				return;
 			}
 			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_I4, 1); // Change to an impossible scenario.
+			cursor.Emit(OpCodes.Ldc_I4, 0); // Change to an impossible scenario.
 		}
 		#endregion
 

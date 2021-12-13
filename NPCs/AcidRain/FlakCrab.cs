@@ -54,7 +54,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.DD2_WitherBeastDeath;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

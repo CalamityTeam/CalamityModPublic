@@ -102,6 +102,8 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToElectricity = false;
 		}
 
 		public override void BossHeadSlot(ref int index)
@@ -187,6 +189,10 @@ namespace CalamityMod.NPCs.StormWeaver
 				// Spawn armor gore, roar and set other crucial variables
 				if (!npc.chaseable)
 				{
+					npc.Calamity().VulnerableToHeat = true;
+					npc.Calamity().VulnerableToCold = true;
+					npc.Calamity().VulnerableToSickness = true;
+
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorHead1"), 1f);
 					Main.PlaySound(SoundID.NPCDeath14, (int)npc.Center.X, (int)npc.Center.Y);
 

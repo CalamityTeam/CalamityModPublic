@@ -34,7 +34,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.HitSound = SoundID.NPCHit22;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VirulingBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void FindFrame(int frameHeight)
         {

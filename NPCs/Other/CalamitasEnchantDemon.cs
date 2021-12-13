@@ -35,6 +35,9 @@ namespace CalamityMod.NPCs.Other
 			npc.netAlways = true;
 			npc.aiStyle = 0;
 			npc.Calamity().DoesNotDisappearInBossRush = true;
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 101010;

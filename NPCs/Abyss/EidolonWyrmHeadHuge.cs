@@ -102,6 +102,10 @@ namespace CalamityMod.NPCs.Abyss
             npc.netAlways = true;
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ?? MusicID.Boss3;
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
         public override void SendExtraAI(BinaryWriter writer)

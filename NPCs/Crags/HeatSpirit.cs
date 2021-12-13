@@ -30,7 +30,10 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
             bannerItem = ModContent.ItemType<HeatSpiritBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

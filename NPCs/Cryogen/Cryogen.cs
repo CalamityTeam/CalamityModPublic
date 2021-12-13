@@ -63,7 +63,10 @@ namespace CalamityMod.NPCs.Cryogen
             npc.DeathSound = SoundID.NPCDeath15;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
             bossBag = ModContent.ItemType<CryogenBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

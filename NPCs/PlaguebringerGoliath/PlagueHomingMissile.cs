@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void AI()
         {

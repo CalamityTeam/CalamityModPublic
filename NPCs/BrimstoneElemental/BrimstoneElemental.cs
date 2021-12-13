@@ -60,7 +60,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.DeathSound = SoundID.NPCDeath39;
             music = CalamityMod.Instance.GetMusicFromMusicMod("LeftAlone") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -57,6 +57,10 @@ namespace CalamityMod.NPCs.OldDuke
             npc.timeLeft = NPC.activeTime * 30;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

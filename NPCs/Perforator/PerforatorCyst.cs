@@ -29,7 +29,10 @@ namespace CalamityMod.NPCs.Perforator
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit13;
             npc.rarity = 2;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {

@@ -66,7 +66,11 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.scale = 1.15f;
             else if (Main.expertMode)
                 npc.scale = 1.1f;
-        }
+
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

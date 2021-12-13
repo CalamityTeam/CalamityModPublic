@@ -38,7 +38,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CnidrionBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

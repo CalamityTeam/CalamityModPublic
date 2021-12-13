@@ -29,7 +29,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void AI()
         {

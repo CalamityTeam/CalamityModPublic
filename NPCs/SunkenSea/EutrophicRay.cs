@@ -35,7 +35,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EutrophicRayBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

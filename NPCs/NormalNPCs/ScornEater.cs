@@ -36,7 +36,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScornEaterBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void AI()
         {

@@ -49,7 +49,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GulperEelBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -67,6 +67,8 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToElectricity = false;
 		}
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -117,6 +119,10 @@ namespace CalamityMod.NPCs.StormWeaver
 				// Spawn armor gore and set other crucial variables
 				if (!npc.chaseable)
 				{
+					npc.Calamity().VulnerableToHeat = true;
+					npc.Calamity().VulnerableToCold = true;
+					npc.Calamity().VulnerableToSickness = true;
+
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody3"), 1f);

@@ -68,7 +68,8 @@ namespace CalamityMod.NPCs.Signus
             npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath51;
             bossBag = ModContent.ItemType<SignusBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

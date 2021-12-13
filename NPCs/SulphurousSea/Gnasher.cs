@@ -32,7 +32,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.DeathSound = SoundID.NPCDeath54;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void AI()
         {

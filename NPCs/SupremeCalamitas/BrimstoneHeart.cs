@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.hide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath1;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

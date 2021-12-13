@@ -48,6 +48,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

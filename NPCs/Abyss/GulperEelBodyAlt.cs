@@ -36,7 +36,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.chaseable = false;
             banner = ModContent.NPCType<GulperEelHead>();
             bannerItem = ModContent.ItemType<GulperEelBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

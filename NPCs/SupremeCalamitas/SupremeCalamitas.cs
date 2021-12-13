@@ -201,7 +201,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.HitSound = SoundID.NPCHit1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<SCalBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void BossHeadSlot(ref int index)
         {

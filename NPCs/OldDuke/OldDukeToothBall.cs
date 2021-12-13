@@ -41,6 +41,10 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
             npc.noTileCollide = true;
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

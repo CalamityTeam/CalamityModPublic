@@ -61,7 +61,10 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath19;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("BloodCoagulant") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {

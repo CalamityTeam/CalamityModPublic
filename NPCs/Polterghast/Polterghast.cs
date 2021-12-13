@@ -78,7 +78,8 @@ namespace CalamityMod.NPCs.Polterghast
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath39;
             bossBag = ModContent.ItemType<PolterghastBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void BossHeadSlot(ref int index)
 		{

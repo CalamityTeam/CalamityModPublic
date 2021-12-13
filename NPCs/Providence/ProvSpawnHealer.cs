@@ -43,7 +43,11 @@ namespace CalamityMod.NPCs.Providence
             aiType = -1;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

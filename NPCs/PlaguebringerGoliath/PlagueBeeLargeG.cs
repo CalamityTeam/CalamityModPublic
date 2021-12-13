@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {

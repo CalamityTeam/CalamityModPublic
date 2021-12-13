@@ -33,7 +33,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.dontCountMe = true;
             banner = ModContent.NPCType<AquaticSeekerHead>();
             bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

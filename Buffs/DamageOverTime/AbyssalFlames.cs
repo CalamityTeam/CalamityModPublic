@@ -5,8 +5,6 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class AbyssalFlames : ModBuff
     {
-        public static int DefenseReduction = 6;
-
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Abyssal Flames");

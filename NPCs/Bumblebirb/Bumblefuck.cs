@@ -61,6 +61,10 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
             bossBag = ModContent.ItemType<BumblebirbBag>();
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = false;
         }
 
 		public override void SendExtraAI(BinaryWriter writer)

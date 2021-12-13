@@ -46,7 +46,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.7f;
                 npc.lifeMax = 640;
             }
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void FindFrame(int frameHeight)
         {

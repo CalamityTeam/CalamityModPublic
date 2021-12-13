@@ -40,7 +40,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             npc.DeathSound = SoundID.DD2_SkeletonDeath;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

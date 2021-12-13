@@ -87,7 +87,10 @@ namespace CalamityMod.NPCs.Yharon
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
             bossBag = ModContent.ItemType<YharonBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

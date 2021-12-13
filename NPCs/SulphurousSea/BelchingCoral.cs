@@ -36,7 +36,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BelchingCoralBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
         public override void AI()
         {
             npc.velocity.Y += 0.25f;

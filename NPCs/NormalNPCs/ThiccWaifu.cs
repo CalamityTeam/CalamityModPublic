@@ -39,7 +39,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CloudElementalBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = false;
+			npc.Calamity().VulnerableToWater = false;
+			npc.Calamity().VulnerableToHeat = false;
+		}
 
         public override void AI()
         {

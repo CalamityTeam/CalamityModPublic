@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noTileCollide = true;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
 		public override void AI()

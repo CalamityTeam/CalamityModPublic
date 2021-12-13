@@ -157,6 +157,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             npc.netAlways = true;
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
 		public override void BossHeadSlot(ref int index)

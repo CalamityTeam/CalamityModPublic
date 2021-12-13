@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

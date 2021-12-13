@@ -5733,8 +5733,79 @@ namespace CalamityMod.CalPlayer
                     damage = bossRushDamage;
             }
 
-            // Check if the player has iframes for the sake of avoiding defense damage.
-            bool hasIFrames = false;
+			// Enemies deal less contact damage while sick, due to being weakened.
+			if (npc.poisoned)
+			{
+				int damageReductionFromPoison = (int)(damage * (npc.Calamity().irradiated > 0 ? 0.075 : 0.05));
+				if (npc.Calamity().VulnerableToSickness.HasValue)
+				{
+					if (npc.Calamity().VulnerableToSickness.Value)
+						damageReductionFromPoison *= 2;
+					else
+						damageReductionFromPoison /= 2;
+				}
+
+				damage -= damageReductionFromPoison;
+			}
+
+			if (npc.venom)
+			{
+				int damageReductionFromVenom = (int)(damage * (npc.Calamity().irradiated > 0 ? 0.075 : 0.05));
+				if (npc.Calamity().VulnerableToSickness.HasValue)
+				{
+					if (npc.Calamity().VulnerableToSickness.Value)
+						damageReductionFromVenom *= 2;
+					else
+						damageReductionFromVenom /= 2;
+				}
+
+				damage -= damageReductionFromVenom;
+			}
+
+			if (npc.Calamity().astralInfection > 0)
+			{
+				int damageReductionFromAstralInfection = (int)(damage * (npc.Calamity().irradiated > 0 ? 0.075 : 0.05));
+				if (npc.Calamity().VulnerableToSickness.HasValue)
+				{
+					if (npc.Calamity().VulnerableToSickness.Value)
+						damageReductionFromAstralInfection *= 2;
+					else
+						damageReductionFromAstralInfection /= 2;
+				}
+
+				damage -= damageReductionFromAstralInfection;
+			}
+
+			if (npc.Calamity().pFlames > 0)
+			{
+				int damageReductionFromPlague = (int)(damage * (npc.Calamity().irradiated > 0 ? 0.075 : 0.05));
+				if (npc.Calamity().VulnerableToSickness.HasValue)
+				{
+					if (npc.Calamity().VulnerableToSickness.Value)
+						damageReductionFromPlague *= 2;
+					else
+						damageReductionFromPlague /= 2;
+				}
+
+				damage -= damageReductionFromPlague;
+			}
+
+			if (npc.Calamity().wDeath > 0)
+			{
+				int damageReductionFromWhisperingDeath = (int)(damage * (npc.Calamity().irradiated > 0 ? 0.15 : 0.1));
+				if (npc.Calamity().VulnerableToSickness.HasValue)
+				{
+					if (npc.Calamity().VulnerableToSickness.Value)
+						damageReductionFromWhisperingDeath *= 2;
+					else
+						damageReductionFromWhisperingDeath /= 2;
+				}
+
+				damage -= damageReductionFromWhisperingDeath;
+			}
+
+			// Check if the player has iframes for the sake of avoiding defense damage.
+			bool hasIFrames = false;
             for (int i = 0; i < player.hurtCooldowns.Length; i++)
                 if (player.hurtCooldowns[i] > 0)
                     hasIFrames = true;

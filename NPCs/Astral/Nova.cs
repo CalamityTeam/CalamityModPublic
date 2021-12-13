@@ -60,7 +60,9 @@ namespace CalamityMod.NPCs.Astral
 				travelAcceleration = 0.3f;
 				targetTime = 60f;
 			}
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void FindFrame(int frameHeight)
         {

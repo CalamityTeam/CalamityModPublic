@@ -9,6 +9,7 @@ namespace CalamityMod.Buffs.StatDebuffs
         public const float MultiplicativeDamageReduction = 0.8f;
         // Hard-cap for npc speed when afflicted with this debuff. Does not affect certain NPCs and does not affect any bosses (Basically only works on boss minions).
         public const float MaxNPCSpeed = 16f;
+
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Kami Flu");

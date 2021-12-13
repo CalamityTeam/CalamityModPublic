@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.Ravager
             npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
 		}
 
         public override void AI()

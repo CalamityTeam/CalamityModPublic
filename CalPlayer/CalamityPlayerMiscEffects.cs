@@ -2989,8 +2989,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.wDeath)
 			{
-				player.statDefense -= WhisperingDeath.DefenseReduction;
-				player.allDamage -= 0.1f;
+				player.allDamage -= 0.2f;
 				player.moveSpeed -= 0.1f;
 			}
 
@@ -3000,26 +2999,19 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.hInferno)
 				player.moveSpeed -= 0.25f;
 
-			if (modPlayer.aFlames)
-				player.statDefense -= AbyssalFlames.DefenseReduction;
-
 			if (modPlayer.gsInferno)
-			{
-				player.blackout = true;
-				player.statDefense -= GodSlayerInferno.DefenseReduction;
 				player.moveSpeed -= 0.15f;
-			}
 
 			if (modPlayer.astralInfection)
 			{
-				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
+				player.allDamage -= 0.1f;
 				player.moveSpeed -= 0.15f;
 			}
 
 			if (modPlayer.pFlames)
 			{
 				player.blind = !modPlayer.reducedPlagueDmg;
-				player.statDefense -= Plague.DefenseReduction;
+				player.allDamage -= 0.1f;
 				player.moveSpeed -= 0.15f;
 			}
 
@@ -3052,7 +3044,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.gState)
 			{
-				player.statDefense -= GlacialState.DefenseReduction;
 				player.velocity.X *= 0.5f;
 				player.velocity.Y += 0.05f;
 				if (player.velocity.Y > 15f)
@@ -3061,7 +3052,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.eFreeze)
 			{
-				player.statDefense -= GlacialState.DefenseReduction;
 				player.velocity.X *= 0.5f;
 				player.velocity.Y += 0.1f;
 				if (player.velocity.Y > 15f)

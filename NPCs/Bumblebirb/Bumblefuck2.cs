@@ -37,7 +37,10 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
