@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pumpler");
-            Tooltip.SetDefault("33% chance to not consume ammo\n" +
-                "Hold left click to load up to five pumpkin grenades into the gun");
+            Tooltip.SetDefault("Hold left click to load up to five pumpkin grenades into the gun");
         }
 
         public override void SetDefaults()
@@ -34,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
-            item.useAmmo = AmmoID.Bullet;
             item.Calamity().canFirePointBlankShots = true;
         }
 
@@ -48,11 +46,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             return player.ownedProjectileCounts[ModContent.ProjectileType<PumplerHoldout>()] <= 0;
         }
 
-        public override float UseTimeMultiplier(Player player)
-        {
-            return 1f;
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 
@@ -61,14 +54,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Charge-up. Done via a holdout projectile.
             Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<PumplerHoldout>(), 0, 0f, player.whoAmI);
             return false;
-
-        }
-
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 33)
-                return false;
-            return true;
         }
 
         public override void AddRecipes()
