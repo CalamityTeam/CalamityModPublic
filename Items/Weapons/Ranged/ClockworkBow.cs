@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 66;
+            item.damage = 850;
             item.ranged = true;
             item.width = 48;
-            item.height = 92;
+            item.height = 96;
             item.useTime = 60;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             projectile.width = 48;
-            projectile.height = 92;
+            projectile.height = 96;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -336,7 +336,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Choose the angular turn speed of the bolt on recalibration.
             // This will overshoot significantly at first but will regress to finer movements as time goes on.
             // The exponent in the equation below serves to dampen the turn speed more quickly. It will not hit targets otherwise.
-            float turnSpeedFactor = (float)Math.Pow(projectile.timeLeft / 120f, 4D);
+            float turnSpeedFactor = (float)Math.Pow(MathHelper.Clamp(projectile.timeLeft-40, 0f, 120f) / 120f, 4D);
             float turnAngle = MathHelper.ToRadians(turnSpeedFactor * 75f);
 
             // Select the velocity which has less of a disparity in terms of angular distance compared to the ideal direction.
@@ -356,14 +356,23 @@ namespace CalamityMod.Items.Weapons.Ranged
             Lighting.AddLight(projectile.Center, Color.LightSteelBlue.ToVector3());
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (potentialTarget == null)
+            if (potentialTarget == null) //(Re)target 
                 potentialTarget = projectile.Center.ClosestNPCAt(1500f, true);
-            if (potentialTarget != null && projectile.timeLeft % 6 == 0)
-            {
-                Main.PlaySound(SoundID.Item93, projectile.Center);
-                projectile.velocity = Recalibrate();
-            }
 
+            if (potentialTarget != null)
+            {
+                //Do some funny slight homing just in case 
+                float angularTurnSpeed = MathHelper.ToRadians(5);
+                float idealDirection = projectile.AngleTo(potentialTarget.Center);
+                float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
+                projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
+
+                if  (projectile.timeLeft % 6 == 0) // Do the STRONG homing
+                {
+                    Main.PlaySound(SoundID.Item93, projectile.Center);
+                    projectile.velocity = Recalibrate();
+                }
+            }
 
             Dust trail = Dust.NewDustPerfect(projectile.Center, 267); //Dust trail kinda poopy but idk how to make a cool trail :(
             trail.velocity = Vector2.Zero;
