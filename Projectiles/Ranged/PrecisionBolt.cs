@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
         NPC potentialTarget = null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("PrecisionBolt");
+            DisplayName.SetDefault("Precision Bolt");
         }
 
         public override void SetDefaults()
