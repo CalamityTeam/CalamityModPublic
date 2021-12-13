@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedTrident>());
+            recipe.AddIngredient(ModContent.ItemType<PhantasmalRuin>());
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
