@@ -362,7 +362,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (potentialTarget != null)
             {
                 //Do some funny slight homing just in case 
-                float angularTurnSpeed = MathHelper.ToRadians(5);
+                float angularTurnSpeed = MathHelper.ToRadians(1);
                 float idealDirection = projectile.AngleTo(potentialTarget.Center);
                 float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
                 projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
