@@ -292,8 +292,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
                 //Vector2 ShiftDown = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle - MathHelper.PiOver2), (float)Math.Sin(projectile.rotation + BoltAngle - MathHelper.PiOver2)); //Shift the arrow halfway down so it appears aligned. I'm also P sure theres a function to rotate a vector by an angle but i forgor
-                Vector2 drawPosition = Owner.Center + PointingTo * (20f + (Shift * 40)) - ShiftDown * (BoltTexture.Width / 2) - Main.screenPosition;
                 float FlipFactor = projectile.direction == -1 ? MathHelper.Pi : 0f;
+                Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (20f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
 
                 spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
 
