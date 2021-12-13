@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private Player Owner => Main.player[projectile.owner];
 
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref projectile.ai[0];
         private ref float PumpkinsCharge => ref projectile.ai[1];
         private ref float FramesToLoadNextPumpkin => ref projectile.localAI[0];
@@ -164,21 +164,11 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             Item heldItem = Owner.ActiveItem();
+            int projectileType = ModContent.ProjectileType<PumplerGrenade>();
             int PumpkinDamage = (int)(heldItem.damage * Owner.RangedDamage());
             float shootSpeed = heldItem.shootSpeed * 1.5f;
-            float knockback = heldItem.knockBack;
-
-            bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
-            int projectileType = 0;
-
-            //Might have to change its ammo into grenades or something like that since it doesnt even fire bullets anymore LOL. That or don't use ammo at all
-            //really don't wanna make players go through the annoyance of farming pumpkins just to fire a funny weapon
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref PumpkinDamage, ref knockback, false);
-            projectileType = ModContent.ProjectileType<PumplerGrenade>();
-
-            knockback = Owner.GetWeaponKnockback(heldItem, knockback);
+            float knockback = Owner.GetWeaponKnockback(heldItem, heldItem.knockBack);
             Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
-
             Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, PumpkinDamage, knockback, projectile.owner, 0f, 0f);
         }
 
