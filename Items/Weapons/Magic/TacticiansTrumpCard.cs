@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.value = CalamityGlobalItem.Rarity12BuyPrice;
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Turquoise;
-		}
+            item.Calamity().donorItem = true;
+        }
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
