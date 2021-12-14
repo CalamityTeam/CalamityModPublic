@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Effects;
 using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
+using CalamityMod.Dusts;
 
 
 //TY dom for coding condemnation, great reference, would steal code from again :)
