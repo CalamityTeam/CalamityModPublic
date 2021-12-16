@@ -7,6 +7,7 @@ using Terraria.Graphics.Effects;
 using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {

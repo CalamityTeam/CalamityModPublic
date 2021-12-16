@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Items.Weapons.Ranged;
 
 
 namespace CalamityMod.Projectiles.Ranged
