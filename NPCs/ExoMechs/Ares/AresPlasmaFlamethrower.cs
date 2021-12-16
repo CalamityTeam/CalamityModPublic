@@ -237,6 +237,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else
 				Lighting.AddLight(npc.Center, 0.1f * npc.Opacity, 0.25f * npc.Opacity, 0.05f * npc.Opacity);
 
+			// Gate values
+			bool fireMoreBolts = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
+			float plasmaBoltPhaseGateValue = fireMoreBolts ? 120f : 270f;
+			if (enraged)
+				plasmaBoltPhaseGateValue *= 0.1f;
+			else if (lastMechAlive)
+				plasmaBoltPhaseGateValue *= 0.4f;
+			else if (berserk)
+				plasmaBoltPhaseGateValue *= 0.7f;
+
+			// Set attack timer to this when despawning or when Ares is coming out of deathray phase
+			float setTimerTo = (int)(plasmaBoltPhaseGateValue * 0.95f) - 1;
+
 			// Despawn if target is dead
 			if (player.dead)
 			{
@@ -244,7 +257,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				if (player.dead)
 				{
 					AIState = (float)Phase.Nothing;
-					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[1] = setTimerTo;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.dontTakeDamage = true;
 
@@ -301,17 +314,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Distance where Ares Plasma Arm stops moving
 			float movementDistanceGateValue = 50f;
 
-			// Gate values
 			// Make plasma bolts split less if in deathray spiral phase and not the last mech alive, but fire more if in deathray spiral phase
-			bool fireMoreBolts = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 			bool boltsSplitLess = fireMoreBolts && !lastMechAlive;
-			float plasmaBoltPhaseGateValue = fireMoreBolts ? 120f : 270f;
-			if (enraged)
-				plasmaBoltPhaseGateValue *= 0.1f;
-			else if (lastMechAlive)
-				plasmaBoltPhaseGateValue *= 0.4f;
-			else if (berserk)
-				plasmaBoltPhaseGateValue *= 0.7f;
 
 			// If Plasma Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
@@ -328,7 +332,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;
-				calamityGlobalNPC.newAI[1] = 0f;
+				calamityGlobalNPC.newAI[1] = setTimerTo;
 				calamityGlobalNPC.newAI[2] = 0f;
 			}
 

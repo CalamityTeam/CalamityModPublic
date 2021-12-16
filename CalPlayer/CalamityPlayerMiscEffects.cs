@@ -70,6 +70,26 @@ namespace CalamityMod.CalPlayer
 			if (player.wingsLogic > 0)
 				player.jumpSpeedBoost += 1.2f;
 
+			// Defiled jump boosts
+			if (modPlayer.noWings)
+			{
+				// 10% extra jump speed per extra jump
+				if (player.doubleJumpCloud)
+					player.jumpSpeedBoost += 0.5f;
+
+				if (player.doubleJumpBlizzard)
+					player.jumpSpeedBoost += 0.5f;
+
+				if (player.doubleJumpSandstorm)
+					player.jumpSpeedBoost += 0.5f;
+
+				if (player.doubleJumpFart)
+					player.jumpSpeedBoost += 0.5f;
+
+				if (player.doubleJumpSail)
+					player.jumpSpeedBoost += 0.5f;
+			}
+
 			// Decrease the counter on Fearmonger set turbo regeneration
 			if (modPlayer.fearmongerRegenFrames > 0)
 				modPlayer.fearmongerRegenFrames--;

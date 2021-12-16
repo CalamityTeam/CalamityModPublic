@@ -76,9 +76,6 @@ namespace CalamityMod.Projectiles
 		public bool stealthStrike = false; // Update all existing rogue weapons with this
         public bool momentumCapacitatorBoost = false; // Constant acceleration
 
-        // Iron Heart
-        public int ironHeartDamage = 0;
-
         // Counters and Timers
         public int stealthStrikeHitCount = 0;
 
@@ -1926,12 +1923,6 @@ namespace CalamityMod.Projectiles
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
                     projectile.damage = defDamage + 15;
-            }
-
-            // Iron Heart damage variable will scale with projectile.damage
-            if (CalamityWorld.ironHeart)
-            {
-                ironHeartDamage = 0;
             }
 
             if (projectile.modProjectile != null && projectile.modProjectile.mod.Name.Equals("CalamityMod"))

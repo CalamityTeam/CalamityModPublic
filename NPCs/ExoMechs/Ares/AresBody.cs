@@ -117,6 +117,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 4800f;
 
+		// Timers for the Tesla and Plasma Arms so that they fire at the proper times when they spawn and enter new phases
+		public const float plasmaArmStartTimer = 260f;
+		public const float teslaArmStartTimer = 80f;
+
 		// Drawers for arm segments.
 		public static PrimitiveTrail LightningDrawer;
 		public static PrimitiveTrail LightningBackgroundDrawer;
@@ -222,9 +226,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								break;
 							case 1:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
+								Main.npc[lol].Calamity().newAI[1] = plasmaArmStartTimer;
 								break;
 							case 2:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
+								Main.npc[lol].Calamity().newAI[1] = teslaArmStartTimer;
 								break;
 							case 3:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);

@@ -238,6 +238,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else
 				Lighting.AddLight(npc.Center, 0.1f * npc.Opacity, 0.25f * npc.Opacity, 0.25f * npc.Opacity);
 
+			// Gate values
+			float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
+			if (enraged)
+				teslaOrbPhaseGateValue *= 0.1f;
+			else if (lastMechAlive)
+				teslaOrbPhaseGateValue *= 0.4f;
+			else if (berserk)
+				teslaOrbPhaseGateValue *= 0.7f;
+
+			// Set attack timer to this when despawning or when Ares is coming out of deathray phase
+			float setTimerTo = (int)(teslaOrbPhaseGateValue * 0.3f) - 1;
+
 			// Despawn if target is dead
 			if (player.dead)
 			{
@@ -245,7 +257,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				if (player.dead)
 				{
 					AIState = (float)Phase.Nothing;
-					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[1] = setTimerTo;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.dontTakeDamage = true;
 
@@ -302,15 +314,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Distance where Ares Tesla Arm stops moving
 			float movementDistanceGateValue = 50f;
 
-			// Gate values
-			float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
-			if (enraged)
-				teslaOrbPhaseGateValue *= 0.1f;
-			else if (lastMechAlive)
-				teslaOrbPhaseGateValue *= 0.4f;
-			else if (berserk)
-				teslaOrbPhaseGateValue *= 0.7f;
-
 			// If Tesla Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
@@ -326,7 +329,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;
-				calamityGlobalNPC.newAI[1] = 0f;
+				calamityGlobalNPC.newAI[1] = setTimerTo;
 				calamityGlobalNPC.newAI[2] = 0f;
 			}
 

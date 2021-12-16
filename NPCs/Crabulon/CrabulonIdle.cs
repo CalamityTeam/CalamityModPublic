@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 14f;
 			npc.GetNPCDamage();
-			npc.width = 312;
+			npc.width = 196;
             npc.height = 196;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 1100000);
@@ -230,15 +230,13 @@ namespace CalamityMod.NPCs.Crabulon
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!player.dead && player.active && (player.Center - npc.Center).Length() < 800f)
-                    {
                         player.AddBuff(ModContent.BuffType<Mushy>(), 2);
-                    }
                 }
                 int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), 1.2f);
                 Main.dust[sporeDust].noGravity = true;
                 Main.dust[sporeDust].velocity *= 0.5f;
                 npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 600f)
+                if (npc.justHit)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
