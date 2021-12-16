@@ -14,6 +14,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,6 +46,12 @@ namespace CalamityMod
 			}
 
 			return count;
+		}
+
+		private static readonly FieldInfo waterSpeedField = typeof(NPC).GetField("waterMovementSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
+		public static void RemoveWaterSlowness(this NPC npc)
+		{
+			waterSpeedField.SetValue(npc, 1f);
 		}
 
 		/// <summary>
