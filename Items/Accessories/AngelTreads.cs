@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
                                "Increased flight time\n" +
                                "Greater mobility on ice\n" +
                                "Water and lava walking\n" +
+                               "Immunity to the On Fire! debuff\n" +
                                "Temporary immunity to lava");
         }
 
@@ -57,6 +58,7 @@ namespace CalamityMod.Items.Accessories
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()
