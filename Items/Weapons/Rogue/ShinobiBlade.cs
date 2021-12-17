@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.maxStack = 1;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Green;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
