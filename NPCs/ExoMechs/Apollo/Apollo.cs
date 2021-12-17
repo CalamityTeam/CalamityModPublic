@@ -226,10 +226,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
+			bool exoMechTwinRedAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
 				{
+					exoMechTwinRedAlive = true;
+
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
@@ -572,6 +575,22 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					{
 						if (spawnOtherExoMechs)
 						{
+							// Set Artemis variables
+							if (exoMechTwinRedAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+								if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[3] < 1f)
+									Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[3] = 1f;
+
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.PassiveAndImmune;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+							}
+
 							// Reset everything
 							if (npc.ai[0] < 10f)
 								npc.ai[0] = 10f;
@@ -613,6 +632,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// Do not run this if any exo mech is dead
 						if ((anyOtherExoMechPassive || lifeRatio < 0.7f) && !berserk && totalOtherExoMechLifeRatio < 5f)
 						{
+							// Set Artemis variables
+							if (exoMechTwinRedAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.Passive;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+							}
+
 							// Tells Apollo to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
 							npc.localAI[0] = 0f;
@@ -630,6 +662,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// This is only called if two exo mechs are alive
 						if (otherMechIsBerserk)
 						{
+							// Set Artemis variables
+							if (exoMechTwinRedAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.PassiveAndImmune;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+							}
+
 							// Reset everything
 							if (npc.ai[0] < 10f)
 								npc.ai[0] = 10f;
@@ -660,12 +705,29 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Fire projectiles less often
 				case (int)SecondaryPhase.Passive:
 
+					// Artemis fires lasers while passive
+					if (exoMechTwinRedAlive)
+						Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] = (float)Artemis.Artemis.Phase.Normal;
+
 					// Fire plasma while passive
 					AIState = (float)Phase.Normal;
 
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
 					if (otherMechIsBerserk)
 					{
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
+						{
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.PassiveAndImmune;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+						}
+
 						// Reset everything
 						if (npc.ai[0] < 10f)
 							npc.ai[0] = 10f;
@@ -686,6 +748,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					// If Artemis and Apollo are the first mechs to go berserk
 					if (berserk)
 					{
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
+						{
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.Nothing;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+						}
+
 						// Reset everything
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
@@ -716,12 +791,31 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Fly above target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
 
+					// Artemis does nothing while immune
+					if (exoMechTwinRedAlive)
+						Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[0] = (float)Artemis.Artemis.Phase.Normal;
+
 					// Do nothing while immune
 					AIState = (float)Phase.Normal;
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
 					if ((exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
+						{
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] =
+								totalOtherExoMechLifeRatio > 5f ? (float)Artemis.Artemis.SecondaryPhase.Nothing : (float)Artemis.Artemis.SecondaryPhase.Passive;
+
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+						}
+
 						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
@@ -748,6 +842,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 					if (berserk)
 					{
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
+						{
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.Nothing;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+						}
+
 						// Reset everything
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
