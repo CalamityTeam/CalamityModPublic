@@ -102,8 +102,8 @@ namespace CalamityMod.Projectiles.Ranged
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
 
-            if (!Main.mouseRight)
-                (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false; //Is it sperging out in mp becuase "Main.mouseRight" doesnt correspond to the right players mouse? how does that work in mp.
+            if (!Main.mouseRight && Main.myPlayer == projectile.owner)               
+                (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false; 
         }
 
         public void UnloadBolts(Vector2 tipPosition)
