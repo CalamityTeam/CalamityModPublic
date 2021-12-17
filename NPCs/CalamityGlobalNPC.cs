@@ -3144,6 +3144,12 @@ namespace CalamityMod.NPCs
 					return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
 			}
 
+			// Disable teleports for hardmode dungeon casters if they get hit
+			if (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite && npc.justHit)
+			{
+				npc.ai[0] = 1f;
+			}
+
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
