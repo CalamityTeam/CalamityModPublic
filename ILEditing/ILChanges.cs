@@ -182,6 +182,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
 			IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
+			IL.Terraria.Main.UpdateTime += BloodMoonsRequire200MaxLife;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
@@ -255,6 +256,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
 			IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
+			IL.Terraria.Main.UpdateTime -= BloodMoonsRequire200MaxLife;
 
 			// Fix vanilla bugs exposed by Calamity mechanics
 			On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
@@ -1488,6 +1490,19 @@ namespace CalamityMod.ILEditing
 			}
 			cursor.Remove();
 			cursor.Emit(OpCodes.Ldc_I4, 0); // Change to an impossible scenario.
+		}
+
+		private static void BloodMoonsRequire200MaxLife(ILContext il)
+		{
+			// Blood Moons only happen when the player has over 200 max life.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdcI4(120))) // The 120 max life check.
+			{
+				LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the max life variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_I4, 200); // Change to 200.
 		}
 		#endregion
 
