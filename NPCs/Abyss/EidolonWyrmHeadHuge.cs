@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 eidolonWyrmPhaseLocation = new Vector2(0f, baseDistance);
 			float eidolonWyrmPhaseLocationDistance = turnDistance * 0.5f;
 			int eidolistScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
-			int maxEidolists = (targetDownDeep ? 3 : 5) + eidolistScale;
+			int maxEidolists = (targetDownDeep ? 3 : 6) + eidolistScale;
 
 			// Ice Mist variables
 			Vector2 iceMistLocation = new Vector2(0f, baseDistance);
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
 			float ancientDoomLocationDistance = turnDistance * 0.2f;
 			int ancientDoomScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
-			int ancientDoomLimit = (targetDownDeep ? 4 : 6) + ancientDoomScale;
+			int ancientDoomLimit = (targetDownDeep ? 4 : 8) + ancientDoomScale;
 			int ancientDoomDistance = malice ? 480 : death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
 			float maxAncientDoomRings = 3f;
 
@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.Abyss
 
 			// Velocity and turn speed values
 			float velocityScale = malice ? 4f : death ? 2.5f : revenge ? 2f : expertMode ? 1.5f : 0f;
-			float baseVelocity = targetDownDeep ? 12f : 18f;
+			float baseVelocity = targetDownDeep ? 12f : 24f;
 			float turnSpeed = baseVelocity * 0.125f;
 			float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
@@ -423,6 +423,43 @@ namespace CalamityMod.NPCs.Abyss
 			float fastChargeVelocityMult = MathHelper.Lerp(1f, 3f, chargeVelocityScalar);
 			float fastChargeTurnSpeedMult = MathHelper.Lerp(1f, 12f, chargeVelocityScalar);
 			float chargeVelocityScalarIncrement = 0.025f;
+
+			// Telekinesis while enraged
+			if (!targetDownDeep)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					calamityGlobalNPC.newAI[3] += 1f;
+					if (calamityGlobalNPC.newAI[3] >= 300f)
+					{
+						calamityGlobalNPC.newAI[3] = 0f;
+
+						Main.PlaySound(SoundID.Item117, player.position);
+
+						for (int i = 0; i < 20; i++)
+						{
+							int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 0.6f;
+							if (Main.rand.NextBool(2))
+							{
+								Main.dust[dust].scale = 0.5f;
+								Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+							}
+						}
+
+						for (int j = 0; j < 30; j++)
+						{
+							int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 3f);
+							Main.dust[dust].noGravity = true;
+							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 185, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 0.2f;
+						}
+
+						if (player.velocity.Length() > 0f)
+							player.velocity *= -3f;
+					}
+				}
+			}
 
 			// Phase switch
 			switch ((int)AIState)
@@ -1248,17 +1285,6 @@ namespace CalamityMod.NPCs.Abyss
 			// Velocity upper limit
 			if (npc.velocity.Length() > baseVelocity)
 				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Storm code
-			if (calamityGlobalNPC.newAI[3] == 0f)
-			{
-				// Start a storm
-				if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu))
-					return;
-
-				CalamityUtils.StartRain(true, true);
-				calamityGlobalNPC.newAI[3] = 1f;
-			}
 		}
 
 		private void ChargeDust(int dustAmt, float pie)
