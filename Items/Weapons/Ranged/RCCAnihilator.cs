@@ -9,6 +9,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Projectiles.Ranged;
 using static Terraria.ModLoader.ModContent;
+using System.IO;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -54,32 +55,43 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             return clone;
         }
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(RCChannel);
+        }
+
+        public override void NetRecieve(BinaryReader reader)
+        {
+            RCChannel = reader.ReadBoolean();
+        }
+
 
         public override string Texture => "CalamityMod/Projectiles/Ranged/RCCHoldout"; //What. Huh. HUH? you got a problem with my file organization in my proof of concept HUH???? HUH????
         public override bool AltFunctionUse(Player player)
         {
             return true;
-        }
-       
-
+        }      
         public override bool CanUseItem(Player player)
         {
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item20;
             item.channel = true;
-            return player.ownedProjectileCounts[ModContent.ProjectileType<RCCHoldout>()] <= 0;
+            return (player.ownedProjectileCounts[ModContent.ProjectileType<RCCHoldout>()] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 
-            if (player.altFunctionUse == 2 && !RCChannel)
+            if (player.altFunctionUse == 2)
             {
-                Vector2 shootVelocity = new Vector2(speedX, speedY);
-                Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-                // Charge-up. Done via a holdout projectile.
-                Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<RCCHoldout>(), damage, knockBack, player.whoAmI);
-                RCChannel = true;
+                if (!RCChannel) //Important separation of the RCChannel check. Idk how imporant it really is since CanUseItem is already a thing
+                {
+                    Vector2 shootVelocity = new Vector2(speedX, speedY);
+                    Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+                    // Charge-up. Done via a holdout projectile.
+                    Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<RCCHoldout>(), damage, knockBack, player.whoAmI);
+                    RCChannel = true;                   
+                }
                 return false;
             }
             else //This is just a test thing 
@@ -88,7 +100,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
                 // Charge-up. Done via a holdout projectile.
                 Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), damage, knockBack, player.whoAmI);
-                RCChannel = false;
                 return false;
             }           
         }

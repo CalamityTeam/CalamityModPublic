@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
             ManipulatePlayerVariables();
 
             if (!Main.mouseRight)
-                (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false;
+                (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false; //Is it sperging out in mp becuase "Main.mouseRight" doesnt correspond to the right players mouse? how does that work in mp.
         }
 
         public void UnloadBolts(Vector2 tipPosition)
@@ -166,13 +166,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.myPlayer == projectile.owner)
             {
                 float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
                 projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (projectile.velocity != oldVelocity)
-                {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
-                }
+                projectile.netSpam = 0;
+                projectile.netUpdate = true;
+                
             }
             projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
             projectile.rotation = projectile.velocity.ToRotation();
