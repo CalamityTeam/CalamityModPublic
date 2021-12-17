@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
-
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -15,13 +15,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rending Bolt");
+            DisplayName.SetDefault("Rending Bow");
             //Main.projFrames[projectile.type] = 9;    might animate the bow's string getting drawn but not rn
         }
 
         private Player Owner => Main.player[projectile.owner];
 
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed && Owner.HeldItem.type == ItemType<RCCAnihilator>() && (Owner.HeldItem.modItem as RCCAnihilator).RCChannel;
         private ref float CurrentChargingFrames => ref projectile.ai[0];
         private ref float LoadedBolts => ref projectile.ai[1];
         private ref float FramesToLoadBolt => ref projectile.localAI[0];
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         private float angularSpread = MathHelper.ToRadians(16);
 
         //public override string Texture => "CalamityMod/Projectiles/Ranged/ClockworkBowHoldout";
-        public override string Texture => "CalamityMod/Items/Weapons/Ranged/ClockworkBow";
+        public override string Texture => "CalamityMod/Projectiles/Ranged/RCCHoldout";
 
         public override void SetDefaults()
         {
@@ -55,6 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (LoadedBolts <= 0f) //If theres no arrows to shoot
                 {
                     projectile.Kill();
+                    (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false;
                     return;
                 }
                 // Fire the spread of arrows
@@ -81,9 +82,9 @@ namespace CalamityMod.Projectiles.Ranged
                     ++LoadedBolts;
 
                     if (LoadedBolts % 2 == 0)
-                        CombatText.NewText(Owner.Hitbox, new Color(155, 255, 255), "Tock", true);
+                        CombatText.NewText(Owner.Hitbox, new Color(163, 90, 237), "H34Ds", true);
                     else
-                        CombatText.NewText(Owner.Hitbox, new Color(255, 200, 100), "Tick", true);
+                        CombatText.NewText(Owner.Hitbox, new Color(255, 235, 155), "8R8K", true);
 
                     FramesToLoadBolt *= 0.950f;
 
@@ -100,6 +101,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
+
+            if (!Main.mouseRight)
+                (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false;
         }
 
         public void UnloadBolts(Vector2 tipPosition)
@@ -228,7 +232,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 Color Transparency = Color.White * (1 - Shift);
-                var BoltTexture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/PrecisionBolt");
+                var BoltTexture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/RendingBolt");
                 Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
                 float FlipFactor = projectile.direction == -1 ? MathHelper.Pi : 0f;

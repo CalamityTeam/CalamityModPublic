@@ -8,11 +8,14 @@ using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Projectiles.Ranged;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class RCCAnihilator : ModItem
-    {
+    {     
+        public override bool CloneNewInstances => true;
+        public bool RCChannel = false;
         public const int MaxBolts = 6;
         public override void SetStaticDefaults()
         {
@@ -40,12 +43,24 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 15f;
             item.useAmmo = AmmoID.Arrow;            
         }
+        public override ModItem Clone(Item item)
+        {
+            var clone = base.Clone(item);
 
-        public override string Texture => "CalamityMod/Items/Weapons/Ranged/ClockworkBow";
+            if (Main.mouseItem.type == ItemType<RCCAnihilator>())
+                item.modItem.HoldItem(Main.player[Main.myPlayer]);
+
+            (clone as RCCAnihilator).RCChannel = (item.modItem as RCCAnihilator).RCChannel;
+
+            return clone;
+        }
+
+        public override string Texture => "CalamityMod/Projectiles/Ranged/RCCHoldout"; //What. Huh. HUH? you got a problem with my file organization in my proof of concept HUH???? HUH????
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+       
 
         public override bool CanUseItem(Player player)
         {
@@ -57,19 +72,25 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 2)
+
+            if (player.altFunctionUse == 2 && !RCChannel)
             {
                 Vector2 shootVelocity = new Vector2(speedX, speedY);
                 Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
                 // Charge-up. Done via a holdout projectile.
                 Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<RCCHoldout>(), damage, knockBack, player.whoAmI);
+                RCChannel = true;
                 return false;
             }
             else //This is just a test thing 
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingBubble>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                Vector2 shootVelocity = new Vector2(speedX, speedY);
+                Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+                // Charge-up. Done via a holdout projectile.
+                Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), damage, knockBack, player.whoAmI);
+                RCChannel = false;
                 return false;
-            }
+            }           
         }
     }
 }
