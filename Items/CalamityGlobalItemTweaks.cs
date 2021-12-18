@@ -225,6 +225,7 @@ namespace CalamityMod.Items
 				{ ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(184), UseExact(18)) },
 				{ ItemID.KOCannon, Do(DamageRatio(3f)) },
 				{ ItemID.Kraken, autoReuse },
+				{ ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4)) },
 				{ ItemID.LastPrism, Do(DamageRatio(0.75f)) },
 				{ ItemID.LeadAxe, Do(AxePower(60), UseTimeExact(15), TileBoostExact(+0)) },
 				{ ItemID.LeadBow, Do(PointBlank, DamageRatio(1.1f)) },
