@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.width = 196;
             npc.height = 196;
             npc.defense = 8;
-            npc.LifeMaxNERB(3000, 4000, 1100000);
+            npc.LifeMaxNERB(3350, 4000, 1100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;

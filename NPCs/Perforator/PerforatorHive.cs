@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Perforator
 			npc.width = 110;
             npc.height = 100;
             npc.defense = 4;
-            npc.LifeMaxNERB(3750, 5400, 270000);
+            npc.LifeMaxNERB(4500, 5400, 270000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;

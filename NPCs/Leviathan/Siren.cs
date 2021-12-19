@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 100;
             npc.defense = 20;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(27400, 41600, 260000);
+            npc.LifeMaxNERB(34700, 41600, 260000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

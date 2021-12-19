@@ -1284,7 +1284,9 @@ namespace CalamityMod.NPCs
 			DeclareBossHealthUIVariables(npc);
 			DebuffImmunities(npc);
 
-            if (BossRushEvent.BossRushActive)
+			BaseVanillaBossHPAdjustments(npc);
+
+			if (BossRushEvent.BossRushActive)
                 BossRushStatChanges(npc, mod);
 
             BossValueChanges(npc);
@@ -1292,7 +1294,7 @@ namespace CalamityMod.NPCs
             if (DraedonMayhem)
                 DraedonMechaMayhemStatChanges(npc);
 
-            if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge)
                 RevDeathStatChanges(npc, mod);
 
             OtherStatChanges(npc);
@@ -1363,10 +1365,78 @@ namespace CalamityMod.NPCs
             // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
             // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
-        #endregion
+		#endregion
 
-        #region Boss Rush Stat Changes
-        private void BossRushStatChanges(NPC npc, Mod mod)
+		#region Base Vanilla Boss HP Adjustments
+		private void BaseVanillaBossHPAdjustments(NPC npc)
+		{
+			switch (npc.type)
+			{
+				case NPCID.MoonLordCore:
+					npc.lifeMax = 92000;
+					break;
+
+				case NPCID.CultistBoss:
+					npc.lifeMax = 53500;
+					break;
+
+				case NPCID.CultistDragonBody1:
+				case NPCID.CultistDragonBody2:
+				case NPCID.CultistDragonBody3:
+				case NPCID.CultistDragonBody4:
+				case NPCID.CultistDragonHead:
+				case NPCID.CultistDragonTail:
+					npc.lifeMax = 41600;
+					break;
+
+				case NPCID.DukeFishron:
+					npc.lifeMax = 81250;
+					break;
+
+				case NPCID.Golem:
+					npc.lifeMax = 30000;
+					break;
+
+				case NPCID.GolemHead:
+					npc.lifeMax = 20000;
+					break;
+
+				case NPCID.Plantera:
+					npc.lifeMax = 75000;
+					break;
+
+				case NPCID.Retinazer:
+					npc.lifeMax = 22000;
+					break;
+
+				case NPCID.Spazmatism:
+					npc.lifeMax = 26000;
+					break;
+
+				case NPCID.WallofFlesh:
+				case NPCID.WallofFleshEye:
+					npc.lifeMax = 12800;
+					break;
+
+				case NPCID.BrainofCthulhu:
+					npc.lifeMax = 1400;
+					break;
+
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsTail:
+					npc.lifeMax = 175;
+					break;
+
+				case NPCID.EyeofCthulhu:
+					npc.lifeMax = 3050;
+					break;
+			}
+		}
+		#endregion
+
+		#region Boss Rush Stat Changes
+		private void BossRushStatChanges(NPC npc, Mod mod)
         {
             if (!npc.friendly)
             {
@@ -1436,10 +1506,10 @@ namespace CalamityMod.NPCs
                     break;
             }
         }
-        #endregion
+		#endregion
 
-        #region Revengeance and Death Mode Stat Changes
-        private void RevDeathStatChanges(NPC npc, Mod mod)
+		#region Revengeance and Death Mode Stat Changes
+		private void RevDeathStatChanges(NPC npc, Mod mod)
         {
             npc.value = (int)(npc.value * 1.5);
 
@@ -1453,36 +1523,35 @@ namespace CalamityMod.NPCs
             {
                 npc.scale = 1.25f;
             }
-            else if (npc.type == NPCID.MoonLordCore)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 2.2);
-                npc.npcSlots = 36f;
-            }
-            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
+            else if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
+
+				if (npc.type == NPCID.MoonLordCore)
+					npc.npcSlots = 36f;
             }
-            else if (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail)
+            else if (npc.type == NPCID.CultistBoss || (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail))
             {
-                npc.lifeMax = (int)(npc.lifeMax * 5.0);
-            }
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+
+				if (npc.type == NPCID.CultistBoss)
+					npc.npcSlots = 20f;
+			}
             else if (npc.type == NPCID.DukeFishron)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.95);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 20f;
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 5.0);
             }
-            else if (npc.type == NPCID.Golem)
+            else if (npc.type == NPCID.Golem || npc.type == NPCID.GolemHead)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 4.0);
-                npc.npcSlots = 64f;
-            }
-            else if (npc.type == NPCID.GolemHead)
-            {
-				npc.lifeMax = (int)(npc.lifeMax * 1.5);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+
+				if (npc.type == NPCID.Golem)
+					npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
@@ -1493,19 +1562,15 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 3.0);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.9);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
 
                 if (npc.type == NPCID.WallofFlesh)
                     npc.npcSlots = 20f;
-            }
-            else if (npc.type == NPCID.TheHungryII || npc.type == NPCID.LeechHead || npc.type == NPCID.LeechBody || npc.type == NPCID.LeechTail)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
@@ -1535,7 +1600,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.BrainofCthulhu)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.6);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 12f;
             }
             else if (npc.type == NPCID.Creeper)
@@ -1544,7 +1609,7 @@ namespace CalamityMod.NPCs
             }
             else if (EaterofWorldsIDs.Contains(npc.type))
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.3);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
 
                 if (npc.type == NPCID.EaterofWorldsHead)
                     npc.npcSlots = 10f;
@@ -1554,7 +1619,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.3);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 10f;
             }
 			else if (npc.type == NPCID.KingSlime)
@@ -1584,14 +1649,9 @@ namespace CalamityMod.NPCs
 				{
 					npc.lifeMax = (int)(npc.lifeMax * 0.65);
 				}
-                else if (npc.type == NPCID.Retinazer)
+                else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
-                    npc.npcSlots = 10f;
-                }
-                else if (npc.type == NPCID.Spazmatism)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.35);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.2);
                     npc.npcSlots = 10f;
                 }
             }
@@ -2560,12 +2620,6 @@ namespace CalamityMod.NPCs
 				case NPCID.MartianSaucerCore:
 					npc.width *= 2;
 					npc.height *= 2;
-					break;
-
-				// Increase Cultist HP
-				case NPCID.CultistBoss:
-					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
-					npc.npcSlots = 20f;
 					break;
 
 				// Nerf Green Jellyfish because they spawn in prehardmode

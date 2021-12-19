@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 178;
             npc.height = 122;
             npc.defense = 8;
-            npc.LifeMaxNERB(7000, 9360, 350000);
+            npc.LifeMaxNERB(7800, 9360, 350000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
