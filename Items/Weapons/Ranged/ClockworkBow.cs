@@ -31,10 +31,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
+            item.channel = true;
             item.knockBack = 4.25f;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
             item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item5;
+            item.noUseGraphic = true;
+            item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
@@ -50,13 +52,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override bool CanUseItem(Player player)
-        {
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item20;
-            item.channel = true;
-            return player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
+        
         public override float UseTimeMultiplier(Player player)
         {
             return 1f;

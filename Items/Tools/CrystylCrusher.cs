@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Tools
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
-		{
+        public override void HoldItem(Player player)
+        {
 			if (player.altFunctionUse == 2)
 			{
 				item.shoot = ProjectileID.None;
@@ -84,8 +84,7 @@ namespace CalamityMod.Items.Tools
 				item.noMelee = true;
 				item.channel = true;
 			}
-			return base.CanUseItem(player);
-		}
+		}       
 
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{

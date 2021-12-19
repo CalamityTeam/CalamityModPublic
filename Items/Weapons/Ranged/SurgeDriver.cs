@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override void HoldItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
@@ -52,7 +52,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 item.noUseGraphic = true;
                 item.reuseDelay = 28;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-                item.channel = true;
+                item.channel = true;                
+            }
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse != 2)
+            {
                 return player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
             }
             return base.CanUseItem(player);

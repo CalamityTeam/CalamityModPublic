@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override void HoldItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
@@ -54,7 +54,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item20;
-                item.channel = true;
+                item.channel = true;               
+            }
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse != 2)
+            {
                 return player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
             }
             return base.CanUseItem(player);
