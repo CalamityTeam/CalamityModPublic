@@ -35,6 +35,12 @@ namespace CalamityMod.CalPlayer
             SyncLevel(false, 3);
             SyncLevel(false, 4);
         }
+
+        internal void MouseControlsSync()
+        {
+            SyncRightClick(false);
+            SyncMousePosition(false);
+        }
         #endregion
 
         #region Creating and Sending Packets
@@ -198,6 +204,24 @@ namespace CalamityMod.CalPlayer
             packet.Write(reforgeTierSafety);
             player.SendPacket(packet, server);
         }
+
+        public void SyncRightClick(bool server)
+        {
+            ModPacket packet = mod.GetPacket(256);
+            packet.Write((byte)CalamityModMessageType.RightClickSync);
+            packet.Write(player.whoAmI);
+            packet.Write(mouseRight);
+            player.SendPacket(packet, server);
+        }
+        public void SyncMousePosition(bool server)
+        {
+            ModPacket packet = mod.GetPacket(256);
+            packet.Write((byte)CalamityModMessageType.MousePositionSync);
+            packet.Write(player.whoAmI);
+            packet.WriteVector2(mouseWorld);
+            player.SendPacket(packet, server);
+        }
+
         #endregion
 
         #region Reading and Handling Packets
@@ -322,6 +346,19 @@ namespace CalamityMod.CalPlayer
             dodgeCooldownTimer = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDodgeCooldown(true);
+        }
+
+        internal void HandleRightClick(BinaryReader reader)
+        {
+            mouseRight = reader.ReadBoolean();
+            if (Main.netMode == NetmodeID.Server)
+                SyncRightClick(true);
+        }
+        internal void HandleMousePosition(BinaryReader reader)
+        {
+            mouseWorld = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+                SyncMousePosition(true);
         }
         #endregion
     }

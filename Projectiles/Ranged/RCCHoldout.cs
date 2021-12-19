@@ -7,6 +7,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -45,11 +46,18 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+
+            CalamityPlayer controlsSync = Owner.GetModPlayer<CalamityPlayer>();
+            if (Main.myPlayer == projectile.owner)
+            {
+                controlsSync.rightClickListener = true;
+            }
+
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
 
-            // If the player releases left click, shoot out the arrows
-            if (!OwnerCanShoot)
+            // If the player releases left click, shoot out the arrows (also if its not the very first frame to avoid it killing itself before it sets the RCChannel variable to true
+            if (!OwnerCanShoot && FramesToLoadBolt != 0f)
             {
 
                 if (LoadedBolts <= 0f) //If theres no arrows to shoot
@@ -68,6 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
                 // Frame 1 effects: Initialize the shoot speed 
                 if (FramesToLoadBolt == 0f)
                 {
+                    (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = true;
                     FramesToLoadBolt = Owner.ActiveItem().useAnimation;
                 }
 
@@ -102,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
 
-            if (!Main.mouseRight && Main.myPlayer == projectile.owner)               
+            if (!controlsSync.mouseRight)
                 (Owner.HeldItem.modItem as RCCAnihilator).RCChannel = false; 
         }
 

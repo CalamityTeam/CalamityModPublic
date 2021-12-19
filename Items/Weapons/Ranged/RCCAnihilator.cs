@@ -38,7 +38,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 4.25f;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
             item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item5;
+            item.noUseGraphic = true;
+            item.UseSound = SoundID.Item20;
+            item.channel = true;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
@@ -55,29 +57,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             return clone;
         }
-        public override void NetSend(BinaryWriter writer)
-        {
-            writer.Write(RCChannel);
-        }
-
-        public override void NetRecieve(BinaryReader reader)
-        {
-            RCChannel = reader.ReadBoolean();
-        }
-
 
         public override string Texture => "CalamityMod/Projectiles/Ranged/RCCHoldout"; //What. Huh. HUH? you got a problem with my file organization in my proof of concept HUH???? HUH????
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }      
-        public override bool CanUseItem(Player player)
-        {
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item20;
-            item.channel = true;
-            return (player.ownedProjectileCounts[ModContent.ProjectileType<RCCHoldout>()] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0);
-        }
+        public override bool CanUseItem(Player player) =>(player.ownedProjectileCounts[ModContent.ProjectileType<RCCHoldout>()] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -89,8 +75,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     Vector2 shootVelocity = new Vector2(speedX, speedY);
                     Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
                     // Charge-up. Done via a holdout projectile.
-                    Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<RCCHoldout>(), damage, knockBack, player.whoAmI);
-                    RCChannel = true;                   
+                    Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<RCCHoldout>(), damage, knockBack, player.whoAmI);                                    
                 }
                 return false;
             }

@@ -1148,6 +1148,31 @@ namespace CalamityMod.CalPlayer
         public bool AbleToSelectExoMech = false;
         #endregion Draedon Summoning
 
+        #region Mouse Controls Syncing
+        public bool mouseRight = false;
+        private bool oldMouseRight = false;
+        public Vector2 mouseWorld;
+        private Vector2 oldMouseWorld;
+
+        /// <summary>
+        /// Set this to true if you need to recieve updates on right clicks from players and sync them in mp.
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool rightClickListener = false;
+        /// <summary>
+        /// Set this to true if you need to recieve updates on the position of the player's mouse and sync them in mp.
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool mouseWorldListener = false;
+        /// <summary>
+        /// Set this to true if you need to recieve updates on the rotation of the mouse to the player. This sends updates less frequently than the more tight tolerance mouseWorldListener
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool mouseRotationListener = false;
+
+        public bool syncMouseControls = false;
+        #endregion
+
         #endregion
 
         #region Saving And Loading
@@ -2126,6 +2151,8 @@ namespace CalamityMod.CalPlayer
             lastProjectileHit = null;
 
             AbleToSelectExoMech = false;
+
+            mouseRight = false;
 
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
@@ -3867,10 +3894,10 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
         }
-		#endregion
+        #endregion
 
-		#region PreUpdate
-		public override void PreUpdate()
+        #region PreUpdate
+        public override void PreUpdate()
         {
             tailFrameUp++;
             if (tailFrameUp == 8)
@@ -3906,7 +3933,30 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-		}
+            //Syncing mouse controls
+            if (Main.myPlayer == player.whoAmI)
+            {
+                mouseRight = PlayerInput.Triggers.Current.MouseRight;
+                if (rightClickListener && mouseRight != oldMouseRight)
+                {
+                    oldMouseRight = mouseRight;
+                    syncMouseControls = true;
+                    rightClickListener = false;
+                }
+                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 10f)
+                {
+                    oldMouseWorld = mouseWorld;
+                    syncMouseControls = true;
+                    mouseWorldListener = false;
+                }
+                if (mouseRotationListener && Math.Abs((mouseWorld - player.MountedCenter).ToRotation() - (oldMouseWorld - player.MountedCenter).ToRotation()) > 0.15f)
+                {
+                    oldMouseWorld = mouseWorld;
+                    syncMouseControls = true;
+                    mouseRotationListener = false;
+                }
+            }
+        }
         #endregion
 
         #region PreUpdateBuffs
