@@ -73,21 +73,31 @@ namespace CalamityMod.CalPlayer
 			// Defiled jump boosts
 			if (modPlayer.noWings)
 			{
+				/* 8% post-Skeletron
+				 * 10% post-WoF
+				 * 20% post-ML
+				 */
+				
+				float extraJumpSpeedBoost = 0f +
+					(NPC.downedBoss3 ? 0.4f : 0f) +
+					(Main.hardMode ? (!NPC.downedBoss3 ? 0.5f : 0.1f) : 0f) +
+					(NPC.downedMoonlord ? 0.5f : 0f);
+
 				// 10% extra jump speed per extra jump
 				if (player.doubleJumpCloud)
-					player.jumpSpeedBoost += 0.5f;
+					player.jumpSpeedBoost += extraJumpSpeedBoost;
 
 				if (player.doubleJumpBlizzard)
-					player.jumpSpeedBoost += 0.5f;
+					player.jumpSpeedBoost += extraJumpSpeedBoost;
 
 				if (player.doubleJumpSandstorm)
-					player.jumpSpeedBoost += 0.5f;
+					player.jumpSpeedBoost += extraJumpSpeedBoost;
 
 				if (player.doubleJumpFart)
-					player.jumpSpeedBoost += 0.5f;
+					player.jumpSpeedBoost += extraJumpSpeedBoost;
 
 				if (player.doubleJumpSail)
-					player.jumpSpeedBoost += 0.5f;
+					player.jumpSpeedBoost += extraJumpSpeedBoost;
 			}
 
 			// Decrease the counter on Fearmonger set turbo regeneration
@@ -2920,7 +2930,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += damageBoost;
 				modPlayer.AllCritBoost(critBoost);
 				player.minionKB += floatTypeBoost;
-				player.moveSpeed += floatTypeBoost;
+				player.moveSpeed += floatTypeBoost * 0.5f;
 				flightTimeMult += floatTypeBoost;
 			}
 			// Shattered Community gives the same wing time boost as normal Community
