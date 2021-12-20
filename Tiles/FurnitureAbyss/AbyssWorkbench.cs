@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Work Bench");
+            name.SetDefault("Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.WorkBenches };

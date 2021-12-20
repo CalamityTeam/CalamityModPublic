@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Clock");
+            name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(71, 95, 114), name);
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

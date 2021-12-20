@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

@@ -12,8 +12,8 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Candelabra");
-            AddMapEntry(new Color(191, 142, 111), name);
+            name.SetDefault("Candelabra");
+            AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Candelabras };
         }

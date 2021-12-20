@@ -11,9 +11,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 		public override void SetDefaults()
 		{
             this.SetUpFountain();
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Abyss Water Fountain");
-			AddMapEntry(new Color(71, 93, 107), name);
+			AddMapEntry(new Color(71, 93, 107), Language.GetText("MapObject.WaterFountain"));
             animationFrameHeight = 72;
         }
 

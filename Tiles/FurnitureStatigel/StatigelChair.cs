@@ -10,9 +10,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void SetDefaults()
         {
             this.SetUpChair();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Chair");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }

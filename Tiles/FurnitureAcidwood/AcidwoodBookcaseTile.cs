@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Bookcase");
+            name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Bookcases };

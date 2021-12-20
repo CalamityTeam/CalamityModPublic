@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued 'Bed'");
+            name.SetDefault("'Bed'");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };

@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         public override void SetDefaults()
         {
             this.SetUpLantern();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Lantern");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.HangingLanterns };

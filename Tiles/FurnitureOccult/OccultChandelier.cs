@@ -11,9 +11,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
         public override void SetDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Otherworldly Chandelier");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
             adjTiles = new int[] { TileID.Chandeliers };
         }
 

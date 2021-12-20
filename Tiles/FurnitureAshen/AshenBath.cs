@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ashen Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

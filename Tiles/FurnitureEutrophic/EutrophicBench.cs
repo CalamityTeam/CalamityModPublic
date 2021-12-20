@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         {
             this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Bench");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

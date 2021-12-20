@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         public override void SetDefaults()
         {
             this.SetUpLantern(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Lantern");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.HangingLanterns };

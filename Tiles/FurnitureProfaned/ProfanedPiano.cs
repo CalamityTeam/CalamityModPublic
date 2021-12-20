@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Profaned Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Bench");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

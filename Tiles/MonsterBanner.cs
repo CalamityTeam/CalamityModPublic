@@ -23,9 +23,7 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
             dustType = -1;
             disableSmartCursor = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Banner");
-            AddMapEntry(new Color(13, 88, 130), name);
+            AddMapEntry(new Color(13, 88, 130), Language.GetText("MapObject.Banner"));
         }
 
         // TODO -- encode these giant switch statements as a sequence in the main class' lists section

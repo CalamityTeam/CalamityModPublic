@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Work Bench");
+            name.SetDefault("Work Bench");
             AddMapEntry(new Color(71, 95, 114), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.WorkBenches };

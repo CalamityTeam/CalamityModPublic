@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpLamp(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Lamp");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Lamps };

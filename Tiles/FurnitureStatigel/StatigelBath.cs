@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

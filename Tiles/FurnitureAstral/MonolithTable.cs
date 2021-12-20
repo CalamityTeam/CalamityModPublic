@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         public override void SetDefaults()
         {
             this.SetUpTable(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Table");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
             adjTiles = new int[] { TileID.Tables };
         }
 

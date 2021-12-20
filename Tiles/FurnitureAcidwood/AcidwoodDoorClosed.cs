@@ -11,9 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         public override void SetDefaults()
         {
             this.SetUpDoorClosed();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Door");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.ClosedDoor };
             openDoorID = ModContent.TileType<AcidwoodDoorOpen>();

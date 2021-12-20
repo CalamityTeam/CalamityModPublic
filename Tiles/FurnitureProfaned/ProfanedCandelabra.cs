@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Profaned Candelabra");
-            AddMapEntry(new Color(191, 142, 111), name);
+            name.SetDefault("Candelabra");
+            AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Candelabras };
         }

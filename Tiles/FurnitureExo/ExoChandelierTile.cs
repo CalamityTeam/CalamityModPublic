@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Chandelier");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chandelier"));
             adjTiles = new int[] { TileID.Chandeliers };
         }
 

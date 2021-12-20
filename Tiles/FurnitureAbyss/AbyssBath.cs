@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

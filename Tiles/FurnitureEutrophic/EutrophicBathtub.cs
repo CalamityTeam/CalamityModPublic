@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

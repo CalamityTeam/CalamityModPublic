@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Clock");
+            name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

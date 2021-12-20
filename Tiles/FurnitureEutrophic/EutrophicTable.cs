@@ -10,9 +10,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         public override void SetDefaults()
         {
             this.SetUpTable();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Table");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
             adjTiles = new int[] { TileID.Tables };
         }
 

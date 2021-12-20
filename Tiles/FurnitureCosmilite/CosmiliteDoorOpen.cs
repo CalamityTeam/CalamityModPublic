@@ -10,9 +10,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetDefaults()
         {
             this.SetUpDoorOpen(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Door");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
             closeDoorID = ModContent.TileType<CosmiliteDoorClosed>();

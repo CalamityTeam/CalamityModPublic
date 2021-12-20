@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Candelabra");
-            AddMapEntry(new Color(71, 95, 114), name);
+            name.SetDefault("Candelabra");
+            AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Candelabras };
         }

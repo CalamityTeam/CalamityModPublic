@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpSink(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Sink");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Sink"));
             adjTiles = new int[] { TileID.Sinks };
         }
 

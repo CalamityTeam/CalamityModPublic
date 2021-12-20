@@ -11,9 +11,7 @@ namespace CalamityMod.Tiles.Furniture
         public override void SetDefaults()
         {
             this.SetUpChair(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Thaumatic Chair");
-            AddMapEntry(new Color(236, 123, 89), name);
+            AddMapEntry(new Color(236, 123, 89), Language.GetText("MapObject.Chair"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }

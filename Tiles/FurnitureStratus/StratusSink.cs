@@ -10,9 +10,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         public override void SetDefaults()
         {
             this.SetUpSink(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Sink");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
             adjTiles = new int[] { TileID.Sinks };
         }
 

@@ -12,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpLantern(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Lantern");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Lantern"));
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.HangingLanterns };

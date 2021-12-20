@@ -11,9 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void SetDefaults()
         {
             this.SetUpLamp();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Lamp");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Lamps };
