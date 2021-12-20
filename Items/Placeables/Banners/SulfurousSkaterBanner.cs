@@ -6,6 +6,12 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class SulfurousSkaterBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+			DisplayName.SetDefault("Sulphurous Skater Banner");
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sulphurous Skater");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;
