@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

@@ -13,10 +13,10 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Candelabra");
-            AddMapEntry(new Color(191, 142, 111), name);
+            name.SetDefault("Candelabra");
+            AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

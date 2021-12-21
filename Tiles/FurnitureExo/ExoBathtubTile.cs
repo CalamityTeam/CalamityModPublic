@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(71, 95, 114), name);
             animationFrameHeight = 54;
         }

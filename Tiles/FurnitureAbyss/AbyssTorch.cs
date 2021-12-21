@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             this.SetUpTorch(true, true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Torch");
+            name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();

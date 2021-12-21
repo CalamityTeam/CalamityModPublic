@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Sofa");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

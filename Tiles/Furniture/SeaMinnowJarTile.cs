@@ -48,6 +48,11 @@ namespace CalamityMod.Tiles.Furniture
 			}
         }
 
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, animationFrameHeight);
+		}
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SeaMinnowJar>());

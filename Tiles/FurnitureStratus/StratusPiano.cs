@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

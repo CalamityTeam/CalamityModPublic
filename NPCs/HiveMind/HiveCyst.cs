@@ -43,6 +43,8 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+                return 0f;
             if (spawnInfo.player.Calamity().disableHiveCystSpawns)
                 return 0f;
 

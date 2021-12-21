@@ -2,6 +2,7 @@ using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
@@ -11,9 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
         public override void SetDefaults()
         {
             this.SetUpSink(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Silva Sink");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
             adjTiles = new int[] { TileID.Sinks };
         }
 

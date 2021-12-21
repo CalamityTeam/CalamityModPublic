@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaos Candle");
             AddMapEntry(new Color(238, 145, 105), name);
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candles };
         }
 
         public override void MouseOver(int i, int j)

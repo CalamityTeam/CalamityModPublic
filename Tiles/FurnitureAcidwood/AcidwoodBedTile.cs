@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Bed");
+            name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };

@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Work Bench");
+            name.SetDefault("Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.WorkBenches };

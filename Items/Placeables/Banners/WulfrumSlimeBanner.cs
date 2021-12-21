@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class WulfrumSlimeBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Slime");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

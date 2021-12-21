@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Furniture
             animationFrameHeight = 36;
 
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
@@ -35,6 +35,11 @@ namespace CalamityMod.Tiles.Furniture
 				frame = 0;
 			}
         }
+
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			frameYOffset = this.GetAnimationOffset(i, j, 15, 16, 18, 1, 2, animationFrameHeight);
+		}
 
         public override bool CreateDust(int i, int j, ref int type)
         {

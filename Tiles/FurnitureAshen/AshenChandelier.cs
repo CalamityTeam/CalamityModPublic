@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -13,11 +14,9 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void SetDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ashen Chandelier");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
             animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

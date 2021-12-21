@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Void Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

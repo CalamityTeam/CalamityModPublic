@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

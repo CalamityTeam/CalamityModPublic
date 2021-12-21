@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class SandTortoiseBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}SandTortoiseBanner");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

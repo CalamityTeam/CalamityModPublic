@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baguette");
-            Tooltip.SetDefault("Minor improvements to all stats\n" +
+            Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
             "Boosts the effects of Red Wine\n" +
             "[c/FCE391:je suis Monte]");
         }

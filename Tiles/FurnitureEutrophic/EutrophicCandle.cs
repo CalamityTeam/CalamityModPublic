@@ -11,10 +11,10 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         {
             this.SetUpCandle();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Candle");
-            AddMapEntry(new Color(191, 142, 111), name);
+            name.SetDefault("Candle");
+            AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Candles };
             drop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
         }
 

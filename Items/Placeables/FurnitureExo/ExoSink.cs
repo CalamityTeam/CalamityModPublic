@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Counts as a water source");
+            Tooltip.SetDefault("Counts as a water, honey, and lava source");
         }
 
         public override void SetDefaults()
@@ -33,6 +33,8 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
+            recipe.AddIngredient(ItemID.HoneyBucket);
+            recipe.AddIngredient(ItemID.LavaBucket);
             recipe.SetResult(this);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();

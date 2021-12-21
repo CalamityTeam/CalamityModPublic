@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Bed");
+            name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };

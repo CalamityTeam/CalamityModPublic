@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Sofa");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(71, 95, 114), name);
         }
 

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Bed");
+            name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };
