@@ -404,7 +404,7 @@ namespace CalamityMod
 			float passiveMvtFloat = 0.5f;
 			projectile.tileCollide = false;
 			float range = 100f;
-			Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+			Vector2 projPos = projectile.Center;
 			float xDist = player.Center.X - projPos.X;
 			float yDist = player.Center.Y - projPos.Y;
 			yDist += Main.rand.NextFloat(-10, 20);
@@ -418,7 +418,7 @@ namespace CalamityMod
 
 			//If player is close enough, resume normal
 			if (playerDist < range && player.velocity.Y == 0f &&
-				projectile.position.Y + projectile.height <= player.position.Y + player.height &&
+				projectile.Bottom.Y <= player.Bottom.Y &&
 				!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 			{
 				if (projectile.velocity.Y < -6f)

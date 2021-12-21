@@ -357,6 +357,7 @@ namespace CalamityMod.CalPlayer
         public bool thirdSageH = true;
         public bool perfmini = false;
         public bool akato = false;
+        public bool yharonPet = false;
         public bool leviPet = false;
         public bool plaguebringerBab = false;
         public bool rotomPet = false;
@@ -1495,6 +1496,7 @@ namespace CalamityMod.CalPlayer
             thirdSage = false;
             perfmini = false;
             akato = false;
+            yharonPet = false;
             leviPet = false;
             plaguebringerBab = false;
             rotomPet = false;

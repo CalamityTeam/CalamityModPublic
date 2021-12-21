@@ -66,6 +66,7 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<YharonMask>(), 7);
             DropHelper.DropItemChance(player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<McNuggets>(), 10);
             DropHelper.DropItemCondition(player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
         }
     }
