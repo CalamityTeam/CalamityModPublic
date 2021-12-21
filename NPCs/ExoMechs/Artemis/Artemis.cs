@@ -471,7 +471,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
 			float destinationX = flyLeft ? -750f : 750f;
 			float destinationY = player.Center.Y;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? spinLocation : new Vector2(player.Center.X + destinationX, destinationY);
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
+				SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
+				AIState == (float)Phase.Deathray ? spinLocation :
+				new Vector2(player.Center.X + destinationX, destinationY);
 
 			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
 			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)

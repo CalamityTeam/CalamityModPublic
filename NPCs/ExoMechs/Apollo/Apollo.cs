@@ -423,7 +423,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float destinationY = player.Center.Y;
 			float chargeComboXOffset = flyRight ? -500f : 500f;
 			float chargeComboYOffset = npc.ai[2] % 2f == 0f ? 400f : -400f;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) : new Vector2(player.Center.X + destinationX, destinationY);
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
+				SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
+				AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) :
+				new Vector2(player.Center.X + destinationX, destinationY);
 
 			// Add some random distance to the destination after certain attacks
 			if (pickNewLocation)
