@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 				npc.localAI[0] = Main.rand.Next(-50, 51);
 				npc.localAI[1] = Main.rand.Next(-250, 251);
-				if (AIState == (float)Phase.RocketBarrage)
+				if (AIState == (float)Phase.RocketBarrage || SecondaryAIState == (float)SecondaryPhase.Passive)
 				{
 					npc.localAI[0] *= 0.5f;
 					npc.localAI[1] *= 0.5f;

@@ -462,8 +462,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			if (pickNewLocation)
 			{
 				pickNewLocation = false;
+
 				npc.localAI[0] = Main.rand.Next(-50, 51);
 				npc.localAI[1] = Main.rand.Next(-250, 251);
+				if (SecondaryAIState == (float)SecondaryPhase.Passive)
+				{
+					npc.localAI[0] *= 0.5f;
+					npc.localAI[1] *= 0.5f;
+				}
+
 				npc.netUpdate = true;
 			}
 
