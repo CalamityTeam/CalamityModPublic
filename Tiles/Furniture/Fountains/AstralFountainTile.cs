@@ -1,9 +1,10 @@
+using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
