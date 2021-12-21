@@ -300,7 +300,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
             npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 

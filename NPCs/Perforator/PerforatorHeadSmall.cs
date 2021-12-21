@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Perforator
 			npc.npcSlots = 5f;
             npc.width = 42;
             npc.height = 62;
-			npc.LifeMaxNERB(1250, 1500, 50000);
+			npc.LifeMaxNERB(1000, 1200, 50000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -528,11 +528,6 @@ namespace CalamityMod.NPCs.Perforator
 			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 2, 6);
 			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 1, 3);
 			DropHelper.DropItem(npc, ItemID.Vertebrae, 1, 2);
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

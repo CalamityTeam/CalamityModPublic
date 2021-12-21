@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 40;
             npc.height = 34;
             npc.defense = 8;
-			npc.LifeMaxNERB(1250, 1500, 50000);
+			npc.LifeMaxNERB(1000, 1200, 50000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -181,11 +181,6 @@ namespace CalamityMod.NPCs.Perforator
         public override bool PreNPCLoot()
         {
             return false;
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

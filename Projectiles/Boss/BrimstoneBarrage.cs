@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -43,8 +45,10 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
-				projectile.velocity *= 1.01f;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+
+			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? (malice ? 17.5f : 14f) : (malice ? 12.5f : 10f)))
+				projectile.velocity *= malice ? 1.0125f : 1.01f;
 
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 

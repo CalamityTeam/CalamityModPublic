@@ -223,11 +223,6 @@ namespace CalamityMod.NPCs.Perforator
             }
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 120, true);
