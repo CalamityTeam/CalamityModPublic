@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Summon
         public const int FireballShootRate = 20;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Son of Yharon");
-            Main.projFrames[projectile.type] = 4;
+            DisplayName.SetDefault("Draconid");
+            Main.projFrames[projectile.type] = 10;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -70,7 +70,28 @@ namespace CalamityMod.Projectiles.Summon
             // Handle frame logic.
             if (projectile.FinalExtraUpdate())
                 projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
+            if (projectile.frameCounter % 8 == 0)
+            {
+                projectile.frame++;
+            }
+			if (RamCountdown > 0f || RamReboundCountdown > 0f)
+			{
+				if (projectile.frame < 6)
+				{
+					projectile.frame = 6;
+				}
+				if (projectile.frame >= Main.projFrames[projectile.type])
+				{
+					projectile.frame = 6;
+				}
+			}
+			else
+			{
+				if (projectile.frame >= 6)
+				{
+					projectile.frame = 0;
+				}
+			}
 
             NPC potentialTarget = projectile.Center.MinionHoming(2000f, Owner);
 

@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chicken Rocket");
-            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -28,16 +27,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            // Animation frames.
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-                projectile.frame = 0;
-
             float speed = projectile.velocity.Length();
             if (speed >= 12f)
             {
@@ -62,13 +51,13 @@ namespace CalamityMod.Projectiles.Ranged
                 // When going at very high speed, emit even more dust.
                 else if (Main.rand.NextBool())
                 {
-                    int d = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                    int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
                     Main.dust[d].scale = 0.1f + Main.rand.NextFloat(0.5f);
                     Main.dust[d].fadeIn = 1.5f + Main.rand.NextFloat(0.5f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy(projectile.rotation) * 1.1f;
                     Main.rand.Next(2);
-                    d = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
+                    d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
                     Main.dust[d].scale = 1f + Main.rand.NextFloat(0.5f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy(projectile.rotation) * 1.1f;

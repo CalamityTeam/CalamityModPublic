@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 416;
             item.ranged = true;
-            item.width = 76;
-            item.height = 24;
+            item.width = 126;
+            item.height = 42;
             item.useTime = item.useAnimation = 33;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
@@ -33,14 +33,23 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 14.5f;
             item.shoot = ModContent.ProjectileType<ChickenRocket>();
             item.useAmmo = AmmoID.Rocket;
+			item.channel = true;
         }
 
-        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+        public override void HoldItem(Player player)
+		{
+			item.channel = player.altFunctionUse != 2;
+            item.noUseGraphic = player.altFunctionUse != 2;
+		}
+
+        public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
         public override bool AltFunctionUse(Player player) => true;
         
         // Right click doesn't use ammo because it's a detonation signal.
         public override bool ConsumeAmmo(Player player) => player.altFunctionUse != 2;
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ChickenCannonHeld>()] <= 0 || player.altFunctionUse == 2;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -52,9 +61,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
 
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI);
             // Otherwise just play a grenade launcher sound and fire a rocket.
-            Main.PlaySound(SoundID.Item61, position);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
+            //Main.PlaySound(SoundID.Item61, position);
+            //Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
             return false;
         }
 
