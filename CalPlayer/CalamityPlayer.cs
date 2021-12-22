@@ -616,7 +616,9 @@ namespace CalamityMod.CalPlayer
         public bool eclipseMirror = false;
         public bool eclipseMirrorCooldown = false;
         public bool featherCrown = false;
+        public bool featherCrownDraw = false;
         public bool moonCrown = false;
+        public bool moonCrownDraw = false;
         public int featherCrownCooldown = 0;
         public int moonCrownCooldown = 0;
         public int nanoFlareCooldown = 0;
@@ -1822,7 +1824,9 @@ namespace CalamityMod.CalPlayer
             eclipseMirror = false;
             eclipseMirrorCooldown = false;
             featherCrown = false;
+			featherCrownDraw = false;
             moonCrown = false;
+			moonCrownDraw = false;
             dragonScales = false;
             gloveOfPrecision = false;
             gloveOfRecklessness = false;
@@ -3651,6 +3655,14 @@ namespace CalamityMod.CalPlayer
                 else if (item.type == ModContent.ItemType<AbyssalDivingGear>())
                 {
                     abyssDivingGear = true;
+                }
+                else if (item.type == ModContent.ItemType<FeatherCrown>())
+                {
+                    featherCrownDraw = true;
+                }
+                else if (item.type == ModContent.ItemType<MoonstoneCrown>())
+                {
+                    moonCrownDraw = true;
                 }
             }
         }
@@ -7178,6 +7190,16 @@ namespace CalamityMod.CalPlayer
             if (abyssDivingGear && (player.head == -1 || player.head == ArmorIDs.Head.FamiliarWig))
             {
                 player.head = mod.GetEquipSlot("AbyssDivingGearHead", EquipType.Head);
+                player.face = -1;
+            }
+            if (featherCrownDraw && (player.head == -1 || player.head == ArmorIDs.Head.FamiliarWig))
+            {
+                player.head = mod.GetEquipSlot("FeatherCrownHead", EquipType.Head);
+                player.face = -1;
+            }
+            if (moonCrownDraw && (player.head == -1 || player.head == ArmorIDs.Head.FamiliarWig))
+            {
+                player.head = mod.GetEquipSlot("MoonstoneCrownHead", EquipType.Head);
                 player.face = -1;
             }
         }

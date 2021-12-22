@@ -29,7 +29,14 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.throwingVelocity += 0.15f;
             modPlayer.featherCrown = true;
+			if (!hideVisual)
+				modPlayer.featherCrownDraw = true; //this bool is just used for drawing
         }
+
+		public override void UpdateVanity(Player player, EquipType type)
+		{
+			player.Calamity().featherCrownDraw = true; //this bool is just used for drawing
+		}
 
         public override void AddRecipes()
         {
@@ -49,4 +56,13 @@ namespace CalamityMod.Items.Accessories
             recipe.AddRecipe();
         }
     }
+
+	public class FeatherCrownHair : EquipTexture
+	{
+		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+		{
+			drawHair = false;
+			drawAltHair = false;
+		}
+	}
 }
