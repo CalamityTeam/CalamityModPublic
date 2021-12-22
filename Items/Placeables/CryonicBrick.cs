@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryonicOre>(), 1);
-            recipe.AddIngredient(ItemID.StoneBlock, 1);
+            recipe.AddIngredient(ModContent.ItemType<CryonicOre>());
+            recipe.AddRecipeGroup("AnyStoneBlock");
             recipe.SetResult(this, 10);
             recipe.AddTile(TileID.Furnaces);
             recipe.AddRecipe();

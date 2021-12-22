@@ -1219,6 +1219,16 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnySnowBlock", group);
 
+            group = new RecipeGroup(() => "Any Stone Block", new int[]
+            {
+                ItemID.StoneBlock,
+                ItemID.EbonstoneBlock,
+                ItemID.CrimstoneBlock,
+                ItemID.PearlstoneBlock,
+                ModContent.ItemType<AstralStone>()
+            });
+            RecipeGroup.RegisterGroup("AnyStoneBlock", group);
+
             group = new RecipeGroup(() => "Any Silt", new int[]
             {
                 ItemID.SiltBlock,

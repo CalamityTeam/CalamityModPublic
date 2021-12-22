@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 50);
+            recipe.AddRecipeGroup("AnyStoneBlock", 50);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 3);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 1);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1);

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 10);
+            recipe.AddRecipeGroup("AnyStoneBlock", 10);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>());
             recipe.SetResult(this, 10);
             recipe.AddTile(ModContent.TileType<PlagueInfuser>());

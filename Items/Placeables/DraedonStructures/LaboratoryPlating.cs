@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IronBar);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.StoneBlock, 3);
+            recipe.AddRecipeGroup("AnyStoneBlock", 3);
             recipe.SetResult(this, 25);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.AddRecipe();
