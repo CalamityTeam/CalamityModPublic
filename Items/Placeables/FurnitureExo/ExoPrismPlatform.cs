@@ -1,11 +1,12 @@
-using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.FurnitureExo
 {
-    public class ExoLamp : ModItem
+    public class ExoPrismPlatform : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,9 +14,9 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Exo Lamp");
-            item.width = 28;
-            item.height = 20;
+            item.SetNameOverride("Exo Prism Platform");
+            item.width = 8;
+            item.height = 10;
             item.maxStack = 999;
             item.useTurn = true;
             item.autoReuse = true;
@@ -23,17 +24,20 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.createTile = ModContent.TileType<ExoLampTile>();
+            item.createTile = ModContent.TileType<ExoPrismPlatformTile>();
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Placeables/FurnitureExo/ExoPrismPlatform_Glow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<PowerCell>());
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<ExoPrismPanel>());
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }
