@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			// Phase one settings
 			CalamityGlobalNPC global = npc.Calamity();
+			npc.defense = 150;
 			global.DR = 0.999999f;
 			global.unbreakableDR = true;
 			npc.chaseable = false;
@@ -128,7 +129,8 @@ namespace CalamityMod.NPCs.StormWeaver
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody3"), 1f);
 
 					CalamityGlobalNPC global = npc.Calamity();
-					global.DR = 0f;
+					npc.defense = 30;
+					global.DR = 0.2f;
 					global.unbreakableDR = false;
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;

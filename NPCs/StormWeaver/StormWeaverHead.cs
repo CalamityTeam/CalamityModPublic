@@ -77,6 +77,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			// Phase one settings
 			CalamityGlobalNPC global = npc.Calamity();
+			npc.defense = 150;
 			global.DR = 0.999999f;
 			global.unbreakableDR = true;
 			npc.chaseable = false;
@@ -197,7 +198,8 @@ namespace CalamityMod.NPCs.StormWeaver
 					Main.PlaySound(SoundID.NPCDeath14, (int)npc.Center.X, (int)npc.Center.Y);
 
 					CalamityGlobalNPC global = npc.Calamity();
-					global.DR = 0f;
+					npc.defense = 15;
+					global.DR = 0.1f;
 					global.unbreakableDR = false;
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;

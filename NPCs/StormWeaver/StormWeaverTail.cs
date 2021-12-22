@@ -121,6 +121,9 @@ namespace CalamityMod.NPCs.StormWeaver
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail2"), 1f);
 
+					CalamityGlobalNPC global = npc.Calamity();
+					npc.defense = 45;
+					global.DR = 0.3f;
 					npc.takenDamageMultiplier = 1f;
 					npc.HitSound = SoundID.NPCHit13;
 					npc.DeathSound = SoundID.NPCDeath13;
