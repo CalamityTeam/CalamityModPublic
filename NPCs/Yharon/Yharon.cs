@@ -2889,6 +2889,7 @@ namespace CalamityMod.NPCs.Yharon
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
                 int soulFragMin = 15;

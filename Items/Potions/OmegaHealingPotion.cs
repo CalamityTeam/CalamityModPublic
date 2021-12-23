@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
+            item.width = 24;
+            item.height = 32;
             item.useTurn = true;
             item.maxStack = 30;
             item.healLife = 300;

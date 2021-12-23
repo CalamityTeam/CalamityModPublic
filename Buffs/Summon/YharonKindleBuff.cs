@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Son of Yharon");
-            Description.SetDefault("The Son of Yharon will protect you");
+            DisplayName.SetDefault("Fiery Draconid");
+            Description.SetDefault("The fiery draconid will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
 			//Main.persistentBuff[Type] = true;

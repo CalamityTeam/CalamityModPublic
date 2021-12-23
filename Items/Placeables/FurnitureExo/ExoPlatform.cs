@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>());
+            recipe.AddIngredient(ModContent.ItemType<ExoPlating>());
             recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }

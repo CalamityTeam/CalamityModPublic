@@ -1,5 +1,4 @@
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ID;
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 4);
             recipe.AddIngredient(ModContent.ItemType<PowerCell>(), 4);
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this);

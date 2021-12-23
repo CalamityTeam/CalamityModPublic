@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 150);
+            recipe.AddRecipeGroup("AnyStoneBlock", 150);
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
             recipe.AddIngredient(ModContent.ItemType<ArmoredShell>());
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>());

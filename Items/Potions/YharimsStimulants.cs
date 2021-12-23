@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
+            item.width = 40;
+            item.height = 40;
             item.useTurn = true;
             item.maxStack = 30;
             item.rare = ItemRarityID.Orange;

@@ -253,6 +253,8 @@ namespace CalamityMod
             AddEquipTexture(new OmegaBlueTransformationHead(), null, EquipType.Head, "OmegaBlueTransformationHead", "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness");
 
             AddEquipTexture(new AbyssDivingGearHair(), null, EquipType.Head, "AbyssDivingGearHead", "CalamityMod/Items/Accessories/AbyssalDivingGear_Face");
+            AddEquipTexture(new FeatherCrownHair(), null, EquipType.Head, "FeatherCrownHead", "CalamityMod/Items/Accessories/FeatherCrown_Face");
+            AddEquipTexture(new MoonstoneCrownHair(), null, EquipType.Head, "MoonstoneCrownHead", "CalamityMod/Items/Accessories/MoonstoneCrown_Face");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");

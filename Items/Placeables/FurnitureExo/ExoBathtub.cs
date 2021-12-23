@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ID;
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 14);
             recipe.SetResult(this);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();

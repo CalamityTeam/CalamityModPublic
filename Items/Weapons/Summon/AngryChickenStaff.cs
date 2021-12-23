@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharon's Kindle Staff");
-            Tooltip.SetDefault("Summons the Son of Yharon to fight for you\n" +
+            Tooltip.SetDefault("Summons a fiery draconid to fight for you\n" +
                                "Requires 5 minion slots to use");
         }
 
@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.damage = Damage;
             item.mana = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 32;
-            item.height = 32;
+            item.width = 80;
+            item.height = 74;
             item.useTime = item.useAnimation = 10;
             item.noMelee = true;
             item.knockBack = 7f;
@@ -42,9 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

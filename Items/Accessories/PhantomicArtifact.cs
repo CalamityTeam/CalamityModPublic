@@ -1,8 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,12 +17,13 @@ namespace CalamityMod.Items.Accessories
                 "If you have the offensive boost, enemies hit by minions will sometimes be hit by phantomic knives\n" +
                 "If you have the regenerative boost, a phantomic heart will occasionally materialise granting massive health regen\n" +
                 "If you have the defensive boost, a phantomic bulwark will absorb 20% of the next projectile's damage that hits the bulwark, shattering it");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 48;
-            item.height = 62;
+            item.width = 50;
+            item.height = 40;
             item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;

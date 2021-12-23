@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ID;
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.AddIngredient(ItemID.HoneyBucket);
             recipe.AddIngredient(ItemID.LavaBucket);
