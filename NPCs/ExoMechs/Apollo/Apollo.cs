@@ -578,6 +578,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					{
 						if (spawnOtherExoMechs)
 						{
+							// Despawn projectile bullshit
+							for (int x = 0; x < Main.maxProjectiles; x++)
+							{
+								Projectile projectile = Main.projectile[x];
+								if (projectile.active)
+								{
+									if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
+										projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
+										projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
+										projectile.type == ModContent.ProjectileType<ApolloRocket>())
+									{
+										projectile.Kill();
+										projectile.owner = Main.maxPlayers;
+									}
+								}
+							}
+
 							// Set Artemis variables
 							if (exoMechTwinRedAlive)
 							{
@@ -665,6 +682,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// This is only called if two exo mechs are alive
 						if (otherMechIsBerserk)
 						{
+							// Despawn projectile bullshit
+							for (int x = 0; x < Main.maxProjectiles; x++)
+							{
+								Projectile projectile = Main.projectile[x];
+								if (projectile.active)
+								{
+									if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
+										projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
+										projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
+										projectile.type == ModContent.ProjectileType<ApolloRocket>())
+									{
+										projectile.Kill();
+										projectile.owner = Main.maxPlayers;
+									}
+								}
+							}
+
 							// Set Artemis variables
 							if (exoMechTwinRedAlive)
 							{
@@ -718,6 +752,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
 					if (otherMechIsBerserk)
 					{
+						// Despawn projectile bullshit
+						for (int x = 0; x < Main.maxProjectiles; x++)
+						{
+							Projectile projectile = Main.projectile[x];
+							if (projectile.active)
+							{
+								if (projectile.type == ModContent.ProjectileType<ArtemisLaser>() ||
+									projectile.type == ModContent.ProjectileType<ArtemisChargeTelegraph>() ||
+									projectile.type == ModContent.ProjectileType<ApolloFireball>() ||
+									projectile.type == ModContent.ProjectileType<ApolloRocket>())
+								{
+									projectile.Kill();
+									projectile.owner = Main.maxPlayers;
+								}
+							}
+						}
+
 						// Set Artemis variables
 						if (exoMechTwinRedAlive)
 						{
