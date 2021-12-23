@@ -306,6 +306,30 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
+			// Despawn
+			if (player.dead)
+			{
+				flies = true;
+
+				npc.velocity.Y -= 1f;
+				if ((double)npc.position.Y < Main.topWorld + 16f)
+					npc.velocity.Y -= 1f;
+
+				int bodyType = ModContent.NPCType<DevourerofGodsBody>();
+				int tailType = ModContent.NPCType<DevourerofGodsTail>();
+				if ((double)npc.position.Y < Main.topWorld + 16f)
+				{
+					for (int a = 0; a < Main.maxNPCs; a++)
+					{
+						if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
+							continue;
+
+						Main.npc[a].active = false;
+						Main.npc[a].netUpdate = true;
+					}
+				}
+			}
+
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
@@ -741,32 +765,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (expertMode)
 						fallSpeed += 3.5f * (1f - lifeRatio);
-
-					if (player.dead)
-					{
-						flies = true;
-
-						npc.velocity.Y -= 1f;
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							npc.velocity.Y -= 1f;
-							fallSpeed = 32f;
-						}
-
-						int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-						int tailType = ModContent.NPCType<DevourerofGodsTail>();
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							for (int a = 0; a < Main.maxNPCs; a++)
-							{
-								if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-									continue;
-
-								Main.npc[a].active = false;
-								Main.npc[a].netUpdate = true;
-							}
-						}
-					}
 
 					// Movement
 					int num180 = (int)(npc.position.X / 16f) - 1;
@@ -1485,30 +1483,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					}
 					else
 						calamityGlobalNPC.newAI[1] = 0f;
-				}
-
-				// Despawn
-				if (player.dead)
-				{
-					flies = true;
-
-					npc.velocity.Y -= 1f;
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 1f;
-
-					int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-					int tailType = ModContent.NPCType<DevourerofGodsTail>();
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-					{
-						for (int a = 0; a < Main.maxNPCs; a++)
-						{
-							if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-								continue;
-
-							Main.npc[a].active = false;
-							Main.npc[a].netUpdate = true;
-						}
-					}
 				}
 
 				// Movement

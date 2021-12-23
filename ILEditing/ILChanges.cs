@@ -1496,7 +1496,7 @@ namespace CalamityMod.ILEditing
 		{
 			// Blood Moons only happen when the player has over 200 max life.
 			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdcI4(120))) // The 120 max life check.
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(120))) // The 120 max life check.
 			{
 				LogFailure("Make Blood Moons Require 200 Max Life", "Could not locate the max life variable.");
 				return;

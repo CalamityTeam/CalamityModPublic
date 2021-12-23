@@ -1070,6 +1070,8 @@ namespace CalamityMod.CalPlayer
 
 				if (!player.wet)
 				{
+					if (modPlayer.cirrusDress)
+						player.maxFallSpeed = 12f;
 					if (modPlayer.aeroSet)
 						player.maxFallSpeed = 15f;
 					if (modPlayer.gSabatonFall > 0 || player.PortalPhysicsEnabled)
@@ -2722,6 +2724,9 @@ namespace CalamityMod.CalPlayer
 				player.longInvince = true;
 				player.crimsonRegen = true;
 			}
+
+			if (modPlayer.cirrusDress)
+				player.moveSpeed -= 0.2f;
 
 			if (modPlayer.fabsolVodka)
 				player.allDamage += 0.08f;

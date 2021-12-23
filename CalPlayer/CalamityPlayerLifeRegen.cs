@@ -382,6 +382,10 @@ namespace CalamityMod.CalPlayer
 				modPlayer.alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
+
+			if (modPlayer.cirrusDress)
+				modPlayer.alcoholPoisonLevel = 0;
+
 			if (modPlayer.alcoholPoisonLevel > 3)
 			{
 				player.nebulaLevelLife = 0;

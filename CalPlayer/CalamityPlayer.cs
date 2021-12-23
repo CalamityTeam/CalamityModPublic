@@ -112,6 +112,7 @@ namespace CalamityMod.CalPlayer
 		public int searedPanCounter = 0;
 		public int searedPanTimer = 0;
         public int potionTimer = 0;
+		public bool cirrusDress = false;
         public bool noWings = false;
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
@@ -1589,6 +1590,7 @@ namespace CalamityMod.CalPlayer
             shadowSpeed = false;
             dsSetBonus = false;
             wearingRogueArmor = false;
+			cirrusDress = false;
 
             noWings = false;
             blockAllDashes = false;

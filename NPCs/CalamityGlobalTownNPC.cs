@@ -1,6 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
@@ -1264,6 +1265,7 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
 				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge);
 				SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
+				SetShopItem(ref shop, ref nextSlot, ItemType<CirrusDress>(), Main.LocalPlayer.Calamity().alcoholPoisoning && NPC.FindFirstNPC(NPCType<FAP>()) != -1);
 			}
 
 			if (type == NPCID.Cyborg)
