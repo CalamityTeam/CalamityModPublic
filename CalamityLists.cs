@@ -717,8 +717,6 @@ namespace CalamityMod
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
                 NPCType<OldDukeSharkron>(),
-                NPCType<DetonatingFlare>(),
-                NPCType<DetonatingFlare2>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>(),
                 NPCType<SoulSeekerSupreme>()
@@ -2460,9 +2458,6 @@ namespace CalamityMod
                 NPCID.WallofFleshEye,
                 NPCID.TheHungry,
                 NPCID.TheHungryII,
-                NPCType<Cryocore>(),
-                NPCType<Cryocore2>(),
-                NPCType<IceMass>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,
@@ -2477,7 +2472,6 @@ namespace CalamityMod
                 NPCType<AquaticScourgeTail>(),
                 NPCType<CalamitasRun>(),
                 NPCType<CalamitasRun2>(),
-                NPCType<LifeSeeker>(),
                 NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
                 NPCType<AureusSpawn>(),
@@ -2514,8 +2508,6 @@ namespace CalamityMod
                 NPCType<DevourerofGodsHead2>(),
                 NPCType<DevourerofGodsBody2>(),
                 NPCType<DevourerofGodsTail2>(),
-                NPCType<DetonatingFlare>(),
-                NPCType<DetonatingFlare2>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>()
             };

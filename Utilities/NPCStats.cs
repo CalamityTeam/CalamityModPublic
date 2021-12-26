@@ -374,9 +374,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<Cryogen>(), new int[] { 50, 115, 138, 161, 207 } },
 				{ ModContent.NPCType<CryogenIce>(), new int[] { 50, 100, 120, 134, 150 } },
-				{ ModContent.NPCType<Cryocore>(), new int[] { 35, 70, 84, 92, 105 } },
-				{ ModContent.NPCType<Cryocore2>(), new int[] { 40, 80, 96, 106, 120 } },
-				{ ModContent.NPCType<IceMass>(), new int[] { 40, 80, 96, 106, 120 } },
 
 				{ NPCID.Spazmatism, new int[] {
 					60, // 90 in phase 2
@@ -528,8 +525,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<DevourerofGodsTail2>(), new int[] { 100, 200, 230, 260, 330 } },
 
 				{ ModContent.NPCType<Yharon>(), new int[] { 330, 528, 560, 576, 690 } },
-				{ ModContent.NPCType<DetonatingFlare>(), new int[] { 100, 200, 220, 232, 300 } },
-				{ ModContent.NPCType<DetonatingFlare2>(), new int[] { 220, 440, 462, 476, 540 } },
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } },
 
@@ -648,7 +643,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 76, 120, 140, 152, 210 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun2>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 72, 116, 136, 144, 204 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SoulSeeker>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 60, 100, 108, 116, 162 } },
-				{ new Tuple<int, int>(ModContent.NPCType<LifeSeeker>(), ProjectileID.PinkLaser), new int[] { 50, 88, 88, 88, 132 } },
 
 				{ new Tuple<int, int>(NPCID.Plantera, ProjectileID.SeedPlantera), new int[] { 44, 76, 96, 108, 144 } }, // 114 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.Plantera, ProjectileID.PoisonSeedPlantera), new int[] { 54, 96, 120, 132, 180 } }, // 144 in non-rev master mode
@@ -771,7 +765,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust>()), new int[] { 250, 440, 464, 476, 696 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust2>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonFireball>()), new int[] { 250, 440, 464, 476, 696 } },
-				{ new Tuple<int, int>(ModContent.NPCType<DetonatingFlare>(), ProjectileID.CultistBossFireBall), new int[] { 180, 300, 332, 348, 498 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } }, // 25% increased damage in bullet hell 1
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 400, 600, 632, 648, 948 } },

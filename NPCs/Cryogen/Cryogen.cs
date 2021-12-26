@@ -948,57 +948,6 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.X = -velocity;
 				}
 			}
-
-			if (!phase5)
-			{
-				if (npc.ai[3] == 0f && npc.life > 0)
-					npc.ai[3] = npc.lifeMax;
-
-				if (npc.life > 0)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						int num660 = (int)(npc.lifeMax * 0.075);
-						if ((npc.life + num660) < npc.ai[3])
-						{
-							npc.ai[3] = npc.life;
-							for (int num662 = 0; num662 < 2; num662++)
-							{
-								int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
-								int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-								int random = 1;
-								switch ((int)npc.ai[0])
-								{
-									case 0:
-									case 1:
-										break;
-									case 2:
-									case 3:
-										random = 2;
-										break;
-									case 4:
-										random = 3;
-										break;
-									default:
-										break;
-								}
-
-								int randomSpawn = Main.rand.Next(random);
-								if (randomSpawn == 0)
-									randomSpawn = ModContent.NPCType<Cryocore>();
-								else if (randomSpawn == 1)
-									randomSpawn = ModContent.NPCType<IceMass>();
-								else
-									randomSpawn = ModContent.NPCType<Cryocore2>();
-
-								int num664 = NPC.NewNPC(x, y, randomSpawn);
-								if (Main.netMode == NetmodeID.Server && num664 < 200)
-									NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664);
-							}
-						}
-					}
-				}
-			}
         }
 
         private void HandlePhaseTransition(int newPhase)

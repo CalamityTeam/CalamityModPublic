@@ -185,9 +185,6 @@ namespace CalamityMod.NPCs.Yharon
             bool phase2Change = npc.ai[0] > 5f;
             bool phase3Change = npc.ai[0] > 12f;
 
-            // Flare limit
-            int maxFlareCount = 3;
-
             // Timer, velocity and acceleration for idle phase before phase switch
             int phaseSwitchTimer = expertMode ? 36 : 40;
             float acceleration = expertMode ? 0.75f : 0.7f;
@@ -644,7 +641,6 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-						SpawnDetonatingFlares(fromMouth, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>() });
 						int type = ModContent.ProjectileType<FlareBomb>();
 						int damage = npc.GetProjectileDamage(type);
 						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.target, 1f);
@@ -955,7 +951,6 @@ namespace CalamityMod.NPCs.Yharon
                 {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
 						int ringReduction = (int)MathHelper.Lerp(0f, 14f, npc.ai[2] / flareDustPhaseTimer);
 						int totalProjectiles = 38 - ringReduction; // 36 for first ring, 22 for last ring
 						DoFlareDustBulletHell(0, flareDustSpawnDivisor, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, false);
@@ -1314,13 +1309,6 @@ namespace CalamityMod.NPCs.Yharon
 				}
 
 				npc.ai[2] += 1f;
-
-				if (npc.ai[2] % flareDustSpawnDivisor == 0f)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() });
-				}
-
 				if (npc.ai[2] % flareDustSpawnDivisor3 == 0f)
 				{
 					// Rotate spiral by 7.2 * (300 / 12) = +90 degrees and then back -90 degrees
@@ -1487,7 +1475,6 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						SpawnDetonatingFlares(fromMouth, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() });
 						int type = ModContent.ProjectileType<FlareBomb>();
 						int damage = npc.GetProjectileDamage(type);
 						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.target, 1f);
@@ -2259,7 +2246,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-			// Flare spawn and fire ring
+			// Fire ring
             else if (npc.ai[0] == 6f)
             {
                 if (npc.ai[1] == 0f)
@@ -2299,13 +2286,9 @@ namespace CalamityMod.NPCs.Yharon
 						{
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
-							if (expertMode)
-								DoFireRing(300, npc.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), npc.target, 1f);
+							DoFireRing(expertMode ? 300 : 180, npc.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), npc.target, 1f);
 
 							Vector2 vector7 = vectorCenter + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
-
-							if (Vector2.Distance(vector7, targetData.Center) > 150f)
-								SpawnDetonatingFlares(vector7, targetData, 6, new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() });
 						}
                     }
 
@@ -2497,32 +2480,6 @@ namespace CalamityMod.NPCs.Yharon
 				Main.dust[num1475].noLight = true;
 				Main.dust[num1475].velocity /= 4f;
 				Main.dust[num1475].velocity -= npc.velocity;
-			}
-		}
-		#endregion
-
-		#region Spawn Detonating Flares
-		private void SpawnDetonatingFlares(Vector2 origin, Player target, int maxFlareCount, int[] flareTypes)
-		{
-			if (flareTypes.Length > 1)
-			{
-				if (NPC.CountNPCS(flareTypes[0]) + NPC.CountNPCS(flareTypes[1]) < maxFlareCount)
-					SpawnFlares(flareTypes[0], flareTypes[1]);
-			}
-			else
-			{
-				if (NPC.CountNPCS(flareTypes[0]) < maxFlareCount)
-					SpawnFlares(flareTypes[0]);
-			}
-
-			void SpawnFlares(int type1 = 0, int type2 = 0)
-			{
-				int type = type2 == 0 ? type1 : Main.rand.NextBool(2) ? type1 : type2;
-				int npc = NPC.NewNPC((int)origin.X, (int)origin.Y, type, 0, 0f, 0f, 0f, 0f, 255);
-				Main.npc[npc].velocity = target.Center - origin;
-				Main.npc[npc].velocity.Normalize();
-				Main.npc[npc].velocity *= 10f;
-				Main.npc[npc].netUpdate = true;
 			}
 		}
 		#endregion

@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Events;
-using CalamityMod.World;
+using CalamityMod.Items.Materials;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Cryogen
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class IceMass : ModNPC
     {
@@ -19,18 +17,13 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetDefaults()
         {
             npc.aiStyle = 86;
-			npc.GetNPCDamage();
+			npc.damage = 40;
 			npc.width = 40;
             npc.height = 24;
             npc.defense = 8;
             npc.alpha = 100;
-            npc.lifeMax = 220;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 3000;
-            }
+            npc.lifeMax = 50;
             npc.knockBackResist = 0f;
-            npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
 			npc.Calamity().VulnerableToHeat = true;
@@ -66,16 +59,14 @@ namespace CalamityMod.NPCs.Cryogen
 			  npc.frame.Y = 0;
         }
 
-		public override bool PreNPCLoot()
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-
-			return false;
+			return spawnInfo.player.ZoneSnow &&
+				spawnInfo.player.ZoneOverworldHeight &&
+				!spawnInfo.player.PillarZone() &&
+				!spawnInfo.player.ZoneDungeon &&
+				!spawnInfo.player.InSunkenSea() &&
+				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -104,5 +95,10 @@ namespace CalamityMod.NPCs.Cryogen
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoSpirit"), 1f);
             }
         }
-    }
+
+		public override void NPCLoot()
+		{
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.25f);
+		}
+	}
 }

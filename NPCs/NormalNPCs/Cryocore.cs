@@ -1,39 +1,31 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Events;
-using CalamityMod.World;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Cryogen
+namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Cryocore2 : ModNPC
+    public class Cryocore : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryocore");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 5;
         }
 
         public override void SetDefaults()
         {
-			npc.GetNPCDamage();
-			npc.width = 66;
-            npc.height = 66;
-            npc.defense = 10;
-            npc.lifeMax = 300;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 4000;
-            }
+			npc.damage = 35;
+			npc.width = 40;
+            npc.height = 40;
+            npc.defense = 6;
+            npc.lifeMax = 220;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.5f;
+            npc.knockBackResist = 0.75f;
             npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
 			npc.Calamity().VulnerableToHeat = true;
@@ -52,11 +44,8 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.5f, 0.5f);
-            npc.TargetClosest(true);
-            bool revenge = CalamityWorld.revenge;
-            float speed = revenge ? 14f : 12f;
-            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
-                speed = 28f;
+            npc.TargetClosest();
+            float speed = 11f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
             float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -97,16 +86,14 @@ namespace CalamityMod.NPCs.Cryogen
             npc.rotation = npc.velocity.X * 0.15f;
         }
 
-		public override bool PreNPCLoot()
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-
-			return false;
+			return spawnInfo.player.ZoneSnow &&
+				spawnInfo.player.ZoneOverworldHeight &&
+				!spawnInfo.player.PillarZone() &&
+				!spawnInfo.player.ZoneDungeon &&
+				!spawnInfo.player.InSunkenSea() &&
+				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -127,8 +114,13 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cryocore2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cryocore"), 1f);
             }
         }
-    }
+
+		public override void NPCLoot()
+		{
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.33f);
+		}
+	}
 }

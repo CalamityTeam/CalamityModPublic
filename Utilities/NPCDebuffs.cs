@@ -92,9 +92,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<Cryogen>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 				{ ModContent.NPCType<CryogenIce>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-				{ ModContent.NPCType<Cryocore>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-				{ ModContent.NPCType<Cryocore2>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-				{ ModContent.NPCType<IceMass>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 
 				{ ModContent.NPCType<AquaticScourgeHead>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
 				{ ModContent.NPCType<AquaticScourgeBody>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -108,7 +105,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<CalamitasRun>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun2>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<SoulSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-				{ ModContent.NPCType<LifeSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
 				{ NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
 				{ NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
@@ -176,8 +172,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<DevourerofGodsTail2>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
 				{ ModContent.NPCType<Yharon>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
-				{ ModContent.NPCType<DetonatingFlare>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
-				{ ModContent.NPCType<DetonatingFlare2>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<SupremeCatastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
@@ -325,6 +319,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Cryon>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 				{ ModContent.NPCType<CryoSlime>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 				{ ModContent.NPCType<IceClasper>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+				{ ModContent.NPCType<Cryocore>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+				{ ModContent.NPCType<Cryocore2>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+				{ ModContent.NPCType<IceMass>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) }
 			};
 		}
 
