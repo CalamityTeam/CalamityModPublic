@@ -251,7 +251,6 @@ namespace CalamityMod.UI
                 NPCType<ThiccWaifu>(),
                 NPCType<Horse>(),
                 NPCType<GreatSandShark>(),
-                NPCType<PlaguebringerShade>(),
                 NPCType<ArmoredDiggerHead>(),
                 NPCType<CalamitasRun>(), //Clone's brothers
                 NPCType<CalamitasRun2>(),
