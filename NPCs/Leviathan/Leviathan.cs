@@ -387,10 +387,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.ai[1] += num638 / 2;
 
                     bool flag103 = false;
-					float num640 = 60f;
-					if (!sirenAlive || phase4)
-						num640 -= 40f * (1f - lifeRatio);
-
+					float num640 = (!sirenAlive || phase4) ? 30f : 60f;
 					if (npc.ai[1] > num640)
                     {
                         npc.ai[1] = 0f;
@@ -398,18 +395,12 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-					int spawnLimit = (sirenAlive && !phase4) ? 1 : 3;
-					bool spawnParasea = NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit;
-					bool spawnAberration = (!sirenAlive || phase4) && !NPC.AnyNPCs(ModContent.NPCType<AquaticAberration>());
-
-					if (flag103 && (spawnParasea || spawnAberration))
+					int spawnLimit = (sirenAlive && !phase4) ? 2 : 4;
+					if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-							int type = spawnAberration ? ModContent.NPCType<AquaticAberration>() : ModContent.NPCType<Parasea>();
-							NPC.NewNPC((int)vector119.X, (int)vector119.Y, type);
-						}
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
                     if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
@@ -463,7 +454,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.direction = playerLocation < 0 ? 1 : -1;
 					npc.spriteDirection = npc.direction;
 
-					if (npc.ai[2] > ((sirenAlive && !phase4) ? 2f : 3f))
+					if (npc.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
                     {
                         npc.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4) ? 2f : 0f;
                         npc.ai[1] = 0f;

@@ -433,7 +433,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<SirenIce>(), new int[] { 55, 110, 126, 136, 165 } },
 				{ NPCID.DetonatingBubble, new int[] { 100, 150, 180, 195, 225 } },
 				{ ModContent.NPCType<AquaticAberration>(), new int[] { 55, 110, 126, 136, 165 } },
-				{ ModContent.NPCType<Parasea>(), new int[] { 50, 100, 116, 128, 150 } },
 
 				{ ModContent.NPCType<AstrumAureus>(), new int[] { 80, 176, 198, 209, 264 } },
 				{ ModContent.NPCType<AureusSpawn>(), new int[] { 65, 130, 150, 180, 240 } },
@@ -444,11 +443,8 @@ namespace CalamityMod
 				{ NPCID.GolemFistRight, new int[] { 70, 112, 144, 160, 180 } },
 
 				{ ModContent.NPCType<PlaguebringerGoliath>(), new int[] { 100, 180, 216, 234, 297 } },
-				{ ModContent.NPCType<PlaguebringerShade>(), new int[] { 70, 140, 160, 170, 240 } },
 				{ ModContent.NPCType<PlagueHomingMissile>(), new int[] { 90, 180, 210, 224, 270 } },
 				{ ModContent.NPCType<PlagueMine>(), new int[] { 100, 200, 240, 260, 330 } },
-				{ ModContent.NPCType<PlagueBeeG>(), new int[] { 60, 120, 140, 150, 195 } },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), new int[] { 65, 130, 150, 160, 210 } },
 
 				{ NPCID.DukeFishron, new int[] {
 					100, // 120 in phase 2
@@ -678,8 +674,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<PlaguebringerGoliath>(), ModContent.ProjectileType<PlagueStingerGoliath>()), new int[] { 80, 136, 160, 180, 240 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PlaguebringerGoliath>(), ModContent.ProjectileType<PlagueStingerGoliathV2>()), new int[] { 80, 136, 160, 180, 240 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PlaguebringerGoliath>(), ModContent.ProjectileType<HiveBombGoliath>()), new int[] { 120, 192, 220, 240, 330 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PlaguebringerShade>(), ModContent.ProjectileType<PlagueStingerGoliathV2>()), new int[] { 60, 104, 120, 136, 180 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PlaguebringerShade>(), ModContent.ProjectileType<HiveBombGoliath>()), new int[] { 90, 144, 168, 180, 252 } },
 
 				{ new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Sharknado), new int[] { 80, 100, 116, 124, 174 } }, // 150 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Cthulunado), new int[] { 160, 200, 232, 248, 348 } }, // 300 in non-rev master mode

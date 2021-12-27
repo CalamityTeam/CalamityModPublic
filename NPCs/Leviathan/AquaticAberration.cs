@@ -56,26 +56,66 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+			if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			npc.TargetClosest(false);
+
             npc.rotation = npc.velocity.ToRotation();
             if (Math.Sign(npc.velocity.X) != 0)
-            {
                 npc.spriteDirection = -Math.Sign(npc.velocity.X);
-            }
             if (npc.rotation < -MathHelper.PiOver2)
-            {
                 npc.rotation += MathHelper.Pi;
-            }
             if (npc.rotation > MathHelper.PiOver2)
-            {
                 npc.rotation -= MathHelper.Pi;
-            }
             npc.spriteDirection = Math.Sign(npc.velocity.X);
-            float num1000 = 30f;
-            float num1006 = 0.111111117f * num1000;
+
+			// Percent life remaining
+			float lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax;
+
+			if (CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive || Main.npc[CalamityGlobalNPC.leviathan].Calamity().enraged > 0)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > Main.npc[CalamityGlobalNPC.leviathan].Calamity().killTimeRatio_IncreasedAggression)
+					lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].Calamity().killTimeRatio_IncreasedAggression;
+			}
+
+			// Phases
+			bool leviathanInPhase4 = lifeRatio < 0.2f;
+
+			bool sirenAlive = false;
+			if (CalamityGlobalNPC.siren != -1)
+				sirenAlive = Main.npc[CalamityGlobalNPC.siren].active;
+
+			if (CalamityGlobalNPC.siren != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.siren].active)
+				{
+					if (Main.npc[CalamityGlobalNPC.siren].damage == 0)
+						sirenAlive = false;
+				}
+			}
+
+			float inertia = malice ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
+			if (!sirenAlive || leviathanInPhase4)
+				inertia *= 0.75f;
+
+            float num1006 = 0.111111117f * inertia;
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = 8f;
+                float scaleFactor6 = malice ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
+				if (!sirenAlive || leviathanInPhase4)
+					scaleFactor6 *= 1.25f;
+
                 Vector2 center4 = npc.Center;
                 Vector2 center5 = Main.player[npc.target].Center;
                 Vector2 vector126 = center5 - center4;
@@ -92,8 +132,8 @@ namespace CalamityMod.NPCs.Leviathan
                 flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
                 if (num1013 > 800f || !flag64)
                 {
-                    npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
-                    npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / num1000;
+                    npc.velocity.X = (npc.velocity.X * (inertia - 1f) + vector127.X) / inertia;
+                    npc.velocity.Y = (npc.velocity.Y * (inertia - 1f) + vector127.Y) / inertia;
                     if (!flag64)
                     {
                         npc.ai[3] += 1f;
@@ -126,7 +166,7 @@ namespace CalamityMod.NPCs.Leviathan
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= 10f;
+                    velocity *= (!sirenAlive || leviathanInPhase4) ? 12f : 10f;
                     npc.velocity = velocity;
                 }
             }
@@ -134,7 +174,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 npc.ai[1] += 1f;
 				bool flag65 = npc.Center.Y + 50f > Main.player[npc.target].Center.Y;
-				if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < 8f)
+				if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < ((!sirenAlive || leviathanInPhase4) ? 10f : 8f))
                 {
 					npc.ai[0] = 3f;
 					npc.ai[1] = 45f;
@@ -153,12 +193,12 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         vec2 = new Vector2((float)npc.direction, 0f);
                     }
-                    npc.velocity = (npc.velocity * (num1000 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1000;
+                    npc.velocity = (npc.velocity * (inertia - 1f) + vec2 * (npc.velocity.Length() + num1006)) / inertia;
                 }
             }
             else if (npc.ai[0] == 3f)
             {
-                npc.ai[1] -= 1f;
+                npc.ai[1] -= (!sirenAlive || leviathanInPhase4) ? 1.5f : 1f;
                 if (npc.ai[1] <= 0f)
                 {
                     npc.ai[0] = 0f;

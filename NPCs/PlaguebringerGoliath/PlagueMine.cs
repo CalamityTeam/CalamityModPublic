@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -22,11 +23,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
-			npc.npcSlots = 1f;
             npc.width = 42;
             npc.height = 42;
-            npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
+            npc.defense = 20;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 10000 : 1000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -51,7 +51,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+
 			Lighting.AddLight(npc.Center, 0.03f, 0.2f, 0f);
+
 			Player player = Main.player[npc.target];
             if (!player.active || player.dead)
             {
@@ -60,69 +65,45 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (!player.active || player.dead)
                 {
                     if (npc.timeLeft > 10)
-                    {
                         npc.timeLeft = 10;
-                    }
+
                     return;
                 }
             }
             else if (npc.timeLeft > 600)
-            {
                 npc.timeLeft = 600;
-            }
+
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
-            if (vector.Length() < 90f || npc.ai[3] >= 900f)
+			float distanceRequiredForExplosion = 90f;
+			float timeBeforeExplosion = malice ? 1200f : death ? 940f : revenge ? 720f : 600f;
+            if (vector.Length() < distanceRequiredForExplosion || npc.ai[3] >= timeBeforeExplosion)
             {
                 npc.dontTakeDamage = false;
                 CheckDead();
                 npc.life = 0;
                 return;
             }
+
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = npc.ai[3] >= 180f ? false : true;
-            if (npc.ai[3] >= 480f)
+            npc.dontTakeDamage = npc.ai[3] < timeBeforeExplosion * 0.1f;
+            if (npc.ai[3] >= timeBeforeExplosion * 0.8f)
             {
-                npc.velocity *= 0.985f;
+                npc.velocity *= 0.98f;
                 return;
             }
+
             npc.TargetClosest(true);
-            float num1372 = 7f;
+            float velocity = malice ? 16f : death ? 14f : revenge ? 12f : 10f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
-            float num1376 = num1372 / num1375;
+            float num1376 = velocity / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-            npc.ai[0] -= 1f;
-            if (num1375 < 200f || npc.ai[0] > 0f)
-            {
-                if (num1375 < 200f)
-                {
-                    npc.ai[0] = 20f;
-                }
-                if (npc.velocity.X < 0f)
-                {
-                    npc.direction = -1;
-                }
-                else
-                {
-                    npc.direction = 1;
-                }
-                return;
-            }
-            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
-            if (num1375 < 350f)
-            {
-                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
-            }
-            if (num1375 < 300f)
-            {
-                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
-            }
+			float inertia = malice ? 20f : death ? 26f : revenge ? 28f : 30f;
+            npc.velocity.X = (npc.velocity.X * inertia + num1373) / (inertia + 1f);
+            npc.velocity.Y = (npc.velocity.Y * inertia + num1374) / (inertia + 1f);
         }
 
         public override void FindFrame(int frameHeight)

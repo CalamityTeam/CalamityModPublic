@@ -566,7 +566,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Movement(100f, 350f, 450f, player, enrageScale);
             }
 
-            // Spawn bees
+            // Spawn less missiles
             else if (npc.ai[0] == 1f)
             {
                 charging = false;
@@ -593,32 +593,27 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 8);
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int randomAmt = expertMode ? 2 : 4;
-                        if (Main.rand.Next(randomAmt) == 0)
-                            randomAmt = ModContent.NPCType<PlagueBeeLargeG>();
-                        else
-                            randomAmt = ModContent.NPCType<PlagueBeeG>();
-
-                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
-                        {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt);
-
-							Main.npc[num1062].velocity = player.Center - npc.Center;
-							Main.npc[num1062].velocity.Normalize();
-							Main.npc[num1062].velocity *= 6f;
-
-							Main.npc[num1062].localAI[0] = 60f;
-                            Main.npc[num1062].netUpdate = true;
-                        }
-
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
 						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
 							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
-						npc.netUpdate = true;
-                    }
-                }
+						float projectileSpeed = (revenge ? 9f : 7f) + enrageScale * 2f;
+
+						float num1071 = player.position.X + player.width * 0.5f - vector119.X;
+						float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
+						float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
+
+						num1073 = projectileSpeed / num1073;
+						num1071 *= num1073;
+						num1072 *= num1073;
+
+						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
+						Main.npc[num1062].velocity.X = num1071;
+						Main.npc[num1062].velocity.Y = num1072;
+						Main.npc[num1062].netUpdate = true;
+					}
+				}
 
                 // Move closer if too far away
                 if (num1060 > 600f)
@@ -667,7 +662,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (npc.ai[1] % 20f == 19f)
                     npc.netUpdate = true;
 
-                if (npc.ai[1] > 40f - 12f * enrageScale)
+                if (npc.ai[1] > 30f - 12f * enrageScale)
                 {
                     npc.ai[1] = 0f;
                     npc.ai[2] += 1f;
@@ -678,50 +673,26 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 88);
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-						if (malice)
-						{
-							int randomAmt = expertMode ? 2 : 4;
-							if (Main.rand.Next(randomAmt) == 0)
-								randomAmt = ModContent.NPCType<PlagueBeeLargeG>();
-							else
-								randomAmt = ModContent.NPCType<PlagueBeeG>();
-
-							if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
-							{
-								int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt);
-
-								Main.npc[num1062].velocity = player.Center - npc.Center;
-								Main.npc[num1062].velocity.Normalize();
-								Main.npc[num1062].velocity *= 6f;
-
-								Main.npc[num1062].localAI[0] = 60f;
-								Main.npc[num1062].netUpdate = true;
-							}
-						}
-
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
 						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
-                        float projectileSpeed = (revenge ? 8f : 7f) + enrageScale * 2f;
+						float projectileSpeed = (revenge ? 11f : 9f) + enrageScale * 2f;
 
-                        float num1071 = player.position.X + player.width * 0.5f - vector119.X;
-                        float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
-                        float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
+						float num1071 = player.position.X + player.width * 0.5f - vector119.X;
+						float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
+						float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
 
-                        num1073 = projectileSpeed / num1073;
-                        num1071 *= num1073;
-                        num1072 *= num1073;
+						num1073 = projectileSpeed / num1073;
+						num1071 *= num1073;
+						num1072 *= num1073;
 
-                        if (NPC.CountNPCS(ModContent.NPCType<PlagueHomingMissile>()) < 5)
-                        {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
-                            Main.npc[num1062].velocity.X = num1071;
-                            Main.npc[num1062].velocity.Y = num1072;
-                            Main.npc[num1062].netUpdate = true;
-                        }
-                    }
+						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
+						Main.npc[num1062].velocity.X = num1071;
+						Main.npc[num1062].velocity.Y = num1072;
+						Main.npc[num1062].netUpdate = true;
+					}
                 }
 
                 // Move closer if too far away
@@ -734,7 +705,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
-                if (npc.ai[2] > 3f)
+                if (npc.ai[2] > 5f)
                 {
                     npc.ai[0] = -1f;
                     npc.ai[1] = 2f;

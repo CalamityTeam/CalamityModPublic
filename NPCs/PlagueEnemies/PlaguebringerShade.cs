@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -13,9 +12,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Events;
 
-namespace CalamityMod.NPCs.PlaguebringerGoliath
+namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlaguebringerShade : ModNPC
     {
@@ -29,7 +27,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetDefaults()
         {
 			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
+			npc.damage = 70;
 			npc.npcSlots = 8f;
             npc.width = 66;
             npc.height = 66;
@@ -37,10 +35,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.DR_NERD(0.2f);
             npc.lifeMax = 3000;
             npc.value = Item.buyPrice(0, 1, 50, 0);
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 20000;
-            }
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -59,7 +53,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.3f, 0f);
             bool flag113 = false;
-            if (!Main.player[npc.target].ZoneJungle && !BossRushEvent.BossRushActive)
+            if (!Main.player[npc.target].ZoneJungle)
             {
                 flag113 = true;
                 if (npc.timeLeft > 150)
@@ -341,13 +335,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         int num1061;
                         if (Main.rand.NextBool(4))
                         {
-                            num1061 = ModContent.NPCType<PlagueBeeLargeG>();
+                            num1061 = ModContent.NPCType<PlagueBeeLarge>();
                         }
                         else
                         {
-                            num1061 = ModContent.NPCType<PlagueBeeG>();
+                            num1061 = ModContent.NPCType<PlagueBee>();
                         }
-                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeG>()) < 3)
+                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBee>()) < 3)
                         {
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
@@ -447,8 +441,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
-                        int type = Main.rand.NextBool(15) ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
-						int damage = npc.GetProjectileDamage(type);
+						bool fireRocket = Main.rand.NextBool(15);
+                        int type = fireRocket ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
+						int damage = fireRocket ? 72 : 52;
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
@@ -631,9 +626,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void NPCLoot()
         {
-			if (CalamityPlayer.areThereAnyDamnBosses)
-				return;
-
 			if (!CalamityWorld.malice && !CalamityWorld.revenge)
 			{
 				int heartAmt = Main.rand.Next(3) + 3;

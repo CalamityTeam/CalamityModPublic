@@ -25,8 +25,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.GetNPCDamage();
 			npc.width = 22;
             npc.height = 22;
-            npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
+            npc.defense = 20;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 5000 : 500;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -41,7 +41,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, 0.015f, 0.1f, 0f);
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			Lighting.AddLight(npc.Center, 0.015f, 0.1f, 0f);
+
             if (Math.Abs(npc.velocity.X) >= 3f || Math.Abs(npc.velocity.Y) >= 3f)
             {
                 float num247 = 0f;
@@ -72,18 +78,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Main.dust[num252].noGravity = true;
                 Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2 - 6)).RotatedBy((double)npc.rotation, default) * 1.1f;
             }
+
             npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
-            if (npc.ai[2] < 90f)
+
+			float timeBeforeHoming = 90f;
+            if (npc.ai[2] < timeBeforeHoming)
             {
                 npc.ai[2] += 1f;
                 return;
             }
-            int num3;
-            if (npc.ai[0] == 0f && npc.ai[1] > 0f)
-            {
-                npc.ai[1] -= 1f;
-            }
-            else if (npc.ai[0] == 0f && npc.ai[1] == 0f)
+
+            if (npc.ai[0] == 0f && npc.ai[1] == 0f)
             {
                 npc.ai[0] = 1f;
                 npc.ai[1] = (float)Player.FindClosest(npc.position, npc.width, npc.height);
@@ -94,16 +99,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 1f)
             {
                 npc.localAI[1] += 1f;
-                float num757 = 600f;
-                float num758 = 0f;
-                float num759 = 300f;
-                if (npc.localAI[1] == num757)
+                float timeBeforeExploding = 600f;
+                float homingDuration = malice ? 600f : death ? 420f : revenge ? 360f : expertMode ? 300f : 180f;
+                if (npc.localAI[1] == timeBeforeExploding)
                 {
                     CheckDead();
                     npc.life = 0;
                     return;
                 }
-                if (npc.localAI[1] >= num758 && npc.localAI[1] < num758 + num759)
+
+                if (npc.localAI[1] < homingDuration)
                 {
                     npc.noTileCollide = true;
                     Vector2 v3 = Main.player[(int)npc.ai[1]].Center - npc.Center;
@@ -116,18 +121,29 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 else
                 {
                     npc.noTileCollide = false;
+
+					if (npc.velocity.Length() < 20f)
+						npc.velocity *= 1.01f;
+
+					if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+					{
+						CheckDead();
+						npc.life = 0;
+						return;
+					}
                 }
             }
-            for (int num767 = 0; num767 < Main.maxPlayers; num767 = num3 + 1)
+
+			float distanceBeforeExploding = 42f;
+            for (int i = 0; i < Main.maxPlayers; i++)
             {
-                Player player5 = Main.player[num767];
-                if (player5.active && !player5.dead && Vector2.Distance(player5.Center, npc.Center) <= 42f)
+                Player player = Main.player[i];
+                if (player.active && !player.dead && Vector2.Distance(player.Center, npc.Center) <= distanceBeforeExploding)
                 {
                     CheckDead();
                     npc.life = 0;
                     return;
                 }
-                num3 = num767;
             }
         }
 

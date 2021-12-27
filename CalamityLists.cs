@@ -835,9 +835,7 @@ namespace CalamityMod
                 NPCID.QueenBee,
                 NPCType<PlaguebringerGoliath>(),
                 NPCType<PlaguebringerShade>(),
-                NPCType<PlagueBeeLargeG>(),
                 NPCType<PlagueBeeLarge>(),
-                NPCType<PlagueBeeG>(),
                 NPCType<PlagueBee>()
             };
 
@@ -2482,8 +2480,6 @@ namespace CalamityMod
                 NPCID.GolemFistRight,
                 NPCType<PlagueMine>(),
                 NPCType<PlagueHomingMissile>(),
-                NPCType<PlagueBeeG>(),
-                NPCType<PlagueBeeLargeG>(),
                 NPCType<RavagerClawLeft>(),
                 NPCType<RavagerClawRight>(),
                 NPCType<RavagerLegLeft>(),
