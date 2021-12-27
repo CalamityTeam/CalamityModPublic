@@ -48,13 +48,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (Main.myPlayer == player.whoAmI)
                 player.Calamity().rightClickListener = true;
 
-            if (!player.Calamity().mouseRight)
+            if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0)
             {
-                item.noUseGraphic = true;
+                item.noUseGraphic = false;
             }
             else
             {
-                item.noUseGraphic = false;
+                item.noUseGraphic = true;
             }
         }
 
