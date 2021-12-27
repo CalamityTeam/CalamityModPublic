@@ -278,6 +278,7 @@ namespace CalamityMod.NPCs
 		public bool DoesNotDisappearInBossRush;
 
 		// Collections
+		// NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
 		public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
