@@ -60,7 +60,10 @@ namespace CalamityMod.Items.Tools
 
         public override void HoldItem(Player player)
         {
-			if (player.altFunctionUse == 2)
+			if (Main.myPlayer == player.whoAmI)
+				player.Calamity().rightClickListener = true;
+
+			if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CrystylCrusherRay>()] <= 0)
 			{
 				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
@@ -70,19 +73,17 @@ namespace CalamityMod.Items.Tools
 				item.useTurn = true;
 				item.autoReuse = true;
 				item.noMelee = false;
-				item.channel = false;
 			}
 			else
 			{
 				item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 				item.shootSpeed = LaserSpeed;
 				item.tileBoost = -6;
-				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+				item.UseSound = null;
 				item.useStyle = ItemUseStyleID.HoldingOut;
 				item.useTurn = false;
 				item.autoReuse = false;
 				item.noMelee = true;
-				item.channel = true;
 			}
 		}       
 

@@ -114,6 +114,8 @@ namespace CalamityMod.Projectiles.Melee
 		// The AI of the projectile
 		public override void AI()
 		{
+			if (projectile.timeLeft == 300)
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), projectile.Center);
 			Player player = Main.player[projectile.owner];
 			projectile.position = player.Center + projectile.velocity * MOVE_DISTANCE;
 			projectile.timeLeft = 2;
