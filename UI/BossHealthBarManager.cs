@@ -11,6 +11,7 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
@@ -251,6 +252,7 @@ namespace CalamityMod.UI
                 NPCType<ThiccWaifu>(),
                 NPCType<Horse>(),
                 NPCType<GreatSandShark>(),
+                NPCType<PlaguebringerShade>(),
                 NPCType<ArmoredDiggerHead>(),
                 NPCType<CalamitasRun>(), //Clone's brothers
                 NPCType<CalamitasRun2>(),
