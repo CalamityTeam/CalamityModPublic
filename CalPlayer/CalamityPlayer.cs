@@ -2152,8 +2152,6 @@ namespace CalamityMod.CalPlayer
 
             AbleToSelectExoMech = false;
 
-            mouseRight = false;
-
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
         #endregion

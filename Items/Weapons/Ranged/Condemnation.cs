@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 42;
             item.useTime = item.useAnimation = 23;
             item.useStyle = ItemUseStyleID.HoldingOut;
+            item.channel = true;
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = CalamityGlobalItem.RarityVioletBuyPrice;
@@ -44,36 +45,30 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void HoldItem(Player player)
         {
-            if (player.altFunctionUse == 2)
+            if (Main.myPlayer == player.whoAmI)
+                player.Calamity().rightClickListener = true;
+
+            if (!player.Calamity().mouseRight)
             {
-                item.noUseGraphic = false;
-                item.UseSound = SoundID.DD2_BallistaTowerShot;
-                item.channel = false;
+                item.noUseGraphic = true;
             }
             else
             {
-                item.noUseGraphic = true;
-                item.UseSound = SoundID.Item20;
-                item.channel = true;               
+                item.noUseGraphic = false;
             }
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse != 2)
-            {
-                return player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
-            }
-            return base.CanUseItem(player);
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 shootVelocity = new Vector2(speedX, speedY);
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
 
+
+
             // Single arrow firing.
-            if (player.altFunctionUse == 2)
+            if (player.Calamity().mouseRight)
             {
                 Vector2 tipPosition = position + shootDirection * 110f;
                 Projectile.NewProjectile(tipPosition, shootVelocity, item.shoot, damage, knockBack, player.whoAmI);
