@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.SuperDirectionalTile>();
+            item.createTile = ModContent.TileType<Tiles.MetaTileCrystalExample>();
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;

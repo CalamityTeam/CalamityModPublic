@@ -6,13 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class SuperDirectionalTile : ModTile
+	public abstract class SuperDirectionalTile : ModTile
     {
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            texture = "CalamityMod/Tiles/MetaTileCrystalExample";
-            return base.Autoload(ref name, ref texture);
-        }
         private enum TileDirection : byte
         {
             Up, Down, Left, Right, UpLeft, UpRight, DownLeft, DownRight, Center
@@ -32,22 +27,6 @@ namespace CalamityMod.Tiles
           { 1, 1, 2, 2, 3, 3, 1, 2, 3, 1, 2, 3, null },
           { 1, 1, 2, 2, 3, 3, 1, 2, 3, null, null, null, null }
         };
-
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileBlockLight[Type] = true;
-
-            CalamityUtils.MergeWithGeneral(Type);
-            CalamityUtils.MergeAstralTiles(Type);
-            CalamityUtils.SetMerge(Type, TileID.LeafBlock);
-            CalamityUtils.SetMerge(Type, TileID.LivingMahoganyLeaves);
-            CalamityUtils.SetMerge(Type, TileID.LivingWood);
-            CalamityUtils.SetMerge(Type, TileID.LivingMahogany);
-
-            drop = ModContent.ItemType<Items.Placeables.MetaTile>();
-            AddMapEntry(new Color(45, 36, 63));
-        }
 
         private TileDirection? GiveDirection(int type, int i, int j)
         {
