@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
 			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
