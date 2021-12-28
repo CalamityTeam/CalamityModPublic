@@ -24,9 +24,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.damage = 50;
 			npc.width = npc.height = 30;
             npc.defense = 8;
-            npc.lifeMax = 450;
+            npc.lifeMax = 400;
             npc.knockBackResist = 0f;
-            npc.HitSound = SoundID.NPCHit1;
+			npc.value = Item.buyPrice(0, 0, 6, 0);
+			npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ParaseaBanner>();
