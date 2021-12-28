@@ -733,11 +733,10 @@ namespace CalamityMod.CalPlayer
             {
                 if (modPlayer.eGauntlet)
                 {
-					int duration = 180;
+					int duration = 300;
 					target.AddBuff(BuffID.OnFire, duration, false);
 					target.AddBuff(BuffID.Frostburn, duration, false);
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
                 }
                 if (modPlayer.cryogenSoul || modPlayer.frostFlare)
                 {
@@ -882,11 +881,10 @@ namespace CalamityMod.CalPlayer
             {
                 if (modPlayer.eGauntlet)
                 {
-					int duration = 180;
+					int duration = 300;
 					target.AddBuff(BuffID.OnFire, duration, false);
 					target.AddBuff(BuffID.Frostburn, duration, false);
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
                 }
                 if (modPlayer.aWeapon)
                 {
