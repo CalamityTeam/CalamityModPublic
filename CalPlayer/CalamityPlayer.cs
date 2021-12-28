@@ -4959,7 +4959,11 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
 
-                case ItemID.BeeKeeper:
+				case ItemID.BladeofGrass:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ItemID.BeeKeeper:
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
@@ -5081,7 +5085,15 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
 
-                case ProjectileID.Bee:
+				case ProjectileID.PoisonedKnife:
+					target.AddBuff(BuffID.Poisoned, 300);
+					break;
+
+				case ProjectileID.ThornChakram:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ProjectileID.Bee:
                 case ProjectileID.GiantBee:
                     target.AddBuff(BuffID.Poisoned, 120);
                     break;
@@ -5193,7 +5205,11 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
 
-                case ItemID.BeeKeeper:
+				case ItemID.BladeofGrass:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ItemID.BeeKeeper:
                     target.AddBuff(BuffID.Poisoned, 240);
                     break;
 
@@ -5274,7 +5290,15 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
                     break;
 
-                case ProjectileID.Bee:
+				case ProjectileID.PoisonedKnife:
+					target.AddBuff(BuffID.Poisoned, 300);
+					break;
+
+				case ProjectileID.ThornChakram:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ProjectileID.Bee:
                 case ProjectileID.GiantBee:
                     target.AddBuff(BuffID.Poisoned, 120);
                     break;
