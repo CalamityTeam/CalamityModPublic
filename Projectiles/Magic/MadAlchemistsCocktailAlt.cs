@@ -40,15 +40,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 150);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 150);
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
-            target.AddBuff(BuffID.Poisoned, 150);
-            target.AddBuff(BuffID.OnFire, 150);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
+            target.AddBuff(BuffID.Poisoned, 120);
+            target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.CursedInferno, 90);
-            target.AddBuff(BuffID.Frostburn, 150);
-            target.AddBuff(BuffID.Venom, 150);
-            target.AddBuff(BuffID.ShadowFlame, 150);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.ShadowFlame, 120);
         }
 
         public override void Kill(int timeLeft)

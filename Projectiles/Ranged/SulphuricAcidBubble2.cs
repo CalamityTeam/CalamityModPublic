@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 target.buffImmune[BuffID.Venom] = false;
             }
-            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Venom, 300);
         }
 
         public override void Kill(int timeLeft)

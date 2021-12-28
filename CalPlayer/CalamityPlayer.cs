@@ -5100,7 +5100,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.Wasp:
                     target.AddBuff(BuffID.Poisoned, 120);
-                    target.AddBuff(BuffID.Venom, 120);
+                    target.AddBuff(BuffID.Venom, 60);
                     break;
 
                 case ProjectileID.BoneArrow:
@@ -5305,7 +5305,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.Wasp:
                     target.AddBuff(BuffID.Poisoned, 120);
-                    target.AddBuff(BuffID.Venom, 120);
+                    target.AddBuff(BuffID.Venom, 60);
                     break;
 
                 case ProjectileID.BoneArrow:

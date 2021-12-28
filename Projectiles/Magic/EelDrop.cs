@@ -53,14 +53,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 60);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 60);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

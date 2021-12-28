@@ -733,15 +733,10 @@ namespace CalamityMod.CalPlayer
             {
                 if (modPlayer.eGauntlet)
                 {
-					int duration = 90;
-                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffID.Ichor, duration, false);
-                    target.AddBuff(BuffID.Venom, duration, false);
-                    target.AddBuff(BuffType<GodSlayerInferno>(), duration, false);
-                    target.AddBuff(BuffType<AbyssalFlames>(), duration, false);
+					int duration = 180;
+					target.AddBuff(BuffID.OnFire, duration, false);
+					target.AddBuff(BuffID.Frostburn, duration, false);
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
                 }
                 if (modPlayer.cryogenSoul || modPlayer.frostFlare)
@@ -887,15 +882,10 @@ namespace CalamityMod.CalPlayer
             {
                 if (modPlayer.eGauntlet)
                 {
-					int duration = 90;
-                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffID.Ichor, duration, false);
-                    target.AddBuff(BuffID.Venom, duration, false);
-                    target.AddBuff(BuffType<GodSlayerInferno>(), duration, false);
-                    target.AddBuff(BuffType<AbyssalFlames>(), duration, false);
+					int duration = 180;
+					target.AddBuff(BuffID.OnFire, duration, false);
+					target.AddBuff(BuffID.Frostburn, duration, false);
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
                 }
                 if (modPlayer.aWeapon)
