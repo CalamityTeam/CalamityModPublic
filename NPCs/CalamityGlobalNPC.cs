@@ -1016,48 +1016,48 @@ namespace CalamityMod.NPCs
 
 			// Debuff vulnerabilities and resistances.
 			// Damage multiplier calcs.
-			double heatDamageMult = npc.drippingSlime ? 4D : 1D;
+			double heatDamageMult = npc.drippingSlime ? 5D : 1D;
 			if (VulnerableToHeat.HasValue)
 			{
 				if (VulnerableToHeat.Value)
-					heatDamageMult *= npc.drippingSlime ? 2D : 4D;
+					heatDamageMult *= npc.drippingSlime ? 2D : 5D;
 				else
-					heatDamageMult *= npc.drippingSlime ? 0.25 : 0.5;
+					heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
 			}
 
 			double coldDamageMult = 1D;
 			if (VulnerableToCold.HasValue)
 			{
 				if (VulnerableToCold.Value)
-					coldDamageMult *= 4D;
+					coldDamageMult *= 5D;
 				else
 					coldDamageMult *= 0.5;
 			}
 
-			double sicknessDamageMult = irradiated > 0 ? 4D : 1D;
+			double sicknessDamageMult = irradiated > 0 ? 5D : 1D;
 			if (VulnerableToSickness.HasValue)
 			{
 				if (VulnerableToSickness.Value)
-					sicknessDamageMult *= irradiated > 0 ? 2D : 4D;
+					sicknessDamageMult *= irradiated > 0 ? 2D : 5D;
 				else
-					sicknessDamageMult *= irradiated > 0 ? 0.25 : 0.5;
+					sicknessDamageMult *= irradiated > 0 ? 0.2 : 0.5;
 			}
 
 			bool increasedElectricityDamage = npc.wet || npc.honeyWet || npc.lavaWet || npc.dripping;
-			double electricityDamageMult = increasedElectricityDamage ? 4D : 1D;
+			double electricityDamageMult = increasedElectricityDamage ? 5D : 1D;
 			if (VulnerableToElectricity.HasValue)
 			{
 				if (VulnerableToElectricity.Value)
-					electricityDamageMult *= increasedElectricityDamage ? 2D : 4D;
+					electricityDamageMult *= increasedElectricityDamage ? 2D : 5D;
 				else
-					electricityDamageMult *= increasedElectricityDamage ? 0.25 : 0.5;
+					electricityDamageMult *= increasedElectricityDamage ? 0.2 : 0.5;
 			}
 
 			double waterDamageMult = 1D;
 			if (VulnerableToWater.HasValue)
 			{
 				if (VulnerableToWater.Value)
-					waterDamageMult *= 4D;
+					waterDamageMult *= 5D;
 				else
 					waterDamageMult *= 0.5;
 			}
