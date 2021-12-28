@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<FrigidflashBolt>());
             recipe.AddIngredient(ItemID.WaterBolt);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);

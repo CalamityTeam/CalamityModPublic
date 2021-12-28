@@ -48,6 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<AmidiasTrident>());
             recipe.AddIngredient(ModContent.ItemType<Atlantis>());
             recipe.AddIngredient(ItemID.InfluxWaver);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 25);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 50);
             recipe.AddTile(TileID.LunarCraftingStation);

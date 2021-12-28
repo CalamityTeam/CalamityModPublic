@@ -69,6 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SDMG);
             recipe.AddIngredient(ModContent.ItemType<FetidEmesis>());
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

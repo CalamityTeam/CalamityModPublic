@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddRecipeGroup("AnyCobaltBar", 8);
             recipe.AddIngredient(ItemID.PixieDust, 10);
             recipe.AddTile(TileID.Anvils);

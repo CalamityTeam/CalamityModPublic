@@ -95,6 +95,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Monsoon>());
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

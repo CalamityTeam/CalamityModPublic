@@ -54,11 +54,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.RazorbladeTyphoon);
+            recipe.AddIngredient(ModContent.ItemType<Poseidon>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ItemID.SoulofSight, 10);
             recipe.AddIngredient(ItemID.UnicornHorn, 5);
-            recipe.AddIngredient(ItemID.RazorbladeTyphoon);
-            recipe.AddIngredient(ModContent.ItemType<Poseidon>());
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
