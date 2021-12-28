@@ -44,14 +44,5 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             return false;
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }

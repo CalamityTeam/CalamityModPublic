@@ -64,12 +64,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 240);
+            target.AddBuff(BuffID.Venom, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 240);
+            target.AddBuff(BuffID.Venom, 120);
         }
     }
 }

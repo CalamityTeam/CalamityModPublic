@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 8;
             npc.alpha = 100;
             npc.lifeMax = 50;
-            npc.knockBackResist = 0f;
+			npc.value = Item.buyPrice(0, 0, 1, 0);
+			npc.knockBackResist = 0f;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
 			npc.Calamity().VulnerableToHeat = true;

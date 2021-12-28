@@ -1943,6 +1943,9 @@ namespace CalamityMod.NPCs
                 enrageScale += 2f;
             }
 
+			// Extra distance for teleports if enraged
+			int teleportDistanceIncrease = (int)(enrageScale * 3);
+
 			// Spawn Creepers
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
             {
@@ -2209,7 +2212,7 @@ namespace CalamityMod.NPCs
                                 num801 = (int)Main.player[npc.target].Center.X / 16;
                                 num802 = (int)Main.player[npc.target].Center.Y / 16;
 
-                                int min = 9;
+								int min = 9;
                                 int max = (phase2 && !phase3) ? 11 : 15;
 
                                 if (phase3)
@@ -2217,6 +2220,9 @@ namespace CalamityMod.NPCs
                                     min = 17;
                                     max = 20;
                                 }
+
+								min += teleportDistanceIncrease;
+								max += teleportDistanceIncrease;
 
                                 if (Main.rand.NextBool(2))
                                     num801 += Main.rand.Next(min, max);
@@ -2370,8 +2376,8 @@ namespace CalamityMod.NPCs
                                 num810 = (int)Main.player[npc.target].Center.X / 16;
                                 num811 = (int)Main.player[npc.target].Center.Y / 16;
 
-                                int min = 18;
-                                int max = 26;
+                                int min = 18 + teleportDistanceIncrease;
+                                int max = 26 + teleportDistanceIncrease;
 
                                 if (Main.rand.NextBool(2))
                                     num810 += Main.rand.Next(min, max);

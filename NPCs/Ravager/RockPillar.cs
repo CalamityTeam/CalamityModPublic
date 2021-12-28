@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            if (npc.alpha > 0)
+			if (npc.alpha > 0)
             {
 				npc.damage = 0;
 

@@ -1,5 +1,7 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,14 +29,15 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<SulphurskinBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(240f);
+            item.buffTime = CalamityUtils.SecondsToFrames(150f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>()); //possibly add herbs if added to sulph sea
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 15); //possibly add herbs if added to sulph sea
+            recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 15);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);
