@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;

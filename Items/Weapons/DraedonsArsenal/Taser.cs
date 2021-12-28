@@ -1,5 +1,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using System.Collections.Generic;
 using Terraria;
