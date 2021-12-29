@@ -1448,21 +1448,18 @@ namespace CalamityMod.NPCs
                             Vector2 vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                             float num349 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector34.X;
                             float num350 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector34.Y;
-                            float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
-
-                            num349 *= num351;
-                            num350 *= num351;
-
-                            float num418 = 12f;
-							int type = ProjectileID.CursedFlameHostile;
-                            num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
+							float num418 = 12f;
+							float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
                             num351 = num418 / num351;
                             num349 *= num351;
                             num350 *= num351;
-                            vector34.X += num349 * 3f;
-                            vector34.Y += num350 * 3f;
+							num350 += npc.velocity.Y * 0.5f;
+							num349 += npc.velocity.X * 0.5f;
+							vector34.X -= num349;
+							vector34.Y -= num350;
 
-                            Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+							int type = ProjectileID.CursedFlameHostile;
+							Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
