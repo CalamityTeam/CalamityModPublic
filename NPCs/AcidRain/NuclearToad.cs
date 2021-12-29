@@ -1,7 +1,9 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,11 +55,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<NuclearToadBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -143,6 +145,13 @@ namespace CalamityMod.NPCs.AcidRain
                 for (int i = 0; i < 25; i++)
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextFloat(-2f, 2f), -1f, 0, default, 1f);
             }
+        }
+
+        public override void NPCLoot()
+        {
+            float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CausticCroakerStaff>(), dropChance);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);

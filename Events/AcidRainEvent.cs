@@ -18,6 +18,7 @@ namespace CalamityMod.Events
         Land,
         Anywhere
     }
+
     public struct AcidRainSpawnData
     {
         public int InvasionContributionPoints { get; set; }
@@ -30,6 +31,7 @@ namespace CalamityMod.Events
             SpawnRequirement = spawnRequirement;
         }
     }
+
     public class AcidRainEvent
     {
         public static int MaxNuclearToadCount = 5; // To prevent the things from spamming. This happens frequently in pre-HM.
@@ -38,7 +40,8 @@ namespace CalamityMod.Events
 
         public static readonly Color TextColor = new Color(115, 194, 147);
 
-        public const int InvasionNoKillPersistTime = 14400; // How long the invasion persists, in frames, if nothing is killed.
+        // How long the invasion persists, in frames, if nothing is killed.
+        public const int InvasionNoKillPersistTime = 9000;
 
         public const float BloodwormSpawnRate = 0.1f;
 
@@ -127,11 +130,11 @@ namespace CalamityMod.Events
                     }
                 }
                 if (CalamityWorld.downedPolterghast)
-                    return (int)(140 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(Math.Log(playerCount + Math.E - 1) * 170f);
                 else if (CalamityWorld.downedAquaticScourge)
-                    return (int)(115 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(Math.Log(playerCount + Math.E - 1) * 135f);
                 else
-                    return (int)(90 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(Math.Log(playerCount + Math.E - 1) * 110f);
             }
         }
         /// <summary>
@@ -141,14 +144,14 @@ namespace CalamityMod.Events
         {
             if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || BossRushEvent.BossRushActive)
                 return;
+
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
             {
                 if (Main.player[i].active)
-                {
                     playerCount++;
-                }
             }
+
             if (playerCount > 0)
             {
                 CalamityWorld.rainingAcid = true;
@@ -198,23 +201,22 @@ namespace CalamityMod.Events
                 int sulphSeaWidth = SulphurousSea.BiomeWidth;
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                 {
-                    // A variable named "player" already exists above, which retrieves the player who is closest to the map center.
-                    Player player2 = Main.player[playerIndex];
-                    if (player2.active)
+                    Player player = Main.player[playerIndex];
+                    if (!player.active)
+                        continue;
+
+                    // An artificial biome can be made, and therefore, the event could be started by an artificial biome.
+                    // While fighting the event in an artificial biome is not bad, having it be started by a patch of Sulphurous Sand
+                    // would definitely be strange.
+                    // Because of this, this code is executed based on if the player is in the sea (based on tile count) AND position relative to the naturally generated sea.
+                    bool inNaturalSeaPosition = (player.Center.X <= (sulphSeaWidth + 60f) * 16f && CalamityWorld.abyssSide) || (player.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !CalamityWorld.abyssSide);
+                    if (inNaturalSeaPosition && player.Calamity().ZoneSulphur)
                     {
-                        // An artificial biome can be made, and therefore, the event could be started by an artificial biome.
-                        // While fighting the event in an artificial biome is not bad, having it be started by a patch of Sulphurous Sand
-                        // would definitely be strange.
-                        // Because of this, this code is executed based on if the player is in the sea (based on tile count) AND position relative to the naturally generated sea.
-                        bool inNaturalSeaPosition = (player2.Center.X <= (sulphSeaWidth + 60f) * 16f && CalamityWorld.abyssSide) || (player2.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !CalamityWorld.abyssSide);
-                        if (inNaturalSeaPosition && player2.Calamity().ZoneSulphur)
-                        {
-                            // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
-                            // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-                            CalamityWorld.startAcidicDownpour = true;
-                            CalamityNetcode.SyncWorld();
-                            break;
-                        }
+                        // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
+                        // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
+                        CalamityWorld.startAcidicDownpour = true;
+                        CalamityNetcode.SyncWorld();
+                        break;
                     }
                 }
             }
@@ -336,7 +338,7 @@ namespace CalamityMod.Events
             // Attempt to start the acid rain at the 4:29AM.
             // This does not happen if a player has the Broken Water Filter in use.
             bool increasedEventChance = !CalamityWorld.downedEoCAcidRain || (!CalamityWorld.downedAquaticScourgeAcidRain && CalamityWorld.downedAquaticScourge) || (!CalamityWorld.downedBoomerDuke && CalamityWorld.downedPolterghast);
-            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(increasedEventChance ? 3 : 300))
+            if ((int)Main.time == (int)(Main.nightLength - 1f) && !Main.dayTime && Main.rand.NextBool(increasedEventChance ? 3 : 300))
             {
                 bool shouldNotStartEvent = false;
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)

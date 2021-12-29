@@ -6,13 +6,15 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Enemy
 {
     public class CragmawBeam : ModProjectile
     {
         // How long this laser can exist before it is deleted.
-        public const int TrueTimeLeft = 120;
+        public const int Lifetime = 120;
 
         // Pretty self explanatory
         private const float maximumLength = 1200f;
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = TrueTimeLeft;
+            projectile.timeLeft = Lifetime;
         }
 
         // Netcode for sending and receiving shit
@@ -70,14 +72,14 @@ namespace CalamityMod.Projectiles.Enemy
             float laserSize = 1.6f;
 
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= TrueTimeLeft)
+            if (projectile.localAI[0] >= Lifetime)
             {
                 projectile.Kill();
                 return;
             }
 
             // Causes the effect where the laser appears to expand/contract at the beginning and end of its life
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / TrueTimeLeft) * 10f * laserSize;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / Lifetime) * 10f * laserSize;
             if (projectile.scale > laserSize)
             {
                 projectile.scale = laserSize;
@@ -102,6 +104,14 @@ namespace CalamityMod.Projectiles.Enemy
             float lerpDelta = 0.5f;
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength, lerpDelta);
             Vector2 beamEndPosiiton = projectile.Center + projectile.velocity * (projectile.localAI[1] - 6f);
+
+            // Release acid along the beam periodically.
+            if (projectile.timeLeft % 20 == 19 && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Vector2 acidSpawnPosition = projectile.Center + projectile.velocity * projectile.localAI[1] * Main.rand.NextFloat(0.1f, 0.8f);
+                if (!Main.player[Player.FindClosest(acidSpawnPosition, 1, 1)].WithinRange(acidSpawnPosition, 300f))
+                    Projectile.NewProjectile(acidSpawnPosition, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<CragmawAcidDrop>(), projectile.damage / 2, 0f);
+            }
 
             if (WorldGen.SolidTile((int)(beamEndPosiiton.X / 16), (int)(beamEndPosiiton.Y / 16)))
             {
