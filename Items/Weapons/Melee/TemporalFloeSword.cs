@@ -64,13 +64,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(BuffID.Frostburn, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(BuffID.Frostburn, 300);
         }
     }
 }

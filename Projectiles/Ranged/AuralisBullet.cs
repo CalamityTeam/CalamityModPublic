@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int duration = 600;
+			int duration = 300;
 			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
 			target.AddBuff(BuffID.Ichor, duration);
 			target.AddBuff(BuffID.CursedInferno, duration);
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			int duration = 600;
+			int duration = 300;
 			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
 			target.AddBuff(BuffID.Ichor, duration);
 			target.AddBuff(BuffID.CursedInferno, duration);

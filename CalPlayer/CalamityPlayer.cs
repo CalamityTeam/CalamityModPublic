@@ -4989,14 +4989,11 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ItemID.IceBlade:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 360);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
             }
 
@@ -5134,7 +5131,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.FrostBlastFriendly:
                 case ProjectileID.NorthPoleWeapon:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ProjectileID.FrostBoltStaff:
@@ -5142,28 +5139,21 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.FrostBoltSword:
                 case ProjectileID.FrostArrow:
                 case ProjectileID.NorthPoleSpear:
-                    target.AddBuff(BuffID.Frostburn, 480);
+				case ProjectileID.Amarok:
+                    target.AddBuff(BuffID.Frostburn, 180);
                     break;
 
                 case ProjectileID.Blizzard:
                 case ProjectileID.NorthPoleSnowflake:
-                    target.AddBuff(BuffID.Frostburn, 240);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
                 case ProjectileID.SnowBallFriendly:
-                    if (Main.rand.NextBool(10))
-                        target.AddBuff(BuffID.Frostburn, 120);
-                    else if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 240);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
                     break;
 
                 case ProjectileID.NightBeam:
@@ -5260,14 +5250,11 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ItemID.IceBlade:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 360);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
             }
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, true);
@@ -5364,7 +5351,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.FrostBlastFriendly:
                 case ProjectileID.NorthPoleWeapon:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ProjectileID.FrostBoltStaff:
@@ -5372,28 +5359,21 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.FrostBoltSword:
                 case ProjectileID.FrostArrow:
                 case ProjectileID.NorthPoleSpear:
-                    target.AddBuff(BuffID.Frostburn, 480);
+				case ProjectileID.Amarok:
+					target.AddBuff(BuffID.Frostburn, 180);
                     break;
 
                 case ProjectileID.Blizzard:
                 case ProjectileID.NorthPoleSnowflake:
-                    target.AddBuff(BuffID.Frostburn, 240);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
                 case ProjectileID.SnowBallFriendly:
-                    if (Main.rand.NextBool(10))
-                        target.AddBuff(BuffID.Frostburn, 120);
-                    else if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 240);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
                     break;
 
                 case ProjectileID.NightBeam:

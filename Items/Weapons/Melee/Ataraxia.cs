@@ -72,7 +72,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 480);
-            target.AddBuff(BuffID.Ichor, 480);
             OnHitEffects(player, target.Center);
         }
 
@@ -80,7 +79,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 480);
-            target.AddBuff(BuffID.Ichor, 480);
             OnHitEffects(player, target.Center);
         }
 

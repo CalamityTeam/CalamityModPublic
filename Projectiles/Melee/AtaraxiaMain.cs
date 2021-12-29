@@ -61,7 +61,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 180);
-            target.AddBuff(BuffID.Ichor, 180);
         }
 
         // Explodes like Exoblade's Exobeams

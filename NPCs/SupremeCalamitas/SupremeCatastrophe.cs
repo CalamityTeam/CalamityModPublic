@@ -41,9 +41,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 80;
-            npc.DR_NERD(0.25f, null, null, null, true);
-            CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+            npc.DR_NERD(0.25f);
             npc.LifeMaxNERB(230000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

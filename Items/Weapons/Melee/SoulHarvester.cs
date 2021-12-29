@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(BuffID.CursedInferno, 120);
             if (target.life <= (target.lifeMax * 0.15f))
             {
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(BuffID.CursedInferno, 120);
             if (target.statLife <= (target.statLifeMax * 0.15f))
             {

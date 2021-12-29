@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 300);
+            target.AddBuff(BuffID.Ichor, 120);
             if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 target.damage = target.defDamage - 5;

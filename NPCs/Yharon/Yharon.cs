@@ -74,9 +74,7 @@ namespace CalamityMod.NPCs.Yharon
             aiType = -1;
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
-			npc.DR_NERD(normalDR, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
+			npc.DR_NERD(normalDR);
 
             npc.noGravity = true;
             npc.noTileCollide = true;

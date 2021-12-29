@@ -76,11 +76,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.dust[dustID].scale *= 2f;
             }
 
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(BuffID.Frostburn, 420);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<Plague>(), 420);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -92,11 +91,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.dust[dustID].scale *= 2f;
             }
 
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(BuffID.Frostburn, 420);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<Plague>(), 420);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
     }
 }

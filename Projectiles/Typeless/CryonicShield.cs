@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
             if (target.knockBackResist <= 0f)
                 return;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, projectile.Size.Length() * 0.5f, targetHitbox);

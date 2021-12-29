@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
@@ -56,6 +57,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(ModContent.BuffType<Plague>(), 180);
-        }
+			target.AddBuff(BuffID.CursedInferno, 90);
+		}
     }
 }

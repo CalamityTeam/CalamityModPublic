@@ -182,9 +182,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.npcSlots = 50f;
             npc.width = npc.height = 44;
             npc.defense = 100;
-			npc.DR_NERD(normalDR, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			npc.DR_NERD(normalDR);
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(960000, 1150000, 500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

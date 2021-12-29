@@ -61,7 +61,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 180);
-            target.AddBuff(BuffID.Ichor, 180);
         }
 
         // Spawns 6 smaller projectiles that slowly glide outward and ignore iframes
