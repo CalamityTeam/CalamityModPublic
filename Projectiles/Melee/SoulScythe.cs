@@ -39,8 +39,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, projectile.position);

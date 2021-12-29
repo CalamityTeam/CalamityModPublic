@@ -147,16 +147,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<Plague>(), 240);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            target.AddBuff(BuffID.CursedInferno, 240);
-            target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.Ichor, 240);
+			target.AddBuff(BuffID.Frostburn, 300);
+			target.AddBuff(BuffID.OnFire, 360);
 
-            if (!target.canGhostHeal || player.moonLeech)
+			if (!target.canGhostHeal || player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(3) + 10;
@@ -166,16 +162,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<Plague>(), 240);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            target.AddBuff(BuffID.CursedInferno, 240);
-            target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.Ichor, 240);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+			target.AddBuff(BuffID.Frostburn, 300);
+			target.AddBuff(BuffID.OnFire, 360);
 
-            if (player.moonLeech)
+			if (player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(3) + 10;

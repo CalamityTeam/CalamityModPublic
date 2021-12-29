@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 8;
-            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.OnFire, 300);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

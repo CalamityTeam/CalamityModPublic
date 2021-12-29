@@ -168,14 +168,14 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(BuffID.OnFire, 600);
-			target.AddBuff(BuffID.Frostburn, 600);
+			target.AddBuff(BuffID.OnFire, 180);
+			target.AddBuff(BuffID.Frostburn, 90);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.OnFire, 600);
-			target.AddBuff(BuffID.Frostburn, 600);
+			target.AddBuff(BuffID.OnFire, 180);
+			target.AddBuff(BuffID.Frostburn, 90);
 		}
 
 		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => OnHit();

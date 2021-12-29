@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.OnFire, 240);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

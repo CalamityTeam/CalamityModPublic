@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				spawnInfo.playerSafe ||
 				!spawnInfo.player.ZoneDesert ||
 				!spawnInfo.player.ZoneOverworldHeight ||
+				Main.eclipse ||
 				Main.snowMoon ||
 				Main.pumpkinMoon ||
 				NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))

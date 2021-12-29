@@ -45,8 +45,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<ChaosFlameSmall>();
-                        break;
                     case 1:
                         type = ModContent.ProjectileType<ChaosFlameSmall>();
                         break;

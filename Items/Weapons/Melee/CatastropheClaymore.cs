@@ -74,8 +74,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
         }
 
@@ -84,8 +84,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
         }
     }

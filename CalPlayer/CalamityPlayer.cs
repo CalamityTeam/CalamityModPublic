@@ -4959,6 +4959,12 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
 
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
 				case ItemID.BladeofGrass:
 					target.AddBuff(BuffID.Poisoned, 210);
 					break;
@@ -5071,7 +5077,26 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, 180);
                     break;
 
-                case ProjectileID.GolemFist:
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
@@ -5205,6 +5230,12 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
 
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
 				case ItemID.BladeofGrass:
 					target.AddBuff(BuffID.Poisoned, 210);
 					break;
@@ -5276,7 +5307,26 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, 180);
                     break;
 
-                case ProjectileID.GolemFist:
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 

@@ -50,12 +50,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.OnFire, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.OnFire, 90);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

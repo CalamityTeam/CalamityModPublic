@@ -99,8 +99,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.OnFire, 360);
-			target.AddBuff(BuffID.CursedInferno, 180);
+			target.AddBuff(BuffID.OnFire, 180);
+			target.AddBuff(BuffID.CursedInferno, 90);
         }
 
 		public override void Kill(int timeLeft)

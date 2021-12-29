@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -111,14 +112,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }
