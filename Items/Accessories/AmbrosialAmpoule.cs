@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Accessories
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CrimsonFlask>());
             recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
