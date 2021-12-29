@@ -94,14 +94,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 900);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
+            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 900);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
+            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void Kill(int timeLeft)

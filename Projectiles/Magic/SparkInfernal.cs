@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 300);
-            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.Daybreak, 120);
+            target.AddBuff(BuffID.OnFire, 240);
         }
     }
 }

@@ -818,12 +818,12 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<HolyFlames>(), 300);
+					target.AddBuff(BuffType<HolyFlames>(), 180);
 				}
 
 				if (modPlayer.shadowMinions)
 				{
-					target.AddBuff(BuffID.ShadowFlame, 300);
+					target.AddBuff(BuffID.ShadowFlame, 180);
 				}
 
 				if (modPlayer.voltaicJelly)
@@ -959,12 +959,12 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<HolyFlames>(), 300);
+					target.AddBuff(BuffType<HolyFlames>(), 180);
 				}
 
 				if (modPlayer.shadowMinions)
 				{
-					target.AddBuff(BuffID.ShadowFlame, 300);
+					target.AddBuff(BuffID.ShadowFlame, 180);
 				}
 
 				if (modPlayer.voltaicJelly)

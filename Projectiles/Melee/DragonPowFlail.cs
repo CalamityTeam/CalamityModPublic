@@ -142,10 +142,10 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[projectile.owner].WithinRange(target.Center, 475f))
                 return;
 
-            // Inflicts Daybroken, Abyssal Flames and Holy Flames for 8 seconds on-hit
-            target.AddBuff(BuffID.Daybreak, 480);
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            // Inflicts Daybroken, Abyssal Flames and Holy Flames for 3 seconds on-hit
+            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;

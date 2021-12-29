@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 900);
+            target.AddBuff(BuffID.Daybreak, 300);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
