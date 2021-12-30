@@ -233,6 +233,7 @@ namespace CalamityMod.NPCs.Providence
 			int moltenBlastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<MoltenBlast>()) * projectileDamageMult;
 			int holyFireDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyFire>()) * projectileDamageMult;
 			int holyBlastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyBlast>()) * projectileDamageMult;
+			int holyStarDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyBurnOrb>()) * projectileDamageMult;
 
 			// Change dust type at night
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
@@ -893,12 +894,15 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+									int dmgAmt = holyStarDamage;
 									if (Main.rand.NextBool(healingStarChance) && !death)
+									{
 										projectileType = ModContent.ProjectileType<HolyLight>();
-
-									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
-
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+										dmgAmt = npc.GetProjectileDamageNoScaling(projectileType);
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+									}
+									else
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
 								}
 
 								// Radial offset
@@ -925,12 +929,15 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+									int dmgAmt = holyStarDamage;
 									if (Main.rand.NextBool(healingStarChance) && !death)
+									{
 										projectileType = ModContent.ProjectileType<HolyLight>();
-
-									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
-
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+										dmgAmt = npc.GetProjectileDamageNoScaling(projectileType);
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+									}
+									else
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
 								}
 							}
 						}
@@ -952,7 +959,7 @@ namespace CalamityMod.NPCs.Providence
 							{
 								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity * 1.5f;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								Projectile.NewProjectile(fireFrom, velocity2, type, holyStarDamage, 0f, Main.myPlayer);
 							}
 						}
 					}

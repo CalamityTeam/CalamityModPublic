@@ -712,7 +712,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyBlast>()), new int[] { 130, 208, 228, 240, 342 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyFire>()), new int[] { 120, 192, 220, 236, 330 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyFire2>()), new int[] { 120, 192, 220, 236, 330 } },
-				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyBurnOrb>()), new int[] { -100, -150, -180, -200, -250 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyBurnOrb>()), new int[] { 130, 208, 228, 240, 342 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyLight>()), new int[] { 35, 50, 50, 0, 0 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<MoltenBlast>()), new int[] { 110, 168, 196, 208, 294 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<MoltenBlob>()), new int[] { 110, 168, 196, 208, 294 } },
