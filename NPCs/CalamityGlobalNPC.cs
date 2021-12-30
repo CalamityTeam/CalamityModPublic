@@ -1017,11 +1017,14 @@ namespace CalamityMod.NPCs
 
 			// Debuff vulnerabilities and resistances.
 			// Damage multiplier calcs.
-			double heatDamageMult = npc.drippingSlime ? 5D : 1D;
+			// Worms that are vulnerable to debuffs take reduced damage from vulnerabilities.
+			bool wormBoss = DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type) ||
+				AquaticScourgeIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type);
+			double heatDamageMult = npc.drippingSlime ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToHeat.HasValue)
 			{
 				if (VulnerableToHeat.Value)
-					heatDamageMult *= npc.drippingSlime ? 2D : 5D;
+					heatDamageMult *= npc.drippingSlime ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
 			}
@@ -1030,26 +1033,26 @@ namespace CalamityMod.NPCs
 			if (VulnerableToCold.HasValue)
 			{
 				if (VulnerableToCold.Value)
-					coldDamageMult *= 5D;
+					coldDamageMult *= wormBoss ? 3D : 5D;
 				else
 					coldDamageMult *= 0.5;
 			}
 
-			double sicknessDamageMult = irradiated > 0 ? 5D : 1D;
+			double sicknessDamageMult = irradiated > 0 ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToSickness.HasValue)
 			{
 				if (VulnerableToSickness.Value)
-					sicknessDamageMult *= irradiated > 0 ? 2D : 5D;
+					sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					sicknessDamageMult *= irradiated > 0 ? 0.2 : 0.5;
 			}
 
 			bool increasedElectricityDamage = npc.wet || npc.honeyWet || npc.lavaWet || npc.dripping;
-			double electricityDamageMult = increasedElectricityDamage ? 5D : 1D;
+			double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToElectricity.HasValue)
 			{
 				if (VulnerableToElectricity.Value)
-					electricityDamageMult *= increasedElectricityDamage ? 2D : 5D;
+					electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					electricityDamageMult *= increasedElectricityDamage ? 0.2 : 0.5;
 			}
@@ -1058,7 +1061,7 @@ namespace CalamityMod.NPCs
 			if (VulnerableToWater.HasValue)
 			{
 				if (VulnerableToWater.Value)
-					waterDamageMult *= 5D;
+					waterDamageMult *= wormBoss ? 3D : 5D;
 				else
 					waterDamageMult *= 0.5;
 			}
