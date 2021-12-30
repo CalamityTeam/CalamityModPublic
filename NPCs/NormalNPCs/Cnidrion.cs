@@ -47,7 +47,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (spawnInfo.player.PillarZone() ||
 				spawnInfo.player.InAstral() ||
-				spawnInfo.player.ZoneDungeon ||
+				spawnInfo.player.ZoneCorrupt ||
+				spawnInfo.player.ZoneCrimson ||
 				spawnInfo.player.ZoneOldOneArmy ||
 				spawnInfo.player.ZoneSkyHeight ||
 				spawnInfo.playerSafe ||
