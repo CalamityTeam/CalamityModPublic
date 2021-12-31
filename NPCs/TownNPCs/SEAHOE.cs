@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.";
 						break;
 					case 7f:
-						displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.";
+						displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzahrd's idol, the Golem. It's quite the destructive force.";
 						break;
 				}
             }

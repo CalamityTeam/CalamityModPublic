@@ -97,7 +97,7 @@ namespace CalamityMod.TileEntities
 				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
 				if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
 					return "Within an army, as weapons do, the soldiers serve different purposes. That distinction is crucial, as the wrong tool in the wrong hands—no matter how potent—may as well be a wooden club.\n" +
-					"Addendum: Seek out my base of operations closest to the Lihzard’s home. I wish you the best of luck with all sincerity, for it has been a long time since I have had a worthy test subject. ";
+					"Addendum: Seek out my base of operations closest to the Lihzahrd’s home. I wish you the best of luck with all sincerity, for it has been a long time since I have had a worthy test subject. ";
 				if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
 					return "As rank progresses, so often does the lethality of equipment. In the hands of competent soldiers, the weapons have the ability to make change. However, competent soldiers take no action but orders from above.\n" +
 					"Addendum: If you read this, you have come far. Do not disappoint. Go now to Hell, for the next component stored in what were once my forges.";
