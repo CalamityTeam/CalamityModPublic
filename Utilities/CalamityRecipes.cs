@@ -1297,6 +1297,18 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
+            group = new RecipeGroup(() => "Any Wooden Sword", new int[]
+            {
+                ItemID.WoodenSword,
+                ItemID.BorealWoodSword,
+                ItemID.RichMahoganySword,
+                ItemID.PalmWoodSword,
+                ItemID.EbonwoodSword,
+                ItemID.ShadewoodSword,
+                ItemID.PearlwoodSword
+            });
+            RecipeGroup.RegisterGroup("AnyWoodenSword", group);
+
             group = new RecipeGroup(() => "Any Large Gem", new int[]
             {
                 ItemID.LargeAmber,

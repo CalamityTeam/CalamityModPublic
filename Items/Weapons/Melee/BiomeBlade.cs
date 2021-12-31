@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
@@ -118,23 +119,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<BiomeOrb>();
             item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodenSword);
-            recipe.AddIngredient(ItemID.DirtBlock, 20);
-            recipe.AddIngredient(ItemID.SandBlock, 20);
-            recipe.AddIngredient(ItemID.IceBlock, 20); //intentionally not any ice
-            recipe.AddRecipeGroup("AnyEvilBlock", 20);
-            //           recipe.AddIngredient(ItemID.GlowingMushroom, 20); Cut these ingredients due to no longer synergizing with these specific biomes
-            //           recipe.AddIngredient(ItemID.Marble, 20);
-            //           recipe.AddIngredient(ItemID.Granite, 20);
-            //           recipe.AddIngredient(ItemID.Hellstone, 20);
-            //           recipe.AddIngredient(ItemID.Coral, 20);
+            recipe.AddRecipeGroup("AnyWoodenSword");
+            recipe.AddIngredient(ItemID.DirtBlock, 50);
+            recipe.AddIngredient(ItemID.StoneBlock, 50);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddIngredient(ItemType<VictoryShard>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -152,7 +147,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CloneNewInstances => true;
 
-        public override ModItem Clone(Item item)
+        public override ModItem Clone(Item item) //need to add shit to properly save those
         {
             var clone = base.Clone(item);
 
