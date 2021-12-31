@@ -161,8 +161,8 @@ namespace CalamityMod.Projectiles.Melee
                 return;
 
             // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;

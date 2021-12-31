@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
 
             Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
 
             Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 

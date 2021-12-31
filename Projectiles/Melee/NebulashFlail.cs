@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), projectile.damage / 2, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

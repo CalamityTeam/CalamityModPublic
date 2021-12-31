@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
         }
 
         public override void AI()

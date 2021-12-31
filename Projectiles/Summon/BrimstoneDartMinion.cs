@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

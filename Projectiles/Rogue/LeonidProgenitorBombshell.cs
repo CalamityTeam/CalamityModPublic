@@ -94,13 +94,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
 			StealthStrikeEffect();
 		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
 			StealthStrikeEffect();
         }
 

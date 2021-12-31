@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 12;
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
         }
 
         public override void Kill(int timeLeft)

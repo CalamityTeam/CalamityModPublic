@@ -790,7 +790,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (modPlayer.titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
 				}
 				if (modPlayer.corrosiveSpine)
 				{
@@ -843,7 +843,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
             if (modPlayer.omegaBlueChestplate)
-                target.AddBuff(BuffType<CrushDepth>(), 240);
+                target.AddBuff(BuffType<CrushDepth>(), 180);
             if (modPlayer.sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
             if (modPlayer.abyssalAmulet)
@@ -935,7 +935,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (modPlayer.titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
 				}
 				if (modPlayer.corrosiveSpine)
 				{
@@ -984,7 +984,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
             if (modPlayer.omegaBlueChestplate)
-                target.AddBuff(BuffType<CrushDepth>(), 240);
+                target.AddBuff(BuffType<CrushDepth>(), 180);
             if (modPlayer.sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
             if (modPlayer.alchFlask)
