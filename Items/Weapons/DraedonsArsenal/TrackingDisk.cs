@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
@@ -68,8 +68,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

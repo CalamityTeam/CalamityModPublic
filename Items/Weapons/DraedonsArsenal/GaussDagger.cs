@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.melee = true;
             item.width = 26;
             item.height = 26;
-			item.scale = 1.5f;
+            item.scale = 1.5f;
             item.useTime = 24;
             item.useAnimation = 24;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -56,8 +56,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 target.Calamity().GaussFluxTimer = 0;
                 if (player.whoAmI == Main.myPlayer)
                 {
-					if (crit)
-						damage /= 2;
+                    if (crit)
+                        damage /= 2;
 
                     Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
                 }
@@ -69,8 +69,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
