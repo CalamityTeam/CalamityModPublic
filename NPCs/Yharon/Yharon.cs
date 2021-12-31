@@ -2852,7 +2852,7 @@ namespace CalamityMod.NPCs.Yharon
                 DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
             }
 
             // Vanity
