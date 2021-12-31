@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace CalamityMod.Items.Accessories
 			recipe.AddRecipeGroup("AnyLargeGem");
 			recipe.AddIngredient(ItemID.TeleportationPotion, 3);
 			recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

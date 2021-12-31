@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -46,8 +47,9 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<InfernalRift>());
-			recipe.AddRecipeGroup("CursedFlameIchor", 20);
 			recipe.AddIngredient(ItemID.AquaScepter);
+			recipe.AddRecipeGroup("CursedFlameIchor", 20);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
 			recipe.AddIngredient(ItemID.LunarBar, 5);
 			recipe.AddTile(TileID.LunarCraftingStation);

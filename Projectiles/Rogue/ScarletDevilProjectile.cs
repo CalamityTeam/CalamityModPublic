@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
-            projectile.width = 92;
-            projectile.height = 92;
+            projectile.width = 108;
+            projectile.height = 108;
             projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.penetrate = 1;

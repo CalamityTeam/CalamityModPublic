@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<Cinquedea>());
             recipe.AddRecipeGroup("AnyMythrilBar", 6);
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

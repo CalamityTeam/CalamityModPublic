@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ThrowingBrick>(), 100);
 			recipe.AddIngredient(ModContent.ItemType<Voidstone>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

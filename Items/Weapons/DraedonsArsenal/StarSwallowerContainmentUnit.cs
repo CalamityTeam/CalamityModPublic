@@ -1,5 +1,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
 			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
