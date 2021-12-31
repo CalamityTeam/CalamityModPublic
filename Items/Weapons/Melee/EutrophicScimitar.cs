@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 130;
+            item.damage = 110;
             item.melee = true;
             item.width = 64;
             item.height = 78;
-            item.useTime = 38;
-            item.useAnimation = 38;
+            item.useTime = 40;
+            item.useAnimation = 40;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2;
             item.shoot = ModContent.ProjectileType<EutrophicScimitarProj>();
@@ -38,13 +38,19 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i <= 21; i++)
             {
                 Dust dust;
-                dust = Main.dust[Terraria.Dust.NewDust(new Vector2(position.X - 58 / 2, position.Y - 58 / 2), 58, 58, 226, 0f, 0f, 0, new Color(255, 255, 255), 0.4605263f)];
+                dust = Main.dust[Dust.NewDust(new Vector2(position.X - 58 / 2, position.Y - 58 / 2), 58, 58, 226, 0f, 0f, 0, new Color(255, 255, 255), 0.4605263f)];
                 dust.noGravity = true;
                 dust.fadeIn = 0.9473684f;
             }
 
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.7), knockBack, player.whoAmI, 0f, 0f);
-            return false;
+			for (int projectiles = 0; projectiles < 2; projectiles++)
+			{
+				float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.7), knockBack, player.whoAmI);
+			}
+
+			return false;
         }
     }
 }

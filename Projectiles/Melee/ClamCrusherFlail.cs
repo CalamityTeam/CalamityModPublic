@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ai[1] += 1f;
             if (projectile.ai[1] == 1f)
             {
-                finalDamage = (int)(projectile.damage * 2.5f);
+                finalDamage = projectile.damage * 4;
             }
             if (projectile.ai[1] >= 5f && (projectile.ai[1] <= 10f))
             {

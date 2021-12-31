@@ -45,20 +45,9 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            double newDamageMult = 1.0 - ((double)projectile.timeLeft / 300.0);
-            damage = (int)((double)damage * newDamageMult);
-            knockback = 0f;
-            if (crit || target.buffImmune[ModContent.BuffType<GlacialState>()])
-                damage *= 2;
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int debuffDuration = 300 - projectile.timeLeft;
-            if (projectile.timeLeft < 270)
-                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffDuration / 3);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

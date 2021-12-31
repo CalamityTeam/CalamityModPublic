@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 44;
             item.damage = 50;
             item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
+            item.useAnimation = 18;
+            item.useTime = 18;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
@@ -45,9 +45,12 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.6), knockBack, Main.myPlayer, 0f, 0f);
+                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.6), knockBack, Main.myPlayer);
 				if (proj.WithinBounds(Main.maxProjectiles))
+				{
 					Main.projectile[proj].Calamity().forceMelee = true;
+					Main.projectile[proj].penetrate = 1;
+				}
             }
             return false;
         }

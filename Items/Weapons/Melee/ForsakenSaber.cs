@@ -30,12 +30,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<SandBlade>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+			for (int projectiles = 0; projectiles < 3; projectiles++)
+			{
+				float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockBack, player.whoAmI);
+			}
             return false;
         }
 

@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 74;
             item.height = 74;
-            item.damage = 64;
+			item.scale = 1.5f;
+            item.damage = 110;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
-            item.shootSpeed = 3f;
+            item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()

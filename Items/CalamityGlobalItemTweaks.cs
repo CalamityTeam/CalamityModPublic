@@ -209,6 +209,7 @@ namespace CalamityMod.Items
 				{ ItemID.IceBlade, Do(DamageExact(26), UseTimeExact(33)) },
 				{ ItemID.IceBoomerang, Do(DamageRatio(2f)) },
 				{ ItemID.IceBow, Do(PointBlank, DamageRatio(1.5f)) },
+				{ ItemID.IceSickle, Do(AutoReuse, DamageExact(95), ShootSpeedExact(20f)) },
 				{ ItemID.IchorArrow, Do(DamageRatio(1.1f)) },
 				{ ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
 				{ ItemID.InfernoFork, Do(DamageRatio(1.66f)) },
