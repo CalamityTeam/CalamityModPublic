@@ -293,7 +293,7 @@ namespace CalamityMod.Items.Weapons.Melee
                             break;
 
                         case 2:
-                            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 30);
+                            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
                             break;
                     }
                     Combo++;
@@ -777,10 +777,13 @@ namespace CalamityMod.Items.Weapons.Melee
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
             {
-                projectile.Center = Owner.Center + (direction * ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 60));
+                projectile.scale = 1f + (thrustRatio() * 0.6f);
+                projectile.Center = Owner.Center + (direction * thrustRatio() * 60);
+                
                 projectile.frameCounter++;
-                if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
-                    projectile.frame++;
+                 if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
+                     projectile.frame++;
+                
             }
 
             //Make the owner look like theyre holding the sword bla bla
@@ -792,6 +795,23 @@ namespace CalamityMod.Items.Weapons.Melee
                 Owner.itemRotation -= 3.14f;
             }
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
+        }
+
+        internal float thrustRatio()
+        {
+            float ratio; //L + Ratio
+            if (Timer / MaxTime < 0.2)
+                ratio = (float)(Math.Sin(Timer / (MaxTime) * MathHelper.PiOver2) * 0.2f); //Small anticipation period.
+            else
+                ratio = MathHelper.Clamp((float)Math.Sin((Timer / (MaxTime * 2) + 0.5f) * 3.14f) * 1.5f, 0f, 1f);
+
+
+            //if (Timer/MaxTime > 0.6)
+            //{
+            //    ratio = MathHelper.Lerp(ratio, 1f, ((Timer - (MaxTime / 5f * 3)) / (MaxTime - (MaxTime / 5f * 2))) + 0.6f);
+            //}
+
+            return ratio;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -824,12 +844,12 @@ namespace CalamityMod.Items.Weapons.Melee
             else
             {
                 Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceThrust");
-                Vector2 displace = direction * ((float)Math.Sin(Timer / MaxTime * 3.14f) * 60);
+                Vector2 displace = direction * (thrustRatio() * 60);
 
                 float drawAngle = rotation;
                 float drawRotation = rotation + MathHelper.PiOver4;
                 Vector2 drawOrigin = new Vector2(0f, handle.Height);
-                Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
+                Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition + (direction * 20f * CalamityUtils.Convert01To010((Timer - (MaxTime / 5f)) / (MaxTime / 5f)));
 
                 spriteBatch.Draw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 //Turn on additive blending
@@ -837,7 +857,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Update the parameters
                 drawOrigin = new Vector2(0f, 114f);
-                drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 28f * projectile.scale) -Main.screenPosition;
+                drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 28f * projectile.scale) - Main.screenPosition + (direction * 20f * CalamityUtils.Convert01To010((Timer - (MaxTime / 5f)) / (MaxTime / 5f)));
                 //Anim stuff
                 Rectangle frameRectangle = new Rectangle(0, 0 + (116 * projectile.frame), 114, 114);
 
@@ -874,9 +894,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             projectile.melee = true;
-            projectile.width = projectile.height = 46;
-            projectile.width = projectile.height = 46;
-            projectile.tileCollide = true;
+            projectile.width = projectile.height = 70;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
@@ -893,16 +912,15 @@ namespace CalamityMod.Items.Weapons.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (CanPogo && Main.myPlayer == Owner.whoAmI)
+        public void Pogo()
+         {
+             if (CanPogo && Main.myPlayer == Owner.whoAmI)
             {
                 Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * pogoStrenght; //Bounce
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
                 PogoCooldown = 30; //Cooldown
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);     
             }
-            return false;
         }
 
         public override void AI()
@@ -919,6 +937,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
             }
 
+
             if (Shred >= maxShred)
                 Shred = maxShred;
             if (Shred < 0)
@@ -933,6 +952,12 @@ namespace CalamityMod.Items.Weapons.Melee
             //Scaling based on shred
             projectile.localNPCHitCooldown = 16 - (int)(MathHelper.Lerp(0, 8, ShredRatio)); //Increase the hit frequency
             projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
+
+
+            if (Collision.SolidCollision(Owner.Center + (direction * 84 * projectile.scale) - Vector2.One*5f , 10, 10))
+            {
+                Pogo();
+            }
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = projectile.whoAmI;
@@ -963,9 +988,21 @@ namespace CalamityMod.Items.Weapons.Melee
             // get lifted up
             if (PogoCooldown <= 0)
             {
-                Owner.velocity += target.velocity * 0.5f; //Get "stuck" into the enemy partly
+                if (Owner.velocity.Y > 0)
+                    Owner.velocity.Y = -2f ; //Get "stuck" into the enemy partly
+
                 Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
                 PogoCooldown = 20;
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(SoundID.NPCHit43, projectile.Center);
+            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<AridGrandeurShot>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
+                //sharticles
             }
         }
 
@@ -1020,6 +1057,98 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
     }
+
+    public class AridGrandeurShot : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra";
+        private bool initialized = false;
+        Vector2 direction = Vector2.Zero;
+        public ref float Shred => ref projectile.ai[0]; 
+        public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
+        public Player Owner => Main.player[projectile.owner];
+
+        public const float pogoStrenght = 16f; //How much the player gets pogoed up
+        public const float maxShred = 500; //How much shred you get
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arid Shredder");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 70;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 84 * projectile.scale;
+            float bladeWidth = 76 * projectile.scale;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - direction * bladeLenght / 2, projectile.Center + direction * bladeLenght / 2, bladeWidth, ref collisionPoint);
+        }
+
+        public override void AI()
+        {
+            if (!initialized) 
+            {
+                Main.PlaySound(SoundID.Item90, projectile.Center);
+                projectile.timeLeft = (int)(30f + ShredRatio * 30f);
+                initialized = true;
+
+                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction.Normalize();
+                projectile.rotation = direction.ToRotation();
+
+                projectile.velocity = direction * 6f;
+                projectile.damage *= 10;
+
+                projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
+                projectile.netUpdate = true;
+
+            }
+
+            projectile.position += projectile.velocity;
+        
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            for (int i = 0; i < 4; i++) //Draw extra copies
+            {
+                var tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
+
+                float drawAngle = direction.ToRotation();
+
+                float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
+                float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 7f) * ShredRatio);
+
+                Vector2 drawOrigin = new Vector2(0f, tex.Height);
+
+
+                Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
+                Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
+
+                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, lightColor * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            }
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+    }
+
 }
 
 
