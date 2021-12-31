@@ -63,7 +63,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<ShieldoftheOcean>());
             recipe.AddIngredient(ModContent.ItemType<Abaddon>());
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
