@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			//inflict Holy Flames for 6 seconds
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
 			if (projectile.penetrate != -1)
 			{

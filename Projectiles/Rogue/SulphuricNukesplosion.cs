@@ -130,12 +130,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

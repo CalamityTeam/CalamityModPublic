@@ -89,15 +89,15 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			OnHitEffects(target.Center);
-			target.AddBuff(BuffID.Wet, 240);
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+			target.AddBuff(BuffID.Wet, 300);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			OnHitEffects(target.Center);
-			target.AddBuff(BuffID.Wet, 240);
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+			target.AddBuff(BuffID.Wet, 300);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
 
 		private void OnHitEffects(Vector2 targetPos)

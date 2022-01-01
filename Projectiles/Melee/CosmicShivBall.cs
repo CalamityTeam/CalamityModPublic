@@ -91,9 +91,9 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 toTarget = Vector2.Normalize(target.Center - toSpawn) * 35f;
                 Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
             }
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
+            target.AddBuff(BuffID.Frostburn, 60);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
         }
         // pretty much entirely from the Oracle circular damage code

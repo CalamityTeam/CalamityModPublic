@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 7;
-            target.AddBuff(ModContent.BuffType<Plague>(), 360);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 4; i++)

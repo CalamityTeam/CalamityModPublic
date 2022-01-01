@@ -5168,7 +5168,7 @@ namespace CalamityMod.CalPlayer
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
 
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
                     target.AddBuff(BuffID.Midas, 300, false);
@@ -5386,7 +5386,7 @@ namespace CalamityMod.CalPlayer
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
                 }
                 CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, true);
                 CalamityPlayerOnHit.PvpDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
@@ -8507,7 +8507,7 @@ namespace CalamityMod.CalPlayer
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
+							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
                             player.GiveIFrames(GodSlayerChestplate.DashIFrames, false);
                         }

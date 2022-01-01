@@ -860,7 +860,7 @@ namespace CalamityMod.CalPlayer
             }
             if (modPlayer.holyWrath)
             {
-                target.AddBuff(BuffType<HolyFlames>(), 600, false);
+                target.AddBuff(BuffType<HolyFlames>(), 180, false);
             }
             if (modPlayer.vexation)
             {
@@ -997,7 +997,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.holyWrath)
 			{
-				target.AddBuff(BuffType<HolyFlames>(), 600, false);
+				target.AddBuff(BuffType<HolyFlames>(), 180, false);
 			}
             if (modPlayer.vexation)
             {

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 			target.ExoDebuffs();
         }
 
@@ -72,8 +72,8 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.immune[projectile.owner] = 0;
 
-            target.AddBuff(BuffID.Daybreak, 300);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 			target.ExoDebuffs();
         }
 

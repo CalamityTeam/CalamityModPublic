@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
             target.immune[projectile.owner] = 2;
         }
 
