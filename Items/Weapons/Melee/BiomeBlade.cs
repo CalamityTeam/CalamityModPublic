@@ -5,6 +5,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
+using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -651,12 +652,20 @@ namespace CalamityMod.Items.Weapons.Melee
     public class BitingEmbrace : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceSmall";
+
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public float rotation;
         public ref float SwingMode => ref projectile.ai[0]; //0 = Up-Down small slash, 1 = Down-Up large slash, 2 = Thrust
         public ref float MaxTime => ref projectile.ai[1];
         public float Timer => MaxTime - projectile.timeLeft;
+
+        //Animation key constants
+        public const float anticipationTime = 0.2f; //Get ready to thrust
+        public const float thrustBurstTime = 0.15f; //Thrust in a quick burst
+        public const float heldDownTime = 0.35f; //Remain extended
+        public float retractTime => 1f - anticipationTime - thrustBurstTime - heldDownTime; //Retract. Its simply all the time left from the other stuff
+
 
         public int SwingDirection
         {
@@ -723,7 +732,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case 2:
                     bladeLenght = projectile.frame <= 2 ? 85f : 150f; //Only use the extended hitbox after the blade actually extends. For realism.
                     bladeLenght *= projectile.scale;
-                    displace = direction * ((float)Math.Sin(Timer / MaxTime * 3.14f) * 60);
+                    displace = direction * ThrustDisplaceRatio() * 60f;
                     break;
 
             }
@@ -772,8 +781,8 @@ namespace CalamityMod.Items.Weapons.Melee
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
             {
-                projectile.scale = 1f + (thrustRatio() * 0.6f);
-                projectile.Center = Owner.Center + (direction * thrustRatio() * 60);
+                projectile.scale = 1f + (ThrustScaleRatio() * 0.6f);
+                projectile.Center = Owner.Center + (direction * ThrustDisplaceRatio() * 60);
                 
                 projectile.frameCounter++;
                  if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
@@ -792,28 +801,80 @@ namespace CalamityMod.Items.Weapons.Melee
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
         }
 
-        internal float thrustRatio()
+        internal float ThrustDisplaceRatio()
         {
+            float linearRatio = (Timer / MaxTime); //How far along the animation are you
             float ratio; //L + Ratio
-            if (Timer / MaxTime < 0.2)
-                ratio = (float)(Math.Sin(Timer / (MaxTime) * MathHelper.PiOver2) * 0.2f); //Small anticipation period.
-            else
-                ratio = MathHelper.Clamp((float)Math.Sin((Timer / (MaxTime * 2) + 0.5f) * 3.14f) * 1.5f, 0f, 1f);
+            float displaceRatio = 1f;
 
+            if (linearRatio <= anticipationTime) //Anticipation phase. A small bump in the negatives
+            {
+                ratio = MathHelper.Lerp(0f, 1f, linearRatio / anticipationTime); //Turn that mf into a workable 0 - 1 range
+                displaceRatio = (float)(Math.Sin(ratio * MathHelper.Pi) * -0.15f);
+            }
+            else if (linearRatio <= anticipationTime + thrustBurstTime) //Burst phase. Quickly step into almost a full ratio
+            {
+                ratio = linearRatio - anticipationTime;
+                ratio = MathHelper.Lerp(0f, 1f, ratio / thrustBurstTime); //Turn that mf into a workable 0 - 1 range
+                displaceRatio = MathHelper.SmoothStep(0f, 0.9f, ratio);
+            }
+            else if (linearRatio <= anticipationTime + thrustBurstTime + heldDownTime) //Holding down phase. Small bump up to reach a full ratio and then start going down
+            {
+                ratio = linearRatio - anticipationTime - thrustBurstTime;
+                ratio = MathHelper.Lerp(0f, 1f, ratio / heldDownTime); //Turn that mf into a workable 0 - 1 range
+                displaceRatio = 0.9f + (float)(Math.Sin(ratio * MathHelper.Pi) * 0.1f);
+            }
+            else //Retraction phase. Smooth step back to 0
+            {
+                ratio = linearRatio - (1f - retractTime);
+                ratio = MathHelper.Lerp(0f, 1f, ratio / retractTime); //Turn that mf into a workable 0 - 1 range
+                displaceRatio = MathHelper.SmoothStep(0.9f, 0, ratio);
+            }
 
-            //if (Timer/MaxTime > 0.6)
-            //{
-            //    ratio = MathHelper.Lerp(ratio, 1f, ((Timer - (MaxTime / 5f * 3)) / (MaxTime - (MaxTime / 5f * 2))) + 0.6f);
-            //}
-
-            return ratio;
+            return displaceRatio;
         }
+
+        //The ratio rapidly increases from 0 to 1 (reaches 1 at the midway point of the anticipation.). It remains at 1 for the rest of the thrust, and then decreases down to 0 at the midway point of the retraction)
+        internal float ThrustScaleRatio() 
+        {
+            float linearRatio = (Timer / MaxTime); //How far along the animation are you
+            float ratio; //L + Ratio
+            float scaleRatio = 1f;
+
+            if (linearRatio <= anticipationTime / 2f) //Growth phase
+            {
+                ratio = MathHelper.Lerp(0f, 1f, linearRatio / (anticipationTime / 2f)); //Turn that mf into a workable 0 - 1 range
+                scaleRatio = (float)(1f - Math.Exp(-ratio + 1));
+            }
+            if (linearRatio >= 1f - retractTime / 2f) //Retract phase
+                {
+                ratio = linearRatio - (1f - retractTime / 2f);
+                ratio = MathHelper.Lerp(0f, 1f, ratio / (retractTime / 2f)); //Turn that mf into a workable 0 - 1 range
+                scaleRatio = (float)(1f - Math.Exp(ratio));
+                }
+
+            return scaleRatio;
+        }
+
+        internal float PrimitiveWidthFunction(float completionRatio)
+        {
+            var tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbrace" + (SwingMode == 0 ? "Small" : "Big"));
+            return Vector2.Distance(Vector2.Zero, tex.Size());
+        }
+
+        internal Color PrimitiveColorFunction(float completionRatio)
+        {
+            float opacity = Utils.InverseLerp(0.8f, 0.52f, completionRatio, true) * Utils.InverseLerp(1f, 0.81f, Timer/MaxTime, true);
+            Color startingColor = Color.White;
+            Color endingColor = Color.Lerp(Color.DarkCyan, Color.DarkBlue, 0.77f);
+            return Color.Lerp(startingColor, endingColor, (float)Math.Pow(completionRatio, 0.37f)) * opacity;
+        }
+
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = Color.White;
-            color.A = 120;
-            color *= 0.8f;
+           
+
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
 
             if (SwingMode != 2)
@@ -839,24 +900,25 @@ namespace CalamityMod.Items.Weapons.Melee
             else
             {
                 Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceThrust");
-                Vector2 displace = direction * (thrustRatio() * 60);
+                Vector2 thrustDisplace = direction * (ThrustDisplaceRatio() * 60);
 
                 float drawAngle = rotation;
                 float drawRotation = rotation + MathHelper.PiOver4;
                 Vector2 drawOrigin = new Vector2(0f, handle.Height);
-                Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition + (direction * 20f * CalamityUtils.Convert01To010((Timer - (MaxTime / 5f)) / (MaxTime / 5f)));
+                Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
 
-                spriteBatch.Draw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(handle, drawOffset + thrustDisplace, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 //Turn on additive blending
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Update the parameters
+
                 drawOrigin = new Vector2(0f, 114f);
-                drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 28f * projectile.scale) - Main.screenPosition + (direction * 20f * CalamityUtils.Convert01To010((Timer - (MaxTime / 5f)) / (MaxTime / 5f)));
+                drawOffset = Owner.Center + (direction * 28f * projectile.scale) - Main.screenPosition;
                 //Anim stuff
                 Rectangle frameRectangle = new Rectangle(0, 0 + (116 * projectile.frame), 114, 114);
 
-                spriteBatch.Draw(tex, drawOffset + displace, frameRectangle, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(tex, drawOffset + thrustDisplace, frameRectangle, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -994,11 +1056,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
-            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer)
-            {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<AridGrandeurShot>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
+            //if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) //Keep this for the True biome blade/Repaired biome blade.
+            //{
+            //    Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<AridGrandeurShot>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
                 //sharticles
-            }
+            //}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -1053,7 +1115,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
     }
 
-    public class AridGrandeurShot : ModProjectile
+    public class AridGrandeurShot : ModProjectile //Only use this for the upgrade actually lol
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra";
         private bool initialized = false;
