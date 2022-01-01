@@ -136,14 +136,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 0);
-            }
-        }
-
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CloneNewInstances => true;
@@ -157,6 +149,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             (clone as BiomeBlade).mainAttunement = (item.modItem as BiomeBlade).mainAttunement;
             (clone as BiomeBlade).secondaryAttunement = (item.modItem as BiomeBlade).secondaryAttunement;
+            //As funny as a Broken Broken Biome Blade would be, its also quite funny to make it turn into that. This is only done for a new instance of the item since the goblin tinkerer changes prevent it from happening through reforging
+            if (clone.item.prefix == PrefixID.Broken) 
+                clone.item.prefix = PrefixID.Legendary; 
 
             return clone;
         }
