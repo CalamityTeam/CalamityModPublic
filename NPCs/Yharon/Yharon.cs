@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Ores;
@@ -3088,6 +3089,10 @@ namespace CalamityMod.NPCs.Yharon
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
+
+                // Turn into dust on death.
+                if (npc.life <= 0)
+                    DeathAshParticle.CreateAshesFromNPC(npc);
             }
         }
         #endregion

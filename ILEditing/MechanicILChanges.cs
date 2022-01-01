@@ -523,6 +523,21 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fusable Particle Rendering
 
+        #region Ash Particle Rendering
+        private static void DrawAshParticles(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Over NPCs but before Projectiles.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("DrawDust")))
+            {
+                LogFailure("Ash Particle Rendering", "Could not locate the DrawDust reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(DeathAshParticle.DrawAll);
+        }
+        #endregion Ash Particle Rendering
+
         #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {
