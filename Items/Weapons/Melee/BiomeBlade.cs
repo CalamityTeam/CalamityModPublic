@@ -149,9 +149,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
             (clone as BiomeBlade).mainAttunement = (item.modItem as BiomeBlade).mainAttunement;
             (clone as BiomeBlade).secondaryAttunement = (item.modItem as BiomeBlade).secondaryAttunement;
+
             //As funny as a Broken Broken Biome Blade would be, its also quite funny to make it turn into that. This is only done for a new instance of the item since the goblin tinkerer changes prevent it from happening through reforging
-            if (clone.item.prefix == PrefixID.Broken) 
-                clone.item.prefix = PrefixID.Legendary; 
+            if (clone.item.prefix == PrefixID.Broken)
+            {
+                clone.item.Prefix(PrefixID.Legendary);
+            }
 
             return clone;
         }
@@ -312,7 +315,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            // I want to strangle somebody.
             Texture2D itemTexture = Main.itemTexture[item.type];
             Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
 
