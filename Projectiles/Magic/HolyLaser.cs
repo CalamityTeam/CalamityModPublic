@@ -1,7 +1,9 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class HolyLaser : ModProjectile
@@ -19,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 2;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 180;
             projectile.usesLocalNPCImmunity = true;
@@ -51,7 +53,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+
+			if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				if (proj.WithinBounds(Main.maxProjectiles))
