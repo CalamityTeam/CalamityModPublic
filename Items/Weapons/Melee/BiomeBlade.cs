@@ -116,6 +116,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
+            item.shoot = ProjectileID.PurificationPowder; //
             item.knockBack = 5f;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
@@ -154,6 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (clone.item.prefix == PrefixID.Broken)
             {
                 clone.item.Prefix(PrefixID.Legendary);
+                clone.item.prefix = PrefixID.Legendary;
             }
 
             return clone;
@@ -173,6 +175,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
+
+            if (player.velocity.Y == 0) //Reset the lunge ability on ground contact
+                CanLunge = 1;
+
             //Change the swords function based on its attunement
             switch (mainAttunement)
             {
@@ -208,6 +214,15 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 case Attunement.Tropical:
+                    item.channel = false;
+                    item.noUseGraphic = true;
+                    item.useStyle = ItemUseStyleID.SwingThrow;
+                    item.shoot = ProjectileType<GrovetendersTouch>();
+                    item.shootSpeed = 30;
+                    item.UseSound = null;
+                    item.noMelee = true;
+
+                    Combo = 0;
                     break;
                 case Attunement.Evil:
                     item.channel = false;
@@ -219,58 +234,60 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
 
                     Combo = 0;
-                    if (player.velocity.Y == 0) //Reset the lunge ability on ground contact
-                        CanLunge = 1;
                     break;
                 default:
                     item.noUseGraphic = false;
                     item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = 0;
+                    item.shoot = ProjectileID.PurificationPowder;
                     item.shootSpeed = 12f;
                     item.UseSound = SoundID.Item1;
 
                     Combo = 0;
                     break;
             }
-
-            if (player.altFunctionUse == 2)
-            {
-                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeVisuals>() && n.owner == player.whoAmI))
-                    return;
-                if (!player.StandingStill()) //Swap attunements
-                {
-                    if (secondaryAttunement == null) //Don't let the player swap to an empty attunement
-                        return;
-                    Projectile.NewProjectile(player.position, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 0f);
-                    Attunement? temporaryAttunementStorage = mainAttunement;
-                    mainAttunement = secondaryAttunement;
-                    secondaryAttunement = temporaryAttunementStorage;
-                    if (player.whoAmI == Main.myPlayer)
-                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
-                }
-
-                else //Chargeup
-                {
-                    if (player.mount.Active)
-                        return;
-                    Vector2 displace = new Vector2((player.direction >= 0 ? 2 : -1) * 20f, 0);
-                    Projectile.NewProjectile(player.position + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 1f);
-                    if (player.whoAmI == Main.myPlayer)
-                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
-                }
-            }
-
-
         }
+
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<BitingEmbrace>()));
+            (n.type == ProjectileType<BitingEmbrace>() || n.type == ProjectileType<GrovetendersTouch>() || n.type == ProjectileType<AridGrandeur>()));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
+            {
+                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeVisuals>() && n.owner == player.whoAmI))
+                    return false;
+
+                if (!player.StandingStill()) //Swap attunements
+                {
+                    if (secondaryAttunement == null) //Don't let the player swap to an empty attunement
+                        return false;
+
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 0f);
+                    Attunement? temporaryAttunementStorage = mainAttunement;
+                    mainAttunement = secondaryAttunement;
+                    secondaryAttunement = temporaryAttunementStorage;
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                    }
+                }
+
+                else //Chargeup
+                {
+                    if (player.mount.Active)
+                        return false;
+                    Vector2 displace = new Vector2((player.direction >= 0 ? 2 : -1) * 20f, 0);
+                    Projectile.NewProjectile(player.position + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 1f);
+                    if (player.whoAmI == Main.myPlayer)
+                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                }
+                return false;
+            }
+
+            if (mainAttunement == null)
                 return false;
 
             switch (mainAttunement)
@@ -294,6 +311,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     if (Combo > 2)
                         Combo = 0;
                     return false;
+
                 case Attunement.Evil:
                     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<DecaysRetort>(), damage*2, knockBack, player.whoAmI, 26, (float) CanLunge);
                     CanLunge = 0;
@@ -973,7 +991,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * pogoStrenght; //Bounce
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
                 PogoCooldown = 30; //Cooldown
-                Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);     
+                Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);
+
+                if (Owner.HeldItem.type == ItemType<BiomeBlade>())
+                    (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
             }
         }
 
@@ -1203,6 +1224,218 @@ namespace CalamityMod.Items.Weapons.Melee
 
     }
 
+    public class GrovetendersTouch : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade";
+        private bool initialized = false;
+
+        Vector2 direction = Vector2.Zero;
+        public Player Owner => Main.player[projectile.owner];
+
+        public float MaxTime = 60;
+        public float Timer => MaxTime - projectile.timeLeft;
+        public ref float HasSnapped => ref projectile.ai[0];
+        public ref float SnapCoyoteTime => ref projectile.ai[1];
+
+        const int coyoteTimeFrames = 6; //How many frames does the whip stay extended 
+
+        public BezierCurve curve;
+        private Vector2 controlPoint1;
+        private Vector2 controlPoint2;
+
+        const int MaxReach = 400;
+        const float SnappingPoint = 0.7f; //When does the snap occur.
+        internal bool ReelingBack => Timer / MaxTime > SnappingPoint;
+
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Grovetender's Touch");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 36;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 16;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 84 * projectile.scale;
+            float bladeWidth = 76 * projectile.scale;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+        }
+
+        public override void AI()
+        {
+            if (!initialized) //Initialization. create control points & shit)
+            {
+                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
+                controlPoint1 = projectile.Center;
+                controlPoint2 = projectile.Center;
+                projectile.timeLeft = (int)MaxTime;
+                initialized = true;
+            }
+
+            if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
+            {
+                Main.PlaySound(SoundID.Item41, projectile.Center); //Snap
+                HasSnapped = 1f;
+                SnapCoyoteTime = coyoteTimeFrames;
+            }
+
+            if (SnapCoyoteTime > 0) //keep checking for the tile hook
+            {
+                HookToTile();
+                SnapCoyoteTime --;
+            }
+
+
+
+            projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
+
+            float ratio = GetSwingRatio();
+            projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
+            projectile.direction = projectile.spriteDirection = -Owner.direction;
+
+            MessWithTiles();
+
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+        }
+        public void HookToTile()
+        {
+            if (Main.myPlayer == Owner.whoAmI)
+            {
+                //Shmoove the player
+                if (Collision.SolidCollision(projectile.position, 32, 32))
+                {
+                    if (Owner.velocity.Length() != 0)
+                    {
+                        Owner.velocity *= 1.2f;
+                        Owner.velocity = (Owner.velocity.SafeNormalize(Vector2.Zero) * 0.5f * Owner.velocity.Length()) + (Owner.DirectionTo(projectile.Center) * 0.5f * Owner.velocity.Length());
+                    }
+                    else
+                    {
+                        Owner.velocity = Owner.DirectionTo(projectile.Center) * 15;
+                    }
+                }
+                Main.PlaySound(SoundID.Item65, projectile.position);
+            }
+        }
+
+        public void MessWithTiles()
+        {
+            //FLowers and gras s .
+        }
+
+        internal float EaseInFunction(float progress) => progress == 0 ? 0f : (float)Math.Pow(2, 10 * progress - 10); //Potion seller i need your strongest easeIns
+
+        private float GetSwingRatio()
+        {
+            float ratio = (Timer - SnappingPoint * MaxTime) / (MaxTime * (1 - SnappingPoint)); //The ratio for the last section of the snap is a new curve.
+            if (!ReelingBack)
+                ratio = EaseInFunction(Timer / (MaxTime * SnappingPoint));  //Watch this ratio get eased
+            if (SnapCoyoteTime > 0)
+                ratio = 0f;
+            return ratio;
+        }
+
+        private Vector2 SwingPosition(float progress)
+        {
+            //Whip windup and snap part
+            if (!ReelingBack)
+            {
+                float distance = MaxReach * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.PiOver2), 1, 0.04f); //half arc
+                distance = Math.Max(distance, 65); //Dont be too close to player
+
+                float angleDeviation = MathHelper.Pi / 1.2f;
+                float angleOffset = Owner.direction * MathHelper.Lerp(-angleDeviation, 0, progress); //Go from very angled to straight at the zenith of the attack
+                return projectile.velocity.RotatedBy(angleOffset) * distance;
+            }
+            else
+            {
+                float distance = MathHelper.Lerp(MaxReach, 0f, progress); //Quickly zip back to the player . No angles or minimum distance from player.
+                return projectile.velocity * distance;
+            }
+        }
+
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (Timer == 0)
+                return false;
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchGlow");
+
+            Vector2 projBottom = projectile.Center + new Vector2(-handle.Width/ 2, handle.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver4) * 0.75f;
+            DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
+
+            float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
+
+            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+
+            spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+
+            //Turn on additive blending
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Only update the origin for once
+            drawOrigin = new Vector2(0f, blade.Height);
+            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+        private void DrawChain(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
+        {
+            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
+
+            float ratio = GetSwingRatio();
+
+            if (!ReelingBack) //Make the curve be formed from points slightly ahead of the projectile, but clamped to the max rotation (straight line ahead)
+            {
+                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.5f, 0f, 1f)) * 0.5f;
+                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.2f, 0f, 1f)) * 0.5f;
+            }
+            else //After the whip snaps, make the curve be a wave 
+            {
+                Vector2 perpendicular = SwingPosition(ratio).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2);
+                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp( 1f, 0f, ratio/2)) + perpendicular * ratio * -95f;
+                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(1f, 0f, ratio / 3)) + perpendicular * ratio * 40f;
+            }
+
+            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
+            int numPoints = 30; //"Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve" -Graydee, from the code i referenced. I do agree.
+            chainPositions = curve.GetPoints(numPoints).ToArray();
+            
+            //Draw each chain segment bar the very first one
+            for (int i = 1; i < numPoints; i++)
+            {
+                Vector2 position = chainPositions[i];
+                float rotation = (chainPositions[i] - chainPositions[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
+                float yScale = Vector2.Distance(chainPositions[i], chainPositions[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+                Vector2 scale = new Vector2(1, yScale); 
+                Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
+                if (ReelingBack)
+                    chainLightColor *= 1 - EaseInFunction(ratio); //Make the chain fade when reeling it back
+                Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
+                spriteBatch.Draw(chainTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
+            }
+        }
+    }
 }
 
 
