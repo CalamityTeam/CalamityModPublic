@@ -282,6 +282,12 @@ namespace CalamityMod.Items
 			// Numerous random tooltip edits which don't fit into another category
 			#region Various Tooltip Edits
 
+			// Teleporters not working while a boss is alive.
+
+			// Flesh Knuckles giving extra max life.
+			if (item.type == ItemID.FleshKnuckles)
+				EditTooltipByNum(0, (line) => line.text += "\nMax life increased by 45.");
+
 			// Mirrors and Recall Potions cannot be used while a boss is alive.
 			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
 				ApplyTooltipEdits(tooltips,

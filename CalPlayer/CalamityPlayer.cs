@@ -569,6 +569,7 @@ namespace CalamityMod.CalPlayer
         public bool harpyRing = false;
 		public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
+		public bool fleshKnuckles = false;
         public bool ironBoots = false;
         public bool depthCharm = false;
         public bool anechoicPlating = false;
@@ -1422,7 +1423,9 @@ namespace CalamityMod.CalPlayer
                 (bOrange ? 25 : 0) +
                 (eBerry ? 25 : 0) +
                 (dFruit ? 25 : 0);
-            if (ZoneAbyss && abyssalAmulet)
+			if (fleshKnuckles)
+				player.statLifeMax2 += 45;
+			if (ZoneAbyss && abyssalAmulet)
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
             if (coreOfTheBloodGod)
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
@@ -1672,6 +1675,7 @@ namespace CalamityMod.CalPlayer
             harpyRing = false;
 			angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
+			fleshKnuckles = false;
             darkSunRing = false;
             calamityRing = false;
             voidOfExtinction = false;

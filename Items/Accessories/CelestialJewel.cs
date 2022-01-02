@@ -14,12 +14,13 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Celestial Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 15 defense\n" +
+                "While under the effects of a damaging debuff you will gain 11 defense\n" +
                 "TOOLTIP LINE HERE");
         }
 
         public override void SetDefaults()
         {
+			item.defense = 8;
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;

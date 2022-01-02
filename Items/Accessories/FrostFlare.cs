@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("All melee attacks and projectiles inflict frostburn\n" +
                 "Immunity to frostburn, chilled and frozen\n" +
                 "Being above 75% life grants 10% increased damage\n" +
-                "Being below 25% life grants 10 defense and 15% increased max movement speed and acceleration\n" +
+                "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
 				"Grants resistance against cold attacks");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rover Drive");
-            Tooltip.SetDefault("Activates a protective shield that grants 10 defense for 10 seconds\n" +
+            Tooltip.SetDefault("Activates a protective shield that grants 15 defense for 10 seconds\n" +
 			//Actually 10.1 seconds at full power with a dissipation across 0.1666 seconds but whatever
 			"The shield then dissipates and recharges for 20 seconds before being reactivated");
         }

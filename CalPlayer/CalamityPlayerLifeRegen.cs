@@ -491,7 +491,7 @@ namespace CalamityMod.CalPlayer
                     lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
-				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
+				int defenseBoost = modPlayer.astralArcanum ? 15 : 11;
                 if (lesserEffect)
                 {
                     player.lifeRegen += modPlayer.astralArcanum ? 2 : 1;
@@ -521,7 +521,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 if (lesserEffect)
-                    player.statDefense += 10;
+                    player.statDefense += 8;
                 else
                 {
                     if (player.lifeRegen < 0)
@@ -530,7 +530,7 @@ namespace CalamityMod.CalPlayer
                             player.lifeRegenTime = 1800;
 
                         player.lifeRegen += 4;
-                        player.statDefense += 10;
+                        player.statDefense += 8;
                     }
                     else
                         player.lifeRegen += 2;

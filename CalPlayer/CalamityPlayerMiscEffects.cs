@@ -1508,7 +1508,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.roverDriveTimer < 616)
 			{
-				player.statDefense += 10;
+				player.statDefense += 15;
 				if (modPlayer.roverDriveTimer > 606)
 					player.statDefense -= modPlayer.roverDriveTimer - 606; //so it scales down when the shield dies
 			}
@@ -1541,7 +1541,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.affliction || modPlayer.afflicted)
 			{
 				player.endurance += 0.07f;
-				player.statDefense += 10;
+				player.statDefense += 13;
 				player.allDamage += 0.1f;
 			}
 
@@ -3211,7 +3211,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife > (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
 				if (player.statLife < (int)(player.statLifeMax2 * 0.25))
-					player.statDefense += 10;
+					player.statDefense += 20;
 			}
 
 			if (modPlayer.vexation)
@@ -3283,7 +3283,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.ursaSergeant)
-				player.moveSpeed -= 0.35f;
+				player.moveSpeed -= 0.15f;
 
 			if (modPlayer.elysianGuard)
 				player.moveSpeed -= 0.5f;

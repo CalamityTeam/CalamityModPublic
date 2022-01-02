@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.ZoneCrimson)
             {
-                player.statDefense += 3;
+                player.statDefense += 6;
                 player.endurance += 0.07f;
             }
         }

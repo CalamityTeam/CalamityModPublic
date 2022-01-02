@@ -1500,6 +1500,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 
+			if (item.type == ItemID.FleshKnuckles)
+				modPlayer.fleshKnuckles = true;
+
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;
 

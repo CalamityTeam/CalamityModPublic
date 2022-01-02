@@ -17,11 +17,12 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
                                "Flaming meteors rain down while invincibility is active\n" +
                                "Exploding dragon dust is left behind as you move\n" +
-                               "Defense increased by 30 and damage increased by 15%");
+                               "Damage and movement speed increased by 15%");
         }
 
         public override void SetDefaults()
         {
+			item.defense = 30;
             item.width = 20;
             item.height = 22;
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
@@ -32,8 +33,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+			player.moveSpeed += 0.15f;
             player.allDamage += 0.15f;
-            player.statDefense += 30;
             if (!player.StandingStill())
             {
                 dragonTimer--;
