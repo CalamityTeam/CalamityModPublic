@@ -1231,20 +1231,23 @@ namespace CalamityMod.Items.Weapons.Melee
 
         Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[projectile.owner];
-
-        public float MaxTime = 60;
         public float Timer => MaxTime - projectile.timeLeft;
         public ref float HasSnapped => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
 
-        const int coyoteTimeFrames = 6; //How many frames does the whip stay extended 
+        const float MaxTime = 90;
+        const int coyoteTimeFrames = 15; //How many frames does the whip stay extended 
+        const int MaxReach = 400;
+        const float SnappingPoint = 0.7f; //When does the snap occur.
+        const float ReelBackStrenght = 14f;
+        const float ChainDamageReduction = 0.5f;
+
 
         public BezierCurve curve;
         private Vector2 controlPoint1;
         private Vector2 controlPoint2;
 
-        const int MaxReach = 400;
-        const float SnappingPoint = 0.7f; //When does the snap occur.
+        
         internal bool ReelingBack => Timer / MaxTime > SnappingPoint;
 
 
@@ -1259,18 +1262,41 @@ namespace CalamityMod.Items.Weapons.Melee
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float collisionPoint = 0f;
-            float bladeLenght = 84 * projectile.scale;
-            float bladeWidth = 76 * projectile.scale;
+            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projectile.Center });
 
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+            int numPoints = 32;
+            Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
+            float collisionPoint = 0;
+            for (int i = 1; i < numPoints; i++)
+            {
+                Vector2 position = chainPositions[i];
+                Vector2 previousPosition = chainPositions[i - 1];
+                if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), position, previousPosition, 6, ref collisionPoint))
+                    return true;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
+            Vector2 projectileHalfLenght = (projectile.Size / 2f) * projectile.rotation.ToRotationVector2();
+            float collisionPoint = 0;
+            //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit
+            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
+            {
+                if (SnapCoyoteTime > 0f)
+                    crit = true;
+            }
+            else
+                damage = (int)(damage * ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void AI()
@@ -1298,15 +1324,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 SnapCoyoteTime --;
             }
 
-
-
+            Owner.direction = Math.Sign(projectile.velocity.X);
             projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
 
             float ratio = GetSwingRatio();
             projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
             projectile.direction = projectile.spriteDirection = -Owner.direction;
 
-            MessWithTiles();
+            MessWithTiles(); //This is quite the headache for something mostly visual. If someone else wants to do it, or has any idea on how to force a tile to update itself it would be aprpeciated
 
             Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
         }
@@ -1314,18 +1339,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.myPlayer == Owner.whoAmI)
             {
-                //Shmoove the player
-                if (Collision.SolidCollision(projectile.position, 32, 32))
+                //Shmoove the player if a tile is hit. This movement always happens if the owner isnt on the ground, but will only happen if the projectile is above the player if they are standing on the ground)
+                if (Collision.SolidCollision(projectile.position, 32, 32) && (Owner.velocity.Y != 0 || projectile.position.Y < Owner.position.Y) )
                 {
-                    if (Owner.velocity.Length() != 0)
-                    {
-                        Owner.velocity *= 1.2f;
-                        Owner.velocity = (Owner.velocity.SafeNormalize(Vector2.Zero) * 0.5f * Owner.velocity.Length()) + (Owner.DirectionTo(projectile.Center) * 0.5f * Owner.velocity.Length());
-                    }
-                    else
-                    {
-                        Owner.velocity = Owner.DirectionTo(projectile.Center) * 15;
-                    }
+                    Owner.velocity = Owner.DirectionTo(projectile.Center) * ReelBackStrenght;
+                    SnapCoyoteTime = 0f;
                 }
                 Main.PlaySound(SoundID.Item65, projectile.position);
             }
@@ -1333,7 +1351,45 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public void MessWithTiles()
         {
-            //FLowers and gras s .
+            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projectile.Center });
+            int numPoints = 30;
+            Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
+
+            for (int i = 0; i < numPoints; i++)
+            {
+                Vector2 position = chainPositions[i];
+                Tile targetTile = Main.tile[(int)position.X / 16, (int)position.Y / 16]; //Grab the tile
+
+                if ((targetTile.type != TileID.Dirt && targetTile.type != TileID.Mud) || !targetTile.active())
+                    continue;
+
+                if (targetTile.type == TileID.Dirt)
+                {
+                    targetTile.active(true);
+                    targetTile.type = TileID.Grass;
+
+                    if (Owner.ZoneCorrupt)
+                            targetTile.type = TileID.CorruptGrass;
+                    if (Owner.ZoneCrimson)
+                            targetTile.type = TileID.FleshGrass;
+                    if (Owner.ZoneHoly)
+                        targetTile.type = TileID.HallowedGrass;
+                }
+                if (targetTile.type == TileID.Mud)
+                {
+                    targetTile.active(true);
+                    targetTile.type = TileID.JungleGrass;
+                    if (Owner.ZoneGlowshroom)
+                    {
+                        targetTile.type = TileID.MushroomGrass;
+                    }
+                }
+
+                //SOMEHOW update the changed tile???
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    NetMessage.SendTileSquare(-1, (int)position.X / 16, (int)position.Y / 16, 1, TileChangeType.None);
+            }
         }
 
         internal float EaseInFunction(float progress) => progress == 0 ? 0f : (float)Math.Pow(2, 10 * progress - 10); //Potion seller i need your strongest easeIns
@@ -1367,7 +1423,6 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (Timer == 0)
@@ -1379,9 +1434,11 @@ namespace CalamityMod.Items.Weapons.Melee
             DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
 
             float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
+            drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
+            drawRotation += projectile.spriteDirection < 0 ? 0f : 0f;
 
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
-            SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
             lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
             spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
@@ -1413,8 +1470,8 @@ namespace CalamityMod.Items.Weapons.Melee
             else //After the whip snaps, make the curve be a wave 
             {
                 Vector2 perpendicular = SwingPosition(ratio).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2);
-                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp( 1f, 0f, ratio/2)) + perpendicular * ratio * -95f;
-                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(1f, 0f, ratio / 3)) + perpendicular * ratio * 40f;
+                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * -155f;
+                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio/2)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * 100f;
             }
 
             BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
