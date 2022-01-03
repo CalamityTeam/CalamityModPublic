@@ -175,6 +175,11 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
             cursor.Emit(OpCodes.Ldloc, 29);
             cursor.Emit(OpCodes.Callvirt, typeof(List<Projectile>).GetMethod("get_Item"));
+
+            // Remove the direct i reference in the Update call and replace it with Array.IndexOf(Main.projectile, OrderedProjectiles[i]).
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.EmitDelegate<Func<int, int>>(i => Array.IndexOf(Main.projectile, OrderedProjectiles[i]));
         }
         #endregion Fix Projectile Update Priority Problems
 
