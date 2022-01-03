@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 shotPosition = player.RotatedRelativePoint(player.MountedCenter, true);
                 shotPosition += projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(40f)).RotatedBy(-0.25f * projectile.spriteDirection) * 42f;
 
-                projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld);
+                projectile.velocity = player.SafeDirectionTo(Main.MouseWorld);
 
                 Vector2 shotVelocity = projectile.velocity * shotSpeed; // The velocity should always be a unit vector.
 

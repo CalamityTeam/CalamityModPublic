@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
         private ref float CurrentChargingFrames => ref projectile.ai[0];
         private ref float LoadedBolts => ref projectile.ai[1];
         private ref float FramesToLoadBolt => ref projectile.localAI[0];
+        private ref float LastDirection => ref projectile.localAI[1];
 
         //private ref float Overfilled => ref projectile.localAI[1]; Until i implement the bow animation there is no need for that
         private float angularSpread = MathHelper.ToRadians(16);
@@ -161,20 +162,29 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == projectile.owner)
             {
-                float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.InverseLerp(5f, 25f, Owner.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
                 if (projectile.velocity != oldVelocity)
                 {
                     projectile.netSpam = 0;
                     projectile.netUpdate = true;
                 }
             }
+
             projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
             projectile.rotation = projectile.velocity.ToRotation();
-            if (projectile.spriteDirection == -1)
+            int oldDirection = projectile.spriteDirection;
+            if (oldDirection == -1)
                 projectile.rotation += MathHelper.Pi;
-            projectile.spriteDirection = projectile.direction;
+
+            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            // If the direction differs from what it originaly was, undo the previous 180 degree turn.
+            // If this is not done, the bow will have 1 frame of rotational "jitter" when the direction changes based on the
+            // original angle. This effect looks very strange in-game.
+            if (projectile.spriteDirection != oldDirection)
+                projectile.rotation -= MathHelper.Pi;
+
             projectile.timeLeft = 3;
         }
 
@@ -191,7 +201,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
             float loops = LoadedBolts + 1;
             if (LoadedBolts == ClockworkBow.MaxBolts) //If the bow is fully loaded, shave off the part where you draw the arrow that's charging currently
                 loops = LoadedBolts;
@@ -231,7 +240,7 @@ namespace CalamityMod.Projectiles.Ranged
                 var BoltTexture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/PrecisionBolt");
                 Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
-                float FlipFactor = projectile.direction == -1 ? MathHelper.Pi : 0f;
+                float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
                 Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (20f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
 
                 spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
