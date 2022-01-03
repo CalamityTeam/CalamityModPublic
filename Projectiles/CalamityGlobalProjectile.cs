@@ -263,6 +263,10 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 2;
 					break;
 
+				case ProjectileID.LightDisc:
+					projectile.extraUpdates = 5;
+					break;
+
 				case ProjectileID.Arkhalis:
 				case ProjectileID.ButchersChainsaw:
 					trueMelee = true;
@@ -306,6 +310,7 @@ namespace CalamityMod.Projectiles
 
 				case ProjectileID.Bee:
 				case ProjectileID.GiantBee:
+				case ProjectileID.LightBeam:
 					projectile.penetrate = 2;
 					break;
 

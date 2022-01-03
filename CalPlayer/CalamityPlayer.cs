@@ -5006,7 +5006,11 @@ namespace CalamityMod.CalPlayer
                     }
                     break;
 
-                case ItemID.Excalibur:
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
@@ -5149,7 +5153,11 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
-                case ProjectileID.LightBeam:
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
@@ -5267,7 +5275,11 @@ namespace CalamityMod.CalPlayer
                     player.HealEffect(2);
                     break;
 
-                case ItemID.Excalibur:
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
@@ -5369,7 +5381,11 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
-                case ProjectileID.LightBeam:
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
