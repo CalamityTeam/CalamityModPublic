@@ -61,13 +61,14 @@ namespace CalamityMod.Particles
             foreach (NPC npc in PendingNPCsToDraw.Keys)
             {
                 // Prepare the sprite batch for specialized drawing in prepration that the graphics device will draw to new render targets.
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Matrix.Identity);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Matrix.Identity);
 
                 // Draw the NPC to the temporary render target so that all of its drawcode is localized, and then get the colors from the results.
                 Main.instance.GraphicsDevice.SetRenderTarget(PendingNPCsToDraw[npc]);
                 Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
                 Vector2 oldPosition = npc.position;
+                npc.oldPos = new Vector2[npc.oldPos.Length];
                 npc.position = Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 try
                 {
