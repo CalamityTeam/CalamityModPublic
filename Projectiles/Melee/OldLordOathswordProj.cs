@@ -1,25 +1,25 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OldLordOathswordProj : ModProjectile
+    public class OldLordOathswordProj : BaseIdleHoldoutProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public int Direction = 1;
         public ref float ChargeTime => ref projectile.ai[0];
         public ref float GeneralTime => ref projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref projectile.localAI[0];
         public ref float ChargePower => ref projectile.localAI[1];
         public const int MaxChargeTime = 60;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
+        public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
+        public override int IntendedProjectileType => ModContent.ProjectileType<OldLordOathswordProj>();
 
         public override void SetStaticDefaults()
         {
@@ -42,15 +42,22 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Calamity().trueMelee = true;
         }
 
-        public override void AI()
+        public override void SendExtraAI(BinaryWriter writer)
         {
-            OldLordOathsword.CheckIfBladeShouldBeHeld(Owner);
-            if (Owner.ActiveItem().type != ModContent.ItemType<OldLordOathsword>() || Owner.CCed || !Owner.active || Owner.dead)
-            {
-                projectile.Kill();
-                return;
-            }
+            writer.Write(Direction);
+            writer.Write(PostSwingRepositionDelay);
+            writer.Write(ChargePower);
+        }
 
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Direction = reader.ReadInt32();
+            PostSwingRepositionDelay = reader.ReadSingle();
+            ChargePower = reader.ReadSingle();
+        }
+
+        public override void SafeAI()
+        {
             // Initialize the animation max time if necessary.
             if (Owner.itemAnimationMax == 0)
                 Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
@@ -59,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
 
             if (ChargePower < MaxChargeTime || Owner.altFunctionUse != 2)
-                projectile.direction = Owner.direction;
+                Direction = Owner.direction;
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
             float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true);
@@ -69,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
             else
                 swingInterpolant = (float)Math.Pow(swingInterpolant, 0.01D);
 
-            float baseRotation = swingInterpolant * projectile.direction * 0.96f;
+            float baseRotation = swingInterpolant * Direction * 0.96f;
 
             // Reset the owner's rotation.
             Owner.fullRotation = 0f;
@@ -77,8 +84,8 @@ namespace CalamityMod.Projectiles.Melee
             // Do a spin dash if a swing is done with full power.
             if (ChargePower >= MaxChargeTime && Owner.altFunctionUse == 2)
             {
-                baseRotation = swingCompletion * projectile.direction * MathHelper.Pi * -3f;
-                Owner.direction = projectile.direction;
+                swingSpeedInterpolant = 1f;
+                baseRotation = MathHelper.WrapAngle(swingCompletion * Direction * MathHelper.Pi * -3f);
                 Owner.fullRotation = baseRotation;
                 Owner.fullRotationOrigin = Owner.Center - Owner.position;
                 Owner.immuneNoBlink = true;
@@ -116,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (PostSwingRepositionDelay > 0f)
                     PostSwingRepositionDelay--;
                 else
-                    baseRotation = (MathHelper.PiOver2 + 0.36f) * -projectile.direction;
+                    baseRotation = (MathHelper.PiOver2 + 0.36f) * -Direction;
             }
             else
                 PostSwingRepositionDelay = PostSwingRepositionDelay == -1f ? 0f : 12f;
@@ -126,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
             float chargeInterpolant = Utils.InverseLerp(0f, 35f, ChargeTime, true);
             if (Owner.channel && Owner.altFunctionUse != 2)
             {
-                baseRotation = MathHelper.PiOver2 * -projectile.direction;
+                baseRotation = MathHelper.PiOver2 * -Direction;
                 horizontalBladeOffset = MathHelper.Lerp(horizontalBladeOffset, 10f, (float)Math.Pow(chargeInterpolant, 0.3));
                 if (Owner.itemAnimation < 2)
                     Owner.itemAnimation = 2;
@@ -142,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
             float idealRotation = baseRotation;
 
             idealRotation += MathHelper.PiOver4;
-            if (projectile.direction == -1)
+            if (Direction == -1)
                 idealRotation += MathHelper.Pi;
 
             // Define rotation.
@@ -156,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
             // Offset the blade so that the handle is attached to the owner's hand.
             Vector2 bladeOffset = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * projectile.width * bladeOffsetFactor;
             if (Owner.itemAnimation <= 0 || chargeInterpolant > 0f)
-                bladeOffset += new Vector2(projectile.direction * horizontalBladeOffset, 16f).RotatedBy(Owner.fullRotation) * (1f - PostSwingRepositionDelay / 12f);
+                bladeOffset += new Vector2(Direction * horizontalBladeOffset, 16f).RotatedBy(Owner.fullRotation) * (1f - PostSwingRepositionDelay / 12f);
             projectile.position += bladeOffset;
 
             // Create charge dust.

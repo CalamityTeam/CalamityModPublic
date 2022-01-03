@@ -49,6 +49,7 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
@@ -2173,7 +2174,7 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
-            OldLordOathsword.CheckIfBladeShouldBeHeld(player);
+            BaseIdleHoldoutProjectile.CheckForEveryHoldout(player);
         }
         #endregion
 

@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 34;
             item.channel = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.shoot = ProjectileID.PurificationPowder;
             item.useTurn = true;
             item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
@@ -37,36 +36,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
         }
+
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool? CanHitNPC(Player player, NPC target) => false;
 
         public override bool CanHitPvp(Player player, Player target) => false;
-
-        public static void CheckIfBladeShouldBeHeld(Player player)
-        {
-            Item heldItem = player.ActiveItem();
-            if (heldItem.type != ModContent.ItemType<OldLordOathsword>())
-                return;
-
-            player.Calamity().bladeArmEnchant = true;
-            bool bladeIsPresent = false;
-            int holdoutType = ModContent.ProjectileType<OldLordOathswordProj>();
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                if (Main.projectile[i].type != holdoutType || Main.projectile[i].owner != player.whoAmI || !Main.projectile[i].active)
-                    continue;
-
-                bladeIsPresent = true;
-                break;
-            }
-
-            if (Main.myPlayer == player.whoAmI && !bladeIsPresent)
-            {
-                int damage = (int)(heldItem.damage * player.MeleeDamage());
-                float kb = player.GetWeaponKnockback(heldItem, heldItem.knockBack);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
-            }
-        }
     }
 }

@@ -46,6 +46,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
@@ -231,6 +232,7 @@ namespace CalamityMod
             CustomLavaManagement.Load();
             Attunement.Load();
             BalancingChangesManager.Load();
+            BaseIdleHoldoutProjectile.Load();
         }
 
         private void LoadClient()
