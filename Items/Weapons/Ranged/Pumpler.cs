@@ -29,8 +29,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 1.25f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item11;
+            item.noUseGraphic = true;
+            item.UseSound = SoundID.Item20;
             item.autoReuse = true;
+            item.channel = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
             item.Calamity().canFirePointBlankShots = true;
@@ -38,13 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-30f, 0f);
 
-        public override bool CanUseItem(Player player)
-        {
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item20;
-            item.channel = true;
-            return player.ownedProjectileCounts[ModContent.ProjectileType<PumplerHoldout>()] <= 0;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<PumplerHoldout>()] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 				"Fires a frying pan at high velocity\n" +
 				"Enemy hits summon fireballs that linger around the target\n" +
 				"Landing three consecutive hits grants full stealth\n" +
-				"Stealth strikes explode into golden sparks and after hitting an enemy,\n" +
-				"cause all fireballs to aggressively home in on their target");
+				"Stealth strikes explode into golden sparks, and after hitting an enemy,\n" +
+				"they cause all fireballs to aggressively home in on their target");
 		}
 
 		public override void SafeSetDefaults()

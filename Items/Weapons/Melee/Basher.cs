@@ -17,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 42;
+            item.width = 56;
+            item.height = 60;
             item.damage = 30;
-			item.scale = 1.5f;
+			item.scale = 1.05f;
             item.melee = true;
             item.useAnimation = item.useTime = 26;
             item.useStyle = ItemUseStyleID.SwingThrow;

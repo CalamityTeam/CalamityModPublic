@@ -1,3 +1,4 @@
+using CalamityMod.Buffs;
 using CalamityMod.Particles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -48,9 +49,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.hide = true;
-			projectile.Calamity().PierceResistHarshness = 0.06f;
-			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+            projectile.Calamity().PierceResistHarshness = 0.06f;
+            projectile.Calamity().PierceResistCap = 0.4f;
+        }
 
         public override void AI()
         {
@@ -187,6 +188,11 @@ namespace CalamityMod.Projectiles.Magic
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsOverWiresUI.Add(index);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<RancorBurn>(), 150);
         }
 
         public override bool ShouldUpdatePosition() => false;

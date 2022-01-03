@@ -165,7 +165,7 @@ namespace CalamityMod.CalPlayer
 			// Update the gem tech armor set.
 			modPlayer.GemTechState.Update();
 
-			// Regularly sync player stats during multiplayer
+			// Regularly sync player stats & mouse control info during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				modPlayer.packetTimer++;
@@ -174,7 +174,14 @@ namespace CalamityMod.CalPlayer
 					modPlayer.packetTimer = 0;
 					modPlayer.StandardSync();
 				}
+
+				if (modPlayer.syncMouseControls)
+				{
+					modPlayer.syncMouseControls = false;
+					modPlayer.MouseControlsSync();
+				}
 			}
+
 
 			// After everything else, if Daawnlight Spirit Origin is equipped, set ranged crit to the base 4%.
 			// Store all the crit so it can be used in damage calculations.
