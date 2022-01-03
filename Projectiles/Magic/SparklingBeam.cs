@@ -1,13 +1,13 @@
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.Enums;
-using Terraria.ModLoader;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria.ID;
-using System.Linq;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {

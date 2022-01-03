@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
@@ -73,8 +74,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 6;
+            projectile.height = 6;
             projectile.friendly = true;
             projectile.ranged = true;
 			projectile.melee = true;
