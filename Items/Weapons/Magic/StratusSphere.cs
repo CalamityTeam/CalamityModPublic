@@ -45,10 +45,10 @@ namespace CalamityMod.Items.Weapons.Magic
 		public override void AddRecipes()
 		{
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
+			recipe.AddIngredient(ItemID.NebulaArcanum);
+			recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddIngredient(ItemID.NebulaArcanum);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

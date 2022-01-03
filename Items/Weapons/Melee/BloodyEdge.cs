@@ -37,16 +37,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LightsBane);
-            recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.Muramasa);
+            recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.FieryGreatsword);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BloodButcherer);
-            recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.Muramasa);
+            recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.FieryGreatsword);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);

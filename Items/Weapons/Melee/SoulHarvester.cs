@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.DeathSickle);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
             recipe.AddIngredient(ItemID.CursedFlame, 20);
-            recipe.AddIngredient(ItemID.DeathSickle);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

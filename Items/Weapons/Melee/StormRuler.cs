@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<WindBlade>());
             recipe.AddIngredient(ModContent.ItemType<StormSaber>());
+            recipe.AddIngredient(ModContent.ItemType<WindBlade>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

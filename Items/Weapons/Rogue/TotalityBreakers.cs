@@ -53,10 +53,10 @@ Stealth strikes leak tar as they fly");
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MolotovCocktail, 50);
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ConsecratedWater>());
             recipe.AddIngredient(ModContent.ItemType<DesecratedWater>());
             recipe.AddIngredient(ModContent.ItemType<SpentFuelContainer>());
+            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

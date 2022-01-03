@@ -50,9 +50,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5); // This is here to keep the Forbidden Fragment stuff on the same tier.
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
             recipe.AddIngredient(ItemID.SpellTome);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 5); // This is here to keep the Forbidden Fragment stuff on the same tier.
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -61,8 +61,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
             recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
             recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -71,8 +71,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<SilvaArmor>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
             recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
             recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

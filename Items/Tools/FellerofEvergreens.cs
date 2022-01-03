@@ -34,18 +34,18 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.TungstenAxe);
+            recipe.AddIngredient(ItemID.TungstenBar, 10);
             recipe.AddIngredient(ItemID.Wood, 15);
             recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.TungstenBar, 10);
-            recipe.AddIngredient(ItemID.TungstenAxe);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SilverAxe);
+            recipe.AddIngredient(ItemID.SilverBar, 10);
             recipe.AddIngredient(ItemID.Wood, 15);
             recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.SilverBar, 10);
-            recipe.AddIngredient(ItemID.SilverAxe);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

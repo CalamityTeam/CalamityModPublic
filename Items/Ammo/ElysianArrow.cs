@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddIngredient(ItemID.HolyArrow, 150);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 150);
             recipe.AddRecipe();

@@ -118,9 +118,9 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SkyGlaze>());
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
             recipe.AddRecipeGroup("AnyMythrilBar", 5);
-            recipe.AddIngredient(ModContent.ItemType<SkyGlaze>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
