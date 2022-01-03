@@ -4,7 +4,9 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 
 namespace CalamityMod.ILEditing
@@ -126,6 +128,70 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
+
+        #region Fix Projectile Update Priority Problems
+
+        // CONTEXT FOR FIX: The way projectile updating works is via looping, starting from 0 and ending at 999. For most cases this works sufficiently.
+        // However, in contexts where two projectile's update logic are dependent on each-other in some way (such as mechworm segment movement) it is possible
+        // that one projectile will update unexpectedly before the other, creating gaps. By making the update logic ordered based on a priority system, this can be
+        // alleviated.
+        private static void FixProjectileUpdatePriorityProblems(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Locate the location where the projectile loop starts.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallOrCallvirt<LockOnHelper>("SetUP")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the LockOnHelper.SetUP method.");
+                return;
+            }
+
+            int startIndex = cursor.Index;
+
+            // Then go to where it ends.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallOrCallvirt<LockOnHelper>("SetDOWN")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the LockOnHelper.SetDOWN method.");
+                return;
+            }
+
+            int endIndex = cursor.Index;
+
+            // Go back to the start.
+            cursor.Goto(startIndex);
+
+            // And delete the range that handles update logic intent to replace it.
+            cursor.RemoveRange(Math.Abs(endIndex - startIndex));
+
+            // And do projectile update logic manually.
+            cursor.EmitDelegate<Action>(() =>
+            {
+                List<Projectile> orderedProjectiles = Main.projectile.Take(Main.maxProjectiles).OrderByDescending(p => p.active ? p.Calamity().UpdatePriority : 0f).ToList();
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile projectile = orderedProjectiles[i];
+                    Main.ProjectileUpdateLoopIndex = Array.IndexOf(Main.projectile, projectile);
+
+                    // Yes, this is completely ridiculous, but it's probably best to leave it this way to be as in-accordance with
+                    // vanilla's normal update logic as possible.
+                    if (Main.ignoreErrors)
+                    {
+                        try
+                        {
+                            projectile.Update(Main.ProjectileUpdateLoopIndex);
+                        }
+                        catch
+                        {
+                            Main.projectile[Main.ProjectileUpdateLoopIndex] = new Projectile();
+                        }
+                    }
+                    else
+                        projectile.Update(i);
+                }
+                Main.ProjectileUpdateLoopIndex = -1;
+            });
+        }
+        #endregion Fix Projectile Update Priority Problems
 
         #region Make Mouse Hover Items Work with Animated Items
         private static void MakeMouseHoverItemsSupportAnimations(ILContext il)

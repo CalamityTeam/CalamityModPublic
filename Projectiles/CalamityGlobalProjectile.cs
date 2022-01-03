@@ -122,8 +122,11 @@ namespace CalamityMod.Projectiles
         public int ExplosiveEnchantCountdown = 0;
         public const int ExplosiveEnchantTime = 2400;
 
-        #region SetDefaults
-        public override void SetDefaults(Projectile projectile)
+		// Update priority variable.
+		public float UpdatePriority = 0f;
+
+		#region SetDefaults
+		public override void SetDefaults(Projectile projectile)
         {
             switch (projectile.type)
             {
@@ -414,7 +417,7 @@ namespace CalamityMod.Projectiles
 
 			// Disable Lunatic Cultist's homing resistance globally
 			ProjectileID.Sets.Homing[projectile.type] = false;
-        }
+		}
         #endregion
 
         #region PreAI

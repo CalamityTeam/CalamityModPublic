@@ -88,6 +88,7 @@ namespace CalamityMod.ILEditing
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
+            IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
 
         /// <summary>
@@ -160,6 +161,7 @@ namespace CalamityMod.ILEditing
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
+            IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
         }
     }
 }

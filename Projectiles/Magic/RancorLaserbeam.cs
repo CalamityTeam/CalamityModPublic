@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.hide = true;
 			projectile.Calamity().PierceResistHarshness = 0.06f;
 			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+        }
 
         public override void AI()
         {
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Decide where to position the laserbeam.
             Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-            projectile.Center = MagicCircle.Center + projectile.velocity * projectile.scale * -12f + Owner.velocity;
+            projectile.Center = MagicCircle.Center;
 
             // Update the laser length.
             float[] laserLengthSamplePoints = new float[24];
@@ -170,11 +170,11 @@ namespace CalamityMod.Projectiles.Magic
 
             GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
 
-            Vector2[] basePoints = new Vector2[12];
+            Vector2[] basePoints = new Vector2[24];
             for (int i = 0; i < basePoints.Length; i++)
                 basePoints[i] = projectile.Center + projectile.velocity * i / (basePoints.Length - 1f) * LaserLength;
 
-            Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 overallOffset = -Main.screenPosition;
             RayDrawer.Draw(basePoints, overallOffset, 92);
             return false;
         }
