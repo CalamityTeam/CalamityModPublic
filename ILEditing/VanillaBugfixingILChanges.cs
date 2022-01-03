@@ -5,6 +5,7 @@ using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
@@ -71,6 +72,8 @@ namespace CalamityMod.ILEditing
             NPCID.CultistDragonTail,
             NPCID.AncientCultistSquidhead,
         };
+
+        public static readonly List<Projectile> OrderedProjectiles = new List<Projectile>();
 
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
@@ -140,56 +143,38 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
 
             // Locate the location where the projectile loop starts.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallOrCallvirt<LockOnHelper>("SetUP")))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<LockOnHelper>("SetUP")))
             {
                 LogFailure("Projectile Update Priority fix", "Could not locate the LockOnHelper.SetUP method.");
                 return;
             }
 
-            int startIndex = cursor.Index;
-
-            // Then go to where it ends.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallOrCallvirt<LockOnHelper>("SetDOWN")))
+            // Before doing anything else, prepare the list of ordered projectiles.
+            cursor.EmitDelegate<Func<List<Projectile>>>(() =>
             {
-                LogFailure("Projectile Update Priority fix", "Could not locate the LockOnHelper.SetDOWN method.");
+                return Main.projectile.Take(Main.maxProjectiles).OrderByDescending(p => p.active ? p.Calamity().UpdatePriority : 0f).ToList();
+            });
+            cursor.Emit(OpCodes.Stsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
+
+            // Go before the declaration of the projectile loop index and declare the ordered projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStsfld<Main>("ProjectileUpdateLoopIndex")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the ProjectileUpdateLoopIndex field.");
                 return;
             }
 
-            int endIndex = cursor.Index;
-
-            // Go back to the start.
-            cursor.Goto(startIndex);
-
-            // And delete the range that handles update logic intent to replace it.
-            cursor.RemoveRange(Math.Abs(endIndex - startIndex));
-
-            // And do projectile update logic manually.
-            cursor.EmitDelegate<Action>(() =>
+            // Replace the projectile reference on the Projectile.Update call.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdelemRef()))
             {
-                List<Projectile> orderedProjectiles = Main.projectile.Take(Main.maxProjectiles).OrderByDescending(p => p.active ? p.Calamity().UpdatePriority : 0f).ToList();
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    Projectile projectile = orderedProjectiles[i];
-                    Main.ProjectileUpdateLoopIndex = Array.IndexOf(Main.projectile, projectile);
+                LogFailure("Projectile Update Priority fix", $"Could not locate the Main.projectile index load reference.");
+                return;
+            }
 
-                    // Yes, this is completely ridiculous, but it's probably best to leave it this way to be as in-accordance with
-                    // vanilla's normal update logic as possible.
-                    if (Main.ignoreErrors)
-                    {
-                        try
-                        {
-                            projectile.Update(Main.ProjectileUpdateLoopIndex);
-                        }
-                        catch
-                        {
-                            Main.projectile[Main.ProjectileUpdateLoopIndex] = new Projectile();
-                        }
-                    }
-                    else
-                        projectile.Update(i);
-                }
-                Main.ProjectileUpdateLoopIndex = -1;
-            });
+            // Pop the Main.projectile[i] reference and replace it with OrderedProjectiles[i].
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit(OpCodes.Ldsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
+            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.Emit(OpCodes.Callvirt, typeof(List<Projectile>).GetMethod("get_Item"));
         }
         #endregion Fix Projectile Update Priority Problems
 
