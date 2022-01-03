@@ -70,12 +70,18 @@ namespace CalamityMod.Projectiles.Melee
                 Direction = Owner.direction;
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
-            float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true);
+            float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true) * Utils.InverseLerp(-0.05f, 0.2f, swingCompletion, true);
             float swingInterpolant = (float)Math.Sin(swingCompletion * MathHelper.TwoPi);
             if (swingInterpolant < 0f)
-                swingInterpolant = -(float)Math.Pow(-swingInterpolant, 0.01D);
+            {
+                swingInterpolant = -(float)Math.Pow(-swingInterpolant, 0.9);
+                swingInterpolant = MathHelper.Lerp(swingInterpolant, -1f, 0.5f);
+            }
             else
-                swingInterpolant = (float)Math.Pow(swingInterpolant, 0.01D);
+            {
+                swingInterpolant = (float)Math.Pow(swingInterpolant, 0.9);
+                swingInterpolant = MathHelper.Lerp(swingInterpolant, 1f, 0.5f);
+            }
 
             float baseRotation = swingInterpolant * Direction * 0.96f;
 
@@ -163,7 +169,7 @@ namespace CalamityMod.Projectiles.Melee
                 idealRotation += MathHelper.Pi;
 
             // Define rotation.
-            projectile.rotation = projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.2f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.1f);
+            projectile.rotation = projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
 
             // Decide how far out the blade should go.
             float bladeOffsetFactor = 0.5f + chargeInterpolant * 0.3f;
