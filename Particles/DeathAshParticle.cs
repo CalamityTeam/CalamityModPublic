@@ -238,7 +238,6 @@ namespace CalamityMod.Particles
 
         public static void UpdateAll()
         {
-            Main.windSpeed = 0.54f;
             // Don't draw ashes serverside.
             if (Main.netMode == NetmodeID.Server)
                 return;
