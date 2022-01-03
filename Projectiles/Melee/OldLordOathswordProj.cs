@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
         public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
         public override int IntendedProjectileType => ModContent.ProjectileType<OldLordOathswordProj>();
+        public override bool CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
 
         public override void SetStaticDefaults()
         {
@@ -53,6 +54,7 @@ namespace CalamityMod.Projectiles.Melee
             writer.Write(Direction);
             writer.Write(PostSwingRepositionDelay);
             writer.Write(ChargePower);
+            writer.Write(CurrentState);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -60,6 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             Direction = reader.ReadInt32();
             PostSwingRepositionDelay = reader.ReadSingle();
             ChargePower = reader.ReadSingle();
+            CurrentState = reader.ReadSingle();
         }
 
         public override void SafeAI()
