@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -254,6 +255,19 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
+
+            spriteBatch.EnterShaderRegion();
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
+            GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
+            if (ChargePower >= MaxChargeTime)
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTime * 30) % 30f / 60f));
+            GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+            var texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
+
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, projectile.Size / 2f, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.ExitShaderRegion();
+
             return false;
         }
 
