@@ -58,8 +58,10 @@ namespace CalamityMod.Projectiles.Rogue
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			// Don't spawn fireballs if you can't even stealth strike
+			// Don't spawn fireballs or increment the special effects counter if you can't even stealth strike
 			bool playerCanStealthStrike = modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax > 0;
+			if (!playerCanStealthStrike)
+				return;
 
 			// Increment the seared pan counter and refill stealth after three consecutive hits
 			// See CalamityPlayerMiscEffects.cs for code that resets the counter after 40 frames
@@ -79,19 +81,19 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int t = 0; t < 6; t++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.3), 0f, projectile.owner);
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.2), 0f, projectile.owner);
 				}
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
 				// Stealth strikes also cause any fireballs to home in on their targets
 				FireballStuff(true);
 			}
-			else if (targetIndex != -1 && health > 0 && playerCanStealthStrike)
+			else if (targetIndex != -1 && health > 0)
 			{
 				// Summon three fireballs to circle the hit enemy
 				int projType = ModContent.ProjectileType<NiceCock>();
 				for (int t = 0; t < 3; t++)
 				{
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, projType, (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, targetIndex);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, projType, (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, targetIndex);
 				}
 				int fireballCount = 0;
 				// Count how many fireballs exist already around the given target
