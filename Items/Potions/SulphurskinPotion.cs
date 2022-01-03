@@ -36,15 +36,15 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 15); //possibly add herbs if added to sulph sea
             recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 15);
-            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
