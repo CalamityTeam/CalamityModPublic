@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.ranged = true;
             projectile.ignoreWater = true;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 
         }
         public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerGrenade";
