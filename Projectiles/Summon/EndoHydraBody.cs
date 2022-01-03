@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
             get => (int)projectile.ai[0];
             set => projectile.ai[0] = value;
         }
-        public const float DistanceToCheck = 1600f;
+        public const float DistanceToCheck = 2800f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra Body");
