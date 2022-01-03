@@ -34,8 +34,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
         }
 
         public override void AI()
@@ -59,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Time % 50f == 49f && Main.myPlayer == projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
-                Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), projectile.damage / 3, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
             projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * (150f + (float)Math.Sin(Time * 0.08f) * 15f);
             projectile.rotation += MathHelper.ToRadians(7f);
@@ -102,5 +100,7 @@ namespace CalamityMod.Projectiles.Summon
 
             return false;
         }
+
+        public override bool CanDamage() => false;
     }
 }
