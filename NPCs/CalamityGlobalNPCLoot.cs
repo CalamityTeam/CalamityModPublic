@@ -493,12 +493,10 @@ namespace CalamityMod.NPCs
 				Color messageColor = Color.Orange;
 				string key2 = "Mods.CalamityMod.MoonBossText2";
 				Color messageColor2 = Color.Violet;
-				string key3 = "Mods.CalamityMod.MoonBossText3";
-				Color messageColor3 = Color.Crimson;
-				string key4 = "Mods.CalamityMod.ProfanedBossText2";
-				Color messageColor4 = Color.Cyan;
-				string key5 = "Mods.CalamityMod.FutureOreText";
-				Color messageColor5 = Color.LightGray;
+				string key3 = "Mods.CalamityMod.ProfanedBossText2";
+				Color messageColor3 = Color.Cyan;
+				string key4 = "Mods.CalamityMod.FutureOreText";
+				Color messageColor4 = Color.LightGray;
 
                 if (!CalamityWorld.HasGeneratedLuminitePlanetoids)
                 {
@@ -523,7 +521,6 @@ namespace CalamityMod.NPCs
 					CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
 					CalamityUtils.DisplayLocalizedText(key4, messageColor4);
-					CalamityUtils.DisplayLocalizedText(key5, messageColor5);
 				}
 			}
 			else if (npc.type == NPCID.RedDevil)
