@@ -2671,21 +2671,21 @@ namespace CalamityMod.NPCs
             {
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 7.5);
+                    npc.lifeMax = (int)(npc.lifeMax * 3.5);
                     npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
                 else if (CalamityLists.frostMoonBuffList.Contains(npc.type))
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 6D);
+                    npc.lifeMax = (int)(npc.lifeMax * 2.5);
                     npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
 				else if (CalamityLists.eclipseBuffList.Contains(npc.type))
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 10D);
+					npc.lifeMax = (int)(npc.lifeMax * 5D);
 					npc.damage += 30;
 					npc.life = npc.lifeMax;
 					npc.defDamage = npc.damage;
