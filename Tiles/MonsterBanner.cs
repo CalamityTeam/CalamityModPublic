@@ -812,8 +812,10 @@ namespace CalamityMod.Tiles
                     return;
             }
 			if (type.Length > 0)
+			{
 				player.NPCBannerBuff[mod.NPCType(type)] = true;
-            player.hasBanner = true;
+				player.hasBanner = true;
+			}
         }
 
         public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)
