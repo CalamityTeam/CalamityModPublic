@@ -2173,6 +2173,7 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+            OldLordOathsword.CheckIfBladeShouldBeHeld(player);
         }
         #endregion
 
