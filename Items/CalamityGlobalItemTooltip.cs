@@ -768,6 +768,7 @@ namespace CalamityMod.Items
 
 			// This function is shorthand for appending a stat sheet to a pair of wings.
 			void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
+			void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
 
 			if (item.type == ItemID.AngelWings)
 				AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
@@ -872,8 +873,9 @@ namespace CalamityMod.Items
 				AddWingStats(6.5f, 1.5f, 1, 160, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
 					"and 5% decreased mana usage while wearing the Nebula Armor");
 
+			// Betsy's Wings (and dev wings) are the only wings without "Allows flight and free fall"
 			if (item.type == ItemID.BetsyWings)
-				AddWingStats(6f, 2.5f, 1, 150);
+				AddWingStats2(6f, 2.5f, 1, 150, null, "Equipable");
 			#endregion
 
 			// Provide the full stats of every vanilla grappling hook

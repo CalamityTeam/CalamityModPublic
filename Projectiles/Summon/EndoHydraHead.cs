@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 returnPosition = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -50f) + DeltaPositionMoving;
 
             // Beam shooting
-            if (body.ai[0] >= 0 && body.ai[0] < Main.npc.Length)
+            if (body.ai[0] >= 0 && body.ai[0] < Main.maxNPCs)
             {
                 NPC target = Main.npc[(int)body.ai[0]];
                 bool targetAliveAndInLineOfSight = target.active && projectile.Distance(target.Center) < EndoHydraBody.DistanceToCheck;

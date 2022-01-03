@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.";
 						break;
 					case 7f:
-						displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.";
+						displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzahrd's idol, the Golem. It's quite the destructive force.";
 						break;
 				}
             }
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "Be careful what you attack in the " + worldEvil + ". You might just unveil a greater threat than what was there before.";
 						break;
 					case 6f:
-						displayThisText = "Scattered across the lands are shrines dedicated to the gods. You can take whatever is in them, but a few items you may not be able to use until much later.";
+						displayThisText = "Scattered across the lands are shrines dedicated to the gods. They contain powerful gear that may help you on your adventures.";
 						break;
 					case 7f:
 						displayThisText = "I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.";

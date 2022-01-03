@@ -218,9 +218,10 @@ namespace CalamityMod.NPCs
         public int vulnerabilityHex = 0;
         public int banishingFire = 0;
 		public int wither = 0;
+		public int RancorBurnTime = 0;
 
-        // whoAmI Variables
-        public static int[] bobbitWormBottom = new int[5];
+		// whoAmI Variables
+		public static int[] bobbitWormBottom = new int[5];
         public static int DD2CrystalIndex = -1;
         public static int hiveMind = -1;
         public static int perfHive = -1;
@@ -4300,6 +4301,8 @@ namespace CalamityMod.NPCs
 				banishingFire--;
             if (wither > 0)
 				wither--;
+			if (RancorBurnTime > 0)
+				RancorBurnTime--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
 			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
@@ -4861,7 +4864,10 @@ namespace CalamityMod.NPCs
         #region Hit Effect
         public override void HitEffect(NPC npc, int hitDirection, double damage)
         {
-            if (CalamityWorld.revenge)
+			if (npc.life <= 0 && npc.Organic() && RancorBurnTime > 0)
+				DeathAshParticle.CreateAshesFromNPC(npc);
+
+			if (CalamityWorld.revenge)
             {
                 switch (npc.type)
                 {
@@ -5603,7 +5609,7 @@ namespace CalamityMod.NPCs
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {
-			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
+			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f) && npc.active)
 			{
 				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityLists.needsDebuffIconDisplayList.Contains(npc.type)))
 				{

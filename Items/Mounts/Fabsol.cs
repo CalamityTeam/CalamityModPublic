@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
             item.mountType = ModContent.MountType<AlicornMount>();

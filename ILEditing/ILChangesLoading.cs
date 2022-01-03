@@ -45,12 +45,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            IL.Terraria.Main.DoDraw += DrawAshParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
+			IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -118,6 +120,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
+            IL.Terraria.Main.DoDraw -= DrawAshParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;

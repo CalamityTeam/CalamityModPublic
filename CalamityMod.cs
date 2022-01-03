@@ -299,7 +299,7 @@ namespace CalamityMod
 
             CalamityShaders.LoadShaders();
             FusableParticleManager.LoadParticleRenderSets();
-            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
+            Main.OnPreDraw += PrepareRenderTargets;
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
@@ -384,7 +384,7 @@ namespace CalamityMod
             TileFraming.Unload();
 
             FusableParticleManager.UnloadParticleRenderSets();
-            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
+            Main.OnPreDraw -= PrepareRenderTargets;
 
             RipperUI.Unload();
             AstralArcanumUI.Unload();
@@ -421,6 +421,14 @@ namespace CalamityMod
             TileFraming.Load();
         }
         #endregion
+
+        #region Render Target Management
+        public static void PrepareRenderTargets(GameTime gameTime)
+        {
+            FusableParticleManager.PrepareFusableParticleTargets();
+            DeathAshParticle.PrepareRenderTargets();
+        }
+        #endregion Render Target Management
 
         #region ConfigCrap
         internal static void SaveConfig(CalamityConfig cfg)
@@ -1577,6 +1585,10 @@ namespace CalamityMod
         #region Tile Entity Time Handler
         public override void MidUpdateTimeWorld() => TileEntityTimeHandler.Update();
         #endregion
+
+        #region Ash Drawing
+        public override void MidUpdateItemDust() => DeathAshParticle.UpdateAll();
+        #endregion Ash Drawing
 
         #region Post NPC Updating
         // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.

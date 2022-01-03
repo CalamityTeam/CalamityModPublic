@@ -9,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Particles;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -51,9 +52,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.DD2_OgreRoar;
             npc.DeathSound = SoundID.NPCDeath52;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -256,12 +257,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void NPCLoot()
         {
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
-			{
-				int heartAmt = Main.rand.Next(3) + 3;
-				for (int i = 0; i < heartAmt; i++)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+            if (!CalamityWorld.malice && !CalamityWorld.revenge)
+            {
+                int heartAmt = Main.rand.Next(3) + 3;
+                for (int i = 0; i < heartAmt; i++)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCataclysmTrophy>(), 10);
         }
 
@@ -295,6 +296,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
+
+                // Turn into dust on death.
+                if (npc.life <= 0)
+                    DeathAshParticle.CreateAshesFromNPC(npc);
             }
         }
     }

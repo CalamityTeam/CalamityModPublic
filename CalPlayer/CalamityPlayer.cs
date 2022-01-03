@@ -4470,7 +4470,7 @@ namespace CalamityMod.CalPlayer
 
             if (silvaSet && silvaCountdown > 0)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
+                if (silvaCountdown == 480 && !hasSilvaEffect)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
