@@ -58,6 +58,9 @@ namespace CalamityMod.Projectiles.Rogue
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
+			// Don't spawn fireballs if you can't even stealth strike
+			bool playerCanStealthStrike = modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax > 0;
+
 			// Increment the seared pan counter and refill stealth after three consecutive hits
 			// See CalamityPlayerMiscEffects.cs for code that resets the counter after 40 frames
 			modPlayer.searedPanTimer = 0;
@@ -82,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 				// Stealth strikes also cause any fireballs to home in on their targets
 				FireballStuff(true);
 			}
-			else if (targetIndex != -1 && health > 0)
+			else if (targetIndex != -1 && health > 0 && playerCanStealthStrike)
 			{
 				// Summon three fireballs to circle the hit enemy
 				int projType = ModContent.ProjectileType<NiceCock>();
