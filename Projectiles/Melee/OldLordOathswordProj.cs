@@ -89,7 +89,10 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.fullRotation = baseRotation;
                 Owner.fullRotationOrigin = Owner.Center - Owner.position;
                 Owner.immuneNoBlink = true;
-                Owner.immuneTime = 3;
+                Owner.immune = true;
+                Owner.immuneTime = 5;
+                for (int k = 0; k < Owner.hurtCooldowns.Length; k++)
+                    Owner.hurtCooldowns[k] = Owner.immuneTime;
 
                 // Emit fire dust.
                 for (int i = 0; i < 4; i++)
@@ -209,5 +212,7 @@ namespace CalamityMod.Projectiles.Melee
             NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
             PlayerHooks.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
         }
+
+        public override void Kill(int timeLeft) => Owner.fullRotation = 0f;
     }
 }
