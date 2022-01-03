@@ -86,14 +86,19 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
 
             if (((Owner.itemAnimation <= 0) || (!RMBChannel && CurrentState == 2f)) && CurrentState != 3) //Reset the state of the weapon if the player stops using it. This cannot reset a dash
+            {
                 Owner.itemAnimation = 0;
                 CurrentState = 0f;
+            }
             if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0 && ChargePower < MaxChargeTime) //Allowed to start swinging from the default state. You cannot swing while rotating or channeling. <- Unless we want to let the player interrupt their dashes with a swing
                 CurrentState = 1f;
             if ((CurrentState == 0f || CurrentState == 1f) && RMBChannel) //Allowed to switch from default or swinging state to channeling. You cannot channel from the rotating state
                 CurrentState = 2f;
-            if(CurrentState == 0f && Owner.itemAnimation > 0 && ChargePower >= MaxChargeTime) //You can only dash if you're not swinging or channeling (Not like you could swap from the Swinging state to the Dashing one anyways)
+            if (CurrentState == 0f && Owner.itemAnimation > 0 && ChargePower >= MaxChargeTime) //You can only dash if you're not swinging or channeling (Not like you could swap from the Swinging state to the Dashing one anyways)
+            {
+                Owner.fallStart = (int)(Owner.position.Y / 16f);
                 CurrentState = 3f;
+            }
 
 
             // Glue the sword to its owner.
