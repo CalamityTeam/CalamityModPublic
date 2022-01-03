@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class OldLordOathsword : ModItem
     {
+        public bool RMBchannel = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Lord Oathsword");

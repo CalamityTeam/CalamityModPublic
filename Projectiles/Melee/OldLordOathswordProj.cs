@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
@@ -16,7 +17,10 @@ namespace CalamityMod.Projectiles.Melee
         public ref float ChargeTime => ref projectile.ai[0];
         public ref float GeneralTime => ref projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref projectile.localAI[0];
+        public ref bool RMBChannel => ref (Owner.HeldItem.modItem as OldLordOathsword).RMBchannel;
+        public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref projectile.localAI[1];
+        public float CurrentState; //0 = default, 1 = Swinging, 2 = Channeling, 3 = Spinning
         public const int MaxChargeTime = 60;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
         public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
@@ -59,14 +63,39 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SafeAI()
         {
+            #region RMB Channel setup
+            CalamityPlayer controlsSync = Owner.GetModPlayer<CalamityPlayer>();
+            if (Main.myPlayer == projectile.owner)
+            {
+                controlsSync.rightClickListener = true;
+            }
+
+            if (!controlsSync.mouseRight)
+                RMBChannel = false;
+            else
+                RMBChannel = true;
+            #endregion
+
+
             // Initialize the animation max time if necessary.
             if (Owner.itemAnimationMax == 0)
                 Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
 
+            if (((Owner.itemAnimation <= 0) || (!RMBChannel && CurrentState == 2f)) && CurrentState != 3) //Reset the state of the weapon if the player stops using it. This cannot reset a dash
+                Owner.itemAnimation = 0;
+                CurrentState = 0f;
+            if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0 && ChargePower < MaxChargeTime) //Allowed to start swinging from the default state. You cannot swing while rotating or channeling. <- Unless we want to let the player interrupt their dashes with a swing
+                CurrentState = 1f;
+            if ((CurrentState == 0f || CurrentState == 1f) && RMBChannel) //Allowed to switch from default or swinging state to channeling. You cannot channel from the rotating state
+                CurrentState = 2f;
+            if(CurrentState == 0f && Owner.itemAnimation > 0 && ChargePower >= MaxChargeTime) //You can only dash if you're not swinging or channeling (Not like you could swap from the Swinging state to the Dashing one anyways)
+                CurrentState = 3f;
+
+
             // Glue the sword to its owner.
             projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
 
-            if (ChargePower < MaxChargeTime || Owner.altFunctionUse != 2)
+            if (CurrentState != 3f)
                 Direction = Owner.direction;
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
@@ -89,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.fullRotation = 0f;
 
             // Do a spin dash if a swing is done with full power.
-            if (ChargePower >= MaxChargeTime && Owner.altFunctionUse == 2)
+            if (CurrentState == 3f)
             {
                 swingSpeedInterpolant = 1f;
                 baseRotation = MathHelper.WrapAngle(swingCompletion * Direction * MathHelper.Pi * -3f);
@@ -124,11 +153,14 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Stop charging once the item animation has completed.
                 if (Owner.itemAnimation <= 1)
+                {
                     ChargePower = 0f;
+                    CurrentState = 0f;
+                }
             }
 
             // Hold the blade upwards if not firing.
-            if (Owner.itemAnimation <= 0)
+            if (CurrentState == 0f)
             {
                 if (PostSwingRepositionDelay > 0f)
                     PostSwingRepositionDelay--;
@@ -144,7 +176,7 @@ namespace CalamityMod.Projectiles.Melee
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
             float chargeInterpolant = Utils.InverseLerp(0f, 35f, ChargeTime, true);
-            if (Owner.channel && Owner.altFunctionUse != 2)
+            if (CurrentState == 2f)
             {
                 baseRotation = MathHelper.PiOver2 * -Direction;
                 horizontalBladeOffset = MathHelper.Lerp(horizontalBladeOffset, 10f, (float)Math.Pow(chargeInterpolant, 0.3));
@@ -183,7 +215,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position += bladeOffset;
 
             // Create charge dust.
-            if (Owner.channel)
+            if (CurrentState == 2f)
             {
                 int chargeDustCount = (int)Math.Round(MathHelper.Lerp(1f, 3f, ChargePower / 60f));
                 if (ChargePower >= MaxChargeTime)
