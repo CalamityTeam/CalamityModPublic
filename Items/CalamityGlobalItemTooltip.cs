@@ -2,7 +2,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -427,6 +426,9 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
+
+			if (item.type == ItemID.DeathSickle)
+				EditTooltipByNum(0, (line) => line.text += "\nInflicts Whispering Death on hit");
 			#endregion
 
 			// Light pets, accessories, and other items which boost the player's Abyss light stat
