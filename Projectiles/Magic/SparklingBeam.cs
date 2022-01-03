@@ -98,7 +98,8 @@ namespace CalamityMod.Projectiles.Magic
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			// We can only collide if we are at max charge, which is when the laser is actually fired
-			if (!IsAtMaxCharge) return false;
+			if (!IsAtMaxCharge)
+				return false;
 
 			Player player = Main.player[projectile.owner];
 			Vector2 unit = projectile.velocity;
@@ -146,27 +147,11 @@ namespace CalamityMod.Projectiles.Magic
 			ChargeLaser(player);
 
 			// If laser is not charged yet, stop the AI here.
-			if (Charge < MAX_CHARGE) return;
-
-			/*//Repeatedly drain mana once fully charged.  Unaffected by modifiers.
-			//commented out because I think it's a HERO's conflict
-			if (!Main.expertMode)
-			{
-				manaDrain++;
-				if (manaDrain == 15)
-				{
-					player.statMana -= 5;
-					if (player.statMana <= 0)
-					{
-						player.statMana = 0;
-						projectile.Kill();
-					}
-					manaDrain = 0;
-				}
-			}*/
+			if (Charge < MAX_CHARGE)
+				return;
 
 			//Play cool sound when fully charged
-			if (playedSound == false)
+			if (!playedSound)
 			{
 				Main.PlaySound(SoundID.Item68, projectile.position);
 				playedSound = true;
