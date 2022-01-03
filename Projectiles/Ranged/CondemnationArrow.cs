@@ -33,6 +33,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            //Sound is played in the first frame instead of in the weapon shoot for proper mp sync
+            if (projectile.timeLeft == 300)
+                Main.PlaySound(SoundID.DD2_BallistaTowerShot, projectile.Center);
+
+
             Lighting.AddLight(projectile.Center, Color.Violet.ToVector3());
             projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;

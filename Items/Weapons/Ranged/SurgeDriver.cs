@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTime = item.useAnimation = 56;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
+            item.channel = true;
             item.knockBack = 8f;
             item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             item.rare = ItemRarityID.Purple;
@@ -38,27 +39,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override void HoldItem(Player player)
         {
-            if (player.altFunctionUse == 2)
+            if (Main.myPlayer == player.whoAmI)
+                player.Calamity().rightClickListener = true;
+
+
+            if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0)
             {
                 item.noUseGraphic = false;
                 item.reuseDelay = 0;
-                item.UseSound = SoundID.Item14;
-                item.channel = false;
             }
             else
             {
                 item.noUseGraphic = true;
                 item.reuseDelay = 28;
-                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-                item.channel = true;
-                return player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
             }
-            return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f : 1f;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
+
+        public override float UseTimeMultiplier(Player player) => player.Calamity().mouseRight ? 5f : 1f;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -68,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             gunTip.Y -= 6f;
 
             // Large bullet/rocket releasing.
-            if (player.altFunctionUse == 2)
+            if (player.Calamity().mouseRight)
             {
                 for (int i = 0; i < 2; i++)
                 {
