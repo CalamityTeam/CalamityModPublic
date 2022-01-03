@@ -22,10 +22,10 @@ namespace CalamityMod.Particles
         public Color AshColor;
         public Vector2 Center;
         public Vector2 Velocity;
-        public Vector2 TopLeft => Center - Vector2.One * Scale * 4f;
-        public Vector2 TopRight => Center + new Vector2(1f, -1f) * Scale * 4f;
-        public Vector2 BottomRight => Center + Vector2.One * Scale * 4f;
-        public Vector2 BottomLeft => Center + new Vector2(-1f, 1f) * Scale * 4f;
+        public Vector2 TopLeft => Center - Vector2.One * Scale * 3.5f;
+        public Vector2 TopRight => Center + new Vector2(1f, -1f) * Scale * 3.5f;
+        public Vector2 BottomRight => Center + Vector2.One * Scale * 3.5f;
+        public Vector2 BottomLeft => Center + new Vector2(-1f, 1f) * Scale * 3.5f;
 
         public static HashSet<DeathAshParticle> Ashes = new HashSet<DeathAshParticle>();
         public const int PrimitiveBatchSize = 256;
@@ -148,7 +148,7 @@ namespace CalamityMod.Particles
                 // Create ashes.
                 foreach (Vector2 drawOffset in colorsOnNPC.Keys)
                 {
-                    int ashLifetime = Main.rand.Next(75, 115);
+                    int ashLifetime = Main.rand.Next(105, 145);
 
                     // Adjust the offset of the ashes from pixel space by accounting for direction, rotation, and scale.
                     Vector2 ashSpawnPosition = npc.position + drawOffset - new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
@@ -159,7 +159,7 @@ namespace CalamityMod.Particles
                         Velocity = (Main.npc.IndexInRange(npc.realLife) ? Main.npc[npc.realLife].velocity : npc.velocity) * 0.7f
                     };
 
-                    if (brightness > 0.15f)
+                    if (brightness > 0.05f)
                         Ashes.Add(ash);
                 }
 
@@ -230,7 +230,7 @@ namespace CalamityMod.Particles
             Scale = MathHelper.Clamp(Scale - (brightness < 0.1f ? 0.08f : 0.008f), 0f, 1f);
 
             float dissipationFactor = Utils.InverseLerp(6f, 16f, Velocity.Length(), true);
-            float velocityInterpolant = Utils.InverseLerp(15f - dissipationFactor * 10f, 60f - dissipationFactor * 35f, Time, true);
+            float velocityInterpolant = Utils.InverseLerp(25f - dissipationFactor * 10f, 80f - dissipationFactor * 45f, Time, true);
             Vector2 idealVelocity = new Vector2(Main.windSpeed * MathHelper.Lerp(0.8f, 1.2f, (float)Math.Sin(Center.Y / 50f + ID)) * 20f, (float)Math.Sin(Main.time / 20f + ID * 0.01f) * 3f - 1f);
             Velocity = Vector2.Lerp(Velocity, idealVelocity, velocityInterpolant * 0.16f);
             Center += Velocity;
@@ -238,6 +238,7 @@ namespace CalamityMod.Particles
 
         public static void UpdateAll()
         {
+            Main.windSpeed = 0.54f;
             // Don't draw ashes serverside.
             if (Main.netMode == NetmodeID.Server)
                 return;
