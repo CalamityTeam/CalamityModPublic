@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath6;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CosmicElementalBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
