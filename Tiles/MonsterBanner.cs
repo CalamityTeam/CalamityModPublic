@@ -463,6 +463,9 @@ namespace CalamityMod.Tiles
                 case 9:
                     type = "MantisShrimp";
                     break;
+                case 10:
+                    type = "AquaticAberration";
+                    break;
                 case 11:
                     type = "Parasea";
                     break;
