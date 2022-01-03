@@ -3348,8 +3348,7 @@ namespace CalamityMod.NPCs
 						if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<CharredSlime>() ||
 							npc.type == NPCType<CrimulanBlightSlime>() || npc.type == NPCType<CryoSlime>() ||
 							npc.type == NPCType<EbonianBlightSlime>() || npc.type == NPCType<PerennialSlime>() ||
-							npc.type == NPCType<WulfrumSlime>() || npc.type == NPCType<IrradiatedSlime>() ||
-							npc.type == NPCType<AstralSlime>())
+							npc.type == NPCType<IrradiatedSlime>() || npc.type == NPCType<AstralSlime>())
 						{
 							return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
 						}

@@ -755,8 +755,7 @@ namespace CalamityMod
                 NPCType<SuperDummyNPC>(),
                 NPCType<SunBat>(),
                 NPCType<WulfrumGyrator>(),
-                NPCType<WulfrumRover>(),
-                NPCType<WulfrumSlime>()
+                NPCType<WulfrumRover>()
             };
 
             dungeonEnemyBuffList = new List<int>()

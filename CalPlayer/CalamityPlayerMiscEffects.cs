@@ -3425,8 +3425,6 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
-				// NOTE: These don't even spawn anymore.
-				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
 
 			if (modPlayer.dukeScales)

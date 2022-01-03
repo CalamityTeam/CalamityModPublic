@@ -463,9 +463,6 @@ namespace CalamityMod.Tiles
                 case 9:
                     type = "MantisShrimp";
                     break;
-                case 10:
-                    type = "AquaticAberration";
-                    break;
                 case 11:
                     type = "Parasea";
                     break;
@@ -585,9 +582,6 @@ namespace CalamityMod.Tiles
                     break;
                 case 50:
                     type = "ProfanedEnergyBody";
-                    break;
-                case 51:
-                    type = "WulfrumSlime";
                     break;
                 case 52:
                     type = "WulfrumDrone";
@@ -817,7 +811,8 @@ namespace CalamityMod.Tiles
                 default:
                     return;
             }
-            player.NPCBannerBuff[mod.NPCType(type)] = true;
+			if (type.Length > 0)
+				player.NPCBannerBuff[mod.NPCType(type)] = true;
             player.hasBanner = true;
         }
 
