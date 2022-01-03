@@ -1,6 +1,7 @@
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             DisplayName.SetDefault("Old Lord Oathsword");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 70;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
         }
 
         public override void SetDefaults()
@@ -127,6 +128,9 @@ namespace CalamityMod.Projectiles.Melee
                     PostSwingRepositionDelay--;
                 else
                     baseRotation = (MathHelper.PiOver2 + 0.36f) * -Direction;
+
+                // Disable afterimages.
+                projectile.oldPos = new Vector2[projectile.oldPos.Length];
             }
             else
                 PostSwingRepositionDelay = PostSwingRepositionDelay == -1f ? 0f : 12f;
@@ -143,6 +147,9 @@ namespace CalamityMod.Projectiles.Melee
                 PostSwingRepositionDelay = -1f;
 
                 ChargePower = MathHelper.Clamp(ChargePower + 1f, 0f, MaxChargeTime);
+
+                // Disable afterimages.
+                projectile.oldPos = new Vector2[projectile.oldPos.Length];
 
                 ChargeTime++;
             }
@@ -204,6 +211,12 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             GeneralTime++;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
