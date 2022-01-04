@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,9 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class BrainOfCthulhuAI
     {
         // Master Mode changes
         /* 1 - Afterimages are fully visible at all times in phase 2; below 60%, they begin moving on their own, deal contact damage, but the player will be able to knock them back

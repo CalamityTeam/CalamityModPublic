@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class TwinsAI
     {
         // Only used for Normal and Expert Mode
         #region True Melee Retinazer Phase 2 AI

@@ -6,9 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class WallOfFleshAI
     {
         // Master Mode changes
         // 1 - Hungries spawn detached and have more health, 

@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,9 +8,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class QueenBeeAI
     {
         // Master Mode changes
         /* 1 - Fires beehives in bee spawn phase instead of bees, beehives spawn bees even if they hit water

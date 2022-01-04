@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,9 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class EaterOfWorldsAI
     {
         // Master Mode changes
         /* 1 - First head that spawns will spawn 4 other heads, creating 5 worms in total

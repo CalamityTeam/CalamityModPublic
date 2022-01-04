@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public partial class CalamityGlobalAI
+    public static class KingSlimeAI
     {
         // Master Mode changes
         /* 1 - Rainbow colored
@@ -111,81 +111,7 @@ namespace CalamityMod.NPCs
                 npc.ai[1] = 5f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.TargetClosest(false);
-                    Point point3 = npc.Center.ToTileCoordinates();
-                    Point point4 = Main.player[npc.target].Center.ToTileCoordinates();
-                    Vector2 vector30 = Main.player[npc.target].Center - npc.Center;
-
-                    int num235 = 10;
-                    int num236 = 0;
-                    int num237 = 7;
-                    int num238 = 0;
-
-                    bool flag10 = false;
-                    if (npc.localAI[0] >= 360f || vector30.Length() > 2000f)
-                    {
-                        if (npc.localAI[0] >= 360f)
-                            npc.localAI[0] = 360f;
-
-                        flag10 = true;
-                        num238 = 100;
-                    }
-
-                    while (!flag10 && num238 < 100)
-                    {
-                        num238++;
-                        int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
-                        int num240 = Main.rand.Next(point4.Y - num235, point4.Y + 1);
-
-                        if ((num240 < point4.Y - num237 || num240 > point4.Y + num237 || num239 < point4.X - num237 || num239 > point4.X + num237) &&
-                            (num240 < point3.Y - num236 || num240 > point3.Y + num236 || num239 < point3.X - num236 || num239 > point3.X + num236) &&
-                            !Main.tile[num239, num240].nactive())
-                        {
-                            int num241 = num240;
-                            int num242 = 0;
-
-                            if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type])
-                            {
-                                num242 = 1;
-                            }
-                            else
-                            {
-                                for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
-                                {
-                                    int y = num241 + num242;
-                                    if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].type] && !Main.tileSolidTop[Main.tile[num239, y].type])
-                                    {
-                                        num242--;
-                                        break;
-                                    }
-                                }
-                            }
-                            num240 += num242;
-
-                            bool flag13 = true;
-                            if (flag13 && Main.tile[num239, num240].lava())
-                                flag13 = false;
-                            if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-                                flag13 = false;
-
-                            if (flag13)
-                            {
-                                npc.localAI[1] = num239 * 16 + 8;
-                                npc.localAI[2] = num240 * 16 + 16;
-                                flag10 = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (num238 >= 100)
-                    {
-                        Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
-                        npc.localAI[1] = bottom.X;
-                        npc.localAI[2] = bottom.Y;
-                    }
-                }
+                    GetPlaceToTeleportTo(npc);
             }
 
             if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 160f)
@@ -477,6 +403,82 @@ namespace CalamityMod.NPCs
                 }
             }
             return false;
+        }
+
+        public static void GetPlaceToTeleportTo(NPC npc)
+        {
+            npc.TargetClosest(false);
+            Point point3 = npc.Center.ToTileCoordinates();
+            Point point4 = Main.player[npc.target].Center.ToTileCoordinates();
+            Vector2 vector30 = Main.player[npc.target].Center - npc.Center;
+
+            int num235 = 10;
+            int num236 = 0;
+            int num237 = 7;
+            int num238 = 0;
+
+            bool flag10 = false;
+            if (npc.localAI[0] >= 360f || vector30.Length() > 2000f)
+            {
+                if (npc.localAI[0] >= 360f)
+                    npc.localAI[0] = 360f;
+
+                flag10 = true;
+                num238 = 100;
+            }
+
+            while (!flag10 && num238 < 100)
+            {
+                num238++;
+                int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
+                int num240 = Main.rand.Next(point4.Y - num235, point4.Y + 1);
+
+                if ((num240 < point4.Y - num237 || num240 > point4.Y + num237 || num239 < point4.X - num237 || num239 > point4.X + num237) &&
+                    (num240 < point3.Y - num236 || num240 > point3.Y + num236 || num239 < point3.X - num236 || num239 > point3.X + num236) &&
+                    !Main.tile[num239, num240].nactive())
+                {
+                    int num241 = num240;
+                    int num242 = 0;
+
+                    if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type])
+                    {
+                        num242 = 1;
+                    }
+                    else
+                    {
+                        for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
+                        {
+                            int y = num241 + num242;
+                            if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].type] && !Main.tileSolidTop[Main.tile[num239, y].type])
+                            {
+                                num242--;
+                                break;
+                            }
+                        }
+                    }
+                    num240 += num242;
+
+                    bool flag13 = true;
+                    if (flag13 && Main.tile[num239, num240].lava())
+                        flag13 = false;
+                    if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        flag13 = false;
+
+                    if (flag13)
+                    {
+                        npc.localAI[1] = num239 * 16 + 8;
+                        npc.localAI[2] = num240 * 16 + 16;
+                        break;
+                    }
+                }
+            }
+
+            if (num238 >= 100)
+            {
+                Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
+                npc.localAI[1] = bottom.X;
+                npc.localAI[2] = bottom.Y;
+            }
         }
     }
 }
