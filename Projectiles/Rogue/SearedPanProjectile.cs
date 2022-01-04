@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Rogue
 				modPlayer.rogueStealth = modPlayer.rogueStealthMax;
 			}
 
-			// Stealth strikes spawn six golden sparks on hit
+			// Stealth strikes spawn four golden sparks on hit
 			if (projectile.Calamity().stealthStrike)
 			{
 				modPlayer.searedPanCounter = 0;
-				for (int t = 0; t < 6; t++)
+				for (int t = 0; t < 4; t++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.2), 0f, projectile.owner);
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
 				// Summon three fireballs to circle the hit enemy
 				for (int t = 0; t < 3; t++)
 				{
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, targetIndex);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
 				}
 				int fireballCount = 0;
 				// Count how many fireballs exist already around the given target

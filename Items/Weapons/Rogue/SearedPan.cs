@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class SearedPan : RogueWeapon
 	{
-		// Attacks must be within 40 frames of each other to count as "consecutive" hits
+		// Attacks must be within 48 frames of each other to count as "consecutive" hits
 		// This is a little less than double the use time
-        public static int ConsecutiveHitOpening = 40;
+        public static int ConsecutiveHitOpening = 48;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seared Pan");
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
+			item.useTime = item.useAnimation = 28;
 			item.reuseDelay = 1;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
