@@ -1146,7 +1146,15 @@ namespace CalamityMod
             group = new RecipeGroup(() => "Any Evil Block", new int[]
             {
                 ItemID.EbonstoneBlock,
-                ItemID.CrimstoneBlock
+                ItemID.CrimstoneBlock,
+                ItemID.PurpleIceBlock,
+                ItemID.RedIceBlock,
+                ItemID.EbonsandBlock,
+                ItemID.CrimsandBlock,
+                ItemID.CorruptHardenedSand,
+                ItemID.CrimsonHardenedSand,
+                ItemID.CorruptSandstone,
+                ItemID.CrimsonSandstone
             });
             RecipeGroup.RegisterGroup("AnyEvilBlock", group);
 
