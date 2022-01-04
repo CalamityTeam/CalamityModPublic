@@ -621,9 +621,7 @@ namespace CalamityMod.CalPlayer
         public bool featherCrownDraw = false;
         public bool moonCrown = false;
         public bool moonCrownDraw = false;
-        public int featherCrownCooldown = 0;
-        public int moonCrownCooldown = 0;
-        public int nanoFlareCooldown = 0;
+        public int rogueCrownCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -2235,9 +2233,7 @@ namespace CalamityMod.CalPlayer
             theBeeCooldown = 0;
 			nCoreCooldown = 0;
             killSpikyBalls = false;
-            moonCrownCooldown = 0;
-            featherCrownCooldown = 0;
-            nanoFlareCooldown = 0;
+            rogueCrownCooldown = 0;
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
 			icicleCooldown = 0;

@@ -1231,12 +1231,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.silvaMageCooldown--;
 			if (modPlayer.tarraMageHealCooldown > 0)
 				modPlayer.tarraMageHealCooldown--;
-			if (modPlayer.featherCrownCooldown > 0)
-				modPlayer.featherCrownCooldown--;
-			if (modPlayer.moonCrownCooldown > 0)
-				modPlayer.moonCrownCooldown--;
-			if (modPlayer.nanoFlareCooldown > 0)
-				modPlayer.nanoFlareCooldown--;
+			if (modPlayer.rogueCrownCooldown > 0)
+				modPlayer.rogueCrownCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.jetPackCooldown > 0)
