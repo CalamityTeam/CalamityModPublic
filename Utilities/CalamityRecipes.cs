@@ -116,6 +116,17 @@ namespace CalamityMod
             r.SetResult(ItemID.UltrabrightTorch, 33);
             r.AddRecipe();
 
+            // Money Trough
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.PiggyBank);
+            r.AddIngredient(ItemID.Feather, 2);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>());
+            r.AddIngredient(ItemID.GoldCoin, 15);
+            r.AddRecipeGroup("AnyGoldBar", 8);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.MoneyTrough);
+            r.AddRecipe();
+
             // Target Dummy Reverse Compatibility
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<SuperDummy>());
