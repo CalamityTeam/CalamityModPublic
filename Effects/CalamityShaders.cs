@@ -30,6 +30,7 @@ namespace CalamityMod.Effects
         public static Effect DoGDisintegrationShader;
         public static Effect ArtAttackTrailShader;
         public static Effect CircularAoETelegraph;
+        public static Effect LocalLinearTransformationShader;
 
         public static Effect BaseFusableParticleEdgeShader;
         public static Effect AdditiveFusableParticleEdgeShader;
@@ -63,6 +64,7 @@ namespace CalamityMod.Effects
             DoGDisintegrationShader = CalamityMod.Instance.GetEffect("Effects/DoGDisintegration");
             ArtAttackTrailShader = CalamityMod.Instance.GetEffect("Effects/ArtAttackTrail");
             CircularAoETelegraph = CalamityMod.Instance.GetEffect("Effects/CircularAoETelegraph");
+            LocalLinearTransformationShader = CalamityMod.Instance.GetEffect("Effects/LocalLinearTransformationShader");
 
             BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader");
@@ -94,6 +96,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:DoGDisintegration"] = new MiscShaderData(new Ref<Effect>(DoGDisintegrationShader), "DisintegrationPass");
             GameShaders.Misc["CalamityMod:ArtAttack"] = new MiscShaderData(new Ref<Effect>(ArtAttackTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"] = new MiscShaderData(new Ref<Effect>(CircularAoETelegraph), "TelegraphPass");
+            GameShaders.Misc["CalamityMod:LinearTransformation"] = new MiscShaderData(new Ref<Effect>(LocalLinearTransformationShader), "TransformationPass");
 
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");

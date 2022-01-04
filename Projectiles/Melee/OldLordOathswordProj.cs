@@ -14,14 +14,23 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class OldLordOathswordProj : BaseIdleHoldoutProjectile
     {
+        public enum SwingState
+        {
+            Default,
+            Swinging,
+            Channeling,
+            Spinning
+        }
+
         public int Direction = 1;
+        public SwingState CurrentState;
         public ref float ChargeTime => ref projectile.ai[0];
         public ref float GeneralTime => ref projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref projectile.localAI[0];
         public ref bool RMBChannel => ref (Owner.HeldItem.modItem as OldLordOathsword).RMBchannel;
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref projectile.localAI[1];
-        public float CurrentState; //0 = default, 1 = Swinging, 2 = Channeling, 3 = Spinning
+
         public const int MaxChargeTime = 60;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
         public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
@@ -54,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             writer.Write(Direction);
             writer.Write(PostSwingRepositionDelay);
             writer.Write(ChargePower);
-            writer.Write(CurrentState);
+            writer.Write((int)CurrentState);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -62,63 +71,46 @@ namespace CalamityMod.Projectiles.Melee
             Direction = reader.ReadInt32();
             PostSwingRepositionDelay = reader.ReadSingle();
             ChargePower = reader.ReadSingle();
-            CurrentState = reader.ReadSingle();
+            CurrentState = (SwingState)reader.ReadInt32();
         }
 
         public override void SafeAI()
         {
-            #region RMB Channel setup
-            CalamityPlayer controlsSync = Owner.GetModPlayer<CalamityPlayer>();
+            // Handle right click behaviors.
             if (Main.myPlayer == projectile.owner)
-            {
-                controlsSync.rightClickListener = true;
-            }
+                Owner.Calamity().rightClickListener = true;
 
-            if (!controlsSync.mouseRight)
+            if (!Owner.Calamity().mouseRight)
                 RMBChannel = false;
             else
                 RMBChannel = true;
-            #endregion
-
 
             // Initialize the animation max time if necessary.
             if (Owner.itemAnimationMax == 0)
                 Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
 
-            if (((Owner.itemAnimation <= 0) || (!RMBChannel && CurrentState == 2f)) && CurrentState != 3) //Reset the state of the weapon if the player stops using it. This cannot reset a dash
-            {
-                Owner.itemAnimation = 0;
-                CurrentState = 0f;
-            }
-            if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0 && ChargePower < MaxChargeTime) //Allowed to start swinging from the default state. You cannot swing while rotating or channeling. <- Unless we want to let the player interrupt their dashes with a swing
-                CurrentState = 1f;
-            if ((CurrentState == 0f || CurrentState == 1f) && RMBChannel) //Allowed to switch from default or swinging state to channeling. You cannot channel from the rotating state
-                CurrentState = 2f;
-            if (CurrentState == 0f && Owner.itemAnimation > 0 && ChargePower >= MaxChargeTime) //You can only dash if you're not swinging or channeling (Not like you could swap from the Swinging state to the Dashing one anyways)
-            {
-                Owner.fallStart = (int)(Owner.position.Y / 16f);
-                CurrentState = 3f;
-            }
-
+            // Decide the current phase state of the blade.
+            DecideCurrentState();
 
             // Glue the sword to its owner.
             projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
 
-            if (CurrentState != 3f)
+            // Use the direction of the owner when not spinning.
+            if (CurrentState != SwingState.Spinning)
                 Direction = Owner.direction;
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
-            float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true) * Utils.InverseLerp(-0.05f, 0.2f, swingCompletion, true);
-            float swingInterpolant = (float)Math.Sin(swingCompletion * MathHelper.TwoPi);
+            float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true) * Utils.InverseLerp(-0.11f, 0.12f, swingCompletion, true);
+            float swingInterpolant = (float)Math.Sin(Math.Pow(swingCompletion, 1.15) * MathHelper.TwoPi);
             if (swingInterpolant < 0f)
             {
                 swingInterpolant = -(float)Math.Pow(-swingInterpolant, 0.9);
-                swingInterpolant = MathHelper.Lerp(swingInterpolant, -1f, 0.5f);
+                swingInterpolant = MathHelper.Lerp(swingInterpolant, -1f, 0.7f);
             }
             else
             {
                 swingInterpolant = (float)Math.Pow(swingInterpolant, 0.9);
-                swingInterpolant = MathHelper.Lerp(swingInterpolant, 1f, 0.5f);
+                swingInterpolant = MathHelper.Lerp(swingInterpolant, 1f, 0.7f);
             }
 
             float baseRotation = swingInterpolant * Direction * 0.96f;
@@ -127,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.fullRotation = 0f;
 
             // Do a spin dash if a swing is done with full power.
-            if (CurrentState == 3f)
+            if (CurrentState == SwingState.Spinning)
             {
                 swingSpeedInterpolant = 1f;
                 baseRotation = MathHelper.WrapAngle(swingCompletion * Direction * MathHelper.Pi * -3f);
@@ -185,10 +177,10 @@ namespace CalamityMod.Projectiles.Melee
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
             float chargeInterpolant = Utils.InverseLerp(0f, 35f, ChargeTime, true);
-            if (CurrentState == 2f)
+            if (CurrentState == SwingState.Channeling)
             {
                 baseRotation = MathHelper.PiOver2 * -Direction;
-                horizontalBladeOffset = MathHelper.Lerp(horizontalBladeOffset, 10f, (float)Math.Pow(chargeInterpolant, 0.3));
+                horizontalBladeOffset = MathHelper.Lerp(horizontalBladeOffset, 6f, (float)Math.Pow(chargeInterpolant, 0.3));
                 if (Owner.itemAnimation < 2)
                     Owner.itemAnimation = 2;
                 PostSwingRepositionDelay = -1f;
@@ -215,16 +207,16 @@ namespace CalamityMod.Projectiles.Melee
             // Decide how far out the blade should go.
             float bladeOffsetFactor = 0.5f + chargeInterpolant * 0.3f;
             if (chargeInterpolant <= 0f)
-                bladeOffsetFactor += Utils.InverseLerp(0.5f, 0.7f, swingCompletion, true) * Utils.InverseLerp(1f, 0.7f, swingCompletion, true) * 0.6f;
+                bladeOffsetFactor += Utils.InverseLerp(0.5f, 0.7f, swingCompletion, true) * Utils.InverseLerp(1f, 0.7f, swingCompletion, true) * 0.45f;
 
             // Offset the blade so that the handle is attached to the owner's hand.
             Vector2 bladeOffset = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * projectile.width * bladeOffsetFactor;
             if (Owner.itemAnimation <= 0 || chargeInterpolant > 0f)
-                bladeOffset += new Vector2(Direction * horizontalBladeOffset, 16f).RotatedBy(Owner.fullRotation) * (1f - PostSwingRepositionDelay / 12f);
+                bladeOffset += new Vector2(Direction * horizontalBladeOffset, 8f).RotatedBy(Owner.fullRotation) * (1f - PostSwingRepositionDelay / 12f);
             projectile.position += bladeOffset;
 
             // Create charge dust.
-            if (CurrentState == 2f)
+            if (CurrentState == SwingState.Channeling)
             {
                 int chargeDustCount = (int)Math.Round(MathHelper.Lerp(1f, 3f, ChargePower / 60f));
                 if (ChargePower >= MaxChargeTime)
@@ -260,19 +252,61 @@ namespace CalamityMod.Projectiles.Melee
             GeneralTime++;
         }
 
+        public void DecideCurrentState()
+        {
+            // Reset the state of the weapon if the player stops using it. This cannot reset a dash.
+            if ((Owner.itemAnimation <= 0 || (!RMBChannel && CurrentState == SwingState.Channeling)) && CurrentState != SwingState.Spinning)
+            {
+                Owner.itemAnimation = 0;
+                CurrentState = SwingState.Default;
+            }
+
+            // Switch to the swing state as necessary. This cannot happen while channeling or spinning.
+            if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0 && ChargePower < MaxChargeTime)
+                CurrentState = SwingState.Swinging;
+
+            // Switch to the channel state as necessary. This cannot happen while swinging or spinning.
+            if ((CurrentState == SwingState.Default || CurrentState == SwingState.Swinging) && RMBChannel)
+                CurrentState = SwingState.Channeling;
+
+            // Switch to the spinning charge state. This can only be done while in the default state.
+            if (CurrentState == 0f && Owner.itemAnimation > 0 && ChargePower >= MaxChargeTime)
+            {
+                Owner.fallStart = (int)(Owner.position.Y / 16f);
+
+                if (CurrentState != SwingState.Spinning)
+                {
+                    Main.PlaySound(SoundID.DD2_BookStaffCast, Owner.Center);
+                    CurrentState = SwingState.Spinning;
+                    projectile.netUpdate = true;
+                }
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
-
             spriteBatch.EnterShaderRegion();
-            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
-            GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
-            if (ChargePower >= MaxChargeTime)
-                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTime * 30) % 30f / 60f));
-            GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+            float tintOpacity = Utils.InverseLerp(0f, MaxChargeTime, ChargePower, true) * 0.6f;
+            Color tintColor = Main.hslToRgb(0.9f, 0.9f, 0.5f);
+
+            float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
+            CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
+            GameShaders.Misc["CalamityMod:LinearTransformation"].UseColor(tintColor);
+            GameShaders.Misc["CalamityMod:LinearTransformation"].UseOpacity(tintOpacity);
+            GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["uWorldViewProjection"].SetValue(viewMatrix * projectionMatrix);
+            GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["localMatrix"].SetValue(new Matrix()
+            {
+                M11 = MathHelper.Lerp(1f, 1.3f, (1f - swingCompletion) * Utils.InverseLerp(0f, 0.1f, swingCompletion, true)),
+                M12 = 0f,
+                M21 = 0f,
+                M22 = MathHelper.Lerp(1f, 1.3f, swingCompletion * Utils.InverseLerp(0f, 0.1f, swingCompletion, true))
+            });
+            GameShaders.Misc["CalamityMod:LinearTransformation"].Apply();
 
             var texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
 
+            CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
             spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, projectile.Size / 2f, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             spriteBatch.ExitShaderRegion();
 
