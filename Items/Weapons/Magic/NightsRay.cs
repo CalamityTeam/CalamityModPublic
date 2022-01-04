@@ -45,10 +45,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WandofSparking);
             recipe.AddIngredient(ItemID.Vilethorn);
-            recipe.AddIngredient(ItemID.AmberStaff);
             recipe.AddIngredient(ItemID.MagicMissile);
+            recipe.AddIngredient(ItemID.WandofSparking);
+            recipe.AddIngredient(ItemID.AmberStaff);
             recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);

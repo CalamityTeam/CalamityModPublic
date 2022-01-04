@@ -40,10 +40,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SolarEruption);
             recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 6);
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);//Quantities may or may not be intentional hue
-            recipe.AddIngredient(ItemID.SolarEruption);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

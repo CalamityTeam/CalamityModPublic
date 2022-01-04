@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
             recipe.AddIngredient(ModContent.ItemType<CorvidHarbringerStaff>());
             recipe.AddIngredient(ModContent.ItemType<AncientIceChunk>());
-            recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
             recipe.AddIngredient(ModContent.ItemType<EnergyStaff>());
             recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

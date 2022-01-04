@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddIngredient(ItemID.FlyingCarpet);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<SilvaLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddIngredient(ItemID.FlyingCarpet);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

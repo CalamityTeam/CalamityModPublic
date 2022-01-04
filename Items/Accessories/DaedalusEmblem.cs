@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CelestialStone);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ItemID.RangerEmblem);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

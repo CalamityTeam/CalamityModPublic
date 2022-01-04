@@ -98,20 +98,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.EnchantedSword);
             recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.Arkhalis);
             recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

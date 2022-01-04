@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 2);
             recipe.AddIngredient(ItemID.AvengerEmblem);
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -70,10 +70,10 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SunGodStaff>());
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<SunGodStaff>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -45,9 +45,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.ShadowbeamStaff);
             recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddIngredient(ItemID.ShadowbeamStaff);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

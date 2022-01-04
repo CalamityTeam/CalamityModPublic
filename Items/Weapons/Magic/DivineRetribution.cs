@@ -92,8 +92,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 8);
             recipe.AddIngredient(ModContent.ItemType<UndinesRetribution>());
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 8);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
             recipe.AddTile(TileID.LunarCraftingStation);

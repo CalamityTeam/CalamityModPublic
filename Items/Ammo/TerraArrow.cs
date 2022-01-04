@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
             recipe.AddIngredient(ItemID.WoodenArrow, 250);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();

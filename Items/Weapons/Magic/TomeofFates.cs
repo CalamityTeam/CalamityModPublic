@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
             recipe.AddIngredient(ItemID.SpellTome);
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

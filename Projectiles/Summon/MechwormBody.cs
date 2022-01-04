@@ -110,6 +110,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Accumulate the total segments of the worm.
             segmentAhead.localAI[0] = projectile.localAI[0] + 1f;
+            segmentAhead.Calamity().UpdatePriority = segmentAhead.localAI[0];
 
             // Locate the head segment by looping through the projectile array.
             // Doing identity checks across every segment would be much more expensive than doing just this one loop.

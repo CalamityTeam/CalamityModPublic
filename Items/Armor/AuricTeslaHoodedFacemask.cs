@@ -76,8 +76,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerHelmet>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHornedHelm>());
             recipe.AddIngredient(ModContent.ItemType<TarragonVisage>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
             recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

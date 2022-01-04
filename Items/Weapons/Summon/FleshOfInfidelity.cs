@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>());
             recipe.AddIngredient(ModContent.ItemType<ScabRipper>());
             recipe.AddIngredient(ItemID.ImpStaff);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
