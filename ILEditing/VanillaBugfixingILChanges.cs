@@ -14,6 +14,12 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        public struct OrderedProjectileEntry
+        {
+            public int OriginalIndex;
+            public Projectile Proj;
+        }
+
         // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,767.
         private static readonly List<int> NeedsFourLifeBytes = new List<int>()
         {
@@ -73,7 +79,7 @@ namespace CalamityMod.ILEditing
             NPCID.AncientCultistSquidhead,
         };
 
-        public static readonly List<Projectile> OrderedProjectiles = new List<Projectile>();
+        public static readonly List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
 
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
@@ -150,9 +156,18 @@ namespace CalamityMod.ILEditing
             }
 
             // Before doing anything else, prepare the list of ordered projectiles.
-            cursor.EmitDelegate<Func<List<Projectile>>>(() =>
+            cursor.EmitDelegate<Func<List<OrderedProjectileEntry>>>(() =>
             {
-                return Main.projectile.Take(Main.maxProjectiles).OrderByDescending(p => p.active ? p.Calamity().UpdatePriority : 0f).ToList();
+                List<OrderedProjectileEntry> cache = new List<OrderedProjectileEntry>();
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    cache.Add(new OrderedProjectileEntry()
+                    {
+                        Proj = Main.projectile[i],
+                        OriginalIndex = i
+                    });
+                }
+                return cache.OrderByDescending(p => p.Proj.active ? p.Proj.Calamity().UpdatePriority : 0f).ToList();
             });
             cursor.Emit(OpCodes.Stsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
 
@@ -170,16 +185,18 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // Pop the Main.projectile[i] reference and replace it with OrderedProjectiles[i].
+            // Pop the Main.projectile[i] reference and replace it with OrderedProjectiles[i].Proj.
             cursor.Emit(OpCodes.Pop);
             cursor.Emit(OpCodes.Ldsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
             cursor.Emit(OpCodes.Ldloc, 29);
-            cursor.Emit(OpCodes.Callvirt, typeof(List<Projectile>).GetMethod("get_Item"));
+            cursor.Emit(OpCodes.Callvirt, typeof(List<OrderedProjectileEntry>).GetMethod("get_Item"));
+            cursor.Emit(OpCodes.Ldfld, typeof(OrderedProjectileEntry).GetField("Proj"));
 
-            // Remove the direct i reference in the Update call and replace it with Array.IndexOf(Main.projectile, OrderedProjectiles[i]).
+            // Remove the direct i reference in the Update call and replace it with the original index in the cache, to prevent update ID
+            // mismatches.
             cursor.Remove();
             cursor.Emit(OpCodes.Ldloc, 29);
-            cursor.EmitDelegate<Func<int, int>>(i => Array.IndexOf(Main.projectile, OrderedProjectiles[i]));
+            cursor.EmitDelegate<Func<int, int>>(i => OrderedProjectiles[i].OriginalIndex);
         }
         #endregion Fix Projectile Update Priority Problems
 
