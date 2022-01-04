@@ -90,10 +90,9 @@ namespace CalamityMod.Projectiles.Rogue
 			else if (targetIndex != -1 && health > 0)
 			{
 				// Summon three fireballs to circle the hit enemy
-				int projType = ModContent.ProjectileType<NiceCock>();
 				for (int t = 0; t < 3; t++)
 				{
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, projType, (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, targetIndex);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, targetIndex);
 				}
 				int fireballCount = 0;
 				// Count how many fireballs exist already around the given target
@@ -102,9 +101,9 @@ namespace CalamityMod.Projectiles.Rogue
 					// Keep the loop as short as possible
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
 						continue;
-					if (Main.projectile[i].type == projType)
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
-						if ((Main.projectile[i].modProjectile as NiceCock).homing)
+						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
 							continue;
 						fireballCount++;
 					}
@@ -116,9 +115,9 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
 						continue;
-					if (Main.projectile[i].type == projType)
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
-						if ((Main.projectile[i].modProjectile as NiceCock).homing)
+						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
 							continue;
 						Main.projectile[i].ai[0] = angle;
 						Main.projectile[i].netUpdate = true;
@@ -136,13 +135,13 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
 						continue;
-					if (Main.projectile[i].type == ModContent.ProjectileType<NiceCock>())
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
 						if (!activate)
 							Main.projectile[i].Kill();
 						else
 						{
-							(Main.projectile[i].modProjectile as NiceCock).homing = true;
+							Main.projectile[i].ModProjectile<NiceCock>().homing = true;
 							Main.projectile[i].extraUpdates += 2;
 						}
 					}

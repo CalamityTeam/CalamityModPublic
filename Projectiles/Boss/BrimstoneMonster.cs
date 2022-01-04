@@ -160,8 +160,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 170f, targetHitbox);
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.CircularHitbox(targetHitbox, 170f);
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
