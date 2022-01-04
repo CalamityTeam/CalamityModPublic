@@ -30,23 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = -1;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float dist1 = projectile.Distance(targetHitbox.TopLeft());
-            float dist2 = projectile.Distance(targetHitbox.TopRight());
-            float dist3 = projectile.Distance(targetHitbox.BottomLeft());
-            float dist4 = projectile.Distance(targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= Radius;
-        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, Radius, targetHitbox);
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => crit = true;
 
