@@ -580,7 +580,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 
 					// If Thanatos is the first mech to go berserk
-					if (berserk)
+					else if (berserk)
 					{
 						// Reset everything
 						AIState = (float)Phase.Charge;
@@ -613,43 +613,47 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Do nothing while immune
 					AIState = (float)Phase.UndergroundLaserBarrage;
 
-					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
+					// Only run this if no other mechs are in berserk phase
+					if (!otherMechIsBerserk)
 					{
-						// Tells Thanatos to return to the battle in passive state and reset everything
-						// Return to normal phases if one or more mechs have been downed
-						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-						npc.localAI[0] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						chargeVelocityScalar = 0f;
-						npc.TargetClosest();
-
-						// Phase 3, when all 3 mechs attack at the same time
-						if (exoPrimeAlive && exoTwinsAlive)
+						// Enter the fight again if any of the other exo mechs is below 70%
+						if (exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f)
 						{
-							if (draedonAlive)
+							// Tells Thanatos to return to the battle in passive state and reset everything
+							// Return to normal phases if one or more mechs have been downed
+							SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+
+							// Phase 3, when all 3 mechs attack at the same time
+							if (exoPrimeAlive && exoTwinsAlive)
 							{
-								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
-								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+								if (draedonAlive)
+								{
+									Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+									Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+								}
 							}
 						}
-					}
 
-					if (berserk)
-					{
-						// Reset everything
-						AIState = (float)Phase.Charge;
-						npc.localAI[0] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						chargeVelocityScalar = 0f;
-						npc.TargetClosest();
+						if (berserk)
+						{
+							// Reset everything
+							AIState = (float)Phase.Charge;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
 
-						// Never be passive if berserk
-						SecondaryAIState = (float)SecondaryPhase.Nothing;
+							// Never be passive if berserk
+							SecondaryAIState = (float)SecondaryPhase.Nothing;
+						}
 					}
 
 					break;

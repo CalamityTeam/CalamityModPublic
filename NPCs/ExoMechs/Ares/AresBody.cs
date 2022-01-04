@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 
 					// If Ares is the first mech to go berserk
-					if (berserk)
+					else if (berserk)
 					{
 						// Reset everything
 						npc.TargetClosest();
@@ -576,32 +576,36 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
 
-					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoWormLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
+					// Only run this if no other mechs are in berserk phase
+					if (!otherMechIsBerserk)
 					{
-						// Tells Ares to return to the battle in passive state and reset everything
-						// Return to normal phases if one or more mechs have been downed
-						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-						npc.TargetClosest();
-
-						// Phase 3, when all 3 mechs attack at the same time
-						if (exoWormAlive && exoTwinsAlive)
+						// Enter the fight again if any of the other exo mechs is below 70%
+						if (exoWormLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f)
 						{
-							if (draedonAlive)
+							// Tells Ares to return to the battle in passive state and reset everything
+							// Return to normal phases if one or more mechs have been downed
+							SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+							npc.TargetClosest();
+
+							// Phase 3, when all 3 mechs attack at the same time
+							if (exoWormAlive && exoTwinsAlive)
 							{
-								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
-								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+								if (draedonAlive)
+								{
+									Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+									Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+								}
 							}
 						}
-					}
 
-					if (berserk)
-					{
-						// Reset everything
-						npc.TargetClosest();
+						if (berserk)
+						{
+							// Reset everything
+							npc.TargetClosest();
 
-						// Never be passive if berserk
-						SecondaryAIState = (float)SecondaryPhase.Nothing;
+							// Never be passive if berserk
+							SecondaryAIState = (float)SecondaryPhase.Nothing;
+						}
 					}
 
 					break;
