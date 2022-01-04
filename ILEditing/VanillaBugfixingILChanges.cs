@@ -4,7 +4,10 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 
 namespace CalamityMod.ILEditing
@@ -70,6 +73,8 @@ namespace CalamityMod.ILEditing
             NPCID.AncientCultistSquidhead,
         };
 
+        public static readonly List<Projectile> OrderedProjectiles = new List<Projectile>();
+
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
         // However, this may not always coincide with the true HP of the NPC when it's created if it has more HP than the allocated bytes can sufficiently store, which can
@@ -126,6 +131,57 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
+
+        #region Fix Projectile Update Priority Problems
+
+        // CONTEXT FOR FIX: The way projectile updating works is via looping, starting from 0 and ending at 999. For most cases this works sufficiently.
+        // However, in contexts where two projectile's update logic are dependent on each-other in some way (such as mechworm segment movement) it is possible
+        // that one projectile will update unexpectedly before the other, creating gaps. By making the update logic ordered based on a priority system, this can be
+        // alleviated.
+        private static void FixProjectileUpdatePriorityProblems(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Locate the location where the projectile loop starts.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<LockOnHelper>("SetUP")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the LockOnHelper.SetUP method.");
+                return;
+            }
+
+            // Before doing anything else, prepare the list of ordered projectiles.
+            cursor.EmitDelegate<Func<List<Projectile>>>(() =>
+            {
+                return Main.projectile.Take(Main.maxProjectiles).OrderByDescending(p => p.active ? p.Calamity().UpdatePriority : 0f).ToList();
+            });
+            cursor.Emit(OpCodes.Stsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
+
+            // Go before the declaration of the projectile loop index and declare the ordered projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStsfld<Main>("ProjectileUpdateLoopIndex")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the ProjectileUpdateLoopIndex field.");
+                return;
+            }
+
+            // Replace the projectile reference on the Projectile.Update call.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdelemRef()))
+            {
+                LogFailure("Projectile Update Priority fix", $"Could not locate the Main.projectile index load reference.");
+                return;
+            }
+
+            // Pop the Main.projectile[i] reference and replace it with OrderedProjectiles[i].
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit(OpCodes.Ldsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
+            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.Emit(OpCodes.Callvirt, typeof(List<Projectile>).GetMethod("get_Item"));
+
+            // Remove the direct i reference in the Update call and replace it with Array.IndexOf(Main.projectile, OrderedProjectiles[i]).
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.EmitDelegate<Func<int, int>>(i => Array.IndexOf(Main.projectile, OrderedProjectiles[i]));
+        }
+        #endregion Fix Projectile Update Priority Problems
 
         #region Make Mouse Hover Items Work with Animated Items
         private static void MakeMouseHoverItemsSupportAnimations(ILContext il)
