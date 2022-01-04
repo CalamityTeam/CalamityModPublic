@@ -131,7 +131,7 @@ namespace CalamityMod.ILEditing
 
             // Load the NPC caller onto the stack.
             cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPCLoot.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
+            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPC.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
 
             // If the block is false (indicating the drop logic should stop), skip all the ahead banner drop logic.
             cursor.Emit(OpCodes.Brfalse, afterBannerLogic);

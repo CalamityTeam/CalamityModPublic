@@ -24,7 +24,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalTownNPC
+    public partial class CalamityGlobalNPC : GlobalNPC
 	{
 		#region Town NPC Patreon Name Sets
 		private const int AnglerVanillaNames = 22;
@@ -449,7 +449,7 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		public static void DisableAlert(NPC npc, Mod mod)
+		public override void OnChatButtonClicked(NPC npc, bool firstButton)
 		{
 			if (npc.townNPC)
 			{
@@ -611,8 +611,8 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region NPC Chat
-		public static void NewNPCQuotes(NPC npc, Mod mod, ref string chat)
-		{
+		public override void GetChat(NPC npc, ref string chat)
+        {
 			int fapsol = NPC.FindFirstNPC(NPCType<FAP>());
 			int permadong = NPC.FindFirstNPC(NPCType<DILF>());
 			int seahorse = NPC.FindFirstNPC(NPCType<SEAHOE>());
@@ -1166,7 +1166,7 @@ namespace CalamityMod.NPCs
 				damage *= 2;
 		}
 
-		public static void NPCStatBuffs(Mod mod, ref float damageMult, ref int defense)
+		public override void BuffTownNPC(ref float damageMult, ref int defense)
 		{
 			if (NPC.downedMoonlord)
 			{
@@ -1202,8 +1202,8 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Shop Stuff
-		public static void ShopSetup(int type, Mod mod, ref Chest shop, ref int nextSlot)
-		{
+		public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        {
 			int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
 
 			if (type == NPCID.Merchant)
@@ -1370,8 +1370,8 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		public static void TravelingMerchantShop(Mod mod, ref int[] shop, ref int nextSlot)
-		{
+        public override void SetupTravelShop(int[] shop, ref int nextSlot)
+        {
 			if (Main.moonPhase == 0)
 			{
 				shop[nextSlot] = ItemType<FrostBarrier>();

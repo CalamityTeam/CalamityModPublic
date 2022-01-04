@@ -74,7 +74,7 @@ using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalNPC : GlobalNPC
+    public partial class CalamityGlobalNPC : GlobalNPC
     {
 		#region Variables
 
@@ -718,8 +718,9 @@ namespace CalamityMod.NPCs
 		};
 		#endregion
 
-		#region Instance Per Entity
-		public override bool InstancePerEntity => true;
+        #region Instance Per Entity
+        public override bool InstancePerEntity => true;
+        public override bool CloneNewInstances => false;
         #endregion
 
         #region Reset Effects
@@ -1309,7 +1310,7 @@ namespace CalamityMod.NPCs
 
 			TimedDRScaleFactors(npc);
 
-			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
+			BoundNPCSafety(mod, npc);
         }
 		#endregion
 
@@ -3126,7 +3127,7 @@ namespace CalamityMod.NPCs
 			if (VulnerabilityHexFireDrawer != null)
 				VulnerabilityHexFireDrawer.Update();
 
-			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+			SetPatreonTownNPCName(npc, mod);
 
 			// Decrement each immune timer if it's greater than 0.
 			for (int i = 0; i < maxPlayerImmunities; i++)
@@ -4487,7 +4488,7 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
+			MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
 			int bullseyeType = ProjectileType<SpiritOriginBullseye>();
 			Projectile bullseye = null;
@@ -5775,7 +5776,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			CalamityGlobalTownNPC.TownNPCAlertSystem(npc, mod, spriteBatch);
+			TownNPCAlertSystem(npc, mod, spriteBatch);
 
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
@@ -6017,37 +6018,6 @@ namespace CalamityMod.NPCs
 			newColor.A = (byte)((float)newColor.A * A);
 			return newColor;
 		}
-		#endregion
-
-		#region Get Chat
-		public override void OnChatButtonClicked(NPC npc, bool firstButton)
-		{
-			CalamityGlobalTownNPC.DisableAlert(npc, mod);
-		}
-
-		public override void GetChat(NPC npc, ref string chat)
-        {
-			CalamityGlobalTownNPC.NewNPCQuotes(npc, mod, ref chat);
-        }
-		#endregion
-
-		#region Buff Town NPC
-		public override void BuffTownNPC(ref float damageMult, ref int defense)
-		{
-			CalamityGlobalTownNPC.NPCStatBuffs(mod, ref damageMult, ref defense);
-		}
-		#endregion
-
-		#region Shop Stuff
-		public override void SetupShop(int type, Chest shop, ref int nextSlot)
-        {
-			CalamityGlobalTownNPC.ShopSetup(type, mod, ref shop, ref nextSlot);
-        }
-
-        public override void SetupTravelShop(int[] shop, ref int nextSlot)
-        {
-			CalamityGlobalTownNPC.TravelingMerchantShop(mod, ref shop, ref nextSlot);
-        }
 		#endregion
 
 		#region Any Events

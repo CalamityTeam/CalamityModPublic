@@ -1592,7 +1592,7 @@ namespace CalamityMod
 
         #region Post NPC Updating
         // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.
-        public override void MidUpdateNPCGore() => CalamityGlobalTownNPC.ResetTownNPCNameBools();
+        public override void MidUpdateNPCGore() => CalamityGlobalNPC.ResetTownNPCNameBools();
         #endregion
 
         #region Speedrun Timer Stopper

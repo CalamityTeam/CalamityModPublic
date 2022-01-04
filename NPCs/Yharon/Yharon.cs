@@ -2815,7 +2815,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region Loot
 		public override void NPCLoot()
 		{
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
 
 			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
