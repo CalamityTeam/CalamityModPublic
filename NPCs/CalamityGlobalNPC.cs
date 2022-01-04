@@ -4705,8 +4705,8 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<MoltenBlobThrown>())
 					damage = (int)(damage * 0.75);
 
-				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury.
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
+				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff, Pristine Fury, and Tactician's Trump Card explosion.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<TacticiansElectricBoom>())
 					damage = (int)(damage * 0.5);
 			}
 			else if (DestroyerIDs.Contains(npc.type))

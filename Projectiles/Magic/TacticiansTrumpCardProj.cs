@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
 			aiType = ProjectileID.LightBeam;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+			projectile.extraUpdates = 1;
 		}
 
 		public override void AI()

@@ -5618,7 +5618,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
 
-            if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+            if (filthyGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
                 if (nanotech)
                     damageMult += 0.05;
@@ -5679,11 +5679,10 @@ namespace CalamityMod.CalPlayer
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
+				// Nanotech is a total of 20 as it has all three bools
                 if (nanotech)
-                    penetrateAmt += 20; //nanotech is weaker
-                else if (electricianGlove)
-                    penetrateAmt += 20;
-                else if (filthyGlove || bloodyGlove)
+                    penetrateAmt += 10;
+                if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
 			if (proj.melee && badgeOfBravery)
