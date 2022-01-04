@@ -291,11 +291,9 @@ namespace CalamityMod.Projectiles.Melee
             Color tintColor = Main.hslToRgb(0.9f, 0.9f, 0.5f);
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
-            CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].UseColor(tintColor);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].UseOpacity(tintOpacity);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["uWorldViewProjection"].SetValue(viewMatrix * projectionMatrix);
-            GameShaders.Misc["CalamityMod:LinearTransformation"].Apply();
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(tintColor);
+            GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(tintOpacity);
+            GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             var texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
 
