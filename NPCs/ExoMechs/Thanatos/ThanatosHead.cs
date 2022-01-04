@@ -303,6 +303,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// If Thanatos doesn't go berserk
 			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
 
+			// Whether Thanatos should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			if (npc.ai[2] > 0f)
 				npc.realLife = (int)npc.ai[2];
 
@@ -370,10 +373,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = lastMechAlive ? 180f : berserk ? 240f : 360f;
-			float slowDownTime = lastMechAlive ? 30f : berserk ? 40f : 60f;
+			float speedUpTime = lastMechAlive ? 180f : shouldGetBuffedByBerserkPhase ? 240f : 360f;
+			float slowDownTime = lastMechAlive ? 30f : shouldGetBuffedByBerserkPhase ? 40f : 60f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
-			float laserBarrageDuration = lastMechAlive ? 270f : berserk ? 300f : 360f;
+			float laserBarrageDuration = lastMechAlive ? 270f : shouldGetBuffedByBerserkPhase ? 300f : 360f;
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -451,7 +454,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = 11.1f * baseVelocityMult;
 
 			// Increase top velocity if target is dead or if Thanatos is uncoiling
@@ -460,7 +463,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			else
 				baseVelocity *= increaseSpeedMult;
 
-			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
+			float turnDegrees = baseVelocity * 0.11f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
 
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -478,7 +481,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
-			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.015f;
+			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : shouldGetBuffedByBerserkPhase ? 0.02f : 0.015f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Passive and Immune phases
@@ -537,8 +540,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
-						// This is only called if two exo mechs are alive
-						if (otherMechIsBerserk)
+						// This is only called if two exo mechs are alive in ideal scenarios
+						// This is not called if Thanatos and another one or two mechs are berserk
+						if (otherMechIsBerserk && !berserk)
 						{
 							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
@@ -560,7 +564,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					break;
 
-				// Fly underneath target and fire lasers
+				// Fly underneath target and fire lasers, this happens when all 3 mechs are present and attacking
 				case (int)SecondaryPhase.Passive:
 
 					// Fire lasers while passive
@@ -580,7 +584,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 
 					// If Thanatos is the first mech to go berserk
-					else if (berserk)
+					if (berserk)
 					{
 						// Reset everything
 						AIState = (float)Phase.Charge;
@@ -613,47 +617,44 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Do nothing while immune
 					AIState = (float)Phase.UndergroundLaserBarrage;
 
-					// Only run this if no other mechs are in berserk phase
-					if (!otherMechIsBerserk)
+					// Enter the fight again if any of the other exo mechs is below 70% and other mechs aren't berserk
+					if ((exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
-						// Enter the fight again if any of the other exo mechs is below 70%
-						if (exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f)
-						{
-							// Tells Thanatos to return to the battle in passive state and reset everything
-							// Return to normal phases if one or more mechs have been downed
-							SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-							npc.localAI[0] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							chargeVelocityScalar = 0f;
-							npc.TargetClosest();
+						// Tells Thanatos to return to the battle in passive state and reset everything
+						// Return to normal phases if one or more mechs have been downed
+						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
-							// Phase 3, when all 3 mechs attack at the same time
-							if (exoPrimeAlive && exoTwinsAlive)
+						// Phase 3, when all 3 mechs attack at the same time
+						if (exoPrimeAlive && exoTwinsAlive)
+						{
+							if (draedonAlive)
 							{
-								if (draedonAlive)
-								{
-									Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
-									Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
-								}
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 							}
 						}
+					}
 
-						if (berserk)
-						{
-							// Reset everything
-							AIState = (float)Phase.Charge;
-							npc.localAI[0] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							chargeVelocityScalar = 0f;
-							npc.TargetClosest();
+					// This is here just in case
+					if (berserk)
+					{
+						// Reset everything
+						AIState = (float)Phase.Charge;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
-							// Never be passive if berserk
-							SecondaryAIState = (float)SecondaryPhase.Nothing;
-						}
+						// Never be passive if berserk
+						SecondaryAIState = (float)SecondaryPhase.Nothing;
 					}
 
 					break;
@@ -759,8 +760,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
-									npc.ai[1] += (berserk && revenge) ? 1f : 0f;
-									npc.localAI[0] = berserk ? 1f : 0f;
+									npc.ai[1] += (shouldGetBuffedByBerserkPhase && revenge) ? 1f : 0f;
+									npc.localAI[0] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 0f;

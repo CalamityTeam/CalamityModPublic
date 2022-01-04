@@ -345,6 +345,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// If Artemis and Apollo don't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoPrimeLifeRatio < 0.4f;
 
+			// Whether Artemis and Apollo should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			// Spawn Apollo if it doesn't exist after the first 10 frames have passed
 			if (npc.ai[0] < 10f)
 			{
@@ -404,7 +407,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
 			float normalAttackTime = 360f - reducedTimeForGateValue;
 			float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
-			float attackPhaseGateValue = berserk ? berserkAttackTime : normalAttackTime;
+			float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
@@ -448,7 +451,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = ((AIState == (int)Phase.Deathray || lineUpAttack || AIState == (int)Phase.LaserShotgun) ? 40f : 20f) * baseVelocityMult;
 			float decelerationVelocityMult = 0.85f;
 
@@ -886,7 +889,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
-						npc.localAI[2] = berserk ? 1f : 0f;
+						npc.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 					}
 

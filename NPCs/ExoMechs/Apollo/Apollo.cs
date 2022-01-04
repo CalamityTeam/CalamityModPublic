@@ -326,6 +326,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			// If Artemis and Apollo don't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoPrimeLifeRatio < 0.4f;
 
+			// Whether Artemis and Apollo should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			// Spawn Artemis if it doesn't exist after the first 10 frames have passed
 			if (npc.ai[0] < 10f)
 			{
@@ -383,7 +386,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
 			float normalAttackTime = 360f - reducedTimeForGateValue;
 			float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
-			float attackPhaseGateValue = berserk ? berserkAttackTime : normalAttackTime;
+			float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
 			float timeToLineUpAttack = 30f;
 			float timeToLineUpCharge = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
 
@@ -392,7 +395,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeLocationDistanceGateValue = 20f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = (AIState == (int)Phase.LineUpChargeCombo ? 40f : 20f) * baseVelocityMult;
 
 			// Attack gate values
@@ -410,7 +413,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float projectileVelocity = 12f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
-			else if (berserk)
+			else if (shouldGetBuffedByBerserkPhase)
 				projectileVelocity *= 1.1f;
 
 			// Rocket phase variables
@@ -679,8 +682,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
-						// This is only called if two exo mechs are alive
-						if (otherMechIsBerserk)
+						// This is only called if two exo mechs are alive in ideal scenarios
+						// This is not called if Artemis and Apollo and another one or two mechs are berserk
+						if (otherMechIsBerserk && !berserk)
 						{
 							// Despawn projectile bullshit
 							for (int x = 0; x < Main.maxProjectiles; x++)
@@ -739,7 +743,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 					break;
 
-				// Fire projectiles less often
+				// Fire projectiles less often, this happens when all 3 mechs are present and attacking
 				case (int)SecondaryPhase.Passive:
 
 					// Artemis fires lasers while passive
@@ -800,7 +804,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					}
 
 					// If Artemis and Apollo are the first mechs to go berserk
-					else if (berserk)
+					if (berserk)
 					{
 						// Set Artemis variables
 						if (exoMechTwinRedAlive)
@@ -852,80 +856,77 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					// Do nothing while immune
 					AIState = (float)Phase.Normal;
 
-					// Only run this if no other mechs are in berserk phase
-					if (!otherMechIsBerserk)
+					// Enter the fight again if any of the other exo mechs is below 70% and other mechs aren't berserk
+					if ((exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
-						// Enter the fight again if any of the other exo mechs is below 70%
-						if (exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f)
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
 						{
-							// Set Artemis variables
-							if (exoMechTwinRedAlive)
-							{
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] =
-									totalOtherExoMechLifeRatio > 5f ? (float)Artemis.Artemis.SecondaryPhase.Nothing : (float)Artemis.Artemis.SecondaryPhase.Passive;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] =
+								totalOtherExoMechLifeRatio > 5f ? (float)Artemis.Artemis.SecondaryPhase.Nothing : (float)Artemis.Artemis.SecondaryPhase.Passive;
 
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
-							}
-
-							// Tells Artemis and Apollo to return to the battle in passive state and reset everything
-							// Return to normal phases if one or more mechs have been downed
-							SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-							npc.localAI[0] = 0f;
-							npc.localAI[1] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							for (int i = 0; i < maxCharges; i++)
-								chargeLocations[i] = default;
-
-							npc.TargetClosest();
-
-							// Phase 3, when all 3 mechs attack at the same time
-							if (exoWormAlive && exoPrimeAlive)
-							{
-								if (draedonAlive)
-								{
-									Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
-									Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
-								}
-							}
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
 						}
 
-						if (berserk)
+						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
+						// Return to normal phases if one or more mechs have been downed
+						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						for (int i = 0; i < maxCharges; i++)
+							chargeLocations[i] = default;
+
+						npc.TargetClosest();
+
+						// Phase 3, when all 3 mechs attack at the same time
+						if (exoWormAlive && exoPrimeAlive)
 						{
-							// Set Artemis variables
-							if (exoMechTwinRedAlive)
+							if (draedonAlive)
 							{
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.Nothing;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
-								Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 							}
-
-							// Reset everything
-							npc.localAI[0] = 0f;
-							npc.localAI[1] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							for (int i = 0; i < maxCharges; i++)
-								chargeLocations[i] = default;
-
-							npc.TargetClosest();
-
-							// Never be passive if berserk
-							SecondaryAIState = (float)SecondaryPhase.Nothing;
 						}
+					}
+
+					// This is here just in case
+					if (berserk)
+					{
+						// Set Artemis variables
+						if (exoMechTwinRedAlive)
+						{
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] = (float)Artemis.Artemis.SecondaryPhase.Nothing;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].ai[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[0] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[1] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].localAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[2] = 0f;
+							Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[3] = 0f;
+						}
+
+						// Reset everything
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						for (int i = 0; i < maxCharges; i++)
+							chargeLocations[i] = default;
+
+						npc.TargetClosest();
+
+						// Never be passive if berserk
+						SecondaryAIState = (float)SecondaryPhase.Nothing;
 					}
 
 					break;
@@ -1076,7 +1077,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					{
 						// Go back to normal phase
 						AIState = (float)Phase.Normal;
-						npc.localAI[2] = berserk ? 1f : 0f;
+						npc.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						npc.TargetClosest();
 					}
