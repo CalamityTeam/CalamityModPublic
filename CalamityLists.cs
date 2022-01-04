@@ -524,6 +524,12 @@ namespace CalamityMod
                 ProjectileType<StarfleetMK2Gun>(),
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
+                ProjectileType<ChickenCannonHeld>(),
+                ProjectileType<PumplerHoldout>(),
+                ProjectileType<ClockworkBowHoldout>(),
+                ProjectileType<UltimaBowProjectile>(),
+                ProjectileType<CondemnationHoldout>(),
+                ProjectileType<SurgeDriverHoldout>(),
 
                 ProjectileType<NanoPurgeHoldout>(),
                 ProjectileType<AetherfluxCannonHoldout>(),
