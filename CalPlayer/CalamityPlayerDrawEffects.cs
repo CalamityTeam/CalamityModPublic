@@ -215,7 +215,7 @@ namespace CalamityMod.CalPlayer
             }
         });
 
-        public static readonly PlayerLayer MiscEffectsDraw = new PlayerLayer("CalamityMod", "MiscEffectsDraw", PlayerLayer.MiscEffectsFront, drawInfo =>
+        public static readonly PlayerLayer MiscEffectsFront = new PlayerLayer("CalamityMod", "MiscEffectsFront", PlayerLayer.MiscEffectsFront, drawInfo =>
         {
             if (drawInfo.shadow != 0f)
                 return;
@@ -840,8 +840,8 @@ namespace CalamityMod.CalPlayer
             Skin.visible = true;
             list.Insert(list.IndexOf(PlayerLayer.Skin) + 1, Skin);
 
-            MiscEffectsDraw.visible = true;
-            list.Add(MiscEffectsDraw);
+            MiscEffectsFront.visible = true;
+            list.Add(MiscEffectsFront);
 
             // Remove shoe drawing effects if special legs are meant to be drawn.
             if (CalamityLists.legOverrideList.Contains(player.legs))
