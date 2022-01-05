@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
             projectile.Center = Owner.Center + (direction * ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 60));
 
-            Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.35f);
+            Lighting.AddLight(projectile.Center, new Vector3(0.9f, 0f, 0.35f) * (float)Math.Sin(Timer / MaxTime * MathHelper.Pi));
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = projectile.whoAmI;
@@ -357,7 +357,7 @@ namespace CalamityMod.Projectiles.Melee
             rotation = projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
-            Lighting.AddLight(Owner.MountedCenter, 0.75f, 1f, 1f);
+            Lighting.AddLight(Owner.MountedCenter, new Vector3(0.75f, 1f, 1f) * (float)Math.Sin(Timer/MaxTime * MathHelper.Pi));
 
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
@@ -511,7 +511,6 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
                 PogoCooldown = 30; //Cooldown
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);
-                Lighting.AddLight(projectile.Center, 1f, 0.56f, 0.56f);
 
                 if (Owner.HeldItem.type == ItemType<BiomeBlade>())
                     (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
@@ -536,6 +535,8 @@ namespace CalamityMod.Projectiles.Melee
                 Shred = maxShred;
             if (Shred < 0)
                 Shred = 0;
+
+            Lighting.AddLight(projectile.Center, new Vector3(1f, 0.56f, 0.56f) * ShredRatio);
 
             //Manage position and rotation
             direction = Owner.DirectionTo(Main.MouseWorld);
@@ -576,17 +577,16 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget(target);
 
         private void ShredTarget(Entity target)
-        {
-            Main.PlaySound(SoundID.NPCHit30, projectile.Center); //Sizzle
-            Shred += 62; //Augment the shredspeed
+        { 
             if (Main.myPlayer != Owner.whoAmI)
                 return;
             // get lifted up
             if (PogoCooldown <= 0)
             {
+                Main.PlaySound(SoundID.NPCHit30, projectile.Center); //Sizzle
+                Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Lighting.AddLight(projectile.Center, 1f, 0.56f, 0.56f);
                 Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
                 PogoCooldown = 20;
             }
@@ -750,8 +750,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
-            {
-                Lighting.AddLight(projectile.Center, 0.8f, 1f, 0.35f);
+            {  
                 Main.PlaySound(SoundID.Item41, projectile.Center); //Snap
                 HasSnapped = 1f;
                 SnapCoyoteTime = coyoteTimeFrames;
@@ -759,11 +758,10 @@ namespace CalamityMod.Projectiles.Melee
 
             if (SnapCoyoteTime > 0) //keep checking for the tile hook
             {
+                Lighting.AddLight(projectile.Center, 0.8f, 1f, 0.35f);
                 HookToTile();
                 SnapCoyoteTime--;
             }
-
-            Lighting.AddLight(projectile.Center, 0.32f, 0.61f, 0.02f);
 
             Owner.direction = Math.Sign(projectile.velocity.X);
             projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
