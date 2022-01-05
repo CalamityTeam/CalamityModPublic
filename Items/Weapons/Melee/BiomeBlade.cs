@@ -16,6 +16,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -148,9 +149,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player) => true;
 
+        #region Saving and syncing attunements
         public override bool CloneNewInstances => true;
 
-        public override ModItem Clone(Item item) //need to add shit to properly save those
+        public override ModItem Clone(Item item) 
         {
             var clone = base.Clone(item);
 
@@ -170,6 +172,49 @@ namespace CalamityMod.Items.Weapons.Melee
             return clone;
         }
 
+        public override ModItem Clone() //ditto
+        {
+            var clone = base.Clone();
+
+            (clone as BiomeBlade).mainAttunement = mainAttunement;
+            (clone as BiomeBlade).secondaryAttunement = secondaryAttunement;
+
+            if (clone.item.prefix == PrefixID.Broken)
+            {
+                clone.item.Prefix(PrefixID.Legendary);
+                clone.item.prefix = PrefixID.Legendary;
+            }
+
+            return clone;
+        }
+
+        public override TagCompound Save()
+        {
+            int attunement1 = mainAttunement == null? -1 : (int)mainAttunement;
+            int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement;
+            TagCompound tag = new TagCompound
+            {
+                { "mainAttunement", attunement1 },
+                { "secondaryAttunement", attunement2 }
+            };
+            return tag;
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            int attunement1 = tag.GetInt("mainAttunement");
+            int attunement2 = tag.GetInt("secondaryAttunement");
+            if (attunement1 == -1)
+                mainAttunement = null;
+            else
+                mainAttunement = (Attunement?)attunement1;
+
+            if (attunement2 == -1)
+                secondaryAttunement = null;
+            else
+                secondaryAttunement = (Attunement?)attunement2;
+        }
+
         public override void NetSend(BinaryWriter writer)
         {
             writer.Write((byte)mainAttunement);
@@ -181,6 +226,8 @@ namespace CalamityMod.Items.Weapons.Melee
             mainAttunement = (Attunement?)reader.ReadByte();
             secondaryAttunement = (Attunement?)reader.ReadByte();
         }
+
+        #endregion
 
         public override void HoldItem(Player player)
         {
