@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			item.damage = 111;
+			item.damage = 125;
 			item.ranged = true;
-			item.useTime = item.useAnimation = 17;
+			item.useTime = item.useAnimation = 26;
 			item.knockBack = 6.5f;
 			item.useAmmo = AmmoID.Bullet;
 			item.shoot = ProjectileID.Bullet;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			float speed = item.shootSpeed;
 			Vector2 spawnPos = player.RotatedRelativePoint(player.MountedCenter, true);
 			int starAmt = 6;
-			int starDmg = (int)(damage * 0.7);
+			int starDmg = (int)(damage * 0.4);
 			for (int i = 0; i < starAmt; i++)
 			{
 				spawnPos = new Vector2(player.Center.X + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
