@@ -357,6 +357,8 @@ namespace CalamityMod.Projectiles.Melee
             rotation = projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
+            Lighting.AddLight(Owner.MountedCenter, 0.75f, 1f, 1f);
+
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
             {
@@ -509,6 +511,7 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
                 PogoCooldown = 30; //Cooldown
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);
+                Lighting.AddLight(projectile.Center, 1f, 0.56f, 0.56f);
 
                 if (Owner.HeldItem.type == ItemType<BiomeBlade>())
                     (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
@@ -583,7 +586,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-
+                Lighting.AddLight(projectile.Center, 1f, 0.56f, 0.56f);
                 Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
                 PogoCooldown = 20;
             }
@@ -748,6 +751,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
             {
+                Lighting.AddLight(projectile.Center, 0.8f, 1f, 0.35f);
                 Main.PlaySound(SoundID.Item41, projectile.Center); //Snap
                 HasSnapped = 1f;
                 SnapCoyoteTime = coyoteTimeFrames;
@@ -758,6 +762,8 @@ namespace CalamityMod.Projectiles.Melee
                 HookToTile();
                 SnapCoyoteTime--;
             }
+
+            Lighting.AddLight(projectile.Center, 0.32f, 0.61f, 0.02f);
 
             Owner.direction = Math.Sign(projectile.velocity.X);
             projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
