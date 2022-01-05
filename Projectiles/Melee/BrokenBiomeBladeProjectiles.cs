@@ -360,21 +360,6 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment shrinkSize = new CurveSegment(EasingType.ExpIn, 0.85f, 1f, -1f);
         internal float ThrustScaleRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { expandSize, holdSize, shrinkSize });
 
-        internal float PrimitiveWidthFunction(float completionRatio)
-        {
-            var tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbrace" + (SwingMode == 0 ? "Small" : "Big"));
-            return Vector2.Distance(Vector2.Zero, tex.Size());
-        }
-
-        internal Color PrimitiveColorFunction(float completionRatio)
-        {
-            float opacity = Utils.InverseLerp(0.8f, 0.52f, completionRatio, true) * Utils.InverseLerp(1f, 0.81f, Timer / MaxTime, true);
-            Color startingColor = Color.White;
-            Color endingColor = Color.Lerp(Color.DarkCyan, Color.DarkBlue, 0.77f);
-            return Color.Lerp(startingColor, endingColor, (float)Math.Pow(completionRatio, 0.37f)) * opacity;
-        }
-
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 
