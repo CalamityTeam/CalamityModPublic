@@ -4367,7 +4367,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+            if (andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 if (!Main.dedServ)
                 {
