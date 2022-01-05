@@ -14,6 +14,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using static CalamityMod.CalamityUtils;
+
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -211,13 +213,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float MaxTime => ref projectile.ai[1];
         public float Timer => MaxTime - projectile.timeLeft;
 
-        //Animation key constants
-        public const float anticipationTime = 0.2f; //Get ready to thrust
-        public const float thrustBurstTime = 0.15f; //Thrust in a quick burst
-        public const float heldDownTime = 0.35f; //Remain extended
-        public float retractTime => 1f - anticipationTime - thrustBurstTime - heldDownTime; //Retract. Its simply all the time left from the other stuff
-
-
         public int SwingDirection
         {
             get
@@ -352,60 +347,18 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
         }
 
-        internal float ThrustDisplaceRatio()
-        {
-            float linearRatio = (Timer / MaxTime); //How far along the animation are you
-            float ratio; //L + Ratio
-            float displaceRatio = 1f;
+        //Animation keys
+        public CurveSegment anticipation = new CurveSegment(EasingType.SineBump, 0f, 0f, -0.15f);
+        public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.2f, 0f, 0.9f, 3);
+        public CurveSegment hold = new CurveSegment(EasingType.SineBump, 0.35f, 0.9f, 0.1f);
+        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
+        internal float ThrustDisplaceRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { anticipation, thrust, hold, retract });
 
-            if (linearRatio <= anticipationTime) //Anticipation phase. A small bump in the negatives
-            {
-                ratio = MathHelper.Lerp(0f, 1f, linearRatio / anticipationTime); //Turn that mf into a workable 0 - 1 range
-                displaceRatio = (float)(Math.Sin(ratio * MathHelper.Pi) * -0.15f);
-            }
-            else if (linearRatio <= anticipationTime + thrustBurstTime) //Burst phase. Quickly step into almost a full ratio
-            {
-                ratio = linearRatio - anticipationTime;
-                ratio = MathHelper.Lerp(0f, 1f, ratio / thrustBurstTime); //Turn that mf into a workable 0 - 1 range
-                displaceRatio = MathHelper.SmoothStep(0f, 0.9f, ratio);
-            }
-            else if (linearRatio <= anticipationTime + thrustBurstTime + heldDownTime) //Holding down phase. Small bump up to reach a full ratio and then start going down
-            {
-                ratio = linearRatio - anticipationTime - thrustBurstTime;
-                ratio = MathHelper.Lerp(0f, 1f, ratio / heldDownTime); //Turn that mf into a workable 0 - 1 range
-                displaceRatio = 0.9f + (float)(Math.Sin(ratio * MathHelper.Pi) * 0.1f);
-            }
-            else //Retraction phase. Smooth step back to 0
-            {
-                ratio = linearRatio - (1f - retractTime);
-                ratio = MathHelper.Lerp(0f, 1f, ratio / retractTime); //Turn that mf into a workable 0 - 1 range
-                displaceRatio = MathHelper.SmoothStep(0.9f, 0, ratio);
-            }
-
-            return displaceRatio;
-        }
-
-        //The ratio rapidly increases from 0 to 1 (reaches 1 at the midway point of the anticipation.). It remains at 1 for the rest of the thrust, and then decreases down to 0 at the midway point of the retraction)
-        internal float ThrustScaleRatio()
-        {
-            float linearRatio = (Timer / MaxTime); //How far along the animation are you
-            float ratio; //L + Ratio
-            float scaleRatio = 1f;
-
-            if (linearRatio <= anticipationTime / 2f) //Growth phase
-            {
-                ratio = MathHelper.Lerp(0f, 1f, linearRatio / (anticipationTime / 2f)); //Turn that mf into a workable 0 - 1 range
-                scaleRatio = (float)(1f - Math.Exp(-ratio + 1));
-            }
-            if (linearRatio >= 1f - retractTime / 2f) //Retract phase
-            {
-                ratio = linearRatio - (1f - retractTime / 2f);
-                ratio = MathHelper.Lerp(0f, 1f, ratio / (retractTime / 2f)); //Turn that mf into a workable 0 - 1 range
-                scaleRatio = (float)(1f - Math.Exp(ratio));
-            }
-
-            return scaleRatio;
-        }
+        //Animation keys
+        public CurveSegment expandSize = new CurveSegment(EasingType.ExpIn, 0f, 0f, 1f);
+        public CurveSegment holdSize = new CurveSegment(EasingType.Linear, 0.1f, 1f, 0f);
+        public CurveSegment shrinkSize = new CurveSegment(EasingType.ExpIn, 0.85f, 1f, -1f);
+        internal float ThrustScaleRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { expandSize, holdSize, shrinkSize });
 
         internal float PrimitiveWidthFunction(float completionRatio)
         {
