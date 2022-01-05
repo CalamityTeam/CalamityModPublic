@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Broken Biome Blade"); //Broken Ecoliburn lmfao. Tbh a proper name instead of just "biome blade" may be neat given the importance of the sword
-            Tooltip.SetDefault("Use RMB while standing still on the ground to attune the weapon to the powers of the surrounding biome\n" +
+            Tooltip.SetDefault("FUNCTION_DESC\n" +
+                               "Use RMB while standing still on the ground to attune the weapon to the powers of the surrounding biome\n" +
                                "Using RMB while moving or in the air switches between the current attunement and an extra stored one\n" +
                                "Main attunement : None\n" +
                                "Secondary attunement: None\n"); //Theres potential for flavor text as well but im not a writer
@@ -41,70 +42,78 @@ namespace CalamityMod.Items.Weapons.Melee
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
-            CalamityPlayer modPlayer = player.Calamity();
 
             foreach (TooltipLine l in list) //I gave the attunement silly pseudo-fantasy names, ideas appreciated.
             {
+                if (l.text.StartsWith("FUNCTION_DESC"))
+                {
+                    AttunementInfo info = GetAttunementInfo(mainAttunement);
+                    l.overrideColor = info.color;
+                    l.text = info.function_description;
+                }
+
                 if (l.text.StartsWith("Main attunement"))
                 {
-                    switch (mainAttunement)
-                    {
-                        case Attunement.Default:
-                            l.text = "Main Attumenent : [Pure Clarity]";
-                            l.overrideColor = new Color(171, 180, 73);
-                            break;
-                        case Attunement.Hot:
-                            l.text = "Main Attumenent : [Arid Grandeur]";
-                            l.overrideColor = new Color(238, 156, 73);
-                            break;
-                        case Attunement.Cold:
-                            l.text = "Main Attumenent : [Biting Embrace]";
-                            l.overrideColor = new Color(165, 235, 235);
-                            break;
-                        case Attunement.Tropical:
-                            l.text = "Main Attumenent : [Grovetender's Touch]";
-                            l.overrideColor = new Color(162, 200, 85);
-                            break;
-                        case Attunement.Evil:
-                            l.text = "Main Attumenent : [Decay's Retort]";
-                            l.overrideColor = new Color(211, 64, 147);
-                            break;
-                        default:
-                            l.text = "Main Attumenent : [None]";
-                            break;
-                    }
+                    AttunementInfo info = GetAttunementInfo(mainAttunement);
+                    l.overrideColor = info.color;
+                    l.text = "Main Attumenent : ["+ info.name + "]";
                 }
 
                 if (l.text.StartsWith("Secondary attunement"))
                 {
-                    switch (secondaryAttunement)
-                    {
-                        case Attunement.Default:
-                            l.text = "Secondary Attumenent : [Pure Clarity]";
-                            l.overrideColor = new Color(171, 180, 73);
-                            break;
-                        case Attunement.Hot:
-                            l.text = "Secondary Attumenent : [Arid Grandeur]";
-                            l.overrideColor = new Color(238, 156, 73);
-                            break;
-                        case Attunement.Cold:
-                            l.text = "Secondary Attumenent : [Biting Embrace]";
-                            l.overrideColor = new Color(165, 235, 235);
-                            break;
-                        case Attunement.Tropical:
-                            l.text = "Secondary Attumenent : [Grovetender's Touch]";
-                            l.overrideColor = new Color(162, 200, 85);
-                            break;
-                        case Attunement.Evil:
-                            l.text = "Secondary Attumenent : [Decay's Retort]";
-                            l.overrideColor = new Color(211, 64, 147);
-                            break;
-                        default:
-                            l.text = "Secondary Attumenent : [None]";
-                            break;
-                    }
-                }
+                    AttunementInfo info = GetAttunementInfo(secondaryAttunement);
+                    l.overrideColor = Color.Lerp(info.color, Color.Gray, 0.5f);
+                    l.text = "Secondary Attumenent : [" + info.name + "]";
+                } 
             }
+        }
+
+        internal struct AttunementInfo
+        {
+            public string name;
+            public string function_description;
+            public Color color;
+        }
+
+        internal AttunementInfo GetAttunementInfo(Attunement? attunement)
+        {
+            AttunementInfo AttunementInfo = new AttunementInfo();
+
+            switch (attunement)
+            {
+                case Attunement.Default:
+                    AttunementInfo.name = "Pure Clarity";
+                    AttunementInfo.function_description = "Fires a weak projectile that crushes enemy defenses";
+                    AttunementInfo.color = new Color(171, 180, 73);
+                    break;
+                case Attunement.Hot:
+                    AttunementInfo.name = "Arid Grandeur";
+                    AttunementInfo.function_description = "Conjures searing blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
+                    AttunementInfo.color = new Color(238, 156, 73);
+                    break;
+                case Attunement.Cold:
+                    AttunementInfo.name = "Biting Embrace";
+                    AttunementInfo.function_description = "Perform a 3 strike combo with a glacial blade. The final strike freezes foes for a split second";
+                    AttunementInfo.color = new Color(165, 235, 235);
+                    break;
+                case Attunement.Tropical:
+                    AttunementInfo.name = "Grovetender's Touch";
+                    AttunementInfo.function_description = "Throw out the blade using a vine whip. Striking enemies with the tip of the whip as it cracks guarantees a critical hit. The whip will also propel you towards struck tiles";
+                    AttunementInfo.color = new Color(162, 200, 85);
+                    break;
+                case Attunement.Evil:
+                    AttunementInfo.name = "Decay's Retort";
+                    AttunementInfo.function_description = "Lunge forward using a ghostly rapier projection that leeches life off any struck foes. You also get bounced away from hit targets";
+                    AttunementInfo.color = new Color(211, 64, 147);
+                    break;
+                default:
+                    AttunementInfo.name = "None";
+                    AttunementInfo.function_description = "Does nothing... yet";
+                    AttunementInfo.color = new Color(163, 163, 163);
+                    break;
+            }
+
+            return AttunementInfo;
         }
 
         public override void SetDefaults()
@@ -116,7 +125,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.shoot = ProjectileID.PurificationPowder; //
+            item.shoot = ProjectileID.PurificationPowder; 
             item.knockBack = 5f;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
