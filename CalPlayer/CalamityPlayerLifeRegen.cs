@@ -11,10 +11,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayerLifeRegen
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Update Bad Life Regen
-        public static void CalamityUpdateBadLifeRegen(Player player, Mod mod)
+        public override void UpdateBadLifeRegen()
         {
             Point point = player.Center.ToTileCoordinates();
             CalamityPlayer modPlayer = player.Calamity();
@@ -632,7 +632,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Update Life Regen
-        public static void CalamityUpdateLifeRegen(Player player, Mod mod)
+        public override void UpdateLifeRegen()
         {
             CalamityPlayer modPlayer = player.Calamity();
 

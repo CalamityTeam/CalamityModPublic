@@ -21,11 +21,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-	public class CalamityPlayerFishing
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Catch Fish
-        public static void CalamityCatchFish(Player player, ref Item fishingRod, ref Item bait, ref int power, ref int liquidType, ref int poolSize,
-			ref int worldLayer, ref int questFish, ref int caughtType, ref bool junk)
+        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
             CalamityPlayer modPlayer = player.Calamity();
 
@@ -554,7 +553,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Get Fishing Level
-        public static void CalamityGetFishingLevel(Player player, ref Item fishingRod, ref Item bait, ref int fishingLevel)
+        public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
         {
             CalamityPlayer modPlayer = player.Calamity();
 

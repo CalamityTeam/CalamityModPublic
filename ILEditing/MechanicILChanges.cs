@@ -304,7 +304,7 @@ namespace CalamityMod.ILEditing
             if (projectile.minion)
             {
                 Player player = Main.player[projectile.owner];
-                CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+                CalamityPlayer.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
                 if (player.Calamity().explosiveMinionsEnchant)
                     projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
             }

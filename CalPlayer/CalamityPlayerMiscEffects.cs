@@ -57,10 +57,10 @@ using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
-	public class CalamityPlayerMiscEffects
+	public partial class CalamityPlayer : ModPlayer
 	{
 		#region Post Update Misc Effects
-		public static void CalamityPostUpdateMiscEffects(Player player, Mod mod)
+        public override void PostUpdateMiscEffects()
 		{
 			CalamityPlayer modPlayer = player.Calamity();
 
@@ -192,6 +192,16 @@ namespace CalamityMod.CalPlayer
 				modPlayer.spiritOriginConvertedCrit = player.rangedCrit - 4;
 				player.rangedCrit = 4;
 			}
+
+            if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
+                heldGaelsLastFrame = true;
+
+            // De-equipping Gael's Greatsword deletes all rage.
+            else if (heldGaelsLastFrame)
+            {
+                heldGaelsLastFrame = false;
+                rage = 0f;
+            }
 		}
 		#endregion
 

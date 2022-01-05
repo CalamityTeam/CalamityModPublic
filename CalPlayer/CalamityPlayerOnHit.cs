@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
@@ -22,8 +23,534 @@ using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.CalPlayer
 {
-	public class CalamityPlayerOnHit
+	public partial class CalamityPlayer : ModPlayer
 	{
+        #region On Hit Anything
+        public override void OnHitAnything(float x, float y, Entity victim)
+        {
+            // Currently only used for Rage combat frames.
+            rageCombatFrames = RageCombatDelayTime;
+        }
+        #endregion
+
+        #region On Hit NPC
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
+            // Handle on-hit melee effects for the gem tech armor set.
+            GemTechState.MeleeOnHitEffects(target);
+
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+
+            if (flamingItemEnchant)
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+
+            switch (item.type)
+            {
+                case ItemID.CobaltSword:
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
+                    break;
+
+                case ItemID.PalladiumSword:
+                    if (!target.canGhostHeal || player.moonLeech)
+                        return;
+                    player.lifeRegenTime += 2;
+                    break;
+
+                case ItemID.MythrilSword:
+                    target.damage = (int)(target.defDamage * 0.9);
+                    break;
+
+                case ItemID.OrichalcumSword:
+                    if (player.petalTimer > 0)
+                        player.petalTimer /= 2;
+                    break;
+
+                case ItemID.AdamantiteSword:
+					float slowDownMult = 0.5f;
+					if (CalamityLists.enemyImmunityList.Contains(target.type) || target.boss)
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
+                    break;
+
+                case ItemID.CandyCaneSword:
+                    if (!target.canGhostHeal || player.moonLeech)
+                        return;
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                    break;
+
+                case ItemID.TheHorsemansBlade:
+                    if (target.SpawnedFromStatue)
+                    {
+                        for (int i = 0; i < Main.maxProjectiles; i++)
+                        {
+                            Projectile proj = Main.projectile[i];
+                            if (proj.type == ProjectileID.FlamingJack && proj.owner == Main.myPlayer)
+                                proj.Kill();
+                        }
+                    }
+                    break;
+
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
+                case ItemID.TrueExcalibur:
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    break;
+
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ItemID.BladeofGrass:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ItemID.BeeKeeper:
+                    target.AddBuff(BuffID.Poisoned, 240);
+                    break;
+
+                case ItemID.LightsBane:
+                case ItemID.NightsEdge:
+                    target.AddBuff(BuffID.ShadowFlame, 120);
+                    break;
+
+                case ItemID.TrueNightsEdge:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    target.AddBuff(BuffID.ShadowFlame, 120);
+                    break;
+
+                case ItemID.BloodButcherer:
+                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    break;
+
+                case ItemID.IceSickle:
+                case ItemID.Frostbrand:
+                    target.AddBuff(BuffID.Frostburn, 300);
+                    break;
+
+                case ItemID.IceBlade:
+                    target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+            }
+
+			ItemLifesteal(player, mod, target, item, damage);
+            ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+            NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
+
+            // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
+            if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+                return;
+            if (rageModeActive && shatteredCommunity)
+                ShatteredCommunity.AccumulateRageDamage(player, this, damage);
+        }
+        #endregion
+
+        #region On Hit NPC With Proj
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
+            // Handle on-hit melee effects for the gem tech armor set.
+            if (proj.melee)
+                GemTechState.MeleeOnHitEffects(target);
+
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+
+            switch (proj.type)
+            {
+                case ProjectileID.CobaltNaginata:
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
+					break;
+
+                case ProjectileID.PalladiumPike:
+                    if (!target.canGhostHeal || player.moonLeech)
+                        return;
+                    player.lifeRegenTime += 2;
+                    break;
+
+                case ProjectileID.MythrilHalberd:
+                    target.damage = (int)(target.defDamage * 0.9);
+                    break;
+
+                case ProjectileID.OrichalcumHalberd:
+                    if (player.petalTimer > 0)
+                        player.petalTimer /= 2;
+                    break;
+
+                case ProjectileID.AdamantiteGlaive:
+					float slowDownMult = 0.5f;
+					if (CalamityLists.enemyImmunityList.Contains(target.type) || target.boss)
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
+                    break;
+
+                case ProjectileID.FruitcakeChakram:
+                    if (!target.canGhostHeal || player.moonLeech)
+                        return;
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                    break;
+
+                case ProjectileID.TheRottedFork:
+				case ProjectileID.TheMeatball:
+				case ProjectileID.CrimsonYoyo:
+				case ProjectileID.BloodCloudRaining:
+				case ProjectileID.BloodRain:
+                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    break;
+
+				case ProjectileID.BallOHurt:
+				case ProjectileID.CorruptYoyo:
+					target.AddBuff(BuffID.ShadowFlame, 60);
+					break;
+
+                case ProjectileID.ObsidianSwordfish:
+                    target.AddBuff(BuffID.OnFire, 180);
+                    break;
+
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+                    break;
+
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
+                case ProjectileID.Gungnir:
+                case ProjectileID.PaladinsHammerFriendly:
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    break;
+
+                case ProjectileID.DarkLance:
+                    target.AddBuff(BuffID.ShadowFlame, 120);
+                    break;
+
+				case ProjectileID.PoisonedKnife:
+					target.AddBuff(BuffID.Poisoned, 300);
+					break;
+
+				case ProjectileID.ThornChakram:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ProjectileID.Bee:
+                case ProjectileID.GiantBee:
+                    target.AddBuff(BuffID.Poisoned, 120);
+                    break;
+
+                case ProjectileID.Wasp:
+                    target.AddBuff(BuffID.Poisoned, 120);
+                    target.AddBuff(BuffID.Venom, 60);
+                    break;
+
+                case ProjectileID.BoneArrow:
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+                    break;
+
+                case ProjectileID.FrostBlastFriendly:
+                case ProjectileID.NorthPoleWeapon:
+                    target.AddBuff(BuffID.Frostburn, 300);
+                    break;
+
+                case ProjectileID.FrostBoltStaff:
+                case ProjectileID.IceSickle:
+                case ProjectileID.FrostBoltSword:
+                case ProjectileID.FrostArrow:
+                case ProjectileID.NorthPoleSpear:
+				case ProjectileID.Amarok:
+                    target.AddBuff(BuffID.Frostburn, 180);
+                    break;
+
+                case ProjectileID.Blizzard:
+                case ProjectileID.NorthPoleSnowflake:
+                    target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+
+                case ProjectileID.SnowBallFriendly:
+                case ProjectileID.IceBoomerang:
+                case ProjectileID.IceBolt:
+                case ProjectileID.FrostDaggerfish:
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
+                    break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    target.AddBuff(BuffID.ShadowFlame, 120);
+                    break;
+            }
+
+			if (ProjectileID.Sets.StardustDragon[proj.type])
+                target.immune[proj.owner] = 10;
+
+            if (!proj.npcProj && !proj.trap && proj.friendly)
+            {
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
+
+                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
+                    target.AddBuff(BuffID.Midas, 300, false);
+
+                ProjLifesteal(player, mod, target, proj, damage, crit);
+                ProjOnHit(player, mod, proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+                NPCDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
+
+                // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
+                if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+                    return;
+
+                if (rageModeActive && shatteredCommunity)
+                    ShatteredCommunity.AccumulateRageDamage(player, this, damage);
+            }
+        }
+        #endregion
+
+        #region PvP
+        public override void OnHitPvp(Item item, Player target, int damage, bool crit)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
+            switch (item.type)
+            {
+                case ItemID.PalladiumSword:
+                case ItemID.PalladiumPike:
+                    if (player.moonLeech)
+                        return;
+                    player.lifeRegenTime += 2;
+                    break;
+
+                case ItemID.OrichalcumSword:
+                case ItemID.OrichalcumHalberd:
+                    if (player.petalTimer > 0)
+                        player.petalTimer /= 2;
+                    break;
+
+                case ItemID.CandyCaneSword:
+                    if (player.moonLeech)
+                        return;
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                    break;
+
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
+                case ItemID.TrueExcalibur:
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    break;
+
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ItemID.BladeofGrass:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ItemID.BeeKeeper:
+                    target.AddBuff(BuffID.Poisoned, 240);
+                    break;
+
+                case ItemID.LightsBane:
+                case ItemID.NightsEdge:
+                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    break;
+
+                case ItemID.TrueNightsEdge:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    break;
+
+                case ItemID.BloodButcherer:
+                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    break;
+
+                case ItemID.IceSickle:
+                case ItemID.Frostbrand:
+                    target.AddBuff(BuffID.Frostburn, 300);
+                    break;
+
+                case ItemID.IceBlade:
+                    target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+            }
+            ItemOnHit(player, mod, item, damage, target.Center, crit, true);
+            PvpDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
+        }
+
+        public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
+            switch (proj.type)
+            {
+                case ProjectileID.PalladiumPike:
+                    if (player.moonLeech)
+                        return;
+                    player.lifeRegenTime += 2;
+                    break;
+
+                case ProjectileID.OrichalcumHalberd:
+                    if (player.petalTimer > 0)
+                        player.petalTimer /= 2;
+                    break;
+
+                case ProjectileID.FruitcakeChakram:
+                    if (player.moonLeech)
+                        return;
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                    break;
+
+                case ProjectileID.TheRottedFork:
+                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    break;
+
+                case ProjectileID.ObsidianSwordfish:
+                    target.AddBuff(BuffID.OnFire, 180);
+                    break;
+
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+                    break;
+
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
+                case ProjectileID.Gungnir:
+                case ProjectileID.PaladinsHammerFriendly:
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    break;
+
+                case ProjectileID.DarkLance:
+                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    break;
+
+				case ProjectileID.PoisonedKnife:
+					target.AddBuff(BuffID.Poisoned, 300);
+					break;
+
+				case ProjectileID.ThornChakram:
+					target.AddBuff(BuffID.Poisoned, 210);
+					break;
+
+				case ProjectileID.Bee:
+                case ProjectileID.GiantBee:
+                    target.AddBuff(BuffID.Poisoned, 120);
+                    break;
+
+                case ProjectileID.Wasp:
+                    target.AddBuff(BuffID.Poisoned, 120);
+                    target.AddBuff(BuffID.Venom, 60);
+                    break;
+
+                case ProjectileID.BoneArrow:
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+                    break;
+
+                case ProjectileID.FrostBlastFriendly:
+                case ProjectileID.NorthPoleWeapon:
+                    target.AddBuff(BuffID.Frostburn, 300);
+                    break;
+
+                case ProjectileID.FrostBoltStaff:
+                case ProjectileID.IceSickle:
+                case ProjectileID.FrostBoltSword:
+                case ProjectileID.FrostArrow:
+                case ProjectileID.NorthPoleSpear:
+				case ProjectileID.Amarok:
+					target.AddBuff(BuffID.Frostburn, 180);
+                    break;
+
+                case ProjectileID.Blizzard:
+                case ProjectileID.NorthPoleSnowflake:
+                    target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+
+                case ProjectileID.SnowBallFriendly:
+                case ProjectileID.IceBoomerang:
+                case ProjectileID.IceBolt:
+                case ProjectileID.FrostDaggerfish:
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
+                    break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    break;
+            }
+
+            if (!proj.npcProj && !proj.trap && proj.friendly)
+            {
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
+                {
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
+                }
+                ProjOnHit(player, mod, proj, target.Center, crit, true);
+                PvpDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
+            }
+        }
+        #endregion
+
 		#region Item
 		public static void ItemOnHit(Player player, Mod mod, Item item, int damage, Vector2 position, bool crit, bool npcCheck)
 		{
