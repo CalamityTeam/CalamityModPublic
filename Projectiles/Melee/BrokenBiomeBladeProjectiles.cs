@@ -21,8 +21,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PurityProjection : ModProjectile //The boring plain one
     {
-        private int dustType = 3;
-
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";
 
         public override void SetStaticDefaults()
@@ -39,16 +37,18 @@ namespace CalamityMod.Projectiles.Melee
             aiType = ProjectileID.LightBeam;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 100;
+            projectile.timeLeft = 40;
             projectile.melee = true;
             projectile.tileCollide = false;
         }
 
-        public override void AI() //Dust doesnt look great
+        public override void AI()
         {
-            if (projectile.timeLeft < 95)
+            if (projectile.timeLeft < 35)
                 projectile.tileCollide = true;
-            int dustParticle = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.9f);
+
+            Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
             Main.dust[dustParticle].noGravity = true;
             Main.dust[dustParticle].velocity *= 0.5f;
             Main.dust[dustParticle].velocity += projectile.velocity * 0.1f;
@@ -56,22 +56,29 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 295)
+            if (projectile.timeLeft > 35)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            //Explode into dust or whatever,
+            Main.PlaySound(SoundID.Item43, projectile.Center);
+            for (int i = 0; i <= 15; i++)
+            {
+                Vector2 displace = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * (-0.5f + (i / 15f)) * 88f;
+                int dustParticle = Dust.NewDust(projectile.Center + displace, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 2f);
+                Main.dust[dustParticle].noGravity = true;
+                Main.dust[dustParticle].velocity = projectile.oldVelocity;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             int debuffTime = 90;
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), debuffTime);
+            target.AddBuff(BuffType<ArmorCrunch>(), debuffTime);
         }
     }
 
@@ -117,8 +124,6 @@ namespace CalamityMod.Projectiles.Melee
             {
                 CanBounce = 1f;
                 projectile.timeLeft = (int)MaxTime;
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
-                //The direction to mouseworld may need to be turned into the custom synced player mouse variables . not on the branch currently tho
                 direction = Owner.DirectionTo(Main.MouseWorld);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
@@ -126,11 +131,15 @@ namespace CalamityMod.Projectiles.Melee
                     Lunge();
                 Main.PlaySound(SoundID.Item103, projectile.Center);
                 initialized = true;
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
             }
 
             //Manage position and rotation
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
             projectile.Center = Owner.Center + (direction * ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 60));
+
+            Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.35f);
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = projectile.whoAmI;
@@ -147,7 +156,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Main.myPlayer != projectile.owner)
                 return;
-            //Check if the owner is on the ground
             Owner.velocity = direction.SafeNormalize(Vector2.UnitX * Owner.direction) * LungeSpeed;
         }
 
@@ -156,6 +164,9 @@ namespace CalamityMod.Projectiles.Melee
 
         private void OnHitEffects(bool cannotLifesteal)
         {
+            projectile.netUpdate = true;
+            projectile.netSpam = 0;
+
             if (!cannotLifesteal) //trolled
             {
                 Owner.statLife += 3;
@@ -192,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
             drawOrigin = new Vector2(0f, tex.Height);
             drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 24f * projectile.scale) - Main.screenPosition;
 
-            spriteBatch.Draw(tex, drawOffset + displace, null, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             //Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -200,6 +211,18 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
+            writer.Write(CanBounce);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
+            CanBounce = reader.ReadSingle();
+        }
     }
 
     public class BitingEmbrace : ModProjectile
@@ -285,6 +308,13 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + displace, Owner.Center + displace + (rotation.ToRotationVector2() * bladeLenght), 24, ref collisionPoint);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            base.OnHitNPC(target, damage, knockback, crit);
+            if (SwingMode == 2)
+             target.AddBuff(BuffType<GlacialState>(), 20);
+        }
+
         public override void AI()
         {
             if (!initialized) //Initialization
@@ -316,7 +346,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = direction.ToRotation();
 
                 initialized = true;
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
             }
+
             //Manage position and rotation
             projectile.Center = Owner.Center + (direction * 30);
             //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime); 
@@ -362,13 +395,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
-
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
 
             if (SwingMode != 2)
             {
-                Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbrace" + (SwingMode == 0 ? "Small" : "Big"));
+                Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbrace" + (SwingMode == 0 ? "Small" : "Big"));
                 float drawAngle = rotation;
                 float drawRotation = rotation + MathHelper.PiOver4;
                 Vector2 drawOrigin = new Vector2(0f, handle.Height);
@@ -379,16 +410,16 @@ namespace CalamityMod.Projectiles.Melee
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Update the parameters
-                drawOrigin = new Vector2(0f, tex.Height);
+                drawOrigin = new Vector2(0f, blade.Height);
                 drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 28f * projectile.scale) - Main.screenPosition;
-                spriteBatch.Draw(tex, drawOffset, null, lightColor * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
             else
             {
-                Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceThrust");
+                Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceThrust");
                 Vector2 thrustDisplace = direction * (ThrustDisplaceRatio() * 60);
 
                 float drawAngle = rotation;
@@ -407,7 +438,7 @@ namespace CalamityMod.Projectiles.Melee
                 //Anim stuff
                 Rectangle frameRectangle = new Rectangle(0, 0 + (116 * projectile.frame), 114, 114);
 
-                spriteBatch.Draw(tex, drawOffset + thrustDisplace, frameRectangle, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(blade, drawOffset + thrustDisplace, frameRectangle, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -416,6 +447,18 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
+            writer.Write(rotation);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
+            rotation = reader.ReadSingle();
+        }
     }
 
     public class AridGrandeur : ModProjectile
@@ -486,7 +529,6 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
 
-
             if (Shred >= maxShred)
                 Shred = maxShred;
             if (Shred < 0)
@@ -506,6 +548,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Collision.SolidCollision(Owner.Center + (direction * 84 * projectile.scale) - Vector2.One * 5f, 10, 10))
             {
                 Pogo();
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
             }
 
             //Make the owner look like theyre holding the sword bla bla
@@ -558,7 +602,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur");
 
             int bladeAmount = 4;
 
@@ -574,28 +618,28 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
-            drawOrigin = new Vector2(0f, tex.Height);
+            drawOrigin = new Vector2(0f, blade.Height);
             drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 32f * projectile.scale) - Main.screenPosition;
 
-            spriteBatch.Draw(tex, drawOffset, null, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
 
 
             for (int i = 0; i < bladeAmount; i++) //Draw extra copies
             {
-                tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
+                blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
 
                 drawAngle = direction.ToRotation();
 
                 float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
                 drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 7f) * ShredRatio);
 
-                drawOrigin = new Vector2(0f, tex.Height);
+                drawOrigin = new Vector2(0f, blade.Height);
 
 
                 Vector2 drawOffsetStraight = Owner.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
 
-                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, lightColor * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(blade, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
 
             //Back to normal
@@ -605,105 +649,22 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-    }
-
-    public class AridGrandeurShot : ModProjectile //Only use this for the upgrade actually lol
-    {
-        public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra";
-        private bool initialized = false;
-        Vector2 direction = Vector2.Zero;
-        public ref float Shred => ref projectile.ai[0];
-        public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
-        public Player Owner => Main.player[projectile.owner];
-
-        public const float pogoStrenght = 16f; //How much the player gets pogoed up
-        public const float maxShred = 500; //How much shred you get
-
-        public override void SetStaticDefaults()
+        public override void SendExtraAI(BinaryWriter writer)
         {
-            DisplayName.SetDefault("Arid Shredder");
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
         }
-        public override void SetDefaults()
+        public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 70;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
         }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float collisionPoint = 0f;
-            float bladeLenght = 84 * projectile.scale;
-            float bladeWidth = 76 * projectile.scale;
-
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - direction * bladeLenght / 2, projectile.Center + direction * bladeLenght / 2, bladeWidth, ref collisionPoint);
-        }
-
-        public override void AI()
-        {
-            if (!initialized)
-            {
-                Main.PlaySound(SoundID.Item90, projectile.Center);
-                projectile.timeLeft = (int)(30f + ShredRatio * 30f);
-                initialized = true;
-
-                direction = Owner.DirectionTo(Main.MouseWorld);
-                direction.Normalize();
-                projectile.rotation = direction.ToRotation();
-
-                projectile.velocity = direction * 6f;
-                projectile.damage *= 10;
-
-                projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
-                projectile.netUpdate = true;
-
-            }
-
-            projectile.position += projectile.velocity;
-
-        }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            for (int i = 0; i < 4; i++) //Draw extra copies
-            {
-                var tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
-
-                float drawAngle = direction.ToRotation();
-
-                float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
-                float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 7f) * ShredRatio);
-
-                Vector2 drawOrigin = new Vector2(0f, tex.Height);
-
-
-                Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
-                Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
-
-                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, lightColor * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-            }
-
-            //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            return false;
-        }
-
     }
 
     public class GrovetendersTouch : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;
-
-        Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[projectile.owner];
         public float Timer => MaxTime - projectile.timeLeft;
         public ref float HasSnapped => ref projectile.ai[0];
@@ -781,6 +742,8 @@ namespace CalamityMod.Projectiles.Melee
                 controlPoint2 = projectile.Center;
                 projectile.timeLeft = (int)MaxTime;
                 initialized = true;
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
             }
 
             if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
@@ -979,7 +942,7 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Only update the origin for once
             drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, lightColor * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
             //Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -1022,6 +985,16 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
                 spriteBatch.Draw(chainTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
             }
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(initialized);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
         }
     }
 }
