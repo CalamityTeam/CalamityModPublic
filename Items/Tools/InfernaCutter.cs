@@ -142,7 +142,7 @@ namespace CalamityMod.Items.Tools
                     Main.projectile[boom].Calamity().forceMelee = true;
             }
             target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 150);
         }
     }
 }

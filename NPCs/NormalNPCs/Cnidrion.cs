@@ -47,12 +47,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (spawnInfo.player.PillarZone() ||
 				spawnInfo.player.InAstral() ||
-				spawnInfo.player.ZoneDungeon ||
+				spawnInfo.player.ZoneCorrupt ||
+				spawnInfo.player.ZoneCrimson ||
 				spawnInfo.player.ZoneOldOneArmy ||
 				spawnInfo.player.ZoneSkyHeight ||
 				spawnInfo.playerSafe ||
 				!spawnInfo.player.ZoneDesert ||
 				!spawnInfo.player.ZoneOverworldHeight ||
+				Main.eclipse ||
 				Main.snowMoon ||
 				Main.pumpkinMoon ||
 				NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))

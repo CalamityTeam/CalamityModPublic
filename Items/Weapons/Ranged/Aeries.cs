@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpectreBar, 5);
             recipe.AddIngredient(ModContent.ItemType<CursedCapper>());
+            recipe.AddIngredient(ItemID.SpectreBar, 5);
             recipe.AddIngredient(ItemID.ShroomiteBar, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

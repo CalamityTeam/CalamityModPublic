@@ -128,9 +128,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.Confused, 300);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void Kill(int timeLeft)

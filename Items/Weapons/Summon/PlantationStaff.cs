@@ -42,19 +42,19 @@ namespace CalamityMod.Items.Weapons.Summon
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<EyeOfNight>());
 			recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
 			recipe.AddIngredient(ItemID.OpticStaff);
+			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
             recipe.AddIngredient(ModContent.ItemType<FleshOfInfidelity>());
             recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
             recipe.AddIngredient(ItemID.OpticStaff);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

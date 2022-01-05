@@ -15,15 +15,9 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class Skyfin : ModNPC
     {
-        public bool Flying = false;
+        public ref float AttackState => ref npc.ai[0];
+        public ref float AttackTimer => ref npc.ai[1];
         public Player Target => Main.player[npc.target];
-        public ref float Time => ref npc.ai[0];
-        public ref float DiveTimer => ref npc.ai[1];
-        public ref float HorizontalDiveSpeed => ref npc.ai[2];
-        public ref float WaitBeforeFlyingMovement => ref npc.ai[3];
-        public const float DiveDelay = 120f;
-        public const float DiveTime = 90f;
-        public const float TotalDiveTime = DiveDelay + DiveTime;
 
         public override void SetStaticDefaults()
         {
@@ -44,22 +38,23 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-				npc.knockBackResist = 0.8f;
+                npc.knockBackResist = 0.8f;
                 npc.damage = 88;
                 npc.lifeMax = 3025;
                 npc.defense = 18;
-				npc.DR_NERD(0.05f);
+                npc.DR_NERD(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 38;
                 npc.lifeMax = 220;
-				npc.DR_NERD(0.05f);
+                npc.DR_NERD(0.05f);
             }
 
             npc.value = Item.buyPrice(0, 0, 3, 65);
             npc.lavaImmune = false;
             npc.noGravity = true;
+            npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
@@ -70,150 +65,87 @@ namespace CalamityMod.NPCs.AcidRain
 			npc.Calamity().VulnerableToWater = false;
 		}
 
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Flying);
-
-        public override void ReceiveExtraAI(BinaryReader reader) => Flying = reader.ReadBoolean();
-
         public override void AI()
         {
             npc.TargetClosest(false);
-
-            if (Flying)
-                FlyTowardsTarget();
-            else
-                DoSwimMovement();
             int idealDirection = (npc.velocity.X > 0).ToDirectionInt();
-            npc.direction = npc.spriteDirection = idealDirection;
-            if (idealDirection != npc.direction)
-                npc.netUpdate = true;
+            npc.spriteDirection = idealDirection;
 
-            npc.rotation = npc.velocity.ToRotation() + (npc.direction > 0).ToInt() * MathHelper.Pi;
-        }
-
-        public void FlyTowardsTarget()
-		{
-            npc.noTileCollide = true;
-            Time++;
-            if (Time % 300f >= 180f)
+            switch ((int)AttackState)
             {
                 // Rise upward.
-                if (Time % 300f <= 205f)
-                    npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, -6.5f, 0.07f);
+                case 0:
+                    Vector2 flyDestination = Target.Center + new Vector2((Target.Center.X < npc.Center.X).ToDirectionInt() * 400f, -240f);
+                    Vector2 idealVelocity = npc.SafeDirectionTo(flyDestination) * 12f;
+                    npc.velocity = (npc.velocity * 29f + idealVelocity) / 29f;
+                    npc.velocity = npc.velocity.MoveTowards(idealVelocity, 1.5f);
 
-                // And fly towards the target.
-                if (Time % 300f == 235f)
-                {
-                    float chargeSpeed = 8f;
+                    // Decide rotation.
+                    npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi;
+
+                    if (npc.WithinRange(flyDestination, 40f) || AttackTimer > 150f)
+                    {
+                        AttackState = 1f;
+                        npc.velocity *= 0.65f;
+                        npc.netUpdate = true;
+                    }
+                    break;
+
+                // Slow down and look at the target.
+                case 1:
+                    npc.spriteDirection = (Target.Center.X > npc.Center.X).ToDirectionInt();
+                    npc.velocity *= 0.97f;
+                    npc.velocity = npc.velocity.MoveTowards(Vector2.Zero, 0.25f);
+                    npc.rotation = npc.rotation.AngleTowards(npc.AngleTo(Target.Center) + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi, 0.2f);
+
+                    // Charge once sufficiently slowed down.
+                    float chargeSpeed = 11.5f;
                     if (CalamityWorld.downedAquaticScourge)
-                        chargeSpeed = 14f;
+                        chargeSpeed += 4f;
                     if (CalamityWorld.downedPolterghast)
-                        chargeSpeed = 18f;
-                    npc.velocity = npc.SafeDirectionTo(Target.Center, Vector2.UnitY) * chargeSpeed;
-                }
-            }
-            else
-            {
-                if (Math.Abs(Target.Center.X - npc.Center.X) > 320f)
-                    npc.velocity.X = MathHelper.Lerp(npc.velocity.X, (Target.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f, 0.05f);
-                if (Math.Abs(Target.Center.Y - npc.Center.Y) > 50f)
-                    npc.velocity.Y = npc.SafeDirectionTo(Target.Center).Y * 9f;
-            }
-        }
-
-        public void DoSwimMovement()
-		{
-            Time++;
-            if (DiveTimer > 0f)
-                DiveTimer -= 1f;
-            if (npc.wet)
-            {
-                // Swim around, moving towards the player.
-                bool canSwimToPlayer = Collision.CanHit(npc.position, npc.width, npc.height, Target.position, Target.width, Target.height);
-                if (canSwimToPlayer)
-                {
-                    if (Time % 55f == 54f)
+                        chargeSpeed += 3.5f;
+                    if (npc.velocity.Length() < 1.25f)
                     {
-                        float horizontalSchoolingSpeed = 9f;
-                        if (CalamityWorld.downedAquaticScourge)
-                            horizontalSchoolingSpeed = 15f;
-                        if (CalamityWorld.downedPolterghast)
-                            horizontalSchoolingSpeed = 24f;
-                        npc.velocity = Vector2.UnitX * (Target.Center.X - npc.Center.X > 0).ToDirectionInt() * horizontalSchoolingSpeed;
-                    }
-                    if ((Math.Abs(Target.Center.Y - npc.Center.Y) > 50f && Target.wet) || (!Target.wet && DiveTimer <= 0f))
-                    {
-                        float verticalSwimSpeed = CalamityWorld.downedPolterghast ? 10f : 6f;
-                        npc.velocity.Y = (Target.Center.Y - npc.Center.Y > 0).ToDirectionInt() * verticalSwimSpeed;
-                    }
+                        Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                        for (int i = 0; i < 36; i++)
+                        {
+                            Dust acid = Dust.NewDustPerfect(npc.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                            acid.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 6f;
+                            acid.scale = 1.1f;
+                            acid.noGravity = true;
+                        }
 
-                    // Speed up if there is little horizontal movement.
-                    if (Math.Abs(npc.velocity.X) < 6f)
-                        npc.velocity.X *= 1.04f;
-                }
-
-                // Slow down increasingly vertically if it's already low.
-                else if (!canSwimToPlayer && Math.Abs(npc.velocity.Y) < 4f)
-                    npc.velocity.Y *= 0.97f;
-
-                // Turn around if we hit a tile on the X axis
-                if (!canSwimToPlayer && npc.collideX)
-                    npc.velocity.X *= -1f;
-
-                // Check if a dive is possible.
-                if (Target.Center.Y < npc.Top.Y - 10f && DiveTimer <= 0f)
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10))
-                    {
-                        DiveTimer = TotalDiveTime;
+                        AttackState = 2f;
+                        AttackTimer = 0f;
+                        npc.velocity = npc.SafeDirectionTo(Target.Center) * chargeSpeed;
                         npc.netUpdate = true;
                     }
+                    break;
 
-                    HorizontalDiveSpeed = (Target.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f;
-                }
-            }
-            else
-            {
-                // Dive upward in an attempt to hit to the player.
-                if (DiveTimer > TotalDiveTime - DiveTime)
-                {
-                    npc.velocity.X = HorizontalDiveSpeed;
-                    if (DiveTimer > TotalDiveTime - DiveTime * 0.5f)
-                    {
-                        float upwardDiveSpeed = CalamityWorld.downedAquaticScourge ? 0.115f : 0.085f;
-                        if (CalamityWorld.downedPolterghast)
-                            upwardDiveSpeed = 0.135f;
-                        npc.velocity.Y -= upwardDiveSpeed;
-                    }
+                // Charge and swoop.
+                case 2:
+                    float angularTurnSpeed = MathHelper.Pi / 300f;
+                    idealVelocity = npc.SafeDirectionTo(Target.Center);
+                    Vector2 leftVelocity = npc.velocity.RotatedBy(-angularTurnSpeed);
+                    Vector2 rightVelocity = npc.velocity.RotatedBy(angularTurnSpeed);
+                    if (leftVelocity.AngleBetween(idealVelocity) < rightVelocity.AngleBetween(idealVelocity))
+                        npc.velocity = leftVelocity;
                     else
-                    {
-                        DiveTimer = TotalDiveTime - DiveTime;
-                        npc.velocity.Y += 0.2f;
-                    }
-                }
-                else
-                {
-                    // Don't fall too fast because of wings
-                    DiveTimer = TotalDiveTime - DiveTime;
-                    npc.velocity.Y += 0.1f;
-                    WaitBeforeFlyingMovement++;
+                        npc.velocity = rightVelocity;
 
-                    // Consistently sync the enemy.
-                    if (WaitBeforeFlyingMovement % 40f == 39f)
-                        npc.netUpdate = true;
+                    // Decide rotation.
+                    npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi;
 
-                    if (WaitBeforeFlyingMovement > 180f)
+                    if (AttackTimer > 50f)
                     {
-                        Time = DiveTimer = HorizontalDiveSpeed = WaitBeforeFlyingMovement = 0f;
-                        Flying = true;
+                        AttackState = 0f;
+                        AttackTimer = 0f;
+                        npc.velocity = Vector2.Lerp(npc.velocity, -Vector2.UnitY * 8f, 0.14f);
                         npc.netUpdate = true;
                     }
-                }
+                    break;
             }
-            // If sitting on land, rotate in a way that looks like we're stuck on the ground
-            if (!npc.wet)
-            {
-                npc.velocity.X *= 0.92f;
-            }
+            AttackTimer++;
         }
 
         public override void FindFrame(int frameHeight)

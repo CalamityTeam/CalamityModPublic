@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 54;
-            item.damage = 64;
+            item.damage = 70;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<BrimlashProj>();
-            item.shootSpeed = 15f;
+            item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()

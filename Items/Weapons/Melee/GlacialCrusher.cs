@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glacial Crusher");
-            Tooltip.SetDefault("Fires very slow frost projectiles that gain strength as they travel and freeze enemies\n" +
-                "Enemies are frozen for longer the further the projectile travels\n" +
+            Tooltip.SetDefault("Fires slow frost projectiles that freeze enemies\n" +
                 "True melee strikes cause tremendous damage to frozen enemies");
         }
 
@@ -30,10 +28,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 58;
+			item.scale = 2f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<Iceberg>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 10f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -46,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.Calamity().gState > 0)
             {
-                damage *= 3;
+                damage *= 2;
                 knockBack *= 3f;
             }
         }

@@ -84,14 +84,12 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.NextBool(5))
-				target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
+			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
-			if (Main.rand.NextBool(5))
-				target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
+			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300);
 		}
 
 		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 170);

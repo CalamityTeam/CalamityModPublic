@@ -62,9 +62,10 @@ namespace CalamityMod.Items.Tools
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<InfernaCutter>());
+            recipe.AddRecipeGroup("LunarHamaxe");
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddRecipeGroup("LunarHamaxe");
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

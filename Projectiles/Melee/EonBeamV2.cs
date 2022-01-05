@@ -67,10 +67,9 @@ namespace CalamityMod.Projectiles.Melee
         {
 			if (projectile.ai[0] != 1f) //excludes True Ark of the Ancients
 			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-				target.AddBuff(BuffID.Frostburn, 120);
-				target.AddBuff(ModContent.BuffType<Plague>(), 120);
-				target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+				target.AddBuff(BuffID.Frostburn, 90);
+				target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
 			}
         }
     }

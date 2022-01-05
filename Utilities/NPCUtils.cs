@@ -14,6 +14,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,6 +46,12 @@ namespace CalamityMod
 			}
 
 			return count;
+		}
+
+		private static readonly FieldInfo waterSpeedField = typeof(NPC).GetField("waterMovementSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
+		public static void RemoveWaterSlowness(this NPC npc)
+		{
+			waterSpeedField.SetValue(npc, 1f);
 		}
 
 		/// <summary>
@@ -365,14 +372,10 @@ namespace CalamityMod
 		/// <returns>Inflicts debuffs if they can.</returns>
 		public static void ExoDebuffs(this NPC target, float multiplier = 1f)
 		{
-			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
-			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
-			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
 		}
 
 		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;

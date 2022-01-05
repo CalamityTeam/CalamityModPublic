@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
         }
     }
 }

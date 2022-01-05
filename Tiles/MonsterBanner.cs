@@ -586,9 +586,6 @@ namespace CalamityMod.Tiles
                 case 50:
                     type = "ProfanedEnergyBody";
                     break;
-                case 51:
-                    type = "WulfrumSlime";
-                    break;
                 case 52:
                     type = "WulfrumDrone";
                     break;
@@ -817,8 +814,11 @@ namespace CalamityMod.Tiles
                 default:
                     return;
             }
-            player.NPCBannerBuff[mod.NPCType(type)] = true;
-            player.hasBanner = true;
+			if (type.Length > 0)
+			{
+				player.NPCBannerBuff[mod.NPCType(type)] = true;
+				player.hasBanner = true;
+			}
         }
 
         public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)

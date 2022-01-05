@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
         }
 
         public override void Kill(int timeLeft)

@@ -122,8 +122,11 @@ namespace CalamityMod.Projectiles
         public int ExplosiveEnchantCountdown = 0;
         public const int ExplosiveEnchantTime = 2400;
 
-        #region SetDefaults
-        public override void SetDefaults(Projectile projectile)
+		// Update priority variable.
+		public float UpdatePriority = 0f;
+
+		#region SetDefaults
+		public override void SetDefaults(Projectile projectile)
         {
             switch (projectile.type)
             {
@@ -263,6 +266,10 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 2;
 					break;
 
+				case ProjectileID.LightDisc:
+					projectile.extraUpdates = 5;
+					break;
+
 				case ProjectileID.Arkhalis:
 				case ProjectileID.ButchersChainsaw:
 					trueMelee = true;
@@ -306,6 +313,7 @@ namespace CalamityMod.Projectiles
 
 				case ProjectileID.Bee:
 				case ProjectileID.GiantBee:
+				case ProjectileID.LightBeam:
 					projectile.penetrate = 2;
 					break;
 
@@ -414,7 +422,7 @@ namespace CalamityMod.Projectiles
 
 			// Disable Lunatic Cultist's homing resistance globally
 			ProjectileID.Sets.Homing[projectile.type] = false;
-        }
+		}
         #endregion
 
         #region PreAI

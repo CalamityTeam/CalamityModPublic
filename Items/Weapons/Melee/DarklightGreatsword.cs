@@ -18,20 +18,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 75;
+            item.damage = 123;
             item.melee = true;
-            item.useAnimation = 24;
+            item.useAnimation = 36;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
+            item.useTime = 36;
             item.useTurn = true;
             item.knockBack = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 60;
+			item.scale = 1.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<DarkBeam>();
-            item.shootSpeed = 16f;
+            item.shootSpeed = 25f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -2,7 +2,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -282,6 +281,14 @@ namespace CalamityMod.Items
 			// Numerous random tooltip edits which don't fit into another category
 			#region Various Tooltip Edits
 
+			// Teleporters not working while a boss is alive.
+			if (item.type == ItemID.Teleporter)
+				EditTooltipByName("Placeable", (line) => line.text += "\nCannot be used while a boss is alive");
+
+			// Flesh Knuckles giving extra max life.
+			if (item.type == ItemID.FleshKnuckles)
+				EditTooltipByNum(0, (line) => line.text += "\nMax life increased by 45");
+
 			// Mirrors and Recall Potions cannot be used while a boss is alive.
 			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
 				ApplyTooltipEdits(tooltips,
@@ -419,6 +426,9 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
+
+			if (item.type == ItemID.DeathSickle)
+				EditTooltipByNum(0, (line) => line.text += "\nInflicts Whispering Death on hit");
 			#endregion
 
 			// Light pets, accessories, and other items which boost the player's Abyss light stat
@@ -762,6 +772,7 @@ namespace CalamityMod.Items
 
 			// This function is shorthand for appending a stat sheet to a pair of wings.
 			void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
+			void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
 
 			if (item.type == ItemID.AngelWings)
 				AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
@@ -866,8 +877,9 @@ namespace CalamityMod.Items
 				AddWingStats(6.5f, 1.5f, 1, 160, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
 					"and 5% decreased mana usage while wearing the Nebula Armor");
 
+			// Betsy's Wings (and dev wings) are the only wings without "Allows flight and free fall"
 			if (item.type == ItemID.BetsyWings)
-				AddWingStats(6f, 2.5f, 1, 150);
+				AddWingStats2(6f, 2.5f, 1, 150, null, "Equipable");
 			#endregion
 
 			// Provide the full stats of every vanilla grappling hook

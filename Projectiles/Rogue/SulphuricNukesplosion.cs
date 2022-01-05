@@ -130,12 +130,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -150,20 +150,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (boomerTime == -1)
                 projHitbox.Intersects(targetHitbox); 
 
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= 200f;
+            return CalamityUtils.CircularHitboxCollision(projectile.Center, 200f, targetHitbox);
         }
     }
 }

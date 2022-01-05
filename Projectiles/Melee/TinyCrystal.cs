@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			int buffType = projectile.ai[0] == 0f ? BuffID.Frostburn : BuffID.OnFire;
-			target.AddBuff(buffType, 120);
+			target.AddBuff(buffType, 90);
 		}
     }
 }

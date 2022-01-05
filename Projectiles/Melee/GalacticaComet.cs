@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -145,8 +146,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Frostburn, 300);
-        }
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+		}
     }
 }

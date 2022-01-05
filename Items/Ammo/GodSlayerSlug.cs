@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this, 999);
             recipe.AddRecipe();

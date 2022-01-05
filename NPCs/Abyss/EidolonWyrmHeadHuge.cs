@@ -84,8 +84,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.height = 138;
             npc.defense = 100;
 			npc.DR_NERD(0.4f);
-			CalamityGlobalNPC global = npc.Calamity();
-			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(2012500, 2415000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);

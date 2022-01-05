@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
@@ -136,7 +137,8 @@ namespace CalamityMod.Projectiles.Melee
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			// We can only collide if we are at max charge, which is when the laser is actually fired
-			if (!IsAtMaxCharge) return false;
+			if (!IsAtMaxCharge)
+				return false;
 
 			Player player = Main.player[projectile.owner];
 			Vector2 unit = projectile.velocity;
@@ -164,12 +166,13 @@ namespace CalamityMod.Projectiles.Melee
 			ChargeLaser(player);
 
 			// If laser is not charged yet, stop the AI here.
-			if (Charge < MAX_CHARGE) return;
+			if (Charge < MAX_CHARGE)
+				return;
 
 			//Play cool sound when fully charged
-			if (playedSound == false)
+			if (!playedSound)
 			{
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68);
+				Main.PlaySound(SoundID.Item68, projectile.position);
 				playedSound = true;
 			}
 
@@ -183,15 +186,9 @@ namespace CalamityMod.Projectiles.Melee
 		 */
 		private void SetLaserPosition(Player player)
 		{
-			for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
-			{
-				var start = player.Center + projectile.velocity * Distance;
-				if (!Collision.CanHit(player.Center, 1, 1, start, 1, 1))
-				{
-					Distance -= 5f;
-					break;
-				}
-			}
+			float[] samplingPoints = new float[12];
+			Collision.LaserScan(player.Center + projectile.velocity * MOVE_DISTANCE, projectile.velocity, projectile.width * 0.5f, 2200f, samplingPoints);
+			Distance = MathHelper.Max(samplingPoints.Average() + projectile.height * 2f, 40f);
 		}
 
 		private void ChargeLaser(Player player)
@@ -298,24 +295,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-        }
+			target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
+			target.AddBuff(BuffID.Daybreak, 150);
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-        }
+			target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
+			target.AddBuff(BuffID.Daybreak, 150);
+		}
     }
 }

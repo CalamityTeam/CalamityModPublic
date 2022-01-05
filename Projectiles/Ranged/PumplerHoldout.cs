@@ -177,25 +177,36 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == projectile.owner)
             {
-                float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.InverseLerp(5f, 25f, Owner.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
                 if (projectile.velocity != oldVelocity)
                 {
                     projectile.netSpam = 0;
                     projectile.netUpdate = true;
                 }
             }
-
-
-
             //Please someone kill me i dont want to deal with offset moments,
             //Dom oomfie!
             projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 30f;
             projectile.rotation = projectile.velocity.ToRotation();
-            if (projectile.spriteDirection == -1)
+
+            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
+            projectile.rotation = projectile.velocity.ToRotation();
+
+            int oldDirection = projectile.spriteDirection;
+            if (oldDirection == -1)
                 projectile.rotation += MathHelper.Pi;
-            projectile.spriteDirection = projectile.direction;
+
+            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            // If the direction differs from what it originaly was, undo the previous 180 degree turn.
+            // If this is not done, the gun will have 1 frame of rotational "jitter" when the direction changes based on the
+            // original angle. This effect looks very strange in-game.
+            if (projectile.spriteDirection != oldDirection)
+                projectile.rotation -= MathHelper.Pi;
+
+
+
             projectile.timeLeft = 2;
         }
 

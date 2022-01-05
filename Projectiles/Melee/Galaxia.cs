@@ -121,30 +121,31 @@ namespace CalamityMod.Projectiles.Melee
             bool bloodMoon = Main.bloodMoon;
             bool snowMoon = Main.snowMoon;
             bool pumpkinMoon = Main.pumpkinMoon;
+			int duration = 180;
             if (bloodMoon)
             {
-                player.AddBuff(BuffID.Battle, 600);
+                player.AddBuff(BuffID.Battle, duration);
             }
             if (snowMoon)
             {
-                player.AddBuff(BuffID.RapidHealing, 600);
+                player.AddBuff(BuffID.RapidHealing, duration);
             }
             if (pumpkinMoon)
             {
-                player.AddBuff(BuffID.WellFed, 600);
+                player.AddBuff(BuffID.WellFed, duration);
             }
             if (astral)
 			{
-                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 1200);
-                player.AddBuff(ModContent.BuffType<GravityNormalizerBuff>(), 600);
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), duration);
+                player.AddBuff(ModContent.BuffType<GravityNormalizerBuff>(), duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<AstralStar>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
 			}
 			else if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Plague>(), 1200);
-                player.AddBuff(BuffID.Thorns, 600);
+                target.AddBuff(ModContent.BuffType<Plague>(), duration);
+                player.AddBuff(BuffID.Thorns, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.Leaf, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
@@ -152,20 +153,20 @@ namespace CalamityMod.Projectiles.Melee
             else if (snow)
             {
                 target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
-                player.AddBuff(BuffID.Warmth, 600);
+                player.AddBuff(BuffID.Warmth, duration);
                 Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.IceBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 1200);
-                player.AddBuff(BuffID.Wet, 600);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), duration);
+                player.AddBuff(BuffID.Wet, duration);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ProjectileID.FlaironBubble, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (corrupt)
             {
-                player.AddBuff(BuffID.Wrath, 600);
+                player.AddBuff(BuffID.Wrath, duration);
                 int ball = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.CursedFlameFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (ball.WithinBounds(Main.maxProjectiles))
 				{
@@ -175,7 +176,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (crimson)
             {
-                player.AddBuff(BuffID.Rage, 600);
+                player.AddBuff(BuffID.Rage, duration);
                 int ball = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.GoldenShowerFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (ball.WithinBounds(Main.maxProjectiles))
 				{
@@ -185,8 +186,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (dungeon)
             {
-                target.AddBuff(BuffID.Frostburn, 1200);
-                player.AddBuff(BuffID.Dangersense, 600);
+                target.AddBuff(BuffID.Frostburn, duration);
+                player.AddBuff(BuffID.Dangersense, duration);
                 int ball = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.WaterBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (ball.WithinBounds(Main.maxProjectiles))
 				{
@@ -196,8 +197,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
-                player.AddBuff(BuffID.Endurance, 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
+                player.AddBuff(BuffID.Endurance, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.BlackBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
@@ -205,23 +206,23 @@ namespace CalamityMod.Projectiles.Melee
             else if (glow)
             {
                 target.AddBuff(ModContent.BuffType<TemporalSadness>(), 30);
-                player.AddBuff(BuffID.Spelunker, 600);
+                player.AddBuff(BuffID.Spelunker, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.Mushroom, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 1200);
-                player.AddBuff(BuffID.Inferno, 600);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
+                player.AddBuff(BuffID.Inferno, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (holy)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
-                player.AddBuff(BuffID.Heartreach, 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
+                player.AddBuff(BuffID.Heartreach, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.RainbowCrystalExplosion, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 				{
@@ -232,14 +233,14 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (nebula)
             {
-                player.AddBuff(BuffID.MagicPower, 600);
+                player.AddBuff(BuffID.MagicPower, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.NebulaBlaze1, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 					Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (stardust)
             {
-                player.AddBuff(BuffID.Summoning, 600);
+                player.AddBuff(BuffID.Summoning, duration);
                 int ball = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.StardustCellMinionShot, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (ball.WithinBounds(Main.maxProjectiles))
 				{
@@ -249,12 +250,12 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (solar)
             {
-                player.AddBuff(BuffID.Titan, 600);
+                player.AddBuff(BuffID.Titan, duration);
                 Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.SolarWhipSwordExplosion, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             else if (vortex)
             {
-                player.AddBuff(BuffID.AmmoReservation, 600);
+                player.AddBuff(BuffID.AmmoReservation, duration);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.VortexBeaterRocket, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (proj.WithinBounds(Main.maxProjectiles))
 				{
@@ -265,8 +266,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1200);
-                player.AddBuff(BuffID.DryadsWard, 600);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), duration);
+                player.AddBuff(BuffID.DryadsWard, duration);
                 int ball = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.TerrarianBeam, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				if (ball.WithinBounds(Main.maxProjectiles))
 				{

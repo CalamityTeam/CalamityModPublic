@@ -104,11 +104,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
 			recipe.AddIngredient(ItemType<Alluvion>());
 			recipe.AddIngredient(ItemType<AstrealDefeat>());
 			recipe.AddIngredient(ItemType<ClockworkBow>());
 			recipe.AddIngredient(ItemType<Galeforce>());
-			recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
 			recipe.AddIngredient(ItemType<TheBallista>());
 			recipe.AddIngredient(ItemType<MiracleMatter>());
 			recipe.AddTile(TileType<DraedonsForge>());

@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Ores;
@@ -74,9 +75,7 @@ namespace CalamityMod.NPCs.Yharon
             aiType = -1;
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
-			npc.DR_NERD(normalDR, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
+			npc.DR_NERD(normalDR);
 
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -2816,7 +2815,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region Loot
 		public override void NPCLoot()
 		{
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
 
 			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
@@ -2854,7 +2853,7 @@ namespace CalamityMod.NPCs.Yharon
                 DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
             }
 
             // Vanity
@@ -3090,6 +3089,10 @@ namespace CalamityMod.NPCs.Yharon
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
+
+                // Turn into dust on death.
+                if (npc.life <= 0)
+                    DeathAshParticle.CreateAshesFromNPC(npc);
             }
         }
         #endregion

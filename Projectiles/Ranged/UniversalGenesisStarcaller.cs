@@ -77,13 +77,13 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(BuffID.Frostburn, 600);
+			target.AddBuff(BuffID.Frostburn, 300);
 			SpawnStars();
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.Frostburn, 600);
+			target.AddBuff(BuffID.Frostburn, 300);
 		}
 
 		private void SpawnStars()
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			for (int n = 0; n < 2; n++)
 			{
-				Projectile star = CalamityUtils.ProjectileRain(targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile star = CalamityUtils.ProjectileRain(targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 				star.ai[0] = n;
 			}
 		}

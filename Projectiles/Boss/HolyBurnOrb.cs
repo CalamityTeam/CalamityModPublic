@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,8 +26,10 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-            projectile.penetrate = 1;
+			cooldownSlot = 1;
+			projectile.penetrate = 1;
             projectile.timeLeft = 200;
+			projectile.Calamity().canBreakPlayerDefense = true;
 		}
 
         public override void AI()
@@ -46,30 +47,6 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.velocity.Length() < 16f)
                 projectile.velocity *= 1.01f;
-
-            int index = Player.FindClosest(projectile.Center, projectile.width, projectile.height);
-            Player player = Main.player[index];
-            if (player is null || player.Calamity().lol)
-                return;
-
-            float playerDist = Vector2.Distance(player.Center, projectile.Center);
-            if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.Bottom.Y && projectile.Bottom.Y > player.position.Y)
-            {
-                int dmgAmt = (int)projectile.ai[1];
-                player.HealEffect(dmgAmt, false);
-                player.statLife += dmgAmt;
-                player.Calamity().adrenaline = player.Calamity().stressPills ? player.Calamity().adrenaline / 2 : 0;
-                if (player.statLife > player.statLifeMax2)
-                {
-                    player.statLife = player.statLifeMax2;
-                }
-                if (player.statLife < 0 || CalamityWorld.armageddon)
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " burst into sinless ash."), 1000.0, 0, false);
-                }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, dmgAmt);
-                projectile.Kill();
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -136,7 +113,13 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 60);
+            target.AddBuff(buffType, 180);
+			projectile.Kill();
         }
-    }
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+	}
 }

@@ -244,13 +244,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
-            target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600, true);
-            if (Main.rand.NextBool(30))
-            {
-                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 120, true);
-            }
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
+            target.AddBuff(ModContent.BuffType<DemonFlames>(), 300, true);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300, true);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

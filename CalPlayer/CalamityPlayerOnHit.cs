@@ -533,47 +533,47 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.featherCrown && modProj.stealthStrike && modPlayer.featherCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
+			if (modProj.stealthStrike && modPlayer.rogueCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
-				for (int i = 0; i < 3; i++)
+				bool spawnedFeathers = false;
+				if (modPlayer.nanotech)
 				{
-					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-					float speedX = (position.X - source.X) / 30f;
-					float speedY = (position.Y - source.Y) * 8;
-					Vector2 velocity = new Vector2(speedX, speedY);
-					int featherDamage = (int)(15 * player.RogueDamage());
-					int feather = Projectile.NewProjectile(source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
-					if (feather.WithinBounds(Main.maxProjectiles))
-						Main.projectile[feather].Calamity().forceTypeless = true;
-					modPlayer.featherCrownCooldown = 15;
+					for (int i = 0; i < 3; i++)
+					{
+						Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+						Vector2 velocity = (position - source) / 40f;
+						Projectile.NewProjectile(source, velocity, ProjectileType<NanoFlare>(), (int)(120 * player.RogueDamage()), 3f, proj.owner);
+					}
 				}
-			}
-
-			if (modPlayer.moonCrown && modProj.stealthStrike && modPlayer.moonCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
-			{
-				int lunarFlareDamage = (int)(MoonstoneCrown.BaseDamage * player.RogueDamage());
-				float lunarFlareKB = 3f;
-				for (int i = 0; i < 3; i++)
+				else if (modPlayer.moonCrown)
 				{
-					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-					Vector2 velocity = (position - source) / 10f;
-					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, lunarFlareDamage, lunarFlareKB, proj.owner);
-					if (flare.WithinBounds(Main.maxProjectiles))
-						Main.projectile[flare].Calamity().forceTypeless = true;
+					int lunarFlareDamage = (int)(MoonstoneCrown.BaseDamage * player.RogueDamage());
+					float lunarFlareKB = 3f;
+					for (int i = 0; i < 3; i++)
+					{
+						Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+						Vector2 velocity = (position - source) / 10f;
+						int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, lunarFlareDamage, lunarFlareKB, proj.owner);
+						if (flare.WithinBounds(Main.maxProjectiles))
+							Main.projectile[flare].Calamity().forceTypeless = true;
+					}
 				}
-
-				modPlayer.moonCrownCooldown = 60;
-			}
-
-			if (modPlayer.nanotech && modProj.stealthStrike && modPlayer.nanoFlareCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
-			{
-				for (int i = 0; i < 3; i++)
+				else if (modPlayer.featherCrown)
 				{
-					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-					Vector2 velocity = (position - source) / 40f;
-					Projectile.NewProjectile(source, velocity, ProjectileType<NanoFlare>(), (int)(120 * player.RogueDamage()), 3f, proj.owner);
-					modPlayer.nanoFlareCooldown = 60;
+					for (int i = 0; i < 3; i++)
+					{
+						Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+						float speedX = (position.X - source.X) / 30f;
+						float speedY = (position.Y - source.Y) * 8;
+						Vector2 velocity = new Vector2(speedX, speedY);
+						int featherDamage = (int)(15 * player.RogueDamage());
+						int feather = Projectile.NewProjectile(source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
+						if (feather.WithinBounds(Main.maxProjectiles))
+							Main.projectile[feather].Calamity().forceTypeless = true;
+					}
+					spawnedFeathers = true;
 				}
+				modPlayer.rogueCrownCooldown = spawnedFeathers ? 15 : 60;
 			}
 
 			if (modPlayer.forbiddenCirclet && modProj.stealthStrike && modPlayer.forbiddenCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
@@ -790,7 +790,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (modPlayer.titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
 				}
 				if (modPlayer.corrosiveSpine)
 				{
@@ -818,12 +818,12 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<HolyFlames>(), 300);
+					target.AddBuff(BuffType<HolyFlames>(), 180);
 				}
 
 				if (modPlayer.shadowMinions)
 				{
-					target.AddBuff(BuffID.ShadowFlame, 300);
+					target.AddBuff(BuffID.ShadowFlame, 180);
 				}
 
 				if (modPlayer.voltaicJelly)
@@ -843,7 +843,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
             if (modPlayer.omegaBlueChestplate)
-                target.AddBuff(BuffType<CrushDepth>(), 240);
+                target.AddBuff(BuffType<CrushDepth>(), 180);
             if (modPlayer.sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
             if (modPlayer.abyssalAmulet)
@@ -860,7 +860,7 @@ namespace CalamityMod.CalPlayer
             }
             if (modPlayer.holyWrath)
             {
-                target.AddBuff(BuffType<HolyFlames>(), 600, false);
+                target.AddBuff(BuffType<HolyFlames>(), 180, false);
             }
             if (modPlayer.vexation)
             {
@@ -935,7 +935,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (modPlayer.titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
 				}
 				if (modPlayer.corrosiveSpine)
 				{
@@ -959,12 +959,12 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<HolyFlames>(), 300);
+					target.AddBuff(BuffType<HolyFlames>(), 180);
 				}
 
 				if (modPlayer.shadowMinions)
 				{
-					target.AddBuff(BuffID.ShadowFlame, 300);
+					target.AddBuff(BuffID.ShadowFlame, 180);
 				}
 
 				if (modPlayer.voltaicJelly)
@@ -984,7 +984,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
             if (modPlayer.omegaBlueChestplate)
-                target.AddBuff(BuffType<CrushDepth>(), 240);
+                target.AddBuff(BuffType<CrushDepth>(), 180);
             if (modPlayer.sulfurSet)
                 target.AddBuff(BuffID.Poisoned, 120);
             if (modPlayer.alchFlask)
@@ -997,7 +997,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.holyWrath)
 			{
-				target.AddBuff(BuffType<HolyFlames>(), 600, false);
+				target.AddBuff(BuffType<HolyFlames>(), 180, false);
 			}
             if (modPlayer.vexation)
             {
@@ -1085,7 +1085,7 @@ namespace CalamityMod.CalPlayer
 						CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
 				}
 
-				if ((modPlayer.bloodyGlove || modPlayer.electricianGlove) && modProj.rogue && modProj.stealthStrike)
+				if (modPlayer.bloodyGlove && modProj.rogue && modProj.stealthStrike)
 				{
 					player.statLife += 1;
 					player.HealEffect(1);

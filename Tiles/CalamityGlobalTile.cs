@@ -9,6 +9,7 @@ using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
+using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.FurnitureExo;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;

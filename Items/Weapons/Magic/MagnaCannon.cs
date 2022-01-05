@@ -51,10 +51,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SpaceGun);
             recipe.AddIngredient(ItemID.Granite, 25);
             recipe.AddIngredient(ItemID.Obsidian, 15);
             recipe.AddIngredient(ItemID.Amber, 5);
-            recipe.AddIngredient(ItemID.SpaceGun);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

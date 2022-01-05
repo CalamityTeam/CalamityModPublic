@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.AcidRain
     public class AcidEel : ModNPC
     {
         public Player Target => Main.player[npc.target];
-        public ref float DirectionRedecideTimer => ref npc.ai[0];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Eel");
@@ -72,51 +71,57 @@ namespace CalamityMod.NPCs.AcidRain
                 Main.PlaySound(SoundID.Zombie, npc.Center, 32);
 
             if (npc.wet)
-                SwimTowardsTarget();
-            else
             {
-                // Do nothing on land.
-                npc.rotation = npc.rotation.AngleLerp(0f, 0.1f);
-                npc.velocity.X *= 0.95f;
-                if (npc.velocity.Y < 14f)
-                    npc.velocity.Y += 0.15f;
+                SwimTowardsTarget();
+                return;
             }
+
+            // Do nothing on land.
+            npc.rotation = npc.rotation.AngleLerp(0f, 0.1f);
+            npc.velocity.X *= 0.95f;
+            if (npc.velocity.Y < 14f)
+                npc.velocity.Y += 0.15f;
         }
 
         public void SwimTowardsTarget()
         {
-            DirectionRedecideTimer++;
-            if (DirectionRedecideTimer % 150f == 0f || npc.direction == 0)
+            float swimSpeed = 12f;
+            if (CalamityWorld.downedAquaticScourge)
+                swimSpeed += 3f;
+            if (CalamityWorld.downedPolterghast)
+                swimSpeed += 4f;
+
+            // Swim upwards if sufficiently under water.
+            bool waterAbove = false;
+            for (int dy = -160; dy < 0; dy += 8)
             {
-                npc.direction = (Target.position.X > npc.position.X).ToDirectionInt();
+                if (Collision.WetCollision(npc.position + Vector2.UnitY * dy, npc.width, 16))
+                {
+                    waterAbove = true;
+                    break;
+                }    
+            }
+
+            if (waterAbove)
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y - 0.25f, -14f, 14f);
+            else
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.4f, -4f, 8f);
+
+            // Coast in a single direction until hitting something.
+            if (npc.direction == 0)
+            {
+                npc.direction = Main.rand.NextBool().ToDirectionInt();
                 npc.netUpdate = true;
             }
 
-            float horizontalAcceleration = 0.3f;
-            float verticalAcceleration = 0.08f;
-            float maxSpeedX = 15f;
-            float maxSpeedY = 4f;
-            if (CalamityWorld.downedPolterghast)
-            {
-                horizontalAcceleration = 0.6f;
-                verticalAcceleration = 0.15f;
-                maxSpeedX = 20f;
-                maxSpeedY = 7f;
-            }
-
-            npc.velocity.X += npc.direction * horizontalAcceleration;
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.collideX)
+            // Rebound on impending collision.
+            if ((CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * npc.direction, 20) ?? 20f) < 5f)
             {
                 npc.direction *= -1;
                 npc.netUpdate = true;
             }
 
-            npc.spriteDirection = npc.direction;
-
-            npc.velocity.Y += (Target.position.Y > npc.position.Y).ToDirectionInt() * verticalAcceleration;
-            npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeedX, -maxSpeedY), new Vector2(maxSpeedX, maxSpeedY));
-            npc.rotation = npc.velocity.X * 0.02f;
+            npc.velocity.X = (npc.velocity.X * 24f + npc.direction * swimSpeed) / 25f;
         }
 
         public override void NPCLoot()

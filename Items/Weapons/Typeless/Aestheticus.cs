@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -61,6 +62,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
             recipe.AddIngredient(ItemID.MeteoriteBar, 10);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddIngredient(ItemID.Glass, 20);
             recipe.AddIngredient(ItemID.Gel, 15);
             recipe.AddIngredient(ItemID.FallenStar, 5);

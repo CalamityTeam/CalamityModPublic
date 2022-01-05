@@ -69,6 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<Megalodon>());
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 9);
             recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

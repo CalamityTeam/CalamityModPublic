@@ -50,13 +50,13 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             target.immune[projectile.owner] = 6;
 			OnHitEffects(target.Center, crit);
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire, 240);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			OnHitEffects(target.Center, crit);
-            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.OnFire, 240);
         }
 
 		private void OnHitEffects(Vector2 targetPos, bool crit)

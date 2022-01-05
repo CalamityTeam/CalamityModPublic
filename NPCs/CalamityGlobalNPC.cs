@@ -70,10 +70,11 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.NPCs.ExoMechs;
+using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalNPC : GlobalNPC
+    public partial class CalamityGlobalNPC : GlobalNPC
     {
 		#region Variables
 
@@ -218,9 +219,10 @@ namespace CalamityMod.NPCs
         public int vulnerabilityHex = 0;
         public int banishingFire = 0;
 		public int wither = 0;
+		public int RancorBurnTime = 0;
 
-        // whoAmI Variables
-        public static int[] bobbitWormBottom = new int[5];
+		// whoAmI Variables
+		public static int[] bobbitWormBottom = new int[5];
         public static int DD2CrystalIndex = -1;
         public static int hiveMind = -1;
         public static int perfHive = -1;
@@ -278,6 +280,7 @@ namespace CalamityMod.NPCs
 		public bool DoesNotDisappearInBossRush;
 
 		// Collections
+		// NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
 		public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
@@ -715,8 +718,9 @@ namespace CalamityMod.NPCs
 		};
 		#endregion
 
-		#region Instance Per Entity
-		public override bool InstancePerEntity => true;
+        #region Instance Per Entity
+        public override bool InstancePerEntity => true;
+        public override bool CloneNewInstances => false;
         #endregion
 
         #region Reset Effects
@@ -1016,11 +1020,14 @@ namespace CalamityMod.NPCs
 
 			// Debuff vulnerabilities and resistances.
 			// Damage multiplier calcs.
-			double heatDamageMult = npc.drippingSlime ? 5D : 1D;
+			// Worms that are vulnerable to debuffs take reduced damage from vulnerabilities.
+			bool wormBoss = DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type) ||
+				AquaticScourgeIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type);
+			double heatDamageMult = npc.drippingSlime ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToHeat.HasValue)
 			{
 				if (VulnerableToHeat.Value)
-					heatDamageMult *= npc.drippingSlime ? 2D : 5D;
+					heatDamageMult *= npc.drippingSlime ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
 			}
@@ -1029,26 +1036,26 @@ namespace CalamityMod.NPCs
 			if (VulnerableToCold.HasValue)
 			{
 				if (VulnerableToCold.Value)
-					coldDamageMult *= 5D;
+					coldDamageMult *= wormBoss ? 3D : 5D;
 				else
 					coldDamageMult *= 0.5;
 			}
 
-			double sicknessDamageMult = irradiated > 0 ? 5D : 1D;
+			double sicknessDamageMult = irradiated > 0 ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToSickness.HasValue)
 			{
 				if (VulnerableToSickness.Value)
-					sicknessDamageMult *= irradiated > 0 ? 2D : 5D;
+					sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					sicknessDamageMult *= irradiated > 0 ? 0.2 : 0.5;
 			}
 
 			bool increasedElectricityDamage = npc.wet || npc.honeyWet || npc.lavaWet || npc.dripping;
-			double electricityDamageMult = increasedElectricityDamage ? 5D : 1D;
+			double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToElectricity.HasValue)
 			{
 				if (VulnerableToElectricity.Value)
-					electricityDamageMult *= increasedElectricityDamage ? 2D : 5D;
+					electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
 				else
 					electricityDamageMult *= increasedElectricityDamage ? 0.2 : 0.5;
 			}
@@ -1057,7 +1064,7 @@ namespace CalamityMod.NPCs
 			if (VulnerableToWater.HasValue)
 			{
 				if (VulnerableToWater.Value)
-					waterDamageMult *= 5D;
+					waterDamageMult *= wormBoss ? 3D : 5D;
 				else
 					waterDamageMult *= 0.5;
 			}
@@ -1303,7 +1310,7 @@ namespace CalamityMod.NPCs
 
 			TimedDRScaleFactors(npc);
 
-			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
+			BoundNPCSafety(mod, npc);
         }
 		#endregion
 
@@ -2667,21 +2674,21 @@ namespace CalamityMod.NPCs
             {
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 7.5);
+                    npc.lifeMax = (int)(npc.lifeMax * 3.5);
                     npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
                 else if (CalamityLists.frostMoonBuffList.Contains(npc.type))
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 6D);
+                    npc.lifeMax = (int)(npc.lifeMax * 2.5);
                     npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
 				else if (CalamityLists.eclipseBuffList.Contains(npc.type))
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 10D);
+					npc.lifeMax = (int)(npc.lifeMax * 5D);
 					npc.damage += 30;
 					npc.life = npc.lifeMax;
 					npc.defDamage = npc.damage;
@@ -3120,7 +3127,7 @@ namespace CalamityMod.NPCs
 			if (VulnerabilityHexFireDrawer != null)
 				VulnerabilityHexFireDrawer.Update();
 
-			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+			SetPatreonTownNPCName(npc, mod);
 
 			// Decrement each immune timer if it's greater than 0.
 			for (int i = 0; i < maxPlayerImmunities; i++)
@@ -3195,7 +3202,7 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.AncientDoom)
 			{
 				if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
-					return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+					return CultistAI.BuffedAncientDoomAI(npc, mod);
 			}
 
 			// Disable teleports for hardmode dungeon casters if they get hit
@@ -3209,77 +3216,76 @@ namespace CalamityMod.NPCs
 				switch (npc.type)
                 {
                     case NPCID.KingSlime:
-                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, enraged > 0, mod);
+                        return KingSlimeAI.BuffedKingSlimeAI(npc, enraged > 0, mod);
 
                     case NPCID.EyeofCthulhu:
-                        return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
+                        return EyeOfCthulhuAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
 
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
-                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, enraged > 0, mod);
+                        return EaterOfWorldsAI.BuffedEaterofWorldsAI(npc, enraged > 0, mod);
 
                     case NPCID.BrainofCthulhu:
-                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
+                        return BrainOfCthulhuAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
                     case NPCID.Creeper:
-                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
+                        return BrainOfCthulhuAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
-                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
+                        return QueenBeeAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronHand:
-                        return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
+                        return SkeletronAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
                     case NPCID.SkeletronHead:
-                        return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged > 0, mod);
+                        return SkeletronAI.BuffedSkeletronAI(npc, enraged > 0, mod);
 
                     case NPCID.WallofFlesh:
-                        return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged > 0, mod);
+                        return WallOfFleshAI.BuffedWallofFleshAI(npc, enraged > 0, mod);
                     case NPCID.WallofFleshEye:
-                        return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod);
+                        return WallOfFleshAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod);
 
                     case NPCID.TheDestroyer:
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
-                        return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged > 0, mod);
-
+                        return DestroyerAI.BuffedDestroyerAI(npc, enraged > 0, mod);
 					case NPCID.Probe:
-						return CalamityGlobalAI.BuffedProbeAI(npc, mod);
+						return DestroyerAI.BuffedProbeAI(npc, mod);
 
                     case NPCID.Retinazer:
-                        return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged > 0, mod);
+                        return TwinsAI.BuffedRetinazerAI(npc, enraged > 0, mod);
                     case NPCID.Spazmatism:
-                        return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged > 0, mod);
+                        return TwinsAI.BuffedSpazmatismAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronPrime:
-                        return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
-                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
                     case NPCID.PrimeCannon:
-                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
                     case NPCID.PrimeVice:
-                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
                     case NPCID.PrimeSaw:
-                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
 
                     case NPCID.Plantera:
-                        return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
+                        return PlanteraAI.BuffedPlanteraAI(npc, enraged > 0, mod);
                     case NPCID.PlanterasHook:
-                        return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
+                        return PlanteraAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
-                        return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
+                        return PlanteraAI.BuffedPlanterasTentacleAI(npc, mod);
 
                     case NPCID.Golem:
-                        return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemAI(npc, enraged > 0, mod);
 					case NPCID.GolemFistLeft:
 					case NPCID.GolemFistRight:
-						return CalamityGlobalAI.BuffedGolemFistAI(npc, enraged > 0, mod);
+						return GolemAI.BuffedGolemFistAI(npc, enraged > 0, mod);
                     case NPCID.GolemHead:
-                        return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
                     case NPCID.GolemHeadFree:
-                        return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod);
 
                     case NPCID.DukeFishron:
-                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged > 0, mod);
+                        return DukeFishronAI.BuffedDukeFishronAI(npc, enraged > 0, mod);
 
                     case NPCID.Pumpking:
                         if (CalamityWorld.downedDoG)
@@ -3315,27 +3321,25 @@ namespace CalamityMod.NPCs
 
                     case NPCID.CultistBoss:
                     case NPCID.CultistBossClone:
-                        return CalamityGlobalAI.BuffedCultistAI(npc, enraged > 0, mod);
+                        return CultistAI.BuffedCultistAI(npc, enraged > 0, mod);
 					case NPCID.AncientLight:
-						return CalamityGlobalAI.BuffedAncientLightAI(npc, mod);
+						return CultistAI.BuffedAncientLightAI(npc, mod);
 					case NPCID.AncientDoom:
-                        return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+                        return CultistAI.BuffedAncientDoomAI(npc, mod);
 
                     case NPCID.MoonLordCore:
                     case NPCID.MoonLordHand:
                     case NPCID.MoonLordHead:
 					case NPCID.MoonLordFreeEye:
 					case NPCID.MoonLordLeechBlob:
-                        return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged > 0, mod);
+                        return MoonLordAI.BuffedMoonLordAI(npc, enraged > 0, mod);
 
 					default:
                         break;
                 }
             }
 			else if (npc.type == NPCID.Retinazer)
-			{
-				return CalamityGlobalAI.TrueMeleeRetinazerPhase2AI(npc);
-			}
+				return TwinsAI.TrueMeleeRetinazerPhase2AI(npc);
 
 			if (CalamityWorld.death)
 			{
@@ -3345,8 +3349,7 @@ namespace CalamityMod.NPCs
 						if (npc.type == NPCType<BloomSlime>() || npc.type == NPCType<CharredSlime>() ||
 							npc.type == NPCType<CrimulanBlightSlime>() || npc.type == NPCType<CryoSlime>() ||
 							npc.type == NPCType<EbonianBlightSlime>() || npc.type == NPCType<PerennialSlime>() ||
-							npc.type == NPCType<WulfrumSlime>() || npc.type == NPCType<IrradiatedSlime>() ||
-							npc.type == NPCType<AstralSlime>())
+							npc.type == NPCType<IrradiatedSlime>() || npc.type == NPCType<AstralSlime>())
 						{
 							return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
 						}
@@ -4198,7 +4201,7 @@ namespace CalamityMod.NPCs
 		public override void AI(NPC npc)
         {
 			if (CalamityWorld.revenge && npc.type == NPCID.DungeonGuardian)
-				CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
+				SkeletronAI.RevengeanceDungeonGuardianAI(npc);
         }
 		#endregion
 
@@ -4296,6 +4299,8 @@ namespace CalamityMod.NPCs
 				banishingFire--;
             if (wither > 0)
 				wither--;
+			if (RancorBurnTime > 0)
+				RancorBurnTime--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
 			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
@@ -4483,7 +4488,7 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
+			MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
 			int bullseyeType = ProjectileType<SpiritOriginBullseye>();
 			Projectile bullseye = null;
@@ -4700,8 +4705,8 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<MoltenBlobThrown>())
 					damage = (int)(damage * 0.75);
 
-				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury.
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
+				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff, Pristine Fury, and Tactician's Trump Card explosion.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<TacticiansElectricBoom>())
 					damage = (int)(damage * 0.5);
 			}
 			else if (DestroyerIDs.Contains(npc.type))
@@ -4857,7 +4862,10 @@ namespace CalamityMod.NPCs
         #region Hit Effect
         public override void HitEffect(NPC npc, int hitDirection, double damage)
         {
-            if (CalamityWorld.revenge)
+			if (npc.life <= 0 && npc.Organic() && RancorBurnTime > 0)
+				DeathAshParticle.CreateAshesFromNPC(npc);
+
+			if (CalamityWorld.revenge)
             {
                 switch (npc.type)
                 {
@@ -5599,7 +5607,7 @@ namespace CalamityMod.NPCs
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {
-			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
+			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f) && npc.active)
 			{
 				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityLists.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
@@ -5768,7 +5776,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			CalamityGlobalTownNPC.TownNPCAlertSystem(npc, mod, spriteBatch);
+			TownNPCAlertSystem(npc, mod, spriteBatch);
 
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
@@ -6010,37 +6018,6 @@ namespace CalamityMod.NPCs
 			newColor.A = (byte)((float)newColor.A * A);
 			return newColor;
 		}
-		#endregion
-
-		#region Get Chat
-		public override void OnChatButtonClicked(NPC npc, bool firstButton)
-		{
-			CalamityGlobalTownNPC.DisableAlert(npc, mod);
-		}
-
-		public override void GetChat(NPC npc, ref string chat)
-        {
-			CalamityGlobalTownNPC.NewNPCQuotes(npc, mod, ref chat);
-        }
-		#endregion
-
-		#region Buff Town NPC
-		public override void BuffTownNPC(ref float damageMult, ref int defense)
-		{
-			CalamityGlobalTownNPC.NPCStatBuffs(mod, ref damageMult, ref defense);
-		}
-		#endregion
-
-		#region Shop Stuff
-		public override void SetupShop(int type, Chest shop, ref int nextSlot)
-        {
-			CalamityGlobalTownNPC.ShopSetup(type, mod, ref shop, ref nextSlot);
-        }
-
-        public override void SetupTravelShop(int[] shop, ref int nextSlot)
-        {
-			CalamityGlobalTownNPC.TravelingMerchantShop(mod, ref shop, ref nextSlot);
-        }
 		#endregion
 
 		#region Any Events

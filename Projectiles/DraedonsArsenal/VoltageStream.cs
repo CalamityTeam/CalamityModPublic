@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     dust.velocity *= 2.1f;
                     dust.noGravity = true;
                 }
-                Target.AddBuff(BuffID.Electrified, 60 * 10);
+                Target.AddBuff(BuffID.Electrified, 180);
                 projectile.Kill();
             }
             Time++;

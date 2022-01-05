@@ -127,7 +127,6 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -135,7 +134,6 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
     }
 }

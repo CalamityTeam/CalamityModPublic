@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<AbyssalDivingGear>());
             recipe.AddIngredient(ModContent.ItemType<AnechoicPlating>());
             recipe.AddIngredient(ModContent.ItemType<IronBoots>());
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 40);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 40);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 15);

@@ -46,14 +46,16 @@ namespace CalamityMod.Projectiles.Ranged
                 // Fire one charged arrow every frame until you're out of arrows.
                 ShootProjectiles(tipPosition);
                 --ArrowsLoaded;
-                Main.PlaySound(SoundID.DD2_BallistaTowerShot);
             }
             else
             {
 
                 // Frame 1 effects: Record how fast the Condemnation item being used is, to determine how fast to load arrows.
                 if (FramesToLoadNextArrow == 0f)
+                {
+                    Main.PlaySound(SoundID.Item20, projectile.Center);
                     FramesToLoadNextArrow = Owner.ActiveItem().useAnimation;
+                }
 
                 // Actually make progress towards loading more arrows.
                 ++CurrentChargingFrames;

@@ -182,13 +182,9 @@ namespace CalamityMod
 		public static void ExoDebuffs(this Player target, float multiplier = 1f)
 		{
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
-			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
-			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
-			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
 		}
 
 		/// <summary>

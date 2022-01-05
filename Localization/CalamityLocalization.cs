@@ -29,7 +29,6 @@ namespace CalamityMod.Localization
 
                 new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
                 new [] { "MoonBossText2", "Cosmic terrors are watching..." },
-                new [] { "MoonBossText3", "The bloody moon beckons..." },
 
                 new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
                 new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },

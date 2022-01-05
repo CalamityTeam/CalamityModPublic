@@ -72,10 +72,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SniperRifle);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 50);
-            recipe.AddIngredient(ItemID.SniperRifle);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

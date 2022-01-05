@@ -131,11 +131,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoWormAlive = false;
 			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+				{
 					otherExoMechsAlive++;
+					exoWormAlive = true;
+				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
@@ -154,6 +158,20 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
+
+			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
+			float exoWormLifeRatio = defaultLifeRatio;
+			float exoTwinsLifeRatio = defaultLifeRatio;
+			if (exoWormAlive)
+				exoWormLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechWorm].lifeMax;
+			if (exoTwinsAlive)
+				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
+
+			// If Ares doesn't go berserk
+			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
+
+			// Whether Ares should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
 
 			// Target variable
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
@@ -204,7 +222,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float projectileVelocity = (passivePhase || fireMoreOrbs) ? 6f : 9f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
-			else if (berserk)
+			else if (shouldGetBuffedByBerserkPhase)
 				projectileVelocity *= 1.1f;
 
 			float rateOfRotation = AIState == (int)Phase.TeslaOrbs ? 0.08f : 0.04f;
@@ -244,7 +262,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				teslaOrbPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
 				teslaOrbPhaseGateValue *= 0.4f;
-			else if (berserk)
+			else if (shouldGetBuffedByBerserkPhase)
 				teslaOrbPhaseGateValue *= 0.7f;
 
 			// Set attack timer to this when despawning or when Ares is coming out of deathray phase
@@ -305,7 +323,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX2, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY2) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY);
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
 			baseVelocity *= 1f + Main.npc[(int)npc.ai[2]].localAI[2];
 
@@ -386,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					else
 					{
 						// Fire tesla orbs
-						int numTeslaOrbs = lastMechAlive ? 6 : berserk ? 5 : nerfedAttacks ? 3 : 4;
+						int numTeslaOrbs = lastMechAlive ? 6 : shouldGetBuffedByBerserkPhase ? 5 : nerfedAttacks ? 3 : 4;
 						float divisor = teslaOrbDuration / numTeslaOrbs;
 
 						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)

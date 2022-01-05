@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.NecroGreaves);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 21);
-			recipe.AddIngredient(ItemID.NecroGreaves);
 			recipe.AddIngredient(ItemID.Nanites, 17);
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

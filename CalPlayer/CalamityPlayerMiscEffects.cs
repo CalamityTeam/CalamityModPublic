@@ -166,7 +166,7 @@ namespace CalamityMod.CalPlayer
 			// Update the gem tech armor set.
 			modPlayer.GemTechState.Update();
 
-			// Regularly sync player stats during multiplayer
+			// Regularly sync player stats & mouse control info during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				modPlayer.packetTimer++;
@@ -175,7 +175,14 @@ namespace CalamityMod.CalPlayer
 					modPlayer.packetTimer = 0;
 					modPlayer.StandardSync();
 				}
+
+				if (modPlayer.syncMouseControls)
+				{
+					modPlayer.syncMouseControls = false;
+					modPlayer.MouseControlsSync();
+				}
 			}
+
 
 			// After everything else, if Daawnlight Spirit Origin is equipped, set ranged crit to the base 4%.
 			// Store all the crit so it can be used in damage calculations.
@@ -1225,12 +1232,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.silvaMageCooldown--;
 			if (modPlayer.tarraMageHealCooldown > 0)
 				modPlayer.tarraMageHealCooldown--;
-			if (modPlayer.featherCrownCooldown > 0)
-				modPlayer.featherCrownCooldown--;
-			if (modPlayer.moonCrownCooldown > 0)
-				modPlayer.moonCrownCooldown--;
-			if (modPlayer.nanoFlareCooldown > 0)
-				modPlayer.nanoFlareCooldown--;
+			if (modPlayer.rogueCrownCooldown > 0)
+				modPlayer.rogueCrownCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.jetPackCooldown > 0)
@@ -1509,7 +1512,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.roverDriveTimer < 616)
 			{
-				player.statDefense += 10;
+				player.statDefense += 15;
 				if (modPlayer.roverDriveTimer > 606)
 					player.statDefense -= modPlayer.roverDriveTimer - 606; //so it scales down when the shield dies
 			}
@@ -1542,7 +1545,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.affliction || modPlayer.afflicted)
 			{
 				player.endurance += 0.07f;
-				player.statDefense += 10;
+				player.statDefense += 13;
 				player.allDamage += 0.1f;
 			}
 
@@ -3212,7 +3215,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife > (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
 				if (player.statLife < (int)(player.statLifeMax2 * 0.25))
-					player.statDefense += 10;
+					player.statDefense += 20;
 			}
 
 			if (modPlayer.vexation)
@@ -3284,7 +3287,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.ursaSergeant)
-				player.moveSpeed -= 0.35f;
+				player.moveSpeed -= 0.15f;
 
 			if (modPlayer.elysianGuard)
 				player.moveSpeed -= 0.5f;
@@ -3419,8 +3422,6 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
-				// NOTE: These don't even spawn anymore.
-				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
 
 			if (modPlayer.dukeScales)

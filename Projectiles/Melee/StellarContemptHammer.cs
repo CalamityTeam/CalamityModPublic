@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Melee
 
 			// Applies Nightwither on contact at night.
 			if (!Main.dayTime)
-				target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
+				target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
 
 			SpawnFlares(target.Center, target.width, target.height);
 		}
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Melee
 
 			// Applies Nightwither on contact at night.
 			if (!Main.dayTime)
-				target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
+				target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
 
 			SpawnFlares(target.Center, target.width, target.height);
 		}

@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 94;
-            item.height = 94;
+            item.width = 108;
+            item.height = 108;
             item.damage = 8000;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedTrident>());
+            recipe.AddIngredient(ModContent.ItemType<PhantasmalRuin>());
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);

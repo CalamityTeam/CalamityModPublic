@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buff, 300);
+            target.AddBuff(buff, 180);
         }
     }
 }

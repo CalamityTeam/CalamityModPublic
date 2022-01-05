@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -61,6 +62,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 15);
             recipe.AddIngredient(ItemID.SunplateBlock, 15);
             recipe.AddTile(TileID.Anvils);

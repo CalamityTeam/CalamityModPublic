@@ -89,9 +89,7 @@ namespace CalamityMod.NPCs.Providence
             npc.width = 600;
             npc.height = 450;
             npc.defense = 50;
-			npc.DR_NERD(normalDR, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
+			npc.DR_NERD(normalDR);
             npc.LifeMaxNERB(312500, 375000, 1250000); // Old HP - 440000, 500000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -235,6 +233,7 @@ namespace CalamityMod.NPCs.Providence
 			int moltenBlastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<MoltenBlast>()) * projectileDamageMult;
 			int holyFireDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyFire>()) * projectileDamageMult;
 			int holyBlastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyBlast>()) * projectileDamageMult;
+			int holyStarDamage = npc.GetProjectileDamage(ModContent.ProjectileType<HolyBurnOrb>()) * projectileDamageMult;
 
 			// Change dust type at night
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
@@ -895,12 +894,15 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+									int dmgAmt = holyStarDamage;
 									if (Main.rand.NextBool(healingStarChance) && !death)
+									{
 										projectileType = ModContent.ProjectileType<HolyLight>();
-
-									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
-
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+										dmgAmt = npc.GetProjectileDamageNoScaling(projectileType);
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+									}
+									else
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
 								}
 
 								// Radial offset
@@ -927,12 +929,15 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+									int dmgAmt = holyStarDamage;
 									if (Main.rand.NextBool(healingStarChance) && !death)
+									{
 										projectileType = ModContent.ProjectileType<HolyLight>();
-
-									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
-
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+										dmgAmt = npc.GetProjectileDamageNoScaling(projectileType);
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+									}
+									else
+										Projectile.NewProjectile(fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
 								}
 							}
 						}
@@ -954,7 +959,7 @@ namespace CalamityMod.NPCs.Providence
 							{
 								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity * 1.5f;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								Projectile.NewProjectile(fireFrom, velocity2, type, holyStarDamage, 0f, Main.myPlayer);
 							}
 						}
 					}
@@ -1440,7 +1445,7 @@ namespace CalamityMod.NPCs.Providence
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
 			// Accessories clientside only in Expert. Both drop if she is defeated at night.
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);

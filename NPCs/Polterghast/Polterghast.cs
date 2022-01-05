@@ -60,9 +60,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
-			npc.DR_NERD(0.2f, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			npc.DR_NERD(0.2f);
             npc.LifeMaxNERB(350000, 420000, 325000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -976,7 +974,7 @@ namespace CalamityMod.NPCs.Polterghast
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

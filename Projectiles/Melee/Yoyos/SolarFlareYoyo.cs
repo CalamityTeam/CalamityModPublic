@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);

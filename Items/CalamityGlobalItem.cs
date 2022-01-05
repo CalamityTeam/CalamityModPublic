@@ -614,7 +614,7 @@ namespace CalamityMod.Items
                     if (Main.projectile[i].active &&
                         Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() &&
                         Main.projectile[i].owner == player.whoAmI &&
-                        (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime <= 0f)
+                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime <= 0f)
                     {
                         bladeCount++;
                     }
@@ -626,13 +626,13 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].modProjectile is ViridVanguardBlade)
                         {
-                            if ((Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime > 0f)
+                            if (Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime > 0f)
                                 continue;
                         }
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() && Main.projectile[i].owner == player.whoAmI)
                         {
-                            (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime = 240f;
-                            (Main.projectile[i].modProjectile as ViridVanguardBlade).RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
+                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime = 240f;
+                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
                             Main.projectile[i].netUpdate = true;
                             bladeIndex++;
                         }
@@ -657,7 +657,7 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].modProjectile is IgneousBlade)
                         {
-                            if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                            if (Main.projectile[i].ModProjectile<IgneousBlade>().Firing)
                                 continue;
                         }
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
@@ -666,7 +666,7 @@ namespace CalamityMod.Items
                             Main.projectile[i].velocity = Main.projectile[i].SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 22f;
                             Main.projectile[i].rotation += Main.projectile[i].velocity.ToRotation();
                             Main.projectile[i].ai[0] = 180f;
-                            (Main.projectile[i].modProjectile as IgneousBlade).Firing = true;
+                            Main.projectile[i].ModProjectile<IgneousBlade>().Firing = true;
                             Main.projectile[i].tileCollide = true;
                             Main.projectile[i].netUpdate = true;
                         }
@@ -682,7 +682,7 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
                         {
-                            (Main.projectile[i].modProjectile as VoidConcentrationAura).HandleRightClick();
+                            Main.projectile[i].ModProjectile<VoidConcentrationAura>().HandleRightClick();
                             break;
                         }
                     }
@@ -1499,6 +1499,9 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
+
+			if (item.type == ItemID.FleshKnuckles)
+				modPlayer.fleshKnuckles = true;
 
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;

@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.MasterNinjaGear);
             recipe.AddIngredient(ItemID.FrogLeg);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-            recipe.AddIngredient(ItemID.MasterNinjaGear);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

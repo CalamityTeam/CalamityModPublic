@@ -569,6 +569,7 @@ namespace CalamityMod.CalPlayer
         public bool harpyRing = false;
 		public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
+		public bool fleshKnuckles = false;
         public bool ironBoots = false;
         public bool depthCharm = false;
         public bool anechoicPlating = false;
@@ -620,9 +621,7 @@ namespace CalamityMod.CalPlayer
         public bool featherCrownDraw = false;
         public bool moonCrown = false;
         public bool moonCrownDraw = false;
-        public int featherCrownCooldown = 0;
-        public int moonCrownCooldown = 0;
-        public int nanoFlareCooldown = 0;
+        public int rogueCrownCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -1152,6 +1151,31 @@ namespace CalamityMod.CalPlayer
         public bool AbleToSelectExoMech = false;
         #endregion Draedon Summoning
 
+        #region Mouse Controls Syncing
+        public bool mouseRight = false;
+        private bool oldMouseRight = false;
+        public Vector2 mouseWorld;
+        private Vector2 oldMouseWorld;
+
+        /// <summary>
+        /// Set this to true if you need to recieve updates on right clicks from players and sync them in mp.
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool rightClickListener = false;
+        /// <summary>
+        /// Set this to true if you need to recieve updates on the position of the player's mouse and sync them in mp.
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool mouseWorldListener = false;
+        /// <summary>
+        /// Set this to true if you need to recieve updates on the rotation of the mouse to the player. This sends updates less frequently than the more tight tolerance mouseWorldListener
+        /// Automatically resets itself after sending an update
+        /// <\summary>
+        public bool mouseRotationListener = false;
+
+        public bool syncMouseControls = false;
+        #endregion
+
         #endregion
 
         #region Saving And Loading
@@ -1422,7 +1446,9 @@ namespace CalamityMod.CalPlayer
                 (bOrange ? 25 : 0) +
                 (eBerry ? 25 : 0) +
                 (dFruit ? 25 : 0);
-            if (ZoneAbyss && abyssalAmulet)
+			if (fleshKnuckles)
+				player.statLifeMax2 += 45;
+			if (ZoneAbyss && abyssalAmulet)
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
             if (coreOfTheBloodGod)
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
@@ -1672,6 +1698,7 @@ namespace CalamityMod.CalPlayer
             harpyRing = false;
 			angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
+			fleshKnuckles = false;
             darkSunRing = false;
             calamityRing = false;
             voidOfExtinction = false;
@@ -2206,9 +2233,7 @@ namespace CalamityMod.CalPlayer
             theBeeCooldown = 0;
 			nCoreCooldown = 0;
             killSpikyBalls = false;
-            moonCrownCooldown = 0;
-            featherCrownCooldown = 0;
-            nanoFlareCooldown = 0;
+            rogueCrownCooldown = 0;
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
 			icicleCooldown = 0;
@@ -3883,10 +3908,10 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
         }
-		#endregion
+        #endregion
 
-		#region PreUpdate
-		public override void PreUpdate()
+        #region PreUpdate
+        public override void PreUpdate()
         {
             tailFrameUp++;
             if (tailFrameUp == 8)
@@ -3922,7 +3947,30 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-		}
+            //Syncing mouse controls
+            if (Main.myPlayer == player.whoAmI)
+            {
+                mouseRight = PlayerInput.Triggers.Current.MouseRight;
+                if (rightClickListener && mouseRight != oldMouseRight)
+                {
+                    oldMouseRight = mouseRight;
+                    syncMouseControls = true;
+                    rightClickListener = false;
+                }
+                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 10f)
+                {
+                    oldMouseWorld = mouseWorld;
+                    syncMouseControls = true;
+                    mouseWorldListener = false;
+                }
+                if (mouseRotationListener && Math.Abs((mouseWorld - player.MountedCenter).ToRotation() - (oldMouseWorld - player.MountedCenter).ToRotation()) > 0.15f)
+                {
+                    oldMouseWorld = mouseWorld;
+                    syncMouseControls = true;
+                    mouseRotationListener = false;
+                }
+            }
+        }
         #endregion
 
         #region PreUpdateBuffs
@@ -4418,7 +4466,7 @@ namespace CalamityMod.CalPlayer
 
             if (silvaSet && silvaCountdown > 0)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
+                if (silvaCountdown == 480 && !hasSilvaEffect)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
@@ -4954,10 +5002,20 @@ namespace CalamityMod.CalPlayer
                     }
                     break;
 
-                case ItemID.Excalibur:
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
+
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
 
 				case ItemID.BladeofGrass:
 					target.AddBuff(BuffID.Poisoned, 210);
@@ -4983,14 +5041,11 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ItemID.IceBlade:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 360);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
             }
 
@@ -5071,11 +5126,34 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, 180);
                     break;
 
-                case ProjectileID.GolemFist:
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
-                case ProjectileID.LightBeam:
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
@@ -5109,7 +5187,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.FrostBlastFriendly:
                 case ProjectileID.NorthPoleWeapon:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ProjectileID.FrostBoltStaff:
@@ -5117,28 +5195,21 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.FrostBoltSword:
                 case ProjectileID.FrostArrow:
                 case ProjectileID.NorthPoleSpear:
-                    target.AddBuff(BuffID.Frostburn, 480);
+				case ProjectileID.Amarok:
+                    target.AddBuff(BuffID.Frostburn, 180);
                     break;
 
                 case ProjectileID.Blizzard:
                 case ProjectileID.NorthPoleSnowflake:
-                    target.AddBuff(BuffID.Frostburn, 240);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
                 case ProjectileID.SnowBallFriendly:
-                    if (Main.rand.NextBool(10))
-                        target.AddBuff(BuffID.Frostburn, 120);
-                    else if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 240);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
                     break;
 
                 case ProjectileID.NightBeam:
@@ -5153,7 +5224,7 @@ namespace CalamityMod.CalPlayer
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
 
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
                     target.AddBuff(BuffID.Midas, 300, false);
@@ -5200,10 +5271,20 @@ namespace CalamityMod.CalPlayer
                     player.HealEffect(2);
                     break;
 
-                case ItemID.Excalibur:
+				case ItemID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					break;
+
+				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
                     break;
+
+				case ItemID.FieryGreatsword:
+				case ItemID.MoltenPickaxe:
+				case ItemID.MoltenHamaxe:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
 
 				case ItemID.BladeofGrass:
 					target.AddBuff(BuffID.Poisoned, 210);
@@ -5229,14 +5310,11 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.IceSickle:
                 case ItemID.Frostbrand:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ItemID.IceBlade:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 360);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
             }
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, true);
@@ -5276,11 +5354,34 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, 180);
                     break;
 
-                case ProjectileID.GolemFist:
+				case ProjectileID.Flamelash:
+					target.AddBuff(BuffID.OnFire, 300);
+					break;
+
+				case ProjectileID.BallofFire:
+					target.AddBuff(BuffID.OnFire, 180);
+					break;
+
+				case ProjectileID.Cascade:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Flamarang:
+				case ProjectileID.FireArrow:
+					target.AddBuff(BuffID.OnFire, 120);
+					break;
+
+				case ProjectileID.Spark:
+					target.AddBuff(BuffID.OnFire, 30);
+					break;
+
+				case ProjectileID.GolemFist:
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
-                case ProjectileID.LightBeam:
+				case ProjectileID.DeathSickle:
+					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					break;
+
+				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
                     target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
@@ -5314,7 +5415,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.FrostBlastFriendly:
                 case ProjectileID.NorthPoleWeapon:
-                    target.AddBuff(BuffID.Frostburn, 600);
+                    target.AddBuff(BuffID.Frostburn, 300);
                     break;
 
                 case ProjectileID.FrostBoltStaff:
@@ -5322,28 +5423,21 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.FrostBoltSword:
                 case ProjectileID.FrostArrow:
                 case ProjectileID.NorthPoleSpear:
-                    target.AddBuff(BuffID.Frostburn, 480);
+				case ProjectileID.Amarok:
+					target.AddBuff(BuffID.Frostburn, 180);
                     break;
 
                 case ProjectileID.Blizzard:
                 case ProjectileID.NorthPoleSnowflake:
-                    target.AddBuff(BuffID.Frostburn, 240);
+                    target.AddBuff(BuffID.Frostburn, 120);
                     break;
 
                 case ProjectileID.SnowBallFriendly:
-                    if (Main.rand.NextBool(10))
-                        target.AddBuff(BuffID.Frostburn, 120);
-                    else if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 60);
-                    break;
-
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
-                    if (Main.rand.NextBool(5))
-                        target.AddBuff(BuffID.Frostburn, 240);
-                    else if (Main.rand.NextBool(3))
-                        target.AddBuff(BuffID.Frostburn, 120);
+				case ProjectileID.FrostburnArrow:
+                    target.AddBuff(BuffID.Frostburn, 60);
                     break;
 
                 case ProjectileID.NightBeam:
@@ -5356,7 +5450,7 @@ namespace CalamityMod.CalPlayer
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
                 }
                 CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, true);
                 CalamityPlayerOnHit.PvpDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
@@ -5520,7 +5614,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
 
-            if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+            if (filthyGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
                 if (nanotech)
                     damageMult += 0.05;
@@ -5581,11 +5675,10 @@ namespace CalamityMod.CalPlayer
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
+				// Nanotech is a total of 20 as it has all three bools
                 if (nanotech)
-                    penetrateAmt += 20; //nanotech is weaker
-                else if (electricianGlove)
-                    penetrateAmt += 20;
-                else if (filthyGlove || bloodyGlove)
+                    penetrateAmt += 10;
+                if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
 			if (proj.melee && badgeOfBravery)
@@ -8477,7 +8570,7 @@ namespace CalamityMod.CalPlayer
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
+							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
                             player.GiveIFrames(GodSlayerChestplate.DashIFrames, false);
                         }

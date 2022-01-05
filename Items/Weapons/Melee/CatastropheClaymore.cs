@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 56;
-            item.damage = 67;
+            item.damage = 98;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;
@@ -74,8 +74,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
         }
 
@@ -84,8 +84,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
         }
     }

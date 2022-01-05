@@ -18,12 +18,13 @@ namespace CalamityMod.Items.Accessories
                 "Reflected projectiles deal no damage to you\n" +
                 "This reflect has a 90 second cooldown which is shared with all other dodges and reflects\n" +
                 "Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 20 defense\n" +
+                "While under the effects of a damaging debuff you will gain 15 defense\n" +
                 "TOOLTIP LINE HERE");
         }
 
         public override void SetDefaults()
         {
+			item.defense = 12;
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;

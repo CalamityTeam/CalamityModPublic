@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -30,6 +31,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
 		{
+            if (projectile.timeLeft == 300)
+                Main.PlaySound(SoundID.Item14, projectile.Center);
+
             CurrentLaserLength = (int)MathHelper.Lerp(1f, 70f, Utils.InverseLerp(0f, 15f, Time, true) * Utils.InverseLerp(0f, 15f, projectile.timeLeft, true));
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Time++;

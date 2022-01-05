@@ -113,11 +113,11 @@ namespace CalamityMod.Projectiles.Ranged
         {
 			if (projectile.ai[1] == 1f)
 			{
-				target.AddBuff(BuffID.OnFire, 240);
+				target.AddBuff(BuffID.OnFire, 120);
 			}
 			else
 			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
 			}
         }
     }
