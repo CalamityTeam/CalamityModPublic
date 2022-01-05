@@ -208,11 +208,15 @@ namespace CalamityMod
 				float startPoint = segment.originX;
 				float endPoint = 1f;
 
-				if (progress < segment.originX) //Too early
+				if (progress < segment.originX) //Too early. This should never get reached, since by the time you'd have gotten there you'd have found the appropriate segment and broken out of the for loop
 					continue;
 
 				if (i < segments.Length - 1)
+				{
+					if (segments[i + 1].originX <= progress) //Too late
+						continue;
 					endPoint = segments[i + 1].originX;
+				}
 
 				float segmentLenght = endPoint - startPoint;
 				float segmentProgress = (progress - segment.originX) / segmentLenght; //How far along the specific segment
