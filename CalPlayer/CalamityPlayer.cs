@@ -1,6 +1,7 @@
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
@@ -579,6 +580,7 @@ namespace CalamityMod.CalPlayer
         public bool lumenousAmulet = false;
         public bool aquaticEmblem = false;
         public bool spiritOrigin = false;
+        public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
         public bool voidOfExtinction = false;
@@ -1779,6 +1781,7 @@ namespace CalamityMod.CalPlayer
             lumenousAmulet = false;
             aquaticEmblem = false;
             spiritOrigin = false;
+            spiritOriginVanity = false;
             spiritOriginConvertedCrit = 0;
 
             astralStarRain = false;
@@ -3667,17 +3670,37 @@ namespace CalamityMod.CalPlayer
                     profanedCrystalHide = false;
                     profanedCrystalForce = true;
                 }
-                else if (item.type == ModContent.ItemType<AbyssalDivingGear>())
+
+				// Whichever is lowest in your vanity slots should take priority
+                if (item.type == ModContent.ItemType<AbyssalDivingGear>())
                 {
+					featherCrownDraw = false;
+					moonCrownDraw = false;
                     abyssDivingGear = true;
                 }
-                else if (item.type == ModContent.ItemType<FeatherCrown>())
+                if (item.type == ModContent.ItemType<FeatherCrown>())
                 {
+					abyssDivingGear = false;
+					moonCrownDraw = false;
                     featherCrownDraw = true;
                 }
-                else if (item.type == ModContent.ItemType<MoonstoneCrown>())
+                if (item.type == ModContent.ItemType<MoonstoneCrown>())
                 {
+					abyssDivingGear = false;
+					featherCrownDraw = false;
                     moonCrownDraw = true;
+                }
+
+				// Summon anime girl if it's in vanity slot as the pet is purely vanity
+				// It's possible for other "pet" items like Howl's Heart or HotE to summon a passive version of their "pets" with some tweaks though
+                if (item.type == ModContent.ItemType<DaawnlightSpiritOrigin>())
+                {
+					spiritOriginVanity = true;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
+							player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+					}
                 }
             }
         }
