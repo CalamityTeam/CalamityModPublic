@@ -61,7 +61,6 @@ namespace CalamityMod.ILEditing
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats += RemoveExpertHardmodeScaling;
-            IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -94,7 +93,7 @@ namespace CalamityMod.ILEditing
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
-            IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
+            // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
 
         /// <summary>
@@ -136,7 +135,6 @@ namespace CalamityMod.ILEditing
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
-            IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -169,7 +167,7 @@ namespace CalamityMod.ILEditing
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
-            IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
+            // IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
         }
     }
 }
