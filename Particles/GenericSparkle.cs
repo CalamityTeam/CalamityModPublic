@@ -10,6 +10,8 @@ namespace CalamityMod.Particles
 {
     public class GenericSparkle : Particle
     {
+        public override string Texture => "CalamityMod/Particles/Sparkle";
+
         public GenericSparkle(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, float rotationSpeed = 1f)
         {
             Position = position;

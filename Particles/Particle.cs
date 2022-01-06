@@ -27,7 +27,7 @@ namespace CalamityMod.Particles
 		/// </summary>
 		public int Lifetime = 0;
 
-		public float LifetimeCompletion => Lifetime != 0 ? Time / Lifetime : 0;
+		public float LifetimeCompletion => Lifetime != 0 ? Time / (float)Lifetime : 0;
 
 		/// <summary>
 		/// The offset of the particle in relation to the origin of the set it belongs to. This is only used in the context of a Particle Set
