@@ -538,6 +538,18 @@ namespace CalamityMod.ILEditing
         }
         #endregion Ash Particle Rendering
 
+        #region General Particle Rendering
+        private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+        {
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            Main.spriteBatch.End();
+
+            orig(self, gameTime);
+        }
+
+        #endregion General Particle Rendering
+
         #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {

@@ -46,6 +46,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw += DrawFusableParticles;
             IL.Terraria.Main.DoDraw += DrawAshParticles;
+            On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
@@ -121,6 +122,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
             IL.Terraria.Main.DoDraw -= DrawAshParticles;
+            On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;

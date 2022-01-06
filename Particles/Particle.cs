@@ -9,6 +9,8 @@ namespace CalamityMod.Particles
 		public int Variant;
 		public float Scale;
 		public Vector2 RelativeOffset;
+		public virtual string Texture => "";
+
 		public Particle(int lifetime, Vector2 relativeOffset, float scale, int variant = 0)
 		{
 			Time = 0;

@@ -207,7 +207,10 @@ namespace CalamityMod
             ExoChairSlowdownHotkey = RegisterHotKey("Exo Chair Slow Down", "RightShift");
 
             if (!Main.dedServ)
+            {
                 LoadClient();
+                GeneralParticleHandler.Load();
+            }
 
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
@@ -396,6 +399,7 @@ namespace CalamityMod
                 Main.rainTexture = rainOriginal;
                 Main.manaTexture = manaOriginal;
                 Main.flyingCarpetTexture = carpetOriginal;
+                GeneralParticleHandler.Unload();
             }
             Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
