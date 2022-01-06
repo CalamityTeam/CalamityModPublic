@@ -5,6 +5,7 @@ using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -3709,21 +3710,21 @@ namespace CalamityMod.CalPlayer
 					howlsHeartVanity = true;
 					if (player.whoAmI == Main.myPlayer)
 					{
-						if (player.FindBuffIndex(BuffType<HowlTrio>()) == -1)
+						if (player.FindBuffIndex(ModContent.BuffType<HowlTrio>()) == -1)
 						{
-							player.AddBuff(BuffType<HowlTrio>(), 3600, true);
+							player.AddBuff(ModContent.BuffType<HowlTrio>(), 3600, true);
 						}
-						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartHowl>()] < 1)
 						{
-							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
 						}
-						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartCalcifer>()] < 1)
 						{
-							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
 						}
-						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartTurnipHead>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartTurnipHead>()] < 1)
 						{
-							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
 						}
 					}
                 }
