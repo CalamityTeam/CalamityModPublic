@@ -66,11 +66,16 @@ namespace CalamityMod.Particles
 
 			foreach (Particle particle in Particles.OrderBy(p => p.Time))
 			{
-				Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
-				Color particleColor = DetermineParticleColor(particle.Time / (float)particle.Lifetime);
-				Rectangle frame = ParticleTexture.Frame(1, ParticleFrameVariants, 0, particle.Variant);
+				if (particle.UseCustomDraw)
+					particle.CustomDraw(Main.spriteBatch);
+				else
+				{
+					Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
+					Color particleColor = DetermineParticleColor(particle.Time / (float)particle.Lifetime);
+					Rectangle frame = ParticleTexture.Frame(1, ParticleFrameVariants, 0, particle.Variant);
 
-				Main.spriteBatch.Draw(ParticleTexture, drawPosition, frame, particleColor, 0f, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(ParticleTexture, drawPosition, frame, particleColor, 0f, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+				}
 			}
 		}
 	}

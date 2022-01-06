@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
@@ -69,30 +71,100 @@ namespace CalamityMod.Particles
             batchedAdditiveBlendParticles = null;
         }
 
-
-
         /// <summary>
 		/// Spawns the particle instance provided into the world. If the particle limit is reached but the particle is marked as important, it will try to replace a non important particle.
 		/// </summary>
 		public static void SpawnParticle(Particle particle)
         {
-            if (activeParticles == particleCap && !particle.Important)
+            if (activeParticles == particleCap)
                 return;
 
             particles[nextVacantIndex] = particle;
             particle.ID = nextVacantIndex;
             particle.Type = particleTypes[particle.GetType()];
 
+            //If the next index is also vacant
             if (nextVacantIndex + 1 < particles.Length && particles[nextVacantIndex + 1] == null)
                 nextVacantIndex++;
+            //If it isnt, go check for the first empty spot.
             else
                 for (int i = 0; i < particles.Length; i++)
                     if (particles[i] == null)
+                    {
                         nextVacantIndex = i;
+                        break;
+                    }
 
             activeParticles++;
         }
 
+        public static void Update()
+        {
+            foreach (Particle particle in particles)
+            {
+                if (particle == null)
+                    continue;
+                particle.Position += particle.Velocity;
+                particle.Time++;
+                particle.Update();
+            }
+        }
 
+        public static void RemoveParticle(int position)
+        {
+            particles[position] = null;
+            nextVacantIndex = position;
+            activeParticles--;
+        }
+
+        public static void DrawAllParticles(SpriteBatch sb)
+        {
+            //Batch the particles to avoid constant restarting of the spritebatch
+            foreach (Particle particle in particles)
+            {
+                if (particle == null)
+                    continue;
+
+                if (particle.UseAdditiveBlend)
+                    batchedAdditiveBlendParticles.Add(particle);
+                else
+                    batchedAlphaBlendParticles.Add(particle);
+            }
+
+            foreach (Particle particle in batchedAlphaBlendParticles)
+            {
+                if (particle.UseCustomDraw)
+                    particle.CustomDraw(sb);
+                else
+                {
+                    Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
+                    sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                }
+            }
+
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            foreach (Particle particle in batchedAdditiveBlendParticles)
+            {
+                if (particle.UseCustomDraw)
+                    particle.CustomDraw(sb);
+                else
+                {
+                    Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
+                    sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                }
+            }
+
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+            batchedAlphaBlendParticles.Clear();
+            batchedAdditiveBlendParticles.Clear();
+        }
+        /// <summary>
+        /// Gives you the texture of the particle type. Useful for custom drawing
+        /// </summary>
+        public static Texture2D GetTexture(int type) => particleTextures[type]
     }
 }

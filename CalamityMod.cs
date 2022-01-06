@@ -1602,5 +1602,15 @@ namespace CalamityMod
         #region Speedrun Timer Stopper
         public override void PreSaveAndQuit() => SpeedrunTimer?.Stop();
         #endregion
+
+        #region Particles updating
+        public override void PostUpdateEverything()
+        {
+            if (!Main.dedServ)
+            {
+                GeneralParticleHandler.Update();
+            }
+        }
+        #endregion
     }
 }

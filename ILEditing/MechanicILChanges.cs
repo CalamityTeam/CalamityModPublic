@@ -541,7 +541,7 @@ namespace CalamityMod.ILEditing
         #region General Particle Rendering
         private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.ZoomMatrix);
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             Main.spriteBatch.End();
 
