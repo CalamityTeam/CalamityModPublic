@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath19;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("BloodCoagulant") ?? MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
 			npc.Calamity().VulnerableToHeat = true;
 			npc.Calamity().VulnerableToCold = true;
