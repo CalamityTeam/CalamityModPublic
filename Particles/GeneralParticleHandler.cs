@@ -169,6 +169,6 @@ namespace CalamityMod.Particles
         /// <summary>
         /// Gives you the texture of the particle type. Useful for custom drawing
         /// </summary>
-        public static Texture2D GetTexture(int type) => particleTextures[type]
+        public static Texture2D GetTexture(int type) => particleTextures[type];
     }
 }

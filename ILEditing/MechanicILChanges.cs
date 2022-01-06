@@ -539,7 +539,7 @@ namespace CalamityMod.ILEditing
         #endregion Ash Particle Rendering
 
         #region General Particle Rendering
-        private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+        private static void DrawGeneralParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.ZoomMatrix);
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
