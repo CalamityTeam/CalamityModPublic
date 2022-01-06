@@ -17,14 +17,17 @@ namespace CalamityMod.Particles
 		/// The amount of frames this particle has existed for. You shouldn't have to touch this manually.
 		/// </summary>
 		public int Time;
+		
 		/// <summary>
-		/// The maximum amount of frames a particle may stay alive when used in a particle set. 
-		/// Keep in mind the general particle handler will not automatically clear particles past their lifetime, nor will it care if the Lifetime isnt set at all.
+		/// Set this to true if you want your particle to automatically get removed when its time reaches its maximum lifetime
 		/// </summary>
-		public int Lifetime;
+		public virtual bool SetLifetime => false;
+		/// <summary>
+		/// The maximum amount of frames a particle may stay alive if Particle.SetLifeTime is set to true
+		/// </summary>
+		public int Lifetime = 0;
 
-		public int FrameVariants = 1;
-		public int Variant = 0;
+		public float LifetimeCompletion => Lifetime != 0 ? Time / Lifetime : 0;
 
 		/// <summary>
 		/// The offset of the particle in relation to the origin of the set it belongs to. This is only used in the context of a Particle Set
@@ -36,12 +39,13 @@ namespace CalamityMod.Particles
 		public Vector2 Position;
 		public Vector2 Velocity;
 
-
 		public Vector2 Origin;
 		public Color Color;
 		public float Rotation;
 		public float Scale;
 
+		public virtual int FrameVariants => 1;
+		public int Variant = 0;
 		public virtual string Texture => "";
 		/// <summary>
 		/// Set this to true to disable default particle drawing, thus calling Particle.CustomDraw() instead.
@@ -67,22 +71,5 @@ namespace CalamityMod.Particles
 		/// </summary>
 		public void Kill() => GeneralParticleHandler.RemoveParticle(ID);
 
-		public Particle(int lifetime, Vector2 relativeOffset, float scale, int variant = 0)
-		{
-			Time = 0;
-			Lifetime = lifetime;
-			Variant = variant;
-			Scale = scale;
-			RelativeOffset = relativeOffset;
-		}
-
-		public Particle(int lifetime, Vector2 relativeOffset, float scale, int variant = 0)
-		{
-			Time = 0;
-			Lifetime = lifetime;
-			Variant = variant;
-			Scale = scale;
-			RelativeOffset = relativeOffset;
-		}
 	}
 }

@@ -107,6 +107,10 @@ namespace CalamityMod.Particles
                 particle.Position += particle.Velocity;
                 particle.Time++;
                 particle.Update();
+
+                //Clear out particles whose time is up
+                if (particle.Time >= particle.Lifetime && particle.SetLifetime)
+                    particle.Kill();
             }
         }
 
