@@ -321,25 +321,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Expert Hardmode Scaling Removal
 
-        #region Aerial Bane Damage Boost Removal
-        private static void RemoveAerialBaneDamageBoost(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.DD2BetsyArrow))) // The ID of Aerial Bane projectiles.
-            {
-                LogFailure("Aerial Bane Nerf", "Could not locate the arrow ID.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) // The damage multiplier.
-            {
-                LogFailure("Aerial Bane Nerf", "Could not locate the damage multiplier.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Multiplying by 1 means no damage bonus.
-        }
-        #endregion Aerial Bane Damage Boost Removal
-
         #region Chlorophyte Bullet Speed Nerfs
         private static void AdjustChlorophyteBullets(ILContext il)
         {
