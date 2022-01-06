@@ -52,51 +52,26 @@ namespace CalamityMod.Projectiles.Ranged
 			//Rotation
 			projectile.rotation = projectile.velocity.ToRotation();
 
-			if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-			{
-				float xVel = projectile.velocity.X * 0.5f;
-				float yVel = projectile.velocity.Y * 0.5f;
-				int d = Dust.NewDust(new Vector2(projectile.position.X + 3f + xVel, projectile.position.Y + 3f + yVel) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
-				Main.dust[d].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-				Main.dust[d].velocity *= 0.2f;
-				Main.dust[d].noGravity = true;
-				d = Dust.NewDust(new Vector2(projectile.position.X + 3f + xVel, projectile.position.Y + 3f + yVel) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
-				Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[d].velocity *= 0.05f;
-				
-			}
+			float xVel = projectile.velocity.X * 0.5f;
+			float yVel = projectile.velocity.Y * 0.5f;
+			int d = Dust.NewDust(new Vector2(projectile.position.X + 3f + xVel, projectile.position.Y + 3f + yVel) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
+			Main.dust[d].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+			Main.dust[d].velocity *= 0.2f;
+			Main.dust[d].noGravity = true;
+			d = Dust.NewDust(new Vector2(projectile.position.X + 3f + xVel, projectile.position.Y + 3f + yVel) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
+			Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+			Main.dust[d].velocity *= 0.05f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 300);
-			projectile.maxPenetrate = projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
-			Main.PlaySound(SoundID.Item14, projectile.position);
-			for (int i = 0; i < 40; i++)
-			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-				Main.dust[d].velocity *= 3f;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[d].scale = 0.5f;
-					Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
-			}
-			for (int i = 0; i < 60; i++)
-			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
-				Main.dust[d].noGravity = true;
-				Main.dust[d].velocity *= 5f;
-				d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-				Main.dust[d].velocity *= 2f;
-			}
-			CalamityUtils.ExplosionGores(projectile.Center, 10);
-
 			if (projectile.owner == Main.myPlayer)
 			{
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 300);
+				Main.PlaySound(SoundID.Item14, projectile.position);
+				CalamityUtils.ExplosionGores(projectile.Center, 10);
+
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScorchedEarthBlast>(), projectile.damage, projectile.knockBack * 2f, projectile.owner);
 				for (int j = 0; j < 5; j++)
 				{
 					Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(8f, 10f);
