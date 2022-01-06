@@ -131,6 +131,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
