@@ -1,6 +1,7 @@
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -25,6 +26,9 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
             exoDoorOpen = ModContent.TileType<ExoDoorOpen>();
             exoDoorClosed = ModContent.TileType<ExoDoorClosed>();
+
+            // Re-initialize the projectile cache list.
+            OrderedProjectiles = new List<OrderedProjectileEntry>();
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
@@ -52,7 +56,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
-			IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
+            IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
