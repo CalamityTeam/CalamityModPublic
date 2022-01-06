@@ -27,7 +27,6 @@ namespace CalamityMod.Particles
             RelativeOffset = relativePosition;
             Velocity = Vector2.Zero;
             Scale = scale;
-            Variant = Main.rand.Next(3);
             Lifetime = lifetime;
             EdgeColor = edgeColor;
             CenterColor = centerColor;
