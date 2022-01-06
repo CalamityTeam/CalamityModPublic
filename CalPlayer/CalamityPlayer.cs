@@ -612,6 +612,7 @@ namespace CalamityMod.CalPlayer
         public bool sirenWaifu = false;
         public bool fungalClump = false;
         public bool howlsHeart = false;
+        public bool howlsHeartVanity = false;
         public bool darkGodSheath = false;
         public bool inkBomb = false;
         public bool inkBombCooldown = false;
@@ -2066,6 +2067,7 @@ namespace CalamityMod.CalPlayer
             allWaifus = false;
             fungalClump = false;
             howlsHeart = false;
+            howlsHeartVanity = false;
             redDevil = false;
             valkyrie = false;
             slimeGod = false;
@@ -3692,7 +3694,7 @@ namespace CalamityMod.CalPlayer
                 }
 
 				// Summon anime girl if it's in vanity slot as the pet is purely vanity
-				// It's possible for other "pet" items like Howl's Heart or HotE to summon a passive version of their "pets" with some tweaks though
+				// It's possible for other "pet" items like Fungal Clump or HotE to summon a passive version of their "pets" with some tweaks though
                 if (item.type == ModContent.ItemType<DaawnlightSpiritOrigin>())
                 {
 					spiritOriginVanity = true;
@@ -3700,6 +3702,29 @@ namespace CalamityMod.CalPlayer
 					{
 						if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
 							player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+					}
+                }
+                if (item.type == ModContent.ItemType<HowlsHeart>())
+                {
+					howlsHeartVanity = true;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						if (player.FindBuffIndex(BuffType<HowlTrio>()) == -1)
+						{
+							player.AddBuff(BuffType<HowlTrio>(), 3600, true);
+						}
+						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
+						{
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
+						}
+						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
+						{
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
+						}
+						if (player.ownedProjectileCounts[ProjectileType<HowlsHeartTurnipHead>()] < 1)
+						{
+							Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
+						}
 					}
                 }
             }

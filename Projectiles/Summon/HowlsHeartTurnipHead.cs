@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			//If the correct minion, set bools
             bool correctMinion = projectile.type == ModContent.ProjectileType<HowlsHeartTurnipHead>();
-            if (!modPlayer.howlsHeart || !player.active)
+            if (!modPlayer.howlsHeart && !modPlayer.howlsHeartVanity || !player.active)
             {
                 projectile.active = false;
                 return;

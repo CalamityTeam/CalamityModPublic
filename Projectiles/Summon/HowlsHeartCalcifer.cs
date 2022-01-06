@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             bool correctMinion = projectile.type == ModContent.ProjectileType<HowlsHeartCalcifer>();
-            if (!modPlayer.howlsHeart || !player.active)
+            if (!modPlayer.howlsHeart && !modPlayer.howlsHeartVanity || !player.active)
             {
                 projectile.active = false;
                 return;
@@ -45,7 +45,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
+			if (!modPlayer.howlsHeartVanity)
+				Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
 			projectile.FloatingPetAI(false, 0.04f, true);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
