@@ -17,7 +17,7 @@ namespace CalamityMod.Particles
         /// This is the maximum of particles allowed. Particles marked as important may replace nonimportant particles when the cap is reached
         /// </summary>
         // May be a good idea to make this into a config option
-        private static readonly int particleCap = 500;
+        private static readonly int particleCap = CalamityConfig.Instance.ParticleLimit;
 
         private static Particle[] particles;
         private static int nextVacantIndex;
