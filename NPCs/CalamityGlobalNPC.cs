@@ -278,444 +278,6 @@ namespace CalamityMod.NPCs
 
 		// Other Boss Rush stuff
 		public bool DoesNotDisappearInBossRush;
-
-		// Collections
-		// NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
-		public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
-        {
-            // Tier 1
-            { NPCID.QueenBee, 315000 }, // 30 seconds
-
-            { NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
-            { NPCID.Creeper, 10000 },
-
-            { NPCID.KingSlime, 300000 }, // 30 seconds
-            { NPCID.BlueSlime, 3600 },
-            { NPCID.SlimeSpiked, 7200 },
-            { NPCID.GreenSlime, 2700 },
-            { NPCID.RedSlime, 5400 },
-            { NPCID.PurpleSlime, 7200 },
-            { NPCID.YellowSlime, 6300 },
-            { NPCID.IceSlime, 4500 },
-            { NPCID.UmbrellaSlime, 5400 },
-            { NPCID.RainbowSlime, 30000 },
-            { NPCID.Pinky, 15000 },
-
-            { NPCID.EyeofCthulhu, 450000 }, // 30 seconds
-            { NPCID.ServantofCthulhu, 6000 },
-
-            { NPCID.SkeletronPrime, 110000 }, // 30 seconds
-            { NPCID.PrimeVice, 54000 },
-            { NPCID.PrimeCannon, 45000 },
-            { NPCID.PrimeSaw, 45000 },
-            { NPCID.PrimeLaser, 38000 },
-
-            { NPCID.Golem, 50000 }, // 30 seconds
-            { NPCID.GolemHead, 30000 },
-            { NPCID.GolemHeadFree, 30000 },
-            { NPCID.GolemFistLeft, 25000 },
-            { NPCID.GolemFistRight, 25000 },
-
-            { NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
-            { NPCID.EaterofWorldsBody, 10000 },
-            { NPCID.EaterofWorldsTail, 10000 },
-
-            // Tier 2
-            { NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
-            { NPCID.TheDestroyerBody, 250000 },
-            { NPCID.TheDestroyerTail, 250000 },
-            { NPCID.Probe, 10000 },
-
-            { NPCID.Spazmatism, 150000 }, // 30 seconds
-            { NPCID.Retinazer, 125000 },
-
-            { NPCID.WallofFlesh, 450000 }, // 30 seconds
-            { NPCID.WallofFleshEye, 450000 },
-
-            { NPCID.SkeletronHead, 160000 }, // 30 seconds
-            { NPCID.SkeletronHand, 60000 },
-
-            // Tier 3
-            { NPCID.CultistBoss, 220000 }, // 30 seconds
-            { NPCID.CultistDragonHead, 60000 },
-            { NPCID.CultistDragonBody1, 60000 },
-            { NPCID.CultistDragonBody2, 60000 },
-            { NPCID.CultistDragonBody3, 60000 },
-            { NPCID.CultistDragonBody4, 60000 },
-            { NPCID.CultistDragonTail, 60000 },
-            { NPCID.AncientCultistSquidhead, 50000 },
-
-            { NPCID.Plantera, 160000 }, // 30 seconds
-            { NPCID.PlanterasTentacle, 40000 },
-
-            // Tier 4
-            { NPCID.DukeFishron, 290000 }, // 30 seconds
-
-            { NPCID.MoonLordCore, 160000 }, // 1 minute
-            { NPCID.MoonLordHand, 45000 },
-            { NPCID.MoonLordHead, 60000 },
-            { NPCID.MoonLordLeechBlob, 800 }
-
-			// 8 minutes in total for vanilla Boss Rush bosses
-        };
-
-        public static SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
-        {
-            { NPCID.QueenBee, Item.buyPrice(0, 5)},
-            { NPCID.SkeletronHead, Item.buyPrice(0, 7) },
-            { NPCID.DukeFishron, Item.buyPrice(0, 25) },
-            { NPCID.CultistBoss, Item.buyPrice(0, 25) },
-            { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
-        };
-
-		// Lists of enemies that resist piercing to some extent (mostly worms).
-		// Could prove useful for other things as well.
-
-		public static List<int> AstrumDeusIDs = new List<int>
-		{
-			NPCType<AstrumDeusHeadSpectral>(),
-			NPCType<AstrumDeusBodySpectral>(),
-			NPCType<AstrumDeusTailSpectral>()
-		};
-
-        public static List<int> DevourerOfGodsIDs = new List<int>
-        {
-            NPCType<DevourerofGodsHead>(),
-            NPCType<DevourerofGodsBody>(),
-            NPCType<DevourerofGodsTail>()
-        };
-
-		public static List<int> CosmicGuardianIDs = new List<int>
-		{
-			NPCType<DevourerofGodsHead2>(),
-			NPCType<DevourerofGodsBody2>(),
-			NPCType<DevourerofGodsTail2>()
-		};
-
-		public static List<int> AquaticScourgeIDs = new List<int>
-		{
-			NPCType<AquaticScourgeHead>(),
-			NPCType<AquaticScourgeBody>(),
-			NPCType<AquaticScourgeBodyAlt>(),
-			NPCType<AquaticScourgeTail>()
-		};
-
-		public static List<int> PerforatorIDs = new List<int>
-		{
-			NPCType<PerforatorHeadLarge>(),
-			NPCType<PerforatorBodyLarge>(),
-			NPCType<PerforatorTailLarge>(),
-			NPCType<PerforatorHeadMedium>(),
-			NPCType<PerforatorBodyMedium>(),
-			NPCType<PerforatorTailMedium>(),
-			NPCType<PerforatorHeadSmall>(),
-			NPCType<PerforatorBodySmall>(),
-			NPCType<PerforatorTailSmall>()
-		};
-
-		public static List<int> DesertScourgeIDs = new List<int>
-		{
-			NPCType<DesertScourgeHead>(),
-			NPCType<DesertScourgeBody>(),
-			NPCType<DesertScourgeTail>()
-		};
-
-		public static List<int> EaterofWorldsIDs = new List<int>
-		{
-			NPCID.EaterofWorldsHead,
-			NPCID.EaterofWorldsBody,
-			NPCID.EaterofWorldsTail
-		};
-
-		public static List<int> DeathModeSplittingWormIDs = new List<int>
-		{
-			NPCID.DuneSplicerHead,
-			NPCID.DuneSplicerBody,
-			NPCID.DuneSplicerTail,
-			NPCID.DiggerHead,
-			NPCID.DiggerBody,
-			NPCID.DiggerTail,
-			NPCID.SeekerHead,
-			NPCID.SeekerBody,
-			NPCID.SeekerTail
-		};
-
-		public static List<int> DestroyerIDs = new List<int>
-		{
-			NPCID.TheDestroyer,
-			NPCID.TheDestroyerBody,
-			NPCID.TheDestroyerTail
-		};
-
-		public static List<int> ThanatosIDs = new List<int>
-		{
-			NPCType<ThanatosHead>(),
-			NPCType<ThanatosBody1>(),
-			NPCType<ThanatosBody2>(),
-			NPCType<ThanatosTail>()
-		};
-
-		public static List<int> AresIDs = new List<int>
-		{
-			NPCType<AresBody>(),
-			NPCType<AresGaussNuke>(),
-			NPCType<AresLaserCannon>(),
-			NPCType<AresPlasmaFlamethrower>(),
-			NPCType<AresTeslaCannon>()
-		};
-
-		public static List<int> SkeletronPrimeIDs = new List<int>
-		{
-			NPCID.SkeletronPrime,
-			NPCID.PrimeCannon,
-			NPCID.PrimeLaser,
-			NPCID.PrimeSaw,
-			NPCID.PrimeVice
-		};
-
-		public static List<int> StormWeaverIDs = new List<int>
-		{
-			NPCType<StormWeaverHead>(),
-			NPCType<StormWeaverBody>(),
-			NPCType<StormWeaverTail>()
-		};
-
-		public static List<int> GrenadeResistIDs = new List<int>
-		{
-			ProjectileID.Grenade,
-			ProjectileID.StickyGrenade,
-			ProjectileID.BouncyGrenade,
-			ProjectileID.Bomb,
-			ProjectileID.StickyBomb,
-			ProjectileID.BouncyBomb,
-			ProjectileID.Dynamite,
-			ProjectileID.StickyDynamite,
-			ProjectileID.BouncyDynamite,
-			ProjectileID.Explosives,
-			ProjectileID.ExplosiveBunny,
-			ProjectileID.PartyGirlGrenade,
-			ProjectileID.BombFish,
-			ProjectileID.Beenade,
-			ProjectileID.Bee,
-			ProjectileID.GiantBee,
-			ProjectileType<AeroExplosive>()
-			//ProjectileID.ScarabBomb
-		};
-
-		public static List<int> ZeroContactDamageNPCList = new List<int>
-		{
-			NPCID.DarkCaster,
-			NPCID.FireImp,
-			NPCID.Tim,
-			NPCID.CultistArcherBlue,
-			NPCID.DesertDjinn,
-			NPCID.DiabolistRed,
-			NPCID.DiabolistWhite,
-			NPCID.Gastropod,
-			NPCID.IceElemental,
-			NPCID.IchorSticker,
-			NPCID.Necromancer,
-			NPCID.NecromancerArmored,
-			NPCID.RaggedCaster,
-			NPCID.RaggedCasterOpenCoat,
-			NPCID.RuneWizard,
-			NPCID.SkeletonArcher,
-			NPCID.SkeletonCommando,
-			NPCID.SkeletonSniper,
-			NPCID.TacticalSkeleton,
-			NPCID.Clown,
-			NPCID.GoblinArcher,
-			NPCID.GoblinSorcerer,
-			NPCID.GoblinSummoner,
-			NPCID.PirateCrossbower,
-			NPCID.PirateDeadeye,
-			NPCID.PirateCaptain,
-			NPCID.SnowmanGangsta,
-			NPCID.SnowBalla,
-			NPCID.DrManFly,
-			NPCID.Eyezor,
-			NPCID.Nailhead,
-			NPCID.MartianWalker,
-			NPCID.MartianTurret,
-			NPCID.ElfCopter,
-			NPCID.ElfArcher,
-			NPCID.NebulaBrain,
-			NPCID.StardustJellyfishBig,
-			NPCID.PirateShipCannon,
-			NPCID.MartianSaucer,
-			NPCID.MartianSaucerCannon,
-			NPCID.MartianSaucerCore,
-			NPCID.MartianSaucerTurret,
-			NPCID.Probe,
-			NPCID.CultistBoss,
-			NPCID.GolemHeadFree,
-			NPCID.MoonLordFreeEye,
-			//NPCID.BloodSquid,
-			NPCID.PlanterasHook
-		};
-
-		// Reduce contact damage by 25%
-		public static List<int> HardmodeNPCNerfList = new List<int>
-		{
-			NPCID.AnglerFish,
-			NPCID.AngryTrapper,
-			NPCID.Arapaima,
-			NPCID.BlackRecluse,
-			NPCID.BlackRecluseWall,
-			NPCID.BloodJelly,
-			NPCID.FungoFish,
-			NPCID.GreenJellyfish,
-			NPCID.Clinger,
-			NPCID.ArmoredSkeleton,
-			NPCID.ArmoredViking,
-			NPCID.Mummy,
-			NPCID.DarkMummy,
-			NPCID.LightMummy,
-			NPCID.BloodFeeder,
-			NPCID.DesertBeast,
-			NPCID.ChaosElemental,
-			//NPCID.BloodMummy,
-			NPCID.CorruptSlime,
-			NPCID.Slimeling,
-			NPCID.Corruptor,
-			NPCID.Crimslime,
-			NPCID.BigCrimslime,
-			NPCID.LittleCrimslime,
-			NPCID.CrimsonAxe,
-			NPCID.CursedHammer,
-			NPCID.Derpling,
-			NPCID.Herpling,
-			NPCID.DiggerHead,
-			NPCID.DiggerBody,
-			NPCID.DiggerTail,
-			NPCID.DesertGhoul,
-			NPCID.DesertGhoulCorruption,
-			NPCID.DesertGhoulCrimson,
-			NPCID.DesertGhoulHallow,
-			NPCID.DuneSplicerHead,
-			NPCID.DuneSplicerBody,
-			NPCID.DuneSplicerTail,
-			NPCID.EnchantedSword,
-			NPCID.FloatyGross,
-			NPCID.GiantBat,
-			NPCID.GiantFlyingFox,
-			NPCID.GiantFungiBulb,
-			NPCID.FungiSpore,
-			NPCID.GiantTortoise,
-			NPCID.IceTortoise,
-			NPCID.HoppinJack,
-			NPCID.Mimic,
-			NPCID.IchorSticker,
-			NPCID.IcyMerman,
-			NPCID.IlluminantBat,
-			NPCID.IlluminantSlime,
-			NPCID.JungleCreeper,
-			NPCID.JungleCreeperWall,
-			NPCID.DesertLamiaDark,
-			NPCID.DesertLamiaLight,
-			NPCID.BigMossHornet,
-			NPCID.GiantMossHornet,
-			NPCID.LittleMossHornet,
-			NPCID.MossHornet,
-			NPCID.TinyMossHornet,
-			NPCID.Moth,
-			NPCID.PigronCorruption,
-			NPCID.PigronCrimson,
-			NPCID.PigronHallow,
-			NPCID.Pixie,
-			NPCID.PossessedArmor,
-			//NPCID.RockGolem,
-			NPCID.DesertScorpionWalk,
-			NPCID.DesertScorpionWall,
-			NPCID.Slimer,
-			NPCID.Slimer2,
-			NPCID.ToxicSludge,
-			NPCID.Unicorn,
-			NPCID.WanderingEye,
-			NPCID.Werewolf,
-			NPCID.Wolf,
-			NPCID.SeekerHead,
-			NPCID.SeekerBody,
-			NPCID.SeekerTail,
-			NPCID.Wraith,
-			NPCID.ChatteringTeethBomb,
-			NPCID.Clown,
-			NPCID.AngryNimbus,
-			NPCID.IceGolem,
-			NPCID.RainbowSlime,
-			NPCID.SandShark,
-			NPCID.SandsharkCorrupt,
-			NPCID.SandsharkCrimson,
-			NPCID.SandsharkHallow,
-			NPCID.ShadowFlameApparition,
-			NPCID.Parrot,
-			NPCID.PirateCorsair,
-			NPCID.PirateDeckhand,
-			//NPCID.PiratesCurse,
-			NPCID.BlueArmoredBonesMace,
-			NPCID.BlueArmoredBonesSword,
-			NPCID.BoneLee,
-			NPCID.DungeonSpirit,
-			NPCID.FlyingSnake,
-			NPCID.HellArmoredBones,
-			NPCID.HellArmoredBonesSpikeShield,
-			NPCID.HellArmoredBonesSword,
-			NPCID.MisterStabby,
-			NPCID.SnowBalla,
-			NPCID.SnowmanGangsta,
-			NPCID.Butcher,
-			NPCID.CreatureFromTheDeep,
-			NPCID.DeadlySphere,
-			NPCID.Frankenstein,
-			NPCID.Fritz,
-			NPCID.Psycho,
-			NPCID.Reaper,
-			NPCID.SwampThing,
-			NPCID.ThePossessed,
-			NPCID.Vampire,
-			NPCID.VampireBat,
-			NPCID.HeadlessHorseman,
-			NPCID.Hellhound,
-			NPCID.Poltergeist,
-			NPCID.Scarecrow1,
-			NPCID.Scarecrow2,
-			NPCID.Scarecrow3,
-			NPCID.Scarecrow4,
-			NPCID.Scarecrow5,
-			NPCID.Scarecrow6,
-			NPCID.Scarecrow7,
-			NPCID.Scarecrow8,
-			NPCID.Scarecrow9,
-			NPCID.Scarecrow10,
-			NPCID.Splinterling,
-			NPCID.Flocko,
-			NPCID.GingerbreadMan,
-			NPCID.Krampus,
-			NPCID.Nutcracker,
-			NPCID.NutcrackerSpinning,
-			NPCID.PresentMimic,
-			NPCID.Yeti,
-			NPCID.ZombieElf,
-			NPCID.ZombieElfBeard,
-			NPCID.ZombieElfGirl
-			//NPCID.BloodEelHead,
-			//NPCID.BloodEelBody,
-			//NPCID.BloodEelTail,
-			//NPCID.HemogoblinShark,
-			//NPCID.WanderingEyeFish,
-			//NPCID.ZombieMerman,
-		};
-
-		public static List<int> BoundNPCIDs = new List<int>
-		{
-			NPCID.BoundGoblin,
-			NPCID.BoundWizard,
-			NPCID.BoundMechanic,
-			NPCID.SleepingAngler,
-			NPCID.BartenderUnconscious,
-			NPCID.WebbedStylist,
-			//NPCID.GolferRescue
-		};
 		#endregion
 
         #region Instance Per Entity
@@ -1021,8 +583,8 @@ namespace CalamityMod.NPCs
 			// Debuff vulnerabilities and resistances.
 			// Damage multiplier calcs.
 			// Worms that are vulnerable to debuffs take reduced damage from vulnerabilities.
-			bool wormBoss = DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type) ||
-				AquaticScourgeIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type);
+			bool wormBoss = CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || CalamityLists.PerforatorIDs.Contains(npc.type) ||
+				CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type);
 			double heatDamageMult = npc.drippingSlime ? (wormBoss ? 3D : 5D) : 1D;
 			if (VulnerableToHeat.HasValue)
 			{
@@ -1342,9 +904,9 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 
 			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-			if (((DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
-				DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
-				(EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
+			if (((CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || CalamityLists.PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
+				CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
+				(CalamityLists.EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
 				npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -1451,7 +1013,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<PearlAura>()] = true;
             }
 
-            foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
+            foreach (KeyValuePair<int, int> BossRushHPChange in CalamityLists.BossRushHPChanges)
             {
                 if (npc.type == BossRushHPChange.Key)
                 {
@@ -1465,7 +1027,7 @@ namespace CalamityMod.NPCs
         #region Boss Value Changes
         private void BossValueChanges(NPC npc)
         {
-            foreach (KeyValuePair<int, int> BossValue in BossValues)
+            foreach (KeyValuePair<int, int> BossValue in CalamityLists.BossValues)
             {
                 if (npc.type == BossValue.Key)
                 {
@@ -1520,7 +1082,7 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
-			if (DeathModeSplittingWormIDs.Contains(npc.type))
+			if (CalamityLists.DeathModeSplittingWormIDs.Contains(npc.type))
 			{
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)(npc.lifeMax * 0.25);
@@ -1614,7 +1176,7 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.1);
             }
-            else if (EaterofWorldsIDs.Contains(npc.type))
+            else if (CalamityLists.EaterofWorldsIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
 
@@ -1641,7 +1203,7 @@ namespace CalamityMod.NPCs
 
             if (!DraedonMayhem)
             {
-                if (DestroyerIDs.Contains(npc.type))
+                if (CalamityLists.DestroyerIDs.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 1.25);
                     npc.scale = 1.5f;
@@ -1757,40 +1319,40 @@ namespace CalamityMod.NPCs
 			}
 
 			// Calamity bosses
-			bool preHardmodeCalamityBosses = DesertScourgeIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>() ||
+			bool preHardmodeCalamityBosses = CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>() ||
 				npc.type == NPCType<HiveMind.HiveMind>() || npc.type == NPCType<PerforatorHive>() || npc.type == NPCType<SlimeGod.SlimeGod>() ||
 				npc.type == NPCType<SlimeGodRun>() || npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>() ||
 				npc.type == NPCType<SlimeGodCore>();
 
-			bool earlyHardmodeCalamityBosses = npc.type == NPCType<Cryogen.Cryogen>() || AquaticScourgeIDs.Contains(npc.type) ||
+			bool earlyHardmodeCalamityBosses = npc.type == NPCType<Cryogen.Cryogen>() || CalamityLists.AquaticScourgeIDs.Contains(npc.type) ||
 				npc.type == NPCType<BrimstoneElemental.BrimstoneElemental>() || npc.type == NPCType<CalamitasRun3>();
 
 			bool lateHardmodeCalamityBosses = npc.type == NPCType<Siren>() || npc.type == NPCType<Leviathan.Leviathan>() ||
 				npc.type == NPCType<AstrumAureus.AstrumAureus>() || npc.type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() ||
-				npc.type == NPCType<RavagerBody>() || AstrumDeusIDs.Contains(npc.type);
+				npc.type == NPCType<RavagerBody>() || CalamityLists.AstrumDeusIDs.Contains(npc.type);
 
 			bool postMLPreProviCalamityBosses = npc.type == NPCType<ProfanedGuardianBoss>() || npc.type == NPCType<Bumblefuck>() ||
 				npc.type == NPCType<Providence.Providence>();
 
 			bool postProviPreDoGCalamityBosses = npc.type == NPCType<CeaselessVoid.CeaselessVoid>() || npc.type == NPCType<DarkEnergy>() ||
-				StormWeaverIDs.Contains(npc.type) || npc.type == NPCType<Signus.Signus>() || npc.type == NPCType<Polterghast.Polterghast>() ||
-				npc.type == NPCType<OldDuke.OldDuke>() || DevourerOfGodsIDs.Contains(npc.type);
+				CalamityLists.StormWeaverIDs.Contains(npc.type) || npc.type == NPCType<Signus.Signus>() || npc.type == NPCType<Polterghast.Polterghast>() ||
+				npc.type == NPCType<OldDuke.OldDuke>() || CalamityLists.DevourerOfGodsIDs.Contains(npc.type);
 
 			bool postDoGCalamityBosses = npc.type == NPCType<Yharon.Yharon>() || npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>() ||
-				ThanatosIDs.Contains(npc.type) || npc.type == NPCType<Apollo>() || npc.type == NPCType<Artemis>() ||
-				AresIDs.Contains(npc.type) || npc.type == NPCType<EidolonWyrmHeadHuge>();
+				CalamityLists.ThanatosIDs.Contains(npc.type) || npc.type == NPCType<Apollo>() || npc.type == NPCType<Artemis>() ||
+				CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<EidolonWyrmHeadHuge>();
 
 			if (preHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? (DesertScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
+				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.DesertScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (earlyHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? (AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
+				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (lateHardmodeCalamityBosses)
 			{
-				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? (AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
+				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (postMLPreProviCalamityBosses)
 			{
@@ -1798,7 +1360,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (postProviPreDoGCalamityBosses)
 			{
-				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled : malice ? (StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
+				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled : malice ? (CalamityLists.StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
 			}
 			else if (postDoGCalamityBosses)
 			{
@@ -2646,7 +2208,7 @@ namespace CalamityMod.NPCs
 			{
 				if (!NPC.downedMechBossAny)
 				{
-					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					if (CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || CalamityLists.SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
 					{
 						npc.lifeMax = (int)(npc.lifeMax * 0.8);
 						npc.damage = (int)(npc.damage * 0.8);
@@ -2655,7 +2217,7 @@ namespace CalamityMod.NPCs
 				}
 				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 				{
-					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					if (CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || CalamityLists.SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
 					{
 						npc.lifeMax = (int)(npc.lifeMax * 0.9);
 						npc.damage = (int)(npc.damage * 0.9);
@@ -2664,7 +2226,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (Main.hardMode && HardmodeNPCNerfList.Contains(npc.type))
+			if (Main.hardMode && CalamityLists.HardmodeNPCNerfList.Contains(npc.type))
 			{
 				npc.damage = (int)(npc.damage * 0.75);
 				npc.defDamage = npc.damage;
@@ -2894,17 +2456,17 @@ namespace CalamityMod.NPCs
                 return false;
 
 			// Damage reduction on spawn
-			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
-			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
-			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
+			bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
+			bool eaterofWorldsResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
+			if (destroyerResist || eaterofWorldsResist || CalamityLists.AstrumDeusIDs.Contains(npc.type))
 			{
-				float resistanceGateValue = (AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
-				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
+				float resistanceGateValue = (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
+				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && CalamityLists.DestroyerIDs.Contains(npc.type)))
 					damage *= 0.01;
 			}
 
 			// Large Deus worm takes reduced damage to last a long enough time
-			if (AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
+			if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
 				damage *= 0.8;
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
@@ -3154,7 +2716,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				bool DoGSentinelPhase = DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
+				bool DoGSentinelPhase = CalamityLists.DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
 				if (npc.type != NPCType<Draedon>() && !DoGSentinelPhase)
 				{
 					if (AITimer < KillTime)
@@ -3182,14 +2744,14 @@ namespace CalamityMod.NPCs
 			}
 
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-			if (ZeroContactDamageNPCList.Contains(npc.type))
+			if (CalamityLists.ZeroContactDamageNPCList.Contains(npc.type))
 				npc.damage = npc.defDamage = 0;
 
 			// Don't do damage for 42 frames after spawning in
 			if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
 				npc.damage = npc.alpha > 0 ? 0 : npc.defDamage;
 
-			if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
+			if (CalamityLists.DestroyerIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;
 
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC && !npc.Calamity().DoesNotDisappearInBossRush)
@@ -4460,12 +4022,12 @@ namespace CalamityMod.NPCs
 				damage = (int)(damage * 0.1);
 
 			// True melee resists
-			if (DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
-				PerforatorIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) ||
-				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
-				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || AresIDs.Contains(npc.type))
+			if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
+				CalamityLists.PerforatorIDs.Contains(npc.type) || CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.DestroyerIDs.Contains(npc.type) ||
+				CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type) || CalamityLists.ThanatosIDs.Contains(npc.type) ||
+				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type))
 			{
-				double damageMult = ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
+				double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
 			}
@@ -4595,7 +4157,7 @@ namespace CalamityMod.NPCs
 			if (CalamityLists.pierceResistList.Contains(npc.type))
 				PierceResistGlobal(projectile, npc, ref damage);
 
-			if (AresIDs.Contains(npc.type))
+			if (CalamityLists.AresIDs.Contains(npc.type))
 			{
 				// 75% resist to Dragon Rage projectiles.
 				if (projectile.type == ProjectileType<DragonRageStaff>() || projectile.type == ProjectileType<DragonRageFireball>() || (projectile.type == ProjectileType<FuckYou>() && projectile.melee))
@@ -4619,7 +4181,7 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<EclipsesSmol>())
 					damage = (int)(damage * 0.9);
 			}
-			else if (ThanatosIDs.Contains(npc.type))
+			else if (CalamityLists.ThanatosIDs.Contains(npc.type))
 			{
 				// 75% resist to Celestus and Chicken Cannon.
 				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
@@ -4660,7 +4222,7 @@ namespace CalamityMod.NPCs
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
-			else if (AstrumDeusIDs.Contains(npc.type))
+			else if (CalamityLists.AstrumDeusIDs.Contains(npc.type))
 			{
 				// 75% resist to Plaguenades.
 				if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
@@ -4684,7 +4246,7 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
 			}
-			else if (DevourerOfGodsIDs.Contains(npc.type))
+			else if (CalamityLists.DevourerOfGodsIDs.Contains(npc.type))
 			{
 				// 15% increased damage from Time Bolt stealth strikes.
 				if (projectile.type == ProjectileType<TimeBoltKnife>())
@@ -4699,7 +4261,7 @@ namespace CalamityMod.NPCs
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
-			else if (StormWeaverIDs.Contains(npc.type))
+			else if (CalamityLists.StormWeaverIDs.Contains(npc.type))
 			{
 				// 25% resist to Molten Amputator blobs.
 				if (projectile.type == ProjectileType<MoltenBlobThrown>())
@@ -4709,19 +4271,19 @@ namespace CalamityMod.NPCs
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<TacticiansElectricBoom>())
 					damage = (int)(damage * 0.5);
 			}
-			else if (DestroyerIDs.Contains(npc.type))
+			else if (CalamityLists.DestroyerIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee and Dormant Brimseekers.
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
-			else if (AquaticScourgeIDs.Contains(npc.type))
+			else if (CalamityLists.AquaticScourgeIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee and Dormant Brimseekers.
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
-			else if (PerforatorIDs.Contains(npc.type))
+			else if (CalamityLists.PerforatorIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)
@@ -4733,7 +4295,7 @@ namespace CalamityMod.NPCs
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileID.DemonScythe)
 					damage = (int)(damage * 0.5);
 			}
-			else if (EaterofWorldsIDs.Contains(npc.type))
+			else if (CalamityLists.EaterofWorldsIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee and Demon Scythe.
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileID.DemonScythe)
@@ -4743,7 +4305,7 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<StickyFeather>())
 					damage = (int)(damage * 0.6);
 			}
-			else if (DesertScourgeIDs.Contains(npc.type))
+			else if (CalamityLists.DesertScourgeIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)
@@ -4804,16 +4366,16 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
 		{
-			if (GrenadeResistIDs.Contains(projectile.type))
+			if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
 			{
-				if (!EaterofWorldsIDs.Contains(npc.type))
+				if (!CalamityLists.EaterofWorldsIDs.Contains(npc.type))
 					damage = (int)(damage * 0.2);
 				else if (!Main.expertMode)
 					damage = (int)(damage * 0.2);
 			}
 
 			// Thanatos segments do not trigger pierce resistance if they are closed
-			if (ThanatosIDs.Contains(npc.type) && unbreakableDR)
+			if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
 				return;
 
 			float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
@@ -5780,7 +5342,7 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
-                if (npc.type == NPCID.SkeletronPrime || DestroyerIDs.Contains(npc.type))
+                if (npc.type == NPCID.SkeletronPrime || CalamityLists.DestroyerIDs.Contains(npc.type))
                     return false;
             }
 
@@ -5944,7 +5506,7 @@ namespace CalamityMod.NPCs
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
                         npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
                 }
-				else if (DestroyerIDs.Contains(npc.type))
+				else if (CalamityLists.DestroyerIDs.Contains(npc.type))
 				{
 					if (drawColor != Color.Black)
 					{
@@ -6265,7 +5827,7 @@ namespace CalamityMod.NPCs
 		#region Should Affect NPC
 		public static bool ShouldAffectNPC(NPC target)
         {
-			if (EaterofWorldsIDs.Contains(target.type) || DestroyerIDs.Contains(target.type))
+			if (CalamityLists.EaterofWorldsIDs.Contains(target.type) || CalamityLists.DestroyerIDs.Contains(target.type))
 				return false;
 
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&

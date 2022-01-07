@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.value = CalamityGlobalItem.Rarity14BuyPrice;
 			item.Calamity().customRarity = CalamityRarity.DarkBlue;
 			item.Calamity().donorItem = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-50f, -8f);

@@ -79,7 +79,7 @@ namespace CalamityMod.ILEditing
             NPCID.AncientCultistSquidhead,
         };
 
-        public static readonly List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
+        public static List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
 
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
@@ -163,7 +163,7 @@ namespace CalamityMod.ILEditing
                 {
                     cache.Add(new OrderedProjectileEntry()
                     {
-                        Proj = Main.projectile[i],
+                        Proj = Main.projectile[i] ?? new Projectile(),
                         OriginalIndex = i
                     });
                 }

@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public void HandlePetStuff()
         {
-            if (Owner.dead || !Owner.Calamity().spiritOrigin)
+            if (Owner.dead || !Owner.Calamity().spiritOrigin && !Owner.Calamity().spiritOriginVanity)
                 Owner.Calamity().spiritOriginPet = false;
             if (Owner.Calamity().spiritOriginPet)
                 projectile.timeLeft = 2;

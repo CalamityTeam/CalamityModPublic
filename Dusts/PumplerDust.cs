@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 
 namespace CalamityMod.Dusts { 
-    public class PumplerDust : ModDust
+    public class PumplerDust : ModDust //TURN THAT INTO A PARTICLE WHEN I REMEMBER
     {
         public override bool Autoload(ref string name, ref string texture)
         {
-            texture = "CalamityMod/Dusts/SmallSmoke";
+            texture = "CalamityMod/Particles/SmallSmoke";
             return true;
         }
         public override void OnSpawn(Dust dust)

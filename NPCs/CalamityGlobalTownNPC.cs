@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs
 		}
 
 		// Annoyingly, because npc.GivenName is a property, it can't be passed as a ref parameter.
-		private static string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames)
+		private string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames)
 		{
 			if (alreadySet || patreonNames is null || patreonNames.Length == 0)
 			{
@@ -227,11 +227,11 @@ namespace CalamityMod.NPCs
 			return patreonNames[index];
 		}
 
-		public static void SetPatreonTownNPCName(NPC npc, Mod mod)
+		public void SetPatreonTownNPCName(NPC npc, Mod mod)
 		{
-			if (npc.Calamity().setNewName)
+			if (setNewName)
 			{
-				npc.Calamity().setNewName = false;
+				setNewName = false;
 				switch (npc.type)
 				{
 					case NPCID.Angler:
@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region NPC New Shop Alert
-		public static void TownNPCAlertSystem(NPC npc, Mod mod, SpriteBatch spriteBatch)
+		public void TownNPCAlertSystem(NPC npc, Mod mod, SpriteBatch spriteBatch)
 		{
 			if (CalamityConfig.Instance.ShopNewAlert && npc.townNPC)
 			{
@@ -432,17 +432,17 @@ namespace CalamityMod.NPCs
 
 					// Texture animation variables
 					Texture2D texture = GetTexture("CalamityMod/ExtraTextures/UI/NPCAlertDisplay");
-					npc.Calamity().shopAlertAnimTimer++;
-					if (npc.Calamity().shopAlertAnimTimer >= 6)
+					shopAlertAnimTimer++;
+					if (shopAlertAnimTimer >= 6)
 					{
-						npc.Calamity().shopAlertAnimTimer = 0;
+						shopAlertAnimTimer = 0;
 
-						npc.Calamity().shopAlertAnimFrame++;
-						if (npc.Calamity().shopAlertAnimFrame > 4)
-							npc.Calamity().shopAlertAnimFrame = 0;
+						shopAlertAnimFrame++;
+						if (shopAlertAnimFrame > 4)
+							shopAlertAnimFrame = 0;
 					}
 					int frameHeight = texture.Height / 5;
-					Rectangle animRect = new Rectangle(0, frameHeight * npc.Calamity().shopAlertAnimFrame, texture.Width, frameHeight);
+					Rectangle animRect = new Rectangle(0, frameHeight * shopAlertAnimFrame, texture.Width, frameHeight);
 
 					spriteBatch.Draw(texture, drawPos - new Vector2(5f, drawPosY), animRect, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
 				}
@@ -1151,16 +1151,16 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region NPC Stat Changes
-		public static void BoundNPCSafety(Mod mod, NPC npc)
+		public void BoundNPCSafety(Mod mod, NPC npc)
 		{
 			// Make Bound Town NPCs take no damage
-			if (CalamityGlobalNPC.BoundNPCIDs.Contains(npc.type))
+			if (CalamityLists.BoundNPCIDs.Contains(npc.type))
 			{
 				npc.dontTakeDamageFromHostiles = true;
 			}
 		}
 
-		public static void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref int damage)
+		public void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref int damage)
 		{
 			if (npc.townNPC && projectile.hostile)
 				damage *= 2;
@@ -1379,7 +1379,7 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		public static void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
+		public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
 		{
 			if (condition)
 			{

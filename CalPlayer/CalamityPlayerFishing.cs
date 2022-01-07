@@ -21,14 +21,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-	public class CalamityPlayerFishing
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Catch Fish
-        public static void CalamityCatchFish(Player player, ref Item fishingRod, ref Item bait, ref int power, ref int liquidType, ref int poolSize,
-			ref int worldLayer, ref int questFish, ref int caughtType, ref bool junk)
+        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-
 			bool water = liquidType == 0;
 			bool lava = liquidType == 1;
 			bool honey = liquidType == 2;
@@ -46,7 +43,7 @@ namespace CalamityMod.CalPlayer
 					canSulphurFish = true;
 			}
 
-			if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
+			if (ZoneAbyss || ZoneSulphur)
 				canSulphurFish = true;
 
 			// Old Duke spawn
@@ -56,33 +53,33 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Quest Fish
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<EutrophicSandfish>();
 				return;
 			}
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<SurfClam>();
 				return;
 			}
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<Serpentuna>();
 				return;
 			}
-			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
+			if (ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<Brimlish>();
 				return;
 			}
-			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
+			if (ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<Slurpfish>();
 				return;
 			}
 
-			if (modPlayer.alluringBait)
+			if (alluringBait)
 			{
 				int chanceForPotionFish = 1000 / power;
 
@@ -95,11 +92,11 @@ namespace CalamityMod.CalPlayer
 
 					if (lava)
 					{
-						fishList.AddWithCondition<int>(ItemID.FlarefinKoi, !modPlayer.ZoneCalamity);
-						fishList.AddWithCondition<int>(ItemID.Obsidifish, !modPlayer.ZoneCalamity);
-						fishList.AddWithCondition<int>(ModContent.ItemType<CoastalDemonfish>(), modPlayer.ZoneCalamity);
-						fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), modPlayer.ZoneCalamity);
-						fishList.AddWithCondition<int>(ModContent.ItemType<BrimstoneFish>(), modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ItemID.FlarefinKoi, !ZoneCalamity);
+						fishList.AddWithCondition<int>(ItemID.Obsidifish, !ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<CoastalDemonfish>(), ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<BrimstoneFish>(), ZoneCalamity);
 					}
 					else if (water)
 					{
@@ -122,10 +119,10 @@ namespace CalamityMod.CalPlayer
 						fishList.AddWithCondition<int>(ItemID.PrincessFish, player.ZoneHoly);
 						fishList.AddWithCondition<int>(ItemID.Prismite, player.ZoneHoly);
 						fishList.AddWithCondition<int>(ItemID.Damselfish, player.ZoneSkyHeight);
-						fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), modPlayer.ZoneAstral);
-						fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), modPlayer.ZoneSunkenSea);
-						fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), modPlayer.ZoneSunkenSea);
-						fishList.AddWithCondition<int>(ModContent.ItemType<ScarredAngelfish>(), modPlayer.ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
+						fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ModContent.ItemType<ScarredAngelfish>(), ZoneSunkenSea);
 					}
 
 					if (fishList.Any())
@@ -138,10 +135,10 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.enchantedPearl || modPlayer.fishingStation)
+			if (enchantedPearl || fishingStation)
 			{
-				int chanceForCrates = (modPlayer.enchantedPearl ? 10 : 0) +
-					(modPlayer.fishingStation ? 10 : 0);
+				int chanceForCrates = (enchantedPearl ? 10 : 0) +
+					(fishingStation ? 10 : 0);
 
 				int poolSizeAmt = poolSize / 10;
 				if (poolSizeAmt > 100)
@@ -172,7 +169,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (Main.rand.NextBool(chanceForBiomeCrate))
 						{
-							if (modPlayer.ZoneCalamity)
+							if (ZoneCalamity)
 								caughtType = ModContent.ItemType<BrimstoneCrate>();
 						}
 					}
@@ -182,7 +179,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (Main.rand.Next(100) < chanceForCrates)
 					{
-						if (Main.rand.NextBool(chanceForRareItems) && modPlayer.enchantedPearl && modPlayer.fishingStation && player.cratePotion)
+						if (Main.rand.NextBool(chanceForRareItems) && enchantedPearl && fishingStation && player.cratePotion)
 						{
 							List<int> rareItemList = new List<int>();
 
@@ -198,7 +195,7 @@ namespace CalamityMod.CalPlayer
 										break;
 								}
 							}
-							if (modPlayer.ZoneAstral)
+							if (ZoneAstral)
 							{
 								switch (Main.rand.Next(3))
 								{
@@ -213,7 +210,7 @@ namespace CalamityMod.CalPlayer
 										break;
 								}
 							}
-							if (modPlayer.ZoneSunkenSea)
+							if (ZoneSunkenSea)
 							{
 								switch (Main.rand.Next(2))
 								{
@@ -248,8 +245,8 @@ namespace CalamityMod.CalPlayer
 						{
 							List<int> biomeCrateList = new List<int>();
 
-							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), modPlayer.ZoneAstral);
-							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), modPlayer.ZoneSunkenSea);
+							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), ZoneAstral);
+							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), ZoneSunkenSea);
 							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
 							biomeCrateList.AddWithCondition<int>(ItemID.CorruptFishingCrate, player.ZoneCorrupt);
 							biomeCrateList.AddWithCondition<int>(ItemID.CrimsonFishingCrate, player.ZoneCrimson);
@@ -348,7 +345,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (modPlayer.ZoneAstral) // Astral Infection, fishing in water
+				if (ZoneAstral) // Astral Infection, fishing in water
 				{
 					int astralFish = Main.rand.Next(100);
 					if (astralFish >= 85) // 15%
@@ -390,7 +387,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (modPlayer.ZoneSunkenSea) // Sunken Sea, fishing in water
+				if (ZoneSunkenSea) // Sunken Sea, fishing in water
 				{
 					int sunkenFish = Main.rand.Next(100);
 					if (sunkenFish >= 85 && Main.hardMode) // 15%
@@ -505,7 +502,7 @@ namespace CalamityMod.CalPlayer
 
 			if (lava)
 			{
-				if (modPlayer.ZoneCalamity) // Brimstone Crags, fishing in lava
+				if (ZoneCalamity) // Brimstone Crags, fishing in lava
 				{
 					int cragFish = Main.rand.Next(100);
 					if (cragFish >= 85) // 15%
@@ -554,11 +551,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Get Fishing Level
-        public static void CalamityGetFishingLevel(Player player, ref Item fishingRod, ref Item bait, ref int fishingLevel)
+        public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-
-			if ((modPlayer.ZoneAstral || modPlayer.ZoneAbyss || modPlayer.ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
+			if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
 			if (player.ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
@@ -580,7 +575,7 @@ namespace CalamityMod.CalPlayer
 						canSulphurFish = true;
 				}
 
-				if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
+				if (ZoneAbyss || ZoneSulphur)
 					canSulphurFish = true;
 
 				Item item = player.ActiveItem();
