@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosPlanet : ModProjectile
     {
-		private int radius = 84;
+		private float radius = 84f;
 
         public override void SetStaticDefaults()
         {
@@ -137,22 +137,6 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= radius;
-        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
     }
 }

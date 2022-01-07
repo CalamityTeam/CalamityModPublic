@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<SCalBag>();
 			npc.Calamity().VulnerableToHeat = false;
 			npc.Calamity().VulnerableToCold = true;
@@ -838,7 +838,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
                 // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
-                music = CalamityMod.Instance.GetMusicFromMusicMod("SCL") ?? MusicID.Boss3;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas2") ?? MusicID.Boss3;
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -911,7 +911,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
 				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-				music = CalamityMod.Instance.GetMusicFromMusicMod("SCE") ?? MusicID.LunarBoss;
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -1001,7 +1001,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (gettingTired5)
                 {
                     // Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
-                    music = CalamityMod.Instance.GetMusicFromMusicMod("SCA") ?? MusicID.Eerie;
+                    music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas4") ?? MusicID.Eerie;
 
                     if (npc.velocity.Y < 9f)
                         npc.velocity.Y += 0.185f;

@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noTileCollide = true;
             npc.netAlways = true;
 
-            music = CalamityMod.Instance.GetMusicFromMusicMod("YHARON") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
 
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
@@ -1524,7 +1524,7 @@ namespace CalamityMod.NPCs.Yharon
             if (!moveCloser)
             {
                 // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
-                music = CalamityMod.Instance.GetMusicFromMusicMod("DragonGod") ?? MusicID.LunarBoss;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
 
                 moveCloser = true;
 
@@ -2815,7 +2815,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region Loot
 		public override void NPCLoot()
 		{
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
 
 			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 

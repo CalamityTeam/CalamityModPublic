@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("Siren") ?? MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Anahita") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
 			npc.Calamity().VulnerableToHeat = false;
 			npc.Calamity().VulnerableToSickness = true;
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			// Change music.
 			if (leviAlive)
-				music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
+				music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
 
 			// Ice Shield
 			if (npc.localAI[2] < 3f)

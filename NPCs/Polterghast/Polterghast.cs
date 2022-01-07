@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("RUIN") ?? MusicID.Plantera;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath39;
             bossBag = ModContent.ItemType<PolterghastBag>();
@@ -974,7 +974,7 @@ namespace CalamityMod.NPCs.Polterghast
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

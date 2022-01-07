@@ -658,7 +658,7 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
 
 			// Purified Jam is once per player, but drops for all players.
 			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();

@@ -1445,7 +1445,7 @@ namespace CalamityMod.NPCs.Providence
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
 			// Accessories clientside only in Expert. Both drop if she is defeated at night.
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);

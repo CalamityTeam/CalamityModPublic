@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath19;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("BloodCoagulant") ?? MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
 			npc.Calamity().VulnerableToHeat = true;
 			npc.Calamity().VulnerableToCold = true;
@@ -480,7 +480,7 @@ namespace CalamityMod.NPCs.Perforator
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

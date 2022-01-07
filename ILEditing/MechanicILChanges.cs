@@ -304,7 +304,7 @@ namespace CalamityMod.ILEditing
             if (projectile.minion)
             {
                 Player player = Main.player[projectile.owner];
-                CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+                CalamityPlayer.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
                 if (player.Calamity().explosiveMinionsEnchant)
                     projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
             }
@@ -537,6 +537,18 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action>(DeathAshParticle.DrawAll);
         }
         #endregion Ash Particle Rendering
+
+        #region General Particle Rendering
+        private static void DrawGeneralParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+        {
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.ZoomMatrix);
+            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            Main.spriteBatch.End();
+
+            orig(self, gameTime);
+        }
+
+        #endregion General Particle Rendering
 
         #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)

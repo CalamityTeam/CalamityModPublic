@@ -600,11 +600,12 @@ namespace CalamityMod
 				int summon2 = ItemType<EyeofExtinction>();
 				int altar = ItemType<SCalAltarItem>();
 				List<int> summons = new List<int>() { summon1, summon2 };
-				List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<Condemnation>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
 				string instructions = $"Use [i:{summon1}] or a [i:{summon2}] as offering at an [i:{altar}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
-				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summons, loot, collection, instructions, despawn);
+				string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
+				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summons, loot, collection, instructions, despawn, null, bossHeadTex);
 			}
 
 			// Adult Eidolon Wyrm

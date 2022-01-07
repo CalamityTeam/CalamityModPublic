@@ -50,6 +50,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.nanotech = true;
             modPlayer.raiderTalisman = true;
             modPlayer.electricianGlove = true;
+            modPlayer.filthyGlove = true;
+            modPlayer.bloodyGlove = true;
             player.Calamity().throwingDamage += 0.15f;
             player.Calamity().throwingVelocity += 0.15f;
         }

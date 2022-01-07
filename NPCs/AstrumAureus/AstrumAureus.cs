@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord)
             {
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

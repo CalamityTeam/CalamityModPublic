@@ -79,7 +79,7 @@ namespace CalamityMod.ILEditing
             NPCID.AncientCultistSquidhead,
         };
 
-        public static readonly List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
+        public static List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
 
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
@@ -131,7 +131,7 @@ namespace CalamityMod.ILEditing
 
             // Load the NPC caller onto the stack.
             cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPCLoot.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
+            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPC.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
 
             // If the block is false (indicating the drop logic should stop), skip all the ahead banner drop logic.
             cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
@@ -163,7 +163,7 @@ namespace CalamityMod.ILEditing
                 {
                     cache.Add(new OrderedProjectileEntry()
                     {
-                        Proj = Main.projectile[i],
+                        Proj = Main.projectile[i] ?? new Projectile(),
                         OriginalIndex = i
                     });
                 }

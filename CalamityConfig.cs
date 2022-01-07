@@ -30,6 +30,14 @@ namespace CalamityMod
 		[Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
 		public bool Afterimages { get; set; }
 
+		[Label("Maximum particles")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0, 1000)]
+		[DefaultValue(500)]
+		[Tooltip("Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.")]
+		public int ParticleLimit { get; set; }
+
 		[Label("Disable Screenshakes")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]

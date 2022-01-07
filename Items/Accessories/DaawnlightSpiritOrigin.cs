@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Accessories
                 "Converts all ranged critical strike chance boosts into extra critical strike damage\n" +
                 "All ranged weapons will deal even more critical strike damage the slower they are\n" +
                 "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
+                "The heroic spirit is also summoned when this accessory is placed in vanity slots\n" +
                 "'A strand of a lost cosmos remains, waiting for its master'");
         }
 

@@ -5,21 +5,38 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
+	/// <summary>
+	/// A set of particles that aren't attached to any particular position in the world, but instead an arbitrary center point defined in the draw function
+	/// The particles in particle sets don't count towards the general particle handler's particle cap since it doesn't process them at all.
+	/// You'll have to manually update and draw these sets.
+	/// TLDR: Groups of particles that work with relative positions instead of world positions and have to be manually updated and drawn
+	/// </summary>
 	public abstract class BaseParticleSet
 	{
 		public int LocalTimer { get; internal set; }
 		public int SetLifetime { get; internal set; }
+		/// <summary>
+		/// The amount of frames it takes for a new particle to be spawned in the set.
+		/// </summary>
 		public int ParticleSpawnRate;
+		/// <summary>
+		/// The particles in the set
+		/// </summary>
 		public List<Particle> Particles = new List<Particle>();
+		/// <summary>
+		/// The lifetime of the particles in the set.
+		/// If the particles spawned don't have this same lifetime set they may get cut off when the set dies.
+		/// </summary>
 		public abstract int ParticleLifetime { get; }
-		public abstract void UpdateBehavior(Particle particle);
+		/// <summary>
+		/// The particle spawned by the set
+		/// </summary>
+		/// <returns></returns>
 		public abstract Particle SpawnParticle();
-		public abstract Color DetermineParticleColor(float lifetimeCompletion);
-		public abstract Texture2D ParticleTexture { get; }
-		public virtual int ParticleFrameVariants => 1;
 		public virtual Func<Particle, int> OrderFunction { get; } = null;
 
 		public BaseParticleSet(int setLifetime, int particleSpawnRate)
@@ -34,24 +51,24 @@ namespace CalamityMod.Particles
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
+			//Spawn new particles if time remains
 			bool closeToDeath = LocalTimer >= SetLifetime - ParticleLifetime && SetLifetime > 0;
 			if (LocalTimer % ParticleSpawnRate == ParticleSpawnRate - 1 && !closeToDeath)
 			{
 				Particle particle = SpawnParticle();
-				particle.Lifetime = ParticleLifetime;
-				particle.Variant = Main.rand.Next(ParticleFrameVariants);
 				Particles.Add(particle);
 			}
 
-			// Update and increment the time of all particles.
-			for (int i = 0; i < Particles.Count; i++)
+			// Update and increment the time of all particles, alongside modifying their offset based on their velocity.
+			foreach(Particle particle in Particles)
 			{
-				Particles[i].Time++;
-				UpdateBehavior(Particles[i]);
+				particle.RelativeOffset += particle.Velocity;
+				particle.Time++;
+				particle.Update();
 			}
 
 			// Clear all expired particles.
-			Particles.RemoveAll(particle => particle.Time >= particle.Lifetime);
+			Particles.RemoveAll(particle => particle.Time >= particle.Lifetime && particle.SetLifetime);
 			LocalTimer++;
 		}
 
@@ -66,11 +83,18 @@ namespace CalamityMod.Particles
 
 			foreach (Particle particle in Particles.OrderBy(p => p.Time))
 			{
-				Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
-				Color particleColor = DetermineParticleColor(particle.Time / (float)particle.Lifetime);
-				Rectangle frame = ParticleTexture.Frame(1, ParticleFrameVariants, 0, particle.Variant);
+				if (particle.UseCustomDraw)
+					particle.CustomDraw(Main.spriteBatch);
+				else
+				{
+					var tex = ModContent.GetTexture(particle.Texture);
 
-				Main.spriteBatch.Draw(ParticleTexture, drawPosition, frame, particleColor, 0f, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+					Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
+					Color particleColor = particle.Color;
+					Rectangle frame = tex.Frame(1, particle.FrameVariants, 0, particle.Variant);
+
+					Main.spriteBatch.Draw(tex, drawPosition, frame, particle.Color, 0f, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+				}
 			}
 		}
 	}

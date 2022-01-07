@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             projectile.alpha = 255;
         }
 
@@ -64,6 +65,12 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void AI()
         {
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+			// Fireballs disappear if you can't stealth strike
+			if (!modPlayer.wearingRogueArmor || modPlayer.rogueStealthMax <= 0)
+				projectile.Kill();
+
             projectile.alpha -= 5;
 
 			if (!initialized)
@@ -112,13 +119,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item74, projectile.Center);
-			// Explode for double damage
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
-            projectile.maxPenetrate = projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.damage *= 2;
-            projectile.Damage();
 
 			// Create into some rainbow-colored dust when dead
             for (int d = 0; d < 5; d++)

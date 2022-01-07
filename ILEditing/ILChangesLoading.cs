@@ -1,6 +1,7 @@
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -26,6 +27,9 @@ namespace CalamityMod.ILEditing
             exoDoorOpen = ModContent.TileType<ExoDoorOpen>();
             exoDoorClosed = ModContent.TileType<ExoDoorClosed>();
 
+            // Re-initialize the projectile cache list.
+            OrderedProjectiles = new List<OrderedProjectileEntry>();
+
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
@@ -46,13 +50,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw += DrawFusableParticles;
             IL.Terraria.Main.DoDraw += DrawAshParticles;
+            On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
-			IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
+            IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -121,12 +126,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
             IL.Terraria.Main.DoDraw -= DrawAshParticles;
+            On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
