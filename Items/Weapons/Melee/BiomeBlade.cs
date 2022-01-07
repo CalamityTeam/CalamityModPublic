@@ -17,6 +17,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader.IO;
+using static CalamityMod.Items.Weapons.Melee.BiomeBlade;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            foreach (TooltipLine l in list) //I gave the attunement silly pseudo-fantasy names, ideas appreciated.
+            foreach (TooltipLine l in list) 
             {
                 if (l.text.StartsWith("FUNCTION_DESC"))
                 {
@@ -147,8 +148,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
 
-        public override bool AltFunctionUse(Player player) => true;
-
         #region Saving and syncing attunements
         public override bool CloneNewInstances => true;
 
@@ -209,7 +208,7 @@ namespace CalamityMod.Items.Weapons.Melee
             else
                 mainAttunement = (Attunement?)attunement1;
 
-            if (attunement2 == -1)
+            if (attunement2 == -1 || (attunement1 == attunement2))
                 secondaryAttunement = null;
             else
                 secondaryAttunement = (Attunement?)attunement2;
@@ -231,6 +230,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
+
+            player.Calamity().rightClickListener = true;
 
             if (player.velocity.Y == 0) //Reset the lunge ability on ground contact
                 CanLunge = 1;
@@ -301,6 +302,23 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
             }
+
+            if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
+            {
+                //Don't shoot out a visual blade if you already have one out
+                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeVisuals>() && n.owner == player.whoAmI))
+                    return;
+
+                int x = (int)player.Center.X / 16;
+                int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
+                Tile tileStandingOn = Main.tile[x, y + 1];
+
+                bool mayAttune = player.StandingStill() && !player.mount.Active && tileStandingOn.IsTileSolidGround();
+                if (player.whoAmI == Main.myPlayer)
+                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                Vector2 displace = new Vector2(18f, 0f);
+                Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
+            }
         }
 
         public override bool CanUseItem(Player player)
@@ -311,38 +329,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 2)
-            {
-                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeVisuals>() && n.owner == player.whoAmI))
-                    return false;
-
-                if (!player.StandingStill()) //Swap attunements
-                {
-                    if (secondaryAttunement == null) //Don't let the player swap to an empty attunement
-                        return false;
-
-                    Projectile.NewProjectile(player.position, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 0f);
-                    Attunement? temporaryAttunementStorage = mainAttunement;
-                    mainAttunement = secondaryAttunement;
-                    secondaryAttunement = temporaryAttunementStorage;
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
-                    }
-                }
-
-                else //Chargeup
-                {
-                    if (player.mount.Active)
-                        return false;
-                    Vector2 displace = new Vector2((player.direction >= 0 ? 2 : -1) * 20f, 0);
-                    Projectile.NewProjectile(player.position + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeVisuals>(), 0, 0, player.whoAmI, 1f);
-                    if (player.whoAmI == Main.myPlayer)
-                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
-                }
-                return false;
-            }
-
             if (mainAttunement == null)
                 return false;
 
@@ -437,103 +423,162 @@ namespace CalamityMod.Items.Weapons.Melee
             return true;
         }
 
-
     }
 
     public class BrokenBiomeBladeVisuals : ModProjectile //Visuals
     {
         private Player Owner => Main.player[projectile.owner];
-        public ref float AnimationMode => ref projectile.ai[0];
+
+        public Tile OwnerGround => Main.tile[(int)Owner.Center.X / 16, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1];
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as BiomeBlade).CanUseItem(Owner) : false;
+        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && OwnerGround.IsTileSolidGround();
+        public ref float ChanneledState => ref projectile.ai[0];
+        public ref float ChannelTimer => ref projectile.ai[1];
+        public ref float Initialized => ref projectile.localAI[0];
+
+        private Item associatedItem;
+
         private BezierCurve bezierCurve;
+
+        const int ChannelTime = 120;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Broken Biome Blade");
         }
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BiomeBlade";
+        public bool drawIndrawHeldProjInFrontOfHeldItemAndArms = true;
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 36;
             projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 30;
+            projectile.timeLeft = 60;
             projectile.tileCollide = false;
             projectile.damage = 0;
         }
 
+        //Cancellable if the player uses the sword again.
+
         public override void AI()
         {
-            if (Owner.HeldItem.type != ItemType<BiomeBlade>())
+
+            if (Initialized == 0f)
             {
-                projectile.timeLeft = 0;
+                associatedItem = Owner.HeldItem;
+                //Switch up the attunements
+                Attunement? temporaryAttunementStorage = (associatedItem.modItem as BiomeBlade).mainAttunement;
+                (associatedItem.modItem as BiomeBlade).mainAttunement = (associatedItem.modItem as BiomeBlade).secondaryAttunement;
+                (associatedItem.modItem as BiomeBlade).secondaryAttunement = temporaryAttunementStorage;
+                Initialized = 1f;
+            }
+
+            if (!OwnerMayChannel && ChanneledState == 0f) //IF the channeling gets interrupted for any reason
+            {
+                ChanneledState = 1f;
+                projectile.timeLeft = 60;
                 return;
             }
 
-            if (AnimationMode == 1f)
+            if (ChanneledState == 0f)
             {
-                if (!Owner.StandingStill())
+                //Use an animationcurve instead plea,,se
+                if (bezierCurve == null)
                 {
-                    projectile.timeLeft = 0;
-                    return;
-                }
-                if (projectile.timeLeft == 30)
-                {
-                    List<Vector2> bezierPoints = new List<Vector2>() { projectile.position, projectile.position - Vector2.UnitY * 16f, projectile.position + Vector2.UnitY * 56f, projectile.position + Vector2.UnitY * 42f };
+                    List<Vector2> bezierPoints = new List<Vector2>() {projectile.position + Vector2.UnitY * 42f, projectile.position + Vector2.UnitY * 56f, projectile.position - Vector2.UnitY * 16f, projectile.position};
                     bezierCurve = new BezierCurve(bezierPoints.ToArray());
                 }
 
-                projectile.position = bezierCurve.Evaluate(1f - projectile.timeLeft / 30f);
-                //projectile.rotation = MathHelper.Lerp(MathHelper.PiOver4, -(MathHelper.PiOver2 + MathHelper.PiOver4), 1f - MathHelper.Clamp((projectile.timeLeft / 10), 0f, 1f));
-                //projectile.rotation = MathHelper.PiOver4 + MathHelper.PiOver2;
-                projectile.rotation = Utils.AngleLerp(MathHelper.PiOver4 + MathHelper.PiOver2, -MathHelper.PiOver4, MathHelper.Clamp(((projectile.timeLeft - 20f) / 10f), 0f, 1f));
+                Owner.heldProj = projectile.whoAmI;
 
-                if (projectile.timeLeft == 2)
+                projectile.position = bezierCurve.Evaluate(1f - ChannelTimer / ChannelTime);
+                projectile.rotation = Utils.AngleLerp(-MathHelper.PiOver4, MathHelper.PiOver4 + MathHelper.PiOver2, MathHelper.Clamp(((ChannelTimer - 20f) / 10f), 0f, 1f));
+                ChannelTimer++;
+                projectile.timeLeft = 60;
+
+                if (ChannelTimer >= ChannelTime)
                 {
-                    bool jungle = Owner.ZoneJungle;
-                    bool ocean = Owner.ZoneBeach;
-                    bool snow = Owner.ZoneSnow;
-                    bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
-                    bool desert = Owner.ZoneDesert;
-                    bool hell = Owner.ZoneUnderworldHeight;
-
-                    BiomeBlade.Attunement attunement = BiomeBlade.Attunement.Default;
-
-                    if (jungle || ocean)
-                    {
-                        attunement = BiomeBlade.Attunement.Tropical;
-                    }
-                    if (desert || hell)
-                    {
-                        attunement = BiomeBlade.Attunement.Hot;
-                    }
-                    if (snow)
-                    {
-                        attunement = BiomeBlade.Attunement.Cold;
-                    }
-                    if (evil)
-                    {
-                        attunement = BiomeBlade.Attunement.Evil;
-                    }
-
-                    if ((Owner.HeldItem.modItem as BiomeBlade).mainAttunement == attunement)
-                    {
-                        Main.PlaySound(SoundID.DD2_LightningBugZap, projectile.Center);
-                        return;
-                    }
-                    Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
-                    (Owner.HeldItem.modItem as BiomeBlade).secondaryAttunement = (Owner.HeldItem.modItem as BiomeBlade).mainAttunement;
-                    (Owner.HeldItem.modItem as BiomeBlade).mainAttunement = attunement;
-
-                    //Lots of particles!!! yay!! visuals!!
+                    Attune((BiomeBlade)associatedItem.modItem);
+                    projectile.timeLeft = 120;
+                    ChanneledState = 2f;
                 }
+            }
+
+            if (ChanneledState == 1f)
+                projectile.position += Vector2.UnitY * -0.3f * (1f + projectile.timeLeft/60f);
+        }
+
+       public void Attune(BiomeBlade item)
+       {
+            bool jungle = Owner.ZoneJungle;
+            bool snow = Owner.ZoneSnow;
+            bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
+            bool desert = Owner.ZoneDesert;
+            bool hell = Owner.ZoneUnderworldHeight;
+
+            Attunement attunement = Attunement.Default;
+
+            if (jungle)
+            {
+                attunement = Attunement.Tropical;
+            }
+            if (desert || hell)
+            {
+                attunement = Attunement.Hot;
+            }
+            if (snow)
+            {
+                attunement = Attunement.Cold;
+            }
+            if (evil)
+            {
+                attunement = Attunement.Evil;
+            }
+
+            //If the owner already had the attunement , break out of it (And unswap)
+            if (item.secondaryAttunement == attunement)
+            {
+                Main.PlaySound(SoundID.DD2_LightningBugZap, projectile.Center);
+                item.secondaryAttunement = item.mainAttunement;
+                item.mainAttunement = attunement;
+                return;
+            }
+
+            Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
+            item.mainAttunement = attunement;
+
+            //Lots of particles!!! yay!! visuals!!
+        }       
+
+        public override void Kill(int timeLeft)
+        {
+            //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
+            if ((associatedItem.modItem as BiomeBlade).mainAttunement == null && (associatedItem.modItem as BiomeBlade).secondaryAttunement != null)
+            {
+                (associatedItem.modItem as BiomeBlade).mainAttunement = (associatedItem.modItem as BiomeBlade).secondaryAttunement;
+                (associatedItem.modItem as BiomeBlade).secondaryAttunement = null;
             }
 
             //Cool particles
         }
 
-        public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //Cool particles
+            if (ChanneledState == 0f && ChannelTimer > 6f)
+                return base.PreDraw(spriteBatch, lightColor);
+
+            else if (ChanneledState == 1f)
+            {
+                Texture2D tex = GetTexture(Texture);
+                Vector2 squishyScale = new Vector2((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi  * projectile.timeLeft / 30f), 1f);
+                spriteBatch.Draw(tex, projectile.position - Main.screenPosition, null, lightColor * (projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (projectile.timeLeft / 60f)), SpriteEffects.None, 0);
+
+                return false;
+            }
+
+            else
+                return false;
         }
     }
 
