@@ -10,6 +10,7 @@ using Terraria.Graphics.Effects;
 using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
 using CalamityMod.Dusts;
+using CalamityMod.Particles;
 
 
 //TY dom for coding condemnation, great reference, would steal code from again :)
@@ -128,11 +129,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 2 * PumpkinsCharge; i++)
             {
-                Dust dust = Dust.NewDustPerfect(tipPosition + Main.rand.NextVector2Circular(10f, 10f), ModContent.DustType<PumplerDust>());
-                dust.velocity = (dust.position - Owner.Center) * 0.3f + Owner.velocity;
-                dust.scale = Main.rand.NextFloat(0.3f, 0.8f);
-                dust.alpha = Main.rand.Next(50) + 100;
-                dust.rotation = Main.rand.NextFloat(6.28f);
+                Particle smoke = new SmallSmokeParticle(tipPosition + Main.rand.NextVector2Circular(10f, 10f), Vector2.Zero, Color.Orange, new Color(40, 40, 40), Main.rand.NextFloat(0.3f, 0.8f), 145 - Main.rand.Next(50));
+                smoke.Velocity = (smoke.Position - Owner.Center) * 0.3f + Owner.velocity;
+                GeneralParticleHandler.SpawnParticle(smoke);
             }
         }
 

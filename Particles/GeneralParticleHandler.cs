@@ -14,7 +14,8 @@ namespace CalamityMod.Particles
     public static class GeneralParticleHandler
     {
         private static List<Particle> particles;
-        private static int nextVacantIndex;
+        //List containing the particles to delete
+        private static List<Particle> particlesToKill;
         //Static list for details concerning every particle type
         private static Dictionary<Type, int> particleTypes;
         private static Dictionary<int, Texture2D> particleTextures;
@@ -26,6 +27,7 @@ namespace CalamityMod.Particles
         internal static void Load()
         {
             particles = new List<Particle>();
+            particlesToKill = new List<Particle>();
             particleTypes = new Dictionary<Type, int>();
             particleTextures = new Dictionary<int, Texture2D>();
             particleInstances = new List<Particle>();
@@ -57,6 +59,7 @@ namespace CalamityMod.Particles
         internal static void Unload()
         {
             particles = null;
+            particlesToKill = null;
             particleTypes = null;
             particleTextures = null;
             particleInstances = null;
@@ -87,12 +90,13 @@ namespace CalamityMod.Particles
                 particle.Update();
             }
             //Clear out particles whose time is up
-            particles.RemoveAll(particle => particle.Time >= particle.Lifetime && particle.SetLifetime);
+            particles.RemoveAll(particle => (particle.Time >= particle.Lifetime && particle.SetLifetime) || particlesToKill.Contains(particle));
+            particlesToKill.Clear();
         }
 
         public static void RemoveParticle(Particle particle)
         {
-            particles.Remove(particle);
+            particlesToKill.Add(particle);
         }
 
         public static void DrawAllParticles(SpriteBatch sb)

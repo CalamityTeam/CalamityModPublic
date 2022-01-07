@@ -490,7 +490,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Owner.heldProj = projectile.whoAmI;
 
                 projectile.Center = Owner.Center + new Vector2(16f * Owner.direction, -30 * SwordHeight() + 10f) ;
-                projectile.rotation = Utils.AngleLerp(-MathHelper.PiOver4, MathHelper.PiOver4 + MathHelper.PiOver2, MathHelper.Clamp(((ChannelTimer - 20f) / 10f), 0f, 1f));
+                projectile.rotation = Utils.AngleLerp(-MathHelper.PiOver4, MathHelper.PiOver4 + MathHelper.PiOver2, MathHelper.Clamp(((ChannelTimer - 20f) / 50f), 0f, 1f));
                 ChannelTimer++;
                 projectile.timeLeft = 60;
 
@@ -498,7 +498,22 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     Attune((BiomeBlade)associatedItem.modItem);
                     projectile.timeLeft = 120;
-                    ChanneledState = 2f;
+                    ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
+
+                    Color particleColor = (associatedItem.modItem as BiomeBlade).GetAttunementInfo((associatedItem.modItem as BiomeBlade).mainAttunement).color;
+
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        Vector2 displace = Vector2.UnitX * 20 * Main.rand.NextFloat(-1f, 1f);
+                        Particle Glow = new GenericBloom(Owner.Bottom + displace, -Vector2.UnitY * Main.rand.NextFloat(1f, 5f), particleColor, 0.02f + Main.rand.NextFloat(0f, 0.2f), 20 + Main.rand.Next(30));
+                        GeneralParticleHandler.SpawnParticle(Glow);
+                    }
+                    for (int i = 0; i <= 10; i++)
+                    {
+                        Vector2 displace = Vector2.UnitX * 16 * Main.rand.NextFloat(-1f, 1f);
+                        Particle Sparkle = new GenericSparkle(Owner.Bottom + displace, -Vector2.UnitY * Main.rand.NextFloat(1f, 5f), particleColor, particleColor, 0.5f + Main.rand.NextFloat(-0.2f, 0.2f), 20 + Main.rand.Next(30), 1, 2f);
+                        GeneralParticleHandler.SpawnParticle(Sparkle);
+                    }
                 }
             }
 

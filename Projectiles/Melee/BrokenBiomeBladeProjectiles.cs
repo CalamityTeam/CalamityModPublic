@@ -369,6 +369,20 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
                     projectile.frame++;
 
+                if (Main.rand.NextBool())
+                {
+                    Particle mist = new MediumMistParticle(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, new Color(172, 238, 255), new Color(145, 170, 188), Main.rand.NextFloat(0.5f, 1.5f), 245 - Main.rand.Next(50), 0.02f);
+                    mist.Velocity = (mist.Position - Owner.Center) * 0.2f + Owner.velocity;
+                    GeneralParticleHandler.SpawnParticle(mist);
+                }
+
+            }
+
+            else if (Main.rand.NextFloat(0f, 1f) > 0.75f)
+            {
+                Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * projectile.scale);
+                Particle snowflake = new SnowflakeSparkle(particlePosition, rotation.ToRotationVector2() * 3f, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
+                GeneralParticleHandler.SpawnParticle(snowflake);
             }
 
             //Make the owner look like theyre holding the sword bla bla
@@ -511,6 +525,27 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
                 PogoCooldown = 30; //Cooldown
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);
+
+                Vector2 hitPosition = Owner.Center + (direction * 84 * projectile.scale);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Vector2 hitPositionDisplace = direction.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(-10f, 10f);
+                    Vector2 flyDirection = -direction.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4));
+                    Particle smoke = new SmallSmokeParticle(hitPosition + hitPositionDisplace, flyDirection * 9f, Color.OrangeRed, new Color(130, 130, 130), Main.rand.NextFloat(1.8f, 2.6f), 115 - Main.rand.Next(30));
+                    GeneralParticleHandler.SpawnParticle(smoke);
+
+                    Particle Glow = new StrongBloom(hitPosition - hitPositionDisplace * 3, -direction * 6 * Main.rand.NextFloat(0.5f, 1f), Color.Orange * 0.5f, 0.01f + Main.rand.NextFloat(0f, 0.2f), 20 + Main.rand.Next(40));
+                    GeneralParticleHandler.SpawnParticle(Glow);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 hitPositionDisplace = direction.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(-10f, 10f);
+                    Vector2 flyDirection = -direction.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4));
+
+                    Particle Rock = new StoneDebrisParticle(hitPosition - hitPositionDisplace * 3, flyDirection * Main.rand.NextFloat(3f, 6f), Color.Beige, 1f + Main.rand.NextFloat(0f, 0.4f), 30 + Main.rand.Next(50), 0.1f);
+                    GeneralParticleHandler.SpawnParticle(Rock);
+                }
 
                 if (Owner.HeldItem.type == ItemType<BiomeBlade>())
                     (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
@@ -729,7 +764,16 @@ namespace CalamityMod.Projectiles.Melee
             if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
             {
                 if (SnapCoyoteTime > 0f)
+                {
                     crit = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
+                        Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.LimeGreen, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
+                        GeneralParticleHandler.SpawnParticle(Spark);
+                    }
+
+                }
             }
             else
                 damage = (int)(damage * ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
