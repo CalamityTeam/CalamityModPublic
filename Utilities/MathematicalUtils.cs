@@ -229,10 +229,10 @@ namespace CalamityMod
 						break;
 					//Sines
 					case EasingType.SineIn:
-						ratio += (1f - (float)(Math.Cos(segmentProgress * MathHelper.Pi) / 2f)) * segment.displacement;
+						ratio += (1f - (float)(Math.Cos(segmentProgress * MathHelper.Pi / 2f))) * segment.displacement;
 						break;
 					case EasingType.SineOut:
-						ratio += (float)(Math.Sin(segmentProgress * MathHelper.Pi) / 2f) * segment.displacement;
+						ratio += (float)Math.Sin(segmentProgress * MathHelper.Pi / 2f) * segment.displacement;
 						break;
 					case EasingType.SineInOut:
 						ratio += (-(float)Math.Cos((segmentProgress * MathHelper.Pi) - 1) / 2f) * segment.displacement;
