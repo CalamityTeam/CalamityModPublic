@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader.IO;
 using static CalamityMod.Items.Weapons.Melee.BiomeBlade;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -429,17 +430,14 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         private Player Owner => Main.player[projectile.owner];
 
-        public Tile OwnerGround => Main.tile[(int)Owner.Center.X / 16, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1];
+        public bool OwnerOnGround => Main.tile[(int)Owner.Center.X / 16, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround() && Main.tile[(int)Owner.Center.X / 16 + Owner.direction, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround();
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as BiomeBlade).CanUseItem(Owner) : false;
-        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && OwnerGround.IsTileSolidGround();
+        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && OwnerOnGround;
         public ref float ChanneledState => ref projectile.ai[0];
         public ref float ChannelTimer => ref projectile.ai[1];
         public ref float Initialized => ref projectile.localAI[0];
 
         private Item associatedItem;
-
-        private BezierCurve bezierCurve;
-
         const int ChannelTime = 120;
 
         public override void SetStaticDefaults()
@@ -459,7 +457,12 @@ namespace CalamityMod.Items.Weapons.Melee
             projectile.damage = 0;
         }
 
-        //Cancellable if the player uses the sword again.
+        public CurveSegment anticipation = new CurveSegment(EasingType.SineOut, 0f, 1f, 0.35f);
+        public CurveSegment thrust = new CurveSegment(EasingType.ExpIn, 0.85f, 1.35f, -1.45f);
+        public CurveSegment bounceback = new CurveSegment(EasingType.SineOut, 0.95f, -0.1f, 0.1f);
+        internal float SwordHeight() => PiecewiseAnimation(ChannelTimer / (float)ChannelTime, new CurveSegment[] { anticipation, thrust, bounceback });
+
+
 
         public override void AI()
         {
@@ -476,6 +479,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (!OwnerMayChannel && ChanneledState == 0f) //IF the channeling gets interrupted for any reason
             {
+                projectile.Center = Owner.Top + new Vector2(18f, 0f);
                 ChanneledState = 1f;
                 projectile.timeLeft = 60;
                 return;
@@ -483,16 +487,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (ChanneledState == 0f)
             {
-                //Use an animationcurve instead plea,,se
-                if (bezierCurve == null)
-                {
-                    List<Vector2> bezierPoints = new List<Vector2>() {projectile.position + Vector2.UnitY * 42f, projectile.position + Vector2.UnitY * 56f, projectile.position - Vector2.UnitY * 16f, projectile.position};
-                    bezierCurve = new BezierCurve(bezierPoints.ToArray());
-                }
-
                 Owner.heldProj = projectile.whoAmI;
 
-                projectile.position = bezierCurve.Evaluate(1f - ChannelTimer / ChannelTime);
+                projectile.Center = Owner.Center + new Vector2(16f * Owner.direction, -30 * SwordHeight() + 10f) ;
                 projectile.rotation = Utils.AngleLerp(-MathHelper.PiOver4, MathHelper.PiOver4 + MathHelper.PiOver2, MathHelper.Clamp(((ChannelTimer - 20f) / 10f), 0f, 1f));
                 ChannelTimer++;
                 projectile.timeLeft = 60;
@@ -571,8 +568,9 @@ namespace CalamityMod.Items.Weapons.Melee
             else if (ChanneledState == 1f)
             {
                 Texture2D tex = GetTexture(Texture);
-                Vector2 squishyScale = new Vector2((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi  * projectile.timeLeft / 30f), 1f);
-                spriteBatch.Draw(tex, projectile.position - Main.screenPosition, null, lightColor * (projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (projectile.timeLeft / 60f)), SpriteEffects.None, 0);
+                Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi  * projectile.timeLeft / 30f)), 1f);
+                SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                spriteBatch.Draw(tex, projectile.position - Main.screenPosition, null, lightColor * (projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (projectile.timeLeft / 60f)), flip, 0);
 
                 return false;
             }
