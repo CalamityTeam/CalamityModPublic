@@ -45,7 +45,7 @@ namespace CalamityMod.Particles
             Texture2D starTexture = GeneralParticleHandler.GetTexture(Type);
             Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
             //Ajust the bloom's texture to be the same size as the star's
-            float properBloomSize = starTexture.Height / bloomTexture.Height;
+            float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
             spriteBatch.Draw(bloomTexture, Position - Main.screenPosition, null, Bloom * opacity * 0.5f, 0, bloomTexture.Size()/2f, Scale * BloomScale * properBloomSize, SpriteEffects.None, 0);
             spriteBatch.Draw(starTexture, Position - Main.screenPosition, null, Color * opacity * 0.5f, Rotation + MathHelper.PiOver4, starTexture.Size() / 2f, Scale * 0.75f, SpriteEffects.None, 0);

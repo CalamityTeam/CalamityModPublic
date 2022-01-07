@@ -13,15 +13,8 @@ namespace CalamityMod.Particles
 {
     public static class GeneralParticleHandler
     {
-        /// <summary>
-        /// This is the maximum of particles allowed. Particles marked as important may replace nonimportant particles when the cap is reached
-        /// </summary>
-        // May be a good idea to make this into a config option
-        private static readonly int particleCap = CalamityConfig.Instance.ParticleLimit;
-
-        private static Particle[] particles;
+        private static List<Particle> particles;
         private static int nextVacantIndex;
-        private static int activeParticles;
         //Static list for details concerning every particle type
         private static Dictionary<Type, int> particleTypes;
         private static Dictionary<int, Texture2D> particleTextures;
@@ -32,13 +25,13 @@ namespace CalamityMod.Particles
 
         internal static void Load()
         {
-            particles = new Particle[particleCap];
+            particles = new List<Particle>();
             particleTypes = new Dictionary<Type, int>();
             particleTextures = new Dictionary<int, Texture2D>();
             particleInstances = new List<Particle>();
 
-            batchedAlphaBlendParticles = new List<Particle>(particleCap);
-            batchedAdditiveBlendParticles = new List<Particle>(particleCap);
+            batchedAlphaBlendParticles = new List<Particle>();
+            batchedAdditiveBlendParticles = new List<Particle>();
 
             Type baseParticleType = typeof(Particle);
             CalamityMod calamity = ModContent.GetInstance<CalamityMod>();
@@ -76,26 +69,11 @@ namespace CalamityMod.Particles
 		/// </summary>
 		public static void SpawnParticle(Particle particle)
         {
-            if (activeParticles == particleCap)
+            if (particles.Count >= CalamityConfig.Instance.ParticleLimit && !particle.Important)
                 return;
 
-            particles[nextVacantIndex] = particle;
-            particle.ID = nextVacantIndex;
+            particles.Add(particle);
             particle.Type = particleTypes[particle.GetType()];
-
-            //If the next index is also vacant
-            if (nextVacantIndex + 1 < particles.Length && particles[nextVacantIndex + 1] == null)
-                nextVacantIndex++;
-            //If it isnt, go check for the first empty spot.
-            else
-                for (int i = 0; i < particles.Length; i++)
-                    if (particles[i] == null)
-                    {
-                        nextVacantIndex = i;
-                        break;
-                    }
-
-            activeParticles++;
         }
 
         public static void Update()
@@ -107,18 +85,14 @@ namespace CalamityMod.Particles
                 particle.Position += particle.Velocity;
                 particle.Time++;
                 particle.Update();
-
-                //Clear out particles whose time is up
-                if (particle.Time >= particle.Lifetime && particle.SetLifetime)
-                    particle.Kill();
             }
+            //Clear out particles whose time is up
+            particles.RemoveAll(particle => particle.Time >= particle.Lifetime && particle.SetLifetime);
         }
 
-        public static void RemoveParticle(int position)
+        public static void RemoveParticle(Particle particle)
         {
-            particles[position] = null;
-            nextVacantIndex = position;
-            activeParticles--;
+            particles.Remove(particle);
         }
 
         public static void DrawAllParticles(SpriteBatch sb)

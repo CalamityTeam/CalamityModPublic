@@ -17,7 +17,12 @@ namespace CalamityMod.Particles
 		/// The amount of frames this particle has existed for. You shouldn't have to touch this manually.
 		/// </summary>
 		public int Time;
-		
+
+		/// <summary>
+		/// Set this to true if you NEED the particle to render even if the particle cap is reached.
+		/// </summary>
+		public virtual bool Important => false;
+
 		/// <summary>
 		/// Set this to true if you want your particle to automatically get removed when its time reaches its maximum lifetime
 		/// </summary>
@@ -69,7 +74,7 @@ namespace CalamityMod.Particles
 		/// <summary>
 		/// Removes the particle from the handler
 		/// </summary>
-		public void Kill() => GeneralParticleHandler.RemoveParticle(ID);
+		public void Kill() => GeneralParticleHandler.RemoveParticle(this);
 
 	}
 }
