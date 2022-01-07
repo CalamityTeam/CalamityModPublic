@@ -1,13 +1,11 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Ravager
 {
 	public class RavagerHead : ModNPC
@@ -32,7 +30,6 @@ namespace CalamityMod.NPCs.Ravager
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
             npc.alpha = 255;
-            npc.value = Item.buyPrice(0, 0, 0, 0);
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = null;
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
