@@ -2794,7 +2794,7 @@ namespace CalamityMod.NPCs
 							npc.type == NPCType<EbonianBlightSlime>() || npc.type == NPCType<PerennialSlime>() ||
 							npc.type == NPCType<IrradiatedSlime>() || npc.type == NPCType<AstralSlime>())
 						{
-							return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
+							return SlimeAI.BuffedSlimeAI(npc, mod);
 						}
 						else
 						{
@@ -2821,7 +2821,7 @@ namespace CalamityMod.NPCs
 								case NPCID.SlimeRibbonRed:
 								case NPCID.SlimeSpiked:
 								case NPCID.SandSlime:
-									return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
+									return SlimeAI.BuffedSlimeAI(npc, mod);
 							}
 						}
 						break;
