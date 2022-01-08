@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 Item heldItem = player.ActiveItem();
                 if (heldItem.type != itemID)
-                    return;
+                    continue;
 
                 bool bladeIsPresent = false;
                 int holdoutType = ItemProjectileRelationship[itemID];

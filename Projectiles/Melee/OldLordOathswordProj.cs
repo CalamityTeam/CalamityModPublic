@@ -161,8 +161,10 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Hold the blade upwards if not firing.
-            if (CurrentState == 0f)
+            if (CurrentState == SwingState.Default)
             {
+                projectile.Opacity = 0f;
+
                 if (PostSwingRepositionDelay > 0f)
                     PostSwingRepositionDelay--;
                 else
@@ -172,7 +174,12 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.oldPos = new Vector2[projectile.oldPos.Length];
             }
             else
+            {
                 PostSwingRepositionDelay = PostSwingRepositionDelay == -1f ? 0f : 12f;
+
+                // See the Bladecrest Oathsword Projectile code.
+                projectile.Opacity = 1f;
+            }
 
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
@@ -286,6 +293,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            if (projectile.Opacity <= 0f)
+                return false;
+
             CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
 
             spriteBatch.EnterShaderRegion();
@@ -297,7 +307,7 @@ namespace CalamityMod.Projectiles.Melee
 
             var texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, projectile.Size / 2f, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, projectile.Size / 2f, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             spriteBatch.ExitShaderRegion();
 
             return false;
