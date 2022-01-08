@@ -52,7 +52,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float2 coords = input.TextureCoordinates;
     
     // Read the fade map as a streak.
-    float4 fadeMapColor = tex2D(uImage1, coords);
+    float4 fadeMapColor = tex2D(uImage1, coords - float2(uTime * 0.6, 0));
     float opacity = fadeMapColor.r;
     float bloomOpacity = sin(coords.y * 3.141) * 1.4;
     return lerp(color * bloomOpacity, color * opacity, InverseLerp(0, 0.26, coords.x));
