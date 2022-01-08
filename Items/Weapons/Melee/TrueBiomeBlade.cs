@@ -327,7 +327,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
-                    item.shoot = ProjectileType<HeavensMightyAbhorrence>();
+                    //item.shoot = ProjectileType<HeavensMightyAbhorrence>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -339,7 +339,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
-                    item.shoot = ProjectileType<GestureForTheDrowned>();
+                    //item.shoot = ProjectileType<GestureForTheDrowned>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -380,7 +380,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueBitingEmbrace>() || n.type == ProjectileType<TrueGrovetendersTouch>() || n.type == ProjectileType<TrueAridGrandeur>() || n.type == ProjectileType<HeavensMightAbhorrence>()));
+            (n.type == ProjectileType<TrueBitingEmbrace>() || n.type == ProjectileType<TrueGrovetendersTouch>() || n.type == ProjectileType<TrueAridGrandeur>())); // || n.type == ProjectileType<HeavensMightAbhorrence>()
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -411,13 +411,14 @@ namespace CalamityMod.Items.Weapons.Melee
                     return false;
 
                 case Attunement.Evil:
-                    float powerLungeAvailable = 0f;
+                    bool powerLungeAvailable = false;
                     if (PowerLungeCounter == 3)
                     {
-                        powerLungeAvailable = 1f;
+                        powerLungeAvailable = true;
                         PowerLungeCounter = 0;
                     }
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage * 2, knockBack, player.whoAmI, (float)StoredLunges), (float)powerLungeAvailable);
+                    Projectile rapier = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage * 2, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
+                    (rapier.modProjectile as TrueDecaysRetort).ChargedUp = powerLungeAvailable;
                     StoredLunges --;
                     if (StoredLunges < 0)
                         StoredLunges = 0;
@@ -426,7 +427,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Holy:
                 case Attunement.HolyStar:
                     float astralVariant = mainAttunement == Attunement.HolyStar ? 1f : 0f;
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<HeavensMightyAbhorrence>(), damage * 2, knockBack, player.whoAmI, astralVariant);
+               //     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<HeavensMightyAbhorrence>(), damage * 2, knockBack, player.whoAmI, astralVariant);
                     return false;
 
                 default:
