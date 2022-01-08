@@ -897,7 +897,7 @@ namespace CalamityMod
 			RegisterSummon(ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
 			RegisterSummon(ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
 			RegisterSummon(ItemType<CausticStaff>(), BuffType<CausticStaffBuff>(), ProjectileType<CausticStaffSummon>());
-			RegisterSummon(ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
+			RegisterSummon(ItemType<AncientIceChunk>(), BuffType<IceClasperBuff>(), ProjectileType<IceClasperMinion>());
 			RegisterSummon(ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
 			RegisterSummon(ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());
 			RegisterSummon(ItemType<ForgottenApexWand>(), BuffType<ApexSharkBuff>(), ProjectileType<ApexShark>());

@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ThePack>());
-            recipe.AddIngredient(ModContent.ItemType<BlissfulBombardier>());
+            recipe.AddIngredient(ModContent.ItemType<ScorchedEarth>()); // This weapon has two donor weapons
             recipe.AddIngredient(ModContent.ItemType<AethersWhisper>());
             recipe.AddIngredient(ItemID.ElectrosphereLauncher);
             recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());

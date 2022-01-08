@@ -112,19 +112,8 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int k = 0; k < projAmt; k++)
                 {
-                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (velocity.X == 0f && velocity.Y == 0f)
-                    {
-                        velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    velocity.Normalize();
-                    velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.33), 0f, projectile.owner);
-					if (flames.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[flames].penetrate = 3;
-						Main.projectile[flames].Calamity().forceRanged = true;
-					}
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<RocketFire>(), (int)(projectile.damage * 0.33), 0f, projectile.owner);
                 }
             }
         }

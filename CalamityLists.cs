@@ -1039,6 +1039,7 @@ namespace CalamityMod
                 ItemType<PurgeGuzzler>(),
                 ItemType<RedSun>(),
                 ItemType<SarosPossession>(),
+                ItemType<ScorchedEarth>(),
                 ItemType<ShatteredSun>(),
                 ItemID.SolarEruption,
                 ItemType<SolarFlare>(),

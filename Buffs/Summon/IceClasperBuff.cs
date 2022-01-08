@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class IceClasper : ModBuff
+    public class IceClasperBuff : ModBuff
     {
         public override void SetDefaults()
         {

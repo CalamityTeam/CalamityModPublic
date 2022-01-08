@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.World.Generation;
 using static Terraria.ModLoader.ModContent;
 
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
@@ -2414,6 +2415,14 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;
+
+			// Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
+			if (projectile.type == ProjectileID.DD2BetsyArrow)
+			{
+				Point result;
+				if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain((GenSearch) new Searches.Down(12), (GenCondition) new Conditions.IsSolid()), out result))
+					damage = (int)(damage * 2f / 3f);
+			}
         }
         #endregion
 

@@ -364,6 +364,10 @@ namespace CalamityMod.Items
 			// TODO -- in 1.4 this mistake is already corrected
 			if (item.type == ItemID.MagicQuiver)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
+
+			// Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
+			if (item.type == ItemID.DD2BetsyBow)
+				EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
 			#endregion
 
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
