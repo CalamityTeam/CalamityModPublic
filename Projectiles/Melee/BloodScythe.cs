@@ -21,23 +21,23 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 2;
+            projectile.tileCollide = false;
+            projectile.penetrate = 1;
             projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.075f / 255f);
-            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 16f && projectile.timeLeft < 420)
-            {
-                projectile.velocity *= 1.05f;
-            }
+
+            projectile.velocity *= 0.935f;
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f;
+            projectile.Opacity = Utils.InverseLerp(1f, 6f, projectile.velocity.Length(), true);
+            if (projectile.Opacity <= 0f)
+                projectile.Kill();
+
             if (Main.rand.NextBool(5))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
