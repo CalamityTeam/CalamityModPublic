@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Hydrothermic Helm");
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
-                "12% increased melee and movement speed\n" +
+                "18% increased melee speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
@@ -73,8 +73,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
-            player.meleeSpeed += 0.12f;
-            player.moveSpeed += 0.12f;
+            player.meleeSpeed += 0.18f;
             player.meleeDamage += 0.12f;
             player.meleeCrit += 10;
             player.lavaMax += 240;

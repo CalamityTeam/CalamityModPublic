@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Leggings");
-            Tooltip.SetDefault("19% increased movement speed\n" +
-                "12% increased damage and 7% increased critical strike chance");
+            Tooltip.SetDefault("10% increased movement speed\n" +
+                "12% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.19f;
+            player.moveSpeed += 0.1f;
             player.allDamage += 0.12f;
-            player.Calamity().AllCritBoost(7);
+            player.Calamity().AllCritBoost(12);
         }
 
         public override void AddRecipes()

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Daedalus Helm");
             Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-                "10% increased melee and movement speed");
+                "15% increased melee speed");
         }
 
         public override void SetDefaults()
@@ -51,8 +51,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.1f;
-            player.moveSpeed += 0.1f;
+            player.meleeSpeed += 0.15f;
             player.meleeDamage += 0.1f;
             player.meleeCrit += 10;
         }
