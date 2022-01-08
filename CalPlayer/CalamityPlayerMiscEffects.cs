@@ -160,6 +160,8 @@ namespace CalamityMod.CalPlayer
 			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
 			CalamityGlobalItem.UpdateAllParticleSets();
 			BiomeBlade.UpdateAllParticleSets();
+			TrueBiomeBlade.UpdateAllParticleSets();
+
 
 			// Update the gem tech armor set.
 			GemTechState.Update();
