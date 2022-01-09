@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Leggings");
-            Tooltip.SetDefault("18% increased movement speed\n" +
-                "10% increased damage and 6% increased critical strike chance");
+            Tooltip.SetDefault("5% increased movement speed\n" +
+                "10% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.18f;
+            player.moveSpeed += 0.05f;
             player.allDamage += 0.1f;
-            player.Calamity().AllCritBoost(6);
+            player.Calamity().AllCritBoost(10);
         }
 
         public override void AddRecipes()

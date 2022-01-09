@@ -22,15 +22,20 @@ namespace CalamityMod.NPCs.Ravager
 			npc.GetNPCDamage();
 			npc.width = 40;
             npc.height = 150;
-            npc.lifeMax = 100;
-            npc.alpha = 255;
+			npc.defense = 35;
+			npc.DR_NERD(0.2f);
+			npc.chaseable = false;
+			npc.canGhostHeal = false;
+			npc.lifeMax = CalamityWorld.downedProvidence ? 16000 : 3500;
+			npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.dontTakeDamage = true;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -47,7 +52,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.dontTakeDamage = false;
                 npc.life = 0;
                 HitEffect(npc.direction, 9999);
                 npc.netUpdate = true;
@@ -121,7 +125,6 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-                    npc.dontTakeDamage = false;
                     npc.life = 0;
                     HitEffect(npc.direction, 9999);
                     npc.netUpdate = true;
@@ -184,6 +187,27 @@ namespace CalamityMod.NPCs.Ravager
                     Main.dust[num624].velocity *= 2f;
                 }
             }
-        }
+			else
+			{
+				for (int num621 = 0; num621 < 2; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 2; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+					Main.dust[num624].velocity *= 2f;
+				}
+			}
+		}
     }
 }

@@ -36,16 +36,16 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "15% increased movement speed and +3 max minions\n" +
-                "28% increased damage and 21% increased critical strike chance\n" +
+            player.setBonus = "5% increased movement speed and +3 max minions\n" +
+                "35% increased damage and 25% increased critical strike chance\n" +
                 "Whenever you crit an enemy fallen, hallowed, and astral stars will rain down\n" +
                 "This effect has a 1 second cooldown before it can trigger again";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.astralStarRain = true;
-            player.moveSpeed += 0.15f;
-            player.allDamage += 0.28f;
+            player.moveSpeed += 0.05f;
+            player.allDamage += 0.35f;
 			player.maxMinions += 3;
-			modPlayer.AllCritBoost(21);
+			modPlayer.AllCritBoost(25);
             player.Calamity().wearingRogueArmor = true;
         }
 

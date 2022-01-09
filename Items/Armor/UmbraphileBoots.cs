@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Umbraphile Boots");
             Tooltip.SetDefault("9% increased rogue damage and 6% increased rogue crit\n" +
-                               "30% increased movement speed");
+                               "20% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.3f;
+            player.moveSpeed += 0.2f;
 			player.Calamity().throwingDamage += 0.09f;
 			player.Calamity().throwingCrit += 6;
         }

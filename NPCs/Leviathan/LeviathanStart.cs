@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = null;
 			npc.rarity = 2;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SirenLure") ?? -1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AnahitaPreboss") ?? -1;
 			npc.Calamity().VulnerableToHeat = false;
 			npc.Calamity().VulnerableToSickness = true;
 			npc.Calamity().VulnerableToElectricity = true;

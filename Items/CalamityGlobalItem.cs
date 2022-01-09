@@ -1623,13 +1623,13 @@ namespace CalamityMod.Items
 			*/
 
 			if (item.prefix == PrefixID.Brisk)
-				player.moveSpeed += 0.01f;
+				player.moveSpeed += 0.005f;
 			if (item.prefix == PrefixID.Fleeting)
-				player.moveSpeed += 0.02f;
+				player.moveSpeed += 0.01f;
 			if (item.prefix == PrefixID.Hasty2)
-				player.moveSpeed += 0.03f;
+				player.moveSpeed += 0.015f;
 			if (item.prefix == PrefixID.Quick2)
-				player.moveSpeed += 0.04f;
+				player.moveSpeed += 0.02f;
 		}
         #endregion
 
@@ -1641,7 +1641,6 @@ namespace CalamityMod.Items
 
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
-                (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +

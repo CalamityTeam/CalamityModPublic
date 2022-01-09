@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omega Blue Tentacles");
-            Tooltip.SetDefault(@"20% increased movement speed
-12% increased damage and 8% increased critical strike chance");
+            Tooltip.SetDefault(@"12% increased movement speed
+12% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.allDamage += 0.12f;
-            player.Calamity().AllCritBoost(8);
-            player.moveSpeed += 0.2f;
+            player.Calamity().AllCritBoost(12);
+            player.moveSpeed += 0.12f;
         }
 
         public override void AddRecipes()

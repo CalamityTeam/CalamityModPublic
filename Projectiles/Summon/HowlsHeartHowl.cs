@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			//If the correct minion, set bools
             bool correctMinion = projectile.type == ModContent.ProjectileType<HowlsHeartHowl>();
-            if (!modPlayer.howlsHeart || !player.active)
+            if (!modPlayer.howlsHeart && !modPlayer.howlsHeartVanity || !player.active)
             {
                 projectile.active = false;
                 return;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
 			int targetIndex = -1;
 			//If the player has targetted an enemy, choose that one
 			NPC target = projectile.OwnerMinionAttackTargetNPC;
-			if (target != null && target.CanBeChasedBy(projectile, false))
+			if (target != null && target.CanBeChasedBy(projectile, false) && !modPlayer.howlsHeartVanity)
 			{
 				float targetDist = Vector2.Distance(target.Center, projectile.Center);
 				if (!foundEnemy && targetDist < maxRange && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height))
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 			//else, search through all available NPCs
-			if (!foundEnemy)
+			if (!foundEnemy && !modPlayer.howlsHeartVanity)
 			{
 				for (int index = 0; index < Main.maxNPCs; ++index)
 				{

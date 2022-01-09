@@ -2553,7 +2553,6 @@ namespace CalamityMod.CalPlayer
 				if (player.FindBuffIndex(BuffID.Wrath) > -1)
 					player.ClearBuff(BuffID.Wrath);
 				player.allDamage += 0.12f;
-				player.moveSpeed += 0.05f;
 			}
 
 			if (profanedRage)
@@ -2561,7 +2560,6 @@ namespace CalamityMod.CalPlayer
 				if (player.FindBuffIndex(BuffID.Rage) > -1)
 					player.ClearBuff(BuffID.Rage);
 				AllCritBoost(12);
-				player.moveSpeed += 0.05f;
 			}
 
 			if (shadow)

@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord)
             {
