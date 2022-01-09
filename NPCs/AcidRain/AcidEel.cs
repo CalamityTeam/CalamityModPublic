@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -117,10 +118,14 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.netUpdate = true;
             }
 
-            // Rebound on impending collision.
-            if ((CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * npc.direction, 20) ?? 20f) < 5f)
+            // Rebound on impending collision or when near the world edge.
+            bool nearWorldEdge = npc.Center.X < (Main.offLimitBorderTiles + 10f) * 16f || npc.Center.X > (Main.maxTilesX - Main.offLimitBorderTiles - 10f) * 16f;
+            if ((CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * npc.direction, 20) ?? 20f) < 5f || nearWorldEdge)
             {
                 npc.direction *= -1;
+                if (nearWorldEdge)
+                    npc.position.X += Math.Sign(Main.maxTilesX * 8f - npc.position.X) * 12f;
+
                 npc.netUpdate = true;
             }
 
