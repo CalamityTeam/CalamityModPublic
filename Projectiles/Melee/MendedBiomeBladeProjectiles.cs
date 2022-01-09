@@ -463,7 +463,6 @@ namespace CalamityMod.Projectiles.Melee
                 //Update the parameters
 
                 drawOrigin = new Vector2(0f, blade.Height);
-                drawOffset = Owner.Center + (direction * 28f * projectile.scale) - Main.screenPosition;
                 //Anim stuff
 
                 spriteBatch.Draw(blade, drawOffset + thrustDisplace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
@@ -559,8 +558,8 @@ namespace CalamityMod.Projectiles.Melee
                     GeneralParticleHandler.SpawnParticle(Rock);
                 }
 
-                if (Owner.HeldItem.type == ItemType<BiomeBlade>())
-                    (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
+                if (Owner.HeldItem.type == ItemType<TrueBiomeBlade>())
+                    (Owner.HeldItem.modItem as TrueBiomeBlade).StoredLunges = 2; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
             }
         }
 
@@ -685,7 +684,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Vector2 drawOffsetStraight = Owner.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
-                Vector2 drawOffsetFromBounce = drawOffsetStraight.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(PogoCooldown, 0f, 20f)/20f * 20f;
+                Vector2 drawOffsetFromBounce = direction * MathHelper.Clamp(PogoCooldown, 0f, 20f)/20f * 20f;
 
                 spriteBatch.Draw(blade, drawOffsetStraight + drawDisplacementAngle + drawOffsetFromBounce, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
@@ -775,7 +774,7 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 0; i < 4; i++) //Draw extra copies
             {
-                var tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
+                var tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra");
 
                 float drawAngle = direction.ToRotation();
 

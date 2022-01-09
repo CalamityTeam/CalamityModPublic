@@ -55,11 +55,11 @@ namespace CalamityMod.Items.Weapons.Melee
                     l.text = info.function_description;
                 }
 
-                if (l.text.StartsWith("FUNCTION_Extra"))
+                if (l.text.StartsWith("FUNCTION_EXTRA"))
                 {
                     AttunementInfo info = GetAttunementInfo(mainAttunement);
                     l.overrideColor = info.color;
-                    l.text = info.function_description;
+                    l.text = info.function_extra;
                 }
 
                 if (l.text.StartsWith("Main attunement"))
