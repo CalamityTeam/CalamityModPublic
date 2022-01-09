@@ -321,7 +321,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             base.OnHitNPC(target, damage, knockback, crit);
             if (SwingMode == 2)
-             target.AddBuff(BuffType<GlacialState>(), 40);
+                target.AddBuff(BuffType<GlacialState>(), 40);
         }
 
         public override void AI()
@@ -367,7 +367,7 @@ namespace CalamityMod.Projectiles.Melee
             rotation = projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
-            Lighting.AddLight(Owner.MountedCenter, new Vector3(0.75f, 1f, 1f) * (float)Math.Sin(Timer/MaxTime * MathHelper.Pi));
+            Lighting.AddLight(Owner.MountedCenter, new Vector3(0.75f, 1f, 1f) * (float)Math.Sin(Timer / MaxTime * MathHelper.Pi));
 
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
@@ -623,7 +623,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget();
 
         private void ShredTarget()
-        { 
+        {
             if (Main.myPlayer != Owner.whoAmI)
                 return;
             // get lifted up
@@ -684,7 +684,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Vector2 drawOffsetStraight = Owner.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
-                Vector2 drawOffsetFromBounce = direction * MathHelper.Clamp(PogoCooldown, 0f, 20f)/20f * 20f;
+                Vector2 drawOffsetFromBounce = direction * MathHelper.Clamp(PogoCooldown, 0f, 20f) / 20f * 20f;
 
                 spriteBatch.Draw(blade, drawOffsetStraight + drawDisplacementAngle + drawOffsetFromBounce, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
@@ -801,6 +801,7 @@ namespace CalamityMod.Projectiles.Melee
 
     public class TrueGrovetendersTouch : ModProjectile
     {
+        private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;
         public Player Owner => Main.player[projectile.owner];
@@ -814,6 +815,8 @@ namespace CalamityMod.Projectiles.Melee
         const float SnappingPoint = 0.7f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
         const float ChainDamageReduction = 0.5f;
+
+        const float MaxTangleReach = 200f; //How long can tangling vines from crits be
 
         public BezierCurve curve;
         private Vector2 controlPoint1;
@@ -866,7 +869,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (SnapCoyoteTime > 0f)
                 {
                     crit = true;
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
                         Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.LimeGreen, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
@@ -877,11 +880,50 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
                 damage = (int)(damage * ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+        }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             if (crit)
             {
-                //Do something
+                bool boing = false;
+                excludedTargets[0] = target;
+                for (int i = 0; i < 3; i++)
+                {
+                    NPC potentialTarget = TargetNext(target.Center, i);
+                    if (potentialTarget == null)
+                        break;
+                    if (!boing)
+                    {
+                        boing = true;
+                        Main.PlaySound(SoundID.Item56);
+                    }    
+                    Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), damage / 2, 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                }
+                Array.Clear(excludedTargets, 0, 3);
             }
+        }
+
+        public NPC TargetNext(Vector2 hitFrom, int index)
+        {
+            float longestReach = MaxTangleReach * 3;
+            NPC target = null;
+            for (int i = 0; i < 200; ++i)
+            {
+                NPC npc = Main.npc[i];
+                if (!excludedTargets.Contains(npc) && npc.CanBeChasedBy() && !npc.friendly && !npc.townNPC)
+                {
+                    float distance = Vector2.Distance(hitFrom, npc.Center);
+                    if (distance < longestReach)
+                    {
+                        longestReach = distance; 
+                        target = npc;
+                    }
+                }
+            }
+            if (index < 3)
+                excludedTargets[index + 1] = target;
+            return target;
         }
 
         public override void AI()
@@ -899,7 +941,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
-            {  
+            {
                 Main.PlaySound(SoundID.Item41, projectile.Center); //Snap
                 HasSnapped = 1f;
                 SnapCoyoteTime = coyoteTimeFrames;
@@ -1020,7 +1062,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
-            int numPoints = 30; //"Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve" -Graydee, from the code i referenced. I do agree.
+            int numPoints = 30; 
             chainPositions = curve.GetPoints(numPoints).ToArray();
 
             //Draw each chain segment bar the very first one
@@ -1047,5 +1089,80 @@ namespace CalamityMod.Projectiles.Melee
         {
             initialized = reader.ReadBoolean();
         }
+    }
+
+    public class GrovetendersEntanglingVines : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain";
+        public Player Owner => Main.player[projectile.owner];
+        public float Timer => 20 - projectile.timeLeft;
+        public NPC NPCfrom
+        {
+            get => Main.npc[(int)projectile.ai[0]];
+            set => projectile.ai[0] = value.whoAmI;
+        }
+        public NPC Target
+        {
+            get => Main.npc[(int)projectile.ai[1]];
+            set => projectile.ai[1] = value.whoAmI;
+        }
+
+        const float curvature = 16f;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Entangling Growth");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 8;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 30;
+            projectile.timeLeft = 20;
+        }
+
+        public override bool? CanHitNPC(NPC target) => target == Target;
+
+        public override void AI()
+        {
+            projectile.Center = Target.Center;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
+
+            float opacity = projectile.timeLeft > 10 ? 1 : projectile.timeLeft / 10f;
+            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
+
+            Vector2 lineDirection = Vector2.Normalize(Target.Center - NPCfrom.Center);
+            int dist = (int)Vector2.Distance(Target.Center, NPCfrom.Center) / 16;
+            Vector2[] Nodes = new Vector2[dist + 1];
+            Nodes[0] = NPCfrom.Center;
+            Nodes[dist] = Target.Center;
+            float pointUp = Target.Center.X > NPCfrom.Center.X ? -MathHelper.PiOver2 : MathHelper.PiOver2;
+
+            for (int i = 1; i < dist+1; i++)
+            {
+                Vector2 positionAlongLine = Vector2.Lerp(NPCfrom.Center, Target.Center, i / (float)dist); //Get the position of the segment along the line, as if it were a flat line
+                float elevation = (float)Math.Sin(i / (float)dist * MathHelper.Pi) * curvature * dist / 10f;
+                Nodes[i] = positionAlongLine + lineDirection.RotatedBy(pointUp) * elevation + Shake * (float)Math.Sin(i / (float)dist * MathHelper.Pi);
+
+                float rotation = (Nodes[i] - Nodes[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
+                float yScale = Vector2.Distance(Nodes[i], Nodes[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+                Vector2 scale = new Vector2(1, yScale);
+
+                Color chainLightColor = Lighting.GetColor((int)Nodes[i].X / 16, (int)Nodes[i].Y / 16); //Lighting of the position of the chain segment
+
+                Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
+                spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, null, chainLightColor * opacity, rotation, origin, scale, SpriteEffects.None, 0);
+            }
+            return false;
+        }
+
     }
 }

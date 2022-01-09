@@ -113,7 +113,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Tropical:
                     AttunementInfo.name = "Grovetender's Touch";
                     AttunementInfo.function_description = "Throw out the blade using a vine whip. Striking enemies with the tip of the whip as it cracks guarantees a critical hit. The whip will also propel you towards struck tiles";
-                    AttunementInfo.function_extra = "Critical strikes do (SOMETHING)";
+                    AttunementInfo.function_extra = "Critical strikes sprout up extra vines that can hit up to three targets";
                     AttunementInfo.color = new Color(162, 200, 85);
                     break;
                 case Attunement.Evil:
@@ -417,8 +417,9 @@ namespace CalamityMod.Items.Weapons.Melee
                         powerLungeAvailable = true;
                         PowerLungeCounter = 0;
                     }
-                    Projectile rapier = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage * 2, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
-                    (rapier.modProjectile as TrueDecaysRetort).ChargedUp = powerLungeAvailable;
+                    Projectile proj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage * 2, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
+                    if (proj.modProjectile is TrueDecaysRetort rapier)
+                        rapier.ChargedUp = powerLungeAvailable;
                     StoredLunges --;
                     if (StoredLunges < 0)
                         StoredLunges = 0;
