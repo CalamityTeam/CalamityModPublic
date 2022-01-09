@@ -1243,7 +1243,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase3 = lifeRatio < 0.7f;
 			bool phase4 = lifeRatio < 0.35f;
-			bool phase5 = npc.life / (float)npc.lifeMax < 0.1f && revenge;
+			bool phase5 = npc.life / (float)npc.lifeMax <= 0.1f && revenge;
 
 			// Don't take damage during bullet hells
 			npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1609,23 +1609,26 @@ namespace CalamityMod.NPCs
 				else
 				{
 					npc.ai[0] = 0f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.localAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
 					npc.alpha = 0;
-					npc.netUpdate = true;
 
 					// Prevent bullshit charge hits when second bullet hell ends.
 					if (phase5)
 					{
-						npc.ai[2] = -105f;
 						npc.ai[1] = 4f;
+						npc.ai[2] = -105f;
 						npc.TargetClosest();
-						npc.netUpdate = true;
 					}
+					else
+					{
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					npc.netUpdate = true;
 
 					for (int x = 0; x < Main.maxProjectiles; x++)
 					{
