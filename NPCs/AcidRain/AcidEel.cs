@@ -66,6 +66,9 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
 
+            // Fall through platforms.
+            npc.Calamity().ShouldFallThroughPlatforms = true;
+
             // Play a slither sound from time to time.
             if (Main.rand.NextBool(480))
                 Main.PlaySound(SoundID.Zombie, npc.Center, 32);

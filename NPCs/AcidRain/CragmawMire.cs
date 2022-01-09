@@ -82,11 +82,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.AcidRain
 
                     // Register ground collision from the slam.
                     // Once it has been hit a nuke explosion projectile is created on the ground, along with homing nuclear drops.
-                    if ((npc.Bottom.Y > Target.Bottom.Y && Collision.SolidCollision(npc.Bottom, 1, 1)) || AttackTimer > 180f)
+                    if ((npc.Bottom.Y > Target.Bottom.Y && Collision.SolidCollision(npc.BottomLeft, npc.width, 1)) || AttackTimer > 180f)
                     {
                         npc.velocity = Vector2.Zero;
 
