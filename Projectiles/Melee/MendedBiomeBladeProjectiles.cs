@@ -247,6 +247,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float SwingMode => ref projectile.ai[0]; //0 = Up-Down small slash, 1 = Down-Up large slash, 2 = Thrust
         public ref float MaxTime => ref projectile.ai[1];
         public float Timer => MaxTime - projectile.timeLeft;
+        const float MistDamageReduction = 0.2f;
 
         public int SwingDirection
         {
@@ -372,7 +373,7 @@ namespace CalamityMod.Projectiles.Melee
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
             {
-                projectile.scale = 1f + (ThrustScaleRatio() * 0.6f);
+                projectile.scale = 1f + (ThrustScaleRatio() * 0.3f);
                 projectile.Center = Owner.Center + (direction * ThrustDisplaceRatio() * 60);
 
                 projectile.frameCounter++;
@@ -381,18 +382,18 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.rand.NextBool())
                 {
-                    Particle mist = new MediumMistParticle(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, new Color(172, 238, 255), new Color(145, 170, 188), Main.rand.NextFloat(0.5f, 1.5f), 245 - Main.rand.Next(50), 0.02f);
-                    mist.Velocity = (mist.Position - Owner.Center) * 0.2f + Owner.velocity;
-                    GeneralParticleHandler.SpawnParticle(mist);
+                    Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * MistDamageReduction), 0f, Owner.whoAmI);
+                    mist.velocity = (mist.Center - Owner.Center) * 0.2f + Owner.velocity;
                 }
 
             }
 
             else
             {
-                //Shit out lingering damaging mist
                 if (Main.rand.NextFloat(0f, 1f) > 0.75f)
                 {
+                    Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * MistDamageReduction), 0f, Owner.whoAmI);
+
                     Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * projectile.scale);
                     Particle snowflake = new SnowflakeSparkle(particlePosition, rotation.ToRotationVector2() * 3f, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
                     GeneralParticleHandler.SpawnParticle(snowflake);
@@ -488,6 +489,77 @@ namespace CalamityMod.Projectiles.Melee
         }
     }
 
+    public class BitingEmbraceMist : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Particles/MediumMist";
+        public Player Owner => Main.player[projectile.owner];
+        public Color mistColor;
+        public int variant = -1;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Glacial Mist");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 34;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 300;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            Vector2 size = projectile.Size * projectile.scale;
+
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - size / 2f, size);
+        }
+
+        public override void AI()
+        {
+            if (variant == -1)
+                variant = Main.rand.Next(3);
+
+            projectile.velocity *= 0.85f;
+            projectile.position += projectile.velocity;
+            projectile.rotation += 0.02f * projectile.timeLeft / 300f * ((projectile.velocity.X > 0) ? 1f : -1f);
+
+            if (projectile.alpha < 165)
+            {
+                projectile.scale += 0.05f;
+                projectile.alpha += 2;
+            }
+            else
+            {
+                projectile.scale *= 0.975f;
+                projectile.alpha += 1;
+            }
+            if (projectile.alpha >= 200)
+                projectile.Kill();
+
+            mistColor = Color.Lerp(new Color(172, 238, 255), new Color(145, 170, 188), MathHelper.Clamp((float)(projectile.alpha - 100) / 80, 0f, 1f)) * (255 - projectile.alpha / 255f);
+        }
+
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            var tex = GetTexture("CalamityMod/Particles/MediumMist");
+            Rectangle frame = tex.Frame(1, 3, 0, variant);
+            spriteBatch.Draw(tex, projectile.position - Main.screenPosition, frame, mistColor * ((255f - projectile.alpha) / 255f), projectile.rotation, frame.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+    }
+
     public class TrueAridGrandeur : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeur";
@@ -496,6 +568,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Shred => ref projectile.ai[0]; //How much the attack is, attacking
         public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
         public ref float PogoCooldown => ref projectile.ai[1]; //Cooldown for the pogo
+        public ref float BounceTime => ref projectile.localAI[0];
         public Player Owner => Main.player[projectile.owner];
         public bool CanPogo => Owner.velocity.Y != 0 && PogoCooldown <= 0; //Only pogo when in the air and if the cooldown is zero
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
@@ -538,6 +611,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.position);
 
                 Vector2 hitPosition = Owner.Center + (direction * 100 * projectile.scale);
+                BounceTime = 20f; //Used only for animation
 
                 for (int i = 0; i < 8; i++)
                 {
@@ -616,6 +690,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Shred--;
             PogoCooldown--;
+            BounceTime--;
             projectile.timeLeft = 2;
         }
 
@@ -678,13 +753,13 @@ namespace CalamityMod.Projectiles.Melee
                 drawAngle = direction.ToRotation();
 
                 float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
-                drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 7f) * ShredRatio);
+                drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 9f) * ShredRatio);
 
                 drawOrigin = new Vector2(0f, blade.Height);
 
                 Vector2 drawOffsetStraight = Owner.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
-                Vector2 drawOffsetFromBounce = direction * MathHelper.Clamp(PogoCooldown, 0f, 20f) / 20f * 20f;
+                Vector2 drawOffsetFromBounce = direction * MathHelper.Clamp(BounceTime, 0f, 20f) / 20f * 20f;
 
                 spriteBatch.Draw(blade, drawOffsetStraight + drawDisplacementAngle + drawOffsetFromBounce, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
@@ -779,7 +854,7 @@ namespace CalamityMod.Projectiles.Melee
                 float drawAngle = direction.ToRotation();
 
                 float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
-                float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 7f) * ShredRatio);
+                float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 9f) * ShredRatio);
 
                 Vector2 drawOrigin = new Vector2(0f, tex.Height);
 
@@ -787,7 +862,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
 
-                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, lightColor * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
 
             //Back to normal
@@ -795,6 +870,29 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 4; i++) //Particel
+            {
+                float drawAngle = direction.ToRotation();
+
+                float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
+                float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 9f) * ShredRatio);
+
+
+                Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
+                Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Particle Sparkle = new GenericSparkle(drawOffsetStraight + drawRotation.ToRotationVector2() * (j - 1) * 10f + drawDisplacementAngle, direction * Main.rand.NextFloat(1f, 5f), Color.White, Color.Orange, 0.5f + Main.rand.NextFloat(-0.2f, 0.2f), 20 + Main.rand.Next(30), 1, 2f);
+                    GeneralParticleHandler.SpawnParticle(Sparkle);
+                }
+                
+            }
+
         }
 
     }
@@ -816,7 +914,7 @@ namespace CalamityMod.Projectiles.Melee
         const float ReelBackStrenght = 14f;
         const float ChainDamageReduction = 0.5f;
 
-        const float MaxTangleReach = 200f; //How long can tangling vines from crits be
+        const float MaxTangleReach = 400f; //How long can tangling vines from crits be
 
         public BezierCurve curve;
         private Vector2 controlPoint1;
@@ -906,7 +1004,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public NPC TargetNext(Vector2 hitFrom, int index)
         {
-            float longestReach = MaxTangleReach * 3;
+            float longestReach = MaxTangleReach;
             NPC target = null;
             for (int i = 0; i < 200; ++i)
             {

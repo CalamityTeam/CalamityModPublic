@@ -562,7 +562,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 Owner.heldProj = projectile.whoAmI;
 
-                projectile.Center = Owner.Center + new Vector2(16f * Owner.direction, -30 * SwordHeight() + 10f);
+                projectile.Center = Owner.Center + new Vector2(16f * Owner.direction + Owner.direction < 0 ? -26f : 16f, -30 * SwordHeight() + 10f);
                 projectile.rotation = MathHelper.PiOver4 + MathHelper.PiOver2; // No more silly turnaround with the repaired one?
                 ChannelTimer++;
                 projectile.timeLeft = 60;
