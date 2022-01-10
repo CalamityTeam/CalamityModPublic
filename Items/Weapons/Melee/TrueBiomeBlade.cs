@@ -258,6 +258,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.velocity.Y == 0) //reset the amount of lunges on ground contact
             {
                 StoredLunges = 2;
+                if (PowerLungeCounter != 3)
+                    PowerLungeCounter = 0;
             }
 
             //Change the swords function based on its attunement
@@ -379,8 +381,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 Tile tileStandingOn = Main.tile[x, y + 1];
 
                 bool mayAttune = player.StandingStill() && !player.mount.Active && tileStandingOn.IsTileSolidGround();
-                if (player.whoAmI == Main.myPlayer)
-                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
                 Vector2 displace = new Vector2(18f, 0f);
                 Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<MendedBiomeBladeVisuals>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
@@ -577,6 +577,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (Initialized == 0f)
             {
+                //If dropped, kill it instantly
+                if (Owner.HeldItem.type != ItemType<TrueBiomeBlade>())
+                {
+                    projectile.Kill();
+                    return;
+                }
+
+                if (Owner.whoAmI == Main.myPlayer)
+                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
                 Attunement? temporaryAttunementStorage = (associatedItem.modItem as TrueBiomeBlade).mainAttunement;
@@ -672,6 +682,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void Kill(int timeLeft)
         {
+            if (associatedItem == null)
+            {
+                return;
+            }
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
             if ((associatedItem.modItem as TrueBiomeBlade).mainAttunement == null && (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement != null)
             {

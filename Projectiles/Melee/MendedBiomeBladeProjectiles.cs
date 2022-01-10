@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Melee
                     Owner.velocity *= 0.1f; //Abrupt stop
                     if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
                         blade.strongLunge = false;
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (PowerLungeEnd - PowerLungeStart) / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage, 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (PowerLungeEnd - PowerLungeStart) / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage * 2, 0, Owner.whoAmI);
                     if (proj.modProjectile is DecaysRetortDash dash)
                     {
                         dash.DashStart = PowerLungeStart;
@@ -1568,10 +1568,10 @@ namespace CalamityMod.Projectiles.Melee
         }
 
 
-        public CurveSegment launch = new CurveSegment(EasingType.SineInOut, 0f, 0f, 1f, 4);
-        public CurveSegment hold = new CurveSegment(EasingType.Linear, 0.65f, 1f, 0f);
-        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.8f, 1f, -1.05f, 3);
-        internal float ThrowCurve() => PiecewiseAnimation((throwOutTime - projectile.timeLeft) / throwOutTime, new CurveSegment[] { launch , hold, retract});
+        public CurveSegment launch = new CurveSegment(EasingType.CircOut, 0f, 0f, 1f, 4);
+        public CurveSegment hold = new CurveSegment(EasingType.SineBump, 0.5f, 1f, 0.2f);
+        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.6f, 1f, -1.05f, 3);
+        internal float ThrowCurve() => PiecewiseAnimation((throwOutTime - projectile.timeLeft) / throwOutTime, new CurveSegment[] { launch , retract});
 
         public override void AI()
         {
@@ -1611,6 +1611,14 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = direction.ToRotation();
                 projectile.Center = Owner.Center + (direction * projectile.scale * 10);
                 projectile.timeLeft = (int)throwOutTime + 1;
+
+                //if (Main.rand.NextBool())
+                //{
+                //    Particle foam = new SeaFoamParticle(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, Color.White, new Color(65, 129, 192), Main.rand.NextFloat(0.5f, 1.5f), 245 - Main.rand.Next(50), 0.04f);
+                //    foam.Velocity = (foam.Position - Owner.Center) * 0.01f + Owner.velocity;
+                //    GeneralParticleHandler.SpawnParticle(foam);
+                //}
+
             }
 
             if (CurrentState == 1f)

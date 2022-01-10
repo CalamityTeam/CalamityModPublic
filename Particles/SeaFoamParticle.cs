@@ -32,9 +32,10 @@ namespace CalamityMod.Particles {
 
         public override void Update()
         {
-
+            Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
             Opacity--;
-
+            if (Opacity <= 0)
+                Kill();
             Color = Color.Lerp(ColorStart, ColorFade, MathHelper.Clamp((float)((255 -Opacity) - 100) / 80, 0f, 1f)) * (Opacity / 255f);
         }
     }
