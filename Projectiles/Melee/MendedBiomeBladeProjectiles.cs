@@ -1083,7 +1083,7 @@ namespace CalamityMod.Projectiles.Melee
         const float MaxTime = 90;
         const int coyoteTimeFrames = 15; //How many frames does the whip stay extended 
         const int MaxReach = 400;
-        const float SnappingPoint = 0.7f; //When does the snap occur.
+        const float SnappingPoint = 0.55f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
         const float ChainDamageReduction = 0.5f;
 
@@ -1101,7 +1101,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             projectile.melee = true;
-            projectile.width = projectile.height = 36;
+            projectile.width = projectile.height = 80;
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
@@ -1125,14 +1125,21 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 previousPosition = chainPositions[i - 1];
                 if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), position, previousPosition, 6, ref collisionPoint))
                     return true;
+                if (i == numPoints - 1) //Extra lenght collision for the blade itself
+                {
+                    Vector2 projectileHalfLenght = 85 * projectile.rotation.ToRotationVector2();
+                    return (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint));
+                }
+
             }
+
             return base.Colliding(projHitbox, targetHitbox);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
-            Vector2 projectileHalfLenght = (projectile.Size / 2f) * projectile.rotation.ToRotationVector2();
+            Vector2 projectileHalfLenght = 85f * projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit
             if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
@@ -1230,7 +1237,7 @@ namespace CalamityMod.Projectiles.Melee
 
             float ratio = GetSwingRatio();
             projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
-            projectile.direction = projectile.spriteDirection = -Owner.direction;
+            projectile.direction = projectile.spriteDirection = -Owner.direction * (int)flipped;
 
             //MessWithTiles(); 
 
@@ -1271,7 +1278,9 @@ namespace CalamityMod.Projectiles.Melee
                 distance = Math.Max(distance, 65); //Dont be too close to player
 
                 float angleDeviation = MathHelper.Pi / 1.2f;
-                float angleOffset = Owner.direction * MathHelper.Lerp(-angleDeviation, 0, progress); //Go from very angled to straight at the zenith of the attack
+                float angleOffset = Owner.direction * flipped * MathHelper.Lerp(-angleDeviation, 0, progress); //Go from very angled to straight at the zenith of the attack
+                if (flipped == -1)
+                    distance *= MathHelper.Lerp(0.1f, 0.3f, (float)Math.Sin(progress * MathHelper.Pi));
                 return projectile.velocity.RotatedBy(angleOffset) * distance;
             }
             else
@@ -1295,22 +1304,27 @@ namespace CalamityMod.Projectiles.Melee
             drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
             drawRotation += projectile.spriteDirection < 0 ? 0f : 0f;
 
+            if (ReelingBack)
+                drawRotation = Utils.AngleLerp(drawRotation, (projectile.Center - Owner.Center).ToRotation(), GetSwingRatio());
+
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
             lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
             spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
 
-            //Turn on additive blending
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            //Only update the origin for once
-            drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
-            //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
+            if ((!ReelingBack || SnapCoyoteTime != 0f) && (Timer / MaxTime > 0.35f))
+            {
+                //Turn on additive blending
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                //Only update the origin for once
+                drawOrigin = new Vector2(0f, blade.Height);
+                spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+                //Back to normal
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            }
             return false;
         }
 
@@ -1322,14 +1336,14 @@ namespace CalamityMod.Projectiles.Melee
 
             if (!ReelingBack) //Make the curve be formed from points slightly ahead of the projectile, but clamped to the max rotation (straight line ahead)
             {
-                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.5f, 0f, 1f)) * 0.5f;
+                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.5f, 0f, 1f)) * 0.2f;
                 controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.2f, 0f, 1f)) * 0.5f;
             }
             else //After the whip snaps, make the curve be a wave 
             {
                 Vector2 perpendicular = SwingPosition(ratio).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2);
-                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * -155f;
-                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio / 2)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * 100f;
+                controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * 155f * Owner.direction;
+                controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio / 2)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * -100f * Owner.direction;
             }
 
             BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });

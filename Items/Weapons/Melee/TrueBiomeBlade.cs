@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool strongLunge = false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mended Biome Blade");
+            DisplayName.SetDefault("Biome Blade");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "FUNCTION_EXTRA\n" +
                                "Use RMB while standing still on the ground to attune the weapon to the powers of the surrounding biome\n" +
@@ -412,7 +412,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     return false;
 
                 case Attunement.Tropical:
-                    Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 15);
+                    Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 0);
                     if (whipProj.modProjectile is TrueGrovetendersTouch whip)
                         whip.flipped = Combo == 0 ? 1 : -1;
                     Combo++;
