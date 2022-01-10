@@ -1094,6 +1094,11 @@ namespace CalamityMod.CalPlayer
 						player.maxFallSpeed = 15f;
 					if (gSabatonFall > 0 || player.PortalPhysicsEnabled)
 						player.maxFallSpeed = 20f;
+					if (player.HeldItem.modItem is TrueBiomeBlade blade)
+					{
+						if (blade.mainAttunement == TrueBiomeBlade.Attunement.Evil && blade.strongLunge)
+							player.maxFallSpeed = 80f;
+					}
 				}
 			}
 

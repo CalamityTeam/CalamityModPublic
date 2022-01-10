@@ -86,14 +86,20 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetort";
         private bool initialized = false;
-        Vector2 direction = Vector2.Zero;
+        public Vector2 direction = Vector2.Zero;
         public ref float MaxTime => ref projectile.ai[0];
         public ref float CanLunge => ref projectile.ai[1];
         public float Timer => MaxTime - projectile.timeLeft;
         public bool ChargedUp;
         public Player Owner => Main.player[projectile.owner];
         public const float LungeSpeed = 16;
+        public const float PowerLungeDistance = 500;
         public ref float CanBounce => ref projectile.localAI[0];
+        public ref float dashTimer => ref projectile.localAI[1];
+        public const float maxDash = 20f;
+
+        private Vector2 PowerLungeStart;
+        private Vector2 PowerLungeEnd;
 
         public override void SetStaticDefaults()
         {
@@ -136,9 +142,34 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.netSpam = 0;
             }
 
-            if (ChargedUp && Timer / MaxTime > 0.5)
+            if (ChargedUp && Timer / MaxTime > 0.5 && dashTimer == 0f)
             {
                 PowerLunge();
+            }
+
+            if (dashTimer >= 1f)
+            {
+                if (dashTimer < maxDash)
+                {
+                    Owner.velocity = direction * 60f;
+                    projectile.timeLeft = (int)(MaxTime / 2f);
+                    dashTimer++;
+                }
+
+                if (dashTimer == maxDash)
+                {
+                    Owner.velocity *= 0.1f; //Abrupt stop
+                    if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
+                        blade.strongLunge = false;
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (PowerLungeEnd - PowerLungeStart) / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage, 0, Owner.whoAmI);
+                    if (proj.modProjectile is DecaysRetortDash dash)
+                    {
+                        dash.DashStart = PowerLungeStart;
+                        dash.DashEnd = Owner.Center;
+                    }
+
+                    dashTimer = maxDash + 1;
+                }
             }
 
             //Manage position and rotation
@@ -167,7 +198,26 @@ namespace CalamityMod.Projectiles.Melee
 
         public void PowerLunge()
         {
-
+            if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
+                blade.strongLunge = true;
+            PowerLungeStart = Owner.Center;
+            dashTimer = 1f;
+            Owner.GiveIFrames(60);
+        }
+        //Gives us the longest distance the dash can be
+        private static Vector2 LongestClearDistance(Vector2 start, Vector2 end)
+        {
+            Vector2 distance = end - start;
+            Vector2 longestDistance = Vector2.Zero;
+            //Check every block along the way
+            for (float i = 0; i < 1; i += 8.0f / distance.Length())
+            {
+                Vector2 positionToCheck = start + (distance * i);
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].active())
+                    return longestDistance;
+                longestDistance = distance * i;
+            }
+            return distance;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects(!target.canGhostHeal || Main.player[projectile.owner].moonLeech);
@@ -175,6 +225,9 @@ namespace CalamityMod.Projectiles.Melee
 
         private void OnHitEffects(bool cannotLifesteal)
         {
+            if (ChargedUp)
+                return;
+
             projectile.netUpdate = true;
             projectile.netSpam = 0;
 
@@ -191,6 +244,15 @@ namespace CalamityMod.Projectiles.Melee
             Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(bounceStrength, 0f, 22f);
             CanBounce = 0f;
             Owner.GiveIFrames(10); // 10 i frames for free!
+            if (Owner.whoAmI == Main.myPlayer)
+            {
+                if (Owner.HeldItem.modItem is TrueBiomeBlade sword)
+                {
+                    sword.PowerLungeCounter++;
+                    if (sword.PowerLungeCounter == 3)
+                        Main.PlaySound(SoundID.Item79); //indicate the charge with a sound effect
+                }
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -214,6 +276,13 @@ namespace CalamityMod.Projectiles.Melee
             drawOrigin = new Vector2(0f, tex.Height);
 
             spriteBatch.Draw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+            if (dashTimer > 0f && dashTimer < maxDash)
+            {
+                float thrustRatio = (float)Math.Sin(dashTimer / maxDash * MathHelper.Pi);
+                spriteBatch.Draw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale * (1 + thrustRatio * 0.2f), 0f, 0f);
+            }
+
             //Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -237,6 +306,98 @@ namespace CalamityMod.Projectiles.Melee
         }
     }
 
+    public class DecaysRetortDash : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public Player Owner => Main.player[projectile.owner];
+        public float Timer => 20 - projectile.timeLeft;
+
+        public Vector2 DashStart;
+        public Vector2 DashEnd;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Evisceration Lunge");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 8;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 60;
+            projectile.timeLeft = 20;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), DashStart, DashEnd);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4)) * 9f;
+                Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.Crimson, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
+                GeneralParticleHandler.SpawnParticle(Spark);
+            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //OMw to reuse way too much code from the entangling vines
+        {
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            
+            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetortDash");
+
+            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
+
+            Vector2 lineDirection = Vector2.Normalize(DashEnd - DashStart);
+            int dist = (int)Vector2.Distance(DashEnd, DashStart) / 16;
+            Vector2[] Nodes = new Vector2[dist + 1];
+            Nodes[0] = DashStart;
+            Nodes[dist] = DashEnd;
+
+
+            for (int i = 1; i < dist + 1; i++)
+            {
+                Vector2 positionAlongLine = Vector2.Lerp(DashStart, DashEnd, i / (float)dist); //Get the position of the segment along the line
+
+                Nodes[i] = positionAlongLine + Shake * (float)Math.Sin(i / (float)dist * MathHelper.PiOver2);
+
+                float rotation = (Nodes[i] - Nodes[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
+                float yScale = Vector2.Distance(Nodes[i], Nodes[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+                float xScale = (i / (float)dist) * 5f;
+                Vector2 scale = new Vector2(xScale, yScale);
+
+                float opacity = MathHelper.Clamp((float)Math.Sin(i / (float)dist * MathHelper.PiOver2) - (i / (float)dist * ((20f - projectile.timeLeft) / 25f)), 0f, 1f);
+
+                Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
+                spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, null, Color.Crimson * opacity, rotation, origin, scale, SpriteEffects.None, 0);
+            }
+
+            Texture2D sparkTexture = GetTexture("CalamityMod/Particles/CritSpark");
+            Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
+            //Ajust the bloom's texture to be the same size as the star's
+            float properBloomSize = (float)sparkTexture.Width / (float)bloomTexture.Height;
+
+            float bump = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.Pi);
+            float raise = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.PiOver2);
+            Rectangle frame = new Rectangle(0, 0, 14, 14);
+
+            spriteBatch.Draw(bloomTexture, DashEnd - Main.screenPosition, null, Color.Crimson * bump * 0.5f, 0, bloomTexture.Size() / 2f, bump * 6f * properBloomSize, SpriteEffects.None, 0);
+            spriteBatch.Draw(sparkTexture, DashEnd - Main.screenPosition, frame, Color.Lerp(Color.White, Color.Crimson, raise) * bump, raise * MathHelper.TwoPi, frame.Size() / 2f, bump * 3f, SpriteEffects.None, 0);
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            return false;
+        }
+    }
+    
     public class TrueBitingEmbrace : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_BitingEmbrace";
@@ -505,7 +666,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = projectile.height = 34;
             projectile.tileCollide = false;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 2;
             projectile.timeLeft = 300;
         }
 
@@ -521,6 +682,13 @@ namespace CalamityMod.Projectiles.Melee
             if (variant == -1)
                 variant = Main.rand.Next(3);
 
+            if (Main.rand.Next(15) == 0 && projectile.alpha <= 140) //only try to spawn your particles if you're not close to dying
+            {
+                Vector2 particlePosition = projectile.Center + Main.rand.NextVector2Circular(projectile.width * projectile.scale * 0.5f, projectile.height * projectile.scale * 0.5f);
+                Particle snowflake = new SnowflakeSparkle(particlePosition, Vector2.Zero, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
+                GeneralParticleHandler.SpawnParticle(snowflake);
+            }
+
             projectile.velocity *= 0.85f;
             projectile.position += projectile.velocity;
             projectile.rotation += 0.02f * projectile.timeLeft / 300f * ((projectile.velocity.X > 0) ? 1f : -1f);
@@ -535,7 +703,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.scale *= 0.975f;
                 projectile.alpha += 1;
             }
-            if (projectile.alpha >= 200)
+            if (projectile.alpha >= 170)
                 projectile.Kill();
 
             mistColor = Color.Lerp(new Color(172, 238, 255), new Color(145, 170, 188), MathHelper.Clamp((float)(projectile.alpha - 100) / 80, 0f, 1f)) * (255 - projectile.alpha / 255f);
@@ -549,7 +717,7 @@ namespace CalamityMod.Projectiles.Melee
 
             var tex = GetTexture("CalamityMod/Particles/MediumMist");
             Rectangle frame = tex.Frame(1, 3, 0, variant);
-            spriteBatch.Draw(tex, projectile.position - Main.screenPosition, frame, mistColor * ((255f - projectile.alpha) / 255f), projectile.rotation, frame.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, projectile.position - Main.screenPosition, frame, mistColor * 0.5f * ((255f - projectile.alpha) / 255f), projectile.rotation, frame.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
 
             //Back to normal
             spriteBatch.End();
@@ -862,7 +1030,9 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
 
-                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                float opacityFade = projectile.timeLeft > 15 ? 1 : projectile.timeLeft / 15f;
+
+                spriteBatch.Draw(tex, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f * opacityFade, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             }
 
             //Back to normal
@@ -874,6 +1044,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
+            Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int i = 0; i < 4; i++) //Particel
             {
                 float drawAngle = direction.ToRotation();
@@ -882,12 +1053,12 @@ namespace CalamityMod.Projectiles.Melee
                 float drawRotation = drawAngle + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 9f) * ShredRatio);
 
 
-                Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
+                Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Particle Sparkle = new GenericSparkle(drawOffsetStraight + drawRotation.ToRotationVector2() * (j - 1) * 10f + drawDisplacementAngle, direction * Main.rand.NextFloat(1f, 5f), Color.White, Color.Orange, 0.5f + Main.rand.NextFloat(-0.2f, 0.2f), 20 + Main.rand.Next(30), 1, 2f);
+                    Particle Sparkle = new GenericSparkle(drawOffsetStraight + (drawRotation - MathHelper.PiOver4).ToRotationVector2() * (60 + j * 50f) + drawDisplacementAngle, direction * projectile.velocity.Length() * Main.rand.NextFloat(0.9f, 1.1f), Color.Lerp(Color.Cyan, Color.Orange, (j + 1) / 4f), Color.OrangeRed, 0.5f + Main.rand.NextFloat(-0.2f, 0.2f), 20 + Main.rand.Next(30), 1, 2f);
                     GeneralParticleHandler.SpawnParticle(Sparkle);
                 }
                 
@@ -906,6 +1077,8 @@ namespace CalamityMod.Projectiles.Melee
         public float Timer => MaxTime - projectile.timeLeft;
         public ref float HasSnapped => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
+
+        public float flipped;
 
         const float MaxTime = 90;
         const int coyoteTimeFrames = 15; //How many frames does the whip stay extended 

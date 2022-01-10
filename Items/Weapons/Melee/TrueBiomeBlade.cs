@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public int Combo = 0;
         public int StoredLunges = 2;
         public int PowerLungeCounter = 0;
-
+        public bool strongLunge = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mended Biome Blade");
@@ -308,7 +308,6 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.UseSound = null;
                     item.noMelee = true;
 
-                    Combo = 0;
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Evil:
@@ -385,6 +384,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            strongLunge = false;
+
             if (mainAttunement == null)
                 return false;
 
@@ -407,6 +408,15 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                     Combo++;
                     if (Combo > 2)
+                        Combo = 0;
+                    return false;
+
+                case Attunement.Tropical:
+                    Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 15);
+                    if (whipProj.modProjectile is TrueGrovetendersTouch whip)
+                        whip.flipped = Combo == 0 ? 1 : -1;
+                    Combo++;
+                    if (Combo > 1)
                         Combo = 0;
                     return false;
 
