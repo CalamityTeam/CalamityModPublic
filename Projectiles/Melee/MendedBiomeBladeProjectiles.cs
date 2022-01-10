@@ -1537,9 +1537,9 @@ namespace CalamityMod.Projectiles.Melee
         public ref float CurrentState => ref projectile.ai[0];
         public Player Owner => Main.player[projectile.owner];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
-        public const float throwOutTime = 40f;
-        public const float throwOutDistance = 240f;
-        public const float maxEmpowerment = 1.7f;
+        public float throwOutTime = 60f;
+        public float throwOutDistance = 440f; //Turn these into constants when im doine tweakin em
+        public float maxEmpowerment = 1.7f;
         public float Empowerment => (projectile.scale - 1f) / (maxEmpowerment - 1f);
 
         public override void SetStaticDefaults()
@@ -1567,11 +1567,18 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
         }
 
+
+        public CurveSegment launch = new CurveSegment(EasingType.SineInOut, 0f, 0f, 1f, 4);
+        public CurveSegment hold = new CurveSegment(EasingType.Linear, 0.65f, 1f, 0f);
+        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.8f, 1f, -1.05f, 3);
+        internal float ThrowCurve() => PiecewiseAnimation((throwOutTime - projectile.timeLeft) / throwOutTime, new CurveSegment[] { launch , hold, retract});
+
         public override void AI()
         {
             if (!initialized) //Initialization. Here its litterally just playing a sound tho lmfao
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
+                projectile.velocity = Vector2.Zero;
                 direction = Owner.DirectionTo(Main.MouseWorld);
                 direction.Normalize();
                 initialized = true;
@@ -1600,6 +1607,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.scale = maxEmpowerment;
 
                 direction = direction.RotatedBy((Empowerment) * MathHelper.PiOver4 * 0.25);
+                direction.Normalize();
                 projectile.rotation = direction.ToRotation();
                 projectile.Center = Owner.Center + (direction * projectile.scale * 10);
                 projectile.timeLeft = (int)throwOutTime + 1;
@@ -1607,7 +1615,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (CurrentState == 1f)
             {
-                projectile.Center = Owner.Center + (direction * projectile.scale * 10) + ( direction * throwOutDistance * (float)Math.Sin(projectile.timeLeft / throwOutTime * MathHelper.Pi));
+                projectile.Center = Owner.Center + (direction * projectile.scale * 10) + ( direction * throwOutDistance * ThrowCurve());
             }
 
             //Make the owner look like theyre holding the sword bla bla

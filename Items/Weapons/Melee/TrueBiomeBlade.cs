@@ -132,7 +132,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "The One Beyond's Abhorrence";
                     AttunementInfo.function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
                     AttunementInfo.function_extra = "Striking the ground will create an impact so powerful, massive otherwordly monoliths will rise up from the earth";
-                    AttunementInfo.color = new Color(136, 133, 23);
+                    AttunementInfo.color = new Color(91, 73, 196);
                     break;
                 case Attunement.Marine:
                     AttunementInfo.name = "Gesture for the Drowned";
