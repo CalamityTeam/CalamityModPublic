@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Polterghast
 						int type = ModContent.ProjectileType<PhantomMine>();
 						int damage = npc.GetProjectileDamage(type);
 						float maxVelocity = 8f * tileEnrageMult;
-						float acceleration = 1.05f + (tileEnrageMult - 1f) * 0.1f;
+						float acceleration = 1.15f + (tileEnrageMult - 1f) * 0.15f;
 						Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, acceleration);
 					}
 					npc.ai[2] = 0f;

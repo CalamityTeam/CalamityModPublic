@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.height = 80;
 			npc.defense = 40;
 			npc.DR_NERD(0.15f);
-			npc.lifeMax = 23000;
+			npc.lifeMax = 16352;
 			npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Ravager
 			}
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 31500;
+				npc.lifeMax = 22500;
 			}
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
