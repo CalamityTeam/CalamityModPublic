@@ -1528,4 +1528,129 @@ namespace CalamityMod.Projectiles.Melee
         }
 
     }
+
+    public class HeavensMight : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight";
+        private bool initialized = false;
+        Vector2 direction = Vector2.Zero;
+        public ref float CurrentState => ref projectile.ai[0];
+        public Player Owner => Main.player[projectile.owner];
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
+        public const float throwOutTime = 40f;
+        public const float throwOutDistance = 240f;
+        public const float maxEmpowerment = 1.7f;
+        public float Empowerment => (projectile.scale - 1f) / (maxEmpowerment - 1f);
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heaven's Might");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 74;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 16;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 100 * projectile.scale;
+            float bladeWidth = 20 * projectile.scale;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+        }
+
+        public override void AI()
+        {
+            if (!initialized) //Initialization. Here its litterally just playing a sound tho lmfao
+            {
+                Main.PlaySound(SoundID.Item90, projectile.Center);
+                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction.Normalize();
+                initialized = true;
+            }
+
+            if (!OwnerCanShoot)
+            {
+                if (CurrentState == 2f)
+                {
+                    projectile.Kill();
+                    return;
+                }
+
+                else if (CurrentState == 0f)
+                {
+                    CurrentState = 1f;
+                    direction = Owner.DirectionTo(Main.MouseWorld);
+                }
+            }
+
+            if (CurrentState == 0f)
+            {
+                //Manage position and rotation
+                projectile.scale *= 1.01f;
+                if (projectile.scale > maxEmpowerment)
+                    projectile.scale = maxEmpowerment;
+
+                direction = direction.RotatedBy((Empowerment) * MathHelper.PiOver4 * 0.25);
+                projectile.rotation = direction.ToRotation();
+                projectile.Center = Owner.Center + (direction * projectile.scale * 10);
+                projectile.timeLeft = (int)throwOutTime + 1;
+            }
+
+            if (CurrentState == 1f)
+            {
+                projectile.Center = Owner.Center + (direction * projectile.scale * 10) + ( direction * throwOutDistance * (float)Math.Sin(projectile.timeLeft / throwOutTime * MathHelper.Pi));
+            }
+
+            //Make the owner look like theyre holding the sword bla bla
+            Owner.heldProj = projectile.whoAmI;
+            Owner.direction = Math.Sign(direction.X);
+            Owner.itemRotation = direction.ToRotation();
+            if (Owner.direction != 1)
+            {
+                Owner.itemRotation -= 3.14f;
+            }
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight");
+
+            float drawAngle = direction.ToRotation();
+            float drawRotation = drawAngle + MathHelper.PiOver4;
+
+            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOffset = projectile.Center - Main.screenPosition;
+
+            spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+            //Turn on additive blending
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Update the parameters
+            drawOrigin = new Vector2(0f, blade.Height);
+
+            spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+    }
 }
+

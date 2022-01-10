@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TrueBiomeBlade : ModItem
     {
-        public enum Attunement : byte { Default, Hot, Cold, Tropical, Evil, Holy, HolyStar, Marine }
+        public enum Attunement : byte { Default, Hot, Cold, Tropical, Evil, Holy, Astral, Marine }
         public Attunement? mainAttunement = null;
         public Attunement? secondaryAttunement = null;
         public int Combo = 0;
@@ -124,13 +124,13 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 case Attunement.Holy:
                     AttunementInfo.name = "Heaven's Might";
-                    AttunementInfo.function_description = "Hold LMB to charge up a heaven-piercing sword thrust, and release to unleash the devastating blow";
-                    AttunementInfo.function_extra = "Striking the ground will create an impact so powerful, massive fragments of crystal will rise up from the earth";
+                    AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins";
+                    AttunementInfo.function_extra = "Releasing LMB will throw the sword in front of you, flying a short distance away before coming back";
                     AttunementInfo.color = new Color(220, 143, 255);
                     break;
-                case Attunement.HolyStar:
-                    AttunementInfo.name = "Heaven's Abhorrence";
-                    AttunementInfo.function_description = "Hold LMB to charge up a star-ravaging sword thrust, and release to unleash the devastating blow";
+                case Attunement.Astral:
+                    AttunementInfo.name = "The One Beyond's Abhorrence";
+                    AttunementInfo.function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
                     AttunementInfo.function_extra = "Striking the ground will create an impact so powerful, massive otherwordly monoliths will rise up from the earth";
                     AttunementInfo.color = new Color(136, 133, 23);
                     break;
@@ -255,10 +255,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             player.Calamity().rightClickListener = true;
 
-            if (player.velocity.Y == 0) //reset the amount of lunges on ground contact, but also set the power lunge counter back to zero
+            if (player.velocity.Y == 0) //reset the amount of lunges on ground contact
             {
                 StoredLunges = 2;
-                PowerLungeCounter = 0;
             }
 
             //Change the swords function based on its attunement
@@ -322,7 +321,18 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
                 case Attunement.Holy:
-                case Attunement.HolyStar:
+                    item.channel = true;
+                    item.noUseGraphic = true;
+                    item.useStyle = ItemUseStyleID.HoldingOut;
+                    item.shoot = ProjectileType<HeavensMight>();
+                    item.shootSpeed = 12f;
+                    item.UseSound = null;
+                    item.noMelee = true;
+
+                    Combo = 0;
+                    PowerLungeCounter = 0;
+                    break;
+                case Attunement.Astral:
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
@@ -379,7 +389,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueBitingEmbrace>() || n.type == ProjectileType<TrueGrovetendersTouch>() || n.type == ProjectileType<TrueAridGrandeur>())); // || n.type == ProjectileType<HeavensMightAbhorrence>()
+            (n.type == ProjectileType<TrueBitingEmbrace>() || n.type == ProjectileType<TrueGrovetendersTouch>() || n.type == ProjectileType<TrueAridGrandeur>() || n.type == ProjectileType<HeavensMight>())); // || n.type == ProjectileType<HeavensMightAbhorrence>()
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -435,9 +445,8 @@ namespace CalamityMod.Items.Weapons.Melee
                         StoredLunges = 0;
                     return false;
 
-                case Attunement.Holy:
-                case Attunement.HolyStar:
-                    float astralVariant = mainAttunement == Attunement.HolyStar ? 1f : 0f;
+                case Attunement.Astral:
+                    float astralVariant = mainAttunement == Attunement.Astral ? 1f : 0f;
                //     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<HeavensMightyAbhorrence>(), damage * 2, knockBack, player.whoAmI, astralVariant);
                     return false;
 
@@ -446,6 +455,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        //This is only used for the purity sigil effect of the default attunement
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             foreach (Projectile proj in Main.projectile)
@@ -502,7 +512,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     BiomeEnergyParticles.CenterColor = new Color(195, 42, 200);
                     break;
                 case Attunement.Holy:
-                case Attunement.HolyStar:
+                case Attunement.Astral:
                     BiomeEnergyParticles.EdgeColor = new Color(62, 55, 110);
                     BiomeEnergyParticles.CenterColor = new Color(255, 143, 255);
                     break;
@@ -643,7 +653,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (holy)
                 attunement = Attunement.Holy;
             if (astral)
-                attunement = Attunement.HolyStar;
+                attunement = Attunement.Astral;
             if (marine)
                 attunement = Attunement.Marine;
 
