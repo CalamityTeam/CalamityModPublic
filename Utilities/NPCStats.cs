@@ -742,11 +742,11 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<PhantomFuckYou>(), ModContent.ProjectileType<PhantomMine>()), new int[] { 150, 260, 288, 304, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PhantomSpiritL>(), ModContent.ProjectileType<PhantomGhostShot>()), new int[] { 130, 212, 236, 248, 354 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 150, 240, 264, 276, 390 } },
 				{ new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeVortex>()), new int[] { 280, 400, 440, 464, 660 } },
-				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandToothOldDuke>()), new int[] { 140, 220, 264, 292, 396 } },
-				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloudOldDuke>()), new int[] { 140, 220, 252, 272, 378 } },
-				{ new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandToothOldDuke>()), new int[] { 150, 240, 264, 276, 390 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloudOldDuke>()), new int[] { 180, 288, 316, 332, 468 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 150, 240, 264, 276, 390 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGFire>()), new int[] { 180, 300, 332, 348, 498 } },
