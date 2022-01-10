@@ -21,6 +21,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TruePurityProjection : ModProjectile //The boring plain one. I need to find something different to make it do compared to the original one.
     {
+        public NPC target;
+        public Player Owner => Main.player[projectile.owner];
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";
 
         public override void SetStaticDefaults()
@@ -38,12 +40,34 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 40;
+            projectile.extraUpdates = 1;
             projectile.melee = true;
             projectile.tileCollide = false;
         }
 
         public override void AI()
         {
+
+            if (target == null)
+            {
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.type == ProjectileType<PurityProjectionSigil>() && proj.owner == Owner.whoAmI)
+                    {
+                        target = Main.npc[(int)proj.ai[0]];
+                        break;
+                    }
+                }
+            }
+            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver4 * 0.5f) //Home in
+            {
+                projectile.timeLeft = 30; //Remain alive
+                float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(12.5f, 2.5f, MathHelper.Clamp(projectile.Distance(target.Center)/10f, 0f, 1f)));
+                float idealDirection = projectile.AngleTo(target.Center);
+                float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
+                projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
+            }
+
             if (projectile.timeLeft < 35)
                 projectile.tileCollide = true;
 
@@ -79,6 +103,58 @@ namespace CalamityMod.Projectiles.Melee
         {
             int debuffTime = 90;
             target.AddBuff(BuffType<ArmorCrunch>(), debuffTime);
+        }
+    }
+
+    public class PurityProjectionSigil : ModProjectile 
+    {
+        private NPC target => Main.npc[(int)projectile.ai[0]];
+
+        public Player Owner => Main.player[projectile.owner];
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_PurityProjectionSigil";
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Purity Sigil");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = projectile.height = 40;
+            projectile.friendly = false;
+			projectile.hostile = false;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 600;
+            projectile.melee = true;
+            projectile.tileCollide = false;
+        }
+
+        public override Color? GetAlpha(Color lightColor) => Color.White;
+
+        public override void AI()
+        {
+
+            Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
+            Main.dust[dustParticle].noGravity = true;
+            Main.dust[dustParticle].velocity *= 0.5f;
+
+            if (target.active)
+            {
+                projectile.Center = target.Center;
+            }
+            else
+                projectile.active = false;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (Main.myPlayer != projectile.owner) // don't show for other players
+                return false;
+            DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            return false;
         }
     }
 
@@ -340,7 +416,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int i = 0; i < 3; i++)
             {
-                Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4)) * 9f;
+                Vector2 sparkSpeed = target.DirectionTo(Owner.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4)) * 9f;
                 Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.Crimson, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
                 GeneralParticleHandler.SpawnParticle(Spark);
             }
@@ -1311,7 +1387,9 @@ namespace CalamityMod.Projectiles.Melee
             SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
             lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
-            spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+            Vector2 nitpickCorrection = (flipped == -1 && (Timer / MaxTime < 0.35f)) ?  drawRotation.ToRotationVector2() * 16f + (Owner.direction == -1f ? Vector2.UnitX * -12f : Vector2.Zero) : Vector2.Zero;
+
+            spriteBatch.Draw(handle, projBottom - nitpickCorrection - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
 
             if ((!ReelingBack || SnapCoyoteTime != 0f) && (Timer / MaxTime > 0.35f))
             {
@@ -1320,7 +1398,7 @@ namespace CalamityMod.Projectiles.Melee
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Only update the origin for once
                 drawOrigin = new Vector2(0f, blade.Height);
-                spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+                spriteBatch.Draw(blade, projBottom - nitpickCorrection - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

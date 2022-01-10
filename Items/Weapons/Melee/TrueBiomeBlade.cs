@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Default:
                     AttunementInfo.name = "Pure Clarity";
                     AttunementInfo.function_description = "Fires a weak projectile that crushes enemy defenses";
-                    AttunementInfo.function_extra = ""; //WHAT DO I MAKE IT DO AS AN EXTRA PLLSS IDK ITS SUCH A BORING ATTUNEMENT,,,
+                    AttunementInfo.function_extra = "Landing true melee hits places a sigil of purity over the enemy. Your projectiles home onto the marked foes"; 
                     AttunementInfo.color = new Color(171, 180, 73);
                     break;
                 case Attunement.Hot:
@@ -444,6 +444,21 @@ namespace CalamityMod.Items.Weapons.Melee
                 default:
                     return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
             }
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj.type == ProjectileType<PurityProjectionSigil>() && proj.owner == player.whoAmI)
+                {
+                    //Reset the timeleft on the sigil & give it its new target (or the same, it doesnt matter really.
+                    proj.ai[0] = target.whoAmI;
+                    proj.timeLeft = 600;
+                    return;
+                }
+            }
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
         }
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.White, Color.White, 0.04f, 20f);
