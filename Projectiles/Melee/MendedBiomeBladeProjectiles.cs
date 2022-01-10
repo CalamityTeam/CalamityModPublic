@@ -333,7 +333,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
             Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetort");
 
             float drawAngle = direction.ToRotation();
@@ -663,7 +663,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
 
             if (SwingMode != 2)
             {
@@ -968,7 +968,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeur");
 
             int bladeAmount = 4;
@@ -1625,7 +1625,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight");
 
             float drawAngle = direction.ToRotation();
