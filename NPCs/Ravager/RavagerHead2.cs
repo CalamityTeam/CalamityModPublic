@@ -22,21 +22,35 @@ namespace CalamityMod.NPCs.Ravager
             npc.damage = 0;
             npc.width = 80;
             npc.height = 80;
-            npc.lifeMax = 100;
-            npc.knockBackResist = 0f;
+			npc.defense = 40;
+			npc.DR_NERD(0.15f);
+			npc.lifeMax = 16352;
+			npc.knockBackResist = 0f;
             aiType = -1;
-            npc.dontTakeDamage = true;
             npc.noGravity = true;
-            npc.noTileCollide = true;
+			npc.canGhostHeal = false;
+			npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-        }
+			if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+			{
+				npc.defense *= 2;
+				npc.lifeMax *= 5;
+			}
+			if (BossRushEvent.BossRushActive)
+			{
+				npc.lifeMax = 22500;
+			}
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void AI()
         {
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.dontTakeDamage = false;
                 npc.life = 0;
                 HitEffect(npc.direction, 9999);
                 npc.netUpdate = true;

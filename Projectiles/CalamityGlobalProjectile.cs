@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.World.Generation;
 using static Terraria.ModLoader.ModContent;
 
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
@@ -81,14 +82,6 @@ namespace CalamityMod.Projectiles
 
         public int lineColor = 0; // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
-
-        // Organic/Inorganic Boosts
-        public bool hasOrganicEnemyHitBoost = false;
-        public bool hasInorganicEnemyHitBoost = false;
-        public float organicEnemyHitBoost = 0f;
-        public float inorganicEnemyHitBoost = 0f;
-        public Action<NPC> organicEnemyHitEffect = null;
-        public Action<NPC> inorganicEnemyHitEffect = null;
 
         // Dogshit, hacky workarounds for the summon respawning system
         public bool RequiresManualResurrection = false;
@@ -2370,30 +2363,6 @@ namespace CalamityMod.Projectiles
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
-
-            // Super dummies have nearly 10 million max HP (which is used in damage calculations).
-            // This can very easily cause damage numbers that are unrealistic for the weapon.
-            // As a result, they are omitted in this code.
-
-            List<int> ignoreTheseBitches = new List<int>()
-            {
-                NPCType<SuperDummyNPC>(),
-                NPCID.TheDestroyerBody, //why aren't these bosses
-                NPCID.TheDestroyerTail
-            };
-            if (!target.boss && ignoreTheseBitches.TrueForAll(x => target.type != x))
-            {
-                if (target.Inorganic() && hasInorganicEnemyHitBoost)
-                {
-                    damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
-                    inorganicEnemyHitEffect?.Invoke(target);
-                }
-                if (target.Organic() && hasOrganicEnemyHitBoost)
-                {
-                    damage += (int)(target.lifeMax * organicEnemyHitBoost);
-                    organicEnemyHitEffect?.Invoke(target);
-                }
-            }
             
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
@@ -2414,6 +2383,14 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;
+
+			// Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
+			if (projectile.type == ProjectileID.DD2BetsyArrow)
+			{
+				Point result;
+				if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain((GenSearch) new Searches.Down(12), (GenCondition) new Conditions.IsSolid()), out result))
+					damage = (int)(damage * 2f / 3f);
+			}
         }
         #endregion
 

@@ -101,6 +101,15 @@ namespace CalamityMod.NPCs
 		public bool? VulnerableToElectricity = null;
 		public bool? VulnerableToWater = null;
 
+		// Eskimo Set effect
+		public bool IncreasedColdEffects = false;
+
+		// Fireball and Cinnamon Roll effect
+		public bool IncreasedHeatEffects = false;
+
+		// Evergreen Gin effect
+		public bool IncreasedSicknessAndWaterEffects = false;
+
 		// Biome enrage timer max
 		public const int biomeEnrageTimerMax = 300;
 
@@ -631,6 +640,18 @@ namespace CalamityMod.NPCs
 					waterDamageMult *= 0.5;
 			}
 
+			if (IncreasedHeatEffects)
+				heatDamageMult += 0.5;
+
+			if (IncreasedColdEffects)
+				coldDamageMult += 0.5;
+
+			if (IncreasedSicknessAndWaterEffects)
+			{
+				sicknessDamageMult += 0.5;
+				waterDamageMult += 0.5;
+			}
+
 			// Subtract 1 for the vanilla damage multiplier because it's already dealing DoT in the vanilla regen code.
 			double vanillaHeatDamageMult = heatDamageMult - 1D;
 			double vanillaColdDamageMult = coldDamageMult - 1D;
@@ -803,6 +824,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(1500, 300, ref npc.lifeRegen, ref damage);
 			if (bBlood > 0)
 				ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
+
+			// Reduce DoT on worm bosses by 50%.
+			if (wormBoss && npc.lifeRegen < 0)
+				npc.lifeRegen /= 2;
 		}
 
 		public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -2455,20 +2480,6 @@ namespace CalamityMod.NPCs
             if (damage == 0D)
                 return false;
 
-			// Damage reduction on spawn
-			bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
-			bool eaterofWorldsResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
-			if (destroyerResist || eaterofWorldsResist || CalamityLists.AstrumDeusIDs.Contains(npc.type))
-			{
-				float resistanceGateValue = (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
-				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && CalamityLists.DestroyerIDs.Contains(npc.type)))
-					damage *= 0.01;
-			}
-
-			// Large Deus worm takes reduced damage to last a long enough time
-			if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
-				damage *= 0.8;
-
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
@@ -2510,6 +2521,20 @@ namespace CalamityMod.NPCs
 
             // DR applies after vanilla defense.
             damage = ApplyDR(npc, damage, yellowCandleDamage);
+
+			// Damage reduction on spawn for certain worm bosses.
+			bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
+			bool eaterofWorldsResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
+			if (destroyerResist || eaterofWorldsResist || CalamityLists.AstrumDeusIDs.Contains(npc.type))
+			{
+				float resistanceGateValue = (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
+				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && CalamityLists.DestroyerIDs.Contains(npc.type)))
+					damage *= 0.01;
+			}
+
+			// Large Deus worm takes reduced damage to last a long enough time.
+			if (CalamityLists.AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
+				damage *= 0.8;
 
 			// Inflict 0 damage if it's below 0.5
 			damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;

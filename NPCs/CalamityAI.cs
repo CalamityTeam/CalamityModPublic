@@ -1243,7 +1243,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase3 = lifeRatio < 0.7f;
 			bool phase4 = lifeRatio < 0.35f;
-			bool phase5 = npc.life / (float)npc.lifeMax < 0.1f && revenge;
+			bool phase5 = npc.life / (float)npc.lifeMax <= 0.1f && revenge;
 
 			// Don't take damage during bullet hells
 			npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1609,13 +1609,25 @@ namespace CalamityMod.NPCs
 				else
 				{
 					npc.ai[0] = 0f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.localAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
 					npc.alpha = 0;
+
+					// Prevent bullshit charge hits when second bullet hell ends.
+					if (phase5)
+					{
+						npc.ai[1] = 4f;
+						npc.ai[2] = -105f;
+						npc.TargetClosest();
+					}
+					else
+					{
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
 					npc.netUpdate = true;
 
 					for (int x = 0; x < Main.maxProjectiles; x++)
@@ -2756,16 +2768,8 @@ namespace CalamityMod.NPCs
 			// Start up
 			if (npc.ai[0] == 0f)
             {
-				// If hit or after two seconds start Idle phase
-				npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 120f || malice)
-                {
-                    // Set AI to next phase (Idle) and reset other AI
-                    npc.ai[0] = 1f;
-                    npc.ai[1] = 0f;
-                    npc.netUpdate = true;
-                }
-
+                npc.ai[0] = 1f;
+                npc.netUpdate = true;
 				CustomGravity();
 			}
 
@@ -2782,11 +2786,12 @@ namespace CalamityMod.NPCs
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 120f || malice)
                 {
-                    // Increase defense
+                    // Increase defense and damage
                     npc.defense = npc.defDefense;
+					npc.damage = npc.defDamage;
 
 					// Stop colliding with tiles
-                    npc.noTileCollide = true;
+					npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
 					npc.TargetClosest();
@@ -3093,8 +3098,11 @@ namespace CalamityMod.NPCs
             // Teleport
             else if (npc.ai[0] == 5f)
             {
-                // Slow down
-                npc.velocity.X *= 0.9f;
+				// Don't deal damage
+				npc.damage = 0;
+
+				// Slow down
+				npc.velocity.X *= 0.9f;
 
                 // Spawn slimes and start teleport
                 if (Main.netMode != NetmodeID.MultiplayerClient)

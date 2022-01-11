@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Daedalus Facemask");
             Tooltip.SetDefault("13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%\n" +
-                "17% increased movement speed");
+                "5% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().throwingDamage += 0.13f;
             player.Calamity().throwingCrit += 7;
-            player.moveSpeed += 0.17f;
+            player.moveSpeed += 0.05f;
         }
 
         public override void AddRecipes()

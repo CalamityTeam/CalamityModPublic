@@ -55,7 +55,6 @@ namespace CalamityMod.NPCs.Abyss
             writer.Write(teleporting);
             writer.Write(rephasing);
             writer.Write(npc.chaseable);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -64,7 +63,6 @@ namespace CalamityMod.NPCs.Abyss
             teleporting = reader.ReadBoolean();
             rephasing = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
-            npc.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -87,7 +85,6 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[0] == 0f)
             {
                 npc.chaseable = true;
-                npc.dontTakeDamage = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (teleporting)
@@ -139,7 +136,6 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.damage = 0;
                 npc.chaseable = false;
-                npc.dontTakeDamage = true;
                 npc.alpha += 5;
                 if (npc.alpha >= 255)
                 {
@@ -157,7 +153,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.damage = Main.expertMode ? 200 : 100;
                     npc.chaseable = true;
-                    npc.dontTakeDamage = false;
                     npc.alpha = 0;
                     npc.ai[0] = 0f;
                     npc.netUpdate = true;

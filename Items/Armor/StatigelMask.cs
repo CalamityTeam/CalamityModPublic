@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Statigel Mask");
             Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
-                "7% increased rogue critical strike chance and 12% increased movement speed");
+                "7% increased rogue critical strike chance and 5% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor
             player.Calamity().throwingAmmoCost *= 0.66f;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 7;
-            player.moveSpeed += 0.12f;
+            player.moveSpeed += 0.05f;
         }
 
         public override void AddRecipes()

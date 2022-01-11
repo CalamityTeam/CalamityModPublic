@@ -28,8 +28,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.Organic())
-                damage += target.lifeMax / 75; // 400 + 80 = 480 + (100000 / 75 = 1333) = 1813 = 1.813% of boss HP
+            damage += target.lifeMax / 75; // 400 + 80 = 480 + (100000 / 75 = 1333) = 1813 = 1.813% of boss HP
         }
     }
 }

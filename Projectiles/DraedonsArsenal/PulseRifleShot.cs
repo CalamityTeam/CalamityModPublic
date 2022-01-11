@@ -111,12 +111,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 					}
 				}
 			}
-
-			if (!target.boss)
-			{
-				if (target.Inorganic())
-					damage += target.lifeMax / 250;
-			}
 		}
 
 		public override void Kill(int timeLeft)

@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.netAlways = true;
             npc.boss = true;
             npc.takenDamageMultiplier = 1.25f;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+					music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
 				// Once before DoG spawns, set new size
 				if (CalamityWorld.DoGSecondStageCountdown == 60)

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Visage");
-            Tooltip.SetDefault("10% increased jump speed and 25% increased movement speed");
+            Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.jumpSpeedBoost += 0.5f;
-            player.moveSpeed += 0.25f;
+            player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()

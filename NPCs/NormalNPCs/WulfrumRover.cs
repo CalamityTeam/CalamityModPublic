@@ -12,6 +12,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class WulfrumRover : ModNPC
     {
+        public float TimeSpentStuck
+        {
+            get => npc.ai[0];
+            set => npc.ai[0] = value;
+        }
+
         public float SuperchargeTimer
         {
             get => npc.ai[3];
@@ -22,6 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public const float PlayerSearchDistance = 500f;
         public const float StuckJumpPromptTime = 90f;
         public const float MaxMovementSpeedX = 6f;
+        public const float JumpSpeed = -4f;
         public bool Supercharged => SuperchargeTimer > 0;
 
         public override void SetStaticDefaults()
@@ -90,6 +97,19 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.direction *= -1;
                 npc.netUpdate = true;
             }
+
+            if (npc.oldPosition == npc.position)
+            {
+                TimeSpentStuck++;
+                if (Main.netMode != NetmodeID.MultiplayerClient && TimeSpentStuck > StuckJumpPromptTime)
+                {
+                    npc.velocity.Y = JumpSpeed;
+                    TimeSpentStuck = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+            else
+                TimeSpentStuck = 0f;
 
             npc.spriteDirection = -npc.direction;
             npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction, 0.0125f);

@@ -50,9 +50,6 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
-            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-            ElementTooltip(item, tooltips);
-
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
@@ -364,6 +361,10 @@ namespace CalamityMod.Items
 			// TODO -- in 1.4 this mistake is already corrected
 			if (item.type == ItemID.MagicQuiver)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
+
+			// Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
+			if (item.type == ItemID.DD2BetsyBow)
+				EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
 			#endregion
 
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
@@ -958,16 +959,16 @@ namespace CalamityMod.Items
 			switch (item.prefix)
 			{
 				case PrefixID.Brisk:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "2%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "1.5%"));
 					return;
 				case PrefixID.Fleeting:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "4%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "3%"));
 					return;
 				case PrefixID.Hasty2: // Hasty2 is the "Hasty" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "6%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "4.5%"));
 					return;
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "6%"));
 					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",
@@ -1031,38 +1032,6 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
-			}
-		}
-		#endregion
-
-		#region Element Tooltip
-		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityLists.fireWeaponList.Contains(item.type))
-			{
-				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "- Fire Weapon -")
-				{
-					overrideColor = new Color(255, 165, 0)
-				};
-				tooltips.Add(fireTooltip);
-			}
-
-			if (CalamityLists.iceWeaponList.Contains(item.type))
-			{
-				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "- Ice Weapon -")
-				{
-					overrideColor = new Color(94, 230, 255)
-				};
-				tooltips.Add(iceTooltip);
-			}
-
-			if (CalamityLists.natureWeaponList.Contains(item.type))
-			{
-				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "- Nature Weapon -")
-				{
-					overrideColor = new Color(46, 165, 0)
-				};
-				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion

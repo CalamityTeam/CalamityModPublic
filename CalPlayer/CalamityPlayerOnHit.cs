@@ -46,7 +46,13 @@ namespace CalamityMod.CalPlayer
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
             if (flamingItemEnchant)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+                target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
+
+			target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll;
+
+			target.Calamity().IncreasedColdEffects = eskimoSet;
+
+			target.Calamity().IncreasedSicknessAndWaterEffects = evergreenGin;
 
             switch (item.type)
             {
@@ -96,12 +102,12 @@ namespace CalamityMod.CalPlayer
                     break;
 
 				case ItemID.DeathSickle:
-					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					target.AddBuff(BuffType<WhisperingDeath>(), 120);
 					break;
 
 				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
 				case ItemID.FieryGreatsword:
@@ -129,7 +135,7 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ItemID.BloodButcherer:
-                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -147,7 +153,7 @@ namespace CalamityMod.CalPlayer
             NPCDebuffs(target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
-            if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+            if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                 return;
             if (rageModeActive && shatteredCommunity)
                 ShatteredCommunity.AccumulateRageDamage(player, this, damage);
@@ -167,7 +173,13 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
-            switch (proj.type)
+			target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll;
+
+			target.Calamity().IncreasedColdEffects = eskimoSet;
+
+			target.Calamity().IncreasedSicknessAndWaterEffects = evergreenGin;
+
+			switch (proj.type)
             {
                 case ProjectileID.CobaltNaginata:
 					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
@@ -207,7 +219,7 @@ namespace CalamityMod.CalPlayer
 				case ProjectileID.CrimsonYoyo:
 				case ProjectileID.BloodCloudRaining:
 				case ProjectileID.BloodRain:
-                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
 				case ProjectileID.BallOHurt:
@@ -239,17 +251,17 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ProjectileID.GolemFist:
-                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 180);
                     break;
 
 				case ProjectileID.DeathSickle:
-					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					target.AddBuff(BuffType<WhisperingDeath>(), 60);
 					break;
 
 				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
                 case ProjectileID.DarkLance:
@@ -275,7 +287,7 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.BoneArrow:
-                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 300);
                     break;
 
                 case ProjectileID.FrostBlastFriendly:
@@ -317,9 +329,9 @@ namespace CalamityMod.CalPlayer
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
-                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
+                    target.AddBuff(BuffType<Plague>(), 300);
 
-                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
+                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ItemType<RaidersGlory>())
                     target.AddBuff(BuffID.Midas, 300, false);
 
                 ProjLifesteal(target, proj, damage, crit);
@@ -327,7 +339,7 @@ namespace CalamityMod.CalPlayer
                 NPCDebuffs(target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
-                if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+                if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                     return;
 
                 if (rageModeActive && shatteredCommunity)
@@ -365,12 +377,12 @@ namespace CalamityMod.CalPlayer
                     break;
 
 				case ItemID.DeathSickle:
-					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+					target.AddBuff(BuffType<WhisperingDeath>(), 120);
 					break;
 
 				case ItemID.Excalibur:
                 case ItemID.TrueExcalibur:
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
 				case ItemID.FieryGreatsword:
@@ -389,16 +401,16 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.LightsBane:
                 case ItemID.NightsEdge:
-                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
 
                 case ItemID.TrueNightsEdge:
                     target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
 
                 case ItemID.BloodButcherer:
-                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ItemID.IceSickle:
@@ -440,7 +452,7 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.TheRottedFork:
-                    target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+                    target.AddBuff(BuffType<BurningBlood>(), 60);
                     break;
 
                 case ProjectileID.ObsidianSwordfish:
@@ -467,21 +479,21 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ProjectileID.GolemFist:
-                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 180);
                     break;
 
 				case ProjectileID.DeathSickle:
-					target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 60);
+					target.AddBuff(BuffType<WhisperingDeath>(), 60);
 					break;
 
 				case ProjectileID.LightBeam:
                 case ProjectileID.Gungnir:
                 case ProjectileID.PaladinsHammerFriendly:
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+                    target.AddBuff(BuffType<HolyFlames>(), 120);
                     break;
 
                 case ProjectileID.DarkLance:
-                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
 
 				case ProjectileID.PoisonedKnife:
@@ -503,7 +515,7 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.BoneArrow:
-                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 300);
                     break;
 
                 case ProjectileID.FrostBlastFriendly:
@@ -535,7 +547,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.NightBeam:
                     target.AddBuff(BuffID.CursedInferno, 60);
-                    target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                    target.AddBuff(BuffType<Shadowflame>(), 120);
                     break;
             }
 
@@ -543,7 +555,7 @@ namespace CalamityMod.CalPlayer
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 300);
+                    target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
                 PvpDebuffs(target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);

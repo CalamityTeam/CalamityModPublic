@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             DisplayName.SetDefault("Lightning Hawk");
             Tooltip.SetDefault("Uses Magnum Rounds\n" +
-                "Does more damage to organic enemies\n" +
                 "Can be used thrice per boss battle");
         }
 

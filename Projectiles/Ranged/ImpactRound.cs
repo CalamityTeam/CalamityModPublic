@@ -57,8 +57,6 @@ namespace CalamityMod.Projectiles.Ranged
 			double damageMult = 1D;
 			if (crit)
 				damageMult += 0.25;
-			if (target.Inorganic())
-				damageMult += 0.1;
 			damage = (int)(damage * damageMult);
 		}
 

@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Rubico Prime");
             Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
-                "Fires impact rounds that have an increased crit multiplier and deal bonus damage to inorganic targets");
-                //would do less to organic targets if like this wasn't meant to be used against yharon lole
+                "Fires impact rounds that have an increased crit multiplier");
         }
 
         public override void SetDefaults()
