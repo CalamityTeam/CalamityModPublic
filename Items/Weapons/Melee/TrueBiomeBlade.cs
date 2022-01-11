@@ -129,7 +129,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.color = new Color(220, 143, 255);
                     break;
                 case Attunement.Astral:
-                    AttunementInfo.name = "The One Beyond's Abhorrence";
+                    AttunementInfo.name = "Their Abhorrence";
                     AttunementInfo.function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
                     AttunementInfo.function_extra = "Striking the ground will create an impact so powerful, massive otherwordly monoliths will rise up from the earth";
                     AttunementInfo.color = new Color(91, 73, 196);
@@ -338,7 +338,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
-                    //item.shoot = ProjectileType<HeavensMightyAbhorrence>();
+                    item.shoot = ProjectileType<TheirAbhorrence>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -389,7 +389,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueBitingEmbrace>() || n.type == ProjectileType<TrueGrovetendersTouch>() || n.type == ProjectileType<TrueAridGrandeur>() || n.type == ProjectileType<HeavensMight>())); // || n.type == ProjectileType<HeavensMightAbhorrence>()
+            (n.type == ProjectileType<TrueBitingEmbrace>() || 
+             n.type == ProjectileType<TrueGrovetendersTouch>() ||
+             n.type == ProjectileType<TrueAridGrandeur>() ||
+             n.type == ProjectileType<HeavensMight>() ||
+             n.type == ProjectileType<TheirAbhorrence>()));  
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -443,11 +447,6 @@ namespace CalamityMod.Items.Weapons.Melee
                     StoredLunges --;
                     if (StoredLunges < 0)
                         StoredLunges = 0;
-                    return false;
-
-                case Attunement.Astral:
-                    float astralVariant = mainAttunement == Attunement.Astral ? 1f : 0f;
-               //     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<HeavensMightyAbhorrence>(), damage * 2, knockBack, player.whoAmI, astralVariant);
                     return false;
 
                 default:

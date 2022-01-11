@@ -1538,8 +1538,8 @@ namespace CalamityMod.Projectiles.Melee
         public ref float CurrentState => ref projectile.ai[0];
         public Player Owner => Main.player[projectile.owner];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
-        public float throwOutTime = 90f;
-        public float throwOutDistance = 440f; //Turn these into constants when im doine tweakin em
+        public const float throwOutTime = 90f;
+        public const float throwOutDistance = 440f; 
 
         public static float snapPoint = 0.45f;
         public float snapTimer => (throwTimer / throwOutTime) < snapPoint ? 0 : ((throwTimer / throwOutTime) - snapPoint) / (1f - snapPoint);
@@ -1549,9 +1549,9 @@ namespace CalamityMod.Projectiles.Melee
         public ref float hasMadeSound => ref projectile.localAI[0];
         public ref float hasMadeChargeSound => ref projectile.localAI[1];
 
-        public float maxEmpowerment = 600f;
+        public const float maxEmpowerment = 600f;
         //How much damage reduction applies on uncharged attacks
-        public float initialDamage = 0.2f;
+        public const float initialDamage = 0.2f;
         //How much extra damage applies when fully charged. This goes ontop of the initial damage, so a max empowerment boost of 2 with an initial damage of 0.1 makes the total damage multiplier be 1.9
         public float maxEmpowermentBoost = 2f;
         public float throwTimer => throwOutTime - projectile.timeLeft;
@@ -1741,7 +1741,7 @@ namespace CalamityMod.Projectiles.Melee
                     Main.spriteBatch.Draw(handle, drawOffset, null, color * MathHelper.Lerp(0f, 0.5f, MathHelper.Clamp(Empowerment / maxEmpowerment - 0.4f / 0.1f, 0f, 1f) ), afterimageRotation, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), 0f, 0f);
                 }
 
-                spriteBatch.End();
+                spriteBatch.End(); //Haha sup babe what if i restarted the spritebatch way too many times haha /blushes
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 Vector2 afterimageDrawOrigin = new Vector2(0f, blade.Height);
@@ -1817,6 +1817,196 @@ namespace CalamityMod.Projectiles.Melee
                 spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, frame, chainLightColor * opacity * 0.7f, rotation, origin, scale, SpriteEffects.None, 0);
             }
         }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
+        }
+    }
+
+    public class TheirAbhorrence : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrence";
+        private bool initialized = false;
+        Vector2 direction = Vector2.Zero;
+        public Player Owner => Main.player[projectile.owner];
+        public ref float Charge => ref projectile.ai[0]; //Charge
+        public ref float State => ref projectile.ai[1]; //State 0 is "charging", State 1 is "thrusting"
+        public ref float HasPlayedSound => ref projectile.localAI[0];
+        public ref float OverCharge => ref projectile.localAI[1];
+
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
+        const float MaxCharge = 500;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Their Abhorrence");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 70;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 16;
+        }
+
+        public override bool CanDamage()
+        {
+            return (State == 1);
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 120 * projectile.scale;
+            float bladeWidth = 20 * projectile.scale;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
+        }
+
+        public override void AI()
+        {
+            if (!initialized) //Initialization. Here its litterally just playing a sound tho lmfao
+            {
+                Main.PlaySound(SoundID.Item101, projectile.Center);
+                initialized = true;
+            }
+
+            if (!OwnerCanShoot)
+            {
+                if (State == 0f)
+                {
+                    if (Charge / MaxCharge < 0.25f)
+                    {
+                        Main.PlaySound(SoundID.Item109, projectile.Center);
+                        projectile.Kill();
+                        return;
+                    }
+                    else
+                    {
+                        Main.PlaySound(SoundID.Item120, projectile.Center);
+                        State = 1f;
+                        projectile.timeLeft = 40;
+                    }
+                }
+            }
+
+            if (State == 0f)
+            {
+                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction.Normalize();
+                projectile.Center = Owner.Center + (direction * 60f * (1f - (Charge / MaxCharge)));
+
+                Charge++;
+                OverCharge--;
+                projectile.timeLeft = 2;
+                if (Charge >= MaxCharge)
+                {
+                    Charge = MaxCharge;
+                    if (Owner.whoAmI == Main.myPlayer && HasPlayedSound == 0f)
+                    {
+                        OverCharge = 30f;
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
+                        HasPlayedSound = 1f;
+                    }
+                }
+            }
+
+            if (State == 1f)
+            {
+                Owner.velocity = direction * 10f;
+                if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
+                {
+                    blade.strongLunge = true; //Needed for the downwards velocity uncap.
+                }
+
+                if (Collision.SolidCollision(Owner.Center + (direction * 120 * projectile.scale) - Vector2.One * 5f, 10, 10))
+                {
+                    SlamDown();
+                    projectile.timeLeft = 0;
+                    Main.PlaySound(SoundID.Item105, projectile.Center);
+                    projectile.netUpdate = true;
+                    projectile.netSpam = 0;
+                }
+            }
+
+            Lighting.AddLight(projectile.Center, new Vector3(1f, 0.56f, 0.56f) * Charge / MaxCharge);
+
+            //Manage position and rotation
+            projectile.rotation = direction.ToRotation();
+
+            //Scaling based on charge
+            projectile.scale = 1f + (Charge / MaxCharge * 0.5f); 
+
+            Owner.direction = Math.Sign(direction.X);
+            Owner.itemRotation = direction.ToRotation();
+
+            if (Owner.direction != 1)
+            {
+                Owner.itemRotation -= 3.14f;
+            }
+
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+        }
+
+        public void SlamDown()
+        { 
+        
+        
+        
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrence");
+
+            float drawAngle = direction.ToRotation();
+            float drawRotation = drawAngle + MathHelper.PiOver4;
+
+            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOffset = Owner.Center + direction * 60f * (1f - (Charge / MaxCharge)) - Main.screenPosition;
+
+            spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+            //Turn on additive blending
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Update the parameters
+            drawOrigin = new Vector2(0f, blade.Height);
+
+            spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(initialized);
+            writer.WriteVector2(direction);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            initialized = reader.ReadBoolean();
+            direction = reader.ReadVector2();
+        }
     }
 }
+
 
