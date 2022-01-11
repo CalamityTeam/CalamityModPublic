@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 6f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.npcSlots = 6f;
             npc.noGravity = true;
             npc.lavaImmune = true;
             npc.damage = 160;
@@ -49,11 +49,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ReaperSharkBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Abyss
                     if (npc.ai[2] == 0f)
                     {
                         npc.ai[2] = 1f;
-						npc.velocity.X = npc.direction * 2;
+                        npc.velocity.X = npc.direction * 2;
                     }
                     return;
                 }
@@ -652,14 +652,15 @@ namespace CalamityMod.NPCs.Abyss
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
             DropHelper.DropItem(npc, ModContent.ItemType<AnechoicCoating>(), 2, 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 4, 5);
+            int minCells = Main.expertMode ? 14 : 10;
+            int maxCells = Main.expertMode ? 22 : 17;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-			if (CalamityWorld.downedPolterghast)
-			{
-				DropHelper.DropItemChance(npc, ModContent.ItemType<Valediction>(), 3);
-			}
+            if (CalamityWorld.downedPolterghast)
+            {
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Valediction>(), 3);
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
