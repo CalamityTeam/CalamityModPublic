@@ -262,6 +262,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
             }
 
+            //Reset the strong lunge thing just in case it didnt get caught beofre.
+            if (CanUseItem(player))
+                strongLunge = false;
+
             //Change the swords function based on its attunement
             switch (mainAttunement)
             {

@@ -1096,8 +1096,11 @@ namespace CalamityMod.CalPlayer
 						player.maxFallSpeed = 20f;
 					if (player.HeldItem.modItem is TrueBiomeBlade blade)
 					{
-						if (blade.mainAttunement == TrueBiomeBlade.Attunement.Evil && blade.strongLunge)
+						if (blade.strongLunge)
+						{
 							player.maxFallSpeed = 80f;
+							player.noFallDmg = true;
+						}
 					}
 				}
 			}
