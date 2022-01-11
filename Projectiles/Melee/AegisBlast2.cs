@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = false;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 5;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;

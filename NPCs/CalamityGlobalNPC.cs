@@ -101,6 +101,15 @@ namespace CalamityMod.NPCs
 		public bool? VulnerableToElectricity = null;
 		public bool? VulnerableToWater = null;
 
+		// Eskimo Set effect
+		public bool IncreasedColdEffects = false;
+
+		// Fireball and Cinnamon Roll effect
+		public bool IncreasedHeatEffects = false;
+
+		// Evergreen Gin effect
+		public bool IncreasedSicknessAndWaterEffects = false;
+
 		// Biome enrage timer max
 		public const int biomeEnrageTimerMax = 300;
 
@@ -629,6 +638,18 @@ namespace CalamityMod.NPCs
 					waterDamageMult *= wormBoss ? 3D : 5D;
 				else
 					waterDamageMult *= 0.5;
+			}
+
+			if (IncreasedHeatEffects)
+				heatDamageMult += 0.5;
+
+			if (IncreasedColdEffects)
+				coldDamageMult += 0.5;
+
+			if (IncreasedSicknessAndWaterEffects)
+			{
+				sicknessDamageMult += 0.5;
+				waterDamageMult += 0.5;
 			}
 
 			// Subtract 1 for the vanilla damage multiplier because it's already dealing DoT in the vanilla regen code.

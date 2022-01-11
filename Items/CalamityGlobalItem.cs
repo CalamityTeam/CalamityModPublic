@@ -1047,7 +1047,7 @@ namespace CalamityMod.Items
 				player.buffImmune[BuffID.Frostburn] = true;
 				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
 				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
-				player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
+				player.setBonus = "All ice-themed damage over time debuffs receive a 50% damage bonus\n" +
 				"Cold enemies will deal reduced contact damage to the player\n" +
 				"Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
             }

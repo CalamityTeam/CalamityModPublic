@@ -39,8 +39,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.penetrate = 1;
             projectile.extraUpdates = 10;
             projectile.timeLeft = 120 * (1 + projectile.extraUpdates);
-            projectile.Calamity().hasInorganicEnemyHitBoost = true;
-            projectile.Calamity().inorganicEnemyHitBoost = 1f / 300f;
         }
 
 		public override void AI()

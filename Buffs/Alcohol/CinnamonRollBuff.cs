@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Cinnamon Roll");
-            Description.SetDefault("Mana regen rate and fire weapon damage boosted, defense reduced");
+            Description.SetDefault("Mana regen rate and fire debuff damage boosted, defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
