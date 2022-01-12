@@ -571,7 +571,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            fallThrough = projectile.Bottom.Y < player.Top.Y;
+			if (targetIndex < 0)
+				fallThrough = projectile.Bottom.Y < player.Top.Y;
+			else
+				fallThrough = projectile.Bottom.Y < Main.npc[targetIndex].Top.Y;
             return true;
         }
 
