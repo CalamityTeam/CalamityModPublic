@@ -2822,9 +2822,8 @@ namespace CalamityMod.NPCs.Yharon
 			// Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Yharon
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, !Main.expertMode);
 
             // Normal drops: Everything that would otherwise be in the bag
             if (!Main.expertMode)

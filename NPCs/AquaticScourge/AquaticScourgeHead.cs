@@ -184,9 +184,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Aquatic Scourge
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 56;
-            item.damage = 30;
+            item.damage = 24;
             item.melee = true;
             item.useAnimation = 24;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 66;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

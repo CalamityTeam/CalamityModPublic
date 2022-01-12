@@ -80,7 +80,6 @@ namespace CalamityMod.Items
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
-		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 

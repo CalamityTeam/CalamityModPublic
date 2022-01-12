@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 50;
             item.height = 52;
-            item.damage = 500;
+            item.damage = 400;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

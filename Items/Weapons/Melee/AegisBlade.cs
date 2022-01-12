@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 58;
 			item.height = 58;
 			item.scale = 1.5f;
-			item.damage = 135;
+			item.damage = 108;
             item.melee = true;
             item.useAnimation = item.useTime = 15;
             item.useTurn = true;
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool AltFunctionUse(Player player)

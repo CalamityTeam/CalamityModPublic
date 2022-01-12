@@ -29,8 +29,6 @@ namespace CalamityMod
 		internal static readonly Color DraedonRustRarityColor = new Color(204, 71, 35);
 		// The donator rarity isn't technically a rarity, but is a constant color used in tooltips
 		internal static readonly Color DonatorItemColor = new Color(139, 0, 0);
-		// The Challenge Drop rarity isn't technically a rarity, but is a constant color used in tooltips
-		internal static readonly Color ChallengeDropColor = new Color(255, 140, 0);
 
 		public static readonly CalamityRarity[] postMLRarities =
 		{

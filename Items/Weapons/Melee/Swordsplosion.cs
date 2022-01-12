@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 60;
+            item.damage = 48;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.rare = ItemRarityID.Purple;
 			item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

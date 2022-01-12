@@ -22,16 +22,15 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 124;
             item.damage = 777;
             item.melee = true;
-            item.useAnimation = 25;
+            item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
+            item.useTime = 30;
             item.useTurn = true;
             item.knockBack = 77f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().challengeDrop = true;
 		}
 
 		public override void UseStyle(Player player)

@@ -56,9 +56,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SeaboundStaff>(w),
                 DropHelper.WeightStack<ScourgeoftheDesert>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<DuneHopper>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 5);
             DropHelper.DropItemChance(player, ModContent.ItemType<SandCloak>(), 9);
 

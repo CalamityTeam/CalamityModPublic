@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1100;
+            item.damage = 880;
             item.ranged = true;
             item.width = 142;
             item.height = 40;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().challengeDrop = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

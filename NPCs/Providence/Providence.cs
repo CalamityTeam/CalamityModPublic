@@ -1436,9 +1436,8 @@ namespace CalamityMod.NPCs.Providence
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Providence
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);

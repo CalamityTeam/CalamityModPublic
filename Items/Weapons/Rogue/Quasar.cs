@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 52;
-            item.damage = 80; //50
+            item.damage = 64;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-			item.Calamity().challengeDrop = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

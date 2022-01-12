@@ -155,9 +155,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Brimstone Elemental
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);

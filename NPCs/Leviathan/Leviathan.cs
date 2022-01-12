@@ -731,8 +731,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Leviathan and Anahita
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, !Main.expertMode);
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);

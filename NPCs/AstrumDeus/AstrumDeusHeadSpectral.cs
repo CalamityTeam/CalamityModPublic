@@ -238,10 +238,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Astrum Deus
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);

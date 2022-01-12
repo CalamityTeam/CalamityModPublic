@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 75;
+            item.damage = 60;
             item.mana = 6;
             item.magic = true;
             item.useAnimation = item.useTime = 15;
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool AltFunctionUse(Player player)

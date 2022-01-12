@@ -1198,8 +1198,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for PBG
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);

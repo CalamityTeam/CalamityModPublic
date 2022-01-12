@@ -2740,7 +2740,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for SCal
+			// Only drops in Malice because this is Leviathan's item
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
 
             // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags

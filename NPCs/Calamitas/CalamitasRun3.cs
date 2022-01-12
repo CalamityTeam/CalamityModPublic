@@ -158,8 +158,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Cal Clone
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
