@@ -15,7 +15,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
-
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -1929,7 +1929,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
                         OverCharge = 20f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
+                        Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -2004,7 +2004,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Charge / MaxCharge < 0.75f)
                 return;
 
-            if (SideSprouts(1, 150f, 0.8f) && Charge >= MaxCharge )
+            if (SideSprouts(1, 150f, 0.8f) && Charge >= MaxCharge)
                 SideSprouts(1, 250f, 0.5f);
 
             if (SideSprouts(-1, 150f, 0.8f) && Charge >= MaxCharge)
@@ -2142,9 +2142,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public CurveSegment Anticipate = new CurveSegment(EasingType.CircIn, 0f, 0f, 0.15f);
         public CurveSegment Overextend = new CurveSegment(EasingType.SineOut, 0.2f, 0.15f, 1f);
-        public CurveSegment Unextend = new CurveSegment(EasingType.CircIn, 0.25f , 1.15f, -0.15f);
+        public CurveSegment Unextend = new CurveSegment(EasingType.CircIn, 0.25f, 1.15f, -0.15f);
         public CurveSegment Hold = new CurveSegment(EasingType.ExpOut, 0.70f, 1f, -0.1f);
-        internal float Height() => PiecewiseAnimation(Timer, new CurveSegment[] { Anticipate, Overextend, Unextend, Hold}) * BaseHeight * Size;
+        internal float Height() => PiecewiseAnimation(Timer, new CurveSegment[] { Anticipate, Overextend, Unextend, Hold }) * BaseHeight * Size;
 
         public override void SetStaticDefaults()
         {
@@ -2208,7 +2208,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Vector2 hitPositionDisplace = particleDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(0f, 10f);
                     Vector2 flyDirection = particleDirection.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * Main.rand.NextFloat(5f, 15f);
-                    Particle smoke = new SmallSmokeParticle(projectile.Center + hitPositionDisplace, flyDirection , Color.Lerp(Color.DarkOrange, Color.MediumTurquoise, Main.rand.NextFloat()), new Color(130, 130, 130), Main.rand.NextFloat(2.8f, 3.6f) * Size, 165 - Main.rand.Next(30), 0.1f);
+                    Particle smoke = new SmallSmokeParticle(projectile.Center + hitPositionDisplace, flyDirection, Color.Lerp(Color.DarkOrange, Color.MediumTurquoise, Main.rand.NextFloat()), new Color(130, 130, 130), Main.rand.NextFloat(2.8f, 3.6f) * Size, 165 - Main.rand.Next(30), 0.1f);
                     GeneralParticleHandler.SpawnParticle(smoke);
                 }
                 for (int i = 0; i < 6; i++)
@@ -2249,9 +2249,9 @@ namespace CalamityMod.Projectiles.Melee
 
             Vector2 drawScale = new Vector2(Width() / BaseWidth, Height() / BaseHeight);
             Vector2 drawPosition = projectile.Center - Main.screenPosition - (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 26f;
-            Vector2 drawOrigin = new Vector2(frame.Width/2f, frame.Height);
+            Vector2 drawOrigin = new Vector2(frame.Width / 2f, frame.Height);
 
-            float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f )/ 0.15f), 0f, 1f);
+            float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f) / 0.15f), 0f, 1f);
 
             spriteBatch.Draw(tex, drawPosition, frame, lightColor * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
 
@@ -2284,6 +2284,239 @@ namespace CalamityMod.Projectiles.Melee
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             WaitTimer = reader.ReadSingle();
+        }
+
+    }
+
+    public class GestureForTheDrowned : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueBiomeBlade";
+        Vector2 direction = Vector2.Zero;
+        public Player Owner => Main.player[projectile.owner];
+        public float Timer => 40 - projectile.timeLeft;
+        public float HalfTimer => (Timer % 20);
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Biome Blade"); //This is litterally just the biome blade without even any extra magic effects so
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = projectile.height = 32;
+            projectile.friendly = true;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 40;
+            projectile.melee = true;
+            projectile.tileCollide = false;
+        }
+
+        public override bool CanDamage() => false;
+
+        public override void AI()
+        {
+            if (Math.Abs(HalfTimer / 20f) == 0.5f) //Why is this only playing on the first swing
+            {
+                var splash = new LegacySoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
+                Main.PlaySound(splash, projectile.Center);
+
+                Projectile.NewProjectile(Owner.Center, direction * 0.1f + Owner.velocity , ProjectileType<GestureForTheDrownedOrb>(), projectile.damage, 0, Owner.whoAmI);
+
+                Particle Sparkle = new CritSpark(projectile.Center, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(7.5f, 20f), Color.White, Main.rand.NextBool() ? Color.MediumTurquoise : Color.DarkOrange, 0.1f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 3f);
+                GeneralParticleHandler.SpawnParticle(Sparkle);
+
+            }
+
+
+            direction = Vector2.UnitY.RotatedBy((MathHelper.PiOver4 + Utils.AngleLerp(0f, MathHelper.PiOver4 * 1.5f, HalfTimer / 20f)) * Math.Sign(Timer-1 - 20f)) * (float)Math.Sin(HalfTimer / 20f * MathHelper.Pi) * 30;
+            Owner.direction = Math.Sign(direction.X);
+            Owner.itemRotation = direction.ToRotation();
+            if (Owner.direction != 1)
+            {
+                Owner.itemRotation -= 3.14f;
+            }
+
+            projectile.Center = Owner.Center + direction;
+            projectile.rotation = direction.ToRotation() + MathHelper.PiOver2;
+            projectile.spriteDirection = Math.Sign(Timer - 20f);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D blade = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+
+            float drawAngle = direction.ToRotation();
+            float drawRotation = drawAngle + MathHelper.PiOver4;
+            Vector2 drawOrigin = new Vector2(0f, blade.Height);
+            Vector2 drawOffset = projectile.Center - Main.screenPosition;
+
+            spriteBatch.Draw(blade, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            return false;
+        }
+
+    }
+
+    public class GestureForTheDrownedOrb : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned";
+        Vector2 direction = Vector2.Zero;
+        public Player Owner => Main.player[projectile.owner];
+        public ref float HasLanded => ref projectile.ai[0]; //Charge
+        public float Timer => MaxTime - projectile.timeLeft;
+        public const float MaxTime = 200f;
+        public Particle[] FoamParticles = new Particle[5];
+
+        public bool BounceX => projectile.oldPosition.X == projectile.position.X;
+
+
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gesture for the Drowned");
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+
+            Main.projFrames[projectile.type] = 3;
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = projectile.height = 26;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.timeLeft = (int)MaxTime;
+            projectile.melee = true;
+            projectile.alpha = 90;
+            projectile.ignoreWater = true;
+            projectile.hide = true;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            HasLanded = 1f;
+            projectile.velocity.Y = -4f;
+            return false;
+        }
+
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindNPCsAndTiles.Add(index);
+        }
+
+        public override void AI()
+        {
+
+            if (FoamParticles[0] == null)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 rot = projectile.velocity.RotatedByRandom(MathHelper.Pi).RotatedBy(-MathHelper.PiOver2);
+                    Particle foam = new SeaFoamParticle(projectile.Center + rot, projectile.velocity, Color.LightSlateGray, Color.CornflowerBlue, Main.rand.NextFloat(0f, 0.5f), 150f, 0.1f);
+                    GeneralParticleHandler.SpawnParticle(foam);
+                    FoamParticles[i] = foam;
+                }
+            }
+
+            if (projectile.timeLeft % 2 == 0)
+            {
+                int index = (projectile.timeLeft / 2) % 5;
+                Particle foam = FoamParticles[index];
+                Vector2 rotation = (Vector2.UnitX).RotatedByRandom(MathHelper.PiOver2).RotatedBy(-MathHelper.PiOver4) * 16f;
+                rotation.X *= Math.Sign(projectile.velocity.X);
+                foam.Position = projectile.Center + rotation;
+                foam.Velocity = (-Vector2.UnitY * 5f).RotatedBy(MathHelper.PiOver4 * Math.Sign(projectile.velocity.X)) + new Vector2(projectile.velocity.X * -0.6f, 0f);
+                //foam.Velocity = Vector2.Zero;
+                (foam as SeaFoamParticle).Opacity = 150;
+            }
+
+            projectile.rotation += 0.1f * ((projectile.velocity.X > 0) ? 1f : -1f);
+
+            if (Main.rand.NextBool())
+            {
+                Particle blob = new WaterGlobParticle(projectile.Center + Main.rand.NextVector2Circular(projectile.width / 2f, projectile.height / 2f), projectile.velocity / 2f, Main.rand.NextFloat(0.2f, 2f), 0.1f);
+                GeneralParticleHandler.SpawnParticle(blob);
+            }
+            Particle foamSmall = new FakeGlowDust(projectile.Center + Main.rand.NextVector2Circular(projectile.width / 2f, projectile.height / 2f), projectile.velocity / 2f, Color.LightSlateGray, Main.rand.NextFloat(0.2f, 2f), 25, 0.1f, gravity: (-projectile.velocity + Vector2.UnitY) * 0.1f);
+            GeneralParticleHandler.SpawnParticle(foamSmall);
+
+
+            if (projectile.velocity.Y < 15f)
+            {
+                projectile.velocity.Y += 0.3f;
+            }
+
+            if (Math.Abs(projectile.velocity.X) < 5f)
+            {
+                projectile.velocity.X += 0.3f * ((projectile.velocity.X > 0) ? 1f : -1f);
+            }
+
+            if (BounceX)
+            {
+                //Die lmao
+                projectile.Kill();
+            }
+
+            projectile.frameCounter++;
+            if (projectile.frameCounter % 10 == 0)
+                projectile.frame = (projectile.frame + 1) % 3;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            bool balled = (HasLanded == 0f);
+            float? lowestGroundBelow = null;
+
+            if (!balled)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 positionToCheck = projectile.Center;
+                    if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16) + 1 * i].IsTileSolidGround() && lowestGroundBelow == null)
+                    {
+                        lowestGroundBelow = i * 16;
+                        break;
+                    }
+                }
+                if (lowestGroundBelow == null)
+                {
+                    balled = true;
+                    HasLanded = 0f;
+                }
+            }
+
+            if(!balled)
+            { 
+                Texture2D wave = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrownedWave");
+                Rectangle frame = new Rectangle(0, 0 + 110 * projectile.frame, 40, 110);
+
+                float drawRotation = 0f;
+                Vector2 drawOrigin = new Vector2(0f, frame.Height);
+
+
+                Vector2 drawOffset = projectile.Center + Vector2.UnitY * (float)lowestGroundBelow - Main.screenPosition;
+
+                //Wobble
+                Vector2 Scale = new Vector2(0.5f + 0.5f * (float)Math.Sin(Timer * 0.1), 0.5f + 0.5f * (1 - (float)Math.Sin(Timer * 0.1)));
+
+                SpriteEffects flip = projectile.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+                spriteBatch.Draw(wave, drawOffset, frame, lightColor, drawRotation, drawOrigin, Scale, flip, 0f);
+                return false;
+            }
+
+            else
+            {
+                Texture2D ball = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned");
+                float drawRotation = projectile.rotation;
+                Vector2 drawOrigin = projectile.Size / 2f;
+                Vector2 drawOffset = projectile.Center - Main.screenPosition;
+
+                spriteBatch.Draw(ball, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+                return false;
+            }
+
         }
 
     }

@@ -131,7 +131,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Astral:
                     AttunementInfo.name = "Their Abhorrence";
                     AttunementInfo.function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
-                    AttunementInfo.function_extra = "Striking the ground will create an impact so powerful, massive otherwordly monoliths will rise up from the earth";
+                    AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful massive otherwordly monoliths will rise up from the earth";
                     AttunementInfo.color = new Color(91, 73, 196);
                     break;
                 case Attunement.Marine:
@@ -354,7 +354,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
-                    //item.shoot = ProjectileType<GestureForTheDrowned>();
+                    item.shoot = ProjectileType<GestureForTheDrowned>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -397,7 +397,8 @@ namespace CalamityMod.Items.Weapons.Melee
              n.type == ProjectileType<TrueGrovetendersTouch>() ||
              n.type == ProjectileType<TrueAridGrandeur>() ||
              n.type == ProjectileType<HeavensMight>() ||
-             n.type == ProjectileType<TheirAbhorrence>()));  
+             n.type == ProjectileType<TheirAbhorrence>() ||
+             n.type == ProjectileType<GestureForTheDrowned>()));  
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

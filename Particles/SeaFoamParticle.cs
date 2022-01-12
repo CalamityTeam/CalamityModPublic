@@ -12,10 +12,11 @@ namespace CalamityMod.Particles {
         public override bool UseAdditiveBlend => true;
 
 
-        private float Opacity;
+        public float Opacity;
         private Color ColorStart;
         private Color ColorFade;
         private float Spin;
+        private float BaseScale;
 
         public SeaFoamParticle(Vector2 position, Vector2 velocity, Color colorStart, Color colorFade, float scale, float opacity, float rotationSpeed = 1f)
         {
@@ -23,7 +24,7 @@ namespace CalamityMod.Particles {
             Velocity = velocity;
             ColorStart = colorStart;
             ColorFade = colorFade;
-            Scale = scale;
+            BaseScale = scale;
             Opacity = opacity;
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Spin = rotationSpeed;
@@ -32,8 +33,10 @@ namespace CalamityMod.Particles {
 
         public override void Update()
         {
+            Velocity *= 0.85f;
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
-            Opacity--;
+            Opacity -= 10;
+            Scale = BaseScale + Opacity / 255f;
             if (Opacity <= 0)
                 Kill();
             Color = Color.Lerp(ColorStart, ColorFade, MathHelper.Clamp((float)((255 -Opacity) - 100) / 80, 0f, 1f)) * (Opacity / 255f);
