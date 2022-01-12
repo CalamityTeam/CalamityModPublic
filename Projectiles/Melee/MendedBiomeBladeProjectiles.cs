@@ -1830,6 +1830,9 @@ namespace CalamityMod.Projectiles.Melee
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
         const float MaxCharge = 500;
 
+        public Vector2 lastDisplacement;
+        public float dashDuration;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Their Abhorrence");
@@ -1860,6 +1863,14 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
         }
 
+        public CurveSegment QuickOut = new CurveSegment(EasingType.PolyIn, 0f, 0f, 0.2f, 3);
+        public CurveSegment Bump = new CurveSegment(EasingType.SineBump, 0.06f, 0.2f, 0.1f);
+        public CurveSegment QuickDraw = new CurveSegment(EasingType.Linear, 0.25f, 0.2f, -0.45f);
+        public CurveSegment SlowDrawOut = new CurveSegment(EasingType.PolyIn, 0.50f, -0.25f, -0.2f, 3);
+        public CurveSegment OverShoot = new CurveSegment(EasingType.SineBump, 0.93f, -0.45f, -0.1f);
+
+        internal float ChargeDisplacement() => PiecewiseAnimation(Charge / MaxCharge, new CurveSegment[] { QuickOut, Bump, QuickDraw, SlowDrawOut, OverShoot });
+
         public override void AI()
         {
             if (!initialized) //Initialization. Here its litterally just playing a sound tho lmfao
@@ -1881,9 +1892,16 @@ namespace CalamityMod.Projectiles.Melee
                     }
                     else
                     {
-                        Main.PlaySound(SoundID.Item120, projectile.Center);
+
+                        var dashSound = Main.PlaySound(SoundID.Item120, projectile.Center);
+                        if (dashSound != null)
+                            dashSound.Volume *= 0.5f;
                         State = 1f;
-                        projectile.timeLeft = 40;
+                        projectile.timeLeft = (7 + (int)((Charge / MaxCharge - 0.25f) * 20)) * 2; //Keep that even, if its an odd number itll fuck off and wont reset the players velocity on death
+                        dashDuration = projectile.timeLeft;
+                        lastDisplacement = projectile.Center - Owner.Center;
+                        projectile.netUpdate = true;
+                        projectile.netSpam = 0;
                     }
                 }
             }
@@ -1892,7 +1910,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 direction = Owner.DirectionTo(Main.MouseWorld);
                 direction.Normalize();
-                projectile.Center = Owner.Center + (direction * 100f * (0.5f - (Charge / MaxCharge)));
+                projectile.Center = Owner.Center + (direction * 70f * ChargeDisplacement());
 
                 Charge++;
                 OverCharge--;
@@ -1919,7 +1937,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == 1f)
             {
-                projectile.Center = Owner.Center + direction * 60f;
+                projectile.Center = Owner.Center + Vector2.Lerp(lastDisplacement, direction * 40f, MathHelper.Clamp(((dashDuration - projectile.timeLeft) / dashDuration) * 2f, 0f, 1f));
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
 
                 if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
@@ -1950,7 +1968,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.rotation = direction.ToRotation();
 
             //Scaling based on charge
-            projectile.scale = 1f + (Charge / MaxCharge * 0.2f);
+            projectile.scale = 1f + (Charge / MaxCharge * 0.3f);
 
             Owner.direction = Math.Sign(direction.X);
             Owner.itemRotation = direction.ToRotation();
@@ -1967,15 +1985,19 @@ namespace CalamityMod.Projectiles.Melee
 
         public void SlamDown()
         {
-            if (Owner.whoAmI != Main.myPlayer || Owner.velocity.Y == 0f)
-                return;
+            var slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
+            if (slamSound != null)
+                slamSound.Volume *= 1.5f;
 
-            //Only create the central monolith if over half charge
-            if (Charge / MaxCharge < 0.5f)
+            if (Owner.whoAmI != Main.myPlayer || Owner.velocity.Y == 0f)
                 return;
 
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;
+
+            //Only create the central monolith if over half charge
+            if (Charge / MaxCharge < 0.5f)
+                return;
             Projectile.NewProjectile(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<TheirAbhorrenceMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
 
             //Only create the side monoliths if over 3/4th charge
@@ -2078,17 +2100,25 @@ namespace CalamityMod.Projectiles.Melee
             {
                 blade.strongLunge = false; //Needed for the downwards velocity uncap.
             }
+
+            projectile.active = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(initialized);
             writer.WriteVector2(direction);
+            writer.Write(CurrentIndicator);
+            writer.WriteVector2(lastDisplacement);
+            writer.Write(dashDuration);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             initialized = reader.ReadBoolean();
             direction = reader.ReadVector2();
+            CurrentIndicator = reader.ReadSingle();
+            lastDisplacement = reader.ReadVector2();
+            dashDuration = reader.ReadSingle();
         }
     }
 
@@ -2157,6 +2187,16 @@ namespace CalamityMod.Projectiles.Melee
                 SurfaceUp();
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
                 projectile.velocity = Vector2.Zero;
+
+                if (Size >= 1) //Big monoliths create sparkles even before sprouting up
+                {
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Particle Sparkle = new CritSpark(projectile.Center, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(7.5f, 20f), Color.White, Main.rand.NextBool() ? Color.MediumTurquoise : Color.DarkOrange, 0.1f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 3f);
+                        GeneralParticleHandler.SpawnParticle(Sparkle);
+                    }
+                }
             }
 
             if (projectile.timeLeft == 80)

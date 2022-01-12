@@ -461,6 +461,9 @@ namespace CalamityMod.Items.Weapons.Melee
         //This is only used for the purity sigil effect of the default attunement
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
+            if (mainAttunement != Attunement.Default)
+                return;
+
             foreach (Projectile proj in Main.projectile)
             {
                 if (proj.active && proj.type == ProjectileType<PurityProjectionSigil>() && proj.owner == player.whoAmI)
