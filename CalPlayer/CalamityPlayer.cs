@@ -784,7 +784,8 @@ namespace CalamityMod.CalPlayer
 		public int silvaMageCooldown = 0;
 		public bool silvaSummon = false;
         public bool hasSilvaEffect = false;
-        public int silvaCountdown = 480;
+        public static int silvaReviveDuration = 480;
+        public int silvaCountdown = silvaReviveDuration;
         public bool auricSet = false;
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
@@ -2446,7 +2447,7 @@ namespace CalamityMod.CalPlayer
             silvaMage = false;
             silvaSummon = false;
             hasSilvaEffect = false;
-            silvaCountdown = 480;
+            silvaCountdown = silvaReviveDuration;
             auricSet = false;
             GemTechSet = false;
             omegaBlueChestplate = false;
@@ -4488,11 +4489,11 @@ namespace CalamityMod.CalPlayer
 
             if (silvaSet && silvaCountdown > 0)
             {
-                if (silvaCountdown == 480 && !hasSilvaEffect)
+                if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 480);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
                     if (draconicSurge && !draconicSurgeCooldown)
                     {
