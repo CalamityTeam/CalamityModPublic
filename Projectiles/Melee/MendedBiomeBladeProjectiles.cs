@@ -2451,6 +2451,14 @@ namespace CalamityMod.Projectiles.Melee
                 Dust foamDust = Main.dust[Dust.NewDust(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), 9, 0, 16, 2.7f * Math.Sign(projectile.velocity.X), -3f, 0, new Color(255, 255, 255), 1.4f)];
                 foamDust.noGravity = true;
 
+                if (Main.rand.NextBool())
+                {
+                    float angle = Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2);
+                    float distance = 10f + 50 * Math.Abs(angle) / MathHelper.PiOver2 * projectile.scale;
+                    Vector2 sparkSpeed = -projectile.velocity;
+                    Particle Spark = new CritSpark(projectile.Center + Vector2.Normalize(projectile.velocity.RotatedBy(angle)) * distance, sparkSpeed, Color.SkyBlue, Color.CornflowerBlue, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
+                    GeneralParticleHandler.SpawnParticle(Spark);
+                }
                 return;
             }
 
