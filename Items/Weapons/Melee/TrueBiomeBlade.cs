@@ -176,6 +176,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemType<BiomeBlade>());
             recipe.AddIngredient(ItemType<LivingShard>(), 5);
+            recipe.AddIngredient(ItemID.PixieDust, 2);
+            recipe.AddIngredient(ItemType<Stardust>(), 10);
             recipe.AddIngredient(ItemType<EssenceofChaos>(), 5); 
             recipe.AddIngredient(ItemType<EssenceofCinder>(), 5);
             recipe.AddIngredient(ItemType<EssenceofEleum>(), 5);
