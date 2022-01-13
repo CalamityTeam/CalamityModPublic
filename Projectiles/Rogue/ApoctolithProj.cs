@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+			target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
 			if (crit)
 				target.Calamity().miscDefenseLoss = Math.Min(target.defense, 15);
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+			target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 			if (projectile.Calamity().stealthStrike)
 			{
 				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);

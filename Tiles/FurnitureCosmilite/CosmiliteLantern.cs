@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -10,12 +11,10 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void SetDefaults()
         {
             this.SetUpLantern(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Lantern");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
 
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.HangingLanterns };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

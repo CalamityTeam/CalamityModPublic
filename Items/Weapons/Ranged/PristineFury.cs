@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public int frameCounter = 0;
         public int frame = 0;
-        public static int BaseDamage = 96;
+        public static int BaseDamage = 77;
 
         public override void SetStaticDefaults()
         {
@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);

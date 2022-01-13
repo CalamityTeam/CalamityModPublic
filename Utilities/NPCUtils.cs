@@ -14,6 +14,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,6 +46,12 @@ namespace CalamityMod
 			}
 
 			return count;
+		}
+
+		private static readonly FieldInfo waterSpeedField = typeof(NPC).GetField("waterMovementSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
+		public static void RemoveWaterSlowness(this NPC npc)
+		{
+			waterSpeedField.SetValue(npc, 1f);
 		}
 
 		/// <summary>
@@ -298,33 +305,6 @@ namespace CalamityMod
 		}
 
 		/// <summary>
-		/// Check if an NPC is inorganic
-		/// </summary>
-		/// <param name="target">The NPC attacked.</param>
-		/// <returns>Whether or not the NPC is inorganic.</returns>
-		public static bool Inorganic(this NPC target)
-		{
-			if (target.HitSound != SoundID.NPCHit1 && target.HitSound != SoundID.NPCHit6 && target.HitSound != SoundID.NPCHit7 &&
-				target.HitSound != SoundID.NPCHit8 && target.HitSound != SoundID.NPCHit9 && target.HitSound != SoundID.NPCHit12 &&
-				target.HitSound != SoundID.NPCHit13 && target.HitSound != SoundID.NPCHit14 && target.HitSound != SoundID.NPCHit18 &&
-				target.HitSound != SoundID.NPCHit19 && target.HitSound != SoundID.NPCHit20 && target.HitSound != SoundID.NPCHit21 &&
-				target.HitSound != SoundID.NPCHit22 && target.HitSound != SoundID.NPCHit23 && target.HitSound != SoundID.NPCHit24 &&
-				target.HitSound != SoundID.NPCHit25 && target.HitSound != SoundID.NPCHit26 && target.HitSound != SoundID.NPCHit27 &&
-				target.HitSound != SoundID.NPCHit28 && target.HitSound != SoundID.NPCHit29 && target.HitSound != SoundID.NPCHit31 &&
-				target.HitSound != SoundID.NPCHit32 && target.HitSound != SoundID.NPCHit33 && target.HitSound != SoundID.NPCHit35 &&
-				target.HitSound != SoundID.NPCHit37 && target.HitSound != SoundID.NPCHit38 && target.HitSound != SoundID.NPCHit40 &&
-				target.HitSound != SoundID.NPCHit43 && target.HitSound != SoundID.NPCHit44 && target.HitSound != SoundID.NPCHit45 &&
-				target.HitSound != SoundID.NPCHit46 && target.HitSound != SoundID.NPCHit47 && target.HitSound != SoundID.NPCHit48 &&
-				target.HitSound != SoundID.NPCHit50 && target.HitSound != SoundID.NPCHit51 && target.HitSound != SoundID.NPCHit55 &&
-				target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && target.type != NPCType<AngryDog>() &&
-				target.type != NPCType<Providence>() && target.type != NPCType<ScornEater>())
-			{
-				return true;
-			}
-			return false;
-		}
-
-		/// <summary>
 		/// Shortcut for the generic boss summon message.
 		/// </summary>
 		/// <param name="npcIndex">The whoAmI index of the summoned npc.</param>
@@ -365,14 +345,10 @@ namespace CalamityMod
 		/// <returns>Inflicts debuffs if they can.</returns>
 		public static void ExoDebuffs(this NPC target, float multiplier = 1f)
 		{
-			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
-			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
-			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
-			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
 		}
 
 		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;

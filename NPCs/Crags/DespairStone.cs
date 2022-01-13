@@ -39,7 +39,10 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void AI()
         {

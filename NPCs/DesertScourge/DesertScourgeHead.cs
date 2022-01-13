@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
-            npc.LifeMaxNERB(2600, 3000, 1650000);
+            npc.LifeMaxNERB(2500, 3000, 1650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -66,7 +66,11 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.scale = 1.15f;
             else if (Main.expertMode)
                 npc.scale = 1.1f;
-        }
+
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -566,8 +570,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             DropHelper.DropBags(npc);
 
-            // Legendary drop for Desert Scourge
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, CalamityWorld.malice);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, !Main.expertMode);
 
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);

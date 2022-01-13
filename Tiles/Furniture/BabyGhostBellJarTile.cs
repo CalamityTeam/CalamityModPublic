@@ -50,6 +50,11 @@ namespace CalamityMod.Tiles.Furniture
 			}
         }
 
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			frameYOffset = this.GetAnimationOffset(i, j, 8, 18, 18, 2, 2, animationFrameHeight);
+		}
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.25f;

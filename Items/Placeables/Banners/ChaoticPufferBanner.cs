@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ChaoticPufferBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Chaotic Puffer");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

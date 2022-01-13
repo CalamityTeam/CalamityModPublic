@@ -570,7 +570,7 @@ namespace CalamityMod
 				int type = NPCType<Yharon>();
 				int summon = ItemType<ChickenEgg>();
 				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
-				List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<FoxDrive>() };
+				List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<McNuggets>(), ItemType<FoxDrive>() };
 				string instructions = $"Use a [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("Yharon found you too weak to stay near your gravestone.", new Color(0xFF, 0xA5, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/Yharon/Yharon_BossChecklist";
@@ -596,12 +596,16 @@ namespace CalamityMod
 			{
 				BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
 				int type = NPCType<SupremeCalamitas>();
-				int summon = ItemType<EyeofExtinction>();
-				List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
+				int summon1 = ItemType<CalamityDust>();
+				int summon2 = ItemType<EyeofExtinction>();
+				int altar = ItemType<SCalAltarItem>();
+				List<int> summons = new List<int>() { summon1, summon2 };
+				List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<Condemnation>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
-				string instructions = $"Use an [i:{summon}]";
+				string instructions = $"Use [i:{summon1}] or a [i:{summon2}] as offering at an [i:{altar}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
-				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summon, loot, collection, instructions, despawn);
+				string bossHeadTex = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
+				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summons, loot, collection, instructions, despawn, null, bossHeadTex);
 			}
 
 			// Adult Eidolon Wyrm
@@ -893,7 +897,7 @@ namespace CalamityMod
 			RegisterSummon(ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
 			RegisterSummon(ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
 			RegisterSummon(ItemType<CausticStaff>(), BuffType<CausticStaffBuff>(), ProjectileType<CausticStaffSummon>());
-			RegisterSummon(ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
+			RegisterSummon(ItemType<AncientIceChunk>(), BuffType<IceClasperBuff>(), ProjectileType<IceClasperMinion>());
 			RegisterSummon(ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
 			RegisterSummon(ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());
 			RegisterSummon(ItemType<ForgottenApexWand>(), BuffType<ApexSharkBuff>(), ProjectileType<ApexShark>());

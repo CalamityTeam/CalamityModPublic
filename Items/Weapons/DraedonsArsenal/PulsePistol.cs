@@ -1,5 +1,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Pistol");
-			Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits\n" +
-							   "Inflicts more damage to inorganic targets");
+			Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits");
 		}
 
 		public override void SetDefaults()
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
 			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

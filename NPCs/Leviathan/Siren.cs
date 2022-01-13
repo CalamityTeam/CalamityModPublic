@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 100;
             npc.defense = 20;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(27400, 41600, 260000);
+            npc.LifeMaxNERB(34700, 41600, 260000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -59,9 +59,13 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("Siren") ?? MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Anahita") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -218,7 +222,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			// Change music.
 			if (leviAlive)
-				music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
+				music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
 
 			// Ice Shield
 			if (npc.localAI[2] < 3f)

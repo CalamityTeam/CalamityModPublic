@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class BlightedEyeBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Blighted Eye");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

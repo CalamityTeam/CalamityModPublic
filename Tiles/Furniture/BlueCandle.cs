@@ -18,6 +18,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Weightless Candle");
+            adjTiles = new int[] { TileID.Candles };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 34;

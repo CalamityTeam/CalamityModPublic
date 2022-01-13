@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Sofa");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

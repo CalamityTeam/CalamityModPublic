@@ -71,14 +71,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<P90>());
+            recipe.AddIngredient(ItemID.Uzi);
+            recipe.AddIngredient(ModContent.ItemType<Aeries>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ItemID.FragmentVortex, 10);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 6);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<P90>());
-            recipe.AddIngredient(ItemID.Uzi);
-            recipe.AddIngredient(ModContent.ItemType<Aeries>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

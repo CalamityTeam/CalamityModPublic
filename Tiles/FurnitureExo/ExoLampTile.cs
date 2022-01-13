@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -12,12 +13,10 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpLamp(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Lamp");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
 
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.Lamps };
         }
 
         public override bool CanExplode(int i, int j) => false;

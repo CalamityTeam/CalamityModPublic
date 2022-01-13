@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -44,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

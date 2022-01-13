@@ -43,18 +43,18 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.npcSlots = 15f;
 			npc.GetNPCDamage();
 			npc.Calamity().canBreakPlayerDefense = true;
-			npc.width = 426;
+			npc.width = 374;
             npc.height = 374;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.LifeMaxNERB(NPC.downedMoonlord ? 230000 : 84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
+            npc.LifeMaxNERB(NPC.downedMoonlord ? 243750 : 89200, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord)
             {
@@ -62,7 +62,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -318,13 +320,12 @@ namespace CalamityMod.NPCs.AstrumAureus
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Astrum Aureus
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

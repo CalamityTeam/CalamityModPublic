@@ -41,7 +41,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
 			npc.coldDamage = true;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

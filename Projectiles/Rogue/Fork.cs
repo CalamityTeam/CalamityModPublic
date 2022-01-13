@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
             player.AddBuff(BuffID.WellFed, 180);
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
             player.AddBuff(BuffID.WellFed, 180);
         }
 

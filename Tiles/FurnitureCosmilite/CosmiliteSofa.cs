@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Sofa");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

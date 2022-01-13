@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class BlindedAnglerBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Blinded Angler");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

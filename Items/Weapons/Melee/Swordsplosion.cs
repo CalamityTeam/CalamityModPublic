@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 60;
+            item.damage = 48;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.rare = ItemRarityID.Purple;
 			item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -105,18 +104,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            target.AddBuff(BuffID.Frostburn, 480);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<Plague>(), 480);
-        }
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+		}
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            target.AddBuff(BuffID.Frostburn, 480);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<Plague>(), 480);
-        }
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+		}
     }
 }

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
@@ -64,13 +66,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(BuffID.Frostburn, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(BuffID.Frostburn, 300);
         }
     }
 }

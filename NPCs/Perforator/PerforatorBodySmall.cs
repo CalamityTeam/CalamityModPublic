@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 42;
             npc.height = 42;
             npc.defense = 4;
-			npc.LifeMaxNERB(1250, 1500, 50000);
+			npc.LifeMaxNERB(1000, 1200, 50000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -44,6 +44,10 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
 		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -177,11 +181,6 @@ namespace CalamityMod.NPCs.Perforator
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SmallPerf2"), 1f);
             }
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

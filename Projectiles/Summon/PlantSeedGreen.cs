@@ -56,14 +56,14 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(BuffID.Poisoned, 180);
 			if (projectile.ai[1] == 1f)
-				target.AddBuff(BuffID.Venom, 180);
+				target.AddBuff(BuffID.Venom, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			target.AddBuff(BuffID.Poisoned, 180);
 			if (projectile.ai[1] == 1f)
-				target.AddBuff(BuffID.Venom, 180);
+				target.AddBuff(BuffID.Venom, 90);
         }
     }
 }

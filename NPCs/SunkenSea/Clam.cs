@@ -38,7 +38,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.05f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ClamBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

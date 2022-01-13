@@ -14,7 +14,9 @@ namespace CalamityMod.NPCs.Providence
     [AutoloadBossHead]
 	public class ProvSpawnHealer : ModNPC
     {
-        public override void SetStaticDefaults()
+		private bool start = true;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("A Profaned Guardian");
             Main.npcFrameCount[npc.type] = 6;
@@ -25,15 +27,15 @@ namespace CalamityMod.NPCs.Providence
         {
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
-            npc.damage = 0;
+            npc.damage = 20;
             npc.width = 100;
             npc.height = 80;
             npc.defense = 30;
 			npc.DR_NERD(0.2f);
-            npc.lifeMax = 30000; // Old HP - 40000
+            npc.lifeMax = 15000;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 20000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -43,7 +45,11 @@ namespace CalamityMod.NPCs.Providence
             aiType = -1;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -65,60 +71,41 @@ namespace CalamityMod.NPCs.Providence
 
 		public override void AI()
 		{
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
 			CalamityGlobalNPC.holyBossHealer = npc.whoAmI;
-			bool expertMode = Main.expertMode;
-			Vector2 vectorCenter = npc.Center;
-			Player player = Main.player[npc.target];
-			npc.TargetClosest(false);
+
 			if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;
 				return;
 			}
+
 			npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
 
-			if (Math.Sign(npc.velocity.X) != 0)
+			NPC parent = Main.npc[CalamityGlobalNPC.holyBoss];
+			if (start)
 			{
-				npc.spriteDirection = -Math.Sign(npc.velocity.X);
+				for (int d = 0; d < 30; d++)
+					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+
+				npc.ai[1] = npc.ai[0];
+				start = false;
 			}
-			npc.spriteDirection = Math.Sign(npc.velocity.X);
-			for (int num1011 = 0; num1011 < 2; num1011++)
-			{
-				if (Main.rand.Next(3) < 1)
-				{
-					int dustType = Main.rand.Next(2);
-					if (dustType == 0)
-					{
-						dustType = (int)CalamityDusts.ProfanedFire;
-					}
-					else
-					{
-						dustType = 107;
-					}
-					int num1012 = Dust.NewDust(npc.Center - new Vector2(60f), 120, 120, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 0.5f);
-					Main.dust[num1012].noGravity = true;
-					Main.dust[num1012].velocity *= 0.2f;
-					Main.dust[num1012].fadeIn = 1f;
-				}
-			}
-			Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-			float num784 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector96.X;
-			float num785 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector96.Y;
-			float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-			if (num786 > 360f)
-			{
-				num786 = 8f / num786; //8f
-				num784 *= num786;
-				num785 *= num786;
-				npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
-				npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
-				return;
-			}
-			if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
-			{
-				npc.velocity *= 1.05f; //1.05f
-			}
+
+			npc.TargetClosest();
+			Vector2 velocity = Main.player[npc.target].Center - npc.Center;
+			velocity.Normalize();
+			npc.rotation = velocity.ToRotation() + MathHelper.Pi;
+
+			double deg = npc.ai[1];
+			double rad = deg * (Math.PI / 180);
+			double dist = 400;
+			npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
+			npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
+			npc.ai[1] += 1f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -196,23 +183,13 @@ namespace CalamityMod.NPCs.Providence
 			}
 		}
 
-		public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
+		public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
-            {
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH"), 1f);
@@ -220,10 +197,9 @@ namespace CalamityMod.NPCs.Providence
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH3"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH4"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH5"), 1f);
+
                 for (int k = 0; k < 50; k++)
-                {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
-                }
             }
         }
     }

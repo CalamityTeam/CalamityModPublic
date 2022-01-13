@@ -34,7 +34,8 @@ namespace CalamityMod.NPCs.Signus
 			npc.dontTakeDamage = true;
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class SapphireCrawlerBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sapphire Crawler");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

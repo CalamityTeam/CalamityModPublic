@@ -50,9 +50,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GoldenEagle>(w),
                 DropHelper.WeightStack<RougeSlash>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<Swordsplosion>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
             DropHelper.DropItemChance(player, ModContent.ItemType<BirdSeed>(), 3);
             DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
 

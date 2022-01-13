@@ -30,8 +30,6 @@ namespace CalamityMod.NPCs
 {
     public class CalamityAI
     {
-		// Master Mode changes
-		// 1 - Sand clouds spread out far more and more are spawned in instead of sand blasts, 2 - Far longer and larger, 3 - Sand blasts accelerate
 		#region Aquatic Scourge
 		public static void AquaticScourgeAI(NPC npc, Mod mod, bool head)
 		{
@@ -603,8 +601,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Cycles between attacks faster, 2 - Brimstone Ray splits off into brimstone darts when fired, 3 - Brimlings stay very close to their mother to act as meat shields
 		#region Brimstone Elemental
 		public static void BrimstoneElementalAI(NPC npc, Mod mod)
 		{
@@ -1212,8 +1208,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Brothers are midgets and faster, 2 - Calamitas no longer gains increased defense while brothers are alive, 3 - Calamitas moves far quicker and her fireballs split into brimstone darts on death
 		#region Calamitas Clone
 		public static void CalamitasCloneAI(NPC npc, Mod mod)
 		{
@@ -1243,7 +1237,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase3 = lifeRatio < 0.7f;
 			bool phase4 = lifeRatio < 0.35f;
-			bool phase5 = npc.life / (float)npc.lifeMax < 0.1f && revenge;
+			bool phase5 = npc.life / (float)npc.lifeMax <= 0.1f && revenge;
 
 			// Don't take damage during bullet hells
 			npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1609,12 +1603,25 @@ namespace CalamityMod.NPCs
 				else
 				{
 					npc.ai[0] = 0f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
+					npc.localAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
 					npc.alpha = 0;
+
+					// Prevent bullshit charge hits when second bullet hell ends.
+					if (phase5)
+					{
+						npc.ai[1] = 4f;
+						npc.ai[2] = -105f;
+						npc.TargetClosest();
+					}
+					else
+					{
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
 					npc.netUpdate = true;
 
 					for (int x = 0; x < Main.maxProjectiles; x++)
@@ -2571,8 +2578,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Smaller, 2 - Much faster, 3 - Aureus Spawns are bigger and are aggro immediately
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
@@ -2755,16 +2760,8 @@ namespace CalamityMod.NPCs
 			// Start up
 			if (npc.ai[0] == 0f)
             {
-				// If hit or after two seconds start Idle phase
-				npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 120f || malice)
-                {
-                    // Set AI to next phase (Idle) and reset other AI
-                    npc.ai[0] = 1f;
-                    npc.ai[1] = 0f;
-                    npc.netUpdate = true;
-                }
-
+                npc.ai[0] = 1f;
+                npc.netUpdate = true;
 				CustomGravity();
 			}
 
@@ -2781,11 +2778,12 @@ namespace CalamityMod.NPCs
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 120f || malice)
                 {
-                    // Increase defense
+                    // Increase defense and damage
                     npc.defense = npc.defDefense;
+					npc.damage = npc.defDamage;
 
 					// Stop colliding with tiles
-                    npc.noTileCollide = true;
+					npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
 					npc.TargetClosest();
@@ -3092,8 +3090,11 @@ namespace CalamityMod.NPCs
             // Teleport
             else if (npc.ai[0] == 5f)
             {
-                // Slow down
-                npc.velocity.X *= 0.9f;
+				// Don't deal damage
+				npc.damage = 0;
+
+				// Slow down
+				npc.velocity.X *= 0.9f;
 
                 // Spawn slimes and start teleport
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -3237,8 +3238,6 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
-		// Master Mode changes
-		// 1 - Deus worms in phase 2 gain DR proportional to the amount of HP the other worm has left (to force the player to damage both to around 10% to finish the fight)
 		#region Astrum Deus
 		public static void AstrumDeusAI(NPC npc, Mod mod, bool head)
 		{
@@ -3936,8 +3935,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Dark Energies are smaller and spread out from each other, 2 - Void accelerates quicker
 		#region Ceaseless Void
 		public static void CeaselessVoidAI(NPC npc, Mod mod)
 		{
@@ -4519,8 +4516,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Always has 1 added to its enraged scale, 2 - Lightning auras are horizontal instead of vertical
 		#region Bumblebirb
 		public static void BumblebirbAI(NPC npc, Mod mod)
 		{
@@ -5208,10 +5203,223 @@ namespace CalamityMod.NPCs
 				}
 			}
 		}
+
+		public static void Bumblebirb2AI(NPC npc, Mod mod, bool bossMinion)
+		{
+            Player player = Main.player[npc.target];
+            Vector2 vector = npc.Center;
+
+			float rotationMult = 4f;
+			float rotationAmt = 0.04f;
+
+			if (Vector2.Distance(player.Center, vector) > 5600f)
+            {
+                if (npc.timeLeft > 5)
+                {
+                    npc.timeLeft = 5;
+                }
+            }
+
+            npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
+
+            if (npc.ai[0] == 0f || npc.ai[0] == 1f)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type)
+                    {
+                        Vector2 value42 = Main.npc[i].Center - npc.Center;
+                        if (value42.Length() < (npc.width + npc.height))
+                        {
+                            value42.Normalize();
+                            value42 *= -0.1f;
+                            npc.velocity += value42;
+                            NPC nPC6 = Main.npc[i];
+                            nPC6.velocity -= value42;
+                        }
+                    }
+                }
+            }
+
+            if (npc.target < 0 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            {
+                npc.TargetClosest(true);
+                Vector2 vector240 = Main.player[npc.target].Center - npc.Center;
+                if (Main.player[npc.target].dead || vector240.Length() > (bossMinion ? 5600f : 2800f))
+                {
+                    npc.ai[0] = -1f;
+                }
+            }
+            else
+            {
+                Vector2 vector241 = Main.player[npc.target].Center - npc.Center;
+                if (npc.ai[0] > 1f && vector241.Length() > 3600f)
+                {
+                    npc.ai[0] = 1f;
+                }
+            }
+
+            if (npc.ai[0] == -1f)
+            {
+                Vector2 value43 = new Vector2(0f, -8f);
+                npc.velocity = (npc.velocity * 21f + value43) / 10f;
+                npc.dontTakeDamage = true;
+                return;
+            }
+
+            if (npc.ai[0] == 0f)
+            {
+                npc.TargetClosest(true);
+                npc.spriteDirection = npc.direction;
+                Vector2 value44 = Main.player[npc.target].Center - npc.Center;
+                if (value44.Length() > 2800f)
+                {
+                    npc.ai[0] = 1f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                }
+                else if (value44.Length() > 400f)
+                {
+                    float scaleFactor20 = (bossMinion ? 9f : 7f) + value44.Length() / 100f + npc.ai[1] / 15f;
+                    float num1377 = 30f;
+                    value44.Normalize();
+                    value44 *= scaleFactor20;
+                    npc.velocity = (npc.velocity * (num1377 - 1f) + value44) / num1377;
+                }
+                else if (npc.velocity.Length() > 2f)
+                {
+                    npc.velocity *= 0.95f;
+                }
+                else if (npc.velocity.Length() < 1f)
+                {
+                    npc.velocity *= 1.05f;
+                }
+                npc.ai[1] += 1f;
+                if (npc.ai[1] >= (bossMinion ? 90f : 105f))
+                {
+                    npc.ai[1] = 0f;
+                    npc.ai[0] = 2f;
+                }
+            }
+            else
+            {
+                if (npc.ai[0] == 1f)
+                {
+                    if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
+                    {
+                        npc.TargetClosest(true);
+                    }
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.direction = -1;
+                    }
+                    else if (npc.velocity.X > 0f)
+                    {
+                        npc.direction = 1;
+                    }
+                    npc.spriteDirection = npc.direction;
+                    npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
+                    Vector2 value45 = Main.player[npc.target].Center - npc.Center;
+                    if (value45.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                    {
+                        npc.ai[0] = 0f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                        npc.ai[3] = 0f;
+                    }
+                    npc.ai[2] += 0.0166666675f;
+                    float scaleFactor21 = (bossMinion ? 12f : 9f) + npc.ai[2] + value45.Length() / 150f;
+                    float num1378 = 25f;
+                    value45.Normalize();
+                    value45 *= scaleFactor21;
+                    npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
+                    npc.netSpam = 5;
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                    return;
+                }
+                if (npc.ai[0] == 2f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.direction = -1;
+                    }
+                    else if (npc.velocity.X > 0f)
+                    {
+                        npc.direction = 1;
+                    }
+                    npc.spriteDirection = npc.direction;
+                    npc.rotation = (npc.rotation * rotationMult * 0.75f + npc.velocity.X * rotationAmt * 1.25f) / 8f;
+                    Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
+                    vector242.Y -= 8f;
+                    float scaleFactor22 = bossMinion ? 18f : 14f;
+                    float num1379 = 8f;
+                    vector242.Normalize();
+                    vector242 *= scaleFactor22;
+                    npc.velocity = (npc.velocity * (num1379 - 1f) + vector242) / num1379;
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.direction = -1;
+                    }
+                    else
+                    {
+                        npc.direction = 1;
+                    }
+                    npc.spriteDirection = npc.direction;
+                    npc.ai[1] += 1f;
+                    if (npc.ai[1] > 10f)
+                    {
+                        npc.velocity = vector242;
+                        if (npc.velocity.X < 0f)
+                        {
+                            npc.direction = -1;
+                        }
+                        else
+                        {
+                            npc.direction = 1;
+                        }
+                        npc.ai[0] = 2.1f;
+                        npc.ai[1] = 0f;
+                    }
+                }
+                else if (npc.ai[0] == 2.1f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.direction = -1;
+                    }
+                    else if (npc.velocity.X > 0f)
+                    {
+                        npc.direction = 1;
+                    }
+                    npc.spriteDirection = npc.direction;
+                    npc.velocity *= 1.01f;
+                    npc.ai[1] += 1f;
+                    int num1380 = 30;
+                    if (npc.ai[1] > num1380)
+                    {
+                        if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        {
+                            npc.ai[0] = 0f;
+                            npc.ai[1] = 0f;
+                            npc.ai[2] = 0f;
+                            return;
+                        }
+                        if (npc.ai[1] > (num1380 * 2))
+                        {
+                            npc.ai[0] = 1f;
+                            npc.ai[1] = 0f;
+                            npc.ai[2] = 0f;
+                        }
+                    }
+                }
+            }
+		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Every NPC in the fight is bigger, 2 - Cycles between attacks quicker
 		#region Old Duke
 		public static void OldDukeAI(NPC npc, Mod mod)
 		{

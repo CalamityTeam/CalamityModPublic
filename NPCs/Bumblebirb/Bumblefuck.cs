@@ -45,22 +45,24 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.width = 130;
             npc.height = 100;
             npc.defense = 40;
-			npc.DR_NERD(0.1f, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(170625, 189375, 300000); // Old HP - 227500, 252500
+			npc.DR_NERD(0.1f);
+			npc.LifeMaxNERB(158500, 190000, 300000); // Old HP - 227500, 252500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.boss = true;
 			npc.noTileCollide = true;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("Murderswarm") ?? MusicID.Boss4;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 30, 0, 0);
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
             bossBag = ModContent.ItemType<BumblebirbBag>();
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = false;
         }
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -411,13 +413,10 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Dragonfolly
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

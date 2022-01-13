@@ -22,14 +22,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 12;
             item.width = 42;
             item.height = 42;
-            item.damage = 70;
+            item.damage = 130;
             item.melee = true;
             item.knockBack = 5.75f;
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ShortBeam>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 16f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = ItemRarityID.Yellow;
         }

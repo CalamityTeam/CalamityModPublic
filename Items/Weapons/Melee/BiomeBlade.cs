@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.Granite, 20);
             recipe.AddIngredient(ItemID.Hellstone, 20);
             recipe.AddIngredient(ItemID.Coral, 20);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

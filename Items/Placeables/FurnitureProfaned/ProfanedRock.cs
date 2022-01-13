@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
-            recipe.AddIngredient(ItemID.StoneBlock, 20);
+            recipe.AddRecipeGroup("AnyStoneBlock", 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();

@@ -11,14 +11,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Saber");
-            Tooltip.SetDefault("Fires two storm beams\n" +
+            Tooltip.SetDefault("Fires two homing storm beams\n" +
 			"One from blade and one from the sky");
         }
 
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 68;
+            item.damage = 66;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;

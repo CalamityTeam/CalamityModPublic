@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Bookcase");
+            name.SetDefault("Bookcase");
             AddMapEntry(new Color(71, 95, 114), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Bookcases };

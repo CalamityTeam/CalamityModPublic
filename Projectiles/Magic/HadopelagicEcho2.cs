@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            projectile.localNPCHitCooldown = 8;
             projectile.timeLeft = 30;
             projectile.extraUpdates = 1;
             projectile.tileCollide = false;
@@ -37,9 +37,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.width = (int)(36f * projectile.scale);
-            projectile.height = (int)(36f * projectile.scale);
-
             if (projectile.alpha > 100)
                 projectile.alpha -= 25;
             if (projectile.alpha < 100)
@@ -50,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
         }
 
         public override Color? GetAlpha(Color lightColor)

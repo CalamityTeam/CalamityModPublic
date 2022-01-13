@@ -20,15 +20,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 48;
-            item.damage = 70;
+            item.damage = 75;
             item.melee = true;
-            item.useAnimation = 24;
+            item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
+            item.useTime = 20;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 64;
+			item.scale = 1.5f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<BloodyBlade>();

@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 64;
+            item.width = 102;
+            item.height = 146;
             item.damage = 244;
             item.knockBack = 2.5f;
 
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Daybreak, 600);
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(BuffID.Daybreak, 600);
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
     }
 }

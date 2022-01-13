@@ -30,7 +30,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath4;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SunBatBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void AI()
 		{

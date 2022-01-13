@@ -58,13 +58,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			OnHitEffects(target.Center, crit);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			OnHitEffects(target.Center, crit);
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
         }
 
 		private void OnHitEffects(Vector2 targetPos, bool crit)

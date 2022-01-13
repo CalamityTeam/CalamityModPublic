@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.life <= 0 && soundCooldown <= 0)
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.statLife <= 0 && soundCooldown <= 0)
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);

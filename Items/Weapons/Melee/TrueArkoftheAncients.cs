@@ -109,19 +109,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
-            recipe.AddIngredient(ItemID.Excalibur);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
-            recipe.AddIngredient(ItemID.TrueExcalibur);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -151,18 +141,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

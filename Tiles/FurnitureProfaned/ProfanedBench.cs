@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Profaned Bench");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

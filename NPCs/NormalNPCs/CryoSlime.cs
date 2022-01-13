@@ -34,7 +34,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryoSlimeBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

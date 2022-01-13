@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 442;
+            item.damage = 354;
             item.knockBack = 15f;
             item.shootSpeed = 30f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTurn = false;
             item.useAmmo = AmmoID.FallenStar;
             item.autoReuse = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

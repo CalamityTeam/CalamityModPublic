@@ -5,13 +5,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+	[AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class ElectriciansGlove : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electrician's Glove");
             Tooltip.SetDefault(@"Stealth strikes summon sparks on enemy hits
-Stealth strikes also have +20 armor penetration, deal 10% more damage, and heal for 1 HP");
+Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal for 1 HP");
         }
 
         public override void SetDefaults()
@@ -27,6 +28,8 @@ Stealth strikes also have +20 armor penetration, deal 10% more damage, and heal 
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.electricianGlove = true;
+            modPlayer.bloodyGlove = true;
+            modPlayer.filthyGlove = true;
         }
 
         public override void AddRecipes()

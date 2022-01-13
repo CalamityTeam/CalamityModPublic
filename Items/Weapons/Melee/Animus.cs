@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 6000);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             int damageRan = Main.rand.Next(195); //0 to 194
             if (damageRan >= 50 && damageRan <= 99) //25%
             {
@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 6000);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             int damageRan = Main.rand.Next(195); //0 to 194
             if (damageRan >= 50 && damageRan <= 99) //25%
             {

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Delicious Meat");
-            Tooltip.SetDefault("Minor improvements to all stats\n'So very delicious'");
+            Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n'So very delicious'");
         }
         public override void SetDefaults()
         {

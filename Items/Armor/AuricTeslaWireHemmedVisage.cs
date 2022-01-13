@@ -76,8 +76,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<SilvaMaskedCap>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHornedMask>());
             recipe.AddIngredient(ModContent.ItemType<TarragonMask>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
             recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

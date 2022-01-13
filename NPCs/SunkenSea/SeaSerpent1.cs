@@ -38,7 +38,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SeaSerpentBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void AI()
         {

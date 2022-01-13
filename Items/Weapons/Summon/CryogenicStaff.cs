@@ -30,7 +30,7 @@ Fire rate and range increase the longer it targets an enemy");
             item.knockBack = 4f;
 
             item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.LightPurple;
             item.Calamity().devItem = true;
 
             item.UseSound = SoundID.Item78;

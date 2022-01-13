@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,13 +27,16 @@ namespace CalamityMod.NPCs.Polterghast
 			aiType = -1;
 			npc.width = 30;
 			npc.height = 30;
+			npc.defense = 45;
+			npc.DR_NERD(0.1f);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.damage = 0;
-			npc.lifeMax = 1500;
-			npc.dontTakeDamage = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
+			npc.LifeMaxNERB(Main.expertMode ? 11250 : 8750, CalamityWorld.death ? 22500 : 18750, 15000);
+			npc.HitSound = SoundID.NPCHit36;
+			npc.DeathSound = SoundID.NPCDeath39;
+			npc.Calamity().VulnerableToSickness = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -92,7 +96,7 @@ namespace CalamityMod.NPCs.Polterghast
 						int type = ModContent.ProjectileType<PhantomMine>();
 						int damage = npc.GetProjectileDamage(type);
 						float maxVelocity = 8f * tileEnrageMult;
-						float acceleration = 1.05f + (tileEnrageMult - 1f) * 0.1f;
+						float acceleration = 1.15f + (tileEnrageMult - 1f) * 0.15f;
 						Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, acceleration);
 					}
 					npc.ai[2] = 0f;
@@ -155,6 +159,38 @@ namespace CalamityMod.NPCs.Polterghast
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
+			if (npc.life <= 0)
+			{
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
+				npc.width = 45;
+				npc.height = 45;
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
+				for (int num621 = 0; num621 < 2; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 10; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+					Main.dust[num624].velocity *= 2f;
+				}
+			}
 		}
 	}
 }

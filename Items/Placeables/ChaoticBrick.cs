@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 1);
-            recipe.AddIngredient(ModContent.ItemType<ChaoticOre>(), 1);
+            recipe.AddRecipeGroup("AnyStoneBlock");
+            recipe.AddIngredient(ModContent.ItemType<ChaoticOre>());
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this, 10);
             recipe.AddRecipe();

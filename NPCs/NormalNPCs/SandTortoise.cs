@@ -31,7 +31,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SandTortoiseBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

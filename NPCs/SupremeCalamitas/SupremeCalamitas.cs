@@ -182,11 +182,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.npcSlots = 50f;
             npc.width = npc.height = 44;
             npc.defense = 100;
-			npc.DR_NERD(normalDR, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			npc.DR_NERD(normalDR);
             npc.value = Item.buyPrice(10, 0, 0, 0);
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.LifeMaxNERB(960000, 1150000, 500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -199,9 +197,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<SCalBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void BossHeadSlot(ref int index)
         {
@@ -837,7 +838,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
                 // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
-                music = CalamityMod.Instance.GetMusicFromMusicMod("SCL") ?? MusicID.Boss3;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas2") ?? MusicID.Boss3;
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -910,7 +911,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
 				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-				music = CalamityMod.Instance.GetMusicFromMusicMod("SCE") ?? MusicID.LunarBoss;
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -1000,7 +1001,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (gettingTired5)
                 {
                     // Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
-                    music = CalamityMod.Instance.GetMusicFromMusicMod("SCA") ?? MusicID.Eerie;
+                    music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas4") ?? MusicID.Eerie;
 
                     if (npc.velocity.Y < 9f)
                         npc.velocity.Y += 0.185f;
@@ -2739,7 +2740,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for SCal
+			// Only drops in Malice because this is Leviathan's item
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
 
             // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags

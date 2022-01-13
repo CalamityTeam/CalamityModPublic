@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Perforator
 			npc.width = 110;
             npc.height = 100;
             npc.defense = 4;
-            npc.LifeMaxNERB(3750, 5400, 270000);
+            npc.LifeMaxNERB(4500, 5400, 270000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -59,9 +59,12 @@ namespace CalamityMod.NPCs.Perforator
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath19;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("BloodCoagulant") ?? MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -471,19 +474,18 @@ namespace CalamityMod.NPCs.Perforator
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30, 5);
                 DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
                 DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
                 if (Main.hardMode)

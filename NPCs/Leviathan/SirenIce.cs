@@ -34,7 +34,10 @@ namespace CalamityMod.NPCs.Leviathan
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath7;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

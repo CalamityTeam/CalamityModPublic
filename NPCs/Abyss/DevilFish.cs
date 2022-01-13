@@ -43,7 +43,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.85f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<DevilFishBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -301,8 +305,9 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
+            int minCells = Main.expertMode ? 2 : 1;
+            int maxCells = Main.expertMode ? 3 : 2;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 3, 9);
         }
 

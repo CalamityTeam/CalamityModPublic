@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			// Phase one settings
 			CalamityGlobalNPC global = npc.Calamity();
+			npc.defense = 150;
 			global.DR = 0.999999f;
 			global.unbreakableDR = true;
 			npc.chaseable = false;
@@ -67,6 +68,8 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToElectricity = false;
 		}
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -117,12 +120,17 @@ namespace CalamityMod.NPCs.StormWeaver
 				// Spawn armor gore and set other crucial variables
 				if (!npc.chaseable)
 				{
+					npc.Calamity().VulnerableToHeat = true;
+					npc.Calamity().VulnerableToCold = true;
+					npc.Calamity().VulnerableToSickness = true;
+
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody3"), 1f);
 
 					CalamityGlobalNPC global = npc.Calamity();
-					global.DR = 0f;
+					npc.defense = 30;
+					global.DR = 0.2f;
 					global.unbreakableDR = false;
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;

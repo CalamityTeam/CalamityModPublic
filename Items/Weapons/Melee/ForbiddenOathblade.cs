@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 74;
             item.height = 74;
-            item.damage = 64;
+			item.scale = 1.5f;
+            item.damage = 110;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
-            item.shootSpeed = 3f;
+            item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()
@@ -53,11 +54,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 240);
+            target.AddBuff(BuffID.ShadowFlame, 120);
             target.AddBuff(BuffID.OnFire, 240);
             if (crit)
             {
-                target.AddBuff(BuffID.ShadowFlame, 720);
+                target.AddBuff(BuffID.ShadowFlame, 360);
                 target.AddBuff(BuffID.OnFire, 720);
                 player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) * 2, 0f, 0, false);
                 float num50 = 1.7f;
@@ -102,11 +103,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 240);
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
             target.AddBuff(BuffID.OnFire, 240);
             if (crit)
             {
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 720);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 360);
                 target.AddBuff(BuffID.OnFire, 720);
                 Main.PlaySound(SoundID.Item14, target.position);
             }

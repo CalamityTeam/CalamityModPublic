@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             global.DR = 0.5f;
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1;
-			npc.LifeMaxNERB(notDoGFight ? 67200 : 16800, notDoGFight ? 77280 : 19320, 72000);
+			npc.LifeMaxNERB(notDoGFight ? 64400 : 16100, notDoGFight ? 77280 : 19320, 72000);
 
             // If fought alone, Ceaseless Void plays its own theme
             if (notDoGFight)
@@ -62,7 +62,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
             bossBag = ModContent.ItemType<CeaselessVoidBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -163,8 +164,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Ceaseless Void
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), true, CalamityWorld.malice);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), true, !Main.expertMode);
 
 				DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 				bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;

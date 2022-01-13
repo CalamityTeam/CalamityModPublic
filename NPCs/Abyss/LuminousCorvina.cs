@@ -42,7 +42,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.85f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<LuminousCorvinaBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -286,8 +290,9 @@ namespace CalamityMod.NPCs.Abyss
         {
 			DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 8, 15);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
+            int minCells = Main.expertMode ? 2 : 1;
+            int maxCells = Main.expertMode ? 3 : 2;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
@@ -10,9 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         public override void SetDefaults()
         {
             this.SetUpTable(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Table");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
             adjTiles = new int[] { TileID.Tables };
         }
 

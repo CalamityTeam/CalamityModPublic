@@ -34,6 +34,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            // Always update before the laserbeam, so that it doesn't recieve strange offsets.
+            projectile.Calamity().UpdatePriority = 1f;
+
             // If the owner is no longer able to cast the circle, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed)
             {
@@ -55,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Decide where to position the magic circle.
             Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 30f + circlePointDirection * projectile.scale * 56f;
+            projectile.Center = Owner.Center + circlePointDirection * projectile.scale * 56f;
 
             // Adjust the owner's direction.
             Owner.ChangeDir(projectile.direction);

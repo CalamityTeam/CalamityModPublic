@@ -84,10 +84,10 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.CursedInferno, 90);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.Frostburn, 120);
         }
     }
 }

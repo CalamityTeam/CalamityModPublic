@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class PhantomDebrisBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Phantom Debris");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

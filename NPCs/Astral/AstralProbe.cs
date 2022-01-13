@@ -43,7 +43,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.85f;
                 npc.lifeMax = 70;
             }
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void AI()
         {

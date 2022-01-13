@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.World.Generation;
 using static Terraria.ModLoader.ModContent;
 
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
@@ -76,22 +77,11 @@ namespace CalamityMod.Projectiles
 		public bool stealthStrike = false; // Update all existing rogue weapons with this
         public bool momentumCapacitatorBoost = false; // Constant acceleration
 
-        // Iron Heart
-        public int ironHeartDamage = 0;
-
         // Counters and Timers
         public int stealthStrikeHitCount = 0;
 
         public int lineColor = 0; // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
-
-        // Organic/Inorganic Boosts
-        public bool hasOrganicEnemyHitBoost = false;
-        public bool hasInorganicEnemyHitBoost = false;
-        public float organicEnemyHitBoost = 0f;
-        public float inorganicEnemyHitBoost = 0f;
-        public Action<NPC> organicEnemyHitEffect = null;
-        public Action<NPC> inorganicEnemyHitEffect = null;
 
         // Dogshit, hacky workarounds for the summon respawning system
         public bool RequiresManualResurrection = false;
@@ -125,8 +115,11 @@ namespace CalamityMod.Projectiles
         public int ExplosiveEnchantCountdown = 0;
         public const int ExplosiveEnchantTime = 2400;
 
-        #region SetDefaults
-        public override void SetDefaults(Projectile projectile)
+		// Update priority variable.
+		public float UpdatePriority = 0f;
+
+		#region SetDefaults
+		public override void SetDefaults(Projectile projectile)
         {
             switch (projectile.type)
             {
@@ -172,19 +165,8 @@ namespace CalamityMod.Projectiles
 					trueMelee = true;
 					break;
 
-				case ProjectileID.Bullet:
-				case ProjectileID.MeteorShot:
 				case ProjectileID.BulletHighVelocity:
 				case ProjectileID.ChlorophyteBullet:
-				case ProjectileID.CrystalBullet:
-				case ProjectileID.CursedBullet:
-				case ProjectileID.ExplosiveBullet:
-				case ProjectileID.GoldenBullet:
-				case ProjectileID.IchorBullet:
-				case ProjectileID.MoonlordBullet:
-				case ProjectileID.NanoBullet:
-				case ProjectileID.PartyBullet:
-				case ProjectileID.VenomBullet:
 				case ProjectileID.WoodenArrowFriendly:
 				case ProjectileID.BeeArrow:
 				case ProjectileID.BoneArrow:
@@ -222,6 +204,23 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.CandyCorn:
 				case ProjectileID.Blizzard:
 				case ProjectileID.LostSoulFriendly:
+					pointBlankShotDuration = basePointBlankShotDuration;
+					break;
+
+				// Make bullets almost hitscan because that's how bullets should work in games :^)
+				// Chloro bullets are not here, because they home in
+				case ProjectileID.Bullet:
+				case ProjectileID.MeteorShot:
+				case ProjectileID.CrystalBullet:
+				case ProjectileID.IchorBullet:
+				case ProjectileID.CursedBullet:
+				case ProjectileID.VenomBullet:
+				case ProjectileID.PartyBullet:
+				case ProjectileID.NanoBullet:
+				case ProjectileID.ExplosiveBullet:
+				case ProjectileID.GoldenBullet:
+				case ProjectileID.MoonlordBullet:
+					projectile.extraUpdates += 2;
 					pointBlankShotDuration = basePointBlankShotDuration;
 					break;
 
@@ -264,6 +263,10 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.BlueMoon:
 				case ProjectileID.Flamarang:
 					projectile.extraUpdates = 2;
+					break;
+
+				case ProjectileID.LightDisc:
+					projectile.extraUpdates = 5;
 					break;
 
 				case ProjectileID.Arkhalis:
@@ -309,6 +312,7 @@ namespace CalamityMod.Projectiles
 
 				case ProjectileID.Bee:
 				case ProjectileID.GiantBee:
+				case ProjectileID.LightBeam:
 					projectile.penetrate = 2;
 					break;
 
@@ -417,7 +421,7 @@ namespace CalamityMod.Projectiles
 
 			// Disable Lunatic Cultist's homing resistance globally
 			ProjectileID.Sets.Homing[projectile.type] = false;
-        }
+		}
         #endregion
 
         #region PreAI
@@ -1928,12 +1932,6 @@ namespace CalamityMod.Projectiles
                     projectile.damage = defDamage + 15;
             }
 
-            // Iron Heart damage variable will scale with projectile.damage
-            if (CalamityWorld.ironHeart)
-            {
-                ironHeartDamage = 0;
-            }
-
             if (projectile.modProjectile != null && projectile.modProjectile.mod.Name.Equals("CalamityMod"))
                 goto SKIP_CALAMITY;
 
@@ -2371,30 +2369,6 @@ namespace CalamityMod.Projectiles
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
-
-            // Super dummies have nearly 10 million max HP (which is used in damage calculations).
-            // This can very easily cause damage numbers that are unrealistic for the weapon.
-            // As a result, they are omitted in this code.
-
-            List<int> ignoreTheseBitches = new List<int>()
-            {
-                NPCType<SuperDummyNPC>(),
-                NPCID.TheDestroyerBody, //why aren't these bosses
-                NPCID.TheDestroyerTail
-            };
-            if (!target.boss && ignoreTheseBitches.TrueForAll(x => target.type != x))
-            {
-                if (target.Inorganic() && hasInorganicEnemyHitBoost)
-                {
-                    damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
-                    inorganicEnemyHitEffect?.Invoke(target);
-                }
-                if (target.Organic() && hasOrganicEnemyHitBoost)
-                {
-                    damage += (int)(target.lifeMax * organicEnemyHitBoost);
-                    organicEnemyHitEffect?.Invoke(target);
-                }
-            }
             
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
@@ -2415,6 +2389,14 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;
+
+			// Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
+			if (projectile.type == ProjectileID.DD2BetsyArrow)
+			{
+				Point result;
+				if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain((GenSearch) new Searches.Down(12), (GenCondition) new Conditions.IsSolid()), out result))
+					damage = (int)(damage * 2f / 3f);
+			}
         }
         #endregion
 

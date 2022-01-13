@@ -1,6 +1,6 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -123,19 +123,17 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			OnHitEffects(target.Center);
-            target.AddBuff(BuffID.Ichor, 240);
-            target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Ichor, 90);
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+			target.AddBuff(BuffID.CursedInferno, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			OnHitEffects(target.Center);
-            target.AddBuff(BuffID.Ichor, 240);
-            target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Ichor, 90);
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+			target.AddBuff(BuffID.CursedInferno, 90);
         }
 
 		private void OnHitEffects(Vector2 targetPos)

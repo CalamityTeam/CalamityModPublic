@@ -24,13 +24,16 @@ namespace CalamityMod.NPCs.Ravager
 			npc.defense = 50;
 			npc.DR_NERD(0.3f);
 			npc.chaseable = false;
-			npc.lifeMax = CalamityWorld.downedProvidence ? 22750 : 5000;
+			npc.canGhostHeal = false;
+			npc.lifeMax = CalamityWorld.downedProvidence ? 20000 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
 		}
 
         public override void AI()
@@ -46,7 +49,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            if (npc.alpha > 0)
+			if (npc.alpha > 0)
             {
 				npc.damage = 0;
 

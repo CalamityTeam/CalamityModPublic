@@ -36,7 +36,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath21;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {

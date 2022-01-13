@@ -40,7 +40,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.npcSlots = 5f;
             npc.width = 56;
             npc.height = 56;
-            npc.defense = 25;
+            npc.defense = 20;
+			npc.DR_NERD(0.1f);
 			npc.LifeMaxNERB(200000, 240000, 650000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -63,7 +64,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.netAlways = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrumDeusBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -235,10 +238,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Astrum Deus
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);

@@ -117,6 +117,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 4800f;
 
+		// Timers for the Tesla and Plasma Arms so that they fire at the proper times when they spawn and enter new phases
+		public const float plasmaArmStartTimer = 260f;
+		public const float teslaArmStartTimer = 80f;
+
 		// Drawers for arm segments.
 		public static PrimitiveTrail LightningDrawer;
 		public static PrimitiveTrail LightningBackgroundDrawer;
@@ -136,7 +140,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.height = 252;
 			npc.defense = 100;
 			npc.DR_NERD(0.35f);
-			npc.LifeMaxNERB(1300000, 1495000, 500000);
+			npc.LifeMaxNERB(1250000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -152,6 +156,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
 		public override void BossHeadSlot(ref int index)
@@ -220,9 +226,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								break;
 							case 1:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
+								Main.npc[lol].Calamity().newAI[1] = plasmaArmStartTimer;
 								break;
 							case 2:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
+								Main.npc[lol].Calamity().newAI[1] = teslaArmStartTimer;
 								break;
 							case 3:
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
@@ -321,6 +329,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// If Ares doesn't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
 
+			// Whether Ares should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -413,9 +424,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 28f : 20f) * baseVelocityMult;
-			float baseAcceleration = berserk ? 1.25f : 1f;
+			float baseAcceleration = shouldGetBuffedByBerserkPhase ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 
 			// Distance where Ares stops moving
@@ -508,8 +519,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
-						// This is only called if two exo mechs are alive
-						if (otherMechIsBerserk)
+						// This is only called if two exo mechs are alive in ideal scenarios
+						// This is not called if Ares and another one or two mechs are berserk
+						if (otherMechIsBerserk && !berserk)
 						{
 							// Reset everything
 							if (npc.ai[3] < 2f)
@@ -529,7 +541,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					break;
 
-				// Fire projectiles less often
+				// Fire projectiles less often, this happens when all 3 mechs are present and attacking
 				case (int)SecondaryPhase.Passive:
 
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
@@ -568,7 +580,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
 
-					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
+					// Enter the fight again if any of the other exo mechs is below 70% and other mechs aren't berserk
 					if ((exoWormLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
 						// Tells Ares to return to the battle in passive state and reset everything
@@ -587,6 +599,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						}
 					}
 
+					// This is here just in case
 					if (berserk)
 					{
 						// Reset everything
@@ -638,7 +651,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
-					if (berserk)
+					if (shouldGetBuffedByBerserkPhase)
 					{
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] > deathrayPhaseGateValue)

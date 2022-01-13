@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
             float x4 = Main.rgbToHsl(new Color(103, 203, Main.DiscoB)).X;
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SiriusExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
         }

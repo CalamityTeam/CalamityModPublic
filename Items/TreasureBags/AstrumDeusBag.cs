@@ -55,13 +55,16 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GodspawnHelixStaff>(w),
                 DropHelper.WeightStack<RegulusRiot>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<Quasar>());
+			DropHelper.DropItem(player, ModContent.ItemType<TrueConferenceCall>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<AstralBulwark>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<AstralBulwark>());
             DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
+			DropHelper.DropItem(player, ModContent.ItemType<HideofAstrumDeus>());
 
-            // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

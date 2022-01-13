@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 32;
             item.ranged = true;
-            item.width = 22;
+            item.width = 32;
             item.height = 62;
             item.useTime = 22;
             item.useAnimation = 22;
@@ -69,16 +69,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DemonBow);
-            recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ItemID.BeesKnees);
+            recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TendonBow);
-            recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ItemID.BeesKnees);
+            recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);

@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
 			npc.Calamity().canBreakPlayerDefense = true;
-			npc.LifeMaxNERB(875, 1205, 80000);
+			npc.LifeMaxNERB(1005, 1205, 80000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.GetNPCDamage();
@@ -46,7 +46,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1;
             aiType = -1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

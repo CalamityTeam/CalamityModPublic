@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 450;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
-            npc.LifeMaxNERB(55200, 72560, 600000);
+            npc.LifeMaxNERB(60500, 72560, 600000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -63,9 +63,13 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.boss = true;
             npc.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -383,10 +387,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.ai[1] += num638 / 2;
 
                     bool flag103 = false;
-					float num640 = 60f;
-					if (!sirenAlive || phase4)
-						num640 -= 40f * (1f - lifeRatio);
-
+					float num640 = (!sirenAlive || phase4) ? 30f : 60f;
 					if (npc.ai[1] > num640)
                     {
                         npc.ai[1] = 0f;
@@ -394,18 +395,12 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-					int spawnLimit = (sirenAlive && !phase4) ? 1 : 3;
-					bool spawnParasea = NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit;
-					bool spawnAberration = (!sirenAlive || phase4) && !NPC.AnyNPCs(ModContent.NPCType<AquaticAberration>());
-
-					if (flag103 && (spawnParasea || spawnAberration))
+					int spawnLimit = (sirenAlive && !phase4) ? 2 : 4;
+					if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-							int type = spawnAberration ? ModContent.NPCType<AquaticAberration>() : ModContent.NPCType<Parasea>();
-							NPC.NewNPC((int)vector119.X, (int)vector119.Y, type);
-						}
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
                     if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
@@ -459,7 +454,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.direction = playerLocation < 0 ? 1 : -1;
 					npc.spriteDirection = npc.direction;
 
-					if (npc.ai[2] > ((sirenAlive && !phase4) ? 2f : 3f))
+					if (npc.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
                     {
                         npc.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4) ? 2f : 0f;
                         npc.ai[1] = 0f;
@@ -736,8 +731,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Leviathan and Anahita
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, !Main.expertMode);
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);

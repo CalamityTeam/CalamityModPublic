@@ -61,9 +61,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<InfectedRemote>(w),
                 DropHelper.WeightStack<TheSyringe>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<Malachite>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

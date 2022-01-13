@@ -51,7 +51,11 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<RadiatorBanner>();
             npc.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void AI()
         {			

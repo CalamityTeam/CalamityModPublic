@@ -1,5 +1,5 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;using CalamityMod.Tiles.FurnitureExo;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureExo
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 8);
             recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.SetResult(this);

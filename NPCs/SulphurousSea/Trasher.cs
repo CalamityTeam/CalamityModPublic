@@ -38,7 +38,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<TrasherBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

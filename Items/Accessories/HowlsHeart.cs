@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -16,7 +17,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Howl's Heart");
-            Tooltip.SetDefault("Summons Howl to fight for you, Calcifer to light your way, and Turnip-Head to follow you around");
+            Tooltip.SetDefault("Summons Howl to fight for you, Calcifer to light your way, and Turnip-Head to follow you around\n" +
+			"Placing this accessory in vanity slots will summon the trio without the combat or exploration utilities");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 
@@ -45,15 +47,15 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
+                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartTurnipHead>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
                 }
             }
         }

@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class StormlionBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Stormlion");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

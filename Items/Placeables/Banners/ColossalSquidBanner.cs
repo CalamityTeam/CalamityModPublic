@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ColossalSquidBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Colossal Squid");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

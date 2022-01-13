@@ -43,7 +43,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MirageJellyBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = false;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -51,7 +55,6 @@ namespace CalamityMod.NPCs.Abyss
             writer.Write(teleporting);
             writer.Write(rephasing);
             writer.Write(npc.chaseable);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -60,7 +63,6 @@ namespace CalamityMod.NPCs.Abyss
             teleporting = reader.ReadBoolean();
             rephasing = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
-            npc.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -83,7 +85,6 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[0] == 0f)
             {
                 npc.chaseable = true;
-                npc.dontTakeDamage = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (teleporting)
@@ -135,7 +136,6 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.damage = 0;
                 npc.chaseable = false;
-                npc.dontTakeDamage = true;
                 npc.alpha += 5;
                 if (npc.alpha >= 255)
                 {
@@ -153,7 +153,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.damage = Main.expertMode ? 200 : 100;
                     npc.chaseable = true;
-                    npc.dontTakeDamage = false;
                     npc.alpha = 0;
                     npc.ai[0] = 0f;
                     npc.netUpdate = true;
@@ -207,8 +206,9 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, 10, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
+            int minCells = Main.expertMode ? 10 : 5;
+            int maxCells = Main.expertMode ? 14 : 7;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
             DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);

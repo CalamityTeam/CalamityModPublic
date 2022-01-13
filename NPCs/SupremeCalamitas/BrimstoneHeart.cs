@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 24;
             npc.height = 24;
             npc.defense = 0;
-			npc.LifeMaxNERB(25600, 29440, 10000);
+			npc.LifeMaxNERB(24550, 29440, 10000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.hide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath1;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

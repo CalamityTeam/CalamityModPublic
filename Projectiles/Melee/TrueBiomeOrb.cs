@@ -165,13 +165,14 @@ namespace CalamityMod.Projectiles.Melee
             bool glow = player.ZoneGlowshroom;
             bool hell = player.ZoneUnderworldHeight;
             bool holy = player.ZoneHoly;
+			int duration = 120;
 			if (astral)
 			{
-                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 360);
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), duration);
 			}
 			else if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                target.AddBuff(ModContent.BuffType<Plague>(), duration);
             }
             else if (snow)
             {
@@ -179,15 +180,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 360);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), duration);
             }
             else if (dungeon)
             {
-                target.AddBuff(BuffID.Frostburn, 360);
+                target.AddBuff(BuffID.Frostburn, duration);
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
             }
             else if (glow)
             {
@@ -195,15 +196,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
             }
             else if (holy)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), duration);
             }
         }
     }

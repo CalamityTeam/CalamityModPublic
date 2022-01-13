@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.coldDamage = true;
             projectile.penetrate = 3;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
             projectile.coldDamage = true;
@@ -49,8 +49,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -11,20 +11,19 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayerLifeRegen
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Update Bad Life Regen
-        public static void CalamityUpdateBadLifeRegen(Player player, Mod mod)
+        public override void UpdateBadLifeRegen()
         {
             Point point = player.Center.ToTileCoordinates();
-            CalamityPlayer modPlayer = player.Calamity();
 
 			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
-				modPlayer.noLifeRegen = true;
+				noLifeRegen = true;
 
 			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
-			if (modPlayer.reaverDefense)
+			if (reaverDefense)
 				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
@@ -69,7 +68,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Calamity
-            if (modPlayer.shadowflame)
+            if (shadowflame)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -78,7 +77,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 30;
             }
 
-            if (modPlayer.wDeath)
+            if (wDeath)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -86,7 +85,7 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
             }
 
-            if (modPlayer.aFlames)
+            if (aFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -95,7 +94,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
-			if (modPlayer.weakBrimstoneFlames)
+			if (weakBrimstoneFlames)
 			{
 				if (player.lifeRegen > 0)
 					player.lifeRegen = 0;
@@ -104,16 +103,16 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 7;
 			}
 
-            if (modPlayer.bFlames)
+            if (bFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += modPlayer.abaddon ? 8 : 16;
+				lifeRegenLost += abaddon ? 8 : 16;
             }
 
-            if (modPlayer.nightwither)
+            if (nightwither)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -122,7 +121,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
 			}
 
-            if (modPlayer.vaporfied)
+            if (vaporfied)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -131,7 +130,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 8;
 			}
 
-			if (modPlayer.cragsLava)
+			if (cragsLava)
 			{
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -140,16 +139,16 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 30;
             }
 
-            if (modPlayer.gsInferno)
+            if (gsInferno)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += modPlayer.profanedCrystalBuffs ? 35 : 30;
+				lifeRegenLost += profanedCrystalBuffs ? 35 : 30;
             }
 
-            if (modPlayer.astralInfection)
+            if (astralInfection)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -158,10 +157,10 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.decayEffigy && !player.lavaWet && !player.honeyWet)
+            if (ZoneSulphur && player.IsUnderwater() && !decayEffigy && !player.lavaWet && !player.honeyWet)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
-                modPlayer.pissWaterBoost++;
+                pissWaterBoost++;
 
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -169,47 +168,47 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
 				int waterDivisor = 250;
 				int minimumRegenLost = 8;
-				if (modPlayer.sulfurSet && modPlayer.sulphurskin)
+				if (sulfurSet && sulphurskin)
 				{
 					waterDivisor = 500;
 					minimumRegenLost = 1;
 				}
-				else if (modPlayer.sulfurSet)
+				else if (sulfurSet)
 				{
 					waterDivisor = 400;
 					minimumRegenLost = 3;
 				}
-				else if (modPlayer.sulphurskin)
+				else if (sulphurskin)
 				{
 					waterDivisor = 350;
 					minimumRegenLost = 2;
 				}
-				int sulphurWater = modPlayer.pissWaterBoost / waterDivisor;
+				int sulphurWater = pissWaterBoost / waterDivisor;
                 if (sulphurWater < minimumRegenLost)
                     sulphurWater = minimumRegenLost;
 				lifeRegenLost += sulphurWater;
             }
             else
-                modPlayer.pissWaterBoost = 0;
+                pissWaterBoost = 0;
 
-            if (modPlayer.sulphurPoison)
+            if (sulphurPoison)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
 				lifeRegenLost += 6;
-				if (modPlayer.sulfurSet)
+				if (sulfurSet)
 				{
 					lifeRegenLost -= 2;
 				}
-				if (modPlayer.sulphurskin)
+				if (sulphurskin)
 				{
 					lifeRegenLost -= 2;
 				}
             }
 
-            if (modPlayer.hFlames)
+            if (hFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -218,7 +217,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
-            if (modPlayer.banishingFire)
+            if (banishingFire)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -227,7 +226,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 60;
 			}
 
-			if (modPlayer.waterLeechBleeding)
+			if (waterLeechBleeding)
 			{
 				if (player.lifeRegen > 0)
 					player.lifeRegen = 0;
@@ -240,16 +239,16 @@ namespace CalamityMod.CalPlayer
 					lifeRegenLost += 12;
 			}
 
-			if (modPlayer.pFlames)
+			if (pFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += modPlayer.reducedPlagueDmg ? 10 : 20;
+				lifeRegenLost += reducedPlagueDmg ? 10 : 20;
             }
 
-            if (modPlayer.bBlood)
+            if (bBlood)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -258,7 +257,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 8;
             }
 
-            if (modPlayer.vHex)
+            if (vHex)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -267,11 +266,11 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
-            if (modPlayer.cDepth)
+            if (cDepth)
             {
                 if (player.statDefense > 0)
                 {
-                    int depthDamage = modPlayer.depthCharm ? 9 : 18;
+                    int depthDamage = depthCharm ? 9 : 18;
                     int subtractDefense = (int)(player.statDefense * 0.05); // 240 defense = 0 damage taken with depth charm
                     int calcDepthDamage = depthDamage - subtractDefense;
 
@@ -286,103 +285,107 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-			if (modPlayer.vodka)
+			if (vodka)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.redWine)
+			if (redWine)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
-				if (modPlayer.baguette)
+				if (baguette)
 					lifeRegenLost += 3;
 			}
-			if (modPlayer.grapeBeer)
+			if (grapeBeer)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.moonshine)
+			if (moonshine)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.rum)
+			if (rum)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.fabsolVodka)
+			if (fabsolVodka)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.fireball)
+			if (fireball)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.whiskey)
+			if (whiskey)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.everclear)
+			if (everclear)
 			{
-				modPlayer.alcoholPoisonLevel += 2;
+				alcoholPoisonLevel += 2;
 				lifeRegenLost += 10;
 			}
-			if (modPlayer.bloodyMary)
+			if (bloodyMary)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 2;
 			}
-			if (modPlayer.tequila)
+			if (tequila)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.tequilaSunrise)
+			if (tequilaSunrise)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.screwdriver)
+			if (screwdriver)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.caribbeanRum)
+			if (caribbeanRum)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.cinnamonRoll)
+			if (cinnamonRoll)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 			}
-			if (modPlayer.margarita)
+			if (margarita)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.starBeamRye)
+			if (starBeamRye)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.moscowMule)
+			if (moscowMule)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 2;
 			}
-			if (modPlayer.whiteWine)
+			if (whiteWine)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.evergreenGin)
+			if (evergreenGin)
 			{
-				modPlayer.alcoholPoisonLevel++;
+				alcoholPoisonLevel++;
 				lifeRegenLost += 1;
 			}
-			if (modPlayer.alcoholPoisonLevel > 3)
+
+			if (cirrusDress)
+				alcoholPoisonLevel = 0;
+
+			if (alcoholPoisonLevel > 3)
 			{
 				player.nebulaLevelLife = 0;
 
@@ -393,15 +396,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen = 0;
 
 				player.lifeRegenTime = 0;
-				lifeRegenLost += 3 * modPlayer.alcoholPoisonLevel;
+				lifeRegenLost += 3 * alcoholPoisonLevel;
 			}
 
-			if (modPlayer.manaOverloader)
+			if (manaOverloader)
 			{
 				if (player.statMana > (int)(player.statManaMax2 * 0.5))
 					lifeRegenLost += 3;
 			}
-            if (modPlayer.brimflameFrenzy)
+            if (brimflameFrenzy)
             {
                 player.manaRegen = 0;
                 player.manaRegenBonus = 0;
@@ -411,24 +414,24 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 42; //the meaning of death
 			}
 
-			if (modPlayer.witheredDebuff)
+			if (witheredDebuff)
 			{
-				modPlayer.witheredWeaponHoldTime += modPlayer.witheringWeaponEnchant.ToDirectionInt();
-				if (modPlayer.witheredWeaponHoldTime < 0)
+				witheredWeaponHoldTime += witheringWeaponEnchant.ToDirectionInt();
+				if (witheredWeaponHoldTime < 0)
 				{
-					modPlayer.witheredWeaponHoldTime = 0;
+					witheredWeaponHoldTime = 0;
 				}
 				else
 				{
-					lifeRegenLost += (int)(5D * Math.Pow(1.5D, modPlayer.witheredWeaponHoldTime / 87D));
+					lifeRegenLost += (int)(5D * Math.Pow(1.5D, witheredWeaponHoldTime / 87D));
 					if (player.lifeRegen > 0)
 						player.lifeRegen = 0;
 				}
 			}
 			else
-				modPlayer.witheredWeaponHoldTime = 0;
+				witheredWeaponHoldTime = 0;
 
-			if (modPlayer.ManaBurn)
+			if (ManaBurn)
 			{
 				int debuffIndex = player.FindBuffIndex(ModContent.BuffType<ManaBurn>());
 				float debuffIntensity = debuffIndex == -1 ? 0f : player.buffTime[debuffIndex] / (float)Player.manaSickTimeMax;
@@ -442,16 +445,16 @@ namespace CalamityMod.CalPlayer
 
 			// Buffs
 
-			if (modPlayer.divineBless)
+			if (divineBless)
 			{
 				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0) // Flat 4 health per second
                 {
-					if (!modPlayer.noLifeRegen)
+					if (!noLifeRegen)
 						player.statLife += 1;
                 }
             }
 
-			if (modPlayer.bloodfinBoost)
+			if (bloodfinBoost)
 			{
 				if (player.lifeRegen < 0)
 				{
@@ -466,19 +469,19 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegenTime += 10;
 				}
 
-                if (modPlayer.bloodfinTimer > 0)
-					modPlayer.bloodfinTimer--;
+                if (bloodfinTimer > 0)
+					bloodfinTimer--;
 
-				if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+				if (player.whoAmI == Main.myPlayer && bloodfinTimer <= 0)
                 {
-                    modPlayer.bloodfinTimer = 30;
+                    bloodfinTimer = 30;
 
-					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
+					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !noLifeRegen)
 						player.statLife += 1;
                 }
             }
 
-			if (modPlayer.celestialJewel || modPlayer.astralArcanum)
+			if (celestialJewel || astralArcanum)
             {
                 bool lesserEffect = false;
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -487,10 +490,10 @@ namespace CalamityMod.CalPlayer
                     lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
-				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
+				int defenseBoost = astralArcanum ? 15 : 11;
                 if (lesserEffect)
                 {
-                    player.lifeRegen += modPlayer.astralArcanum ? 2 : 1;
+                    player.lifeRegen += astralArcanum ? 2 : 1;
                     player.statDefense += defenseBoost;
                 }
                 else
@@ -500,14 +503,14 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += modPlayer.astralArcanum ? 6 : 4;
+                        player.lifeRegen += astralArcanum ? 6 : 4;
                         player.statDefense += defenseBoost;
                     }
                     else
-                        player.lifeRegen += modPlayer.astralArcanum ? 3 : 2;
+                        player.lifeRegen += astralArcanum ? 3 : 2;
                 }
             }
-            else if (modPlayer.crownJewel)
+            else if (crownJewel)
             {
                 bool lesserEffect = false;
                 for (int l = 0; l < Player.MaxBuffs; l++)
@@ -517,7 +520,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 if (lesserEffect)
-                    player.statDefense += 10;
+                    player.statDefense += 8;
                 else
                 {
                     if (player.lifeRegen < 0)
@@ -526,7 +529,7 @@ namespace CalamityMod.CalPlayer
                             player.lifeRegenTime = 1800;
 
                         player.lifeRegen += 4;
-                        player.statDefense += 10;
+                        player.statDefense += 8;
                     }
                     else
                         player.lifeRegen += 2;
@@ -535,7 +538,7 @@ namespace CalamityMod.CalPlayer
 
 			// Last Debuffs
 
-			if (modPlayer.noLifeRegen)
+			if (noLifeRegen)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -564,7 +567,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-			if (modPlayer.lethalLavaBurn)
+			if (lethalLavaBurn)
 			{
 				if (player.lifeRegen > 0)
 					player.lifeRegen = 0;
@@ -578,25 +581,25 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegen -= (int)(lifeRegenDown * lifeRegenMult);
 			}
 
-			if (modPlayer.hInferno)
+			if (hInferno)
             {
 				player.nebulaLevelLife = 0;
 
-                modPlayer.hInfernoBoost++;
+                hInfernoBoost++;
 
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= (int)(modPlayer.hInfernoBoost * lifeRegenMult);
+                player.lifeRegen -= (int)(hInfernoBoost * lifeRegenMult);
 
 				if (player.lifeRegen < -200)
                     player.lifeRegen = -200;
             }
             else
-                modPlayer.hInfernoBoost = 0;
+                hInfernoBoost = 0;
 
-			if (modPlayer.ZoneAbyss)
+			if (ZoneAbyss)
 			{
 				if (!player.IsUnderwater())
 				{
@@ -613,13 +616,13 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            if (modPlayer.weakPetrification)
+            if (weakPetrification)
             {
                 if (player.mount.Active)
                     player.mount.Dismount(player);
             }
 
-            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet) || (modPlayer.dashMod == 9 && player.dashDelay < 0))
+            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -628,104 +631,102 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Update Life Regen
-        public static void CalamityUpdateLifeRegen(Player player, Mod mod)
+        public override void UpdateLifeRegen()
         {
-            CalamityPlayer modPlayer = player.Calamity();
-
-			if (modPlayer.rum)
+			if (rum)
 				player.lifeRegen += 2;
 
-			if (modPlayer.caribbeanRum)
+			if (caribbeanRum)
 				player.lifeRegen += 2;
 
-			if (modPlayer.aChicken)
+			if (aChicken)
 				player.lifeRegen += 1;
 
-			if (modPlayer.cadence)
+			if (cadence)
 				player.lifeRegen += 5;
 
-			if (modPlayer.mushy)
+			if (mushy)
 				player.lifeRegen += 1;
 
-			if (modPlayer.permafrostsConcoction)
+			if (permafrostsConcoction)
 			{
-				if (player.statLife < modPlayer.actualMaxLife / 2)
+				if (player.statLife < actualMaxLife / 2)
 					player.lifeRegen++;
-				if (player.statLife < modPlayer.actualMaxLife / 4)
+				if (player.statLife < actualMaxLife / 4)
 					player.lifeRegen++;
-				if (player.statLife < modPlayer.actualMaxLife / 10)
+				if (player.statLife < actualMaxLife / 10)
 					player.lifeRegen += 2;
 
-				if (player.poisoned || player.onFire || modPlayer.bFlames)
+				if (player.poisoned || player.onFire || bFlames)
 					player.lifeRegen += 4;
 			}
 
-			if (modPlayer.tRegen)
+			if (tRegen)
 				player.lifeRegen += 3;
 
-			if (modPlayer.sRegen)
+			if (sRegen)
 				player.lifeRegen += 2;
 
-            if (modPlayer.hallowedRegen)
+            if (hallowedRegen)
                 player.lifeRegen += 3;
 
-            if (modPlayer.affliction || modPlayer.afflicted)
+            if (affliction || afflicted)
 				player.lifeRegen += 1;
 
-			if (modPlayer.absorber)
+			if (absorber)
 			{
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.lifeRegen += 4;
 			}
 
-			if (modPlayer.aAmpoule)
+			if (aAmpoule)
 			{
 				player.lifeRegen += 4;
 			}
-			else if (modPlayer.rOoze)
+			else if (rOoze)
 			{
 				if (!Main.dayTime)
 					player.lifeRegen += 4;
 			}
 
-			if (modPlayer.ursaSergeant)
+			if (ursaSergeant)
 			{
-				if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.15))
+				if (player.statLife <= (int)(actualMaxLife * 0.15))
 				{
 					player.lifeRegen += 3;
 					player.lifeRegenTime += 3;
 				}
-				else if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.25))
+				else if (player.statLife <= (int)(actualMaxLife * 0.25))
 				{
 					player.lifeRegen += 2;
 					player.lifeRegenTime += 2;
 				}
-				else if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.5))
+				else if (player.statLife <= (int)(actualMaxLife * 0.5))
 				{
 					player.lifeRegen += 1;
 					player.lifeRegenTime += 1;
 				}
 			}
 
-			if (modPlayer.polarisBoost)
+			if (polarisBoost)
 			{
 				player.lifeRegen += 1;
 				player.lifeRegenTime += 1;
 			}
 
-			if (modPlayer.projRefRareLifeRegenCounter > 0)
+			if (projRefRareLifeRegenCounter > 0)
 			{
 				player.lifeRegenTime += 2;
 				player.lifeRegen += 2;
 			}
 
-			if (modPlayer.darkSunRing)
+			if (darkSunRing)
 			{
 				if (Main.eclipse || Main.dayTime)
 					player.lifeRegen += 3;
 			}
 
-			if (modPlayer.phantomicHeartRegen <= 720 && modPlayer.phantomicHeartRegen >= 600)
+			if (phantomicHeartRegen <= 720 && phantomicHeartRegen >= 600)
 			{
 				player.lifeRegen += 2;
 				if (Main.rand.NextBool(2))
@@ -741,7 +742,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.community)
+			if (community)
 			{
 				float floatTypeBoost = 0.05f +
 					(NPC.downedSlimeKing ? 0.01f : 0f) +
@@ -773,31 +774,31 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += lesserEffect ? 1 : regenBoost;
 			}
 
-			if (modPlayer.regenator)
+			if (regenator)
 			{
 				player.lifeRegenTime += 6;
 				player.lifeRegen += 12;
 			}
-            if (modPlayer.handWarmer && modPlayer.eskimoSet)
+            if (handWarmer && eskimoSet)
             {
                 player.lifeRegen += 2;
             }
-			if (modPlayer.bloodPactBoost)
+			if (bloodPactBoost)
             {
                 player.lifeRegen += 2;
             }
-			if (modPlayer.avertorBonus)
+			if (avertorBonus)
             {
                 player.lifeRegen += 4;
             }
 
-			if (modPlayer.bloodflareSummon)
+			if (bloodflareSummon)
 			{
-				if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.5))
+				if (player.statLife <= (int)(actualMaxLife * 0.5))
 					player.lifeRegen += 2;
 			}
 
-            if (modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
+            if (fearmongerSet && fearmongerRegenFrames > 0)
             {
                 player.lifeRegen += 7;
 
@@ -807,31 +808,31 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 4;
             }
 
-			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
+			if (pinkCandle && !noLifeRegen)
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
-				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+				pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
 
-				if (modPlayer.pinkCandleHealFraction >= 1D)
+				if (pinkCandleHealFraction >= 1D)
 				{
-					modPlayer.pinkCandleHealFraction = 0D;
+					pinkCandleHealFraction = 0D;
 
 					if (player.statLife < player.statLifeMax2)
 						player.statLife++;
 				}
 			}
 			else
-				modPlayer.pinkCandleHealFraction = 0D;
+				pinkCandleHealFraction = 0D;
 
-			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
+			if (reaverRegen && reaverRegenCooldown >= 60)
 			{
-				modPlayer.reaverRegenCooldown = 0;
+				reaverRegenCooldown = 0;
 
-				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
+				if (player.statLife != player.statLifeMax2 && !noLifeRegen)
 					player.statLife += 1;
 			}
 
-			if (modPlayer.BloomStoneRegen)
+			if (BloomStoneRegen)
 			{
 				float dayTimeCompletion = !Main.dayTime ? 1f : (float)(Main.time / Main.dayLength);
 				float regenBenefitFactor = MathHelper.SmoothStep(0.25f, 1f, Utils.InverseLerp(0f, 0.24f, dayTimeCompletion, true) * Utils.InverseLerp(1f, 0.76f, dayTimeCompletion, true));
@@ -843,18 +844,18 @@ namespace CalamityMod.CalPlayer
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)
 			{
-				int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;
-				int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
-				float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
+				int lifeRegenTimeMaxBoost = areThereAnyDamnBosses ? 450 : 1800;
+				int lifeRegenMaxBoost = areThereAnyDamnBosses ? 1 : 4;
+				float lifeRegenLifeRegenTimeMaxBoost = areThereAnyDamnBosses ? 8f : 30f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
 				{
 					bool boostedRegen = false;
 					bool noSunlight = false;
-					if (modPlayer.shadeRegen)
+					if (shadeRegen)
 					{
 						boostedRegen = true;
-						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						if (player.lifeRegen > 0 && player.statLife < actualMaxLife)
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
 							{
@@ -869,10 +870,10 @@ namespace CalamityMod.CalPlayer
 							}
 						}
 					}
-					else if (modPlayer.cFreeze)
+					else if (cFreeze)
 					{
 						boostedRegen = true;
-						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						if (player.lifeRegen > 0 && player.statLife < actualMaxLife)
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
 							{
@@ -887,10 +888,10 @@ namespace CalamityMod.CalPlayer
 							}
 						}
 					}
-					else if (modPlayer.draedonsHeart)
+					else if (draedonsHeart)
 					{
 						boostedRegen = true;
-						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						if (player.lifeRegen > 0 && player.statLife < actualMaxLife)
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 							{
@@ -905,12 +906,12 @@ namespace CalamityMod.CalPlayer
 							}
 						}
 					}
-					else if (modPlayer.photosynthesis)
+					else if (photosynthesis)
 					{
 						boostedRegen = true;
 						if (!Main.dayTime)
 							noSunlight = true;
-						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						if (player.lifeRegen > 0 && player.statLife < actualMaxLife)
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 							{
@@ -946,7 +947,7 @@ namespace CalamityMod.CalPlayer
 
 							player.lifeRegen += (int)num3;
 						}
-						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						if (player.lifeRegen > 0 && player.statLife < actualMaxLife)
 						{
 							player.lifeRegenCount++;
 						}
@@ -955,10 +956,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
-			if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife && !player.StandingStill())
+			if (camper && player.statLife < actualMaxLife && !player.StandingStill())
 			{
-				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.25f : 2f;
-				int camperRegenCount = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
+				float camperRegenMult = areThereAnyDamnBosses ? 1.25f : 2f;
+				int camperRegenCount = areThereAnyDamnBosses ? 1 : 4;
 				player.lifeRegen = (int)(player.lifeRegen * camperRegenMult);
 				player.lifeRegenCount += camperRegenCount;
 				if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
@@ -974,9 +975,9 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (player.statLife < modPlayer.actualMaxLife)
+			if (player.statLife < actualMaxLife)
 			{
-				bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
+				bool noLifeRegenCap = (player.shinyStone || draedonsHeart || cFreeze || shadeRegen || photosynthesis || camper) &&
 					player.StandingStill() && player.itemAnimation == 0;
 
 				if (!noLifeRegenCap)
@@ -985,10 +986,10 @@ namespace CalamityMod.CalPlayer
 					// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
 					// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
 					// 200 HP = 1 - 0.5 * 10 = 5
-					int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
+					int lifeRegenScale = (int)((1f - (player.statLife / actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
 					if (player.lifeRegen > lifeRegenScale)
 					{
-						float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
+						float lifeRegenScalar = 1f + (player.statLife / actualMaxLife); // 1 to 2 (1% HP to 100%)
 						int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
 						player.lifeRegen = defLifeRegen;
 					}
@@ -1010,7 +1011,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// For the stat meter
-			modPlayer.lifeRegenStat = player.lifeRegen;
+			lifeRegenStat = player.lifeRegen;
 		}
         #endregion
     }

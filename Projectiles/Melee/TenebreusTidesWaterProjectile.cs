@@ -81,13 +81,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
             SwordSpam(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
             SwordSpam(target.Center);
         }
 

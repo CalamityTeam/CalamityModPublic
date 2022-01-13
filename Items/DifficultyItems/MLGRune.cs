@@ -10,7 +10,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Trophy");
-            Tooltip.SetDefault("Boosts spawn rate by 1.25 times\n" +
+            Tooltip.SetDefault("Boosts spawn rate by 1.25x\n" +
                                "Effects cannot be reversed");
         }
 

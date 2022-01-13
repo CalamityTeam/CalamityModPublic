@@ -77,6 +77,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			// Phase one settings
 			CalamityGlobalNPC global = npc.Calamity();
+			npc.defense = 150;
 			global.DR = 0.999999f;
 			global.unbreakableDR = true;
 			npc.chaseable = false;
@@ -102,6 +103,8 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToElectricity = false;
 		}
 
 		public override void BossHeadSlot(ref int index)
@@ -187,11 +190,16 @@ namespace CalamityMod.NPCs.StormWeaver
 				// Spawn armor gore, roar and set other crucial variables
 				if (!npc.chaseable)
 				{
+					npc.Calamity().VulnerableToHeat = true;
+					npc.Calamity().VulnerableToCold = true;
+					npc.Calamity().VulnerableToSickness = true;
+
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorHead1"), 1f);
 					Main.PlaySound(SoundID.NPCDeath14, (int)npc.Center.X, (int)npc.Center.Y);
 
 					CalamityGlobalNPC global = npc.Calamity();
-					global.DR = 0f;
+					npc.defense = 15;
+					global.DR = 0.1f;
 					global.unbreakableDR = false;
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;
@@ -749,8 +757,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Storm Weaver
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, CalamityWorld.malice);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, !Main.expertMode);
 
 				DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;

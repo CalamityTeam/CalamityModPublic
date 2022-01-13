@@ -69,8 +69,10 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.LivingFire;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -92,9 +94,6 @@ namespace CalamityMod
         public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
-        public static List<int> fireWeaponList;
-        public static List<int> iceWeaponList;
-        public static List<int> natureWeaponList;
         public static List<int> alcoholList;
         public static List<int> spearAutoreuseList;
         public static List<int> pumpkinMoonBuffList;
@@ -142,6 +141,27 @@ namespace CalamityMod
         public static List<int> pierceResistList;
         public static List<int> pierceResistExceptionList;
 
+        public static List<int> AstrumDeusIDs;
+        public static List<int> DevourerOfGodsIDs;
+        public static List<int> CosmicGuardianIDs;
+        public static List<int> AquaticScourgeIDs;
+        public static List<int> PerforatorIDs;
+        public static List<int> DesertScourgeIDs;
+        public static List<int> EaterofWorldsIDs;
+        public static List<int> DeathModeSplittingWormIDs;
+        public static List<int> DestroyerIDs;
+        public static List<int> ThanatosIDs;
+        public static List<int> AresIDs;
+        public static List<int> SkeletronPrimeIDs;
+        public static List<int> StormWeaverIDs;
+        public static List<int> BoundNPCIDs;
+
+        public static List<int> GrenadeResistIDs;
+        public static List<int> ZeroContactDamageNPCList;
+        public static List<int> HardmodeNPCNerfList;
+
+        public static SortedDictionary<int, int> BossRushHPChanges;
+        public static SortedDictionary<int, int> BossValues;
         public static SortedDictionary<int, int> bossTypes;
 
         public static List<int> legOverrideList;
@@ -524,6 +544,12 @@ namespace CalamityMod
                 ProjectileType<StarfleetMK2Gun>(),
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
+                ProjectileType<ChickenCannonHeld>(),
+                ProjectileType<PumplerHoldout>(),
+                ProjectileType<ClockworkBowHoldout>(),
+                ProjectileType<UltimaBowProjectile>(),
+                ProjectileType<CondemnationHoldout>(),
+                ProjectileType<SurgeDriverHoldout>(),
 
                 ProjectileType<NanoPurgeHoldout>(),
                 ProjectileType<AetherfluxCannonHoldout>(),
@@ -717,8 +743,6 @@ namespace CalamityMod
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
                 NPCType<OldDukeSharkron>(),
-                NPCType<DetonatingFlare>(),
-                NPCType<DetonatingFlare2>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>(),
                 NPCType<SoulSeekerSupreme>()
@@ -757,8 +781,7 @@ namespace CalamityMod
                 NPCType<SuperDummyNPC>(),
                 NPCType<SunBat>(),
                 NPCType<WulfrumGyrator>(),
-                NPCType<WulfrumRover>(),
-                NPCType<WulfrumSlime>()
+                NPCType<WulfrumRover>()
             };
 
             dungeonEnemyBuffList = new List<int>()
@@ -837,9 +860,7 @@ namespace CalamityMod
                 NPCID.QueenBee,
                 NPCType<PlaguebringerGoliath>(),
                 NPCType<PlaguebringerShade>(),
-                NPCType<PlagueBeeLargeG>(),
                 NPCType<PlagueBeeLarge>(),
-                NPCType<PlagueBeeG>(),
                 NPCType<PlagueBee>()
             };
 
@@ -929,351 +950,6 @@ namespace CalamityMod
                 BuffType<LethalLavaBurn>(),
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>()
-            };
-
-            fireWeaponList = new List<int>() // TODO: Fix this list.
-            {
-                ItemID.FieryGreatsword,
-                ItemID.DD2SquireDemonSword,
-                ItemID.TheHorsemansBlade,
-                ItemID.Cascade,
-                ItemID.HelFire,
-                ItemID.Flamarang,
-                ItemID.MoltenFury,
-                ItemID.Sunfury,
-                ItemID.PhoenixBlaster,
-                ItemID.Flamelash,
-                ItemID.SolarEruption,
-                ItemID.DayBreak,
-                ItemID.HellwingBow,
-                ItemID.DD2PhoenixBow,
-                ItemID.DD2BetsyBow,
-                ItemID.FlareGun,
-                ItemID.Flamethrower,
-                ItemID.EldMelter,
-                ItemID.FlowerofFire,
-                ItemID.MeteorStaff,
-                ItemID.ApprenticeStaffT3,
-                ItemID.InfernoFork,
-                ItemID.HeatRay,
-                ItemID.BookofSkulls,
-                ItemID.ImpStaff,
-                ItemID.DD2FlameburstTowerT1Popper,
-                ItemID.DD2FlameburstTowerT2Popper,
-                ItemID.DD2FlameburstTowerT3Popper,
-                ItemID.MolotovCocktail,
-                ItemID.WandofSparking,
-                ItemType<AegisBlade>(),
-                ItemType<BalefulHarvester>(),
-                ItemType<Chaotrix>(),
-                ItemType<CometQuasher>(),
-                ItemType<DivineRetribution>(),
-                ItemType<DraconicDestruction>(),
-                ItemType<Drataliornus>(),
-                ItemType<EnergyStaff>(),
-                ItemType<ExsanguinationLance>(),
-                ItemType<FirestormCannon>(),
-                ItemType<FlameburstShortsword>(),
-                ItemType<FlameScythe>(),
-                ItemType<FlareBolt>(),
-                ItemType<FlarewingBow>(),
-                ItemType<ForbiddenSun>(),
-                ItemType<GreatbowofTurmoil>(),
-                ItemType<HarvestStaff>(),
-                ItemType<Hellborn>(),
-                ItemType<HellBurst>(),
-                ItemType<HellfireFlamberge>(),
-                ItemType<Hellkite>(),
-                ItemType<HellwingStaff>(),
-                ItemType<Helstorm>(),
-                ItemType<HellsSun>(),
-                ItemType<InfernaCutter>(),
-                ItemType<Lazhar>(),
-                ItemType<MeteorFist>(),
-                ItemType<Mourningstar>(),
-                ItemType<PhoenixBlade>(),
-                ItemType<RedSun>(),
-                ItemType<SparkSpreader>(),
-                ItemType<SpectralstormCannon>(),
-                ItemType<SunGodStaff>(),
-                ItemType<SunSpiritStaff>(),
-                ItemType<TerraFlameburster>(),
-                ItemType<TheLastMourning>(),
-                ItemType<TheWand>(),
-                ItemType<VenusianTrident>(),
-                ItemType<Vesuvius>(),
-                ItemType<BlissfulBombardier>(),
-                ItemType<HolyCollider>(),
-                ItemType<MoltenAmputator>(),
-                ItemType<PurgeGuzzler>(),
-                ItemType<SolarFlare>(),
-                ItemType<TelluricGlare>(),
-                ItemType<AngryChickenStaff>(),
-                ItemType<ChickenCannon>(),
-                ItemType<DragonRage>(),
-                ItemType<DragonsBreath>(),
-                ItemType<PhoenixFlameBarrage>(),
-                ItemType<ProfanedTrident>(),
-                ItemType<TheBurningSky>(),
-                ItemType<TotalityBreakers>(),
-                ItemType<ProfanedPartisan>(),
-                ItemType<BlastBarrel>(),
-                ItemType<LatcherMine>(),
-                ItemType<BouncingBetty>(),
-                ItemType<HeliumFlash>(),
-                ItemType<ShatteredSun>(),
-                ItemType<DivineHatchet>(),
-                ItemType<DazzlingStabberStaff>(),
-                ItemType<PristineFury>(),
-                ItemType<SarosPossession>(),
-                ItemType<CinderBlossomStaff>(),
-                ItemType<FinalDawn>(),
-                ItemType<DragonPow>()
-            };
-
-            iceWeaponList = new List<int>() // TODO: Fix this list.
-            {
-                ItemID.IceBlade,
-                ItemID.IceSickle,
-                ItemID.Frostbrand,
-                ItemID.Amarok,
-                ItemID.NorthPole,
-                ItemID.IceBoomerang,
-                ItemID.IceBow,
-                ItemID.SnowmanCannon,
-                ItemID.SnowballCannon,
-                ItemID.IceRod,
-                ItemID.FlowerofFrost,
-                ItemID.FrostStaff,
-                ItemID.BlizzardStaff,
-                ItemID.StaffoftheFrostHydra,
-                ItemID.Snowball,
-                ItemType<AbsoluteZero>(),
-                ItemType<Avalanche>(),
-                ItemType<GlacialCrusher>(),
-                ItemType<TemporalFloeSword>(),
-                ItemType<ColdheartIcicle>(),
-                ItemType<CosmicDischarge>(),
-                ItemType<EffluviumBow>(),
-                ItemType<EternalBlizzard>(),
-                ItemType<FrostbiteBlaster>(),
-                ItemType<IcicleStaff>(),
-                ItemType<BittercoldStaff>(),
-                ItemType<CrystalFlareStaff>(),
-                ItemType<IcicleTrident>(),
-                ItemType<SnowstormStaff>(),
-                ItemType<Cryophobia>(),
-                ItemType<FrostBolt>(),
-                ItemType<WintersFury>(),
-                ItemType<ArcticBearPaw>(),
-                ItemType<AncientIceChunk>(),
-                ItemType<CryogenicStaff>(),
-                ItemType<FrostyFlare>(),
-                ItemType<IceStar>(),
-                ItemType<Icebreaker>(),
-                ItemType<KelvinCatalyst>(),
-                ItemType<FrostcrushValari>(),
-                ItemType<Endogenesis>(),
-                ItemType<FlurrystormCannon>(),
-                ItemType<Hypothermia>(),
-                ItemType<IceBarrage>(),
-                ItemType<FrostBlossomStaff>(),
-                ItemType<EndoHydraStaff>(),
-                ItemType<Trinity>(),
-                ItemType<Shimmerspark>(),
-                ItemType<StarnightLance>(),
-                ItemType<DarkechoGreatbow>(),
-                ItemType<ShadecrystalTome>(),
-                ItemType<CrystalPiercer>(),
-                ItemType<DaedalusGolemStaff>()
-            };
-
-            natureWeaponList = new List<int>() // Includes drops and crafts from the Scourges, Giant Clam, Fishrons, Crabulon, Queen Bee, Abyss minibosses, GSS, and Acid Rain, listed A-Z.
-            {
-                ItemType<AbyssBlade>(),
-                ItemType<AbyssShocker>(),
-                ItemType<AcidGun>(),
-                ItemType<AcidicRainBarrel>(),
-                ItemType<Alluvion>(),
-                ItemType<AquamarineStaff>(),
-                ItemType<AquashardShotgun>(),
-                ItemType<AquaticDischarge>(),
-                ItemType<AquaticDissolution>(),
-                ItemType<ArchAmaryllis>(),
-                ItemType<Archerfish>(),
-                ItemType<BallOFugu>(),
-                ItemID.Bananarang,
-                ItemType<Barinade>(),
-                ItemType<Barinautical>(),
-                ItemType<Basher>(),
-                ItemID.BatScepter,
-                ItemID.BeeGun,
-                ItemID.BeeKeeper,
-                ItemID.Beenade,
-                ItemID.BeesKnees,
-                ItemType<BelladonnaSpiritStaff>(),
-                ItemType<BiomeBlade>(),
-                ItemType<BlackAnurian>(),
-                ItemType<BladedgeGreatbow>(),
-                ItemID.BladeofGrass,
-                ItemID.Bladetongue,
-                ItemType<BlossomFlux>(),
-                ItemType<Bonebreaker>(),
-                ItemType<BrackishFlask>(),
-                ItemType<BrinyBaron>(),
-                ItemID.BubbleGun,
-                ItemType<CalamarisLament>(),
-                ItemType<CausticCroakerStaff>(),
-                ItemID.ChlorophyteClaymore,
-                ItemID.ChlorophytePartisan,
-                ItemID.ChlorophyteSaber,
-                ItemID.ChlorophyteShotbow,
-                ItemID.ChristmasTreeSword,
-                ItemType<ClamCrusher>(),
-                ItemType<ClamorRifle>(),
-                ItemType<Cnidarian>(),
-                ItemType<ContaminatedBile>(),
-                ItemType<CoralCannon>(),
-                ItemType<CoralSpout>(),
-                ItemType<CorrodedCaustibow>(),
-                ItemID.CrystalSerpent,
-                ItemType<DeepseaStaff>(),
-                ItemType<DepthBlade>(),
-                ItemType<Downpour>(),
-                ItemType<DukesDecapitator>(),
-                ItemType<DuststormInABottle>(),
-                ItemType<EidolicWail>(),
-                ItemType<EvergladeSpray>(),
-                ItemType<FeralthornClaymore>(),
-                ItemID.Flairon,
-                ItemType<FlakToxicannon>(),
-                ItemType<Floodtide>(),
-                ItemID.FlowerPow,
-                ItemType<FourSeasonsGalaxia>(),
-                ItemID.FrostDaggerfish,
-                ItemType<Fungicide>(),
-                ItemType<GacruxianMollusk>(),
-                ItemType<GammaFusillade>(),
-                ItemType<GammaHeart>(),
-                ItemType<GastricBelcherStaff>(),
-                ItemType<GleamingMagnolia>(),
-                ItemType<Greentide>(),
-                ItemType<HardenedHoneycomb>(),
-                ItemType<HarvestStaff>(),
-                ItemType<HellionFlowerSpear>(),
-                ItemType<HerringStaff>(),
-                ItemID.HornetStaff,
-                ItemType<HyphaeRod>(),
-                ItemID.JungleYoyo,
-                ItemType<Lazhar>(),
-                ItemID.LeafBlower,
-                ItemType<LeviathanTeeth>(),
-                ItemType<Leviatitan>(),
-                ItemType<LifefruitScythe>(),
-                ItemType<Lionfish>(),
-                ItemType<MagicalConch>(),
-                ItemType<ManaRose>(),
-                ItemType<MangroveChakram>(),
-                ItemType<MantisClaws>(),
-                ItemType<Mariana>(),
-                ItemType<Miasma>(),
-                ItemType<Mistlestorm>(),
-                ItemType<Monsoon>(),
-                ItemID.MushroomSpear,
-                ItemType<MycelialClaws>(),
-                ItemType<Mycoroot>(),
-                ItemType<NastyCholla>(),
-                ItemType<Needler>(),
-                ItemType<NeptunesBounty>(),
-                ItemType<NettlelineGreatbow>(),
-                ItemType<OmegaBiomeBlade>(),
-                ItemType<OrthoceraShell>(),
-                ItemType<ParasiticSceptor>(),
-                ItemType<PhosphorescentGauntlet>(),
-                ItemType<PlantationStaff>(),
-                ItemType<PoisonPack>(),
-                ItemID.PoisonStaff,
-                ItemType<PolarisParrotfish>(),
-                ItemType<PolypLauncher>(),
-                ItemType<Poseidon>(),
-                ItemType<Prismalline>(),
-                ItemID.PygmyStaff,
-                ItemType<Quagmire>(),
-                ItemID.QueenSpiderStaff,
-                ItemID.RavenStaff,
-                ItemID.RazorbladeTyphoon,
-                ItemID.Razorpine,
-                ItemType<RedtideSword>(),
-                ItemType<SandDollar>(),
-                ItemType<SandSharknadoStaff>(),
-                ItemType<Sandslasher>(),
-                ItemType<SandstormGun>(),
-                ItemType<ScourgeoftheDesert>(),
-                ItemType<ScourgeoftheSeas>(),
-                ItemType<SeaboundStaff>(),
-                ItemType<Seabow>(),
-                ItemType<SeafoamBomb>(),
-                ItemType<SeashellBoomerang>(),
-                ItemType<SeashineSword>(),
-                ItemType<SeasSearing>(),
-                ItemID.Seedler,
-                ItemType<Serpentine>(),
-                ItemType<ShellfishStaff>(),
-                ItemType<Shellshooter>(),
-                ItemType<ShiftingSands>(),
-                ItemType<Shroomer>(),
-                ItemType<Shroomerang>(),
-                ItemType<SkyfinBombers>(),
-                ItemID.SlimeStaff,
-                ItemType<SlitheringEels>(),
-                ItemType<SnapClam>(),
-                ItemType<SolsticeClaymore>(),
-                ItemType<SoulEdge>(),
-                ItemType<SparklingEmpress>(),
-                ItemType<SpentFuelContainer>(),
-                ItemID.SpiderStaff,
-                ItemType<SporeKnife>(),
-                ItemType<Spyker>(),
-                ItemID.StaffofEarth,
-                ItemType<StormRuler>(),
-                ItemType<StormSaber>(),
-                ItemType<StormSpray>(),
-                ItemType<StormSurge>(),
-                ItemType<SubmarineShocker>(),
-                ItemType<SulphuricAcidCannon>(),
-                ItemType<SulphurousGrabber>(),
-                ItemType<TarragonThrowingDart>(),
-                ItemID.TempestStaff,
-                ItemType<TenebreusTides>(),
-                ItemID.TerraBlade,
-                ItemType<TerraDisk>(),
-                ItemType<TerraEdge>(),
-                ItemType<TerraFlameburster>(),
-                ItemType<TerraLance>(),
-                ItemType<TerraRay>(),
-                ItemType<TerraShiv>(),
-                ItemType<Terratomere>(),
-                ItemType<TheSwarmer>(),
-                ItemType<ThornBlossom>(),
-                ItemID.ThornChakram,
-                ItemType<Toxibow>(),
-                ItemID.Toxikarp,
-                ItemType<TrueBiomeBlade>(),
-                ItemID.Tsunami,
-                ItemType<Tumbleweed>(),
-                ItemType<UrchinFlail>(),
-                ItemType<UrchinSpear>(),
-                ItemType<Valediction>(),
-                ItemID.VenomStaff,
-                ItemType<Verdant>(),
-                ItemType<ViralSprout>(),
-                ItemType<ViridVanguard>(),
-                ItemID.WaspGun,
-                ItemType<Waywasher>(),
-                ItemType<Whirlpool>(),
-                ItemType<YateveoBloom>(),
-                ItemID.Yelets
-
             };
 
             alcoholList = new List<int>()
@@ -2365,6 +2041,444 @@ namespace CalamityMod
                 ProjectileType<ViolenceThrownProjectile>(),
             };
 
+			// Lists of enemies that resist piercing to some extent (mostly worms).
+			// Could prove useful for other things as well.
+
+			AstrumDeusIDs = new List<int>
+			{
+				NPCType<AstrumDeusHeadSpectral>(),
+				NPCType<AstrumDeusBodySpectral>(),
+				NPCType<AstrumDeusTailSpectral>()
+			};
+
+			DevourerOfGodsIDs = new List<int>
+			{
+				NPCType<DevourerofGodsHead>(),
+				NPCType<DevourerofGodsBody>(),
+				NPCType<DevourerofGodsTail>()
+			};
+
+			CosmicGuardianIDs = new List<int>
+			{
+				NPCType<DevourerofGodsHead2>(),
+				NPCType<DevourerofGodsBody2>(),
+				NPCType<DevourerofGodsTail2>()
+			};
+
+			AquaticScourgeIDs = new List<int>
+			{
+				NPCType<AquaticScourgeHead>(),
+				NPCType<AquaticScourgeBody>(),
+				NPCType<AquaticScourgeBodyAlt>(),
+				NPCType<AquaticScourgeTail>()
+			};
+
+			PerforatorIDs = new List<int>
+			{
+				NPCType<PerforatorHeadLarge>(),
+				NPCType<PerforatorBodyLarge>(),
+				NPCType<PerforatorTailLarge>(),
+				NPCType<PerforatorHeadMedium>(),
+				NPCType<PerforatorBodyMedium>(),
+				NPCType<PerforatorTailMedium>(),
+				NPCType<PerforatorHeadSmall>(),
+				NPCType<PerforatorBodySmall>(),
+				NPCType<PerforatorTailSmall>()
+			};
+
+			DesertScourgeIDs = new List<int>
+			{
+				NPCType<DesertScourgeHead>(),
+				NPCType<DesertScourgeBody>(),
+				NPCType<DesertScourgeTail>()
+			};
+
+			EaterofWorldsIDs = new List<int>
+			{
+				NPCID.EaterofWorldsHead,
+				NPCID.EaterofWorldsBody,
+				NPCID.EaterofWorldsTail
+			};
+
+			DeathModeSplittingWormIDs = new List<int>
+			{
+				NPCID.DuneSplicerHead,
+				NPCID.DuneSplicerBody,
+				NPCID.DuneSplicerTail,
+				NPCID.DiggerHead,
+				NPCID.DiggerBody,
+				NPCID.DiggerTail,
+				NPCID.SeekerHead,
+				NPCID.SeekerBody,
+				NPCID.SeekerTail
+			};
+
+			DestroyerIDs = new List<int>
+			{
+				NPCID.TheDestroyer,
+				NPCID.TheDestroyerBody,
+				NPCID.TheDestroyerTail
+			};
+
+			ThanatosIDs = new List<int>
+			{
+				NPCType<ThanatosHead>(),
+				NPCType<ThanatosBody1>(),
+				NPCType<ThanatosBody2>(),
+				NPCType<ThanatosTail>()
+			};
+
+			AresIDs = new List<int>
+			{
+				NPCType<AresBody>(),
+				NPCType<AresGaussNuke>(),
+				NPCType<AresLaserCannon>(),
+				NPCType<AresPlasmaFlamethrower>(),
+				NPCType<AresTeslaCannon>()
+			};
+
+			SkeletronPrimeIDs = new List<int>
+			{
+				NPCID.SkeletronPrime,
+				NPCID.PrimeCannon,
+				NPCID.PrimeLaser,
+				NPCID.PrimeSaw,
+				NPCID.PrimeVice
+			};
+
+			StormWeaverIDs = new List<int>
+			{
+				NPCType<StormWeaverHead>(),
+				NPCType<StormWeaverBody>(),
+				NPCType<StormWeaverTail>()
+			};
+
+			GrenadeResistIDs = new List<int>
+			{
+				ProjectileID.Grenade,
+				ProjectileID.StickyGrenade,
+				ProjectileID.BouncyGrenade,
+				ProjectileID.Bomb,
+				ProjectileID.StickyBomb,
+				ProjectileID.BouncyBomb,
+				ProjectileID.Dynamite,
+				ProjectileID.StickyDynamite,
+				ProjectileID.BouncyDynamite,
+				ProjectileID.Explosives,
+				ProjectileID.ExplosiveBunny,
+				ProjectileID.PartyGirlGrenade,
+				ProjectileID.BombFish,
+				ProjectileID.Beenade,
+				ProjectileID.Bee,
+				ProjectileID.GiantBee,
+				ProjectileType<AeroExplosive>()
+				//ProjectileID.ScarabBomb
+			};
+
+			ZeroContactDamageNPCList = new List<int>
+			{
+				NPCID.DarkCaster,
+				NPCID.FireImp,
+				NPCID.Tim,
+				NPCID.CultistArcherBlue,
+				NPCID.DesertDjinn,
+				NPCID.DiabolistRed,
+				NPCID.DiabolistWhite,
+				NPCID.Gastropod,
+				NPCID.IceElemental,
+				NPCID.IchorSticker,
+				NPCID.Necromancer,
+				NPCID.NecromancerArmored,
+				NPCID.RaggedCaster,
+				NPCID.RaggedCasterOpenCoat,
+				NPCID.RuneWizard,
+				NPCID.SkeletonArcher,
+				NPCID.SkeletonCommando,
+				NPCID.SkeletonSniper,
+				NPCID.TacticalSkeleton,
+				NPCID.Clown,
+				NPCID.GoblinArcher,
+				NPCID.GoblinSorcerer,
+				NPCID.GoblinSummoner,
+				NPCID.PirateCrossbower,
+				NPCID.PirateDeadeye,
+				NPCID.PirateCaptain,
+				NPCID.SnowmanGangsta,
+				NPCID.SnowBalla,
+				NPCID.DrManFly,
+				NPCID.Eyezor,
+				NPCID.Nailhead,
+				NPCID.MartianWalker,
+				NPCID.MartianTurret,
+				NPCID.ElfCopter,
+				NPCID.ElfArcher,
+				NPCID.NebulaBrain,
+				NPCID.StardustJellyfishBig,
+				NPCID.PirateShipCannon,
+				NPCID.MartianSaucer,
+				NPCID.MartianSaucerCannon,
+				NPCID.MartianSaucerCore,
+				NPCID.MartianSaucerTurret,
+				NPCID.Probe,
+				NPCID.CultistBoss,
+				NPCID.GolemHeadFree,
+				NPCID.MoonLordFreeEye,
+				//NPCID.BloodSquid,
+				NPCID.PlanterasHook
+			};
+
+			// Reduce contact damage by 25%
+			HardmodeNPCNerfList = new List<int>
+			{
+				NPCID.AnglerFish,
+				NPCID.AngryTrapper,
+				NPCID.Arapaima,
+				NPCID.BlackRecluse,
+				NPCID.BlackRecluseWall,
+				NPCID.BloodJelly,
+				NPCID.FungoFish,
+				NPCID.GreenJellyfish,
+				NPCID.Clinger,
+				NPCID.ArmoredSkeleton,
+				NPCID.ArmoredViking,
+				NPCID.Mummy,
+				NPCID.DarkMummy,
+				NPCID.LightMummy,
+				NPCID.BloodFeeder,
+				NPCID.DesertBeast,
+				NPCID.ChaosElemental,
+				//NPCID.BloodMummy,
+				NPCID.CorruptSlime,
+				NPCID.Slimeling,
+				NPCID.Corruptor,
+				NPCID.Crimslime,
+				NPCID.BigCrimslime,
+				NPCID.LittleCrimslime,
+				NPCID.CrimsonAxe,
+				NPCID.CursedHammer,
+				NPCID.Derpling,
+				NPCID.Herpling,
+				NPCID.DiggerHead,
+				NPCID.DiggerBody,
+				NPCID.DiggerTail,
+				NPCID.DesertGhoul,
+				NPCID.DesertGhoulCorruption,
+				NPCID.DesertGhoulCrimson,
+				NPCID.DesertGhoulHallow,
+				NPCID.DuneSplicerHead,
+				NPCID.DuneSplicerBody,
+				NPCID.DuneSplicerTail,
+				NPCID.EnchantedSword,
+				NPCID.FloatyGross,
+				NPCID.GiantBat,
+				NPCID.GiantFlyingFox,
+				NPCID.GiantFungiBulb,
+				NPCID.FungiSpore,
+				NPCID.GiantTortoise,
+				NPCID.IceTortoise,
+				NPCID.HoppinJack,
+				NPCID.Mimic,
+				NPCID.IchorSticker,
+				NPCID.IcyMerman,
+				NPCID.IlluminantBat,
+				NPCID.IlluminantSlime,
+				NPCID.JungleCreeper,
+				NPCID.JungleCreeperWall,
+				NPCID.DesertLamiaDark,
+				NPCID.DesertLamiaLight,
+				NPCID.BigMossHornet,
+				NPCID.GiantMossHornet,
+				NPCID.LittleMossHornet,
+				NPCID.MossHornet,
+				NPCID.TinyMossHornet,
+				NPCID.Moth,
+				NPCID.PigronCorruption,
+				NPCID.PigronCrimson,
+				NPCID.PigronHallow,
+				NPCID.Pixie,
+				NPCID.PossessedArmor,
+				//NPCID.RockGolem,
+				NPCID.DesertScorpionWalk,
+				NPCID.DesertScorpionWall,
+				NPCID.Slimer,
+				NPCID.Slimer2,
+				NPCID.ToxicSludge,
+				NPCID.Unicorn,
+				NPCID.WanderingEye,
+				NPCID.Werewolf,
+				NPCID.Wolf,
+				NPCID.SeekerHead,
+				NPCID.SeekerBody,
+				NPCID.SeekerTail,
+				NPCID.Wraith,
+				NPCID.ChatteringTeethBomb,
+				NPCID.Clown,
+				NPCID.AngryNimbus,
+				NPCID.IceGolem,
+				NPCID.RainbowSlime,
+				NPCID.SandShark,
+				NPCID.SandsharkCorrupt,
+				NPCID.SandsharkCrimson,
+				NPCID.SandsharkHallow,
+				NPCID.ShadowFlameApparition,
+				NPCID.Parrot,
+				NPCID.PirateCorsair,
+				NPCID.PirateDeckhand,
+				//NPCID.PiratesCurse,
+				NPCID.BlueArmoredBonesMace,
+				NPCID.BlueArmoredBonesSword,
+				NPCID.BoneLee,
+				NPCID.DungeonSpirit,
+				NPCID.FlyingSnake,
+				NPCID.HellArmoredBones,
+				NPCID.HellArmoredBonesSpikeShield,
+				NPCID.HellArmoredBonesSword,
+				NPCID.MisterStabby,
+				NPCID.SnowBalla,
+				NPCID.SnowmanGangsta,
+				NPCID.Butcher,
+				NPCID.CreatureFromTheDeep,
+				NPCID.DeadlySphere,
+				NPCID.Frankenstein,
+				NPCID.Fritz,
+				NPCID.Psycho,
+				NPCID.Reaper,
+				NPCID.SwampThing,
+				NPCID.ThePossessed,
+				NPCID.Vampire,
+				NPCID.VampireBat,
+				NPCID.HeadlessHorseman,
+				NPCID.Hellhound,
+				NPCID.Poltergeist,
+				NPCID.Scarecrow1,
+				NPCID.Scarecrow2,
+				NPCID.Scarecrow3,
+				NPCID.Scarecrow4,
+				NPCID.Scarecrow5,
+				NPCID.Scarecrow6,
+				NPCID.Scarecrow7,
+				NPCID.Scarecrow8,
+				NPCID.Scarecrow9,
+				NPCID.Scarecrow10,
+				NPCID.Splinterling,
+				NPCID.Flocko,
+				NPCID.GingerbreadMan,
+				NPCID.Krampus,
+				NPCID.Nutcracker,
+				NPCID.NutcrackerSpinning,
+				NPCID.PresentMimic,
+				NPCID.Yeti,
+				NPCID.ZombieElf,
+				NPCID.ZombieElfBeard,
+				NPCID.ZombieElfGirl
+				//NPCID.BloodEelHead,
+				//NPCID.BloodEelBody,
+				//NPCID.BloodEelTail,
+				//NPCID.HemogoblinShark,
+				//NPCID.WanderingEyeFish,
+				//NPCID.ZombieMerman,
+			};
+
+			BoundNPCIDs = new List<int>
+			{
+				NPCID.BoundGoblin,
+				NPCID.BoundWizard,
+				NPCID.BoundMechanic,
+				NPCID.SleepingAngler,
+				NPCID.BartenderUnconscious,
+				NPCID.WebbedStylist,
+				//NPCID.GolferRescue
+			};
+
+			// Collections
+			// NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
+			BossRushHPChanges = new SortedDictionary<int, int>
+			{
+				// Tier 1
+				{ NPCID.QueenBee, 315000 }, // 30 seconds
+
+				{ NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
+				{ NPCID.Creeper, 10000 },
+
+				{ NPCID.KingSlime, 300000 }, // 30 seconds
+				{ NPCID.BlueSlime, 3600 },
+				{ NPCID.SlimeSpiked, 7200 },
+				{ NPCID.GreenSlime, 2700 },
+				{ NPCID.RedSlime, 5400 },
+				{ NPCID.PurpleSlime, 7200 },
+				{ NPCID.YellowSlime, 6300 },
+				{ NPCID.IceSlime, 4500 },
+				{ NPCID.UmbrellaSlime, 5400 },
+				{ NPCID.RainbowSlime, 30000 },
+				{ NPCID.Pinky, 15000 },
+
+				{ NPCID.EyeofCthulhu, 450000 }, // 30 seconds
+				{ NPCID.ServantofCthulhu, 6000 },
+
+				{ NPCID.SkeletronPrime, 110000 }, // 30 seconds
+				{ NPCID.PrimeVice, 54000 },
+				{ NPCID.PrimeCannon, 45000 },
+				{ NPCID.PrimeSaw, 45000 },
+				{ NPCID.PrimeLaser, 38000 },
+
+				{ NPCID.Golem, 50000 }, // 30 seconds
+				{ NPCID.GolemHead, 30000 },
+				{ NPCID.GolemHeadFree, 30000 },
+				{ NPCID.GolemFistLeft, 25000 },
+				{ NPCID.GolemFistRight, 25000 },
+
+				{ NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
+				{ NPCID.EaterofWorldsBody, 10000 },
+				{ NPCID.EaterofWorldsTail, 10000 },
+
+				// Tier 2
+				{ NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
+				{ NPCID.TheDestroyerBody, 250000 },
+				{ NPCID.TheDestroyerTail, 250000 },
+				{ NPCID.Probe, 10000 },
+
+				{ NPCID.Spazmatism, 150000 }, // 30 seconds
+				{ NPCID.Retinazer, 125000 },
+
+				{ NPCID.WallofFlesh, 450000 }, // 30 seconds
+				{ NPCID.WallofFleshEye, 450000 },
+
+				{ NPCID.SkeletronHead, 160000 }, // 30 seconds
+				{ NPCID.SkeletronHand, 60000 },
+
+				// Tier 3
+				{ NPCID.CultistBoss, 220000 }, // 30 seconds
+				{ NPCID.CultistDragonHead, 60000 },
+				{ NPCID.CultistDragonBody1, 60000 },
+				{ NPCID.CultistDragonBody2, 60000 },
+				{ NPCID.CultistDragonBody3, 60000 },
+				{ NPCID.CultistDragonBody4, 60000 },
+				{ NPCID.CultistDragonTail, 60000 },
+				{ NPCID.AncientCultistSquidhead, 50000 },
+
+				{ NPCID.Plantera, 160000 }, // 30 seconds
+				{ NPCID.PlanterasTentacle, 40000 },
+
+				// Tier 4
+				{ NPCID.DukeFishron, 290000 }, // 30 seconds
+
+				{ NPCID.MoonLordCore, 160000 }, // 1 minute
+				{ NPCID.MoonLordHand, 45000 },
+				{ NPCID.MoonLordHead, 60000 },
+				{ NPCID.MoonLordLeechBlob, 800 }
+
+				// 8 minutes in total for vanilla Boss Rush bosses
+			};
+
+			BossValues = new SortedDictionary<int, int>
+			{
+				{ NPCID.QueenBee, Item.buyPrice(0, 5)},
+				{ NPCID.SkeletronHead, Item.buyPrice(0, 7) },
+				{ NPCID.DukeFishron, Item.buyPrice(0, 25) },
+				{ NPCID.CultistBoss, Item.buyPrice(0, 25) },
+				{ NPCID.MoonLordCore, Item.buyPrice(0, 30) }
+			};
+
             bossTypes = new SortedDictionary<int, int>()
             {
                 { NPCID.KingSlime, 1 },
@@ -2459,9 +2573,6 @@ namespace CalamityMod
                 NPCID.WallofFleshEye,
                 NPCID.TheHungry,
                 NPCID.TheHungryII,
-                NPCType<Cryocore>(),
-                NPCType<Cryocore2>(),
-                NPCType<IceMass>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,
@@ -2476,7 +2587,6 @@ namespace CalamityMod
                 NPCType<AquaticScourgeTail>(),
                 NPCType<CalamitasRun>(),
                 NPCType<CalamitasRun2>(),
-                NPCType<LifeSeeker>(),
                 NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
                 NPCType<AureusSpawn>(),
@@ -2487,8 +2597,6 @@ namespace CalamityMod
                 NPCID.GolemFistRight,
                 NPCType<PlagueMine>(),
                 NPCType<PlagueHomingMissile>(),
-                NPCType<PlagueBeeG>(),
-                NPCType<PlagueBeeLargeG>(),
                 NPCType<RavagerClawLeft>(),
                 NPCType<RavagerClawRight>(),
                 NPCType<RavagerLegLeft>(),
@@ -2513,8 +2621,6 @@ namespace CalamityMod
                 NPCType<DevourerofGodsHead2>(),
                 NPCType<DevourerofGodsBody2>(),
                 NPCType<DevourerofGodsTail2>(),
-                NPCType<DetonatingFlare>(),
-                NPCType<DetonatingFlare2>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>()
             };
@@ -2588,9 +2694,6 @@ namespace CalamityMod
             beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
-            fireWeaponList = null;
-            iceWeaponList = null;
-            natureWeaponList = null;
             alcoholList = null;
             spearAutoreuseList = null;
             pumpkinMoonBuffList = null;
@@ -2638,6 +2741,28 @@ namespace CalamityMod
             pierceResistList = null;
             pierceResistExceptionList = null;
 
+            AstrumDeusIDs = null;
+            DevourerOfGodsIDs = null;
+            CosmicGuardianIDs = null;
+            AquaticScourgeIDs = null;
+            PerforatorIDs = null;
+            DesertScourgeIDs = null;
+            EaterofWorldsIDs = null;
+            DeathModeSplittingWormIDs = null;
+			DestroyerIDs = null;
+            ThanatosIDs = null;
+            AresIDs = null;
+			SkeletronPrimeIDs = null;
+            StormWeaverIDs = null;
+            BoundNPCIDs = null;
+			GrenadeResistIDs = null;
+            ZeroContactDamageNPCList = null;
+            HardmodeNPCNerfList = null;
+
+            BossRushHPChanges?.Clear();
+            BossRushHPChanges = null;
+            BossValues?.Clear();
+            BossValues = null;
             bossTypes?.Clear();
             bossTypes = null;
 

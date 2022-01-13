@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class DevilFishBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Devil Fish");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

@@ -9,15 +9,14 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaos Amulet");
-            Tooltip.SetDefault("Spelunker effect and increased life regen");
+            DisplayName.SetDefault("Spelunker's Amulet");
+            Tooltip.SetDefault("Spelunker effect and 15% increased mining speed");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 24;
-            item.lifeRegen = 2;
+            item.width = 22;
+            item.height = 32;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
             item.rare = ItemRarityID.LightRed;
             item.accessory = true;
@@ -25,13 +24,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.pickSpeed -= 0.15f;
             player.findTreasure = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
+            recipe.AddIngredient(ItemID.GoldDust, 7);
             recipe.AddIngredient(ItemID.SpelunkerPotion, 7);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

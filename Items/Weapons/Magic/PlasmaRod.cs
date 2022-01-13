@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Plasma Rod");
             Tooltip.SetDefault("Casts a low-damage plasma bolt\n" +
                 "Shooting a tile will cause several bolts with increased damage to fire\n" +
-                "Shooting an enemy will cause several debuffs for a short time");
+                "Shooting an enemy will inflict shadowflame for a long duration");
             Item.staff[item.type] = true;
         }
 

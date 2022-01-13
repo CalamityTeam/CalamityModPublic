@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.LifeMaxNERB(80000, 92000, 1000000);
+            npc.LifeMaxNERB(77000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -62,7 +62,12 @@ namespace CalamityMod.NPCs.AquaticScourge
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
-        }
+
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -179,16 +184,15 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Aquatic Scourge
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

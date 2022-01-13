@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
@@ -49,7 +47,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
                 npc.lifeMax = 10000;
             }
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

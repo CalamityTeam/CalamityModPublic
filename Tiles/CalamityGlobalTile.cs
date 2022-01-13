@@ -9,6 +9,8 @@ using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
+using CalamityMod.Tiles.Furniture;
+using CalamityMod.Tiles.FurnitureExo;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
@@ -568,14 +570,17 @@ namespace CalamityMod.Tiles
 		public override int[] AdjTiles (int type)
 		{
 			// Ashen, Ancient and Profaned Sinks all count as a lava source instead of a water source
+			// Exo Sinks count as a water, lava, and honey source
 			if (type == ModContent.TileType<FurnitureAncient.AncientSink>() || 
 				type == ModContent.TileType<FurnitureAshen.AshenSink>() || 
-				type == ModContent.TileType<FurnitureProfaned.ProfanedSink>())
+				type == ModContent.TileType<FurnitureProfaned.ProfanedSink>() || 
+				type == ModContent.TileType<ExoSinkTile>())
 			{
 				Main.LocalPlayer.adjLava = true;
 			}
 			// Botanic Sink counts as a honey source instead of a water source
-			if (type == ModContent.TileType<FurnitureBotanic.BotanicSink>())
+			if (type == ModContent.TileType<FurnitureBotanic.BotanicSink>() || 
+				type == ModContent.TileType<ExoSinkTile>())
 			{
 				Main.LocalPlayer.adjHoney = true;
 			}

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 165;
             item.ranged = true;
-            item.width = 60;
+            item.width = 62;
             item.height = 90;
             item.useTime = 15;
             item.useAnimation = 30;
@@ -95,6 +95,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Monsoon>());
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class SmallSightseerBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Small Sightseer");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

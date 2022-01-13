@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -34,9 +35,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Chair");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }

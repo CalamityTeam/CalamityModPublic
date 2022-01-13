@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Leggings");
-            Tooltip.SetDefault("15% increased movement speed\n" +
+            Tooltip.SetDefault("10% increased movement speed\n" +
                                "Treasure and ore detection");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.15f;
+            player.moveSpeed += 0.1f;
             player.findTreasure = true;
         }
 

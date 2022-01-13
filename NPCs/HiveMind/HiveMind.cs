@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 178;
             npc.height = 122;
             npc.defense = 8;
-            npc.LifeMaxNERB(7000, 9360, 350000);
+            npc.LifeMaxNERB(7800, 9360, 350000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -146,7 +146,10 @@ namespace CalamityMod.NPCs.HiveMind
 
             phase2timer = minimumDriftTime;
             rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
 		public override void BossHeadSlot(ref int index)
 		{
@@ -1094,13 +1097,12 @@ namespace CalamityMod.NPCs.HiveMind
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

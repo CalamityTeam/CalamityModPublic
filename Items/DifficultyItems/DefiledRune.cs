@@ -11,7 +11,7 @@ namespace CalamityMod.Items.DifficultyItems
 		{
 			DisplayName.SetDefault("Defiled Feather");
 			Tooltip.SetDefault("It's a long way down from a mountain...\n" +
-				"Favorite this item to disable wings.");
+				"Favorite this item to disable wings but increase the effectiveness of double jumps.");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 8));
 		}
 

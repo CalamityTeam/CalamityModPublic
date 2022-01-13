@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Magic
 
         private int echoCooldown = 0;
         private bool playedSound = false;
-        private static int penetrationAmt = 50;
 
         public override void SetStaticDefaults()
         {
@@ -30,10 +29,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.penetrate = penetrationAmt;
-            projectile.magic = true;
+            projectile.penetrate = -1;
+			projectile.extraUpdates = 1;
+			projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 16;
             projectile.timeLeft = 450;
             projectile.Calamity().PierceResistHarshness = 0.06f;
             projectile.Calamity().PierceResistCap = 0.4f;
@@ -82,28 +82,24 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)((double)damage * projectile.localAI[0] * (0.5D + (0.5D / projectile.penetrate)));
+            damage = (int)(damage * projectile.localAI[0]);
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)((double)damage * projectile.localAI[0] * (0.5D + (0.5D / projectile.penetrate)));
+            damage = (int)(damage * projectile.localAI[0]);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-            target.AddBuff(BuffID.Ichor, 300);
-            target.AddBuff(BuffID.Electrified, 600);
-            projectile.velocity *= 0.85f;
-
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             if (echoCooldown <= 0)
             {
-                echoCooldown = 60;
+                echoCooldown = 120;
                 int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
                 int echoDamage = (int)(0.2f * projectile.damage);
                 float echoKB = projectile.knockBack / 3;
-                int echos = 5;
+                int echos = 2;
                 for (int i = 0; i < echos; ++i)
                 {
                     float startDist = Main.rand.NextFloat(260f, 270f);

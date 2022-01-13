@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.width = 60;
             item.height = 64;
-            item.useTime = 23;
-            item.useAnimation = 23;
+            item.useTime = 21;
+            item.useAnimation = 21;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6f;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MiniSharkron>();
-            item.shootSpeed = 7f;
+            item.shootSpeed = 18f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

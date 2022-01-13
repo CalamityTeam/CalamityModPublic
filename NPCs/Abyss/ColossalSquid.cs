@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 180;
             npc.height = 180;
             npc.defense = 50;
-			npc.DR_NERD(0.05f);
+            npc.DR_NERD(0.05f);
             npc.lifeMax = 130000; // Previously 220,000
             npc.aiStyle = -1;
             aiType = -1;
@@ -47,6 +47,10 @@ namespace CalamityMod.NPCs.Abyss
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ColossalSquidBanner>();
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -550,8 +554,9 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ItemID.BlackInk, 3, 5);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 26, 38);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
+            int minCells = Main.expertMode ? 31 : 26;
+            int maxCells = Main.expertMode ? 45 : 38;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<CalamarisLament>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), 10, 1, 1);
         }

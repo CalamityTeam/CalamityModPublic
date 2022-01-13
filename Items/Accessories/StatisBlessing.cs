@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.PapyrusScarab);
             recipe.AddIngredient(ItemID.PygmyNecklace);
             recipe.AddIngredient(ItemID.SummonerEmblem);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddIngredient(ItemID.HolyWater, 30);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

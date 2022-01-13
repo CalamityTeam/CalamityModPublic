@@ -144,6 +144,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Damage();
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 16f * projectile.scale, targetHitbox);
+
 		public override bool CanHitPlayer(Player target)
 		{
 			Rectangle targetHitbox = target.Hitbox;

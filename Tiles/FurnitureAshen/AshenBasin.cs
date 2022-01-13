@@ -23,7 +23,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             name.SetDefault("Ashen Basin");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Torches };
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

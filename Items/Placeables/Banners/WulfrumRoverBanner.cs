@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class WulfrumRoverBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Rover");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

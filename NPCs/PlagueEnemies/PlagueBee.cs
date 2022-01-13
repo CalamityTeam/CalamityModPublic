@@ -37,7 +37,9 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.noTileCollide = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PlagueChargerBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 30;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(18750, 26250, 20000); // Old HP - 25000, 35000
+            npc.LifeMaxNERB(21875, 26250, 20000); // Old HP - 25000, 35000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -46,7 +46,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             aiType = -1;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -296,7 +300,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
             npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 

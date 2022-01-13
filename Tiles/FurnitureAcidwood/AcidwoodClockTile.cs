@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Acidwood Clock");
+            name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

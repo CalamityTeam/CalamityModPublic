@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Botanic Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

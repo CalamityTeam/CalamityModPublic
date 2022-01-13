@@ -11,17 +11,17 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Crown Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 10 defense");
+                "While under the effects of a damaging debuff you will gain 8 defense");
         }
 
         public override void SetDefaults()
         {
+			item.defense = 5;
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
             item.rare = ItemRarityID.Blue;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)

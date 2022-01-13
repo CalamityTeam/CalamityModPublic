@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Void Bed");
+            name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };

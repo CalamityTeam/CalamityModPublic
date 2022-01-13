@@ -53,8 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(3))
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
+			target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
         }
     }
 }

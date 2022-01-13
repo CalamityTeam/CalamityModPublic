@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1);
-            recipe.AddIngredient(ItemID.StoneBlock, 20);
+            recipe.AddRecipeGroup("AnyStoneBlock", 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();

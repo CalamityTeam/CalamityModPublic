@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class ImpiousImmolatorBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Impious Immolator");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

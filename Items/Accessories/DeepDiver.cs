@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Accessories
 			item.rare = ItemRarityID.Pink;
 			item.defense = 8;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)

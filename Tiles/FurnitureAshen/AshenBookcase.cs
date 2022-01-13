@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ashen Bookcase");
+            name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 72;
             adjTiles = new int[] { TileID.Bookcases };

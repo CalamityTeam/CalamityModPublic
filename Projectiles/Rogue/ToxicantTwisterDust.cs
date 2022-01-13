@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
         }
     }
 }

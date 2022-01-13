@@ -1,10 +1,10 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class Cryon : ModNPC
@@ -32,7 +32,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
 			npc.coldDamage = true;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void AI()
         {

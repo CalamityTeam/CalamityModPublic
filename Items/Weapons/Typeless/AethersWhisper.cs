@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Aether's Whisper");
-			Tooltip.SetDefault("Inflicts several long-lasting debuffs and splits on tile hits\n" +
+			Tooltip.SetDefault("Inflicts long-lasting shadowflame and splits on tile hits\n" +
 				"Projectiles gain damage as they travel\n" +
 				"Right click to change from magic to ranged damage\n" +
 				"Right click consumes no mana");

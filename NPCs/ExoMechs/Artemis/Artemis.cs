@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             npc.height = 226;
             npc.defense = 80;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(1300000, 1495000, 500000);
+			npc.LifeMaxNERB(1250000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -157,6 +157,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             npc.netAlways = true;
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
 		public override void BossHeadSlot(ref int index)
@@ -343,6 +345,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// If Artemis and Apollo don't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoPrimeLifeRatio < 0.4f;
 
+			// Whether Artemis and Apollo should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			// Spawn Apollo if it doesn't exist after the first 10 frames have passed
 			if (npc.ai[0] < 10f)
 			{
@@ -402,7 +407,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
 			float normalAttackTime = 360f - reducedTimeForGateValue;
 			float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
-			float attackPhaseGateValue = berserk ? berserkAttackTime : normalAttackTime;
+			float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
@@ -446,7 +451,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = ((AIState == (int)Phase.Deathray || lineUpAttack || AIState == (int)Phase.LaserShotgun) ? 40f : 20f) * baseVelocityMult;
 			float decelerationVelocityMult = 0.85f;
 
@@ -460,8 +465,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			if (pickNewLocation)
 			{
 				pickNewLocation = false;
+
 				npc.localAI[0] = Main.rand.Next(-50, 51);
 				npc.localAI[1] = Main.rand.Next(-250, 251);
+				if (SecondaryAIState == (float)SecondaryPhase.Passive)
+				{
+					npc.localAI[0] *= 0.5f;
+					npc.localAI[1] *= 0.5f;
+				}
+
 				npc.netUpdate = true;
 			}
 
@@ -469,7 +481,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
 			float destinationX = flyLeft ? -750f : 750f;
 			float destinationY = player.Center.Y;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? spinLocation : new Vector2(player.Center.X + destinationX, destinationY);
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
+				SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
+				AIState == (float)Phase.Deathray ? spinLocation :
+				new Vector2(player.Center.X + destinationX, destinationY);
 
 			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
 			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)
@@ -602,165 +617,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			switch ((int)SecondaryAIState)
 			{
 				case (int)SecondaryPhase.Nothing:
-
-					// Spawn the other mechs if Artemis and Apollo are first
-					// Note: Only Apollo spawns the mechs because the twins HP values are linked
-					if (otherExoMechsAlive == 0)
-					{
-						if (spawnOtherExoMechs)
-						{
-							// Reset everything
-							npc.ai[1] = 0f;
-							npc.ai[2] = 0f;
-							if (npc.ai[3] < 1f)
-								npc.ai[3] = 1f;
-
-							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-							npc.localAI[0] = 0f;
-							npc.localAI[1] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							rotationDirection = 0;
-							chargeVelocityNormalized = default;
-							spinningPoint = default;
-							spinVelocity = default;
-						}
-					}
-					else
-					{
-						// If not spawned first, go to passive state if any other mech is passive or if Artemis and Apollo are under 70% life
-						// Do not run this if berserk
-						// Do not run this if any exo mech is dead
-						if ((anyOtherExoMechPassive || lifeRatio < 0.7f) && !berserk && totalOtherExoMechLifeRatio < 5f)
-						{
-							// Tells Artemis to return to the battle in passive state and reset everything
-							SecondaryAIState = (float)SecondaryPhase.Passive;
-							npc.ai[1] = 0f;
-							npc.ai[2] = 0f;
-							npc.localAI[0] = 0f;
-							npc.localAI[1] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							rotationDirection = 0;
-							chargeVelocityNormalized = default;
-							spinningPoint = default;
-							spinVelocity = default;
-						}
-
-						// Go passive and immune if one of the other mechs is berserk
-						// This is only called if two exo mechs are alive
-						if (otherMechIsBerserk)
-						{
-							// Reset everything
-							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-							npc.ai[1] = 0f;
-							npc.ai[2] = 0f;
-							npc.localAI[0] = 0f;
-							npc.localAI[1] = 0f;
-							npc.localAI[2] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
-							rotationDirection = 0;
-							chargeVelocityNormalized = default;
-							spinningPoint = default;
-							spinVelocity = default;
-						}
-					}
-
 					break;
 
 				// Fire projectiles less often
 				case (int)SecondaryPhase.Passive:
-
-					// Fire lasers while passive
-					AIState = (float)Phase.Normal;
-
-					// Enter passive and invincible phase if one of the other exo mechs is berserk
-					if (otherMechIsBerserk)
-					{
-						// Reset everything
-						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.localAI[0] = 0f;
-						npc.localAI[1] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						rotationDirection = 0;
-						chargeVelocityNormalized = default;
-						spinningPoint = default;
-						spinVelocity = default;
-					}
-
-					// If Artemis and Apollo are the first mechs to go berserk
-					if (berserk)
-					{
-						// Reset everything
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.localAI[0] = 0f;
-						npc.localAI[1] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						rotationDirection = 0;
-						chargeVelocityNormalized = default;
-						spinningPoint = default;
-						spinVelocity = default;
-
-						// Never be passive if berserk
-						SecondaryAIState = (float)SecondaryPhase.Nothing;
-					}
-
 					break;
 
 				// Fly above target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
-
-					// Do nothing while immune
-					AIState = (float)Phase.Normal;
-
-					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f) && !otherMechIsBerserk)
-					{
-						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
-						// Return to normal phases if one or more mechs have been downed
-						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.localAI[0] = 0f;
-						npc.localAI[1] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						rotationDirection = 0;
-						chargeVelocityNormalized = default;
-						spinningPoint = default;
-						spinVelocity = default;
-					}
-
-					if (berserk)
-					{
-						// Reset everything
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.localAI[0] = 0f;
-						npc.localAI[1] = 0f;
-						npc.localAI[2] = 0f;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						rotationDirection = 0;
-						chargeVelocityNormalized = default;
-						spinningPoint = default;
-						spinVelocity = default;
-
-						// Never be passive if berserk
-						SecondaryAIState = (float)SecondaryPhase.Nothing;
-					}
-
 					break;
 			}
 
@@ -788,6 +652,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					if (!stopRotatingAndSlowDown)
 					{
+						// Set charge variable to default
+						chargeVelocityNormalized = default;
+
 						// Inverse lerp returns the percentage of progress between A and B
 						float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
@@ -1022,7 +889,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
-						npc.localAI[2] = berserk ? 1f : 0f;
+						npc.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 					}
 

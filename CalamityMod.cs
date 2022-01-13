@@ -207,7 +207,10 @@ namespace CalamityMod
             ExoChairSlowdownHotkey = RegisterHotKey("Exo Chair Slow Down", "RightShift");
 
             if (!Main.dedServ)
+            {
                 LoadClient();
+                GeneralParticleHandler.Load();
+            }
 
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
@@ -253,6 +256,8 @@ namespace CalamityMod
             AddEquipTexture(new OmegaBlueTransformationHead(), null, EquipType.Head, "OmegaBlueTransformationHead", "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness");
 
             AddEquipTexture(new AbyssDivingGearHair(), null, EquipType.Head, "AbyssDivingGearHead", "CalamityMod/Items/Accessories/AbyssalDivingGear_Face");
+            AddEquipTexture(new FeatherCrownHair(), null, EquipType.Head, "FeatherCrownHead", "CalamityMod/Items/Accessories/FeatherCrown_Face");
+            AddEquipTexture(new MoonstoneCrownHair(), null, EquipType.Head, "MoonstoneCrownHead", "CalamityMod/Items/Accessories/MoonstoneCrown_Face");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
@@ -297,7 +302,7 @@ namespace CalamityMod
 
             CalamityShaders.LoadShaders();
             FusableParticleManager.LoadParticleRenderSets();
-            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
+            Main.OnPreDraw += PrepareRenderTargets;
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
@@ -382,7 +387,7 @@ namespace CalamityMod
             TileFraming.Unload();
 
             FusableParticleManager.UnloadParticleRenderSets();
-            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
+            Main.OnPreDraw -= PrepareRenderTargets;
 
             RipperUI.Unload();
             AstralArcanumUI.Unload();
@@ -394,6 +399,7 @@ namespace CalamityMod
                 Main.rainTexture = rainOriginal;
                 Main.manaTexture = manaOriginal;
                 Main.flyingCarpetTexture = carpetOriginal;
+                GeneralParticleHandler.Unload();
             }
             Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
@@ -419,6 +425,14 @@ namespace CalamityMod
             TileFraming.Load();
         }
         #endregion
+
+        #region Render Target Management
+        public static void PrepareRenderTargets(GameTime gameTime)
+        {
+            FusableParticleManager.PrepareFusableParticleTargets();
+            DeathAshParticle.PrepareRenderTargets();
+        }
+        #endregion Render Target Management
 
         #region ConfigCrap
         internal static void SaveConfig(CalamityConfig cfg)
@@ -675,7 +689,6 @@ namespace CalamityMod
                 { NPCID.TheDestroyer, bitingEnemeyVelocityScale },
                 { NPCID.TheDestroyerBody, velocityScaleMin },
                 { NPCID.TheDestroyerTail, velocityScaleMin },
-                { NPCID.Probe, velocityScaleMin },
                 { NPCID.SkeletronPrime, velocityScaleMin },
                 { NPCID.PrimeCannon, velocityScaleMin },
                 { NPCID.PrimeLaser, velocityScaleMin },
@@ -713,15 +726,14 @@ namespace CalamityMod
                 { ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
                 { ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
                 { ModContent.NPCType<Cryogen>(), velocityScaleMin },
-                { ModContent.NPCType<Cryocore>(), velocityScaleMin },
-                { ModContent.NPCType<Cryocore2>(), velocityScaleMin },
-                { ModContent.NPCType<IceMass>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+				{ ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
@@ -729,9 +741,6 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
                 { ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
-                { ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
-                { ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
-                { ModContent.NPCType<PlagueBeeLargeG>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerBody>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerClawRight>(), velocityScaleMin },
@@ -760,8 +769,6 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
                 { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
-                { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
-                { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
                 { ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
                 { ModContent.NPCType<Artemis>(), velocityScaleMin },
@@ -822,7 +829,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheAbyss") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss1") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -830,7 +837,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheDeepAbyss") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss2") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -838,7 +845,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheVoid") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss3") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -857,12 +864,12 @@ namespace CalamityMod
 
                             // Regular Sulphur Sea theme, when Acid Rain is not occurring
                             else
-                                music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
+                                music = GetMusicFromMusicMod("SulphurousSea") ?? MusicID.Desert;
                         }
                     }
 					if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
 					{
-						music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+						music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 						priority = MusicPriority.BossMedium;
 					}
 
@@ -1583,13 +1590,27 @@ namespace CalamityMod
         public override void MidUpdateTimeWorld() => TileEntityTimeHandler.Update();
         #endregion
 
+        #region Ash Drawing
+        public override void MidUpdateItemDust() => DeathAshParticle.UpdateAll();
+        #endregion Ash Drawing
+
         #region Post NPC Updating
         // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.
-        public override void MidUpdateNPCGore() => CalamityGlobalTownNPC.ResetTownNPCNameBools();
+        public override void MidUpdateNPCGore() => CalamityGlobalNPC.ResetTownNPCNameBools();
         #endregion
 
         #region Speedrun Timer Stopper
         public override void PreSaveAndQuit() => SpeedrunTimer?.Stop();
+        #endregion
+
+        #region Particles updating
+        public override void PostUpdateEverything()
+        {
+            if (!Main.dedServ)
+            {
+                GeneralParticleHandler.Update();
+            }
+        }
         #endregion
     }
 }

@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Tesla Cannon");
 			Tooltip.SetDefault("Lightweight energy cannon that blasts an intense electrical beam that explodes\n" +
-				"Beams can arc to nearby targets\n" +
-				"Inflicts severe nervous system damage to organic targets");
+				"Beams can arc to nearby targets");
 		}
 
 		public override void SetDefaults()

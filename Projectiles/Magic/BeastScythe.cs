@@ -140,15 +140,15 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.OnFire, 180);
 			if (Main.rand.NextBool(3))
 			{
-				target.AddBuff(BuffID.ShadowFlame, 300);
+				target.AddBuff(BuffID.ShadowFlame, 90);
 			}
 			else if (Main.rand.NextBool(2))
 			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
 			}
 			else
 			{
-				target.AddBuff(BuffID.Frostburn, 300);
+				target.AddBuff(BuffID.Frostburn, 150);
 			}
         }
 

@@ -9,13 +9,13 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Giant Tortoise Shell");
-            Tooltip.SetDefault("10% reduced movement speed\n" +
+            Tooltip.SetDefault("10% decreased movement speed\n" +
                 "Enemies take damage when they hit you");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 12;
+            item.defense = 14;
             item.width = 20;
             item.height = 24;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;

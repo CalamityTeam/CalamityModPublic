@@ -20,14 +20,14 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			item.width = 74;
 			item.height = 70;
-			item.damage = 201;
+			item.damage = 248;
 			item.knockBack = 7f;
 			item.magic = true;
 			item.useAnimation = item.useTime = 12;
 			item.mana = 20;
 			item.useTurn = true;
 			item.autoReuse = true;
-			item.shootSpeed = 12f;
+			item.shootSpeed = 13.5f;
 			item.shoot = ModContent.ProjectileType<TacticiansTrumpCardProj>();
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;

@@ -46,12 +46,12 @@ namespace CalamityMod.NPCs.Ravager
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.DR_NERD(0.35f);
-            npc.LifeMaxNERB(42700, 53500, 460000);
+            npc.LifeMaxNERB(44600, 53500, 460000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage = (int)(npc.damage * 1.5);
                 npc.defense *= 2;
-                npc.lifeMax *= 5;
+                npc.lifeMax *= 4;
                 npc.value *= 1.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -64,7 +64,9 @@ namespace CalamityMod.NPCs.Ravager
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<RavagerBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -770,8 +772,7 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Ravager
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);

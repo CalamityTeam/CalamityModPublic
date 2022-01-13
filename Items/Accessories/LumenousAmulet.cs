@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<AbyssalAmulet>());
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

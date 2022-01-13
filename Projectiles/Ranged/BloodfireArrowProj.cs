@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
 
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;

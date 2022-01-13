@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void FindFrame(int frameHeight)
 		{

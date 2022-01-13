@@ -35,7 +35,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void AI()
         {

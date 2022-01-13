@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Ichor, 120);
+			target.AddBuff(BuffID.Ichor, 90);
 
 			if (!target.canGhostHeal || player.moonLeech)
                 return;
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Ichor, 120);
+			target.AddBuff(BuffID.Ichor, 90);
 
 			if (player.moonLeech)
 				return;

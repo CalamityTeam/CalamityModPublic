@@ -44,7 +44,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.defense = 25;
                 npc.lifeMax = 700;
             }
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void AI()
         {

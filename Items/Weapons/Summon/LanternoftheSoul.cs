@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 235;
+            item.damage = 188;
             item.summon = true;
             item.sentry = true;
             item.mana = 10;
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.rare = ItemRarityID.Purple;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LanternSoul>();
-			item.Calamity().challengeDrop = true;
 			item.UseSound = SoundID.Item44;
         }
 

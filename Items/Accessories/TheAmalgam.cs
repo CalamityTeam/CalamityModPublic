@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Accessories
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemType<AmalgamatedBrain>());
 			recipe.AddIngredient(ItemType<UnholyCore>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
 			recipe.AddIngredient(ItemType<SulfuricScale>(), 15);
 			recipe.AddIngredient(ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ItemType<CosmiliteBar>(), 5);

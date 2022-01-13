@@ -7,6 +7,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class AquaticSeekerBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Aquatic Seeker");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;

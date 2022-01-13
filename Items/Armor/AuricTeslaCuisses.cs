@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Cuisses");
-            Tooltip.SetDefault("20% increased movement speed\n" +
+            Tooltip.SetDefault("10% increased movement speed\n" +
                 "12% increased damage and 5% increased critical strike chance\n" +
                 "Magic carpet effect");
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.2f;
+            player.moveSpeed += 0.1f;
             player.carpet = true;
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(5);
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddIngredient(ItemID.FlyingCarpet);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<SilvaLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddIngredient(ItemID.FlyingCarpet);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

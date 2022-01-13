@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 target.buffImmune[BuffID.Venom] = false;
             }
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.Venom, 120);
         }
     }
 }

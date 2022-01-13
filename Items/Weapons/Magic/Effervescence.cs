@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -53,6 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.BubbleGun);
             recipe.AddIngredient(ItemID.Xenopopper);
             recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

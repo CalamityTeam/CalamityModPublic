@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 40;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-            item.defense = 8;
+            item.defense = 13;
             item.accessory = true;
         }
 
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PaladinsShield);
             recipe.AddIngredient(ItemID.FrozenTurtleShell);
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

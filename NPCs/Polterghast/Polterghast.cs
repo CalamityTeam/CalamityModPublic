@@ -60,9 +60,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
-			npc.DR_NERD(0.2f, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			npc.DR_NERD(0.2f);
             npc.LifeMaxNERB(350000, 420000, 325000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -74,11 +72,12 @@ namespace CalamityMod.NPCs.Polterghast
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("RUIN") ?? MusicID.Plantera;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath39;
             bossBag = ModContent.ItemType<PolterghastBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void BossHeadSlot(ref int index)
 		{
@@ -159,17 +158,21 @@ namespace CalamityMod.NPCs.Polterghast
 					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 			}
 
+			// Phases
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
             bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
             bool phase4 = lifeRatio < (death ? 0.45f : revenge ? 0.35f : expertMode ? 0.2f : 0.1f);
             bool phase5 = lifeRatio < (death ? 0.2f : revenge ? 0.15f : expertMode ? 0.1f : 0.05f);
 
+			// Get angry if the clone is dead and in phase 3
+			bool getPissed = !cloneAlive && phase3;
+
 			// Velocity and acceleration
 			calamityGlobalNPC.newAI[0] += 1f;
 			bool chargePhase = calamityGlobalNPC.newAI[0] >= 480f;
-			int chargeAmt = phase3 ? 3 : phase2 ? 2 : 1;
-			float chargeVelocity = phase3 ? 24f : phase2 ? 22f : 20f;
-			float chargeAcceleration = phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
+			int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
+			float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
+			float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
 			float chargeDistance = 480f;
 			bool charging = npc.ai[2] >= 300f;
 			bool reset = npc.ai[2] >= 600f;
@@ -894,7 +897,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.defense = (int)(npc.defDefense * 0.5f);
 
 				npc.localAI[1] += 1f;
-				if (npc.localAI[1] >= 210f * projectileFireRateMultiplier && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+				if (npc.localAI[1] >= (getPissed ? 150f : 210f) * projectileFireRateMultiplier && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 				{
 					npc.localAI[1] = 0f;
 					if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
@@ -910,8 +913,8 @@ namespace CalamityMod.NPCs.Polterghast
 						vector93.X += num743 * 3f;
 						vector93.Y += num744 * 3f;
 
-						int numProj = baseProjectileAmt + 2;
-						float rotation = MathHelper.ToRadians(baseProjectileSpread + 45);
+						int numProj = baseProjectileAmt + (getPissed ? 4 : 2);
+						float rotation = MathHelper.ToRadians(baseProjectileSpread + (getPissed ? 60 : 45));
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 						double startAngle = Math.Atan2(num743, num744) - rotation / 2;
 						double deltaAngle = rotation / numProj;
@@ -931,7 +934,7 @@ namespace CalamityMod.NPCs.Polterghast
 				if (phase4)
                 {
                     npc.localAI[2] += 1f;
-                    if (npc.localAI[2] >= 420f)
+                    if (npc.localAI[2] >= (getPissed ? 300f : 420f))
                     {
                         npc.localAI[2] = 0f;
 
@@ -969,13 +972,12 @@ namespace CalamityMod.NPCs.Polterghast
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Polterghast
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PearlGod>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PearlGod>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

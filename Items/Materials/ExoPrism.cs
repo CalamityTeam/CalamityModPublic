@@ -1,4 +1,3 @@
-using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -58,14 +57,6 @@ namespace CalamityMod.Items.Materials
                 exoShine.fadeIn = 0.7f;
                 exoShine.noGravity = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPlatform>(), 2);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

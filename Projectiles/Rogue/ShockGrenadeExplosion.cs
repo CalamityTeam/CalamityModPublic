@@ -54,30 +54,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(BuffID.Electrified, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(BuffID.Electrified, 180);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= radius;
-        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
     }
 }

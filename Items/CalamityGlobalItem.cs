@@ -80,7 +80,6 @@ namespace CalamityMod.Items
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
-		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 
@@ -117,8 +116,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            // All items that stack to 30, 50, 99 , or 999 now stack to 9999 instead.
-			if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 99 || item.maxStack == 999)
+            // All items that stack to 30, 50, 75, 99 , or 999 now stack to 9999 instead.
+			if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 75 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
 
 			// Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
@@ -614,7 +613,7 @@ namespace CalamityMod.Items
                     if (Main.projectile[i].active &&
                         Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() &&
                         Main.projectile[i].owner == player.whoAmI &&
-                        (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime <= 0f)
+                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime <= 0f)
                     {
                         bladeCount++;
                     }
@@ -626,13 +625,13 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].modProjectile is ViridVanguardBlade)
                         {
-                            if ((Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime > 0f)
+                            if (Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime > 0f)
                                 continue;
                         }
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() && Main.projectile[i].owner == player.whoAmI)
                         {
-                            (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime = 240f;
-                            (Main.projectile[i].modProjectile as ViridVanguardBlade).RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
+                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime = 240f;
+                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
                             Main.projectile[i].netUpdate = true;
                             bladeIndex++;
                         }
@@ -657,7 +656,7 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].modProjectile is IgneousBlade)
                         {
-                            if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                            if (Main.projectile[i].ModProjectile<IgneousBlade>().Firing)
                                 continue;
                         }
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
@@ -666,7 +665,7 @@ namespace CalamityMod.Items
                             Main.projectile[i].velocity = Main.projectile[i].SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 22f;
                             Main.projectile[i].rotation += Main.projectile[i].velocity.ToRotation();
                             Main.projectile[i].ai[0] = 180f;
-                            (Main.projectile[i].modProjectile as IgneousBlade).Firing = true;
+                            Main.projectile[i].ModProjectile<IgneousBlade>().Firing = true;
                             Main.projectile[i].tileCollide = true;
                             Main.projectile[i].netUpdate = true;
                         }
@@ -682,7 +681,7 @@ namespace CalamityMod.Items
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
                         {
-                            (Main.projectile[i].modProjectile as VoidConcentrationAura).HandleRightClick();
+                            Main.projectile[i].ModProjectile<VoidConcentrationAura>().HandleRightClick();
                             break;
                         }
                     }
@@ -1047,7 +1046,7 @@ namespace CalamityMod.Items
 				player.buffImmune[BuffID.Frostburn] = true;
 				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
 				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
-				player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
+				player.setBonus = "All ice-themed damage over time debuffs receive a 50% damage bonus\n" +
 				"Cold enemies will deal reduced contact damage to the player\n" +
 				"Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
             }
@@ -1504,6 +1503,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 
+			if (item.type == ItemID.FleshKnuckles)
+				modPlayer.fleshKnuckles = true;
+
             if (item.type == ItemID.WormScarf)
                 player.endurance -= 0.07f;
 
@@ -1624,13 +1626,13 @@ namespace CalamityMod.Items
 			*/
 
 			if (item.prefix == PrefixID.Brisk)
-				player.moveSpeed += 0.01f;
+				player.moveSpeed += 0.005f;
 			if (item.prefix == PrefixID.Fleeting)
-				player.moveSpeed += 0.02f;
+				player.moveSpeed += 0.01f;
 			if (item.prefix == PrefixID.Hasty2)
-				player.moveSpeed += 0.03f;
+				player.moveSpeed += 0.015f;
 			if (item.prefix == PrefixID.Quick2)
-				player.moveSpeed += 0.04f;
+				player.moveSpeed += 0.02f;
 		}
         #endregion
 
@@ -1642,7 +1644,6 @@ namespace CalamityMod.Items
 
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
-                (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +
@@ -1997,7 +1998,7 @@ namespace CalamityMod.Items
 							prefix = Main.rand.Next(12, 18);
 							break;
 						case 4:
-							// Murderous = 18, Massive = 19, Unpleasant = 20, Deadly = 21
+							// Murderous = 18, Massive = 19, Unpleasant = 20, Deadly2 = 21
 							prefix = Main.rand.Next(18, 22);
 							break;
 						case 5:
@@ -2077,7 +2078,7 @@ namespace CalamityMod.Items
 							prefix = PrefixID.Unpleasant;
 							break;
 						case 21:
-							prefix = PrefixID.Deadly;
+							prefix = PrefixID.Deadly2;
 							break;
 						case 22:
 							prefix = PrefixID.Superior;
@@ -2113,11 +2114,11 @@ namespace CalamityMod.Items
 						prefix = Main.rand.Next(9, 14);
 						break;
 					case 4:
-						// Superior = 14, Demonic = 15, Deadly = 16, Intimidating = 17, Unpleasant = 18
+						// Superior = 14, Demonic = 15, Deadly2 = 16, Intimidating = 17, Unpleasant = 18
 						prefix = Main.rand.Next(14, 19);
 						break;
 					case 5:
-						// Godly = 19, Rapid = 20, Hasty = 21, Deadly2 = 22, Staunch = 23
+						// Godly = 19, Rapid = 20, Hasty = 21, Deadly = 22, Staunch = 23
 						prefix = Main.rand.Next(19, 24);
 						break;
 					case 6:
@@ -2175,7 +2176,7 @@ namespace CalamityMod.Items
 						prefix = PrefixID.Demonic;
 						break;
 					case 16:
-						prefix = PrefixID.Deadly;
+						prefix = PrefixID.Deadly2;
 						break;
 					case 17:
 						prefix = PrefixID.Intimidating;
@@ -2193,7 +2194,7 @@ namespace CalamityMod.Items
 						prefix = PrefixID.Hasty;
 						break;
 					case 22:
-						prefix = PrefixID.Deadly2;
+						prefix = PrefixID.Deadly;
 						break;
 					case 23:
 						prefix = PrefixID.Staunch;
@@ -2222,7 +2223,7 @@ namespace CalamityMod.Items
 						prefix = Main.rand.Next(11, 17);
 						break;
 					case 4:
-						// Superior = 17, Demonic = 18, Deadly = 19, Mystic = 20
+						// Superior = 17, Demonic = 18, Deadly2 = 19, Mystic = 20
 						prefix = Main.rand.Next(17, 21);
 						break;
 					case 5:
@@ -2293,7 +2294,7 @@ namespace CalamityMod.Items
 						prefix = PrefixID.Demonic;
 						break;
 					case 19:
-						prefix = PrefixID.Deadly;
+						prefix = PrefixID.Deadly2;
 						break;
 					case 20:
 						prefix = PrefixID.Mystic;
@@ -2328,7 +2329,7 @@ namespace CalamityMod.Items
 						prefix = Main.rand.Next(7, 11);
 						break;
 					case 4:
-						// Deadly = 11, Mystic = 12, Superior = 13, Demonic = 14
+						// Deadly2 = 11, Mystic = 12, Superior = 13, Demonic = 14
 						prefix = Main.rand.Next(11, 15);
 						break;
 					case 5:
@@ -2375,7 +2376,7 @@ namespace CalamityMod.Items
 						prefix = PrefixID.Celestial;
 						break;
 					case 11:
-						prefix = PrefixID.Deadly;
+						prefix = PrefixID.Deadly2;
 						break;
 					case 12:
 						prefix = PrefixID.Mystic;

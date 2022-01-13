@@ -37,7 +37,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0.04f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(boulderIndex);

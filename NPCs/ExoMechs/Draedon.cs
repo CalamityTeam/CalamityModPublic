@@ -516,6 +516,9 @@ namespace CalamityMod.NPCs.ExoMechs
 
             if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 7f + 165f)
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText8", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 8f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText9", TextColor);
         }
 
         // Draedon should not manually despawn.

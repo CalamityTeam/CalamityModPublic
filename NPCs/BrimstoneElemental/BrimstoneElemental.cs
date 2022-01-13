@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 12, 0, 0);
-            npc.LifeMaxNERB(30000, 41000, 650000);
+            npc.LifeMaxNERB(41000, 49200, 780000);
 			npc.DR_NERD(0.15f);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
@@ -58,9 +58,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("LeftAlone") ?? MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneElemental") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -152,15 +155,14 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Brimstone Elemental
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 
 			if (!Main.expertMode)
             {

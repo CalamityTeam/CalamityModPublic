@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -35,9 +36,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Chair");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chair"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }

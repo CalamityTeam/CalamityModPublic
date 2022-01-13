@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 64;
 			item.height = 66;
 			item.scale = 2f;
-			item.damage = 125;
+			item.damage = 100;
             item.melee = true;
             item.useAnimation = item.useTime = 38;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
             item.rare = ItemRarityID.LightRed;
-			item.Calamity().challengeDrop = true;
 		}
 
 		public override float UseTimeMultiplier	(Player player) => 1f + (player.Calamity().evilSmasherBoost * 0.1f);

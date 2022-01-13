@@ -29,7 +29,10 @@ namespace CalamityMod.NPCs.Perforator
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit13;
             npc.rarity = 2;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -63,6 +66,8 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+                return 0f;
             if (spawnInfo.player.Calamity().disablePerfCystSpawns)
                 return 0f;
 

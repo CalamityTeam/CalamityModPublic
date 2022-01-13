@@ -57,13 +57,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             RestrictLifetime();
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             RestrictLifetime();
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         private float PrimitiveWidthFunction(float completionRatio)

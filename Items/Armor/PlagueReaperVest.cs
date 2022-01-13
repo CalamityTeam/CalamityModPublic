@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.NecroBreastplate); //I will instead change the position of the necro armor get trolled
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 29); //I like prime numbers =)
-			recipe.AddIngredient(ItemID.NecroBreastplate);
 			recipe.AddIngredient(ItemID.Nanites, 19); //Change this to 30 and 20 and I will hunt you down
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

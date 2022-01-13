@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -12,12 +13,10 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpLantern(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Lantern");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Lantern"));
 
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            adjTiles = new int[] { TileID.HangingLanterns };
         }
 
         public override bool CanExplode(int i, int j) => false;

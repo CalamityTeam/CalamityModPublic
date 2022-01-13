@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 300);
+            target.AddBuff(BuffID.Daybreak, 120);
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<EventHorizonBlackhole>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
         }
 

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         public float Outwardness = 45f;
         public Vector2 DeltaPositionRelativetoTarget = Vector2.Zero;
 
-        public const int BuffTime = 180;
+        public const int BuffTime = 120;
         public const float TurnRate = 30f;
 
         public override void SetStaticDefaults()

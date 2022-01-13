@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 20;
             item.ranged = true;
             item.width = 38;
             item.height = 68;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-			item.Calamity().challengeDrop = true;
 			item.Calamity().canFirePointBlankShots = true;
 		}
 

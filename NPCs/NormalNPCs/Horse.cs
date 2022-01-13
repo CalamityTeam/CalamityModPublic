@@ -41,7 +41,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EarthElementalBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

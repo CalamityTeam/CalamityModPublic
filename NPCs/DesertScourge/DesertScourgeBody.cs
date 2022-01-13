@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 36;
             npc.defense = 6;
 			npc.DR_NERD(0.05f);
-            npc.LifeMaxNERB(2600, 3000, 1650000);
+            npc.LifeMaxNERB(2500, 3000, 1650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -47,6 +47,10 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
 		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

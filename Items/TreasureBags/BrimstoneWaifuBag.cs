@@ -5,6 +5,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
@@ -54,15 +55,17 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SeethingDischarge>(w),
                 DropHelper.WeightStack<DormantBrimseeker>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<Hellborn>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
             DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
             DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 5);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
+			DropHelper.DropItem(player, ModContent.ItemType<FabledTortoiseShell>());
 
-            // Vanity
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
+			// Vanity
+			DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
             DropHelper.DropItemChance(player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
         }
     }

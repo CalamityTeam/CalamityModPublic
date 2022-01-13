@@ -195,25 +195,26 @@ namespace CalamityMod.Projectiles.Melee
             bool bloodMoon = Main.bloodMoon;
             bool snowMoon = Main.snowMoon;
             bool pumpkinMoon = Main.pumpkinMoon;
+			int duration = 150;
             if (bloodMoon)
             {
-                player.AddBuff(BuffID.Battle, 600);
+                player.AddBuff(BuffID.Battle, duration);
             }
             if (snowMoon)
             {
-                player.AddBuff(BuffID.RapidHealing, 600);
+                player.AddBuff(BuffID.RapidHealing, duration);
             }
             if (pumpkinMoon)
             {
-                player.AddBuff(BuffID.WellFed, 600);
+                player.AddBuff(BuffID.WellFed, duration);
             }
             if (astral)
 			{
-                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 600);
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), duration);
 			}
 			else if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Plague>(), 600);
+                target.AddBuff(ModContent.BuffType<Plague>(), duration);
             }
             else if (snow)
             {
@@ -221,15 +222,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), duration);
             }
             else if (dungeon)
             {
-                target.AddBuff(BuffID.Frostburn, 600);
+                target.AddBuff(BuffID.Frostburn, duration);
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
             }
             else if (glow)
             {
@@ -237,15 +238,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
             }
             else if (holy)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), duration);
             }
         }
     }

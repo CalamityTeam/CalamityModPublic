@@ -54,9 +54,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
                 DropHelper.WeightStack<FinalDawn>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<VoidVortex>());
+			DropHelper.DropItem(player, ModContent.ItemType<YharimsCrystal>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
 
             int soulFragMin = 22;
@@ -66,6 +68,7 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<YharonMask>(), 7);
             DropHelper.DropItemChance(player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<McNuggets>(), 10);
             DropHelper.DropItemCondition(player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
         }
     }

@@ -39,7 +39,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.3f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CuttlefishBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void AI()
         {

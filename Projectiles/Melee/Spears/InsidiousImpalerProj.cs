@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 360);
-            target.AddBuff(BuffID.Venom, 360);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
     }
 }

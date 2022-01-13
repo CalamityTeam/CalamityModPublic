@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 80;
+			item.damage = 64;
 			item.Calamity().rogue = true;
 			item.knockBack = 3f;
 			item.useTime = item.useAnimation = 15;
@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
 			item.rare = ItemRarityID.Lime;
-			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

@@ -58,9 +58,10 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<FungalClump>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge && !player.Calamity().rageBoostOne);
+			DropHelper.DropItem(player, ModContent.ItemType<TheTransformer>());
 
-            // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CrabulonMask>(), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, ModContent.ItemType<CrabulonMask>(), 7);
         }
     }
 }

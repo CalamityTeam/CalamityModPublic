@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
@@ -10,9 +11,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         public override void SetDefaults()
         {
             this.SetUpDoorOpen();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Door");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
             closeDoorID = ModContent.TileType<EutrophicDoorClosed>();

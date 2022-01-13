@@ -42,7 +42,10 @@ namespace CalamityMod.NPCs.Calamitas
             }
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
 		public override void FindFrame(int frameHeight)
         {
@@ -85,14 +88,10 @@ namespace CalamityMod.NPCs.Calamitas
             npc.rotation = velocity.ToRotation() + MathHelper.Pi;
 
             timer++;
-            if (timer > 60)
+            if (timer >= 180)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f && parent.Calamity().newAI[2] <= 0f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && parent.ai[1] < 2f && parent.Calamity().newAI[2] <= 0f)
                 {
-					int npcType = ModContent.NPCType<LifeSeeker>();
-                    if (NPC.CountNPCS(npcType) < 3)
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npcType);
-
                     for (int d = 0; d < 3; d++)
                         Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
 

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
@@ -137,6 +138,11 @@ namespace CalamityMod.Projectiles.Magic
                 fire.scale *= Main.rand.NextFloat(1.15f, 1.7f);
                 fire.noGravity = true;
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

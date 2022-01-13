@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Signus
             npc.defense = 60;
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
-			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 240000);
+			npc.LifeMaxNERB(notDoGFight ? 297000 : 73000, notDoGFight ? 356400 : 87600, 240000);
 
             // If fought alone, Signus plays his own theme
             if (notDoGFight)
@@ -68,7 +68,8 @@ namespace CalamityMod.NPCs.Signus
             npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath51;
             bossBag = ModContent.ItemType<SignusBag>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -763,8 +764,7 @@ namespace CalamityMod.NPCs.Signus
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Signus
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, CalamityWorld.malice);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, !Main.expertMode);
 
 				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;

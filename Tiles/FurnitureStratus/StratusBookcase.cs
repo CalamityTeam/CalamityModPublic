@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Bookcase");
+            name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Bookcases };

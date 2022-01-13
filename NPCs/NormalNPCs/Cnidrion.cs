@@ -1,5 +1,4 @@
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -8,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Cnidrion : ModNPC
@@ -38,11 +38,26 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CnidrionBanner>();
-        }
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !spawnInfo.player.ZoneDesert || !spawnInfo.player.ZoneOverworldHeight || NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
+            if (spawnInfo.player.PillarZone() ||
+				spawnInfo.player.InAstral() ||
+				spawnInfo.player.ZoneCorrupt ||
+				spawnInfo.player.ZoneCrimson ||
+				spawnInfo.player.ZoneOldOneArmy ||
+				spawnInfo.player.ZoneSkyHeight ||
+				spawnInfo.playerSafe ||
+				!spawnInfo.player.ZoneDesert ||
+				!spawnInfo.player.ZoneOverworldHeight ||
+				Main.eclipse ||
+				Main.snowMoon ||
+				Main.pumpkinMoon ||
+				NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
             {
                 return 0f;
             }

@@ -88,9 +88,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
             recipe.AddIngredient(ItemID.Tsunami);
             recipe.AddIngredient(ModContent.ItemType<FlarewingBow>());
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
             recipe.AddIngredient(ItemID.SharkFin, 2);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);

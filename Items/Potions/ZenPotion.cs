@@ -35,20 +35,20 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.alchemy = true;
+            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 2);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
             recipe.AddIngredient(ItemID.PinkGel);
             recipe.AddIngredient(ItemID.Daybloom);
-            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             // Alternative recipe is not "alchemy" because none of the blood orb recipes are
             recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 2);
-            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

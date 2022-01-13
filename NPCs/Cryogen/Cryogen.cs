@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.height = 88;
             npc.defense = 12;
 			npc.DR_NERD(0.3f);
-            npc.LifeMaxNERB(18795, 27615, 300000);
+            npc.LifeMaxNERB(30000, 36000, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -63,7 +63,10 @@ namespace CalamityMod.NPCs.Cryogen
             npc.DeathSound = SoundID.NPCDeath15;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
             bossBag = ModContent.ItemType<CryogenBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = false;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -945,57 +948,6 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.X = -velocity;
 				}
 			}
-
-			if (!phase5)
-			{
-				if (npc.ai[3] == 0f && npc.life > 0)
-					npc.ai[3] = npc.lifeMax;
-
-				if (npc.life > 0)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						int num660 = (int)(npc.lifeMax * 0.075);
-						if ((npc.life + num660) < npc.ai[3])
-						{
-							npc.ai[3] = npc.life;
-							for (int num662 = 0; num662 < 2; num662++)
-							{
-								int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
-								int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-								int random = 1;
-								switch ((int)npc.ai[0])
-								{
-									case 0:
-									case 1:
-										break;
-									case 2:
-									case 3:
-										random = 2;
-										break;
-									case 4:
-										random = 3;
-										break;
-									default:
-										break;
-								}
-
-								int randomSpawn = Main.rand.Next(random);
-								if (randomSpawn == 0)
-									randomSpawn = ModContent.NPCType<Cryocore>();
-								else if (randomSpawn == 1)
-									randomSpawn = ModContent.NPCType<IceMass>();
-								else
-									randomSpawn = ModContent.NPCType<Cryocore2>();
-
-								int num664 = NPC.NewNPC(x, y, randomSpawn);
-								if (Main.netMode == NetmodeID.Server && num664 < 200)
-									NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664);
-							}
-						}
-					}
-				}
-			}
         }
 
         private void HandlePhaseTransition(int newPhase)
@@ -1101,9 +1053,8 @@ namespace CalamityMod.NPCs.Cryogen
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Cryogen
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);

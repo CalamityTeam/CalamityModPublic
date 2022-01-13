@@ -81,16 +81,16 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddIngredient(ItemID.Musket);
             recipe.AddIngredient(ItemID.ToxicFlask);
+            recipe.AddIngredient(ItemID.Musket);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddIngredient(ItemID.TheUndertaker);
             recipe.AddIngredient(ItemID.ToxicFlask);
+            recipe.AddIngredient(ItemID.TheUndertaker);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

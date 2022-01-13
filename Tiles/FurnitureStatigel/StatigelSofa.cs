@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Sofa");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

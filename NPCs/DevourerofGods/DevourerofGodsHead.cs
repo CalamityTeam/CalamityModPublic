@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DevourerofGodsBag>();
 		}
 
@@ -306,6 +306,30 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
+			// Despawn
+			if (player.dead)
+			{
+				flies = true;
+
+				npc.velocity.Y -= 1f;
+				if ((double)npc.position.Y < Main.topWorld + 16f)
+					npc.velocity.Y -= 1f;
+
+				int bodyType = ModContent.NPCType<DevourerofGodsBody>();
+				int tailType = ModContent.NPCType<DevourerofGodsTail>();
+				if ((double)npc.position.Y < Main.topWorld + 16f)
+				{
+					for (int a = 0; a < Main.maxNPCs; a++)
+					{
+						if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
+							continue;
+
+						Main.npc[a].active = false;
+						Main.npc[a].netUpdate = true;
+					}
+				}
+			}
+
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
@@ -353,7 +377,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+					music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
 				// Once before DoG spawns, set new size and become visible again.
 				if (CalamityWorld.DoGSecondStageCountdown == 60)
@@ -741,32 +765,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (expertMode)
 						fallSpeed += 3.5f * (1f - lifeRatio);
-
-					if (player.dead)
-					{
-						flies = true;
-
-						npc.velocity.Y -= 1f;
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							npc.velocity.Y -= 1f;
-							fallSpeed = 32f;
-						}
-
-						int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-						int tailType = ModContent.NPCType<DevourerofGodsTail>();
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							for (int a = 0; a < Main.maxNPCs; a++)
-							{
-								if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-									continue;
-
-								Main.npc[a].active = false;
-								Main.npc[a].netUpdate = true;
-							}
-						}
-					}
 
 					// Movement
 					int num180 = (int)(npc.position.X / 16f) - 1;
@@ -1485,30 +1483,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					}
 					else
 						calamityGlobalNPC.newAI[1] = 0f;
-				}
-
-				// Despawn
-				if (player.dead)
-				{
-					flies = true;
-
-					npc.velocity.Y -= 1f;
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 1f;
-
-					int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-					int tailType = ModContent.NPCType<DevourerofGodsTail>();
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-					{
-						for (int a = 0; a < Main.maxNPCs; a++)
-						{
-							if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-								continue;
-
-							Main.npc[a].active = false;
-							Main.npc[a].netUpdate = true;
-						}
-					}
 				}
 
 				// Movement
@@ -2261,16 +2235,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for DoG
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
 
 			// Mount
 			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();

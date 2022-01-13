@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = projectile.height = 20;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.minionSlots = 0f;
             projectile.minion = true;
             projectile.penetrate = 1;
@@ -58,11 +58,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-        }
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+			target.AddBuff(BuffID.Frostburn, 90);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+		}
 
         public override void Kill(int timeLeft)
         {

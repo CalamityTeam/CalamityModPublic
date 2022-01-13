@@ -204,7 +204,7 @@ namespace CalamityMod.Events
                     ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(),
                     ModContent.NPCType<PerforatorBodySmall>() ,ModContent.NPCType<PerforatorTailSmall>() }),
 
-                new Boss(ModContent.NPCType<Cryogen>(), permittedNPCs: new int[] { ModContent.NPCType<CryogenIce>(), ModContent.NPCType<IceMass>(), ModContent.NPCType<Cryocore>(), ModContent.NPCType<Cryocore2>() }),
+                new Boss(ModContent.NPCType<Cryogen>(), permittedNPCs: ModContent.NPCType<CryogenIce>()),
 
                 new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
 
@@ -245,13 +245,12 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
-                new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueBeeG>(), ModContent.NPCType<PlagueBeeLargeG>(), ModContent.NPCType<PlagueHomingMissile>(),
-                    ModContent.NPCType<PlagueMine>(), ModContent.NPCType<PlaguebringerShade>() }),
+                new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
                 new Boss(ModContent.NPCType<CalamitasRun3>(), TimeChangeContext.Night, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
-                    ModContent.NPCType<LifeSeeker>(), ModContent.NPCType<SoulSeeker>() }),
+                    ModContent.NPCType<SoulSeeker>() }),
 
-                new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(), ModContent.NPCType<Parasea>(),
+                new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
                     ModContent.NPCType<SirenIce>(), NPCID.DetonatingBubble}),
 
                 new Boss(ModContent.NPCType<OldDuke>(), spawnContext: type =>
@@ -292,7 +291,7 @@ namespace CalamityMod.Events
                 }, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBody>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
 
-                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() }),
+                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
 
                 new Boss(ModContent.NPCType<DevourerofGodsHead>(), TimeChangeContext.Day, type =>
                 {

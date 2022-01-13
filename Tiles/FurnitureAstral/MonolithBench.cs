@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Bench");
+            name.SetDefault("Bench");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

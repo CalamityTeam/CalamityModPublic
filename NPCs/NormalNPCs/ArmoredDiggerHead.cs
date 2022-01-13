@@ -40,7 +40,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
-        }
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+		}
 
         public override void AI()
         {

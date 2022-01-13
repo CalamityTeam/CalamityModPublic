@@ -57,6 +57,10 @@ namespace CalamityMod.NPCs.OldDuke
             npc.timeLeft = NPC.activeTime * 30;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -376,13 +380,12 @@ namespace CalamityMod.NPCs.OldDuke
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Old Duke
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

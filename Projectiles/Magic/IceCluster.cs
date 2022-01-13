@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             target.immune[projectile.owner] = 5;
 
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
             Vector2 vector80 = projectile.rotation.ToRotationVector2();
             if (projectile.owner == Main.myPlayer)

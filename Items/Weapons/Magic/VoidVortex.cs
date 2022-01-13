@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 140;
+            item.damage = 112;
             item.magic = true;
             item.mana = 60;
             item.width = 130;
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VoidVortexProj>();
             item.shootSpeed = 12f;
-            item.Calamity().challengeDrop = true;
         }
 
         public override Vector2? HoldoutOrigin()

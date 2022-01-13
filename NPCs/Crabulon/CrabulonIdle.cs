@@ -37,10 +37,10 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 14f;
 			npc.GetNPCDamage();
-			npc.width = 312;
+			npc.width = 196;
             npc.height = 196;
             npc.defense = 8;
-            npc.LifeMaxNERB(3000, 4000, 1100000);
+            npc.LifeMaxNERB(3350, 4000, 1100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -54,7 +54,10 @@ namespace CalamityMod.NPCs.Crabulon
             npc.HitSound = SoundID.NPCHit45;
             npc.DeathSound = SoundID.NPCDeath1;
             bossBag = ModContent.ItemType<CrabulonBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -227,15 +230,13 @@ namespace CalamityMod.NPCs.Crabulon
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!player.dead && player.active && (player.Center - npc.Center).Length() < 800f)
-                    {
                         player.AddBuff(ModContent.BuffType<Mushy>(), 2);
-                    }
                 }
                 int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), 1.2f);
                 Main.dust[sporeDust].noGravity = true;
                 Main.dust[sporeDust].velocity *= 0.5f;
                 npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 600f)
+                if (npc.justHit)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -730,8 +731,7 @@ namespace CalamityMod.NPCs.Crabulon
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Crabulon
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);

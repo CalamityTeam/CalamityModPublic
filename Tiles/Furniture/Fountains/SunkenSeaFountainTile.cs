@@ -1,8 +1,9 @@
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
@@ -11,9 +12,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 		public override void SetDefaults()
 		{
             this.SetUpFountain();
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Sunken Water Fountain");
-			AddMapEntry(new Color(104, 195, 255), name);
+			AddMapEntry(new Color(104, 195, 255), Language.GetText("MapObject.WaterFountain"));
             animationFrameHeight = 72;
         }
 

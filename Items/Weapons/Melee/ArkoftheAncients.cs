@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 50;
-            item.damage = 58;
+            item.damage = 80;
             item.melee = true;
             item.useAnimation = 22;
             item.useTime = 22;
@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 50;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<EonBeam>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -98,18 +98,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.EnchantedSword);
+            recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.Arkhalis);
+            recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -141,18 +143,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

@@ -1,9 +1,10 @@
+using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
@@ -12,9 +13,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 		public override void SetDefaults()
 		{
             this.SetUpFountain();
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Astral Water Fountain");
-			AddMapEntry(new Color(59, 50, 77), name);
+			AddMapEntry(new Color(59, 50, 77), Language.GetText("MapObject.WaterFountain"));
             animationFrameHeight = 72;
         }
 

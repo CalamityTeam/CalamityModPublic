@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
@@ -12,10 +13,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exo Chandelier");
-            AddMapEntry(new Color(71, 95, 114), name);
-            adjTiles = new int[] { TileID.Torches };
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chandelier"));
+            adjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CanExplode(int i, int j) => false;

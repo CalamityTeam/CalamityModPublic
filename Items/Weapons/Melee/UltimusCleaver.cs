@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(BuffID.OnFire, 600);
+			target.AddBuff(BuffID.OnFire, 360);
 			player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
 			float num50 = 1.7f;
 			float num51 = 0.8f;

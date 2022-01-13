@@ -5,8 +5,6 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class GodSlayerInferno : ModBuff
     {
-        public static int DefenseReduction = 10;
-
         public override void SetDefaults()
         {
             DisplayName.SetDefault("God Slayer Inferno");

@@ -26,8 +26,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.magic = true;
+			projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 16;
             projectile.timeLeft = 450;
 			projectile.Calamity().PierceResistHarshness = 0.06f;
 			projectile.Calamity().PierceResistCap = 0.4f;
@@ -35,16 +36,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			if (projectile.ai[0] == 0f)
-			{
-				if (projectile.velocity.Length() < 16f)
-					projectile.velocity *= 1.02f;
-			}
-
             if (projectile.localAI[0] < 1f)
             {
-                projectile.localAI[0] += 0.005f; //200 to reach full size and max power
-                projectile.scale += 0.005f;
+                projectile.localAI[0] += 0.02f; // 50 frames to reach full size and max power
+                projectile.scale += 0.02f;
                 projectile.width = (int)(36f * projectile.scale);
                 projectile.height = (int)(36f * projectile.scale);
             }
@@ -76,12 +71,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-
-			if (projectile.velocity.Length() > 3f)
-				projectile.velocity *= 0.9f;
-
-			projectile.ai[0] = 1f;
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 		}
 
         public override Color? GetAlpha(Color lightColor)

@@ -29,6 +29,7 @@ namespace CalamityMod
         public static void AddRecipes()
         {
             EditLeatherRecipe();
+            EditPhoenixBlaster();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
@@ -116,6 +117,17 @@ namespace CalamityMod
             r.SetResult(ItemID.UltrabrightTorch, 33);
             r.AddRecipe();
 
+            // Money Trough
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.PiggyBank);
+            r.AddIngredient(ItemID.Feather, 2);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>());
+            r.AddIngredient(ItemID.GoldCoin, 15);
+            r.AddRecipeGroup("AnyGoldBar", 8);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.MoneyTrough);
+            r.AddRecipe();
+
             // Target Dummy Reverse Compatibility
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<SuperDummy>());
@@ -131,6 +143,26 @@ namespace CalamityMod
             rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
             {
                 s.requiredItem[0].stack = 2;
+            });
+        }
+
+        // Change Phoenix Blaster's recipe to be consistent with literally every other weapon recipes in the game
+        private static void EditPhoenixBlaster()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.PhoenixBlaster).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.Handgun, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.HellstoneBar, false);
+                s.requiredItem[1].stack = 10;
+
+                s.createItem.SetDefaults(ItemID.PhoenixBlaster, false);
+                s.createItem.stack = 1;
             });
         }
 
@@ -1135,7 +1167,15 @@ namespace CalamityMod
             group = new RecipeGroup(() => "Any Evil Block", new int[]
             {
                 ItemID.EbonstoneBlock,
-                ItemID.CrimstoneBlock
+                ItemID.CrimstoneBlock,
+                ItemID.PurpleIceBlock,
+                ItemID.RedIceBlock,
+                ItemID.EbonsandBlock,
+                ItemID.CrimsandBlock,
+                ItemID.CorruptHardenedSand,
+                ItemID.CrimsonHardenedSand,
+                ItemID.CorruptSandstone,
+                ItemID.CrimsonSandstone
             });
             RecipeGroup.RegisterGroup("AnyEvilBlock", group);
 
@@ -1218,6 +1258,16 @@ namespace CalamityMod
                 ModContent.ItemType<AstralSnow>()
             });
             RecipeGroup.RegisterGroup("AnySnowBlock", group);
+
+            group = new RecipeGroup(() => "Any Stone Block", new int[]
+            {
+                ItemID.StoneBlock,
+                ItemID.EbonstoneBlock,
+                ItemID.CrimstoneBlock,
+                ItemID.PearlstoneBlock,
+                ModContent.ItemType<AstralStone>()
+            });
+            RecipeGroup.RegisterGroup("AnyStoneBlock", group);
 
             group = new RecipeGroup(() => "Any Silt", new int[]
             {

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Monolith Piano");
+            name.SetDefault("Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

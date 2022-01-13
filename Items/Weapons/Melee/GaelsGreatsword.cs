@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.Calamity().devItem = true;
-            item.Calamity().challengeDrop = true;
 
             item.shoot = ModContent.ProjectileType<GaelSkull>();
             item.shootSpeed = 15f;

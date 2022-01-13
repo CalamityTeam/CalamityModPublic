@@ -5,8 +5,6 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class Plague : ModBuff
     {
-        public static int DefenseReduction = 4;
-
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Plague");

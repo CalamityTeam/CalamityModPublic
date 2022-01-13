@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
@@ -9,9 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void SetDefaults()
         {
             this.SetUpSink(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ancient Sink");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

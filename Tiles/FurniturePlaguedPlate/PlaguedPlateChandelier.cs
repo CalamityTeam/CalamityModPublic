@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -10,10 +11,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         public override void SetDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Chandelier");
-            AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Torches };
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
+            adjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -10,8 +10,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class SearedPan : RogueWeapon
 	{
-		// Attacks must be within 40 frames of each other to count as "consecutive" hits
-        public static int ConsecutiveHitOpening = 40;
+		// Attacks must be within 48 frames of each other to count as "consecutive" hits
+		// This is a little less than double the use time
+        public static int ConsecutiveHitOpening = 48;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seared Pan");
@@ -19,21 +20,21 @@ namespace CalamityMod.Items.Weapons.Rogue
 				"Fires a frying pan at high velocity\n" +
 				"Enemy hits summon fireballs that linger around the target\n" +
 				"Landing three consecutive hits grants full stealth\n" +
-				"Stealth strikes explode into golden sparks and after hitting an enemy,\n" +
-				"cause all fireballs to aggressively home in on their target");
+				"Stealth strikes explode into golden sparks, and after hitting an enemy,\n" +
+				"they cause all fireballs to aggressively home in on their target");
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.width = 60;
 			item.height = 36;
-			item.damage = 999;
+			item.damage = 666;
 			item.Calamity().rogue = true;
 			item.knockBack = 10f;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
+			item.useTime = item.useAnimation = 28;
 			item.reuseDelay = 1;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;

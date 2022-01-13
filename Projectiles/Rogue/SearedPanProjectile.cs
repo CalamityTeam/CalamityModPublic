@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
 			// Don't increment the Seared Pan counter when hitting dummies
             bool dummy = target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>();
 			OnHitEffects(target.whoAmI, target.life, dummy);
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
 			OnHitEffects(-1, target.statLife, true);
         }
 
@@ -57,6 +57,11 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
+
+			// Don't spawn fireballs or increment the special effects counter if you can't even stealth strike
+			bool playerCanStealthStrike = modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax > 0;
+			if (!playerCanStealthStrike)
+				return;
 
 			// Increment the seared pan counter and refill stealth after three consecutive hits
 			// See CalamityPlayerMiscEffects.cs for code that resets the counter after 40 frames
@@ -69,14 +74,14 @@ namespace CalamityMod.Projectiles.Rogue
 				modPlayer.rogueStealth = modPlayer.rogueStealthMax;
 			}
 
-			// Stealth strikes spawn six golden sparks on hit
+			// Stealth strikes spawn four golden sparks on hit
 			if (projectile.Calamity().stealthStrike)
 			{
 				modPlayer.searedPanCounter = 0;
-				for (int t = 0; t < 6; t++)
+				for (int t = 0; t < 4; t++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.3), 0f, projectile.owner);
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.2), 0f, projectile.owner);
 				}
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
 				// Stealth strikes also cause any fireballs to home in on their targets
@@ -85,10 +90,9 @@ namespace CalamityMod.Projectiles.Rogue
 			else if (targetIndex != -1 && health > 0)
 			{
 				// Summon three fireballs to circle the hit enemy
-				int projType = ModContent.ProjectileType<NiceCock>();
 				for (int t = 0; t < 3; t++)
 				{
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, projType, (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, targetIndex);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
 				}
 				int fireballCount = 0;
 				// Count how many fireballs exist already around the given target
@@ -97,9 +101,9 @@ namespace CalamityMod.Projectiles.Rogue
 					// Keep the loop as short as possible
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
 						continue;
-					if (Main.projectile[i].type == projType)
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
-						if ((Main.projectile[i].modProjectile as NiceCock).homing)
+						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
 							continue;
 						fireballCount++;
 					}
@@ -111,9 +115,9 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
 						continue;
-					if (Main.projectile[i].type == projType)
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
-						if ((Main.projectile[i].modProjectile as NiceCock).homing)
+						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
 							continue;
 						Main.projectile[i].ai[0] = angle;
 						Main.projectile[i].netUpdate = true;
@@ -131,13 +135,13 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
 						continue;
-					if (Main.projectile[i].type == ModContent.ProjectileType<NiceCock>())
+					if (Main.projectile[i].modProjectile is NiceCock)
 					{
 						if (!activate)
 							Main.projectile[i].Kill();
 						else
 						{
-							(Main.projectile[i].modProjectile as NiceCock).homing = true;
+							Main.projectile[i].ModProjectile<NiceCock>().homing = true;
 							Main.projectile[i].extraUpdates += 2;
 						}
 					}

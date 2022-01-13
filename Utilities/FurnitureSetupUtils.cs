@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -604,7 +605,8 @@ namespace CalamityMod
 		/// <param name="mt">The ModTile which is being initialized.</param>
 		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
 		/// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
-		internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true)
+		/// <param name="solidTop">Whether this tile counts as a table for housing. Defaults to true.</param>
+		internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true, bool table = true)
 		{
 			Main.tileSolidTop[mt.Type] = solidTop;
 			Main.tileLighted[mt.Type] = true;
@@ -616,8 +618,9 @@ namespace CalamityMod
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
 			TileObjectData.addTile(mt.Type);
 
-			// All bookcases count as tables.
-			mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			// All bookcases count as tables. Monolith Amalgam does not count as a table.
+			if (table)
+				mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 		}
 
 		/// <summary>
@@ -1126,6 +1129,28 @@ namespace CalamityMod
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
 			TileObjectData.addTile(mt.Type);
+		}
+
+		/// <summary>
+		/// Extension which initializes a ModTile to be a bed.
+		/// </summary>
+		/// <param name="mt">The ModTile which is being initialized.</param>
+		/// <param name="mapColor">The color of the bar on the minimap.</param>
+		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to true like vanilla bars.</param>
+		internal static void SetUpBar(this ModTile mt, Color mapColor, bool lavaImmune = true)
+		{
+            Main.tileShine[mt.Type] = 1100;
+            Main.tileSolid[mt.Type] = true;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.addTile(mt.Type);
+
+			// Vanilla bars are labeled as "Metal Bar" on the minimap
+            mt.AddMapEntry(mapColor, Language.GetText("MapObject.MetalBar"));
 		}
 	}
 }

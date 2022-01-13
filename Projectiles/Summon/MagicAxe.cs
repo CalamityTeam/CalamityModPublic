@@ -66,19 +66,17 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-        }
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+			target.AddBuff(BuffID.Frostburn, 90);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-        }
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+			target.AddBuff(BuffID.Frostburn, 90);
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+		}
 
         public override void Kill(int timeLeft)
         {

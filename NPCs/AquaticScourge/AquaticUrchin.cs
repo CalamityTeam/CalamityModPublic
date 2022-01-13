@@ -30,7 +30,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AquaticUrchinBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
         public override void AI()
         {

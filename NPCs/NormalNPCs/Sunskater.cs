@@ -36,7 +36,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.knockBackResist = 0.7f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SunskaterBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

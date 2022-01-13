@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Clock");
+            name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

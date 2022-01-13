@@ -28,7 +28,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.rarity = 2;
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -40,6 +43,8 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+                return 0f;
             if (spawnInfo.player.Calamity().disableHiveCystSpawns)
                 return 0f;
 

@@ -115,6 +115,10 @@ namespace CalamityMod.Projectiles.Melee
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
+
+			if (projectile.timeLeft == 300)
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), player.Center);
+
 			projectile.position = player.Center + projectile.velocity * MOVE_DISTANCE;
 			projectile.timeLeft = 2;
 
@@ -283,10 +287,6 @@ namespace CalamityMod.Projectiles.Melee
 					}
 				}
 				AchievementsHelper.CurrentlyMining = false;
-				if (Main.netMode != NetmodeID.SinglePlayer)
-				{
-					NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, projectile.owner, 0f, 0f, 0, 0, 0);
-				}
 			}
 		}
 

@@ -41,6 +41,10 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
             npc.noTileCollide = true;
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -237,15 +241,19 @@ namespace CalamityMod.NPCs.OldDuke
 				spawnedProjectiles = true;
 				int totalProjectiles = 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
-				int damage = Main.expertMode ? 55 : 70;
+				int type = ModContent.ProjectileType<SandToothOldDuke>();
+				int damage = npc.GetProjectileDamage(type);
 				for (int k = 0; k < totalProjectiles; k++)
 				{
 					float velocity = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? Main.rand.Next(6, 10) : Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
 					Main.projectile[proj].timeLeft = 360;
 				}
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloudOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
+
+				type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
+				damage = npc.GetProjectileDamage(type);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
 
             return true;

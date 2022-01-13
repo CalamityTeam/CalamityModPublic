@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -65,6 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Harpoon, 2);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddIngredient(ItemID.SoulofMight, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

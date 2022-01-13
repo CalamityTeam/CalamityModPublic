@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 58;
             npc.height = 68;
             npc.defense = 2;
-			npc.LifeMaxNERB(160, 180, 7000);
+			npc.LifeMaxNERB(150, 180, 7000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -50,6 +50,10 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.1f;
 
 			npc.Calamity().SplittingWorm = true;
+
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToCold = true;
+			npc.Calamity().VulnerableToSickness = true;
 		}
 
 		public override void AI()
@@ -109,7 +113,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (npc.ai[0] == 0f)
 				{
-					int totalSegments = death ? 18 : revenge ? 16 : expertMode ? 14 : 10;
+					int totalSegments = death ? 14 : revenge ? 13 : expertMode ? 12 : 10;
 					npc.ai[2] = totalSegments;
 					npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), ModContent.NPCType<PerforatorBodyMedium>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					Main.npc[(int)npc.ai[0]].ai[1] = npc.whoAmI;
@@ -457,11 +461,6 @@ namespace CalamityMod.NPCs.Perforator
 			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 3, 7);
 			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 2, 4);
 			DropHelper.DropItem(npc, ItemID.Vertebrae, 2, 3);
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

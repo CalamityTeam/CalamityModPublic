@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
             recipe.AddIngredient(ItemID.SpectreStaff);
             recipe.AddIngredient(ItemID.MagnetSphere);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.CursedInferno, 120);
             if (crit)
 				target.Calamity().miscDefenseLoss = 10;
         }

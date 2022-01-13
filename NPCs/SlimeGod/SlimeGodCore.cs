@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;
-            npc.LifeMaxNERB(2000, 2500, 250000);
+            npc.LifeMaxNERB(2100, 2500, 250000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -57,7 +57,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.DeathSound = SoundID.NPCDeath1;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
-        }
+			npc.Calamity().VulnerableToHeat = true;
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -656,7 +658,7 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
+			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
 
 			// Purified Jam is once per player, but drops for all players.
 			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();

@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

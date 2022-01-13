@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Effulgent Manipulator");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Torches };
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

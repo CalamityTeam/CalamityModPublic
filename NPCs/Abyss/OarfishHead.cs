@@ -45,7 +45,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OarfishBanner>();
-        }
+			npc.Calamity().VulnerableToHeat = false;
+			npc.Calamity().VulnerableToSickness = true;
+			npc.Calamity().VulnerableToElectricity = true;
+			npc.Calamity().VulnerableToWater = false;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -295,8 +299,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 3, 5);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 1, 2);
+            int minCells = Main.expertMode ? 4 : 3;
+            int maxCells = Main.expertMode ? 7 : 5;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)

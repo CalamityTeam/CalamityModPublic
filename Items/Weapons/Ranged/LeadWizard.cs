@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 58;
+            item.damage = 46;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.BulletHighVelocity;
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().challengeDrop = true;
 			item.Calamity().canFirePointBlankShots = true;
 		}
 

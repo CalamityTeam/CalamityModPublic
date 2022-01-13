@@ -2,7 +2,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -51,9 +50,6 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
-            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-            ElementTooltip(item, tooltips);
-
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
@@ -83,11 +79,6 @@ namespace CalamityMod.Items
 				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
 				tooltips.Add(line);
 			}
-
-			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
-			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
-			if (challengeDrop)
-				ChallengeDropTooltip(item, tooltips);
 		}
 		#endregion
 
@@ -204,43 +195,6 @@ namespace CalamityMod.Items
 		}
 		#endregion
 
-		#region Challenge Drop Tooltip
-		private void ChallengeDropTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			Color? legendaryColor = null;
-			if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-				legendaryColor = new Color(255, Main.DiscoG, 53);
-			if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-				legendaryColor = new Color(Main.DiscoR, 203, 103);
-			if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-				legendaryColor = new Color(53, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<CosmicDischarge>())
-				legendaryColor = new Color(150, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<SeasSearing>())
-				legendaryColor = new Color(60, Main.DiscoG, 190);
-			if (item.type == ModContent.ItemType<SHPC>())
-				legendaryColor = new Color(255, Main.DiscoG, 155);
-			if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
-				legendaryColor = new Color(255, Main.DiscoG, 0);
-			if (item.type == ModContent.ItemType<PristineFury>())
-				legendaryColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-			if (item.type == ModContent.ItemType<LeonidProgenitor>())
-				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-			if (item.type == ModContent.ItemType<TheCommunity>())
-				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-			if (item.type == ModContent.ItemType<GaelsGreatsword>())
-				legendaryColor = new Color(146, 0, 0);
-
-			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
-			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
-			{
-				overrideColor = lineColor
-			};
-			tooltips.Add(line);
-		}
-		#endregion
-
 		#region Enchantment Tooltips
 		private void EnchantmentTooltips(Item item, IList<TooltipLine> tooltips)
 		{
@@ -281,6 +235,14 @@ namespace CalamityMod.Items
 
 			// Numerous random tooltip edits which don't fit into another category
 			#region Various Tooltip Edits
+
+			// Teleporters not working while a boss is alive.
+			if (item.type == ItemID.Teleporter)
+				EditTooltipByName("Placeable", (line) => line.text += "\nCannot be used while a boss is alive");
+
+			// Flesh Knuckles giving extra max life.
+			if (item.type == ItemID.FleshKnuckles)
+				EditTooltipByNum(0, (line) => line.text += "\nMax life increased by 45");
 
 			// Mirrors and Recall Potions cannot be used while a boss is alive.
 			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
@@ -357,6 +319,10 @@ namespace CalamityMod.Items
 			// TODO -- in 1.4 this mistake is already corrected
 			if (item.type == ItemID.MagicQuiver)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
+
+			// Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
+			if (item.type == ItemID.DD2BetsyBow)
+				EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
 			#endregion
 
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
@@ -419,6 +385,9 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
+
+			if (item.type == ItemID.DeathSickle)
+				EditTooltipByNum(0, (line) => line.text += "\nInflicts Whispering Death on hit");
 			#endregion
 
 			// Light pets, accessories, and other items which boost the player's Abyss light stat
@@ -769,6 +738,7 @@ namespace CalamityMod.Items
 
 			// This function is shorthand for appending a stat sheet to a pair of wings.
 			void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
+			void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
 
 			if (item.type == ItemID.AngelWings)
 				AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
@@ -873,8 +843,9 @@ namespace CalamityMod.Items
 				AddWingStats(6.5f, 1.5f, 1, 160, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
 					"and 5% decreased mana usage while wearing the Nebula Armor");
 
+			// Betsy's Wings (and dev wings) are the only wings without "Allows flight and free fall"
 			if (item.type == ItemID.BetsyWings)
-				AddWingStats(6f, 2.5f, 1, 150);
+				AddWingStats2(6f, 2.5f, 1, 150, null, "Equipable");
 			#endregion
 
 			// Provide the full stats of every vanilla grappling hook
@@ -953,16 +924,16 @@ namespace CalamityMod.Items
 			switch (item.prefix)
 			{
 				case PrefixID.Brisk:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "2%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "1.5%"));
 					return;
 				case PrefixID.Fleeting:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "4%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "3%"));
 					return;
 				case PrefixID.Hasty2: // Hasty2 is the "Hasty" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "6%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "4.5%"));
 					return;
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "6%"));
 					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",
@@ -1026,38 +997,6 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
-			}
-		}
-		#endregion
-
-		#region Element Tooltip
-		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityLists.fireWeaponList.Contains(item.type))
-			{
-				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "- Fire Weapon -")
-				{
-					overrideColor = new Color(255, 165, 0)
-				};
-				tooltips.Add(fireTooltip);
-			}
-
-			if (CalamityLists.iceWeaponList.Contains(item.type))
-			{
-				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "- Ice Weapon -")
-				{
-					overrideColor = new Color(94, 230, 255)
-				};
-				tooltips.Add(iceTooltip);
-			}
-
-			if (CalamityLists.natureWeaponList.Contains(item.type))
-			{
-				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "- Nature Weapon -")
-				{
-					overrideColor = new Color(46, 165, 0)
-				};
-				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,6 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 240;
             projectile.penetrate = 1;
             projectile.magic = true;
+			projectile.extraUpdates = 2;
         }
 
         public override void AI()
@@ -49,6 +51,16 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override bool CanDamage() => Time > AttackDelay;
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (Time > AttackDelay)
+				return null;
+			return false;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
+        }
     }
 }

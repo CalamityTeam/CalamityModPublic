@@ -35,6 +35,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
+		// Default life ratio for the other mechs
+		private const float defaultLifeRatio = 5f;
+
 		// Timer to prevent Thanatos from dealing contact damage for a bit
 		private int noContactDamageTimer = 0;
 
@@ -58,7 +61,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.defense = 100;
 			npc.DR_NERD(0.9999f);
 			npc.Calamity().unbreakableDR = true;
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.LifeMaxNERB(960000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -75,6 +78,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.chaseable = false;
 			npc.boss = true;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+			npc.Calamity().VulnerableToSickness = false;
+			npc.Calamity().VulnerableToElectricity = true;
 		}
 
 		public override void BossHeadSlot(ref int index)
@@ -198,23 +203,45 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoPrimeAlive = false;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+				{
 					otherExoMechsAlive++;
+					exoPrimeAlive = true;
+				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+				{
 					otherExoMechsAlive++;
+					exoTwinsAlive = true;
+				}
 			}
 
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
+			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
+			float exoPrimeLifeRatio = defaultLifeRatio;
+			float exoTwinsLifeRatio = defaultLifeRatio;
+			if (exoPrimeAlive)
+				exoPrimeLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
+			if (exoTwinsAlive)
+				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
+
+			// If Thanatos doesn't go berserk
+			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
+
+			// Whether Thanatos should be buffed while in berserk phase
+			bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
+
 			// Use to close the segments quicker in later phases
-			float fasterSegmentClosingVar = lastMechAlive ? 0.2f : berserk ? 0.1f : 0f;
+			float fasterSegmentClosingVar = lastMechAlive ? 0.2f : shouldGetBuffedByBerserkPhase ? 0.1f : 0f;
 
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
@@ -226,14 +253,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.ai[3] += 1f;
 
 					double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
-					if (berserk)
+					if (shouldGetBuffedByBerserkPhase)
 						numSegmentsAbleToFire *= 1.5;
 
 					float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
-						float divisor = lastMechAlive ? 45f : berserk ? 60f : 90f;
+						float divisor = lastMechAlive ? 45f : shouldGetBuffedByBerserkPhase ? 60f : 90f;
 						if ((npc.ai[3] % divisor == 0f && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -299,7 +326,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						float divisor = npc.ai[0] * (lastMechAlive ? 1f : berserk ? 2f : 3f); // Ranges from 3 to 300
+						float divisor = npc.ai[0] * (lastMechAlive ? 1f : shouldGetBuffedByBerserkPhase ? 2f : 3f); // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -356,7 +383,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											else
 											{
 												// Normal laser
-												if (berserk && npc.ai[0] % 3f == 0f)
+												if (shouldGetBuffedByBerserkPhase && npc.ai[0] % 3f == 0f)
 													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
 												// Predictive laser
@@ -418,7 +445,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Increase overall damage taken while vulnerable
 			float damageMult = malice ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
-			if (berserk)
+			if (shouldGetBuffedByBerserkPhase)
 				damageMult -= malice ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
 
 			npc.takenDamageMultiplier = vulnerable ? damageMult : 1f;
@@ -441,7 +468,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 				// Steam
 				npc.localAI[0] += 1f;
-				float actualVentDuration = lastMechAlive ? 90f : berserk ? 120f : ThanatosHead.ventDuration;
+				float actualVentDuration = lastMechAlive ? 90f : shouldGetBuffedByBerserkPhase ? 120f : ThanatosHead.ventDuration;
 				if (npc.localAI[0] < actualVentDuration)
 				{
 					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Otherworldly Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ancient Bookcase");
+            name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Bookcases };

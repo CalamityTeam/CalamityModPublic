@@ -36,18 +36,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<LeechingDagger>());
             recipe.AddIngredient(ModContent.ItemType<AncientShiv>());
             recipe.AddIngredient(ModContent.ItemType<SporeKnife>());
             recipe.AddIngredient(ModContent.ItemType<FlameburstShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<LeechingDagger>());
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<BloodyRupture>());
             recipe.AddIngredient(ModContent.ItemType<AncientShiv>());
             recipe.AddIngredient(ModContent.ItemType<SporeKnife>());
             recipe.AddIngredient(ModContent.ItemType<FlameburstShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<BloodyRupture>());
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

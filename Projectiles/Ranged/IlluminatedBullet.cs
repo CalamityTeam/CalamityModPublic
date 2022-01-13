@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
 
             // Invisible for the first few frames
             projectile.alpha = 255;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
         // On impact, make impact dust and play a sound.
