@@ -115,6 +115,8 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
 
+			projectile.rotation = projectile.velocity.ToRotation();
+
 			// Handle dynamic damage.
 			if (BaseDamage == 0f)
 				BaseDamage = projectile.damage;
@@ -198,7 +200,6 @@ namespace CalamityMod.Projectiles.Magic
 			// Approach the ideal velocity.
 			projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, MovementSpeed * 0.04f);
 			projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
-			projectile.rotation = projectile.velocity.ToRotation();
 		}
 
 		public void ReleaseSmallSpirits()
