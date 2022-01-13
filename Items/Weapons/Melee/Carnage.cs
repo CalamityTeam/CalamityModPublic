@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 46;
-            item.damage = 69;
+            item.damage = 55;
             item.melee = true;
             item.useAnimation = 21;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.scale = 1.25f;
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
 			item.rare = ItemRarityID.Orange;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -757,8 +757,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Storm Weaver
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, CalamityWorld.malice);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, !Main.expertMode);
 
 				DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;

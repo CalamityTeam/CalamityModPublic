@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.boss = true;
             npc.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
 			npc.Calamity().VulnerableToHeat = false;
 			npc.Calamity().VulnerableToSickness = true;
@@ -731,8 +731,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Leviathan and Anahita
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, !Main.expertMode);
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);

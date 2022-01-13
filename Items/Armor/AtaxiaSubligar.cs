@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrothermic Subligar");
-            Tooltip.SetDefault("3% increased critical strike chance\n" +
-                "15% increased movement speed");
+            Tooltip.SetDefault("5% increased critical strike chance\n" +
+                "10% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -26,11 +26,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 3;
-            player.magicCrit += 3;
-            player.rangedCrit += 3;
-            player.Calamity().throwingCrit += 3;
-            player.moveSpeed += 0.15f;
+			player.Calamity().AllCritBoost(5);
+			player.moveSpeed += 0.1f;
         }
 
         public override void AddRecipes()

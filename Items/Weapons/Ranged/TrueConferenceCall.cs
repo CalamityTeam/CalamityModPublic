@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 32;
             item.ranged = true;
             item.width = 66;
             item.height = 26;
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.shoot = ProjectileID.PurificationPowder;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override Vector2? HoldoutOffset()

@@ -50,9 +50,6 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
-            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-            ElementTooltip(item, tooltips);
-
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
@@ -82,11 +79,6 @@ namespace CalamityMod.Items
 				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
 				tooltips.Add(line);
 			}
-
-			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
-			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
-			if (challengeDrop)
-				ChallengeDropTooltip(item, tooltips);
 		}
 		#endregion
 
@@ -200,43 +192,6 @@ namespace CalamityMod.Items
 				}
 			}
 			#endregion
-		}
-		#endregion
-
-		#region Challenge Drop Tooltip
-		private void ChallengeDropTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			Color? legendaryColor = null;
-			if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-				legendaryColor = new Color(255, Main.DiscoG, 53);
-			if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-				legendaryColor = new Color(Main.DiscoR, 203, 103);
-			if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-				legendaryColor = new Color(53, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<CosmicDischarge>())
-				legendaryColor = new Color(150, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<SeasSearing>())
-				legendaryColor = new Color(60, Main.DiscoG, 190);
-			if (item.type == ModContent.ItemType<SHPC>())
-				legendaryColor = new Color(255, Main.DiscoG, 155);
-			if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
-				legendaryColor = new Color(255, Main.DiscoG, 0);
-			if (item.type == ModContent.ItemType<PristineFury>())
-				legendaryColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-			if (item.type == ModContent.ItemType<LeonidProgenitor>())
-				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-			if (item.type == ModContent.ItemType<TheCommunity>())
-				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-			if (item.type == ModContent.ItemType<GaelsGreatsword>())
-				legendaryColor = new Color(146, 0, 0);
-
-			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
-			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
-			{
-				overrideColor = lineColor
-			};
-			tooltips.Add(line);
 		}
 		#endregion
 
@@ -962,16 +917,16 @@ namespace CalamityMod.Items
 			switch (item.prefix)
 			{
 				case PrefixID.Brisk:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "2%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "1.5%"));
 					return;
 				case PrefixID.Fleeting:
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "4%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "3%"));
 					return;
 				case PrefixID.Hasty2: // Hasty2 is the "Hasty" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "6%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "4.5%"));
 					return;
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
-					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "6%"));
 					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",
@@ -1035,38 +990,6 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
-			}
-		}
-		#endregion
-
-		#region Element Tooltip
-		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityLists.fireWeaponList.Contains(item.type))
-			{
-				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "- Fire Weapon -")
-				{
-					overrideColor = new Color(255, 165, 0)
-				};
-				tooltips.Add(fireTooltip);
-			}
-
-			if (CalamityLists.iceWeaponList.Contains(item.type))
-			{
-				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "- Ice Weapon -")
-				{
-					overrideColor = new Color(94, 230, 255)
-				};
-				tooltips.Add(iceTooltip);
-			}
-
-			if (CalamityLists.natureWeaponList.Contains(item.type))
-			{
-				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "- Nature Weapon -")
-				{
-					overrideColor = new Color(46, 165, 0)
-				};
-				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion

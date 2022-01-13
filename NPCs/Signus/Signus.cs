@@ -764,8 +764,7 @@ namespace CalamityMod.NPCs.Signus
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Signus
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, CalamityWorld.malice);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, !Main.expertMode);
 
 				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;

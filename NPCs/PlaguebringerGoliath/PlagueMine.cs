@@ -39,16 +39,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.Calamity().VulnerableToElectricity = true;
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(npc.dontTakeDamage);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            npc.dontTakeDamage = reader.ReadBoolean();
-        }
-
         public override void AI()
         {
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -78,14 +68,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			float timeBeforeExplosion = malice ? 1200f : death ? 940f : revenge ? 720f : 600f;
             if (vector.Length() < distanceRequiredForExplosion || npc.ai[3] >= timeBeforeExplosion)
             {
-                npc.dontTakeDamage = false;
                 CheckDead();
                 npc.life = 0;
                 return;
             }
 
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = npc.ai[3] < timeBeforeExplosion * 0.1f;
             if (npc.ai[3] >= timeBeforeExplosion * 0.8f)
             {
                 npc.velocity *= 0.98f;

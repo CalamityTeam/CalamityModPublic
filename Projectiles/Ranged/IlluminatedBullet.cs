@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
 
             // Invisible for the first few frames
             projectile.alpha = 255;

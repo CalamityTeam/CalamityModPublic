@@ -207,7 +207,10 @@ namespace CalamityMod
             ExoChairSlowdownHotkey = RegisterHotKey("Exo Chair Slow Down", "RightShift");
 
             if (!Main.dedServ)
+            {
                 LoadClient();
+                GeneralParticleHandler.Load();
+            }
 
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
@@ -398,6 +401,7 @@ namespace CalamityMod
                 Main.rainTexture = rainOriginal;
                 Main.manaTexture = manaOriginal;
                 Main.flyingCarpetTexture = carpetOriginal;
+                GeneralParticleHandler.Unload();
             }
             Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
@@ -827,7 +831,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheAbyss") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss1") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -835,7 +839,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheDeepAbyss") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss2") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -843,7 +847,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            music = GetMusicFromMusicMod("TheVoid") ?? MusicID.Hell;
+                            music = GetMusicFromMusicMod("Abyss3") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -862,12 +866,12 @@ namespace CalamityMod
 
                             // Regular Sulphur Sea theme, when Acid Rain is not occurring
                             else
-                                music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
+                                music = GetMusicFromMusicMod("SulphurousSea") ?? MusicID.Desert;
                         }
                     }
 					if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
 					{
-						music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+						music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 						priority = MusicPriority.BossMedium;
 					}
 
@@ -1599,6 +1603,16 @@ namespace CalamityMod
 
         #region Speedrun Timer Stopper
         public override void PreSaveAndQuit() => SpeedrunTimer?.Stop();
+        #endregion
+
+        #region Particles updating
+        public override void PostUpdateEverything()
+        {
+            if (!Main.dedServ)
+            {
+                GeneralParticleHandler.Update();
+            }
+        }
         #endregion
     }
 }

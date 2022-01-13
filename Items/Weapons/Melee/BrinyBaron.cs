@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 155;
+            item.damage = 124;
             item.knockBack = 4f;
             item.useAnimation = item.useTime = 15;
             item.melee = true;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool AltFunctionUse(Player player) => true;

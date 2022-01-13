@@ -19,7 +19,7 @@ Stealth strikes throw three high speed spears");
         public override void SafeSetDefaults()
         {
             item.width = 44;
-            item.damage = 18;
+            item.damage = 14;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 22;
@@ -34,7 +34,6 @@ Stealth strikes throw three high speed spears");
             item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

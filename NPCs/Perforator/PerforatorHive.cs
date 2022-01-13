@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath19;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("BloodCoagulant") ?? MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
 			npc.Calamity().VulnerableToHeat = true;
 			npc.Calamity().VulnerableToCold = true;
@@ -474,8 +474,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);

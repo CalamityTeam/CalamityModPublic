@@ -26,8 +26,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.minion = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.Calamity().hasInorganicEnemyHitBoost = true;
-            projectile.Calamity().inorganicEnemyHitBoost = 0.002f;
 			projectile.extraUpdates = 1;
         }
 

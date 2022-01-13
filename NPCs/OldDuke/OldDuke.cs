@@ -380,8 +380,7 @@ namespace CalamityMod.NPCs.OldDuke
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Old Duke
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);

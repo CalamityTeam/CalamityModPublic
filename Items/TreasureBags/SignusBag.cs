@@ -40,8 +40,9 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
 			DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);
 			DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), DropHelper.BagWeaponDropRateInt);
+			DropHelper.DropItem(player, ModContent.ItemType<LanternoftheSoul>());
 
-            // Equipment
+			// Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());
 
             // Vanity

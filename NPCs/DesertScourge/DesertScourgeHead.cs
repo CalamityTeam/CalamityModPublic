@@ -570,8 +570,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             DropHelper.DropBags(npc);
 
-            // Legendary drop for Desert Scourge
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, CalamityWorld.malice);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, !Main.expertMode);
 
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);

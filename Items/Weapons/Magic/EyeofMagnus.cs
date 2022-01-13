@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 80;
+            item.damage = 64;
             item.rare = ItemRarityID.Cyan;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
 			item.shoot = ModContent.ProjectileType<MagnusBeam>();
             item.shootSpeed = 12f;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override Vector2? HoldoutOffset()

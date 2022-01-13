@@ -30,7 +30,9 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.GetNPCDamage();
 			npc.width = 90;
             npc.height = 120;
-			npc.LifeMaxNERB(130000, 150000, 900000);
+			npc.defense = 45;
+			npc.DR_NERD(0.1f);
+			npc.LifeMaxNERB(Main.expertMode ? 45000 : 35000, CalamityWorld.death ? 90000 : 75000, 60000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -41,10 +43,10 @@ namespace CalamityMod.NPCs.Polterghast
             npc.noTileCollide = true;
             npc.netAlways = true;
             npc.canGhostHeal = false;
-			npc.dontTakeDamage = true;
             npc.HitSound = SoundID.NPCHit36;
             npc.DeathSound = SoundID.NPCDeath39;
-        }
+			npc.Calamity().VulnerableToSickness = false;
+		}
 
 		public override void BossHeadRotation(ref float rotation)
 		{

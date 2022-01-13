@@ -4,10 +4,12 @@ using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBomb : ModProjectile
@@ -57,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.position.Y = projectile.position.Y - (projectile.height / 2);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 flareShootTimer = 60;
             }

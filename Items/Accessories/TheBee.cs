@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)

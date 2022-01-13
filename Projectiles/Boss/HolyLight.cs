@@ -38,8 +38,6 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.timeLeft = 160;
 			}
 
-			bool expertMode = Main.expertMode;
-
 			if (projectile.velocity.Length() < 16f)
 				projectile.velocity *= 1.01f;
 
@@ -49,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 
 			float playerDist = Vector2.Distance(player.Center, projectile.Center);
-			if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
+			if (!player.immune && playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
             {
                 int healAmt = (int)projectile.ai[1];
 				player.HealEffect(healAmt, false);

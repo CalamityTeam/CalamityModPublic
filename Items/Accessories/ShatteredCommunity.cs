@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Accessories
 			player.statDefense += 10;
 			player.endurance += 0.05f;
 			player.lifeRegen += 2;
-			player.moveSpeed += 0.2f;
+			player.moveSpeed += 0.1f;
 
 			// Shattered Community provides a stacking +1% Rage Mode damage per level.
 			modPlayer.RageDamageBoost += level * RageDamagePerLevel;

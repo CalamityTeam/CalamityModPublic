@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SeasSearing : ModItem
     {
-        public static int BaseDamage = 60;
+        public static int BaseDamage = 48;
 
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override Vector2? HoldoutOffset()

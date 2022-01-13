@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> list)

@@ -54,9 +54,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
                 DropHelper.WeightStack<FinalDawn>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<VoidVortex>());
+			DropHelper.DropItem(player, ModContent.ItemType<YharimsCrystal>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
 
             int soulFragMin = 22;

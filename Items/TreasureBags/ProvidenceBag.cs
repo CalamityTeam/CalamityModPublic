@@ -58,9 +58,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<DazzlingStabberStaff>(w),
                 DropHelper.WeightStack<MoltenAmputator>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<SamuraiBadge>());
+			DropHelper.DropItem(player, ModContent.ItemType<PristineFury>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<ProvidenceMask>(), 7);

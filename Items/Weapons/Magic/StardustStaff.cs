@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 72;
             item.magic = true;
             item.mana = 20;
             item.width = 56;
@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Starblast>();
             item.shootSpeed = 12f;
-            item.Calamity().challengeDrop = true;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);

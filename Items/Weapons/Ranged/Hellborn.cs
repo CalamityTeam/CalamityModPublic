@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 7;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
-            item.useTime = 10;
-            item.useAnimation = 10;
+            item.useTime = 15;
+            item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2f;
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().challengeDrop = true;
 			item.Calamity().canFirePointBlankShots = true;
 		}
 

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = ItemRarityID.Red;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
             item.autoReuse = true;
-            item.shootSpeed = 5f;
+            item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }

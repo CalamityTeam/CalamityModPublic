@@ -4743,25 +4743,6 @@ namespace CalamityMod.CalPlayer
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
 				mult += hoverboardBoost ? 0.35f : 0.25f;
 
-			if (fireball && cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-			{
-				mult += 0.125f;
-			}
-			else
-			{
-				if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
-					mult += 0.05f;
-
-				if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-					mult += 0.1f;
-			}
-
-            if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
-				mult += 0.1f;
-
-            if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
-				mult += 0.1f;
-
             if (item.ranged)
                 acidRoundMultiplier = item.useTime / 20D;
             else

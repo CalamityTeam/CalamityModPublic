@@ -104,8 +104,8 @@ namespace CalamityMod.Projectiles.Boss
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f, 0f);
                 }
             }
 

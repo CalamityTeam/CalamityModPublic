@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int b = 0; b < blobAmt; b++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MoltenBlob>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MoltenBlob>(), (int)Math.Round(projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(SoundID.Item20, projectile.Center);

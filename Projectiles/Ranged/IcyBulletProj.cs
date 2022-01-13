@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.coldDamage = true;
             projectile.penetrate = 3;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
             projectile.coldDamage = true;

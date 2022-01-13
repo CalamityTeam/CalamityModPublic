@@ -1097,8 +1097,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);

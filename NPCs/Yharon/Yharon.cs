@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noTileCollide = true;
             npc.netAlways = true;
 
-            music = CalamityMod.Instance.GetMusicFromMusicMod("YHARON") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
 
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
@@ -1524,7 +1524,7 @@ namespace CalamityMod.NPCs.Yharon
             if (!moveCloser)
             {
                 // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
-                music = CalamityMod.Instance.GetMusicFromMusicMod("DragonGod") ?? MusicID.LunarBoss;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
 
                 moveCloser = true;
 
@@ -2822,9 +2822,8 @@ namespace CalamityMod.NPCs.Yharon
 			// Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Yharon
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, !Main.expertMode);
 
             // Normal drops: Everything that would otherwise be in the bag
             if (!Main.expertMode)

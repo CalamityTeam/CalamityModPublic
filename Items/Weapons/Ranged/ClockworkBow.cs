@@ -1,12 +1,7 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using System.Collections.Generic;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -23,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 850;
+            item.damage = 808;
             item.ranged = true;
             item.width = 48;
             item.height = 96;

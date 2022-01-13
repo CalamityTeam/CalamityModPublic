@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Accessories
 			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.damage = (int)(npc.damage * 1.5);
                 npc.defense *= 2;
-                npc.lifeMax *= 5;
+                npc.lifeMax *= 4;
                 npc.value *= 1.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -772,8 +772,7 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Ravager
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);

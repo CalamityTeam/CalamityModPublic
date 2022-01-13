@@ -1053,9 +1053,8 @@ namespace CalamityMod.NPCs.Cryogen
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Cryogen
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);

@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.knockBackResist = 0f;
             npc.boss = true;
 			npc.noTileCollide = true;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("Murderswarm") ?? MusicID.Boss4;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 30, 0, 0);
@@ -413,8 +413,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Dragonfolly
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);

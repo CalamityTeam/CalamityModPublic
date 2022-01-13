@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -282,10 +281,11 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				spawnedProjectiles = true;
 				int spawnX = npc.width / 2;
-				int damage = Main.expertMode ? 55 : 70;
+				int type = ModContent.ProjectileType<OldDukeGore>();
+				int damage = npc.GetProjectileDamage(type);
 				for (int i = 0; i < 2; i++)
 					Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-spawnX, spawnX), npc.Center.Y,
-						Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), ModContent.ProjectileType<OldDukeGore>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), type, damage, 0f, Main.myPlayer);
 			}
 
 			return true;

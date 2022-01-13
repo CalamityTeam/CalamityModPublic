@@ -126,22 +126,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				ElectricalBurst(5f, 9f);
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (!target.boss)
-			{
-				if (projectile.ai[1] >= 0f)
-				{
-					if (target.Organic())
-					{
-						target.velocity.X = 0f;
-						target.velocity.Y = 0f;
-						damage += target.lifeMax / 250;
-					}
-				}
-			}
-		}
-
 		public override void Kill(int timeLeft)
 		{
 			bool notArcingProjectile = projectile.ai[1] >= 0f;

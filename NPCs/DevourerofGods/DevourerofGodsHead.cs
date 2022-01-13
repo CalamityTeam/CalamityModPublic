@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DevourerofGodsBag>();
 		}
 
@@ -377,7 +377,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+					music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
 				// Once before DoG spawns, set new size and become visible again.
 				if (CalamityWorld.DoGSecondStageCountdown == 60)
@@ -2235,10 +2235,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for DoG
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, !Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);

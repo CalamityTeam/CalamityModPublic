@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
-            npc.damage = 60;
+            npc.damage = 0;
             npc.width = 30;
             npc.height = 30;
             npc.lifeMax = 1;
@@ -222,11 +222,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             return true;
         }
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
-		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

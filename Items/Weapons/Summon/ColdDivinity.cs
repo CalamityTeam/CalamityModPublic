@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 48;
             item.mana = 10;
             item.width = 52;
             item.height = 50;
@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void ModifyTooltips(List<TooltipLine> list)

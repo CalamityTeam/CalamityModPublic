@@ -58,9 +58,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SnowstormStaff>(w),
                 DropHelper.WeightStack<Icebreaker>(w)
             );
+			DropHelper.DropItem(player, ModContent.ItemType<ColdDivinity>());
+			DropHelper.DropItem(player, ModContent.ItemType<Cryophobia>());
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
             DropHelper.DropItemChance(player, ModContent.ItemType<FrostFlare>(), 5);
             DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 5);
 
