@@ -1324,7 +1324,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 120);
 				}
 				if (corrosiveSpine)
 				{
@@ -1468,7 +1468,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (titanHeartMask)
 				{
-					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1, 6), false); // 1 to 5 seconds
+					target.AddBuff(BuffType<AstralInfectionDebuff>(), 120);
 				}
 				if (corrosiveSpine)
 				{
