@@ -15,10 +15,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hadopelagic Echo");
-            Tooltip.SetDefault("Fires a string of bouncing sound waves\n" +
-            "Sound waves fired later in the chain deal more damage\n" +
-            "Sound waves echo additional sound waves on enemy hits\n" +
-            "Sound waves deal more damage the more they pierce");
+            Tooltip.SetDefault("Fires a string of bouncing sound waves that become stronger as they travel\n" +
+            "Sound waves echo additional sound waves on enemy hits");
         }
 
         public override void SetDefaults()
@@ -37,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = ItemRarityID.Red;
             item.autoReuse = true;
-            item.shootSpeed = 20f;
+            item.shootSpeed = 10f;
             item.shoot = ModContent.ProjectileType<HadopelagicEchoSoundwave>();
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
@@ -49,16 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float damageMult = 1f;
-            if (counter == 1)
-                damageMult = 1.1f;
-            if (counter == 2)
-                damageMult = 1.2f;
-            if (counter == 3)
-                damageMult = 1.35f;
-            if (counter == 4)
-                damageMult = 1.5f;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, counter, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, counter);
             counter++;
             if (counter >= 5)
                 counter = 0;

@@ -165,19 +165,8 @@ namespace CalamityMod.Projectiles
 					trueMelee = true;
 					break;
 
-				case ProjectileID.Bullet:
-				case ProjectileID.MeteorShot:
 				case ProjectileID.BulletHighVelocity:
 				case ProjectileID.ChlorophyteBullet:
-				case ProjectileID.CrystalBullet:
-				case ProjectileID.CursedBullet:
-				case ProjectileID.ExplosiveBullet:
-				case ProjectileID.GoldenBullet:
-				case ProjectileID.IchorBullet:
-				case ProjectileID.MoonlordBullet:
-				case ProjectileID.NanoBullet:
-				case ProjectileID.PartyBullet:
-				case ProjectileID.VenomBullet:
 				case ProjectileID.WoodenArrowFriendly:
 				case ProjectileID.BeeArrow:
 				case ProjectileID.BoneArrow:
@@ -215,6 +204,23 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.CandyCorn:
 				case ProjectileID.Blizzard:
 				case ProjectileID.LostSoulFriendly:
+					pointBlankShotDuration = basePointBlankShotDuration;
+					break;
+
+				// Make bullets almost hitscan because that's how bullets should work in games :^)
+				// Chloro bullets are not here, because they home in
+				case ProjectileID.Bullet:
+				case ProjectileID.MeteorShot:
+				case ProjectileID.CrystalBullet:
+				case ProjectileID.IchorBullet:
+				case ProjectileID.CursedBullet:
+				case ProjectileID.VenomBullet:
+				case ProjectileID.PartyBullet:
+				case ProjectileID.NanoBullet:
+				case ProjectileID.ExplosiveBullet:
+				case ProjectileID.GoldenBullet:
+				case ProjectileID.MoonlordBullet:
+					projectile.extraUpdates += 2;
 					pointBlankShotDuration = basePointBlankShotDuration;
 					break;
 

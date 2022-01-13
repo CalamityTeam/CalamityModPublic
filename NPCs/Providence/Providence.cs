@@ -287,16 +287,24 @@ namespace CalamityMod.NPCs.Providence
 
 			// Count the remaining Guardians, healer especially because it allows the boss to heal
 			int guardianAmt = 0;
+			bool attackerAlive = false;
+			bool defenderAlive = false;
             bool healerAlive = false;
             if (CalamityGlobalNPC.holyBossAttacker != -1)
             {
-                if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                    guardianAmt++;
+				if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
+				{
+					guardianAmt++;
+					attackerAlive = true;
+				}
             }
             if (CalamityGlobalNPC.holyBossDefender != -1)
             {
-                if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-                    guardianAmt++;
+				if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
+				{
+					guardianAmt++;
+					defenderAlive = true;
+				}
             }
             if (CalamityGlobalNPC.holyBossHealer != -1)
             {
@@ -316,13 +324,13 @@ namespace CalamityMod.NPCs.Providence
                     switch (guardianAmt)
                     {
                         case 1:
-                            attackRateMult = 1.25;
+                            attackRateMult = 1.15;
                             break;
                         case 2:
-                            attackRateMult = 1.5;
+                            attackRateMult = 1.3;
                             break;
                         case 3:
-                            attackRateMult = 2D;
+                            attackRateMult = 1.45;
                             break;
                         default:
                             break;
@@ -366,26 +374,32 @@ namespace CalamityMod.NPCs.Providence
 				return;
             }
 
-            // Heal
+			// Damage
+			if (attackerAlive)
+			{
+				double damageMult = 1.25;
+				holyLaserDamage = (int)(holyLaserDamage * damageMult);
+				crystalDamage = (int)(crystalDamage * damageMult);
+				holySpearDamage = (int)(holySpearDamage * damageMult);
+				holyBombDamage = (int)(holyBombDamage * damageMult);
+				moltenBlastDamage = (int)(moltenBlastDamage * damageMult);
+				holyFireDamage = (int)(holyFireDamage * damageMult);
+				holyBlastDamage = (int)(holyBlastDamage * damageMult);
+				holyStarDamage = (int)(holyStarDamage * damageMult);
+			}
+
+			// Defense
+			if (defenderAlive)
+				npc.defense = npc.defDefense * 2;
+			else
+				npc.defense = npc.defDefense;
+
+            // Healing
             if (healerAlive)
             {
-                float heal = revenge ? 90f : 120f;
-                switch (guardianAmt)
-                {
-                    case 1:
-                        heal *= 2f;
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        heal *= 0.5f;
-                        break;
-                    default:
-                        break;
-                }
-
+                float healGateValue = revenge ? 60f : 90f;
                 healTimer++;
-                if (healTimer >= heal)
+                if (healTimer >= healGateValue)
                 {
                     healTimer = 0;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -436,6 +450,7 @@ namespace CalamityMod.NPCs.Providence
 			{
 				if (bossLife == 0f && npc.life > 0)
 					bossLife = npc.lifeMax;
+
 				if (npc.life > 0)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -444,11 +459,16 @@ namespace CalamityMod.NPCs.Providence
 						if ((npc.life + num660) < bossLife)
 						{
 							bossLife = npc.life;
-							int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
-							int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-							NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>());
-							NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>());
-							NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>());
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
+							int guardianRingAmt = 3;
+							int guardianSpread = 360 / guardianRingAmt;
+							int guardianDistance = 400;
+							for (int i = 0; i < guardianRingAmt; i++)
+							{
+								int type = i == 0 ? ModContent.NPCType<ProvSpawnDefense>() : i == 1 ? ModContent.NPCType<ProvSpawnHealer>() : ModContent.NPCType<ProvSpawnOffense>();
+								int spawn = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(i * guardianSpread) * guardianDistance)), (int)(npc.Center.Y + (Math.Cos(i * guardianSpread) * guardianDistance)), type, npc.whoAmI, 0, 0, 0, -1);
+								Main.npc[spawn].ai[0] = i * guardianSpread;
+							}
 						}
 					}
 				}
@@ -512,8 +532,8 @@ namespace CalamityMod.NPCs.Providence
                 }
                 if (firingLaser)
                 {
-                    acceleration *= normalAttackRate ? 0.4f : 0.2f;
-                    velocity *= normalAttackRate ? 0.4f : 0.2f;
+                    acceleration *= 0.4f;
+                    velocity *= 0.4f;
                 }
                 else if (increaseSpeed)
                 {
@@ -538,7 +558,7 @@ namespace CalamityMod.NPCs.Providence
 					if (num855 > (firingLaser ? 200f : 250f)) // 200
 						npc.velocity.Y += 0.2f;
 
-					float speedVariance = normalAttackRate ? 2f : 1f;
+					float speedVariance = 2f;
 					if (npc.velocity.Y > (firingLaser ? speedVariance : 6f))
 						npc.velocity.Y = firingLaser ? speedVariance : 6f;
 					if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f))
@@ -943,8 +963,7 @@ namespace CalamityMod.NPCs.Providence
 						}
 
 						// Fire a flame towards every player, with a limit of 5
-						// Only fired while the guardians aren't alive or if Providence is at low health
-						if (npc.ai[3] % 60f == 0f && expertMode && normalAttackRate)
+						if (npc.ai[3] % 60f == 0f && expertMode)
 						{
 							List<int> targets = new List<int>();
 							for (int p = 0; p < Main.maxPlayers; p++)
@@ -1217,7 +1236,7 @@ namespace CalamityMod.NPCs.Providence
 
 					Vector2 value19 = new Vector2(27f, 59f);
 
-					float rotation = (nightTime ? 435f : 450f) + (guardianAmt * 18);
+					float rotation = (nightTime ? 435f : 450f) + (guardianAmt * 5);
 
 					npc.ai[2] += 1f;
 					if (npc.ai[2] < 120f)

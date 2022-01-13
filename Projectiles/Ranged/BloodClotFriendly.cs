@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
+			projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
 			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}

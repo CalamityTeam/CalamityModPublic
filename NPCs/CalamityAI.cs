@@ -30,8 +30,6 @@ namespace CalamityMod.NPCs
 {
     public class CalamityAI
     {
-		// Master Mode changes
-		// 1 - Sand clouds spread out far more and more are spawned in instead of sand blasts, 2 - Far longer and larger, 3 - Sand blasts accelerate
 		#region Aquatic Scourge
 		public static void AquaticScourgeAI(NPC npc, Mod mod, bool head)
 		{
@@ -603,8 +601,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Cycles between attacks faster, 2 - Brimstone Ray splits off into brimstone darts when fired, 3 - Brimlings stay very close to their mother to act as meat shields
 		#region Brimstone Elemental
 		public static void BrimstoneElementalAI(NPC npc, Mod mod)
 		{
@@ -1212,8 +1208,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Brothers are midgets and faster, 2 - Calamitas no longer gains increased defense while brothers are alive, 3 - Calamitas moves far quicker and her fireballs split into brimstone darts on death
 		#region Calamitas Clone
 		public static void CalamitasCloneAI(NPC npc, Mod mod)
 		{
@@ -2584,8 +2578,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Smaller, 2 - Much faster, 3 - Aureus Spawns are bigger and are aggro immediately
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
@@ -3246,8 +3238,6 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
-		// Master Mode changes
-		// 1 - Deus worms in phase 2 gain DR proportional to the amount of HP the other worm has left (to force the player to damage both to around 10% to finish the fight)
 		#region Astrum Deus
 		public static void AstrumDeusAI(NPC npc, Mod mod, bool head)
 		{
@@ -3945,8 +3935,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Dark Energies are smaller and spread out from each other, 2 - Void accelerates quicker
 		#region Ceaseless Void
 		public static void CeaselessVoidAI(NPC npc, Mod mod)
 		{
@@ -4528,8 +4516,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Always has 1 added to its enraged scale, 2 - Lightning auras are horizontal instead of vertical
 		#region Bumblebirb
 		public static void BumblebirbAI(NPC npc, Mod mod)
 		{
@@ -5434,8 +5420,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		// Master Mode changes
-		// 1 - Every NPC in the fight is bigger, 2 - Cycles between attacks quicker
 		#region Old Duke
 		public static void OldDukeAI(NPC npc, Mod mod)
 		{
