@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Rectangle frameRectangle = Main.projectileTexture[projectile.type].Frame(1, 9, 0, projectile.frame);
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, frameRectangle, Color.White, projectile.rotation, frameRectangle.Size() * 0.5f, 1f, projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, frameRectangle, lightColor, projectile.rotation, frameRectangle.Size() * 0.5f, 1f, projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             spriteBatch.ExitShaderRegion();
 
