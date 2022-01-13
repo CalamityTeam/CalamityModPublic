@@ -21,7 +21,7 @@ namespace CalamityMod.ILEditing
         }
 
         // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,767.
-        private static readonly List<int> NeedsFourLifeBytes = new List<int>()
+        private static readonly List<int> NeedsFourLifeBytes => new List<int>()
         {
             // King Slime
             NPCID.BlueSlime,
