@@ -2844,8 +2844,6 @@ namespace CalamityMod.CalPlayer
             if (!mediumcoreDeath)
             {
                 items.Add(createItem(ModContent.ItemType<StarterBag>()));
-                items.Add(createItem(ModContent.ItemType<Revenge>()));
-                items.Add(createItem(ModContent.ItemType<IronHeart>()));
             }
         }
         #endregion
