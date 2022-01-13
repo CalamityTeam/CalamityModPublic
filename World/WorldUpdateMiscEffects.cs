@@ -388,9 +388,6 @@ namespace CalamityMod.World
                     if (revenge)
                         spawnRate *= 0.85D;
 
-                    if (demonMode)
-                        spawnRate *= 0.75D;
-
                     if (death && Main.bloodMoon)
                         spawnRate *= 0.2D;
                     if (modPlayer.zerg)

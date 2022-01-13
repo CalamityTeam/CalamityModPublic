@@ -18,7 +18,7 @@ namespace CalamityMod.CalPlayer
         {
             Point point = player.Center.ToTileCoordinates();
 
-			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				noLifeRegen = true;
 
 			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;

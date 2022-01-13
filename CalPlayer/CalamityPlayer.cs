@@ -115,7 +115,6 @@ namespace CalamityMod.CalPlayer
 		public int searedPanTimer = 0;
         public int potionTimer = 0;
 		public bool cirrusDress = false;
-        public bool noWings = false;
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
@@ -1628,7 +1627,6 @@ namespace CalamityMod.CalPlayer
             wearingRogueArmor = false;
 			cirrusDress = false;
 
-            noWings = false;
             blockAllDashes = false;
             blazingCursorDamage = false;
             blazingCursorVisuals = false;
@@ -4669,12 +4667,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (CalamityWorld.ironHeart)
-            {
-                KillPlayer();
-                return false;
-            }
-
             deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -4729,8 +4721,6 @@ namespace CalamityMod.CalPlayer
                     (coreOfTheBloodGod ? 0.15 : 0) +
                     (bloodPactBoost ? 0.5 : 0);
             healValue = (int)(healValue * healMult);
-            if (CalamityWorld.ironHeart)
-                healValue = 0;
         }
         #endregion
 
@@ -5590,16 +5580,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (CalamityWorld.ironHeart)
-            {
-                int damageMin = 40 + (player.statLifeMax2 / 10);
-                if (damage < damageMin)
-                {
-                    player.endurance = 0f;
-                    damage = damageMin;
-                }
-            }
-
             if (aBulwarkRare)
             {
                 aBulwarkRareMeleeBoostTimer += 3 * damage;
@@ -5898,16 +5878,6 @@ namespace CalamityMod.CalPlayer
 
                 projectileDamageReduction = 1D / (1D + projectileDamageReduction);
                 damage = (int)(damage * projectileDamageReduction);
-            }
-
-            if (CalamityWorld.ironHeart)
-            {
-                int damageMin = (Main.expertMode ? 10 : 20) + (player.statLifeMax2 / (Main.expertMode ? 40 : 20));
-                if (damage < damageMin)
-                {
-                    player.endurance = 0f;
-                    damage = damageMin;
-                }
             }
         }
         #endregion
@@ -6803,8 +6773,6 @@ namespace CalamityMod.CalPlayer
         #region Limitations
         private void ForceVariousEffects()
         {
-            if (noWings)
-                RemoveWingTime();
             if (blockAllDashes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
                 DisableDashes();
             if (weakPetrification)
@@ -6832,10 +6800,6 @@ namespace CalamityMod.CalPlayer
                 player.yoraiz0rEye = 0;
         }
 
-        private void RemoveWingTime()
-        {
-            player.wingTimeMax = 0;
-        }
         private void DisableDashes()
         {
             // Set the player to have no registered dashes.
@@ -7010,17 +6974,6 @@ namespace CalamityMod.CalPlayer
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
             if (purpleCandle)
                 damage = (int)(damage - (player.statDefense * 0.05));
-
-            if (CalamityWorld.ironHeart)
-            {
-                int damageMin = 80 + (player.statLifeMax2 / 10);
-                playSound = false;
-                hurtSoundTimer = 20;
-                if (damage <= damageMin)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartHurt"), (int)player.position.X, (int)player.position.Y);
-                else
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
-            }
 
             return true;
         }
@@ -7629,7 +7582,6 @@ namespace CalamityMod.CalPlayer
             player.lastDeathPostion = player.Center;
             player.lastDeathTime = DateTime.Now;
             player.showLastDeath = true;
-            bool specialDeath = CalamityWorld.ironHeart;
             int coinsOwned = (int)Utils.CoinsCount(out bool flag, player.inventory, new int[0]);
             if (Main.myPlayer == player.whoAmI)
             {
@@ -7676,14 +7628,7 @@ namespace CalamityMod.CalPlayer
                     player.KillMeForGood();
                 }
             }
-            if (specialDeath)
-            {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IronHeartDeath"), (int)player.position.X, (int)player.position.Y);
-            }
-            else
-            {
-                Main.PlaySound(SoundID.PlayerKilled, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
-            }
+            Main.PlaySound(SoundID.PlayerKilled, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
             player.headVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             player.bodyVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             player.legVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
@@ -7698,7 +7643,7 @@ namespace CalamityMod.CalPlayer
             }
             for (int j = 0; j < 100; j++)
             {
-                Dust.NewDust(player.position, player.width, player.height, specialDeath ? 91 : 235, (float)(2 * 0), -2f, 0, default, 1f);
+                Dust.NewDust(player.position, player.width, player.height, 235, (float)(2 * 0), -2f, 0, default, 1f);
             }
             player.mount.Dismount(player);
             player.dead = true;
@@ -7723,10 +7668,6 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + player.name + " from the depths of the Abyss.");
                 }
-            }
-            else if (specialDeath)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was defeated.");
             }
             else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
             {

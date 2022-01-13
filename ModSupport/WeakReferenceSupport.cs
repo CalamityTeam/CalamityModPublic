@@ -708,7 +708,7 @@ namespace CalamityMod
 
 			// Wall of Flesh
 			AddLoot(bossChecklist, "WallofFlesh",
-				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<EvilSmasher>(), ItemType<MLGRune>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
+				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<EvilSmasher>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
 				new List<int>() { ItemType<KnowledgeWallofFlesh>(), ItemType<KnowledgeUnderworld>(), ItemType<IbarakiBox>() }
 			);
 
