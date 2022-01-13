@@ -176,10 +176,9 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemType<BiomeBlade>());
             recipe.AddIngredient(ItemType<LivingShard>(), 5);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddIngredient(ItemType<DepthCells>(), 10); //Hilarious abyss mats moment. Shall we change that since the abyss gets a attunement anyways
-            recipe.AddIngredient(ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ItemType<Tenebris>(), 5);
+            recipe.AddIngredient(ItemType<EssenceofChaos>(), 5); 
+            recipe.AddIngredient(ItemType<EssenceofCinder>(), 5);
+            recipe.AddIngredient(ItemType<EssenceofEleum>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -2630,6 +2630,15 @@ namespace CalamityMod.Projectiles.Melee
 
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(WaterMode);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            WaterMode = reader.ReadBoolean();
+        }
+
     }
 }
 
