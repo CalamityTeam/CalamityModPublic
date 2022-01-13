@@ -59,7 +59,6 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
             DropHelper.DropItem(player, ModContent.ItemType<DefiledRune>());
 			DropHelper.DropItem(player, ModContent.ItemType<Armageddon>());
-			DropHelper.DropItem(player, ModContent.ItemType<IronHeart>());
 
 			// The Lad
 			DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
