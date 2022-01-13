@@ -5793,6 +5793,17 @@ namespace CalamityMod.CalPlayer
                             hasBanner = true;
                         }
                     }
+                    if (tile.type == ModContent.TileType<MonsterBanner>())
+                    {
+                        int bannerType = tile.frameX / 18;
+
+                        int bannerItemType = CalamityUtils.GetBannerItem(bannerType);
+                        if (ItemID.Sets.BannerStrength[bannerItemType].Enabled)
+                        {
+                            NPCBannerBuff[bannerType] = true;
+                            hasBanner = true;
+                        }
+                    }
                 }
             }
 
