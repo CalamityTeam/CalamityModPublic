@@ -137,7 +137,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Marine:
                     AttunementInfo.name = "Gesture for the Drowned";
                     AttunementInfo.function_description = "Shoot out two water balls at your sides. On ground contact the water balls will turn into small waves that ride along the ground";
-                    AttunementInfo.function_extra = "If used while submerged, or if the waves contact water, the waves will expand and move much faster";
+                    AttunementInfo.function_extra = "If used while submerged, or if the waves contact water, the waves will turn into bigger and faster ones";
                     AttunementInfo.color = new Color(98, 225, 255);
                     break;
                 default:
