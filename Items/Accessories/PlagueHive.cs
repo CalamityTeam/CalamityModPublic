@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Hive");
-            Tooltip.SetDefault("The power of bees and wasps will rival the Moon Lord himself\n" +
-                   "All attacks inflict the Plague debuff\n" +
+            Tooltip.SetDefault("All attacks inflict the Plague debuff\n" +
                    "Releases bees when damaged that inflict the Plague\n" +
                    "Projectiles spawn plague seekers on enemy hits");
         }
