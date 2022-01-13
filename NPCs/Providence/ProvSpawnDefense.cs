@@ -97,10 +97,9 @@ namespace CalamityMod.NPCs.Providence
 				start = false;
 			}
 
-			npc.TargetClosest();
-			Vector2 velocity = Main.player[npc.target].Center - npc.Center;
-			velocity.Normalize();
-			npc.rotation = velocity.ToRotation() + MathHelper.Pi;
+			float playerLocation = npc.Center.X - Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center.X;
+			npc.direction = playerLocation < 0 ? 1 : -1;
+			npc.spriteDirection = npc.direction;
 
 			double deg = npc.ai[1];
 			double rad = deg * (Math.PI / 180);
