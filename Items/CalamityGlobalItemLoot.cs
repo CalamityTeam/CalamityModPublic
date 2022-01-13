@@ -102,7 +102,6 @@ namespace CalamityMod.Items
 					DropHelper.BlockDrops(emblems);
 
 					DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-					DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
 					DropHelper.DropItem(player, ModContent.ItemType<EvilSmasher>());
 					break;
 

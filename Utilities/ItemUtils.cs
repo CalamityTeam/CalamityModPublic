@@ -443,8 +443,6 @@ namespace CalamityMod
 						(player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +
 						(player.Calamity().bloodPactBoost ? 0.5 : 0);
 				int healAmt = (int)(item.healLife * healMult);
-				if (CalamityWorld.ironHeart)
-					healAmt = 0;
 				if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
 				{
 					if (player.QuickHeal_GetItemToUse().type != item.type)

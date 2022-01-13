@@ -439,10 +439,6 @@ namespace CalamityMod
 				case "armageddonmode":
 				case "armageddon mode":
 					return CalamityWorld.armageddon;
-
-				case "ironheart":
-				case "iron heart":
-					return CalamityWorld.ironHeart;
 			}
 		}
 
@@ -490,13 +486,6 @@ namespace CalamityMod
 				case "armageddonmode":
 				case "armageddon mode":
 					return CalamityWorld.armageddon = enabled;
-
-				case "ironheart":
-				case "iron heart":
-				case "steelsoul":
-				case "steel soul":
-				case "permadeath":
-					return CalamityWorld.ironHeart = enabled;
 			}
 		}
 		#endregion

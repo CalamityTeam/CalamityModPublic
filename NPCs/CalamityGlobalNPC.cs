@@ -4619,9 +4619,6 @@ namespace CalamityMod.NPCs
 			if (CalamityWorld.revenge)
 				spawnRate = (int)(spawnRate * 0.85);
 
-			if (CalamityWorld.demonMode)
-				spawnRate = (int)(spawnRate * 0.75);
-
 			if (Main.waterCandles > 0)
 			{
 				spawnRate = (int)(spawnRate * 0.9);

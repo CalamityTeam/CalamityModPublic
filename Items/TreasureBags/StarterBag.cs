@@ -56,7 +56,6 @@ namespace CalamityMod.Items.TreasureBags
 
 			// Difficulty items (Death doesn't drop in Normal)
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
-            DropHelper.DropItem(player, ModContent.ItemType<DefiledRune>());
 			DropHelper.DropItem(player, ModContent.ItemType<Armageddon>());
 
 			// The Lad

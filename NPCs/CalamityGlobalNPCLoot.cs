@@ -177,9 +177,6 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(emblems);
 				}
 
-				// Drop Demon Trophy directly if it hasn't been used yet and Expert Mode is not active.
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode && !CalamityWorld.demonMode);
-
 				// Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
 				float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
 				DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), true, hermitBoxChance);
