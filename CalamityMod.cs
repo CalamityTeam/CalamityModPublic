@@ -256,6 +256,8 @@ namespace CalamityMod
             AddEquipTexture(new FeatherCrownHair(), null, EquipType.Head, "FeatherCrownHead", "CalamityMod/Items/Accessories/FeatherCrown_Face");
             AddEquipTexture(new MoonstoneCrownHair(), null, EquipType.Head, "MoonstoneCrownHead", "CalamityMod/Items/Accessories/MoonstoneCrown_Face");
 
+			AddEquipTexture(null, EquipType.Legs, "CirrusDress_Legs", "CalamityMod/Items/Armor/CirrusDress_Legs");
+
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
