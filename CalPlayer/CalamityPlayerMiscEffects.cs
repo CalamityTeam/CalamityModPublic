@@ -161,7 +161,7 @@ namespace CalamityMod.CalPlayer
 			CalamityGlobalItem.UpdateAllParticleSets();
 			BiomeBlade.UpdateAllParticleSets();
 			TrueBiomeBlade.UpdateAllParticleSets();
-
+			OmegaBiomeBlade.UpdateAllParticleSets();
 
 			// Update the gem tech armor set.
 			GemTechState.Update();
