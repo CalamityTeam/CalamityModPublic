@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.025f : 0.1f) * pylonMult;
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.015f : 0.1f) * pylonMult;
         }
 
         public override void HitEffect(int hitDirection, double damage)

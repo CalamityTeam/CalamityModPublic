@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup("AnyLargeGem");
+            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
 			recipe.AddIngredient(ItemID.TeleportationPotion, 3);
 			recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);

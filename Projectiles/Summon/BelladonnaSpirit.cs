@@ -17,15 +17,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belladonna Spirit");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 36;
+            projectile.width = 28;
+            projectile.height = 48;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.minionSlots = 1;
