@@ -9,13 +9,39 @@ namespace CalamityMod.Events
 {
     public class BossRushSky : CustomSky
     {
-        public bool CurrentlyActive = false;
+        public bool CurrentlyActive;
         public float Intensity = 0f;
         public static float IdleTimer = 0f;
         public static float CurrentInterest = 0f;
         public static float IncrementalInterest = 0f;
         public static float CurrentInterestMin = 0f;
+        public static bool ShouldDrawRegularly;
         public static Color GeneralColor => Color.Lerp(Color.LightGray, Color.Black, BossRushEvent.WhiteDimness) * 0.2f;
+
+        public static bool DetermineDrawEligibility()
+        {
+            bool useEffect = (BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100) || ShouldDrawRegularly;
+
+            if (SkyManager.Instance["CalamityMod:BossRush"] != null && useEffect != SkyManager.Instance["CalamityMod:BossRush"].IsActive())
+            {
+                if (useEffect)
+                    SkyManager.Instance.Activate("CalamityMod:BossRush");
+
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:BossRush", new object[0]);
+                }
+            }
+            if (useEffect != Filters.Scene["CalamityMod:BossRush"].IsActive())
+            {
+                if (useEffect)
+                    Filters.Scene.Activate("CalamityMod:BossRush");
+                else
+                    Filters.Scene["CalamityMod:BossRush"].Deactivate(new object[0]);
+            }
+
+            return useEffect;
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -37,7 +63,10 @@ namespace CalamityMod.Events
         }
 
         private float GetIntensity()
-		{
+        {
+            if (ShouldDrawRegularly)
+                return 1f;
+
             float fadeRatio = BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime;
             return Utils.InverseLerp(0.57f, 1f, fadeRatio, true);
         }
@@ -71,8 +100,8 @@ namespace CalamityMod.Events
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
 
-            // Draw the Xeroc eye at the back of the background.
-            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && BossRushEvent.EndTimer < BossRushEvent.EndVisualEffectTime - 40f)
+            // Draw the Xeroc eye at the back of the sky.
+            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && (BossRushEvent.EndTimer < BossRushEvent.EndVisualEffectTime - 40f || ShouldDrawRegularly))
             {
                 Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 float scale = MathHelper.Lerp(0.8f, 0.9f, IncrementalInterest) + (float)Math.Sin(IdleTimer) * 0.01f;
@@ -94,6 +123,9 @@ namespace CalamityMod.Events
                     spriteBatch.Draw(eyeTexture, drawPosition + drawOffset, null, fadedColor, 0f, eyeTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
                 }
             }
+
+            if (ShouldDrawRegularly)
+                ShouldDrawRegularly = false;
         }
 
         public override float GetCloudAlpha() => 1f - GetIntensity();
