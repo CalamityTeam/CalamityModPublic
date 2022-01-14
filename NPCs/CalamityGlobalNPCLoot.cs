@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -74,9 +73,6 @@ namespace CalamityMod.NPCs
             // Mechanical Bosses' combined lore item
             bool mechLore = !NPC.downedMechBossAny && (lastTwinStanding || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMechs>(), true, mechLore);
-
-			if (CalamityWorld.armageddon)
-				ArmageddonLoot(npc);
 
 			if (npc.type == NPCID.KingSlime)
 			{
@@ -709,50 +705,6 @@ namespace CalamityMod.NPCs
 
             return true;
         }
-		#endregion
-
-		#region Armageddon Loot
-		private void ArmageddonLoot(NPC npc)
-		{
-			switch (npc.type)
-			{
-				case NPCID.EaterofWorldsHead:
-				case NPCID.EaterofWorldsBody:
-				case NPCID.EaterofWorldsTail:
-					if (npc.boss) // only drop from the 1 "boss" segment (redcode)
-						DropHelper.DropArmageddonBags(npc);
-					break;
-
-				case NPCID.Retinazer: // only drop if spaz is already dead
-					if (!NPC.AnyNPCs(NPCID.Spazmatism))
-						DropHelper.DropArmageddonBags(npc);
-					break;
-
-				case NPCID.Spazmatism: // only drop if ret is already dead
-					if (!NPC.AnyNPCs(NPCID.Retinazer))
-						DropHelper.DropArmageddonBags(npc);
-					break;
-
-				case NPCID.KingSlime:
-				case NPCID.EyeofCthulhu:
-				case NPCID.BrainofCthulhu:
-				case NPCID.QueenBee:
-				case NPCID.SkeletronHead:
-				case NPCID.WallofFlesh:
-				case NPCID.TheDestroyer:
-				case NPCID.SkeletronPrime:
-				case NPCID.Plantera:
-				case NPCID.Golem:
-				case NPCID.DD2Betsy:
-				case NPCID.DukeFishron:
-				case NPCID.MoonLordCore:
-					DropHelper.DropArmageddonBags(npc);
-					break;
-
-				default:
-					break;
-			}
-		}
 		#endregion
 
 		#region NPCLoot
