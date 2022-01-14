@@ -236,8 +236,8 @@ namespace CalamityMod.Projectiles.Melee
                 if (dashTimer == maxDash)
                 {
                     Owner.velocity *= 0.1f; //Abrupt stop
-                    if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
-                        blade.strongLunge = false;
+                    Owner.Calamity().LungingDown = true;
+
                     Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (PowerLungeEnd - PowerLungeStart) / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage * 2, 0, Owner.whoAmI);
                     if (proj.modProjectile is DecaysRetortDash dash)
                     {
@@ -275,8 +275,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void PowerLunge()
         {
-            if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
-                blade.strongLunge = true;
+            Owner.Calamity().LungingDown = true;
             PowerLungeStart = Owner.Center;
             dashTimer = 1f;
             Owner.GiveIFrames(60);
@@ -1940,10 +1939,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Center = Owner.Center + Vector2.Lerp(lastDisplacement, direction * 40f, MathHelper.Clamp(((dashDuration - projectile.timeLeft) / dashDuration) * 2f, 0f, 1f));
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
 
-                if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
-                {
-                    blade.strongLunge = true; //Needed for the downwards velocity uncap.
-                }
+                Owner.Calamity().LungingDown = true;
 
                 if (Collision.SolidCollision(Owner.Center + (direction * 120 * projectile.scale) - Vector2.One * 5f, 10, 10))
                 {
@@ -2096,10 +2092,7 @@ namespace CalamityMod.Projectiles.Melee
             if (State == 1f)
                 Owner.velocity *= 0.33f;
 
-            if (Owner.HeldItem.modItem is TrueBiomeBlade blade)
-            {
-                blade.strongLunge = false; //Needed for the downwards velocity uncap.
-            }
+            Owner.Calamity().LungingDown = false;
 
             projectile.active = false;
         }

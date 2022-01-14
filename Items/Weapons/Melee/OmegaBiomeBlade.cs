@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement? mainAttunement = null;
         public Attunement? secondaryAttunement = null;
         public int Combo = 0;
-        public bool strongLunge = false;
+        public int UseTimer = 0;
 
         public override void SetStaticDefaults()
         {
@@ -104,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "Swordsmith's Pride";
                     AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins. Extra ghostly swords are summoned during the spin";
                     AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out. Ghostly swords will home onto enemies hit by the sword throw";
-                    AttunementInfo.function_passive = "IDK";
+                    AttunementInfo.function_passive = "While attacking, extra ghost swords have a chance to be shot out";
                     AttunementInfo.color = new Color(188, 155, 185);
                     AttunementInfo.color2 = new Color(204, 184, 144);
                     break;
@@ -112,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "Sanguine Fury";
                     AttunementInfo.function_description = "Conjures molten blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
                     AttunementInfo.function_extra = "Releasing LMB sends the charged blades flying in a wheel. Using LMB right after the throw makes the player perform dash towards the blade wheel, shredding anything inbetween";
-                    AttunementInfo.function_passive = "IDK";
+                    AttunementInfo.function_passive = "Successful strikes rarely grant lifesteal";
                     AttunementInfo.color = new Color(216, 55, 22);
                     AttunementInfo.color2 = new Color(216, 131, 22);
                     break;
@@ -120,7 +120,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "Mercurial Tides";
                     AttunementInfo.function_description = "Hold LMB to charge up a heaven-shattering sword thrust, and release to unleash the devastating blow. Small shockwaves are released as you charge the sword";
                     AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful, a shockwave of ancient monoliths will rise up and propagate through the ground";
-                    AttunementInfo.function_passive = "IDK";
+                    AttunementInfo.function_passive = "While attacking, release small shockwaves around you";
                     AttunementInfo.color = new Color(132, 109, 233);
                     AttunementInfo.color2 = new Color(122, 213, 233);
                     break;
@@ -128,7 +128,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "Lamentations of the Chained";
                     AttunementInfo.function_description = "Throw out a flurry of chained blades in front of you. Striking enemies with the tip of the blades guarantees a critical hit.";
                     AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets or onto the struck foe";
-                    AttunementInfo.function_passive = "IDK";
+                    AttunementInfo.function_passive = "Gain a magical chain hook. On enemy hits the hook quickly spins around you, freezing any struck foe"; //No way sentient meat hook
                     AttunementInfo.color = new Color(127, 173, 168);
                     AttunementInfo.color2 = new Color(203, 201, 168);
                     break;
@@ -246,9 +246,13 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             player.Calamity().rightClickListener = true;
 
+            UseTimer++;
             //Reset the strong lunge thing just in case it didnt get caught beofre.
             if (CanUseItem(player))
-                strongLunge = false;
+            {
+                player.Calamity().LungingDown = false;
+                UseTimer = 0;
+            }
 
             //Change the swords function based on its attunement
             switch (mainAttunement)
@@ -275,7 +279,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<TrueBitingEmbrace>();
+                    item.shoot = ProjectileType<MercurialTides>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -298,6 +302,23 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
 
+            switch (secondaryAttunement)
+            {
+                case Attunement.Whirlwind:
+                    break;
+                case Attunement.SuperPogo:
+                    break;
+                case Attunement.Shockwave:
+                    if (UseTimer % 120 == 119)
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(item.damage * 0.6f), 10f, player.whoAmI, 1f);
+                    break;
+                case Attunement.FlailBlade:
+                    break;
+                default:
+                    break;
+            }
+
+
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {
                 //Don't shoot out a visual blade if you already have one out
@@ -310,12 +331,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player)
         {
-            return true;
-            //!Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            //(n.type == ProjectileType<SwordsmithsPride>() ||
-            // n.type == ProjectileType<MercurialTides>() ||
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
+            (n.type == ProjectileType<TrueAridGrandeur>() ||
+             n.type == ProjectileType<MercurialTides>() //||
             // n.type == ProjectileType<SanguineFury>() ||
-            // n.type == ProjectileType<LamentationsOfTheChained>()));
+            // n.type == ProjectileType<LamentationsOfTheChained>()
+            ));
         }
 
 

@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public int Combo = 0;
         public int StoredLunges = 2;
         public int PowerLungeCounter = 0;
-        public bool strongLunge = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Biome Blade");
@@ -265,7 +264,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             //Reset the strong lunge thing just in case it didnt get caught beofre.
             if (CanUseItem(player))
-                strongLunge = false;
+                player.Calamity().LungingDown = false;
 
             //Change the swords function based on its attunement
             switch (mainAttunement)
@@ -404,8 +403,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            strongLunge = false;
-
             if (mainAttunement == null)
                 return false;
 

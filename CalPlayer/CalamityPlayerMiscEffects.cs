@@ -1094,15 +1094,16 @@ namespace CalamityMod.CalPlayer
 						player.maxFallSpeed = 15f;
 					if (gSabatonFall > 0 || player.PortalPhysicsEnabled)
 						player.maxFallSpeed = 20f;
-					if (player.HeldItem.modItem is TrueBiomeBlade blade)
-					{
-						if (blade.strongLunge)
-						{
-							player.maxFallSpeed = 80f;
-							player.noFallDmg = true;
-						}
-					}
 				}
+
+				if (LungingDown)
+				{
+					player.maxFallSpeed = 80f;
+					player.noFallDmg = true;
+				}
+
+
+
 			}
 
 			// Omega Blue Armor bonus
