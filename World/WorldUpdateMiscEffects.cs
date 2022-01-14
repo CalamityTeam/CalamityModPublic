@@ -34,10 +34,14 @@ using static CalamityMod.World.CalamityWorld;
 
 namespace CalamityMod.World
 {
-    public class WorldUpdateMiscEffects
+    public partial class CalamityWorld : ModWorld
     {
-        public static void PerformWorldUpdates()
+        public override void PostUpdate()
         {
+			// Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
+			if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
+                CalamityGlobalNPC.draedon = -1;
+
             // Reset the exo mech to summon if Draedon is absent.
             if (DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
                 DraedonMechToSummon = ExoMech.None;
