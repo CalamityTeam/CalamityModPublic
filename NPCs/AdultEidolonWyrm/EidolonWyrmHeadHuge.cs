@@ -1361,8 +1361,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
             DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
+			int minLumenyl = Main.expertMode ? 65 : 50;
+			int maxLumenyl = Main.expertMode ? 135 : 108;
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
             DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
 
             // Mark Adult Eidolon Wyrm as defeated
