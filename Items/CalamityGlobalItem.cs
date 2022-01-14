@@ -1234,7 +1234,11 @@ namespace CalamityMod.Items
 				}
 			}
 
-			if (item.type == ItemID.FrogLeg)
+            // Obsidian Skull and its upgrades make you immune to On Fire!
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
+                player.buffImmune[BuffID.OnFire] = true;
+
+            if (item.type == ItemID.FrogLeg)
 				player.jumpSpeedBoost -= 1.2f;
 
             if (item.type == ItemID.FireGauntlet)

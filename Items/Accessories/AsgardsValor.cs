@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Asgard's Valor");
-            Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
+            Tooltip.SetDefault("Grants immunity to knockback\n" +
                 "Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
                 "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Accessories
             player.noKnockback = true;
             player.fireWalk = true;
             modPlayer.abaddon = true;
+            player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;

@@ -2585,10 +2585,7 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateBiomeVisuals()
         {
-            bool useBossRushBackground = BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100;
-
-            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", useBossRushBackground);
-            if (useBossRushBackground)
+            if (BossRushSky.DetermineDrawEligibility())
             {
                 // Clear all other skies, including the vanilla ones.
                 Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
@@ -2666,15 +2663,7 @@ namespace CalamityMod.CalPlayer
 			bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
 
-            bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
-
-            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
-            {
-                if (cryogenActive)
-                    SkyManager.Instance.Activate("CalamityMod:Cryogen");
-                else
-                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-            }
+            CryogenSky.UpdateDrawEligibility();
 
             if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
             {

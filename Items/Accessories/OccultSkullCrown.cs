@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
                                "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                                "Getting hit causes you to only lose half of your max adrenaline rather than all of it\n" +
-                               "Boosts your defense by 5 and max movement speed and acceleration by 5%\n" +
+                               "Increases your max movement speed and acceleration by 5%\n" +
                                "Can also be worn as a helmet\n" +
                                "Revengeance item");
         }
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 82;
             item.height = 62;
-
+            item.defense = 5;
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateEquip(Player player)
         {
-            player.statDefense += 5;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.laudanum = true;
             modPlayer.heartOfDarkness = true;

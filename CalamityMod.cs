@@ -896,10 +896,14 @@ namespace CalamityMod
             if (Main.gameMenu)
                 BossRushEvent.StartTimer = 0;
 
-            if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
+            float bossRushWhiteFade = BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime;
+            if (BossRushSky.ShouldDrawRegularly)
+                bossRushWhiteFade = 1f;
+
+            if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0 || BossRushSky.ShouldDrawRegularly)
             {
-                backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
-                tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+                backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, bossRushWhiteFade);
+                tileColor = Color.Lerp(tileColor, Color.LightGray, bossRushWhiteFade);
             }
             else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
             {

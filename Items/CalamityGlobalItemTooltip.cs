@@ -551,8 +551,15 @@ namespace CalamityMod.Items
 				EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
 			}
 
-			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
-			if (item.type == ItemID.SpectreHood)
+            // On Fire! debuff immunities
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield)
+                EditTooltipByNum(0, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
+                EditTooltipByNum(1, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            // Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
+            if (item.type == ItemID.SpectreHood)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
 
 			// Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
