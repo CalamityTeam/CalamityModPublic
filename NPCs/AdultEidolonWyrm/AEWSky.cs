@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Abyss
+namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
     public class AEWSky : CustomSky
     {

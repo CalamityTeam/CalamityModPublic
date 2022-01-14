@@ -1,5 +1,5 @@
 using CalamityMod.Events;
-using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;

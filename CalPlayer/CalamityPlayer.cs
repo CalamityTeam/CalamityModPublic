@@ -25,6 +25,7 @@ using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Calamitas;
