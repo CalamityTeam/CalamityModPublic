@@ -189,13 +189,13 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (sightLine == null)
                     {
-                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Main.MouseWorld), 0.2f, Color.HotPink, true);
+                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Main.MouseWorld), 0.2f, Color.HotPink, false);
                         GeneralParticleHandler.SpawnParticle(sightLine);
                     }
                     else
                     {
-                        sightLine.Position = Owner.Center;
-                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f;
+                        sightLine.Position = Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 40;
+                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 38f;
                         sightLine.Scale = 0.2f;
                         sightLine.Time = 0;
                         sightLine.Color = currentColor * 0.7f;
@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (CanDirectFire && deltaAngleShoot < 0.1f)
                     {
-                        Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 3f, 10, 0.1f, 3f);
+                        Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 1.5f, 10, 0.1f, 3f);
                         GeneralParticleHandler.SpawnParticle(Blink);
 
                         Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * 0.5f), 0f, Owner.whoAmI);

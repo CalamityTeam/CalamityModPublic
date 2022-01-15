@@ -302,9 +302,18 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
 
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
             switch (secondaryAttunement)
             {
                 case Attunement.Whirlwind:
+                    if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
+                    {
+                        Main.PlaySound(SoundID.Item78);
+                        Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(item.damage * 0.3f), 10f, player.whoAmI, 1f);
+                        beamSword.timeLeft = 50;
+                    }
                     break;
                 case Attunement.SuperPogo:
                     break;
