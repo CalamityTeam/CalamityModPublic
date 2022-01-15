@@ -6,6 +6,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -16,7 +17,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Abyss
+namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
 	[AutoloadBossHead]
 	public class EidolonWyrmHeadHuge : ModNPC
@@ -72,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eidolon Wyrm");
+            DisplayName.SetDefault("Adult Eidolon Wyrm");
         }
 
         public override void SetDefaults()
@@ -1339,10 +1340,10 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 center = npc.Center;
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
+            vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
             vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge"), vector,
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

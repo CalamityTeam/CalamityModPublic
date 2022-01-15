@@ -27,7 +27,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class CalamityWorld : ModWorld
+    public partial class CalamityWorld : ModWorld
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
@@ -1296,10 +1296,6 @@ namespace CalamityMod.World
                 }
             }
         }
-        #endregion
-
-        #region PostUpdate
-        public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
         #endregion
     }
 }

@@ -1322,6 +1322,8 @@ namespace CalamityMod.CalPlayer
 				auralisAurora--;
 			if (auralisAuroraCooldown > 0)
 				auralisAuroraCooldown--;
+			if (silvaReviveCooldown > 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+				silvaReviveCooldown--;
 
 			// God Slayer Armor dash debuff immunity
 			if (dashMod == 9 && player.dashDelay < 0)
@@ -1352,7 +1354,11 @@ namespace CalamityMod.CalPlayer
 
 				silvaCountdown -= 1;
 				if (silvaCountdown <= 0)
+				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+					// 5 minutes
+					silvaReviveCooldown = 18000;
+				}
 
 				for (int j = 0; j < 2; j++)
 				{
@@ -1366,6 +1372,11 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(2))
 						Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 				}
+			}
+			if (silvaReviveCooldown <= 0 && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+			{
+				silvaCountdown = 480;
+				hasSilvaEffect = false;
 			}
 
 			// Tarragon cloak effects
