@@ -1466,6 +1466,12 @@ namespace CalamityMod
 		public static bool SetBossHealthBarVisible(bool visible) => Main.LocalPlayer.Calamity().drawBossHPBar = visible;
 		#endregion
 
+		#region Dodge Disabling
+		public static bool AreDodgesDisabled() => Main.LocalPlayer.Calamity().disableAllDodges;
+
+		public static bool DisableAllDodges(bool disable) => Main.LocalPlayer.Calamity().disableAllDodges = disable;
+		#endregion
+
 		#region Item Rarity
 		public static int GetCalamityRarity(Item item)
 		{
@@ -1801,6 +1807,18 @@ namespace CalamityMod
 					if (args.Length < 2 || !(args[1] is bool bossBarEnabled))
 						return new ArgumentNullException("ERROR: Must specify a bool.");
 					return SetBossHealthBarVisible(bossBarEnabled);
+
+				case "NoDodges":
+				case "DodgesDisabled":
+				case "GetDodgesDisabled":
+					return AreDodgesDisabled();
+
+				case "DisableDodges":
+				case "DisableAllDodges":
+				case "SetDodgesDisabled":
+					if (args.Length < 2 || !(args[1] is bool disableDodges))
+						return new ArgumentNullException("ERROR: Must specify a bool.");
+					return DisableAllDodges(disableDodges);
 
 				case "GetRarity":
 				case "GetItemRarity":

@@ -214,11 +214,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             return false;
         }
 
-        public override void NPCLoot()
+        public override bool PreNPCLoot()
         {
 			// Unsplit Deus does not drop anything when killed/despawned.
-            if (npc.Calamity().newAI[0] == 0f)
-				return;
+			if (npc.Calamity().newAI[0] == 0f)
+				return false;
 
             // Killing ANY split Deus makes all other Deus heads die immediately.
             for (int i = 0; i < Main.maxNPCs; ++i)
@@ -233,6 +233,14 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.netUpdate = true;
                 }
 			}
+            return true;
+        }
+
+        public override void NPCLoot()
+        {
+			// Unsplit Deus does not drop anything when killed/despawned.
+			if (npc.Calamity().newAI[0] == 0f)
+				return;
 
 			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 

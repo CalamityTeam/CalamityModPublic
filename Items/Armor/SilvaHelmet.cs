@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
-                "This effect only triggers once per life\n" +
+                "This effect has a 5 minute cooldown. The cooldown does not decrement if any bosses or events are active.\n" +
                 "Summons an ancient leaf prism to blast your enemies with life energy";
             if (player.whoAmI == Main.myPlayer)
             {

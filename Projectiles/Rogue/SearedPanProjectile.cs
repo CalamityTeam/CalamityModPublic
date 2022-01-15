@@ -10,6 +10,20 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SearedPanProjectile : ModProjectile
     {
+        internal enum SearedPanTypes
+        {
+            VenLocket = 0,
+            Normal = 1,
+            Golden = 2,
+            StealthStrike = 3
+        }
+
+        internal SearedPanTypes PanType
+        {
+            get => (SearedPanTypes)(int)projectile.ai[0];
+            set => projectile.ai[0] = (int)value;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pan");
@@ -63,67 +77,51 @@ namespace CalamityMod.Projectiles.Rogue
 			if (!playerCanStealthStrike)
 				return;
 
-			// Increment the seared pan counter and refill stealth after three consecutive hits
+			// Increment the seared pan counter. Pans summoned via the Venerated Locket shouldn't increment the counter.
 			// See CalamityPlayerMiscEffects.cs for code that resets the counter after 40 frames
 			modPlayer.searedPanTimer = 0;
-			if (!projectile.Calamity().stealthStrike && specialEffects)
+			if (specialEffects && PanType != SearedPanTypes.VenLocket)
 				modPlayer.searedPanCounter++;
-			if (modPlayer.searedPanCounter >= 3 && !projectile.Calamity().stealthStrike && specialEffects)
-			{
-				modPlayer.searedPanCounter = 0;
-				modPlayer.rogueStealth = modPlayer.rogueStealthMax;
-			}
 
-			// Stealth strikes spawn four golden sparks on hit
-			if (projectile.Calamity().stealthStrike)
+			// Pans summoned via the Venerated Locket have zero special effects
+			if (PanType == SearedPanTypes.StealthStrike)
 			{
 				modPlayer.searedPanCounter = 0;
+				// Stealth strikes spawn four golden sparks on hit
 				for (int t = 0; t < 4; t++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.2), 0f, projectile.owner);
 				}
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
-				// Stealth strikes also cause any fireballs to home in on their targets
+				// Stealth strikes also cause any existing fireballs to home in on their targets
+				FireballStuff(true);
+
+				if (!specialEffects)
+					return;
+				// Stealth strikes then summon five fireballs to circle the hit enemy, they will home in on their own after a second.
+				for (int t = 0; t < 5; t++)
+				{
+					int i = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
+					Main.projectile[i].ModProjectile<NiceCock>().Timer = 61;
+				}
+				FireballPositions(targetIndex);
+			}
+			else if (PanType == SearedPanTypes.Golden)
+			{
+				modPlayer.searedPanCounter = 0;
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
+				// Golden pans simply cause all fireballs to home in on their targets
 				FireballStuff(true);
 			}
-			else if (targetIndex != -1 && health > 0)
+			else if (PanType == SearedPanTypes.Normal && targetIndex != -1 && health > 0 && specialEffects)
 			{
 				// Summon three fireballs to circle the hit enemy
 				for (int t = 0; t < 3; t++)
 				{
 					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
 				}
-				int fireballCount = 0;
-				// Count how many fireballs exist already around the given target
-				for (int i = 0; i < Main.maxProjectiles; i++)
-				{
-					// Keep the loop as short as possible
-					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
-						continue;
-					if (Main.projectile[i].modProjectile is NiceCock)
-					{
-						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
-							continue;
-						fireballCount++;
-					}
-				}
-				// Adjust the angle of the existing fireballs around a target
-				float angleVariance = MathHelper.TwoPi / fireballCount;
-				float angle = 0f;
-				for (int i = 0; i < Main.maxProjectiles; i++)
-				{
-					if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
-						continue;
-					if (Main.projectile[i].modProjectile is NiceCock)
-					{
-						if (Main.projectile[i].ModProjectile<NiceCock>().homing)
-							continue;
-						Main.projectile[i].ai[0] = angle;
-						Main.projectile[i].netUpdate = true;
-						angle += angleVariance;
-					}
-				}
+				FireballPositions(targetIndex);
 			}
 		}
 
@@ -149,18 +147,52 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 		}
 
+		private void FireballPositions(int targetIndex)
+		{
+			int fireballCount = 0;
+			// Count how many fireballs exist already around the given target
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				// Keep the loop as short as possible
+				if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+					continue;
+				if (Main.projectile[i].modProjectile is NiceCock)
+				{
+					if (Main.projectile[i].ModProjectile<NiceCock>().homing)
+						continue;
+					fireballCount++;
+				}
+			}
+			// Adjust the angle of the existing fireballs around a target
+			float angleVariance = MathHelper.TwoPi / fireballCount;
+			float angle = 0f;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+					continue;
+				if (Main.projectile[i].modProjectile is NiceCock)
+				{
+					if (Main.projectile[i].ModProjectile<NiceCock>().homing)
+						continue;
+					Main.projectile[i].ai[0] = angle;
+					Main.projectile[i].netUpdate = true;
+					angle += angleVariance;
+				}
+			}
+		}
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			// Kill all fireballs if you miss a stealth strike
-			if (projectile.Calamity().stealthStrike)
+			// Kill all fireballs if you miss a stealth strike or golden pan
+			if (PanType == SearedPanTypes.Golden || PanType == SearedPanTypes.StealthStrike)
 				FireballStuff(false);
             return true;
         }
 
         public override Color? GetAlpha(Color lightColor)
 		{
-			// Stealth strikes are golden colored
-			if (projectile.Calamity().stealthStrike)
+			// Stealth strikes and golden pans are golden colored
+			if (PanType == SearedPanTypes.Golden || PanType == SearedPanTypes.StealthStrike)
 				return new Color(255, 222, 0);
 			return null;
 		}

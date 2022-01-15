@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body, EquipType.Legs)]
+    [AutoloadEquip(EquipType.Body)]
     public class CirrusDress : ModItem
     {
 		/* How to obtain
@@ -37,5 +37,17 @@ namespace CalamityMod.Items.Armor
             player.magicDamage += 0.05f;
             player.magicCrit += 5;
         }
+
+		public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
+		{
+			robes = true;
+			// The equipSlot is added in CalamityMod.cs --> Load hook
+			equipSlot = mod.GetEquipSlot("CirrusDress_Legs", EquipType.Legs);
+		}
+
+		public override void DrawHands(ref bool drawHands, ref bool drawArms)
+		{
+			drawHands = true;
+		}
     }
 }

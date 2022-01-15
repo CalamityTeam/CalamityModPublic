@@ -29,8 +29,8 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
-using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -617,7 +617,7 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { };
 				string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
 				string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
-				string bossLogTex = "CalamityMod/NPCs/Abyss/AdultEidolonWyrm_BossChecklist";
+				string bossLogTex = "CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrm_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 		}

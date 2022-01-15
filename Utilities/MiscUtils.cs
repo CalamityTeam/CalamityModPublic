@@ -1,4 +1,16 @@
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.GreatSandShark;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.NPCs.SulphurousSea;
+using CalamityMod.NPCs.SunkenSea;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -314,6 +326,787 @@ namespace CalamityMod
 			Main.time = 0D;
 			Main.dayTime = changeToDay;
 			CalamityNetcode.SyncWorld();
+		}
+
+		public static int GetBannerItem(int style)
+		{
+            int item = -1;
+            switch (style)
+            {
+                case 0:
+                    item = ModContent.ItemType<AquaticParasiteBanner>();
+                    break;
+                case 1:
+                    item = ModContent.ItemType<FlounderBanner>();
+                    break;
+                case 2:
+                    item = ModContent.ItemType<GnasherBanner>();
+                    break;
+                case 3:
+                    item = ModContent.ItemType<TrasherBanner>();
+                    break;
+                case 4:
+                    item = ModContent.ItemType<CatfishBanner>();
+                    break;
+                case 5:
+                    item = ModContent.ItemType<MaulerBanner>();
+                    break;
+                case 6:
+                    item = ModContent.ItemType<AquaticSeekerBanner>();
+                    break;
+                case 7:
+                    item = ModContent.ItemType<AquaticUrchinBanner>();
+                    break;
+                case 8:
+                    item = ModContent.ItemType<FrogfishBanner>();
+                    break;
+                case 9:
+                    item = ModContent.ItemType<MantisShrimpBanner>();
+                    break;
+                case 10:
+                    item = ModContent.ItemType<AquaticAberrationBanner>();
+                    break;
+                case 11:
+                    item = ModContent.ItemType<ParaseaBanner>();
+                    break;
+                case 12:
+                    item = ModContent.ItemType<SeaUrchinBanner>();
+                    break;
+                case 13:
+                    item = ModContent.ItemType<BoxJellyfishBanner>();
+                    break;
+                case 14:
+                    item = ModContent.ItemType<MorayEelBanner>();
+                    break;
+                case 15:
+                    item = ModContent.ItemType<DevilFishBanner>();
+                    break;
+                case 16:
+                    item = ModContent.ItemType<CuttlefishBanner>();
+                    break;
+                case 17:
+                    item = ModContent.ItemType<ToxicMinnowBanner>();
+                    break;
+                case 18:
+                    item = ModContent.ItemType<ViperfishBanner>();
+                    break;
+                case 19:
+                    item = ModContent.ItemType<LuminousCorvinaBanner>();
+                    break;
+                case 20:
+                    item = ModContent.ItemType<GiantSquidBanner>();
+                    break;
+                case 21:
+                    item = ModContent.ItemType<LaserfishBanner>();
+                    break;
+                case 22:
+                    item = ModContent.ItemType<OarfishBanner>();
+                    break;
+                case 23:
+                    item = ModContent.ItemType<ColossalSquidBanner>();
+                    break;
+                case 24:
+                    item = ModContent.ItemType<MirageJellyBanner>();
+                    break;
+                case 25:
+                    item = ModContent.ItemType<EidolistBanner>();
+                    break;
+                case 26:
+                    item = ModContent.ItemType<GulperEelBanner>();
+                    break;
+                case 27:
+                    item = ModContent.ItemType<EidolonWyrmJuvenileBanner>();
+                    break;
+                case 28:
+                    item = ModContent.ItemType<BloatfishBanner>();
+                    break;
+                case 29:
+                    item = ModContent.ItemType<BobbitWormBanner>();
+                    break;
+                case 30:
+                    item = ModContent.ItemType<ChaoticPufferBanner>();
+                    break;
+                case 31:
+                    item = ModContent.ItemType<AstralProbeBanner>();
+                    break;
+                case 32:
+                    item = ModContent.ItemType<SmallSightseerBanner>();
+                    break;
+                case 33:
+                    item = ModContent.ItemType<BigSightseerBanner>();
+                    break;
+                case 34:
+                    item = ModContent.ItemType<AriesBanner>();
+                    break;
+                case 35:
+                    item = ModContent.ItemType<AstralSlimeBanner>();
+                    break;
+                case 36:
+                    item = ModContent.ItemType<AtlasBanner>();
+                    break;
+                case 37:
+                    item = ModContent.ItemType<MantisBanner>();
+                    break;
+                case 38:
+                    item = ModContent.ItemType<NovaBanner>();
+                    break;
+                case 39:
+                    item = ModContent.ItemType<AstralachneaBanner>();
+                    break;
+                case 40:
+                    item = ModContent.ItemType<HiveBanner>();
+                    break;
+                case 41:
+                    item = ModContent.ItemType<StellarCulexBanner>();
+                    break;
+                case 42:
+                    item = ModContent.ItemType<FusionFeederBanner>();
+                    break;
+                case 43:
+                    item = ModContent.ItemType<HadarianBanner>();
+                    break;
+                case 44:
+                    item = ModContent.ItemType<HeatSpiritBanner>();
+                    break;
+                case 45:
+                    item = ModContent.ItemType<ScryllarBanner>();
+                    break;
+                case 46:
+                    item = ModContent.ItemType<DespairStoneBanner>();
+                    break;
+                case 47:
+                    item = ModContent.ItemType<SoulSlurperBanner>();
+                    break;
+                case 48:
+                    item = ModContent.ItemType<ImpiousImmolatorBanner>();
+                    break;
+                case 49:
+                    item = ModContent.ItemType<ScornEaterBanner>();
+                    break;
+                case 50:
+                    item = ModContent.ItemType<ProfanedEnergyBanner>();
+                    break;
+                case 51:
+                    item = ModContent.ItemType<WulfrumSlimeBanner>();
+                    break;
+                case 52:
+                    item = ModContent.ItemType<WulfrumDroneBanner>();
+                    break;
+                case 53:
+                    item = ModContent.ItemType<PitbullBanner>();
+                    break;
+                case 54:
+                    item = ModContent.ItemType<BlightedEyeBanner>();
+                    break;
+                case 55:
+                    item = ModContent.ItemType<CalamityEyeBanner>();
+                    break;
+                case 56:
+                    item = ModContent.ItemType<SunskaterBanner>();
+                    break;
+                case 57:
+                    item = ModContent.ItemType<ShockstormShuttleBanner>();
+                    break;
+                case 58:
+                    item = ModContent.ItemType<CloudElementalBanner>();
+                    break;
+                case 59:
+                    item = ModContent.ItemType<AngryDogBanner>();
+                    break;
+                case 60:
+                    item = ModContent.ItemType<CryonBanner>();
+                    break;
+                case 61:
+                    item = ModContent.ItemType<IceClasperBanner>();
+                    break;
+                case 62:
+                    item = ModContent.ItemType<StormlionBanner>();
+                    break;
+                case 63:
+                    item = ModContent.ItemType<CnidrionBanner>();
+                    break;
+                case 64:
+                    item = ModContent.ItemType<SandTortoiseBanner>();
+                    break;
+                case 65:
+                    item = ModContent.ItemType<GreatSandSharkBanner>();
+                    break;
+                case 66:
+                    item = ModContent.ItemType<AmethystCrawlerBanner>();
+                    break;
+                case 67:
+                    item = ModContent.ItemType<TopazCrawlerBanner>();
+                    break;
+                case 68:
+                    item = ModContent.ItemType<SapphireCrawlerBanner>();
+                    break;
+                case 69:
+                    item = ModContent.ItemType<EmeraldCrawlerBanner>();
+                    break;
+                case 70:
+                    item = ModContent.ItemType<RubyCrawlerBanner>();
+                    break;
+                case 71:
+                    item = ModContent.ItemType<DiamondCrawlerBanner>();
+                    break;
+                case 72:
+                    item = ModContent.ItemType<AmberCrawlerBanner>();
+                    break;
+                case 73:
+                    item = ModContent.ItemType<CrystalCrawlerBanner>();
+                    break;
+                case 74:
+                    item = ModContent.ItemType<SunBatBanner>();
+                    break;
+                case 75:
+                    item = ModContent.ItemType<CosmicElementalBanner>();
+                    break;
+                case 76:
+                    item = ModContent.ItemType<EarthElementalBanner>();
+                    break;
+                case 77:
+                    item = ModContent.ItemType<ArmoredDiggerBanner>();
+                    break;
+                case 78:
+                    item = ModContent.ItemType<MelterBanner>();
+                    break;
+                case 79:
+                    item = ModContent.ItemType<PestilentSlimeBanner>();
+                    break;
+                case 80:
+                    item = ModContent.ItemType<PlagueshellBanner>();
+                    break;
+                case 81:
+                    item = ModContent.ItemType<PlagueChargerBanner>();
+                    break;
+                case 82:
+                    item = ModContent.ItemType<VirulingBanner>();
+                    break;
+                case 83:
+                    item = ModContent.ItemType<PlaguebringerBanner>();
+                    break;
+                case 84:
+                    item = ModContent.ItemType<PhantomSpiritBanner>();
+                    break;
+                case 85:
+                    item = ModContent.ItemType<OverloadedSoldierBanner>();
+                    break;
+                case 86:
+                    item = ModContent.ItemType<PhantomDebrisBanner>();
+                    break;
+                case 87:
+                    item = ModContent.ItemType<BOHLDOHRBanner>();
+                    break;
+                case 88:
+                    item = ModContent.ItemType<EbonianBlightSlimeBanner>();
+                    break;
+                case 89:
+                    item = ModContent.ItemType<CrimulanBlightSlimeBanner>();
+                    break;
+                case 90:
+                    item = ModContent.ItemType<AeroSlimeBanner>();
+                    break;
+                case 91:
+                    item = ModContent.ItemType<CryoSlimeBanner>();
+                    break;
+                case 92:
+                    item = ModContent.ItemType<PerennialSlimeBanner>();
+                    break;
+                case 93:
+                    item = ModContent.ItemType<CharredSlimeBanner>();
+                    break;
+                case 94:
+                    item = ModContent.ItemType<BloomSlimeBanner>();
+                    break;
+                case 95:
+                    item = ModContent.ItemType<CultistAssassinBanner>();
+                    break;
+                case 96:
+                    item = ModContent.ItemType<ReaperSharkBanner>();
+                    break;
+                case 97:
+                    item = ModContent.ItemType<IrradiatedSlimeBanner>();
+                    break;
+                case 98:
+                    item = ModContent.ItemType<PrismTurtleBanner>();
+                    break;
+                case 99:
+                    item = ModContent.ItemType<ClamBanner>();
+                    break;
+                case 100:
+                    item = ModContent.ItemType<EutrophicRayBanner>();
+                    break;
+                case 101:
+                    item = ModContent.ItemType<GhostBellBanner>();
+                    break;
+                case 102:
+                    item = ModContent.ItemType<GhostBellSmallBanner>();
+                    break;
+                case 103:
+                    item = ModContent.ItemType<SeaFloatyBanner>();
+                    break;
+                case 104:
+                    item = ModContent.ItemType<BlindedAnglerBanner>();
+                    break;
+                case 105:
+                    item = ModContent.ItemType<SeaMinnowBanner>();
+                    break;
+                case 106:
+                    item = ModContent.ItemType<SeaSerpentBanner>();
+                    break;
+                case 107:
+                    item = ModContent.ItemType<GiantClamBanner>();
+                    break;
+                case 108:
+                    item = ModContent.ItemType<PiggyBanner>();
+                    break;
+                case 109:
+                    item = ModContent.ItemType<FearlessGoldfishWarriorBanner>();
+                    break;
+                case 110:
+                    item = ModContent.ItemType<RadiatorBanner>();
+                    break;
+                case 111:
+                    item = ModContent.ItemType<TrilobiteBanner>();
+                    break;
+                case 112:
+                    item = ModContent.ItemType<OrthoceraBanner>();
+                    break;
+                case 113:
+                    item = ModContent.ItemType<SkyfinBanner>();
+                    break;
+                case 114:
+                    item = ModContent.ItemType<WaterLeechBanner>();
+                    break;
+                case 115:
+                    item = ModContent.ItemType<AcidEelBanner>();
+                    break;
+                case 116:
+                    item = ModContent.ItemType<NuclearToadBanner>();
+                    break;
+                case 117:
+                    item = ModContent.ItemType<FlakCrabBanner>();
+                    break;
+                case 118:
+                    item = ModContent.ItemType<SulfurousSkaterBanner>();
+                    break;
+                case 119:
+                    item = ModContent.ItemType<FlakBabyBanner>();
+                    break;
+                case 120:
+                    item = ModContent.ItemType<AnthozoanCrabBanner>();
+                    break;
+                case 121:
+                    item = ModContent.ItemType<BelchingCoralBanner>();
+                    break;
+                case 122:
+                    item = ModContent.ItemType<GammaSlimeBanner>();
+                    break;
+                case 123:
+                    item = ModContent.ItemType<WulfrumGyratorBanner>();
+                    break;
+                case 124:
+                    item = ModContent.ItemType<WulfrumHovercraftBanner>();
+                    break;
+                case 125:
+                    item = ModContent.ItemType<WulfrumRoverBanner>();
+                    break;
+                case 126:
+                    item = ModContent.ItemType<WulfrumPylonBanner>();
+                    break;
+                default:
+                    break;
+            }
+			return item;
+		}
+
+		public static int GetBannerNPC(int style)
+		{
+            int npc = -1;
+            switch (style)
+            {
+                case 0:
+                    npc = ModContent.NPCType<AquaticParasite>();
+                    break;
+                case 1:
+                    npc = ModContent.NPCType<Flounder>();
+                    break;
+                case 2:
+                    npc = ModContent.NPCType<Gnasher>();
+                    break;
+                case 3:
+                    npc = ModContent.NPCType<Trasher>();
+                    break;
+                case 4:
+                    npc = ModContent.NPCType<Catfish>();
+                    break;
+                case 5:
+                    npc = ModContent.NPCType<Mauler>();
+                    break;
+                case 6:
+                    npc = ModContent.NPCType<AquaticSeekerHead>();
+                    break;
+                case 7:
+                    npc = ModContent.NPCType<AquaticUrchin>();
+                    break;
+                case 8:
+                    npc = ModContent.NPCType<Frogfish>();
+                    break;
+                case 9:
+                    npc = ModContent.NPCType<MantisShrimp>();
+                    break;
+                case 10:
+                    npc = ModContent.NPCType<AquaticAberration>();
+                    break;
+                case 11:
+                    npc = ModContent.NPCType<Parasea>();
+                    break;
+                case 12:
+                    npc = ModContent.NPCType<SeaUrchin>();
+                    break;
+                case 13:
+                    npc = ModContent.NPCType<BoxJellyfish>();
+                    break;
+                case 14:
+                    npc = ModContent.NPCType<MorayEel>();
+                    break;
+                case 15:
+                    npc = ModContent.NPCType<DevilFish>();
+                    break;
+                case 16:
+                    npc = ModContent.NPCType<Cuttlefish>();
+                    break;
+                case 17:
+                    npc = ModContent.NPCType<ToxicMinnow>();
+                    break;
+                case 18:
+                    npc = ModContent.NPCType<Viperfish>();
+                    break;
+                case 19:
+                    npc = ModContent.NPCType<LuminousCorvina>();
+                    break;
+                case 20:
+                    npc = ModContent.NPCType<GiantSquid>();
+                    break;
+                case 21:
+                    npc = ModContent.NPCType<Laserfish>();
+                    break;
+                case 22:
+                    npc = ModContent.NPCType<OarfishHead>();
+                    break;
+                case 23:
+                    npc = ModContent.NPCType<ColossalSquid>();
+                    break;
+                case 24:
+                    npc = ModContent.NPCType<MirageJelly>();
+                    break;
+                case 25:
+                    npc = ModContent.NPCType<Eidolist>();
+                    break;
+                case 26:
+                    npc = ModContent.NPCType<GulperEelHead>();
+                    break;
+                case 27:
+                    npc = ModContent.NPCType<EidolonWyrmHead>();
+                    break;
+                case 28:
+                    npc = ModContent.NPCType<Bloatfish>();
+                    break;
+                case 29:
+                    npc = ModContent.NPCType<BobbitWormHead>();
+                    break;
+                case 30:
+                    npc = ModContent.NPCType<ChaoticPuffer>();
+                    break;
+                case 31:
+                    npc = ModContent.NPCType<AstralProbe>();
+                    break;
+                case 32:
+                    npc = ModContent.NPCType<SmallSightseer>();
+                    break;
+                case 33:
+                    npc = ModContent.NPCType<BigSightseer>();
+                    break;
+                case 34:
+                    npc = ModContent.NPCType<Aries>();
+                    break;
+                case 35:
+                    npc = ModContent.NPCType<AstralSlime>();
+                    break;
+                case 36:
+                    npc = ModContent.NPCType<Atlas>();
+                    break;
+                case 37:
+                    npc = ModContent.NPCType<Mantis>();
+                    break;
+                case 38:
+                    npc = ModContent.NPCType<Nova>();
+                    break;
+                case 39:
+                    npc = ModContent.NPCType<AstralachneaGround>();
+                    break;
+                case 40:
+                    npc = ModContent.NPCType<Hive>();
+                    break;
+                case 41:
+                    npc = ModContent.NPCType<StellarCulex>();
+                    break;
+                case 42:
+                    npc = ModContent.NPCType<FusionFeeder>();
+                    break;
+                case 43:
+                    npc = ModContent.NPCType<Hadarian>();
+                    break;
+                case 44:
+                    npc = ModContent.NPCType<HeatSpirit>();
+                    break;
+                case 45:
+                    npc = ModContent.NPCType<Scryllar>();
+                    break;
+                case 46:
+                    npc = ModContent.NPCType<DespairStone>();
+                    break;
+                case 47:
+                    npc = ModContent.NPCType<SoulSlurper>();
+                    break;
+                case 48:
+                    npc = ModContent.NPCType<ImpiousImmolator>();
+                    break;
+                case 49:
+                    npc = ModContent.NPCType<ScornEater>();
+                    break;
+                case 50:
+                    npc = ModContent.NPCType<ProfanedEnergyBody>();
+                    break;
+                case 52:
+                    npc = ModContent.NPCType<WulfrumDrone>();
+                    break;
+                case 53:
+                    npc = ModContent.NPCType<Pitbull>();
+                    break;
+                case 54:
+                    npc = ModContent.NPCType<BlightedEye>();
+                    break;
+                case 55:
+                    npc = ModContent.NPCType<CalamityEye>();
+                    break;
+                case 56:
+                    npc = ModContent.NPCType<Sunskater>();
+                    break;
+                case 57:
+                    npc = ModContent.NPCType<ShockstormShuttle>();
+                    break;
+                case 58:
+                    npc = ModContent.NPCType<ThiccWaifu>();
+                    break;
+                case 59:
+                    npc = ModContent.NPCType<AngryDog>();
+                    break;
+                case 60:
+                    npc = ModContent.NPCType<Cryon>();
+                    break;
+                case 61:
+                    npc = ModContent.NPCType<IceClasper>();
+                    break;
+                case 62:
+                    npc = ModContent.NPCType<StormlionCharger>();
+                    break;
+                case 63:
+                    npc = ModContent.NPCType<Cnidrion>();
+                    break;
+                case 64:
+                    npc = ModContent.NPCType<SandTortoise>();
+                    break;
+                case 65:
+                    npc = ModContent.NPCType<GreatSandShark>();
+                    break;
+                case 66:
+                    npc = ModContent.NPCType<CrawlerAmethyst>();
+                    break;
+                case 67:
+                    npc = ModContent.NPCType<CrawlerTopaz>();
+                    break;
+                case 68:
+                    npc = ModContent.NPCType<CrawlerSapphire>();
+                    break;
+                case 69:
+                    npc = ModContent.NPCType<CrawlerEmerald>();
+                    break;
+                case 70:
+                    npc = ModContent.NPCType<CrawlerRuby>();
+                    break;
+                case 71:
+                    npc = ModContent.NPCType<CrawlerDiamond>();
+                    break;
+                case 72:
+                    npc = ModContent.NPCType<CrawlerAmber>();
+                    break;
+                case 73:
+                    npc = ModContent.NPCType<CrawlerCrystal>();
+                    break;
+                case 74:
+                    npc = ModContent.NPCType<SunBat>();
+                    break;
+                case 75:
+                    npc = ModContent.NPCType<CosmicElemental>();
+                    break;
+                case 76:
+                    npc = ModContent.NPCType<Horse>();
+                    break;
+                case 77:
+                    npc = ModContent.NPCType<ArmoredDiggerHead>();
+                    break;
+                case 78:
+                    npc = ModContent.NPCType<PlaguedFlyingFox>();
+                    break;
+                case 79:
+                    npc = ModContent.NPCType<PlaguedJungleSlime>();
+                    break;
+                case 80:
+                    npc = ModContent.NPCType<PlaguedTortoise>();
+                    break;
+                case 81:
+                    npc = ModContent.NPCType<PlagueBee>();
+                    break;
+                case 82:
+                    npc = ModContent.NPCType<PlaguedDerpling>();
+                    break;
+                case 83:
+                    npc = ModContent.NPCType<PlaguebringerShade>();
+                    break;
+                case 84:
+                    npc = ModContent.NPCType<PhantomSpirit>();
+                    break;
+                case 85:
+                    npc = ModContent.NPCType<OverloadedSoldier>();
+                    break;
+                case 86:
+                    npc = ModContent.NPCType<PhantomDebris>();
+                    break;
+                case 87:
+                    npc = ModContent.NPCType<Bohldohr>();
+                    break;
+                case 88:
+                    npc = ModContent.NPCType<EbonianBlightSlime>();
+                    break;
+                case 89:
+                    npc = ModContent.NPCType<CrimulanBlightSlime>();
+                    break;
+                case 90:
+                    npc = ModContent.NPCType<AeroSlime>();
+                    break;
+                case 91:
+                    npc = ModContent.NPCType<CryoSlime>();
+                    break;
+                case 92:
+                    npc = ModContent.NPCType<PerennialSlime>();
+                    break;
+                case 93:
+                    npc = ModContent.NPCType<CharredSlime>();
+                    break;
+                case 94:
+                    npc = ModContent.NPCType<BloomSlime>();
+                    break;
+                case 95:
+                    npc = ModContent.NPCType<CultistAssassin>();
+                    break;
+                case 96:
+                    npc = ModContent.NPCType<Reaper>();
+                    break;
+                case 97:
+                    npc = ModContent.NPCType<IrradiatedSlime>();
+                    break;
+                case 98:
+                    npc = ModContent.NPCType<PrismTurtle>();
+                    break;
+                case 99:
+                    npc = ModContent.NPCType<Clam>();
+                    break;
+                case 100:
+                    npc = ModContent.NPCType<EutrophicRay>();
+                    break;
+                case 101:
+                    npc = ModContent.NPCType<GhostBell>();
+                    break;
+                case 102:
+                    npc = ModContent.NPCType<GhostBellSmall>();
+                    break;
+                case 103:
+                    npc = ModContent.NPCType<SeaFloaty>();
+                    break;
+                case 104:
+                    npc = ModContent.NPCType<BlindedAngler>();
+                    break;
+                case 105:
+                    npc = ModContent.NPCType<SeaMinnow>();
+                    break;
+                case 106:
+                    npc = ModContent.NPCType<SeaSerpent1>();
+                    break;
+                case 107:
+                    npc = ModContent.NPCType<GiantClam>();
+                    break;
+                case 108:
+                    npc = ModContent.NPCType<Piggy>();
+                    break;
+                case 109:
+                    npc = ModContent.NPCType<FearlessGoldfishWarrior>();
+                    break;
+                case 110:
+                    npc = ModContent.NPCType<Radiator>();
+                    break;
+                case 111:
+                    npc = ModContent.NPCType<Trilobite>();
+                    break;
+                case 112:
+                    npc = ModContent.NPCType<Orthocera>();
+                    break;
+                case 113:
+                    npc = ModContent.NPCType<Skyfin>();
+                    break;
+                case 114:
+                    npc = ModContent.NPCType<WaterLeech>();
+                    break;
+                case 115:
+                    npc = ModContent.NPCType<AcidEel>();
+                    break;
+                case 116:
+                    npc = ModContent.NPCType<NuclearToad>();
+                    break;
+                case 117:
+                    npc = ModContent.NPCType<FlakCrab>();
+                    break;
+                case 118:
+                    npc = ModContent.NPCType<SulfurousSkater>();
+                    break;
+                case 119:
+                    npc = ModContent.NPCType<FlakBaby>();
+                    break;
+                case 120:
+                    npc = ModContent.NPCType<AnthozoanCrab>();
+                    break;
+                case 121:
+                    npc = ModContent.NPCType<BelchingCoral>();
+                    break;
+                case 122:
+                    npc = ModContent.NPCType<GammaSlime>();
+                    break;
+                case 123:
+                    npc = ModContent.NPCType<WulfrumGyrator>();
+                    break;
+                case 124:
+                    npc = ModContent.NPCType<WulfrumHovercraft>();
+                    break;
+                case 125:
+                    npc = ModContent.NPCType<WulfrumRover>();
+                    break;
+                case 126:
+                    npc = ModContent.NPCType<WulfrumPylon>();
+                    break;
+                default:
+                    break;
+            }
+			return npc;
 		}
 	}
 }

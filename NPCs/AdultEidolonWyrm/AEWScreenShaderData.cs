@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Abyss
+namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
     public class AEWScreenShaderData : ScreenShaderData
     {

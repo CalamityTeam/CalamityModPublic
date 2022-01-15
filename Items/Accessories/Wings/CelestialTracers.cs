@@ -5,6 +5,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "50% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
+                "Immunity to the On Fire! debuff\n" +
                 "Temporary immunity to lava\n" +
                 "Being hit for over 200 damage will make you immune for an extended period of time");
         }
@@ -78,6 +80,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
             player.wingTimeMax = 250;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;

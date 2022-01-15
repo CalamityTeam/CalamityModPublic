@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GleamingDaggerProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GleamingDagger";
-
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
@@ -44,15 +42,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
 				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
 				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
-                //Rotating 45 degrees if shooting right
+                //Rotating 90 degrees if shooting right
                 if (projectile.spriteDirection == 1)
                 {
-                    projectile.rotation += MathHelper.ToRadians(45f);
-                }
-                //Rotating 45 degrees if shooting left
-                if (projectile.spriteDirection == -1)
-                {
-                    projectile.rotation -= MathHelper.ToRadians(45f);
+                    projectile.rotation += MathHelper.ToRadians(90f);
                 }
             }
 

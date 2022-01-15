@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
             recipe.AddIngredient(ItemID.Starfish, 10);
             recipe.AddIngredient(ItemID.SharkFin, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
