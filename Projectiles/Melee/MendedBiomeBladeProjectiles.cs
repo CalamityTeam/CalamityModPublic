@@ -19,7 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TruePurityProjection : ModProjectile //The boring plain one. I need to find something different to make it do compared to the original one.
+    public class TruePurityProjection : ModProjectile //The boring plain one. With cool homing now
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];

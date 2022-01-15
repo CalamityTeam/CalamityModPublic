@@ -19,12 +19,13 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
+
+
     public class SwordsmithsPride : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight";
+        public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
-        Vector2 oldDirection = Vector2.Zero;
         public ref float CurrentState => ref projectile.ai[0];
         public Player Owner => Main.player[projectile.owner];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
@@ -36,6 +37,7 @@ namespace CalamityMod.Projectiles.Melee
         public static float retractionPoint = 0.6f;
         public float retractionTimer => (throwTimer / throwOutTime) < retractionPoint ? 0 : ((throwTimer / throwOutTime) - retractionPoint) / (1f - retractionPoint);
         public ref float Empowerment => ref projectile.ai[1];
+        public float OverEmpowerment = 0f; //Used to keep cooldowns working when the spin is full
         public ref float hasMadeSound => ref projectile.localAI[0];
         public ref float hasMadeChargeSound => ref projectile.localAI[1];
 
@@ -47,10 +49,11 @@ namespace CalamityMod.Projectiles.Melee
         public float throwTimer => throwOutTime - projectile.timeLeft;
 
         public Particle smear;
+        public NPC lastTarget;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heaven's Might");
+            DisplayName.SetDefault("Swordsmith's Pride");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
@@ -69,8 +72,8 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 100 * projectile.scale;
-            float bladeWidth = 20 * projectile.scale;
+            float bladeLenght = 140 * projectile.scale;
+            float bladeWidth = 25 * projectile.scale;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
         }
 
@@ -88,7 +91,6 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity = Vector2.Zero;
                 direction = Owner.DirectionTo(Main.MouseWorld);
                 direction.Normalize();
-                oldDirection = direction;
                 initialized = true;
             }
 
@@ -120,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         float variation = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4);
                         float strength = (float)Math.Sin(variation * 2f + MathHelper.PiOver2);
-                        Particle Sparkle = new CritSpark(projectile.Center, Owner.velocity + direction.RotatedBy(variation) * (1 + strength) * Main.rand.NextFloat(7.5f, 20f), Color.White, Color.Cyan, 2f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 2f);
+                        Particle Sparkle = new CritSpark(projectile.Center, Owner.velocity + direction.RotatedBy(variation) * (1 + strength) * Main.rand.NextFloat(7.5f, 20f), Color.White, Color.GreenYellow, 2f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 2f);
                         GeneralParticleHandler.SpawnParticle(Sparkle);
                     }
                 }
@@ -147,8 +149,24 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
 
+                if (Empowerment / maxEmpowerment >= 0.5)
+                {
+
+                    if ((Empowerment + OverEmpowerment) % (40 + (int)(40 * (1 - Empowerment / maxEmpowerment))) == 9)
+                    {
+                        Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
+                        if (lastTarget != null && lastTarget.active) //If you've got an actual target, angle your shots towards them
+                        {
+                            shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
+                        }
+                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * 0.5f), 0f, Owner.whoAmI);
+                    }
+                }
+
+
                 if (Empowerment / maxEmpowerment >= 0.75)
                 {
+                    Color currentColor = Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTime * 2f)) * (((Empowerment / maxEmpowerment) - 0.75f) / 0.25f * 0.8f);
                     if (smear == null)
                     {
                         smear = new CircularSmearVFX(Owner.Center, Color.HotPink, direction.ToRotation(), projectile.scale * 1.5f);
@@ -160,8 +178,17 @@ namespace CalamityMod.Projectiles.Melee
                         smear.Rotation = direction.ToRotation() + MathHelper.PiOver2;
                         smear.Time = 0;
                         smear.Position = Owner.Center;
-                        smear.Scale = projectile.scale * 1.5f;
-                        smear.Color = Color.Lerp(Color.HotPink, Color.Cyan, (float)Math.Sin(Main.GlobalTime * 2f)) * (((Empowerment / maxEmpowerment) - 0.75f) / 0.25f * 0.8f);
+                        smear.Scale = projectile.scale * 1.9f;
+                        smear.Color = currentColor;
+                    }
+
+                    if (Main.rand.NextBool())
+                    {
+                        float maxDistance = projectile.scale * 1.9f * 78f;
+                        Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
+                        Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2)) * 2f * (1f + distance.Length() / 15f);
+                        Particle glitter = new CritSpark(Owner.Center + distance, Owner.velocity + angularVelocity, Color.White, currentColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
+                        GeneralParticleHandler.SpawnParticle(glitter);
                     }
                 }
 
@@ -169,7 +196,6 @@ namespace CalamityMod.Projectiles.Melee
                 //Manage position and rotation
                 projectile.scale = 1 + Empowerment / maxEmpowerment * 1.5f;
 
-                oldDirection = direction;
                 direction = direction.RotatedBy(MathHelper.Clamp(Empowerment / maxEmpowerment, 0.4f, 1f) * MathHelper.PiOver4 * 0.20f);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
@@ -177,7 +203,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)throwOutTime + 1;
                 Empowerment++;
                 if (Empowerment > maxEmpowerment)
+                {
                     Empowerment = maxEmpowerment;
+                    OverEmpowerment++;
+                }
             }
 
             if (CurrentState == 1f)
@@ -202,6 +231,24 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = (int)(damage * (initialDamage + (maxEmpowermentBoost * Empowerment / maxEmpowerment)));
+
+            if (CurrentState != 1)
+                return;
+
+            lastTarget = target;
+
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj.type == ProjectileType<PurityProjectionSigil>() && proj.owner == Owner.whoAmI)
+                {
+                    //Reset the timeleft on the sigil & give it its new target (or the same, it doesnt matter really.
+                    proj.ai[0] = target.whoAmI;
+                    proj.timeLeft = 1200;
+                    return;
+                }
+            }
+            Projectile sigil = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
+            sigil.timeLeft = 1200;
         }
 
         public override void Kill(int timeLeft)
@@ -212,8 +259,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight");
+            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride");
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -320,7 +367,7 @@ namespace CalamityMod.Projectiles.Melee
         }
     }
 
-    public class SwordsmithsPrideBeam : ModProjectile //The boring plain one. I need to find something different to make it do compared to the original one.
+    public class SwordsmithsPrideBeam : ModProjectile 
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];
@@ -340,7 +387,7 @@ namespace CalamityMod.Projectiles.Melee
             aiType = ProjectileID.LightBeam;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 40;
+            projectile.timeLeft = 80;
             projectile.extraUpdates = 1;
             projectile.melee = true;
             projectile.tileCollide = false;
@@ -360,17 +407,15 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver4 * 0.5f) //Home in
+
+            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver2 * 1.5f) //Home in
             {
-                projectile.timeLeft = 30; //Remain alive
-                float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(12.5f, 2.5f, MathHelper.Clamp(projectile.Distance(target.Center) / 10f, 0f, 1f)));
+                projectile.timeLeft = 70; //Remain alive
+                float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(25, 10.5f, MathHelper.Clamp(projectile.Distance(target.Center) / 10f, 0f, 1f)));
                 float idealDirection = projectile.AngleTo(target.Center);
                 float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
                 projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
             }
-
-            if (projectile.timeLeft < 35)
-                projectile.tileCollide = true;
 
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
             int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
@@ -381,7 +426,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 35)
+            if (projectile.timeLeft > 75)
                 return false;
 
             DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
@@ -406,6 +451,8 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffType<ArmorCrunch>(), debuffTime);
         }
     }
+
+    //Mercurial tides
 
     public class MercurialTides : ModProjectile
     {
@@ -448,8 +495,8 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 120 * projectile.scale;
-            float bladeWidth = 20 * projectile.scale;
+            float bladeLenght = 145 * projectile.scale;
+            float bladeWidth = 25 * projectile.scale;
 
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
         }
@@ -520,7 +567,6 @@ namespace CalamityMod.Projectiles.Melee
                     Charge = MaxCharge;
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
-
                         Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * 0.6f), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
                         Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);

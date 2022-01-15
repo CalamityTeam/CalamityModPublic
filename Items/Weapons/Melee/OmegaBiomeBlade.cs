@@ -258,13 +258,13 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (mainAttunement)
             {
                 case Attunement.Whirlwind:
-                    item.channel = false;
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileType<TruePurityProjection>();
+                    item.channel = true;
+                    item.noUseGraphic = true;
+                    item.useStyle = ItemUseStyleID.HoldingOut;
+                    item.shoot = ProjectileType<SwordsmithsPride>();
                     item.shootSpeed = 12f;
-                    item.UseSound = SoundID.Item1;
-                    item.noMelee = false;
+                    item.UseSound = null;
+                    item.noMelee = true;
                     break;
                 case Attunement.SuperPogo:
                     item.channel = true;
@@ -332,7 +332,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueAridGrandeur>() ||
+            (n.type == ProjectileType<SwordsmithsPride>() ||
              n.type == ProjectileType<MercurialTides>() //||
             // n.type == ProjectileType<SanguineFury>() ||
             // n.type == ProjectileType<LamentationsOfTheChained>()
@@ -350,6 +350,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (mainAttunement == null)
                 return true;
+
+            position.Y -= 6f * scale;
 
             Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
             Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
@@ -498,6 +500,7 @@ namespace CalamityMod.Items.Weapons.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
+            bool holy = Owner.ZoneHoly;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
@@ -508,6 +511,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 attunement = Attunement.SuperPogo;
             if (astral || marine)
                 attunement = Attunement.Shockwave;
+            if (holy)
+                attunement = Attunement.Whirlwind; //Necessary to override biome overlap
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)
