@@ -48,7 +48,11 @@ namespace CalamityMod.Projectiles.Melee
         public float maxEmpowermentBoost = 2f;
         public float throwTimer => throwOutTime - projectile.timeLeft;
 
+
+        public float AngleReset = 0f;
+        public bool CanDirectFire = true;
         public Particle smear;
+        public Particle sightLine;
         public NPC lastTarget;
 
         public override void SetStaticDefaults()
@@ -144,6 +148,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     else if (rotation > MathHelper.PiOver2 - MathHelper.PiOver4 && rotation < MathHelper.PiOver2 + MathHelper.PiOver4 && hasMadeSound == 0f)
                     {
+                        CanDirectFire = true;
                         hasMadeSound = 1f;
                         Main.PlaySound(SoundID.Item71);
                     }
@@ -152,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Empowerment / maxEmpowerment >= 0.5)
                 {
 
-                    if ((Empowerment + OverEmpowerment) % (40 + (int)(40 * (1 - Empowerment / maxEmpowerment))) == 9)
+                    if ((Empowerment + OverEmpowerment) % 30 == 29)
                     {
                         Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
                         if (lastTarget != null && lastTarget.active) //If you've got an actual target, angle your shots towards them
@@ -181,6 +186,35 @@ namespace CalamityMod.Projectiles.Melee
                         smear.Scale = projectile.scale * 1.9f;
                         smear.Color = currentColor;
                     }
+
+                    if (sightLine == null)
+                    {
+                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Main.MouseWorld), 0.2f, Color.HotPink, true);
+                        GeneralParticleHandler.SpawnParticle(sightLine);
+                    }
+                    else
+                    {
+                        sightLine.Position = Owner.Center;
+                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f;
+                        sightLine.Scale = 0.2f;
+                        sightLine.Time = 0;
+                        sightLine.Color = currentColor * 0.7f;
+                    }
+
+                    float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
+                    float mouseAngleAdjusted = MathHelper.WrapAngle(Owner.DirectionTo(Main.MouseWorld).ToRotation()) + MathHelper.Pi;
+                    float deltaAngleShoot = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - mouseAngleAdjusted));
+
+                    if (CanDirectFire && deltaAngleShoot < 0.1f)
+                    {
+                        Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 3f, 10, 0.1f, 3f);
+                        GeneralParticleHandler.SpawnParticle(Blink);
+
+                        Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * 0.5f), 0f, Owner.whoAmI);
+                        CanDirectFire = false;
+                        AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
+                    }
+
 
                     if (Main.rand.NextBool())
                     {
@@ -255,6 +289,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (smear != null)
                 smear.Kill();
+            if (sightLine != null)
+                sightLine.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -371,7 +407,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];
-        public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";
+        public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPrideBeam";
 
         public override void SetStaticDefaults()
         {
@@ -408,10 +444,10 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver2 * 1.5f) //Home in
+            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver4) //Home in
             {
                 projectile.timeLeft = 70; //Remain alive
-                float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(25, 10.5f, MathHelper.Clamp(projectile.Distance(target.Center) / 10f, 0f, 1f)));
+                float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(15, 2.5f, MathHelper.Clamp(projectile.Distance(target.Center) / 10f, 0f, 1f)));
                 float idealDirection = projectile.AngleTo(target.Center);
                 float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);
                 projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
@@ -430,6 +466,17 @@ namespace CalamityMod.Projectiles.Melee
                 return false;
 
             DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+
+            spriteBatch.End(); //Haha sup babe what if i restarted the spritebatch way too many times haha /blushes
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Texture2D tex = Main.projectileTexture[projectile.type];
+
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTime * 2f)), projectile.rotation, tex.Size() * 0.5f, 1f, 0f, 0f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             return false;
         }
 
@@ -450,6 +497,8 @@ namespace CalamityMod.Projectiles.Melee
             int debuffTime = 90;
             target.AddBuff(BuffType<ArmorCrunch>(), debuffTime);
         }
+
+        public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTime * 2f));
     }
 
     //Mercurial tides

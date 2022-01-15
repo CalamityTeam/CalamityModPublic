@@ -10,7 +10,6 @@ namespace CalamityMod.Particles
     {
         public override string Texture => "CalamityMod/Particles/CircularSmear";
         public override bool UseAdditiveBlend => true;
-        public override bool UseCustomDraw => false;
 
         public override bool SetLifetime => true;
         public float opacity;
@@ -23,13 +22,6 @@ namespace CalamityMod.Particles
             Scale = scale;
             Rotation = rotation;
             Lifetime = 2;
-        }
-
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
-
-            spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity * 0.5f, 0, tex.Size()/2f, Scale, SpriteEffects.None, 0);
         }
     }
 }
