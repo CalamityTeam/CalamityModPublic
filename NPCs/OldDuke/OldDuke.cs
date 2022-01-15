@@ -401,7 +401,8 @@ namespace CalamityMod.NPCs.OldDuke
 					DropHelper.WeightStack<ToxicantTwister>(w)
 				);
 
-				//Equipment
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<MutatedTruffle>());
 				DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);
 
                 // Vanity

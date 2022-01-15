@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -779,7 +780,8 @@ namespace CalamityMod.NPCs.Signus
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 4);
 					DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 4);
 
-					//Equipment (None in Normal)
+					// Equipment
+					DropHelper.DropItem(npc, ModContent.ItemType<SpectralVeil>());
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);

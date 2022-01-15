@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -2765,8 +2766,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DropHelper.WeightStack<Sacrifice>(w)
                 );
 
-                // SCal vanity set (This drops all at once, or not at all)
-                if (Main.rand.NextBool(7))
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<Calamity>());
+
+				// SCal vanity set (This drops all at once, or not at all)
+				if (Main.rand.NextBool(7))
                 {
                     DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
                     DropHelper.DropItem(npc, ModContent.ItemType<SCalMask>());

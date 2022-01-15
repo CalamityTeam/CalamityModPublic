@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -345,6 +346,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 );
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<GravistarSabaton>());
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
 
 				// Vanity

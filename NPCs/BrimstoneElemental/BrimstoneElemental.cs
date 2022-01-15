@@ -179,8 +179,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     DropHelper.WeightStack<DormantBrimseeker>(w)
                 );
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>());
+				DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
 

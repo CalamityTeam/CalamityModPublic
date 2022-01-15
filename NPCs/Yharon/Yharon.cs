@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -2851,8 +2852,9 @@ namespace CalamityMod.NPCs.Yharon
                 int soulFragMax = 22;
                 DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
-                // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<YharimsGift>());
+				DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
             }
 
             // Vanity

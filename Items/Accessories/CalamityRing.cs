@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
             item.accessory = true;
-            item.expert = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;

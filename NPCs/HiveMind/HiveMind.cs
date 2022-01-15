@@ -1127,8 +1127,9 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.WeightStack<RotBall>(w, 30, 50)
                 );
 
-                //Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<RottenBrain>());
+				DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);

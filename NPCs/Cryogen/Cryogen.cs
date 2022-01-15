@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -1076,6 +1077,7 @@ namespace CalamityMod.NPCs.Cryogen
                 );
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<SoulofCryogen>());
 				DropHelper.DropItemChance(npc, ModContent.ItemType<FrostFlare>(), 5);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 5);
 

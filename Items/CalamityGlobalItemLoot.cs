@@ -52,7 +52,6 @@ namespace CalamityMod.Items
 				case ItemID.EyeOfCthulhuBossBag:
 					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
 					DropHelper.DropItem(player, ModContent.ItemType<TeardropCleaver>());
-					DropHelper.DropItem(player, ModContent.ItemType<CounterScarf>());
 					break;
 
 				case ItemID.QueenBeeBossBag:

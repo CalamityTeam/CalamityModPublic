@@ -794,8 +794,9 @@ namespace CalamityMod.NPCs.Ravager
                     DropHelper.WeightStack<CraniumSmasher>(w)
                 );
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
+				// Equipment
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
 
                 // Vanity

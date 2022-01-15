@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -691,8 +692,9 @@ namespace CalamityMod.NPCs.SlimeGod
 				// Vanity
 				DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
-                // Other
-            }
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<ManaOverloader>());
+			}
 
             // Mark the Slime God as dead
             CalamityWorld.downedSlimeGod = true;

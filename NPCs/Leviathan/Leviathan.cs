@@ -751,8 +751,9 @@ namespace CalamityMod.NPCs.Leviathan
                     DropHelper.WeightStack<LeviathanTeeth>(w)
                 );
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<LeviathanAmbergris>());
+				DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);

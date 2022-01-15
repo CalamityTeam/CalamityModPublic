@@ -1495,8 +1495,11 @@ namespace CalamityMod.NPCs.Providence
 					DropHelper.WeightStack<MoltenAmputator>(w)
 				);
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<BlazingCore>());
+
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.Top.Y >= (Main.maxTilesY - 240f) * 16f)

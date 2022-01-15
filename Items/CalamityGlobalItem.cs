@@ -129,10 +129,6 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
 
-			// Fix Suspicious Looking Tentacle not being marked as Expert
-			if (item.type == ItemID.SuspiciousLookingTentacle)
-				item.expert = true;
-
 			// Fix Bones being attracted to the player when you have open ammo slots
 			if (item.type == ItemID.Bone)
 				item.notAmmo = true;
@@ -140,6 +136,27 @@ namespace CalamityMod.Items
 			// Modified Pearlwood items are now Light Red
 			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
 				item.rare = ItemRarityID.LightRed;
+
+			// Make most expert items no longer expert because they drop in all modes now.
+			switch (item.type)
+			{
+				case ItemID.RoyalGel:
+				case ItemID.EoCShield:
+				case ItemID.WormScarf:
+				case ItemID.BrainOfConfusion:
+				case ItemID.HiveBackpack:
+				case ItemID.BoneGlove:
+				case ItemID.MechanicalBatteryPiece:
+				case ItemID.MechanicalWagonPiece:
+				case ItemID.MechanicalWheelPiece:
+				case ItemID.SporeSac:
+				case ItemID.ShinyStone:
+				case ItemID.ShrimpyTruffle:
+				case ItemID.GravityGlobe:
+				case ItemID.SuspiciousLookingTentacle:
+					item.expert = false;
+					break;
+			}
 
 			SetDefaults_ApplyTweaks(item);
 

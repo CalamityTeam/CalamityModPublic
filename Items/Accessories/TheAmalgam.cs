@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Accessories
 			item.width = 34;
 			item.height = 34;
 			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.expert = true;
 			item.rare = ItemRarityID.Cyan;
 			item.accessory = true;
 		}
@@ -61,7 +60,7 @@ namespace CalamityMod.Items.Accessories
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemType<AmalgamatedBrain>());
 			recipe.AddIngredient(ItemType<UnholyCore>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
+			recipe.AddIngredient(ItemType<MolluskHusk>(), 10);
 			recipe.AddIngredient(ItemType<SulfuricScale>(), 15);
 			recipe.AddIngredient(ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ItemType<CosmiliteBar>(), 5);

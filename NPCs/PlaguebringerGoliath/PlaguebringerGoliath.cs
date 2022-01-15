@@ -1227,8 +1227,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     DropHelper.WeightStack<TheSyringe>(w)
                 );
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<ToxicHeart>());
+
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 10);
             }
 

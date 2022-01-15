@@ -1,6 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -1000,7 +1000,10 @@ namespace CalamityMod.NPCs.Polterghast
                     DropHelper.WeightStack<EtherealSubjugator>(w),
                     DropHelper.WeightStack<GhoulishGouger>(w)
                 );
-            }
+
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<Affliction>());
+			}
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
             if (!CalamityWorld.downedPolterghast)

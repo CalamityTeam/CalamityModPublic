@@ -753,8 +753,11 @@ namespace CalamityMod.NPCs.Crabulon
                     DropHelper.WeightStack<Shroomerang>(w)
                 );
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<FungalClump>());
+
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
             }
 
             // Mark Crabulon as dead

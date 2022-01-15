@@ -183,8 +183,9 @@ namespace CalamityMod.NPCs.Calamitas
                     DropHelper.WeightStack<BlightedEyeStaff>(w)
                 );
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 5);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>());
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);

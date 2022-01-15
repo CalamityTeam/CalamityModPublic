@@ -271,7 +271,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                     DropHelper.WeightStack<RegulusRiot>(w)
                 );
 
-                // Equipment
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<AstralBulwark>());
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity

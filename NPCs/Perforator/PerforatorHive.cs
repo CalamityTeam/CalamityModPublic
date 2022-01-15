@@ -505,7 +505,8 @@ namespace CalamityMod.NPCs.Perforator
 					DropHelper.WeightStack<ToothBall>(w, 30, 50)
 				);
 
-				//Equipment
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<BloodyWormTooth>());
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity

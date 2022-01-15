@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -2266,6 +2267,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 					DropHelper.WeightStack<StaffoftheMechworm>(w),
 					DropHelper.WeightStack<Eradicator>(w)
 				);
+
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<NebulousCore>());
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);

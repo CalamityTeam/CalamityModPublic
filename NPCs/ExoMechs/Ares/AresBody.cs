@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -1343,6 +1344,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<DraedonsHeart>());
 				DropHelper.DropItem(npc, ModContent.ItemType<ExoThrone>());
 
 				// Vanity
