@@ -429,10 +429,10 @@ namespace CalamityMod.Items.Weapons.Melee
             projectile.damage = 0;
         }
 
-        public CurveSegment anticipation = new CurveSegment(EasingType.SineBump, 0f, 0f, -0.2f);
-        public CurveSegment rise = new CurveSegment(EasingType.ExpIn, 0.1f, 0f, 1f);
-        public CurveSegment overshoot = new CurveSegment(EasingType.SineBump, 0.95f, 1f, 0.1f);
-        internal float SwordHeight() => PiecewiseAnimation(ChannelTimer / (float)ChannelTime, new CurveSegment[] { anticipation, rise, overshoot });
+        public CurveSegment anticipation = new CurveSegment(EasingType.SineBump, 0f, 0f, -0.3f);
+        public CurveSegment rise = new CurveSegment(EasingType.ExpIn, 0f, 0f, 1f);
+        public CurveSegment overshoot = new CurveSegment(EasingType.SineBump, 0.80f, 1f, 0.1f);
+        internal float SwordHeight() => PiecewiseAnimation(ChannelTimer / (float)ChannelTime, new CurveSegment[] {rise, overshoot });
 
         public override void AI()
         {
@@ -470,7 +470,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Owner.heldProj = projectile.whoAmI;
                 Owner.itemRotation = (-Vector2.UnitY).ToRotation();
 
-                projectile.Center = Owner.Top + new Vector2(16f * Owner.direction, 20f * SwordHeight() + 10f);
+                projectile.Center = Owner.Top + new Vector2(0f, -20f * SwordHeight() - 50f);
                 projectile.rotation = -MathHelper.PiOver4; // No more silly turnaround with the repaired one?
                 ChannelTimer++;
                 projectile.timeLeft = 60;
@@ -557,7 +557,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (ChanneledState == 0f && ChannelTimer > 10f)
             {
                 Texture2D tex = GetTexture(Texture);
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, lightColor, 0, tex.Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, tex.Size() / 2, 1, 0, 0);
 
                 return false;
 
