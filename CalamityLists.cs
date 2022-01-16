@@ -2655,7 +2655,8 @@ namespace CalamityMod
                 ProjectileType<EndoHydraHead>(),
                 ProjectileType<EndoHydraBody>(),
                 ProjectileType<SeekerSummonProj>(),
-                ProjectileType<SepulcherMinion>()
+                ProjectileType<SepulcherMinion>(),
+                ProjectileType<MountedScannerLaser>()
             };
 
             ZeroMinionSlotExceptionList = new List<int>()

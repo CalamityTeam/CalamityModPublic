@@ -176,6 +176,9 @@ namespace CalamityMod.Particles
 		/// <param name="type">The type to check.</param>
 		internal static FusableParticleRenderCollection GetParticleRenderCollectionByType(Type type)
 		{
+			if (Main.netMode == NetmodeID.Server)
+				return null;
+
 			return ParticleSets.First(s => s.ParticleSet.GetType() == type);
 		}
 
@@ -185,6 +188,9 @@ namespace CalamityMod.Particles
 		/// <typeparam name="T">The type to check.</typeparam>
 		public static T GetParticleSetByType<T>() where T : BaseFusableParticleSet
 		{
+			if (Main.netMode == NetmodeID.Server)
+				return null;
+
 			return ParticleSets.First(s => s.ParticleSet.GetType() == typeof(T)).ParticleSet as T;
 		}
 	}

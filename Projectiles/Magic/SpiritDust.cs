@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			float radius = MathHelper.SmoothStep(80f, 48f, 1f - projectile.timeLeft / 90f);
 			Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
-			FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, radius);
+			FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, radius);
 		}
 	}
 }
