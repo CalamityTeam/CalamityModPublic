@@ -63,7 +63,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<EtherealSubjugator>(w),
                 DropHelper.WeightStack<GhoulishGouger>(w)
             );
-			DropHelper.DropItem(player, ModContent.ItemType<PearlGod>());
 
 			// Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
