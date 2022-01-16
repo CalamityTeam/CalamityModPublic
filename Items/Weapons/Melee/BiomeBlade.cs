@@ -31,21 +31,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public int CanLunge = 1;
 
         #region stats
-        public const int DefaultAttunement_BaseDamage = 55;
+        public static int DefaultAttunement_BaseDamage = 55;
 
-        public const int EvilAttunement_BaseDamage = 55;
-        public const int EvilAttunement_Lifesteal = 3;
-        public const int EvilAttunement_BounceIFrames = 10;
+        public static int EvilAttunement_BaseDamage = 102;
+        public static int EvilAttunement_Lifesteal = 3;
+        public static int EvilAttunement_BounceIFrames = 10;
 
-        public const int ColdAttunement_BaseDamage = 70;
-        public const float ColdAttunement_SecondSwingBoost = 1.8f; 
-        public const float ColdAttunement_ThirdSwingBoost = 3f;
+        public static int ColdAttunement_BaseDamage = 70;
+        public static float ColdAttunement_SecondSwingBoost = 1.8f; 
+        public static float ColdAttunement_ThirdSwingBoost = 3f;
 
-        public const int HotAttunement_BaseDamage = 70;
-        public const int HotAttunement_ShredIFrames = 8;
+        public static int HotAttunement_BaseDamage = 70;
+        public static int HotAttunement_ShredIFrames = 8;
 
-        public const int TropicalAttunement_BaseDamage = 55;
-        public const float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static int TropicalAttunement_BaseDamage = 55;
+        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
         #endregion
 
         public override void SetStaticDefaults()

@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = false;
             projectile.hostile = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = TrueBiomeBlade.DefaultAttunement_SigilTime;
             projectile.melee = true;
             projectile.tileCollide = false;
         }
@@ -169,7 +169,6 @@ namespace CalamityMod.Projectiles.Melee
         public bool ChargedUp;
         public Player Owner => Main.player[projectile.owner];
         public const float LungeSpeed = 16;
-        public const float PowerLungeDistance = 500;
         public ref float CanBounce => ref projectile.localAI[0];
         public ref float dashTimer => ref projectile.localAI[1];
         public const float maxDash = 20f;
@@ -237,7 +236,7 @@ namespace CalamityMod.Projectiles.Melee
                     Owner.velocity *= 0.1f; //Abrupt stop
                     Owner.Calamity().LungingDown = false;
 
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage * 2, 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                     if (proj.modProjectile is DecaysRetortDash dash)
                     {
                         dash.DashStart = PowerLungeStart;
@@ -293,8 +292,8 @@ namespace CalamityMod.Projectiles.Melee
 
             if (!cannotLifesteal) //trolled
             {
-                Owner.statLife += 3;
-                Owner.HealEffect(3); //Idk if its too much or what but at the same time its close range as fuck
+                Owner.statLife += TrueBiomeBlade.EvilAttunement_Lifesteal;
+                Owner.HealEffect(TrueBiomeBlade.EvilAttunement_Lifesteal); //Idk if its too much or what but at the same time its close range as fuck
             }
             if (Main.myPlayer != Owner.whoAmI || CanBounce == 0f)
                 return;
@@ -303,7 +302,7 @@ namespace CalamityMod.Projectiles.Melee
             bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground 
             Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(bounceStrength, 0f, 22f);
             CanBounce = 0f;
-            Owner.GiveIFrames(10); // 10 i frames for free!
+            Owner.GiveIFrames(TrueBiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
             if (Owner.whoAmI == Main.myPlayer)
             {
                 if (Owner.HeldItem.modItem is TrueBiomeBlade sword)
@@ -468,7 +467,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float SwingMode => ref projectile.ai[0]; //0 = Up-Down small slash, 1 = Down-Up large slash, 2 = Thrust
         public ref float MaxTime => ref projectile.ai[1];
         public float Timer => MaxTime - projectile.timeLeft;
-        const float MistDamageReduction = 0.2f;
 
         public int SwingDirection
         {
@@ -556,18 +554,17 @@ namespace CalamityMod.Projectiles.Melee
                     case 0:
                         projectile.width = projectile.height = 100;
                         Main.PlaySound(SoundID.DD2_MonkStaffSwing, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * 1.5);
                         break;
                     case 1:
                         projectile.width = projectile.height = 100;
                         projectile.width = projectile.height = 100;
                         Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * 1.8);
+                        projectile.damage = (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_SecondSwingBoost);
                         break;
                     case 2:
                         projectile.width = projectile.height = 170;
                         Main.PlaySound(SoundID.DD2_PhantomPhoenixShot, projectile.Center);
-                        projectile.damage *= 3;
+                        projectile.damage *= (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_ThirdSwingBoost);
                         break;
                 }
 
@@ -603,7 +600,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.rand.NextBool())
                 {
-                    Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
                     mist.velocity = (mist.Center - Owner.Center) * 0.2f + Owner.velocity;
                 }
 
@@ -613,7 +610,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.rand.NextFloat(0f, 1f) > 0.75f)
                 {
-                    Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
 
                     Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * projectile.scale);
                     Particle snowflake = new SnowflakeSparkle(particlePosition, rotation.ToRotationVector2() * 3f, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
@@ -936,7 +933,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
+                Owner.GiveIFrames(TrueBiomeBlade.HotAttunement_ShredIFrames); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
                 PogoCooldown = 20;
             }
         }
@@ -946,7 +943,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
             if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) //Keep this for the True biome blade/Repaired biome blade.
             {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), (int)(projectile.damage * TrueBiomeBlade.HotAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }
         }
 
@@ -1144,7 +1141,6 @@ namespace CalamityMod.Projectiles.Melee
         const int MaxReach = 400;
         const float SnappingPoint = 0.55f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
-        const float ChainDamageReduction = 0.5f;
 
         const float MaxTangleReach = 400f; //How long can tangling vines from crits be
 
@@ -1197,7 +1193,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
             Vector2 projectileHalfLenght = 85f * projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit
@@ -1216,7 +1211,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             else
-                damage = (int)(damage * ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                damage = (int)(damage * TrueBiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -1235,7 +1230,7 @@ namespace CalamityMod.Projectiles.Melee
                         boing = true;
                         Main.PlaySound(SoundID.Item56);
                     }
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), damage / 2, 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                 }
                 Array.Clear(excludedTargets, 0, 3);
             }
@@ -1533,10 +1528,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float hasMadeChargeSound => ref projectile.localAI[1];
 
         public const float maxEmpowerment = 600f;
-        //How much damage reduction applies on uncharged attacks
-        public const float initialDamage = 0.2f;
-        //How much extra damage applies when fully charged. This goes ontop of the initial damage, so a max empowerment boost of 2 with an initial damage of 0.1 makes the total damage multiplier be 1.9
-        public float maxEmpowermentBoost = 2f;
         public float throwTimer => throwOutTime - projectile.timeLeft;
 
         public Particle smear;
@@ -1694,7 +1685,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (initialDamage + (maxEmpowermentBoost * Empowerment / maxEmpowerment)));
+            damage = (int)(damage * (TrueBiomeBlade.HolyAttunement_ZeroChargeDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
         }
 
         public override void Kill(int timeLeft)
@@ -1992,7 +1983,7 @@ namespace CalamityMod.Projectiles.Melee
             //Only create the central monolith if over half charge
             if (Charge / MaxCharge < 0.5f)
                 return;
-            Projectile.NewProjectile(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<TheirAbhorrenceMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile.NewProjectile(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<TheirAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
 
             //Only create the side monoliths if over 3/4th charge
             if (Charge / MaxCharge < 0.75f)
@@ -2029,7 +2020,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<TheirAbhorrenceMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<TheirAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.modProjectile is TheirAbhorrenceMonolith monolith)
                     monolith.WaitTimer = (1 - projSize) * 34f;
             }
@@ -2039,12 +2030,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Owner.GiveIFrames(30);
+            Owner.GiveIFrames(TrueBiomeBlade.AstralAttunement_DashHitIFrames);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (1f + Charge / MaxCharge));
+            damage = (int)(damage * (1f + TrueBiomeBlade.AstralAttunement_FullChargeBoost * Charge / MaxCharge));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

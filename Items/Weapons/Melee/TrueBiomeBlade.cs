@@ -26,6 +26,42 @@ namespace CalamityMod.Items.Weapons.Melee
         public int Combo = 0;
         public int StoredLunges = 2;
         public int PowerLungeCounter = 0;
+
+        #region stats
+        public static int DefaultAttunement_BaseDamage = 160;
+        public static int DefaultAttunement_SigilTime = 600;
+
+        public static int EvilAttunement_BaseDamage = 320;
+        public static int EvilAttunement_Lifesteal = 4;
+        public static int EvilAttunement_BounceIFrames = 10;
+        public static float EvilAttunement_SlashDamageBoost = 3f;
+
+        public static int ColdAttunement_BaseDamage = 320;
+        public static float ColdAttunement_SecondSwingBoost = 1.8f;
+        public static float ColdAttunement_ThirdSwingBoost = 3f;
+        public static float ColdAttunement_MistDamageReduction = 0.2f;
+
+        public static int HotAttunement_BaseDamage = 320;
+        public static int HotAttunement_ShredIFrames = 8;
+        public static float HotAttunement_ShotDamageBoost = 2;
+
+        public static int TropicalAttunement_BaseDamage = 160;
+        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static float TropicalAttunement_VineDamageReduction = 0.5f;
+
+        public static int HolyAttunement_BaseDamage = 160;
+        public static float HolyAttunement_ZeroChargeDamageReduction = 0.2f;
+        public static float HolyAttunement_FullChargeDamageBoost = 2f;
+
+        public static int AstralAttunement_BaseDamage = 500;
+        public static int AstralAttunement_DashHitIFrames = 30;
+        public static float AstralAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float AstralAttunement_MonolithDamageBoost = 2f;
+
+        public static int MarineAttunement_BaseDamage = 160;
+        #endregion
+
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Biome Blade");
@@ -270,6 +306,7 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (mainAttunement)
             {
                 case Attunement.Default:
+                    item.damage = DefaultAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = false;
                     item.useStyle = ItemUseStyleID.SwingThrow;
@@ -282,6 +319,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Hot:
+                    item.damage = HotAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -294,6 +332,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Cold:
+                    item.damage = ColdAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -305,6 +344,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Tropical:
+                    item.damage = TropicalAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.SwingThrow;
@@ -316,6 +356,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Evil:
+                    item.damage = EvilAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
@@ -327,6 +368,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
                 case Attunement.Holy:
+                    item.damage = HolyAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -339,6 +381,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Astral:
+                    item.damage = AstralAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
@@ -351,6 +394,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
                     break;
                 case Attunement.Marine:
+                    item.damage = MarineAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
@@ -444,7 +488,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         powerLungeAvailable = true;
                         PowerLungeCounter = 0;
                     }
-                    Projectile proj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage * 2, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
+                    Projectile proj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
                     if (proj.modProjectile is TrueDecaysRetort rapier)
                         rapier.ChargedUp = powerLungeAvailable;
                     StoredLunges --;
@@ -469,7 +513,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     //Reset the timeleft on the sigil & give it its new target (or the same, it doesnt matter really.
                     proj.ai[0] = target.whoAmI;
-                    proj.timeLeft = 600;
+                    proj.timeLeft = DefaultAttunement_SigilTime;
                     return;
                 }
             }
