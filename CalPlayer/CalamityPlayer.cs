@@ -513,7 +513,6 @@ namespace CalamityMod.CalPlayer
         public bool sirenIceCooldown = false;
         public bool aSpark = false;
         public bool aSparkRare = false;
-        public bool aBulwark = false;
         public bool aBulwarkRare = false;
         public bool dAmulet = false;
         public bool fCarapace = false;
@@ -544,7 +543,6 @@ namespace CalamityMod.CalPlayer
         public bool frostFlare = false;
         public bool beeResist = false;
         public bool uberBees = false;
-        public bool projRef = false;
         public bool projRefRare = false;
         public int projRefRareLifeRegenCounter = 0;
         public bool nanotech = false;
@@ -1652,7 +1650,6 @@ namespace CalamityMod.CalPlayer
             badgeOfBraveryRare = false;
             aSpark = false;
             aSparkRare = false;
-            aBulwark = false;
             aBulwarkRare = false;
             dAmulet = false;
             fCarapace = false;
@@ -1669,7 +1666,6 @@ namespace CalamityMod.CalPlayer
             frostFlare = false;
             beeResist = false;
             uberBees = false;
-            projRef = false;
             projRefRare = false;
             nanotech = false;
             eQuiver = false;
@@ -5607,25 +5603,6 @@ namespace CalamityMod.CalPlayer
                             SyncDodgeCooldown(false);
                         return;
 					}
-
-                    // Arcanum of the Void
-					else if (projRef)
-					{
-						proj.hostile = false;
-						proj.friendly = true;
-						proj.velocity *= -1f;
-						proj.extraUpdates += 1;
-						proj.penetrate = 1;
-                        player.GiveIFrames(20, false);
-
-                        damage = 0;
-
-						dodgeCooldownTimer = ArcanumReflectCooldown;
-                        // Send a Calamity dodge cooldown packet.
-                        if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                            SyncDodgeCooldown(false);
-                        return;
-					}
 				}
 			}
 
@@ -5774,7 +5751,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
-                if (dodgeCooldownTimer == 0 && !disableAllDodges && daedalusReflect && !projRef && !projRefRare)
+                if (dodgeCooldownTimer == 0 && !disableAllDodges && daedalusReflect && !projRefRare)
 				{
 					projectileDamageReduction += 0.5;
 				}
@@ -6525,7 +6502,7 @@ namespace CalamityMod.CalPlayer
 				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
                 if (dodgeCooldownTimer == 0 && !disableAllDodges)
 				{
-					if (daedalusReflect && !projRef && !projRefRare)
+					if (daedalusReflect && !projRefRare)
 					{
 						proj.hostile = false;
 						proj.friendly = true;
@@ -7318,15 +7295,11 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI);
                     }
                 }
-                if (aBulwark)
+                if (aBulwarkRare)
                 {
-                    if (aBulwarkRare)
-                    {
-                        Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(25 * player.AverageDamage()), 5f, player.whoAmI, 0f, 1f);
-                    }
-                    int starAmt = aBulwarkRare ? 12 : 5;
-                    for (int n = 0; n < starAmt; n++)
+                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(25 * player.AverageDamage()), 5f, player.whoAmI, 0f, 1f);
+                    for (int n = 0; n < 12; n++)
                     {
                         CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
                     }

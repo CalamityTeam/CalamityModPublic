@@ -4057,16 +4057,6 @@ namespace CalamityMod.NPCs
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
 			}
-			else if (npc.type == NPCType<Polterghast.Polterghast>())
-			{
-				if (item.type == ItemType<GrandDad>())
-					damage = (int)(damage * 0.75);
-			}
-			else if (npc.type == NPCType<Signus.Signus>())
-			{
-				if (item.type == ItemType<GrandDad>())
-					damage = (int)(damage * 0.75);
-			}
 		}
 		#endregion
 

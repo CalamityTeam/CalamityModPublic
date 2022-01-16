@@ -443,7 +443,7 @@ namespace CalamityMod
 				int summon2 = ItemType<Starcore>();
 				int altar = ItemType<AstralBeaconItem>();
 				List<int> summons = new List<int>() { summon1, summon2 };
-				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<Quasar>(), ItemType<AstralBulwark>(), ItemType<HideofAstrumDeus>(), ItemType<TrueConferenceCall>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<Quasar>(), ItemType<HideofAstrumDeus>(), ItemType<TrueConferenceCall>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>() };
 				string instructions = $"Use a [i:{summon1}] or [i:{summon2}] as offering at an [i:{altar}]";
 				string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
@@ -494,7 +494,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("CeaselessVoid", out float order);
 				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<CeaselessVoidBag>(), ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<VoidConcentrationStaff>(), ItemType<ArcanumoftheVoid>(), ItemType<TheEvolution>(), ItemType<SupremeHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<CeaselessVoidBag>(), ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<VoidConcentrationStaff>(), ItemType<TheEvolution>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<GodSlayerHornedHelm>(), ItemType<GodSlayerVisage>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>() };
 				string instructions = $"Use a [i:{summon}] in the Dungeon";
 				string despawn = CalamityUtils.ColorMessage("The rift in time and space has moved away from your reach.", new Color(0x4B, 0x00, 0x82));
@@ -555,7 +555,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("DevourerOfGods", out float order);
 				int type = NPCType<DevourerofGodsHead>();
 				int summon = ItemType<CosmicWorm>();
-				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Skullmasher>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<SilvaHelm>(), ItemType<SilvaHornedHelm>(), ItemType<SilvaMask>(), ItemType<KnowledgeDevourerofGods>() };
 				string instructions = $"Use a [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The Devourer of Gods has slain everyone and feasted on their essence.", new Color(0x00, 0xFF, 0xFF));
@@ -726,7 +726,7 @@ namespace CalamityMod
 
 			// Skeletron Prime
 			AddLoot(bossChecklist, "SkeletronPrime",
-				new List<int>() { ItemType<SpearofDestiny>(), ItemType<GoldBurdenBreaker>() },
+				new List<int>() { ItemType<SpearofDestiny>() },
 				new List<int>() { ItemType<KnowledgeSkeletronPrime>(), ItemType<KnowledgeMechs>() }
 			);
 
@@ -739,7 +739,7 @@ namespace CalamityMod
 
 			// Golem
 			AddLoot(bossChecklist, "Golem",
-				new List<int>() { ItemType<EssenceofCinder>(), ItemType<AegisBlade>(), ItemType<LeadWizard>() },
+				new List<int>() { ItemType<EssenceofCinder>(), ItemType<AegisBlade>() },
 				new List<int>() { ItemType<KnowledgeGolem>() }
 			);
 			AddSummons(bossChecklist, "Golem", new List<int>() { ItemType<OldPowerCell>() });
@@ -765,7 +765,7 @@ namespace CalamityMod
 
 			// Moon Lord
 			AddLoot(bossChecklist, "MoonLord",
-				new List<int>() { ItemType<UtensilPoker>(), ItemType<GrandDad>(), ItemType<Infinity>(), ItemType<MLGRune2>() },
+				new List<int>() { ItemType<UtensilPoker>(), ItemType<Infinity>(), ItemType<MLGRune2>() },
 				new List<int>() { ItemType<KnowledgeMoonLord>() }
 			);
 		}

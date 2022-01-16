@@ -280,7 +280,6 @@ namespace CalamityMod.NPCs.AstrumDeus
                 );
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<AstralBulwark>());
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity

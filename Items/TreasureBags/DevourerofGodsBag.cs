@@ -66,7 +66,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<StaffoftheMechworm>(w),
                 DropHelper.WeightStack<Eradicator>(w)
             );
-			DropHelper.DropItem(player, ModContent.ItemType<Skullmasher>());
 			DropHelper.DropItem(player, ModContent.ItemType<CosmicDischarge>());
 			DropHelper.DropItem(player, ModContent.ItemType<Norfleet>());
 

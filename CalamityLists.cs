@@ -1292,7 +1292,6 @@ namespace CalamityMod
                 ItemType<Shroomer>(),
                 ItemType<SpectreRifle>(),
                 ItemType<Svantechnical>(),
-                ItemType<Skullmasher>(),
                 ItemType<TyrannysEnd>()
             };
 

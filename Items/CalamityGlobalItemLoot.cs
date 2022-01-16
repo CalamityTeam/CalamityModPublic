@@ -125,7 +125,6 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItem(player, ModContent.ItemType<GoldBurdenBreaker>());
 					DropHelper.DropItem(player, ModContent.ItemType<SpearofDestiny>());
 					break;
 
@@ -174,7 +173,6 @@ namespace CalamityMod.Items
 
 					DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
 					DropHelper.DropItem(player, ModContent.ItemType<AegisBlade>());
-					DropHelper.DropItem(player, ModContent.ItemType<LeadWizard>());
 					break;
 
 				case ItemID.BossBagBetsy:
@@ -233,7 +231,6 @@ namespace CalamityMod.Items
 					// The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
 					int celestialOnion = ModContent.ItemType<MLGRune2>();
 					DropHelper.DropItemCondition(player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
-					DropHelper.DropItem(player, ModContent.ItemType<GrandDad>());
 					DropHelper.DropItem(player, ModContent.ItemType<Infinity>());
 					break;
 			}

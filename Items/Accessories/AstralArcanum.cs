@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -12,11 +13,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Arcanum");
-            Tooltip.SetDefault("Taking damage drops astral stars from the sky\n" +
-                "Provides immunity to the astral infection debuff\n" +
-                "You reflect projectiles when they hit you\n" +
-                "Reflected projectiles deal no damage to you\n" +
-                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects\n" +
+            Tooltip.SetDefault("Provides immunity to the astral infection debuff\n" +
                 "Boosts life regen even while under the effects of a damaging debuff\n" +
                 "While under the effects of a damaging debuff you will gain 15 defense\n" +
                 "TOOLTIP LINE HERE");
@@ -48,8 +45,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.astralArcanum = true;
-            modPlayer.aBulwark = true;
-            modPlayer.projRef = true;
             player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
         }
 
@@ -57,9 +52,9 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CelestialJewel>());
-            recipe.AddIngredient(ModContent.ItemType<AstralBulwark>());
-            recipe.AddIngredient(ModContent.ItemType<ArcanumoftheVoid>());
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
+			recipe.AddIngredient(ItemID.LunarBar, 5);
+			recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

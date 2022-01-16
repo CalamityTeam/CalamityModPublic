@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<P90>());
             recipe.AddIngredient(ItemID.Uzi);
-            recipe.AddIngredient(ModContent.ItemType<Aeries>());
+            recipe.AddIngredient(ModContent.ItemType<PearlGod>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ItemID.FragmentVortex, 10);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 6);

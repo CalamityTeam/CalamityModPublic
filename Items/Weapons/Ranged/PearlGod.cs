@@ -22,12 +22,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 32;
             item.ranged = true;
             item.width = 80;
             item.height = 46;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
@@ -101,5 +101,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             
 			return false;
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<CursedCapper>());
+			recipe.AddIngredient(ItemID.SpectreBar, 5);
+			recipe.AddIngredient(ItemID.ShroomiteBar, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

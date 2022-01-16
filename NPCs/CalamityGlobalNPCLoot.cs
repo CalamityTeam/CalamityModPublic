@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs
                 int maxGel = 100;
 				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
 
-				DropHelper.DropItemCondition(npc, ItemID.RoyalGel, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.RoyalGel, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), true, !Main.expertMode);
 
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.EyeofCthulhu)
 			{
-				DropHelper.DropItemCondition(npc, ItemID.EoCShield, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.EoCShield, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), true, !Main.expertMode);
 
@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs
 			}
 			else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
 			{
-				DropHelper.DropItemCondition(npc, npc.type == NPCID.BrainofCthulhu ? ItemID.BrainOfConfusion : ItemID.WormScarf, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, npc.type == NPCID.BrainofCthulhu ? ItemID.BrainOfConfusion : ItemID.WormScarf, true, !Main.expertMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCorruption>(), true, !WorldGen.crimson && !NPC.downedBoss2);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEaterofWorlds>(), true, !WorldGen.crimson && !NPC.downedBoss2);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(queenBeeWeapons);
 				}
 
-				DropHelper.DropItemCondition(npc, ItemID.HiveBackpack, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.HiveBackpack, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10); // Extra stingers
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs
 			{
 				DropHelper.DropItemSpray(npc, ItemID.Bone, 70, 100, 5);
 
-				DropHelper.DropItemCondition(npc, ItemID.BoneGlove, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.BoneGlove, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), true, !Main.expertMode);
 
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs
 				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
-				DropHelper.DropItemCondition(npc, ItemID.MechanicalWheelPiece, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.MechanicalWheelPiece, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs
 				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
-				DropHelper.DropItemCondition(npc, ItemID.MechanicalWagonPiece, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.MechanicalWagonPiece, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
@@ -263,12 +263,11 @@ namespace CalamityMod.NPCs
 				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
-				DropHelper.DropItemCondition(npc, ItemID.MechanicalBatteryPiece, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.MechanicalBatteryPiece, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, !Main.expertMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
@@ -301,7 +300,7 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
                 }
 
-				DropHelper.DropItemCondition(npc, ItemID.SporeSac, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.SporeSac, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
 				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
@@ -365,12 +364,11 @@ namespace CalamityMod.NPCs
 				// The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
 				DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !Main.expertMode && !NPC.downedGolemBoss);
 
-				DropHelper.DropItemCondition(npc, ItemID.ShinyStone, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.ShinyStone, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<AegisBlade>(), true, !Main.expertMode);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LeadWizard>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
 				SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
@@ -423,7 +421,7 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(dukeWeapons);
 				}
 
-				DropHelper.DropItemCondition(npc, ItemID.ShrimpyTruffle, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.ShrimpyTruffle, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<BrinyBaron>(), true, !Main.expertMode);
 
@@ -471,13 +469,12 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(moonLordWeapons);
 				}
 
-				DropHelper.DropItemCondition(npc, ItemID.GravityGlobe, !Main.expertMode);
-				DropHelper.DropItemCondition(npc, ItemID.SuspiciousLookingTentacle, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.GravityGlobe, true, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ItemID.SuspiciousLookingTentacle, true, !Main.expertMode);
 
 				// One Celestial Onion is given to each player individually
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<GrandDad>(), true, !Main.expertMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Infinity>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);

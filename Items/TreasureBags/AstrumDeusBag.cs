@@ -59,7 +59,6 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItem(player, ModContent.ItemType<TrueConferenceCall>());
 
 			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<AstralBulwark>());
             DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
 			DropHelper.DropItem(player, ModContent.ItemType<HideofAstrumDeus>());
 

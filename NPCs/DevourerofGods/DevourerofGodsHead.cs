@@ -2238,7 +2238,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, !Main.expertMode);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
