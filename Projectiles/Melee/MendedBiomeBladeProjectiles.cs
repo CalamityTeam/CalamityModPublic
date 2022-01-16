@@ -175,7 +175,6 @@ namespace CalamityMod.Projectiles.Melee
         public const float maxDash = 20f;
 
         private Vector2 PowerLungeStart;
-        private Vector2 PowerLungeEnd;
 
         public override void SetStaticDefaults()
         {
@@ -236,9 +235,9 @@ namespace CalamityMod.Projectiles.Melee
                 if (dashTimer == maxDash)
                 {
                     Owner.velocity *= 0.1f; //Abrupt stop
-                    Owner.Calamity().LungingDown = true;
+                    Owner.Calamity().LungingDown = false;
 
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (PowerLungeEnd - PowerLungeStart) / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage * 2, 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), projectile.damage * 2, 0, Owner.whoAmI);
                     if (proj.modProjectile is DecaysRetortDash dash)
                     {
                         dash.DashStart = PowerLungeStart;
@@ -1012,7 +1011,7 @@ namespace CalamityMod.Projectiles.Melee
         }
     }
 
-    public class TrueAridGrandeurShot : ModProjectile //Only use this for the upgrade actually lol
+    public class TrueAridGrandeurShot : ModProjectile 
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra";
         private bool initialized = false;
@@ -1060,9 +1059,8 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = direction.ToRotation();
 
                 projectile.velocity = direction * 6f;
-                projectile.damage *= 10;
 
-                projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
+                projectile.scale = 1f + ShredRatio ; //SWAGGER
                 projectile.netUpdate = true;
 
             }

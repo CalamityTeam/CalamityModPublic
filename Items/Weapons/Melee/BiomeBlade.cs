@@ -30,6 +30,24 @@ namespace CalamityMod.Items.Weapons.Melee
         public int Combo = 0;
         public int CanLunge = 1;
 
+        #region stats
+        public const int DefaultAttunement_BaseDamage = 55;
+
+        public const int EvilAttunement_BaseDamage = 55;
+        public const int EvilAttunement_Lifesteal = 3;
+        public const int EvilAttunement_BounceIFrames = 10;
+
+        public const int ColdAttunement_BaseDamage = 70;
+        public const float ColdAttunement_SecondSwingBoost = 1.8f; 
+        public const float ColdAttunement_ThirdSwingBoost = 3f;
+
+        public const int HotAttunement_BaseDamage = 70;
+        public const int HotAttunement_ShredIFrames = 8;
+
+        public const int TropicalAttunement_BaseDamage = 55;
+        public const float TropicalAttunement_ChainDamageReduction = 0.5f;
+        #endregion
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Broken Biome Blade"); //Broken Ecoliburn lmfao. Tbh a proper name instead of just "biome blade" may be neat given the importance of the sword
@@ -39,6 +57,8 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Main attunement : None\n" +
                                "Secondary attunement: None\n"); //Theres potential for flavor text as well but im not a writer
         }
+
+        #region tooltip editing
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
@@ -118,6 +138,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             return AttunementInfo;
         }
+
+        #endregion
 
         public override void SetDefaults()
         {
@@ -241,6 +263,7 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (mainAttunement)
             {
                 case Attunement.Default:
+                    item.damage = DefaultAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = false;
                     item.useStyle = ItemUseStyleID.SwingThrow;
@@ -252,6 +275,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
                 case Attunement.Hot:
+                    item.damage = HotAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -263,6 +287,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
                 case Attunement.Cold:
+                    item.damage = ColdAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -272,6 +297,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 case Attunement.Tropical:
+                    item.damage = TropicalAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.SwingThrow;
@@ -283,6 +309,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Combo = 0;
                     break;
                 case Attunement.Evil:
+                    item.damage = EvilAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.Stabbing;
@@ -354,7 +381,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     return false;
 
                 case Attunement.Evil:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<DecaysRetort>(), damage*2, knockBack, player.whoAmI, 26, (float) CanLunge);
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<DecaysRetort>(), damage, knockBack, player.whoAmI, 26, (float) CanLunge);
                     CanLunge = 0;
                     return false;
 
@@ -362,9 +389,6 @@ namespace CalamityMod.Items.Weapons.Melee
                     return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
             }
         }
-
-            
-
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 20f);
         internal static void UpdateAllParticleSets()

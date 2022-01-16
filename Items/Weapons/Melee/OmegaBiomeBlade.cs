@@ -270,7 +270,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<TrueAridGrandeur>();
+                    item.shoot = ProjectileType<SanguineFury>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
@@ -342,10 +342,17 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
             (n.type == ProjectileType<SwordsmithsPride>() ||
-             n.type == ProjectileType<MercurialTides>() //||
-            // n.type == ProjectileType<SanguineFury>() ||
+             n.type == ProjectileType<MercurialTides>() ||
+             n.type == ProjectileType<SanguineFury>() //||
             // n.type == ProjectileType<LamentationsOfTheChained>()
             ));
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (mainAttunement == null)
+                return false;
+            return true;
         }
 
 

@@ -169,8 +169,8 @@ namespace CalamityMod.Projectiles.Melee
 
             if (!cannotLifesteal) //trolled
             {
-                Owner.statLife += 3;
-                Owner.HealEffect(3); //Idk if its too much or what but at the same time its close range as fuck
+                Owner.statLife += BiomeBlade.EvilAttunement_Lifesteal;
+                Owner.HealEffect(BiomeBlade.EvilAttunement_Lifesteal); //Idk if its too much or what but at the same time its close range as fuck
             }
             if (Main.myPlayer != Owner.whoAmI || CanBounce == 0f)
                 return;
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
             bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground 
             Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(bounceStrength, 0f, 22f);
             CanBounce = 0f;
-            Owner.GiveIFrames(10); // 10 i frames for free!
+            Owner.GiveIFrames(BiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -325,17 +325,16 @@ namespace CalamityMod.Projectiles.Melee
                     case 0:
                         projectile.width = projectile.height = 100;
                         Main.PlaySound(SoundID.DD2_MonkStaffSwing, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * 1.5);
                         break;
                     case 1:
                         projectile.width = projectile.height = 140;
                         Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * 1.8);
+                        projectile.damage = (int)(projectile.damage * BiomeBlade.ColdAttunement_SecondSwingBoost);
                         break;
                     case 2:
                         projectile.width = projectile.height = 130;
                         Main.PlaySound(SoundID.DD2_PhantomPhoenixShot, projectile.Center);
-                        projectile.damage *= 3;
+                        projectile.damage = (int)(projectile.damage * BiomeBlade.ColdAttunement_ThirdSwingBoost);
                         break;
                 }
 
@@ -622,7 +621,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
+                Owner.GiveIFrames(BiomeBlade.HotAttunement_ShredIFrames); // i framez. 
                 PogoCooldown = 20;
             }
         }
@@ -630,11 +629,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
-            //if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) //Keep this for the True biome blade/Repaired biome blade.
-            //{
-            //    Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<AridGrandeurShot>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
-            //sharticles
-            //}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -713,7 +707,6 @@ namespace CalamityMod.Projectiles.Melee
         const int MaxReach = 400;
         const float SnappingPoint = 0.7f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
-        const float ChainDamageReduction = 0.5f;
 
         public BezierCurve curve;
         private Vector2 controlPoint1;
@@ -776,7 +769,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             else
-                damage = (int)(damage * ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                damage = (int)(damage * BiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void AI()
