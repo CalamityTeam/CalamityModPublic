@@ -276,7 +276,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.Calamity().LungingDown = true;
             PowerLungeStart = Owner.Center;
             dashTimer = 1f;
-            Owner.GiveIFrames(60);
+            Owner.GiveIFrames(TrueBiomeBlade.EvilAttunement_SlashIFrames);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects(!target.canGhostHeal || Main.player[projectile.owner].moonLeech);
@@ -1685,7 +1685,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (TrueBiomeBlade.HolyAttunement_ZeroChargeDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
+            damage = (int)(damage * (TrueBiomeBlade.HolyAttunement_BaseDamageReduction + (TrueBiomeBlade.HolyAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
         }
 
         public override void Kill(int timeLeft)

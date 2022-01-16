@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int EvilAttunement_Lifesteal = 4;
         public static int EvilAttunement_BounceIFrames = 10;
         public static float EvilAttunement_SlashDamageBoost = 3f;
+        public static int EvilAttunement_SlashIFrames = 60;
 
         public static int ColdAttunement_BaseDamage = 320;
         public static float ColdAttunement_SecondSwingBoost = 1.8f;
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float TropicalAttunement_VineDamageReduction = 0.5f;
 
         public static int HolyAttunement_BaseDamage = 160;
-        public static float HolyAttunement_ZeroChargeDamageReduction = 0.2f;
+        public static float HolyAttunement_BaseDamageReduction = 0.2f;
         public static float HolyAttunement_FullChargeDamageBoost = 2f;
 
         public static int AstralAttunement_BaseDamage = 500;

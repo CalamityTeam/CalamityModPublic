@@ -43,10 +43,6 @@ namespace CalamityMod.Projectiles.Melee
         public ref float hasMadeChargeSound => ref projectile.localAI[1];
 
         public const float maxEmpowerment = 600f;
-        //How much damage reduction applies on uncharged attacks
-        public const float initialDamage = 0.2f;
-        //How much extra damage applies when fully charged. This goes ontop of the initial damage, so a max empowerment boost of 2 with an initial damage of 0.1 makes the total damage multiplier be 1.9
-        public float maxEmpowermentBoost = 2f;
         public float throwTimer => throwOutTime - projectile.timeLeft;
 
 
@@ -165,7 +161,7 @@ namespace CalamityMod.Projectiles.Melee
                         {
                             shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
                         }
-                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * 0.5f), 0f, Owner.whoAmI);
+                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
                     }
                 }
 
@@ -211,7 +207,7 @@ namespace CalamityMod.Projectiles.Melee
                         Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 1.5f, 10, 0.1f, 3f);
                         GeneralParticleHandler.SpawnParticle(Blink);
 
-                        Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * 0.5f), 0f, Owner.whoAmI);
+                        Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
                         CanDirectFire = false;
                         AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
                     }
@@ -265,7 +261,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (initialDamage + (maxEmpowermentBoost * Empowerment / maxEmpowerment)));
+            damage = (int)(damage * (OmegaBiomeBlade.WhirlwindAttunement_BaseDamageReduction + (OmegaBiomeBlade.WhirlwindAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
 
             if (CurrentState != 1)
                 return;
@@ -278,12 +274,12 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     //Reset the timeleft on the sigil & give it its new target (or the same, it doesnt matter really.
                     proj.ai[0] = target.whoAmI;
-                    proj.timeLeft = 1200;
+                    proj.timeLeft = OmegaBiomeBlade.WhirlwindAttunement_SigilTime;
                     return;
                 }
             }
             Projectile sigil = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
-            sigil.timeLeft = 1200;
+            sigil.timeLeft = OmegaBiomeBlade.WhirlwindAttunement_SigilTime;
         }
 
         public override void Kill(int timeLeft)
@@ -604,7 +600,7 @@ namespace CalamityMod.Projectiles.Melee
                         Dashing = true;
                         DashStart = Owner.Center;
                         Wheel.timeLeft = 60;
-                        Owner.GiveIFrames(60);
+                        Owner.GiveIFrames(OmegaBiomeBlade.SuperPogoAttunement_SlashIFrames);
                         break;
                     }
                 }
@@ -640,7 +636,7 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.velocity *= 0.1f; //Abrupt stop
 
                 Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
-                Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), projectile.damage * 10, 0, Owner.whoAmI);
+                Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                 if (proj.modProjectile is SanguineFuryDash dash)
                 {
                     dash.DashStart = DashStart;
@@ -701,7 +697,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(5); // i framez. Do 5 iframes even matter? idk but you get a lot of em so lol...
+                Owner.GiveIFrames(OmegaBiomeBlade.SuperPogoAttunement_ShredIFrames); // i framez.
                 PogoCooldown = 20;
             }
         }
@@ -711,7 +707,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
             if (ShredRatio > 0.25 && Owner.whoAmI == Main.myPlayer) 
             {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), projectile.damage, projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_ShotDamageBoost) , projectile.knockBack, Owner.whoAmI, Shred);
             }
             Owner.Calamity().LungingDown = false;
         }
@@ -945,8 +941,8 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(Spark);
             }
 
-            Owner.statLife += 3;
-            Owner.HealEffect(3);
+            Owner.statLife += OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal;
+            Owner.HealEffect(OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //OMw to reuse way too much code from the entangling vines
         {
@@ -1089,7 +1085,7 @@ namespace CalamityMod.Projectiles.Melee
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
 
-                    Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * 0.6f), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                    Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                     Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
                     CurrentIndicator++;
                     OverCharge = 20f;
@@ -1100,7 +1096,7 @@ namespace CalamityMod.Projectiles.Melee
                     Charge = MaxCharge;
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
-                        Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * 0.6f), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                        Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
                         Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
                         CurrentIndicator++;
@@ -1165,7 +1161,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
             proj.timeLeft = 81;
 
 
@@ -1197,7 +1193,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.modProjectile is MercurialTidesMonolith monolith)
                 {
                     monolith.WaitTimer = (1 - projSize) * 34f;
@@ -1211,12 +1207,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Owner.GiveIFrames(30);
+            Owner.GiveIFrames(OmegaBiomeBlade.ShockwaveAttunement_DashHitIFrames);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (1f + Charge / MaxCharge));
+            damage = (int)(damage * (1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * Charge / MaxCharge));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -1433,7 +1429,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = projectile.Center + OriginDirection.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = OriginDirection.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), projectile.damage * 2, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.modProjectile is MercurialTidesMonolith monolith)
                 {
                     monolith.WaitTimer = (float)Math.Sqrt(1.0 - Math.Pow(projSize - 1.0, 2)) * 3f ;

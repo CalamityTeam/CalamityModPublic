@@ -25,6 +25,47 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement? secondaryAttunement = null;
         public int Combo = 0;
         public int UseTimer = 0;
+        public bool OnHitProc = false;
+
+        #region stats
+        public static int WhirlwindAttunement_BaseDamage = 400;
+        public static int WhirlwindAttunement_SigilTime = 1200;
+        public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
+        public static float WhirlwindAttunement_BaseDamageReduction = 0.2f;
+        public static float WhirlwindAttunement_FullChargeDamageBoost = 2f;
+
+        public static int WhirlwindAttunement_PassiveBaseDamage = 200;
+
+
+        public static int ShockwaveAttunement_BaseDamage = 1500;
+        public static int ShockwaveAttunement_DashHitIFrames = 60;
+        public static float ShockwaveAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float ShockwaveAttunement_MonolithDamageBoost = 2f;
+        public static float ShockwaveAttunement_BlastDamageReduction = 0.6f;
+
+        public static int ShockwaveAttunement_PassiveBaseDamage = 200;
+
+
+        public static int SuperPogoAttunement_BaseDamage = 500;
+        public static int SuperPogoAttunement_ShredIFrames = 10;
+        public static float SuperPogoAttunement_SlashDamageBoost = 10f;
+        public static int SuperPogoAttunementSlashLifesteal = 6;
+        public static int SuperPogoAttunement_SlashIFrames = 60;
+        public static float SuperPogoAttunement_ShotDamageBoost = 2f;
+
+        public static float SuperPogoAttunement_PassiveLifeSteal = 10;
+
+
+        public static int ColdAttunement_BaseDamage = 320;
+        public static float ColdAttunement_SecondSwingBoost = 1.8f;
+        public static float ColdAttunement_ThirdSwingBoost = 3f;
+        public static float ColdAttunement_MistDamageReduction = 0.2f;
+
+
+        public static int TropicalAttunement_BaseDamage = 160;
+        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static float TropicalAttunement_VineDamageReduction = 0.5f;
+        #endregion
 
         public override void SetStaticDefaults()
         {
@@ -258,6 +299,7 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (mainAttunement)
             {
                 case Attunement.Whirlwind:
+                    item.damage = WhirlwindAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -267,6 +309,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 case Attunement.SuperPogo:
+                    item.damage = SuperPogoAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -276,6 +319,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 case Attunement.Shockwave:
+                    item.damage = ShockwaveAttunement_BaseDamage;
                     item.channel = true;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.HoldingOut;
@@ -311,7 +355,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
                     {
                         Main.PlaySound(SoundID.Item78);
-                        Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(item.damage * 0.3f), 10f, player.whoAmI, 1f);
+                        Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                         beamSword.timeLeft = 50;
                     }
                     break;
@@ -319,7 +363,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 case Attunement.Shockwave:
                     if (UseTimer % 120 == 119)
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(item.damage * 0.6f), 10f, player.whoAmI, 1f);
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                     break;
                 case Attunement.FlailBlade:
                     break;
