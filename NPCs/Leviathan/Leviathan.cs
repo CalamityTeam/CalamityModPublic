@@ -731,8 +731,6 @@ namespace CalamityMod.NPCs.Leviathan
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, !Main.expertMode);
-
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
 
@@ -748,12 +746,13 @@ namespace CalamityMod.NPCs.Leviathan
                     DropHelper.WeightStack<Atlantis>(w),
                     DropHelper.WeightStack<GastricBelcherStaff>(w),
                     DropHelper.WeightStack<BrackishFlask>(w),
-                    DropHelper.WeightStack<LeviathanTeeth>(w)
-                );
+                    DropHelper.WeightStack<LeviathanTeeth>(w),
+					DropHelper.WeightStack<LureofEnthrallment>(w),
+					DropHelper.WeightStack<TheCommunity>(w)
+				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<LeviathanAmbergris>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);
+				DropHelper.DropItem(npc, ModContent.ItemType<LeviathanAmbergris>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);

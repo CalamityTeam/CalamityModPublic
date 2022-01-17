@@ -55,9 +55,9 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<AuroraBlazer>(w),
                 DropHelper.WeightStack<AlulaAustralis>(w),
                 DropHelper.WeightStack<BorealisBomber>(w),
-                DropHelper.WeightStack<AuroradicalThrow>(w)
-            );
-			DropHelper.DropItem(player, ModContent.ItemType<LeonidProgenitor>());
+                DropHelper.WeightStack<AuroradicalThrow>(w),
+				DropHelper.WeightStack<LeonidProgenitor>(w)
+			);
 
 			// Equipment
 			DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
@@ -68,7 +68,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Other
             DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
-            DropHelper.DropItemChance(player, ItemID.HallowedKey, 5);
         }
     }
 }

@@ -2767,7 +2767,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 );
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<Calamity>());
+				DropHelper.DropItem(npc, ModContent.ItemType<Calamity>(), true);
 
 				// SCal vanity set (This drops all at once, or not at all)
 				if (Main.rand.NextBool(7))

@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs
 				float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
 				DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), true, hermitBoxChance);
 
-				DropHelper.DropItemFromSetChance(npc, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
+				DropHelper.DropItemFromSetChance(npc, DropHelper.BagWeaponDropRateFloat, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ItemID.SporeSac, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
-				DropHelper.DropItemChance(npc, ItemID.JungleKey, 5);
+				DropHelper.DropItemChance(npc, ItemID.JungleKey, 3);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
 				SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
@@ -404,6 +404,7 @@ namespace CalamityMod.NPCs
 						ItemID.BubbleGun,
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
+						ItemID.FishronWings,
 						ModContent.ItemType<DukesDecapitator>(),
 						ModContent.ItemType<BrinyBaron>()
 					};

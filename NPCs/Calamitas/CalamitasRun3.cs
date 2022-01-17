@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.Calamitas
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>());
+				DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);

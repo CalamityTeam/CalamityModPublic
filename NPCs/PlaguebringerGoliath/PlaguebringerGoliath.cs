@@ -1198,8 +1198,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
 
@@ -1224,11 +1222,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     DropHelper.WeightStack<PlagueStaff>(w),
                     DropHelper.WeightStack<FuelCellBundle>(w),
                     DropHelper.WeightStack<InfectedRemote>(w),
-                    DropHelper.WeightStack<TheSyringe>(w)
-                );
+                    DropHelper.WeightStack<TheSyringe>(w),
+					DropHelper.WeightStack<Malachite>(w)
+				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<ToxicHeart>());
+				DropHelper.DropItem(npc, ModContent.ItemType<ToxicHeart>(), true);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

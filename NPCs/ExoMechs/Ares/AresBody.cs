@@ -1344,7 +1344,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<DraedonsHeart>());
+				DropHelper.DropItem(npc, ModContent.ItemType<DraedonsHeart>(), true);
 				DropHelper.DropItem(npc, ModContent.ItemType<ExoThrone>());
 
 				// Vanity

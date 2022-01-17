@@ -55,10 +55,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<RealmRavager>(w),
                 DropHelper.WeightStack<Hematemesis>(w),
                 DropHelper.WeightStack<SpikecragStaff>(w),
-                DropHelper.WeightStack<CraniumSmasher>(w)
-            );
+                DropHelper.WeightStack<CraniumSmasher>(w),
+				DropHelper.WeightStack<Vesuvius>(w)
+			);
             DropHelper.DropItemChance(player, ModContent.ItemType<CorpusAvertor>(), 0.05f);
-			DropHelper.DropItem(player, ModContent.ItemType<Vesuvius>());
 
 			// Equipment
 			DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);

@@ -757,8 +757,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				DropHelper.DropBags(npc);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, !Main.expertMode);
-
 				DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
@@ -771,6 +769,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					// Weapons
 					DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 4);
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 4);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), 4);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);

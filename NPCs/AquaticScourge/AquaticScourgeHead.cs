@@ -203,12 +203,12 @@ namespace CalamityMod.NPCs.AquaticScourge
                     DropHelper.WeightStack<DeepseaStaff>(w),
                     DropHelper.WeightStack<ScourgeoftheSeas>(w),
 					DropHelper.WeightStack<SeasSearing>(w),
-					DropHelper.WeightStack<DeepDiver>(w)
+					DropHelper.WeightStack<DeepDiver>(w),
+					DropHelper.WeightStack<CorrosiveSpine>(w)
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<AquaticEmblem>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<CorrosiveSpine>(), 9);
+				DropHelper.DropItem(npc, ModContent.ItemType<AquaticEmblem>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);

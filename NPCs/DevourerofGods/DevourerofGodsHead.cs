@@ -2256,9 +2256,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, !Main.expertMode);
-
 			DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
@@ -2284,11 +2281,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 					DropHelper.WeightStack<Deathwind>(w),
 					DropHelper.WeightStack<DeathhailStaff>(w),
 					DropHelper.WeightStack<StaffoftheMechworm>(w),
-					DropHelper.WeightStack<Eradicator>(w)
+					DropHelper.WeightStack<Eradicator>(w),
+					DropHelper.WeightStack<CosmicDischarge>(w),
+					DropHelper.WeightStack<Norfleet>(w)
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<NebulousCore>());
+				DropHelper.DropItem(npc, ModContent.ItemType<NebulousCore>(), true);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);

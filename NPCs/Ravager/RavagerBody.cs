@@ -772,8 +772,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
 
@@ -791,11 +789,12 @@ namespace CalamityMod.NPCs.Ravager
                     DropHelper.WeightStack<RealmRavager>(w),
                     DropHelper.WeightStack<Hematemesis>(w),
                     DropHelper.WeightStack<SpikecragStaff>(w),
-                    DropHelper.WeightStack<CraniumSmasher>(w)
-                );
+                    DropHelper.WeightStack<CraniumSmasher>(w),
+					DropHelper.WeightStack<Vesuvius>(w)
+				);
 
 				// Equipment
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<BloodflareCore>(), true, CalamityWorld.downedProvidence);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
 

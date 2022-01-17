@@ -1000,7 +1000,7 @@ namespace CalamityMod.NPCs.Polterghast
                 );
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<Affliction>());
+				DropHelper.DropItem(npc, ModContent.ItemType<Affliction>(), true);
 			}
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items

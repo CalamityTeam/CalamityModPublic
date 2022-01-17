@@ -752,7 +752,7 @@ namespace CalamityMod.NPCs.Crabulon
                 );
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<FungalClump>());
+				DropHelper.DropItem(npc, ModContent.ItemType<FungalClump>(), true);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);

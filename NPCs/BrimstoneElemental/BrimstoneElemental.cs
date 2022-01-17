@@ -175,13 +175,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     DropHelper.WeightStack<SeethingDischarge>(w),
                     DropHelper.WeightStack<DormantBrimseeker>(w),
 					DropHelper.WeightStack<Hellborn>(w),
-					DropHelper.WeightStack<FabledTortoiseShell>(w)
+					DropHelper.WeightStack<FabledTortoiseShell>(w),
+					DropHelper.WeightStack<RoseStone>(w)
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
+				DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>(), true);
+                DropHelper.DropItem(npc, ModContent.ItemType<Abaddon>(), true);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
 
 				// Vanity

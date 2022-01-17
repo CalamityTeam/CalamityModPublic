@@ -272,11 +272,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                     DropHelper.WeightStack<StarSputter>(w),
                     DropHelper.WeightStack<Starfall>(w),
                     DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                    DropHelper.WeightStack<RegulusRiot>(w),
-					DropHelper.WeightStack<HideofAstrumDeus>(w)
+                    DropHelper.WeightStack<RegulusRiot>(w)
 				);
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<HideofAstrumDeus>(), true);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity

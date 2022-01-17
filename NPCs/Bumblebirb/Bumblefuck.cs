@@ -412,8 +412,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
 
@@ -428,12 +426,13 @@ namespace CalamityMod.NPCs.Bumblebirb
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<GildedProboscis>(w),
 					DropHelper.WeightStack<GoldenEagle>(w),
-					DropHelper.WeightStack<RougeSlash>(w)
+					DropHelper.WeightStack<RougeSlash>(w),
+					DropHelper.WeightStack<Swordsplosion>(w),
+					DropHelper.WeightStack<BirdSeed>(w)
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<DynamoStemCells>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 4);
+				DropHelper.DropItem(npc, ModContent.ItemType<DynamoStemCells>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);

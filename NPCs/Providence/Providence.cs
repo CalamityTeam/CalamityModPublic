@@ -1455,9 +1455,6 @@ namespace CalamityMod.NPCs.Providence
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
 
@@ -1492,11 +1489,12 @@ namespace CalamityMod.NPCs.Providence
 					DropHelper.WeightStack<BlissfulBombardier>(w),
 					DropHelper.WeightStack<PurgeGuzzler>(w),
 					DropHelper.WeightStack<DazzlingStabberStaff>(w),
-					DropHelper.WeightStack<MoltenAmputator>(w)
+					DropHelper.WeightStack<MoltenAmputator>(w),
+					DropHelper.WeightStack<PristineFury>(w)
 				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<BlazingCore>());
+				DropHelper.DropItem(npc, ModContent.ItemType<BlazingCore>(), true);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);

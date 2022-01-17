@@ -657,7 +657,6 @@ namespace CalamityMod.CalPlayer
         public int icicleCooldown = 0;
         public bool rustyMedal = false;
         public bool noStupidNaturalARSpawns = false;
-        public bool burdenBreakerYeet = false;
 		public bool roverDrive = false;
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
@@ -1745,7 +1744,6 @@ namespace CalamityMod.CalPlayer
             corrosiveSpine = false;
             rustyMedal = false;
             noStupidNaturalARSpawns = false;
-            burdenBreakerYeet = false;
 			roverDrive = false;
             rottenDogTooth = false;
 			angelicAlliance = false;

@@ -186,6 +186,7 @@ namespace CalamityMod.Items
 						ItemID.BubbleGun,
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
+						ItemID.FishronWings,
 						ModContent.ItemType<DukesDecapitator>(),
 						ModContent.ItemType<BrinyBaron>()
 					};

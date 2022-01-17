@@ -1122,12 +1122,12 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.WeightStack<ShadowdropStaff>(w),
                     DropHelper.WeightStack<ShaderainStaff>(w),
                     DropHelper.WeightStack<DankStaff>(w),
-                    DropHelper.WeightStack<RotBall>(w, 30, 50)
-                );
+                    DropHelper.WeightStack<RotBall>(w, 30, 50),
+					DropHelper.WeightStack<FilthyGlove>(w)
+				);
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<RottenBrain>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
+				DropHelper.DropItem(npc, ModContent.ItemType<RottenBrain>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);

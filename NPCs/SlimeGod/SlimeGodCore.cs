@@ -693,7 +693,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
 				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<ManaOverloader>());
+				DropHelper.DropItem(npc, ModContent.ItemType<ManaOverloader>(), true);
 			}
 
             // Mark the Slime God as dead

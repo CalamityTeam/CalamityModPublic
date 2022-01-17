@@ -61,8 +61,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemFromSetChance(player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
-
-            // Other
         }
     }
 }
