@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Conference Call");
-            Tooltip.SetDefault("@everyone");
+            Tooltip.SetDefault("@everyone\n" +
+				"50% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -20,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 66;
             item.height = 26;
-            item.useTime = 26;
-            item.useAnimation = 26;
+            item.useTime = 32;
+            item.useAnimation = 32;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.5f;
@@ -39,10 +40,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool ConsumeAmmo(Player player)
+		{
+			if (Main.rand.Next(0, 100) < 50)
+				return false;
+			return true;
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			Vector2 velocity = new Vector2(speedX, speedY);
-            int bulletAmt = 5;
+            int bulletAmt = 4;
             for (int index = 0; index < bulletAmt; ++index)
             {
                 velocity.X += Main.rand.Next(-15, 16) * 0.05f;
@@ -115,5 +123,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             return false;
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.TacticalShotgun);
+			recipe.AddIngredient(ItemID.FragmentVortex, 7);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

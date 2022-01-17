@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Disseminator");
-            Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires a spread of bullets from the gun, above, and below");
+            Tooltip.SetDefault("@everyone\n" +
+				"50% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -49,92 +49,107 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			//shotgun spread
-            int num6 = Main.rand.Next(4, 6);
-            for (int index = 0; index < num6; ++index)
-            {
-                float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
-                int bullet = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[bullet].extraUpdates += 1;
-            }
-            float num72 = item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = player.direction;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
+			Vector2 velocity = new Vector2(speedX, speedY);
+			int bulletAmt = 4;
+			for (int index = 0; index < bulletAmt; ++index)
+			{
+				velocity.X += Main.rand.Next(-15, 16) * 0.05f;
+				velocity.Y += Main.rand.Next(-15, 16) * 0.05f;
+				int proj = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+			}
 
-			//bullets from above
-            int num107 = Main.rand.Next(4, 6);
-			int bulletDamage = (int)(damage * 0.7f);
-            for (int num108 = 0; num108 < num107; num108++)
-            {
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(51) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-50, 51);
-                vector2.Y -= 100 * num108;
-                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
-                {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + Main.rand.Next(-30, 31) * 0.02f;
-                float speedY5 = num79 + Main.rand.Next(-30, 31) * 0.02f;
-                int bullet = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, bulletDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[bullet].extraUpdates += 1;
-                Main.projectile[bullet].tileCollide = false;
+			int maxTargets = 8;
+			int[] targets = new int[maxTargets];
+			int targetArrayIndex = 0;
+			Rectangle rectangle = new Rectangle((int)player.Center.X - 960, (int)player.Center.Y - 540, 1920, 1080);
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				NPC npc = Main.npc[i];
+				if (npc.active && npc.chaseable && npc.lifeMax > 5 && !npc.dontTakeDamage && !npc.friendly && !npc.immortal)
+				{
+					if (npc.Hitbox.Intersects(rectangle))
+					{
+						if (targetArrayIndex < maxTargets)
+						{
+							targets[targetArrayIndex] = i;
+							targetArrayIndex++;
+						}
+						else
+							break;
+					}
+				}
+			}
 
-				//bullets from below
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(51) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-50, 51);
-                vector2.Y += 100 * num108;
-                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
-                {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX6 = num78 + Main.rand.Next(-30, 31) * 0.02f;
-                float speedY7 = num79 + Main.rand.Next(-30, 31) * 0.02f;
-                int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, bulletDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[bullet2].extraUpdates += 1;
-                Main.projectile[bullet2].tileCollide = false;
-            }
-            return false;
+			if (targetArrayIndex == 0)
+				return false;
+
+			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			int extraBulletDamage = (int)(damage * 0.7);
+
+			for (int j = 0; j < targetArrayIndex; j++)
+			{
+				vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+				vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				vector2.Y -= 100 * j;
+
+				Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * item.shootSpeed;
+
+				int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].tileCollide = false;
+				Main.projectile[proj].timeLeft /= 2;
+
+				vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
+				vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				vector2.Y += 100 * j;
+
+				velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * item.shootSpeed;
+
+				proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].tileCollide = false;
+				Main.projectile[proj].timeLeft /= 2;
+			}
+
+			if (targetArrayIndex == 12)
+				return false;
+
+			// Fire bullets at the same targets if 12 unique targets aren't found
+			for (int k = 0; k < maxTargets - targetArrayIndex; k++)
+			{
+				int randomTarget = Main.rand.Next(targetArrayIndex);
+
+				vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+				vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				vector2.Y -= 100 * randomTarget;
+
+				Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
+
+				int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].tileCollide = false;
+				Main.projectile[proj].timeLeft /= 2;
+
+				vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
+				vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				vector2.Y += 100 * randomTarget;
+
+				velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
+
+				proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].tileCollide = false;
+				Main.projectile[proj].timeLeft /= 2;
+			}
+
+			return false;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ConferenceCall>());
+            recipe.AddIngredient(ModContent.ItemType<TrueConferenceCall>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

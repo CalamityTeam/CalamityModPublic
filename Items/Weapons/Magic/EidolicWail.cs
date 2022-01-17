@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
             item.autoReuse = true;
             item.shootSpeed = 8f;
