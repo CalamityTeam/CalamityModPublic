@@ -24,6 +24,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement? mainAttunement = null;
         public Attunement? secondaryAttunement = null;
         public int Combo = 0;
+
+        //Used for passive effects
         public int UseTimer = 0;
         public bool OnHitProc = false;
 
@@ -37,7 +39,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int WhirlwindAttunement_PassiveBaseDamage = 200;
 
 
-        public static int ShockwaveAttunement_BaseDamage = 1500;
+        public static int SuperPogoAttunement_BaseDamage = 500;
+        public static int SuperPogoAttunement_ShredIFrames = 10;
+        public static float SuperPogoAttunement_SlashDamageBoost = 5f; //Keep in mind the slice always crits
+        public static int SuperPogoAttunementSlashLifesteal = 6;
+        public static int SuperPogoAttunement_SlashIFrames = 60;
+        public static float SuperPogoAttunement_ShotDamageBoost = 2f;
+
+        public static int SuperPogoAttunement_PassiveLifeSteal = 10;
+
+
+        public static int ShockwaveAttunement_BaseDamage = 2500;
         public static int ShockwaveAttunement_DashHitIFrames = 60;
         public static float ShockwaveAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
         public static float ShockwaveAttunement_MonolithDamageBoost = 2f;
@@ -46,25 +58,31 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int ShockwaveAttunement_PassiveBaseDamage = 200;
 
 
-        public static int SuperPogoAttunement_BaseDamage = 500;
-        public static int SuperPogoAttunement_ShredIFrames = 10;
-        public static float SuperPogoAttunement_SlashDamageBoost = 10f;
-        public static int SuperPogoAttunementSlashLifesteal = 6;
-        public static int SuperPogoAttunement_SlashIFrames = 60;
-        public static float SuperPogoAttunement_ShotDamageBoost = 2f;
+        public static int FlailBladeAttunement_BaseDamage = 320;
+        public static int FlailBladeAttunement_MaxFlails = 3;
+        public static int FlailBladeAttunement_FlailTime = 150;
+        public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
+        public static float FlailBladeAttunement_GhostChainDamageReduction = 0.5f;
 
-        public static float SuperPogoAttunement_PassiveLifeSteal = 10;
+        public static int FlailBladeAttunement_PassiveBaseDamage = 500;
 
+        //Proc coefficients. aka the likelihood of any given attack to trigger a on-hit passive.
+        public static float WhirlwindAttunement_WhirlwindProc = 0.1f;
+        public static float WhirlwindAttunement_SwordThrowProc = 1f;
+        public static float WhirlwindAttunement_SwordBeamProc = 0.05f;
 
-        public static int ColdAttunement_BaseDamage = 320;
-        public static float ColdAttunement_SecondSwingBoost = 1.8f;
-        public static float ColdAttunement_ThirdSwingBoost = 3f;
-        public static float ColdAttunement_MistDamageReduction = 0.2f;
+        public static float SuperPogoAttunement_ShredderProc = 0.25f;
+        public static float SuperPogoAttunement_WheelProc = 0.4f;
+        public static float SuperPogoAttunement_DashProc = 1f;
 
+        public static float ShockwaveAttunement_SwordProc = 1f;
+        public static float ShockwaveAttunement_MonolithProc = 1f;
+        public static float ShockwaveAttunement_BlastProc = 0.5f;
 
-        public static int TropicalAttunement_BaseDamage = 160;
-        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
-        public static float TropicalAttunement_VineDamageReduction = 0.5f;
+        public static float FlailBladeAttunement_BladeProc = 0.2f;
+        public static float FlailBladeAttunement_CritProc = 0.5f;
+        public static float FlailBladeAttunement_ChainProc = 0.1f;
+        public static float FlailBladeAttunement_GhostChainProc = 0.1f;
         #endregion
 
         public override void SetStaticDefaults()
@@ -287,12 +305,17 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             player.Calamity().rightClickListener = true;
 
-            UseTimer++;
             //Reset the strong lunge thing just in case it didnt get caught beofre.
+            //||
+            // n.type == ProjectileType<LamentationsOfTheChained>()
+
             if (CanUseItem(player))
             {
                 player.Calamity().LungingDown = false;
-                UseTimer = 0;
+            }
+            else
+            {
+                UseTimer++;
             }
 
             //Change the swords function based on its attunement
@@ -329,11 +352,12 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 case Attunement.FlailBlade:
+                    item.damage = FlailBladeAttunement_BaseDamage;
                     item.channel = false;
                     item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileType<TrueGrovetendersTouch>();
-                    item.shootSpeed = 30;
+                    item.shoot = ProjectileType<LamentationsOfTheChained>();
+                    item.shootSpeed = 12f;
                     item.UseSound = null;
                     item.noMelee = true;
                     break;
@@ -357,13 +381,23 @@ namespace CalamityMod.Items.Weapons.Melee
                         Main.PlaySound(SoundID.Item78);
                         Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                         beamSword.timeLeft = 50;
+                        UseTimer++;
                     }
                     break;
                 case Attunement.SuperPogo:
+                    if (OnHitProc)
+                    {
+                        player.statLife += SuperPogoAttunement_PassiveLifeSteal;
+                        player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
+                        OnHitProc = false;
+                    }
                     break;
                 case Attunement.Shockwave:
                     if (UseTimer % 120 == 119)
+                    {
                         Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                        UseTimer++;
+                    }
                     break;
                 case Attunement.FlailBlade:
                     break;
@@ -387,8 +421,8 @@ namespace CalamityMod.Items.Weapons.Melee
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
             (n.type == ProjectileType<SwordsmithsPride>() ||
              n.type == ProjectileType<MercurialTides>() ||
-             n.type == ProjectileType<SanguineFury>() //||
-            // n.type == ProjectileType<LamentationsOfTheChained>()
+             n.type == ProjectileType<SanguineFury>() ||
+             n.type == ProjectileType<LamentationsOfTheChained>()
             ));
         }
 
@@ -396,6 +430,19 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (mainAttunement == null)
                 return false;
+
+            if (mainAttunement == Attunement.FlailBlade)
+            {
+                Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<LamentationsOfTheChained>(), damage, knockBack, player.whoAmI, 0, 0);
+                if (whipProj.modProjectile is LamentationsOfTheChained whip)
+                {
+                    whip.flipped = Combo % 2 == 0 ? 1 : -1;
+                    whip.Size = 1f + Combo % 3 * 0.05f;
+                }
+                Combo++;
+                return false;
+            }
+
             return true;
         }
 
