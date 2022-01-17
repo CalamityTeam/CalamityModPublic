@@ -83,8 +83,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
 
 				DropHelper.DropItemCondition(npc, ItemID.RoyalGel, true, !Main.expertMode);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), true, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
 				SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
@@ -94,9 +93,9 @@ namespace CalamityMod.NPCs
 			{
 				DropHelper.DropItemCondition(npc, ItemID.EoCShield, true, !Main.expertMode);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), true, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat, 1, 1);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
 				SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad, NPCID.Demolitionist }, NPC.downedBoss1);
@@ -121,8 +120,7 @@ namespace CalamityMod.NPCs
 					{
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
-						ItemID.BeeGun,
-						ModContent.ItemType<TheBee>()
+						ItemID.BeeGun
 					};
 					// It's already 33.33% in vanilla normal, so we shouldn't lower the drop rate to 25%
 					DropHelper.DropEntireSet(npc, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
@@ -130,6 +128,8 @@ namespace CalamityMod.NPCs
 				}
 
 				DropHelper.DropItemCondition(npc, ItemID.HiveBackpack, true, !Main.expertMode);
+
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
 				DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10); // Extra stingers
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
@@ -183,9 +183,7 @@ namespace CalamityMod.NPCs
 				float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
 				DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), true, hermitBoxChance);
 
-				DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<EvilSmasher>(), true, !Main.expertMode);
+				DropHelper.DropItemFromSetChance(npc, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
@@ -224,7 +222,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), true, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
 				SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
@@ -245,7 +243,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<SHPC>(), true, !Main.expertMode);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<SHPC>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
 				SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
@@ -265,8 +263,6 @@ namespace CalamityMod.NPCs
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
 				SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
@@ -289,21 +285,18 @@ namespace CalamityMod.NPCs
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun
+						ItemID.WaspGun,
+						ModContent.ItemType<BlossomFlux>(),
+						ModContent.ItemType<BloomStone>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
-
-                    // Equipment
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
                 }
 
 				DropHelper.DropItemCondition(npc, ItemID.SporeSac, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
-				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<BlossomFlux>(), true, !Main.expertMode);
+				DropHelper.DropItemChance(npc, ItemID.JungleKey, 5);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
 				SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
@@ -352,6 +345,7 @@ namespace CalamityMod.NPCs
 						ItemID.StaffofEarth,
 						ItemID.EyeoftheGolem,
 						ItemID.SunStone,
+						ModContent.ItemType<AegisBlade>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, golemItems);
 					DropHelper.BlockDrops(golemItems);
@@ -364,8 +358,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ItemID.ShinyStone, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<AegisBlade>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
 				SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
@@ -413,14 +405,13 @@ namespace CalamityMod.NPCs
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
 						ModContent.ItemType<DukesDecapitator>(),
+						ModContent.ItemType<BrinyBaron>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
 				}
 
 				DropHelper.DropItemCondition(npc, ItemID.ShrimpyTruffle, true, !Main.expertMode);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<BrinyBaron>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
 				SetNewBossJustDowned(npc);
@@ -468,8 +459,6 @@ namespace CalamityMod.NPCs
 
 				// One Celestial Onion is given to each player individually
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Infinity>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
 				SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);

@@ -443,7 +443,7 @@ namespace CalamityMod
 				int summon2 = ItemType<Starcore>();
 				int altar = ItemType<AstralBeaconItem>();
 				List<int> summons = new List<int>() { summon1, summon2 };
-				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<Quasar>(), ItemType<HideofAstrumDeus>(), ItemType<TrueConferenceCall>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>() };
 				string instructions = $"Use a [i:{summon1}] or [i:{summon2}] as offering at an [i:{altar}]";
 				string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
@@ -708,7 +708,7 @@ namespace CalamityMod
 
 			// Wall of Flesh
 			AddLoot(bossChecklist, "WallofFlesh",
-				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<EvilSmasher>(), ItemType<Carnage>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
+				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<Carnage>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
 				new List<int>() { ItemType<KnowledgeWallofFlesh>(), ItemType<KnowledgeUnderworld>(), ItemType<IbarakiBox>() }
 			);
 
@@ -726,7 +726,7 @@ namespace CalamityMod
 
 			// Skeletron Prime
 			AddLoot(bossChecklist, "SkeletronPrime",
-				new List<int>() { ItemType<SpearofDestiny>() },
+				null,
 				new List<int>() { ItemType<KnowledgeSkeletronPrime>(), ItemType<KnowledgeMechs>() }
 			);
 
@@ -765,7 +765,7 @@ namespace CalamityMod
 
 			// Moon Lord
 			AddLoot(bossChecklist, "MoonLord",
-				new List<int>() { ItemType<UtensilPoker>(), ItemType<Infinity>(), ItemType<MLGRune2>() },
+				new List<int>() { ItemType<UtensilPoker>(), ItemType<MLGRune2>() },
 				new List<int>() { ItemType<KnowledgeMoonLord>() }
 			);
 		}

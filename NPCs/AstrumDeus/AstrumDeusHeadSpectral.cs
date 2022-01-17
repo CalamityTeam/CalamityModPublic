@@ -246,10 +246,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, !Main.expertMode);
-
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
@@ -276,8 +272,9 @@ namespace CalamityMod.NPCs.AstrumDeus
                     DropHelper.WeightStack<StarSputter>(w),
                     DropHelper.WeightStack<Starfall>(w),
                     DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                    DropHelper.WeightStack<RegulusRiot>(w)
-                );
+                    DropHelper.WeightStack<RegulusRiot>(w),
+					DropHelper.WeightStack<HideofAstrumDeus>(w)
+				);
 
 				// Equipment
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);

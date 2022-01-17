@@ -46,12 +46,12 @@ namespace CalamityMod.Items
 			switch (itemID)
 			{
 				case ItemID.KingSlimeBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<CrownJewel>());
+					DropHelper.DropItemChance(player, ModContent.ItemType<CrownJewel>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.EyeOfCthulhuBossBag:
 					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
-					DropHelper.DropItem(player, ModContent.ItemType<TeardropCleaver>());
+					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.QueenBeeBossBag:
@@ -80,6 +80,7 @@ namespace CalamityMod.Items
 						ItemID.LaserRifle,
 						ModContent.ItemType<BlackHawkRemote>(),
 						ModContent.ItemType<BlastBarrel>(),
+						ModContent.ItemType<Carnage>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, wofWeapons);
 					DropHelper.BlockDrops(wofWeapons);
@@ -95,9 +96,6 @@ namespace CalamityMod.Items
 					};
 					DropHelper.DropEntireSet(player, 0.25f, emblems);
 					DropHelper.BlockDrops(emblems);
-
-					DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-					DropHelper.DropItem(player, ModContent.ItemType<EvilSmasher>());
 					break;
 
 				case ItemID.DestroyerBossBag:
@@ -105,7 +103,7 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItem(player, ModContent.ItemType<SHPC>());
+					DropHelper.DropItemChance(player, ModContent.ItemType<SHPC>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.TwinsBossBag:
@@ -113,7 +111,7 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItem(player, ModContent.ItemType<Arbalest>());
+					DropHelper.DropItemChance(player, ModContent.ItemType<Arbalest>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.SkeletronPrimeBossBag:
@@ -121,7 +119,6 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItem(player, ModContent.ItemType<SpearofDestiny>());
 					break;
 
 				case ItemID.PlanteraBossBag:
@@ -134,17 +131,14 @@ namespace CalamityMod.Items
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun
+						ItemID.WaspGun,
+						ModContent.ItemType<BlossomFlux>(),
+						ModContent.ItemType<BloomStone>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
 
-					// Equipment
-					DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 5);
-
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
-					DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
-					DropHelper.DropItem(player, ModContent.ItemType<BlossomFlux>());
 					break;
 
 				case ItemID.GolemBossBag:
@@ -158,6 +152,7 @@ namespace CalamityMod.Items
 						ItemID.StaffofEarth,
 						ItemID.EyeoftheGolem,
 						ItemID.SunStone,
+						ModContent.ItemType<AegisBlade>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, golemItems);
 					DropHelper.BlockDrops(golemItems);
@@ -167,7 +162,6 @@ namespace CalamityMod.Items
 					DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 0.25f : 1.0f);
 
 					DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
-					DropHelper.DropItem(player, ModContent.ItemType<AegisBlade>());
 					break;
 
 				case ItemID.BossBagBetsy:
@@ -193,10 +187,10 @@ namespace CalamityMod.Items
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
 						ModContent.ItemType<DukesDecapitator>(),
+						ModContent.ItemType<BrinyBaron>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
-					DropHelper.DropItem(player, ModContent.ItemType<BrinyBaron>());
 					break;
 
 				case ItemID.MoonLordBossBag:
@@ -221,7 +215,6 @@ namespace CalamityMod.Items
 					// The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
 					int celestialOnion = ModContent.ItemType<MLGRune2>();
 					DropHelper.DropItemCondition(player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
-					DropHelper.DropItem(player, ModContent.ItemType<Infinity>());
 					break;
 			}
 		}

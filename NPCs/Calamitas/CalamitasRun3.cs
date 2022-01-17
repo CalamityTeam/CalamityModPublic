@@ -158,8 +158,6 @@ namespace CalamityMod.NPCs.Calamitas
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, !Main.expertMode);
-
 			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
@@ -180,12 +178,13 @@ namespace CalamityMod.NPCs.Calamitas
                     DropHelper.WeightStack<TheEyeofCalamitas>(w),
                     DropHelper.WeightStack<Animosity>(w),
                     DropHelper.WeightStack<CalamitasInferno>(w),
-                    DropHelper.WeightStack<BlightedEyeStaff>(w)
-                );
+                    DropHelper.WeightStack<BlightedEyeStaff>(w),
+					DropHelper.WeightStack<Regenator>(w),
+					DropHelper.WeightStack<ChaosStone>(w)
+				);
 
 				// Equipment
 				DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>());
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);

@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scourge of the Seas"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
+            DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
             Tooltip.SetDefault(@"Throws a spear that bounces a lot
 Stealth strikes throw three high speed spears");
         }
@@ -59,9 +60,10 @@ Stealth strikes throw three high speed spears");
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ScourgeoftheDesert>());
+			recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 20);
-			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -184,9 +184,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, !Main.expertMode);
-
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
@@ -204,8 +201,10 @@ namespace CalamityMod.NPCs.AquaticScourge
                     DropHelper.WeightStack<Barinautical>(w),
                     DropHelper.WeightStack<Downpour>(w),
                     DropHelper.WeightStack<DeepseaStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheSeas>(w)
-                );
+                    DropHelper.WeightStack<ScourgeoftheSeas>(w),
+					DropHelper.WeightStack<SeasSearing>(w),
+					DropHelper.WeightStack<DeepDiver>(w)
+				);
 
 				// Equipment
 				DropHelper.DropItem(npc, ModContent.ItemType<AquaticEmblem>());

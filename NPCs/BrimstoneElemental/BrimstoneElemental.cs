@@ -155,9 +155,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
@@ -176,8 +173,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Brimlance>(w),
                     DropHelper.WeightStack<SeethingDischarge>(w),
-                    DropHelper.WeightStack<DormantBrimseeker>(w)
-                );
+                    DropHelper.WeightStack<DormantBrimseeker>(w),
+					DropHelper.WeightStack<Hellborn>(w),
+					DropHelper.WeightStack<FabledTortoiseShell>(w)
+				);
 
 				// Equipment
 				DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>());
