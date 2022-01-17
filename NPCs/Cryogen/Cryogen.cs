@@ -1055,7 +1055,6 @@ namespace CalamityMod.NPCs.Cryogen
 			DropHelper.DropBags(npc);
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, !Main.expertMode);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);

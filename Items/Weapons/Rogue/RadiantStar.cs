@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Radiant Star");
             Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
-                "Stealth strike splits more with a devastating explosion");
+                "Stealth strike splits more with a devastating explosion and sucks enemies in");
         }
 
         public override void SafeSetDefaults()

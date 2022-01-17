@@ -122,6 +122,7 @@ namespace CalamityMod.NPCs
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
 						ItemID.BeeGun,
+						ModContent.ItemType<TheBee>()
 					};
 					// It's already 33.33% in vanilla normal, so we shouldn't lower the drop rate to 25%
 					DropHelper.DropEntireSet(npc, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
@@ -133,8 +134,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10); // Extra stingers
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), true, !Main.expertMode);
-
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
 				SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
 				SetNewBossJustDowned(npc);
@@ -144,8 +143,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemSpray(npc, ItemID.Bone, 70, 100, 5);
 
 				DropHelper.DropItemCondition(npc, ItemID.BoneGlove, true, !Main.expertMode);
-
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);
 				SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad, NPCID.Demolitionist }, NPC.downedBoss3);
@@ -164,6 +161,7 @@ namespace CalamityMod.NPCs
 						ItemID.LaserRifle,
 						ModContent.ItemType<BlackHawkRemote>(),
 						ModContent.ItemType<BlastBarrel>(),
+						ModContent.ItemType<Carnage>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, wofWeapons);
 					DropHelper.BlockDrops(wofWeapons);
@@ -306,7 +304,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<BlossomFlux>(), true, !Main.expertMode);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<ThornBlossom>(), true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
 				SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
@@ -430,9 +427,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<EyeofMagnus>(), true, !Main.expertMode);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<StardustStaff>(), true, !Main.expertMode);
-
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBloodMoon>(), true, Main.bloodMoon);
 				SetNewBossJustDowned(npc);
@@ -514,6 +508,10 @@ namespace CalamityMod.NPCs
 					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
 					CalamityUtils.DisplayLocalizedText(key4, messageColor4);
 				}
+			}
+			else if (npc.type == NPCID.Clothier)
+			{
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), Main.hardMode);
 			}
 			else if (npc.type == NPCID.RedDevil)
 			{

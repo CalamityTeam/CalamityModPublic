@@ -7317,34 +7317,6 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (theBee)
-                {
-                    for (int n = 0; n < 3; n++)
-                    {
-                        Projectile star = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI);
-                        if (star.whoAmI.WithinBounds(Main.maxProjectiles))
-                        {
-                            star.Calamity().forceTypeless = true;
-                            star.usesLocalNPCImmunity = true;
-                            star.localNPCHitCooldown = 5;
-                        }
-                    }
-                    int num = 1;
-                    if (Main.rand.NextBool(3))
-                        ++num;
-                    if (Main.rand.NextBool(3))
-                        ++num;
-                    if (player.strongBees && Main.rand.NextBool(3))
-                        ++num;
-                    for (int index = 0; index < num; ++index)
-                    {
-                        int bee = Projectile.NewProjectile(player.position.X, player.position.Y, Main.rand.Next(-35, 36) * 0.02f, Main.rand.Next(-35, 36) * 0.02f, Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType(), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
-                        Main.projectile[bee].usesLocalNPCImmunity = true;
-                        Main.projectile[bee].localNPCHitCooldown = 5;
-						if (bee.WithinBounds(Main.maxProjectiles))
-							Main.projectile[bee].Calamity().forceTypeless = true;
-					}
-                }
                 if (fCarapace)
                 {
                     if (damage > 0)

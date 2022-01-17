@@ -61,17 +61,13 @@ namespace CalamityMod.Items
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
 						ItemID.BeeGun,
+						ModContent.ItemType<TheBee>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
 					DropHelper.BlockDrops(queenBeeWeapons);
 
 					DropHelper.DropItem(player, ItemID.Stinger, 8, 12); // Extra stingers
 					DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
-					DropHelper.DropItem(player, ModContent.ItemType<TheBee>());
-					break;
-
-				case ItemID.SkeletronBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<ClothiersWrath>());
 					break;
 
 				case ItemID.WallOfFleshBossBag:
@@ -149,7 +145,6 @@ namespace CalamityMod.Items
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
 					DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 					DropHelper.DropItem(player, ModContent.ItemType<BlossomFlux>());
-					DropHelper.DropItem(player, ModContent.ItemType<ThornBlossom>());
 					break;
 
 				case ItemID.GolemBossBag:
@@ -202,11 +197,6 @@ namespace CalamityMod.Items
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
 					DropHelper.DropItem(player, ModContent.ItemType<BrinyBaron>());
-					break;
-
-				case ItemID.CultistBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<EyeofMagnus>());
-					DropHelper.DropItem(player, ModContent.ItemType<StardustStaff>());
 					break;
 
 				case ItemID.MoonLordBossBag:

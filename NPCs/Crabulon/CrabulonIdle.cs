@@ -731,8 +731,6 @@ namespace CalamityMod.NPCs.Crabulon
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
 

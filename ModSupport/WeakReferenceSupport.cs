@@ -279,7 +279,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Crabulon", out float order);
 				int type = NPCType<CrabulonIdle>();
 				int summon = ItemType<DecapoditaSprout>();
-				List<int> loot = new List<int>() { ItemType<CrabulonBag>(), ItemID.GlowingMushroom, ItemID.MushroomGrassSeeds, ItemType<MycelialClaws>(), ItemType<Fungicide>(), ItemType<HyphaeRod>(), ItemType<Mycoroot>(), ItemType<Shroomerang>(), ItemType<FungalClump>(), ItemType<TheTransformer>(), ItemType<MushroomPlasmaRoot>(), ItemID.LesserHealingPotion };
+				List<int> loot = new List<int>() { ItemType<CrabulonBag>(), ItemID.GlowingMushroom, ItemID.MushroomGrassSeeds, ItemType<MycelialClaws>(), ItemType<Fungicide>(), ItemType<HyphaeRod>(), ItemType<Mycoroot>(), ItemType<Shroomerang>(), ItemType<FungalClump>(), ItemType<MushroomPlasmaRoot>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<CrabulonTrophy>(), ItemType<CrabulonMask>(), ItemType<KnowledgeCrabulon>() };
 				string instructions = $"Use a [i:{summon}] in the Mushroom Biome";
 				string despawn = CalamityUtils.ColorMessage("The mycleium crab has lost interest.", new Color(0x64, 0x95, 0xED));
@@ -291,7 +291,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("HiveMind", out float order);
 				int type = NPCType<HiveMind>();
 				int summon = ItemType<Teratoma>();
-				List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CorruptSeeds, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemType<Carnage>(), ItemID.LesserHealingPotion };
+				List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CorruptSeeds, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>(), ItemType<RottingEyeball>() };
 				string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
 				string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
@@ -303,7 +303,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Perforators", out float order);
 				int type = NPCType<PerforatorHive>();
 				int summon = ItemType<BloodyWormFood>();
-				List<int> loot = new List<int>() { ItemType<PerforatorBag>(), ItemType<BloodSample>(), ItemID.CrimtaneBar, ItemID.Vertebrae, ItemID.CrimsonSeeds, ItemID.Ichor, ItemType<VeinBurster>(), ItemType<BloodyRupture>(), ItemType<SausageMaker>(), ItemType<Aorta>(), ItemType<Eviscerator>(), ItemType<BloodBath>(), ItemType<BloodClotStaff>(), ItemType<ToothBall>(), ItemType<BloodstainedGlove>(), ItemType<BloodyWormTooth>(), ItemType<Carnage>(), ItemID.LesserHealingPotion };
+				List<int> loot = new List<int>() { ItemType<PerforatorBag>(), ItemType<BloodSample>(), ItemID.CrimtaneBar, ItemID.Vertebrae, ItemID.CrimsonSeeds, ItemID.Ichor, ItemType<VeinBurster>(), ItemType<BloodyRupture>(), ItemType<SausageMaker>(), ItemType<Aorta>(), ItemType<Eviscerator>(), ItemType<BloodBath>(), ItemType<BloodClotStaff>(), ItemType<ToothBall>(), ItemType<BloodstainedGlove>(), ItemType<BloodyWormTooth>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<PerforatorTrophy>(), ItemType<PerforatorMask>(), ItemType<KnowledgePerforators>(), ItemType<BloodyVein>() };
 				string instructions = $"Kill a Cyst in the Crimson or use a [i:{summon}] in the Crimson";
 				string despawn = CalamityUtils.ColorMessage("The parasitic hive began searching for a new host.", new Color(0xDC, 0x14, 0x3C));
@@ -327,7 +327,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Cryogen", out float order);
 				int type = NPCType<Cryogen>();
 				int summon = ItemType<CryoKey>();
-				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemType<Cryophobia>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<CryogenTrophy>(), ItemType<CryogenMask>(), ItemType<KnowledgeCryogen>() };
 				string instructions = $"Use a [i:{summon}] in the Snow Biome";
 				string despawn = CalamityUtils.ColorMessage("Cryogen drifts away, carried on a freezing wind.", new Color(0x00, 0xFF, 0xFF));
@@ -702,13 +702,13 @@ namespace CalamityMod
 
 			// Skeletron
 			AddLoot(bossChecklist, "SkeletronHead",
-				new List<int>() { ItemType<ClothiersWrath>() },
+				null,
 				new List<int>() { ItemType<KnowledgeSkeletron>() }
 			);
 
 			// Wall of Flesh
 			AddLoot(bossChecklist, "WallofFlesh",
-				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<EvilSmasher>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
+				new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<EvilSmasher>(), ItemType<Carnage>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
 				new List<int>() { ItemType<KnowledgeWallofFlesh>(), ItemType<KnowledgeUnderworld>(), ItemType<IbarakiBox>() }
 			);
 
@@ -732,7 +732,7 @@ namespace CalamityMod
 
 			// Plantera
 			AddLoot(bossChecklist, "Plantera",
-				new List<int>() { ItemType<LivingShard>(), ItemType<BlossomFlux>(), ItemType<BloomStone>(), ItemID.JungleKey, ItemType<ThornBlossom>() },
+				new List<int>() { ItemType<LivingShard>(), ItemType<BlossomFlux>(), ItemType<BloomStone>(), ItemID.JungleKey },
 				new List<int>() { ItemType<KnowledgePlantera>() }
 			);
 			AddSummons(bossChecklist, "Plantera", new List<int>() { ItemType<BulbofDoom>() });
@@ -758,7 +758,7 @@ namespace CalamityMod
 
 			// Lunatic Cultist
 			AddLoot(bossChecklist, "CultistBoss",
-				new List<int>() { ItemType<StardustStaff>(), ItemType<EyeofMagnus>() },
+				null,
 				new List<int>() { ItemType<KnowledgeLunaticCultist>(), ItemType<KnowledgeBloodMoon>() }
 			);
 			AddSummons(bossChecklist, "CultistBoss", new List<int>() { ItemType<EidolonTablet>() });

@@ -60,7 +60,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<BloodClotStaff>(w),
                 DropHelper.WeightStack<ToothBall>(w, 50, 75)
             );
-			DropHelper.DropItem(player, ModContent.ItemType<Carnage>());
 
 			// Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());

@@ -474,8 +474,6 @@ namespace CalamityMod.NPCs.Perforator
 
 			DropHelper.DropBags(npc);
 
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, !Main.expertMode);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
 

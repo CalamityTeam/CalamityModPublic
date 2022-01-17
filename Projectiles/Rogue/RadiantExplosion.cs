@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-			if (projectile.ai[1] == 1f) //Quasar Stealth Strike
+			if (projectile.Calamity().stealthStrike)
 			{
 				float num472 = projectile.Center.X;
 				float num473 = projectile.Center.Y;
