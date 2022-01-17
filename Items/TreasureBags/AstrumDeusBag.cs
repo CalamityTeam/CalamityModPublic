@@ -55,7 +55,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GodspawnHelixStaff>(w),
                 DropHelper.WeightStack<RegulusRiot>(w)
             );
-			DropHelper.DropItem(player, ModContent.ItemType<Quasar>());
 			DropHelper.DropItem(player, ModContent.ItemType<TrueConferenceCall>());
 
 			// Equipment

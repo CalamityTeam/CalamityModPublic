@@ -247,7 +247,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			DropHelper.DropBags(npc);
 
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<TrueConferenceCall>(), true, !Main.expertMode);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Quasar>(), true, !Main.expertMode);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<HideofAstrumDeus>(), true, !Main.expertMode);
 
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
