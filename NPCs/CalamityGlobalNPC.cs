@@ -72,6 +72,7 @@ using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
+using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
 using CalamityMod.Balancing;
 
 namespace CalamityMod.NPCs
@@ -2828,7 +2829,7 @@ namespace CalamityMod.NPCs
 					case 2:
 						if (npc.type == NPCType<BlightedEye>() || npc.type == NPCType<CalamityEye>())
 						{
-							return CalamityGlobalAI.BuffedDemonEyeAI(npc, mod);
+							return DemonEyeAI.BuffedDemonEyeAI(npc, mod);
 						}
 						else
 						{
@@ -2847,7 +2848,7 @@ namespace CalamityMod.NPCs
 								case NPCID.PurpleEye:
 								case NPCID.DemonEyeOwl:
 								case NPCID.DemonEyeSpaceship:
-									return CalamityGlobalAI.BuffedDemonEyeAI(npc, mod);
+									return DemonEyeAI.BuffedDemonEyeAI(npc, mod);
 							}
 						}
 						break;

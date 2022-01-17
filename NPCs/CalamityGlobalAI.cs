@@ -7,6 +7,7 @@ using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -27,258 +28,6 @@ namespace CalamityMod.NPCs
     public partial class CalamityGlobalAI
     {
         #region Death Mode NPC AI
-
-        #region Demon Eye AI
-        public static void DemonEyeBatMovement(NPC npc, float maxXSpeed = 6f, float maxYSpeed = 3.5f, 
-            float xAccel = 0.1f, float xAccelBoost1 = 0.06f, float xAccelBoost2 = 0.25f,
-            float yAccel = 0.12f, float yAccelBoost1 = 0.07f, float yAccelBoost2 = 0.2f)
-        {
-            if (npc.direction == -1 && npc.velocity.X > -maxXSpeed)
-            {
-                npc.velocity.X -= xAccel;
-                if (npc.velocity.X > maxXSpeed)
-                {
-                    npc.velocity.X -= xAccelBoost1;
-                }
-                else if (npc.velocity.X > 0f)
-                {
-                    npc.velocity.X -= xAccelBoost2;
-                }
-                if (npc.velocity.X < -maxXSpeed)
-                {
-                    npc.velocity.X = -maxXSpeed;
-                }
-            }
-            else if (npc.direction == 1 && npc.velocity.X < maxXSpeed)
-            {
-                npc.velocity.X += xAccel;
-                if (npc.velocity.X < -maxXSpeed)
-                {
-                    npc.velocity.X += xAccelBoost1;
-                }
-                else if (npc.velocity.X < 0f)
-                {
-                    npc.velocity.X += xAccelBoost2;
-                }
-                if (npc.velocity.X > maxXSpeed)
-                {
-                    npc.velocity.X = maxXSpeed;
-                }
-            }
-            if (npc.directionY == -1 && npc.velocity.Y > -maxYSpeed)
-            {
-                npc.velocity.Y -= yAccel;
-                if (npc.velocity.Y > maxYSpeed)
-                {
-                    npc.velocity.Y -= yAccelBoost1;
-                }
-                else if (npc.velocity.Y > 0f)
-                {
-                    npc.velocity.Y -= yAccelBoost2;
-                }
-                if (npc.velocity.Y < -maxYSpeed)
-                {
-                    npc.velocity.Y = -maxYSpeed;
-                }
-            }
-            else if (npc.directionY == 1 && npc.velocity.Y < maxYSpeed)
-            {
-                npc.velocity.Y += yAccel;
-                if (npc.velocity.Y < -maxYSpeed)
-                {
-                    npc.velocity.Y += yAccelBoost1;
-                }
-                else if (npc.velocity.Y < 0f)
-                {
-                    npc.velocity.Y += yAccelBoost2;
-                }
-                if (npc.velocity.Y > maxYSpeed)
-                {
-                    npc.velocity.Y = maxYSpeed;
-                }
-            }
-        }
-
-        public static bool BuffedDemonEyeAI(NPC npc, Mod mod)
-        {
-            // Subtypes of enemies with this AI. Made for programmer convenience.
-            List<int> nightTimeEnemies = new List<int>()
-            {
-                NPCID.DemonEye,
-                NPCID.WanderingEye,
-                NPCID.CataractEye,
-                NPCID.SleepyEye,
-                NPCID.DialatedEye,
-                NPCID.GreenEye,
-                NPCID.PurpleEye,
-                NPCID.DemonEyeOwl,
-                NPCID.DemonEyeSpaceship,
-                ModContent.NPCType<BlightedEye>()
-            };
-            List<int> pigrons = new List<int>()
-            {
-                NPCID.PigronCorruption,
-                NPCID.PigronCrimson,
-                NPCID.PigronHallow
-            };
-
-            // Pigron noises
-            if (pigrons.Contains(npc.type) && Main.rand.NextBool(1000))
-            {
-                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 9, 1f, 0f);
-            }
-            npc.noGravity = true;
-            if (!npc.noTileCollide)
-            {
-                // Bounce off of tiles on the X axis.
-                if (npc.collideX)
-                {
-                    npc.velocity.X = npc.oldVelocity.X * -0.5f;
-                    if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                    {
-                        npc.velocity.X = 2f;
-                    }
-                    if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                    {
-                        npc.velocity.X = -2f;
-                    }
-                }
-                // Bounce off of tiles on the Y axis.
-                if (npc.collideY)
-                {
-                    npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
-                    if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                    {
-                        npc.velocity.Y = 1f;
-                    }
-                    if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                    {
-                        npc.velocity.Y = -1f;
-                    }
-                }
-            }
-            if (Main.dayTime && npc.position.Y <= Main.worldSurface * 16.0 && nightTimeEnemies.Contains(npc.type))
-            {
-                if (npc.timeLeft > 10)
-                {
-                    npc.timeLeft = 10;
-                }
-                // Adjust directions
-                npc.directionY = -1;
-                if (npc.velocity.Y > 0f)
-                {
-                    npc.direction = 1;
-                }
-                npc.direction = -1;
-                if (npc.velocity.X > 0f)
-                {
-                    npc.direction = 1;
-                }
-            }
-            else
-            {
-                npc.TargetClosest(true);
-            }
-            if (pigrons.Contains(npc.type) || npc.type == ModContent.NPCType<CalamityEye>() || npc.type == ModContent.NPCType<BlightedEye>())
-            {
-                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                {
-                    if (npc.ai[1] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
-                    {
-                        npc.ai[1] = 0f;
-                        npc.ai[0] = 0f;
-                        npc.netUpdate = true;
-                    }
-                }
-                else if (npc.ai[1] == 0f)
-                {
-                    npc.ai[0] += 1f;
-                }
-                if (npc.ai[0] >= 300f)
-                {
-                    npc.ai[1] = 1f;
-                    npc.ai[0] = 0f;
-                    npc.netUpdate = true;
-                }
-                if (npc.ai[1] == 0f)
-                {
-                    npc.alpha = 0;
-                    npc.noTileCollide = false;
-                }
-                else
-                {
-                    npc.wet = false;
-                    npc.alpha = 200;
-                    npc.noTileCollide = true;
-                }
-                npc.rotation = npc.velocity.Y * 0.1f * npc.direction;
-                npc.TargetClosest(true);
-
-                DemonEyeBatMovement(npc);
-            }
-            else if (npc.type == NPCID.TheHungryII)
-            {
-                npc.TargetClosest(true);
-
-                // Why do the Hungry create light??
-                Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.3f, 0.2f, 0.1f);
-
-                DemonEyeBatMovement(npc, 8f, 3.5f, 0.12f, 0.12f, 0.25f, 0.06f, 0.07f, 0.2f);
-                if (Main.rand.NextBool(40))
-                {
-                    int idx = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), DustID.Blood, npc.velocity.X, 2f, 0, default, 1f);
-                    Dust dust = Main.dust[idx];
-                    dust.velocity.X *= 0.5f;
-                    dust.velocity.Y *= 0.1f;
-                }
-            }
-            else if (npc.type == NPCID.WanderingEye)
-            {
-                if (npc.life < (double)npc.lifeMax * 0.5)
-                {
-                    DemonEyeBatMovement(npc, 8f, 6f, 0.12f, 0.12f, 0.07f, 0.12f, 0.12f, 0.07f);
-                }
-                else
-                {
-                    DemonEyeBatMovement(npc, 6f, 2.5f, 0.12f, 0.12f, 0.07f, 0.06f, 0.07f, 0.05f);
-                }
-            }
-            else
-            {
-                float maxSpeedX = 6f;
-                float maxSpeedY = 2.5f;
-                maxSpeedX *= 1f + (1f - npc.scale);
-                maxSpeedY *= 1f + (1f - npc.scale);
-                DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, 0.08f, 0.08f, 0.03f, 0.02f, 0.03f, 0.015f);
-            }
-            if ((npc.type == NPCID.DemonEye || 
-                 npc.type == NPCID.WanderingEye ||
-                 npc.type == ModContent.NPCType<CalamityEye>() ||
-                 npc.type == ModContent.NPCType<BlightedEye>() ||
-                 (npc.type >= NPCID.CataractEye && npc.type <= NPCID.PurpleEye))
-                 && Main.rand.NextBool(40))
-            {
-                int num4 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), DustID.Blood, npc.velocity.X, 2f, 0, default(Color), 1f);
-                Dust dust = Main.dust[num4];
-                dust.velocity.X *= 0.5f;
-                dust.velocity.Y *= 0.1f;
-            }
-            if (npc.wet && !pigrons.Contains(npc.type))
-            {
-                if (npc.velocity.Y > 0f)
-                {
-                    npc.velocity.Y *= 0.95f;
-                }
-                npc.velocity.Y -= 0.7f;
-                if (npc.velocity.Y < -6f)
-                {
-                    npc.velocity.Y = -6f;
-                }
-                npc.TargetClosest(true);
-            }
-            return false;
-        }
-        #endregion
 
         #region Fighter AI
 
@@ -5750,7 +5499,7 @@ namespace CalamityMod.NPCs
                 yAccelBoost1 = 0.07f;
                 yAccelBoost2 = 0.05f;
             }
-            DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, xAccel, xAccelBoost1, xAccelBoost2, yAccel, yAccelBoost1, yAccelBoost2);
+            DemonEyeAI.DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, xAccel, xAccelBoost1, xAccelBoost2, yAccel, yAccelBoost1, yAccelBoost2);
             if (npc.type == NPCID.CaveBat ||
                 npc.type == NPCID.JungleBat ||
                 npc.type == NPCID.Hellbat ||
@@ -5799,7 +5548,7 @@ namespace CalamityMod.NPCs
                     yAccelBoost1 = 0.07f;
                     yAccelBoost2 = 0.05f;
                 }
-                DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, xAccel, xAccelBoost1, xAccelBoost2, yAccel, yAccelBoost1, yAccelBoost2);
+                DemonEyeAI.DemonEyeBatMovement(npc, maxSpeedX, maxSpeedY, xAccel, xAccelBoost1, xAccelBoost2, yAccel, yAccelBoost1, yAccelBoost2);
             }
             if (npc.type == NPCID.Harpy && npc.wet)
             {

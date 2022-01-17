@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
+namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 {
     public static class SlimeAI
     {
