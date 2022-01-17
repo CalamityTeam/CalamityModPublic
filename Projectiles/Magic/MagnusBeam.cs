@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,7 +24,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.extraUpdates = 2;
             projectile.alpha = 0;
-			projectile.magic = true;
         }
 
         public override void AI()
@@ -202,9 +202,16 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
+
+			if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;
 
             Player player = Main.player[projectile.owner];
