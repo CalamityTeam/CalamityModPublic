@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("lul");
-            Tooltip.SetDefault("Grants complete invulnerability to everything");
+            Tooltip.SetDefault("Grants complete invulnerability to almost everything");
         }
 
         public override void SetDefaults()
