@@ -1323,11 +1323,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			return minDist <= 70f && npc.Opacity == 1f;
 		}
 
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			return !CalamityUtils.AntiButcher(npc, ref damage, 0.1f);
-		}
-
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			scale = 1.5f;

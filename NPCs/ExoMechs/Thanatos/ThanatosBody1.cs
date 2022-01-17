@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
 				damage *= 0.01;
 
-			return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
+			return true;
 		}
 
 		public override void FindFrame(int frameHeight) // 5 total frames

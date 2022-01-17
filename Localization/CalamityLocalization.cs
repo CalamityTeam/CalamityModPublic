@@ -81,7 +81,6 @@ namespace CalamityMod.Localization
                 new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },

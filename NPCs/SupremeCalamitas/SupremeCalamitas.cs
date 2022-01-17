@@ -2796,11 +2796,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
         #endregion
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-        }
-
         // Prevent the player from accidentally killing SCal instead of having her turn into a town NPC.
         public override bool CheckDead()
         {
