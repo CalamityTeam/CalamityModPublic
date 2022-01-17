@@ -998,6 +998,8 @@ namespace CalamityMod.Items
 				return "HuntressTier3";
 			if (head.type == ItemID.ApprenticeAltHead && body.type == ItemID.ApprenticeAltShirt && legs.type == ItemID.ApprenticeAltPants)
 				return "ApprenticeTier3";
+			if (head.type == ItemID.SolarFlareHelmet && body.type == ItemID.SolarFlareBreastplate && legs.type == ItemID.SolarFlareLeggings)
+				return "SolarFlare";
             return "";
         }
 
@@ -1129,6 +1131,10 @@ namespace CalamityMod.Items
 				player.minionDamage += 0.1f;
 				player.magicCrit += 15;
 				player.setBonus += "\n10% increased minion damage and 15% increased magic critical strike chance";
+			}
+			else if (set == "SolarFlare")
+			{
+				modPlayer.dashMod = 0;
 			}
         }
         #endregion
@@ -1531,6 +1537,9 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.HandWarmer)
                 modPlayer.handWarmer = true;
+
+            if (item.type == ItemID.EoCShield || item.type == ItemID.Tabi || item.type == ItemID.MasterNinjaGear)
+                modPlayer.dashMod = 0;
 
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == PrefixID.Hard)
