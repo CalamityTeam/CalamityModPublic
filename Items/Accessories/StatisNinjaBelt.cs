@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.MasterNinjaGear);
             recipe.AddIngredient(ItemID.FrogLeg);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
