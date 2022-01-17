@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class TerraShard : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shard");
@@ -15,7 +17,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = projectile.height = 20;
             projectile.friendly = true;
             projectile.timeLeft = 60;
-            projectile.penetrate = 1;
             projectile.magic = true;
             projectile.tileCollide = true;
         }
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
                 terraMagic.velocity *= 0.1f;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 15f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 15f, 20f);
         }
     }
 }
