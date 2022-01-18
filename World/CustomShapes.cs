@@ -23,9 +23,7 @@ namespace CalamityMod.World
                 float offsetAngle = WorldGen.genRand.NextFloat(-10f, 10f);
                 for (float angle = 0f; angle < MathHelper.TwoPi; angle += MathHelper.Pi * 0.0084f)
                 {
-                    // Adding two sinusoids with irrational periods results in final sinusoid having no period at all.
-                    // This behavior is ideal for creating a unique distortion surface with many varying hills and valleys.
-                    float distortionQuantity = (float)(Math.Sin(MathHelper.PiOver2 * angle + offsetAngle) + Math.Sin(Math.E * angle * 0.5f + offsetAngle)) * distortionFactor * 0.5f;
+                    float distortionQuantity = CalamityUtils.AperiodicSin(angle, offsetAngle, MathHelper.PiOver2, MathHelper.E * 0.5f) * distortionFactor;
                     int currentRadius = (int)(baseRadius - distortionQuantity * baseRadius);
                     if (currentRadius <= 0)
                         continue;

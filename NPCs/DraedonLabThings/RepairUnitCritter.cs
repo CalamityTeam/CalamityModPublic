@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
-	public class RepairUnitCritter : ModNPC
+    public class RepairUnitCritter : ModNPC
     {
         public enum BehaviorState
         {
@@ -228,12 +228,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             npc.Calamity().ShouldFallThroughPlatforms = true;
 
             // Generate unusual movement patterns based on sines.
-            // When two periodic functions are summed, the resulting function is periodic if the
-            // ratio of the b/a is rational, given periodic functions f and g:
-            // f(a * x) + g(b * x). However, if the ratio is irrational, then the result has no period.
-            // This is desirable for somewhat random wavy fluctuations.
-            // In this case, pi/1 (or simply pi) is used, which is indeed an irrational number.
-            float offsetAngle = (float)(Math.Sin(Time / 360f) + Math.Sin(MathHelper.Pi * Time / 360f)) * 0.003f;
+            float offsetAngle = CalamityUtils.AperiodicSin(Time / 360f, 0f, 1f) * 0.006f;
 
             Vector2 currentDirection = npc.velocity.SafeNormalize((npc.rotation - MathHelper.PiOver2).ToRotationVector2());
 
