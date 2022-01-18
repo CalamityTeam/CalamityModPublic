@@ -1,15 +1,15 @@
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ShroomerangSpore : ModProjectile
+    public class ShroomerangSpore : BaseSporeSacProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 
-		private bool initialized = false;
+        private bool initialized = false;
+        public override Color? LightColor => new Color(0f, 0.35f, 0.5f);
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spore");
@@ -28,21 +28,20 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
-        public override void AI()
+        public override bool PreAI()
         {
-			if (!initialized)
-			{
-				initialized = true;
-				projectile.localAI[0] = Main.rand.Next(-60, 61); //used for mycoroot stealth strike for minor randomization
-			}
+            if (!initialized)
+            {
+                initialized = true;
+                projectile.localAI[0] = Main.rand.Next(-60, 61); //used for mycoroot stealth strike for minor randomization
+            }
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
-			projectile.SporeSacAI();
+            return true;
         }
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 56);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 56);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
