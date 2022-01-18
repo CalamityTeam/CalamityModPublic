@@ -107,7 +107,14 @@ namespace CalamityMod.Items.DifficultyItems
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
-                CalamityWorld.DoGSecondStageCountdown = 0;
+				if (CalamityWorld.malice)
+				{
+					CalamityWorld.malice = false;
+					key = "Mods.CalamityMod.MaliceText2";
+					messageColor = Color.Crimson;
+					CalamityUtils.DisplayLocalizedText(key, messageColor);
+				}
+				CalamityWorld.DoGSecondStageCountdown = 0;
                 CalamityNetcode.SyncWorld();
             }
             return true;

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malice");
-            Tooltip.SetDefault("Enables/disables Malice Mode.\n" +
+            Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Revengeance Mode.\n" +
 				// Overall description and warning lines
 				"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
 
