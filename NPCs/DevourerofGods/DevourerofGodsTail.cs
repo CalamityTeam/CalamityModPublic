@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 				return false;
             }
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
+            return true;
 		}
 
 		public override bool CheckDead()

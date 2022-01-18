@@ -983,7 +983,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.localAI[3] < immunityTime)
 				damage *= 0.01;
 
-			return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
+			return true;
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

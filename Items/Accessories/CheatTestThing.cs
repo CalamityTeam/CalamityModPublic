@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("lul");
-            Tooltip.SetDefault("Instantly kills you...\n" +
-                "Unless...?"); //This is mainly for the wiki, blank tooltips on accessories is bad.
+            Tooltip.SetDefault("Grants complete invulnerability to almost everything");
         }
 
         public override void SetDefaults()
@@ -25,16 +24,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            bool canUse = player.name == "Fabsol" || player.name == "Totalbiscuit" || player.name == "TotalBiscuit" || player.name == "Total Biscuit" || player.name == "Total biscuit";
-            if (canUse)
-            {
-                modPlayer.lol = true;
-            }
-            else if (!player.immune)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " isn't worthy."), 1000.0, 0, false);
-            }
+            player.Calamity().lol = true;
         }
     }
 }

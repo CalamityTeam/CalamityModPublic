@@ -272,20 +272,6 @@ namespace CalamityMod
 		}
 
 		/// <summary>
-		/// Crude anti-butcher logic based on % max health.
-		/// </summary>
-		/// <param name="npc">The NPC attacked.</param>
-		/// <param name="damage">How much damage the attack would deal.</param>
-		/// <returns>Whether or not the anti-butcher was triggered.</returns>
-		public static bool AntiButcher(NPC npc, ref double damage, float healthPercent)
-		{
-			if (damage <= npc.lifeMax * healthPercent)
-				return false;
-			damage = 0D;
-			return true;
-		}
-
-		/// <summary>
 		/// Check if an NPC is organic
 		/// </summary>
 		/// <param name="target">The NPC attacked.</param>
