@@ -204,9 +204,6 @@ namespace CalamityMod.Tiles
 					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					{
 						WorldGen.altarCount++;
-						if ((WorldGen.altarCount - 1) % 3 == 0)
-							Item.NewItem(pos, ModContent.ItemType<EvilSmasher>());
-
 						int quantity = 6;
 						for (int k = 0; k < quantity; k += 1)
 						{
@@ -215,7 +212,7 @@ namespace CalamityMod.Tiles
 							Item.NewItem(pos, ItemID.SoulofNight);
 						}
 					}
-					else if (WorldGen.altarCount % 3 == 0)
+					if (WorldGen.altarCount % 3 == 0 && WorldGen.altarCount > 1)
 						Item.NewItem(pos, ModContent.ItemType<EvilSmasher>());
 				}
 			}
