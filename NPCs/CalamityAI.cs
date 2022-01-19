@@ -47,6 +47,8 @@ namespace CalamityMod.NPCs
 				{
 					// Kiss my motherfucking ass you piece of shit game
 					npc.timeLeft *= 20;
+					CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
+					calamityGlobalNPC.KillTime = revKillTime;
 					calamityGlobalNPC.newAI[0] = 1f;
 					npc.boss = head;
 					npc.chaseable = true;

@@ -862,7 +862,8 @@ namespace CalamityMod.NPCs
 				DR = newDR;
 			}
 
-			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			// Aquatic Scourge sets kill time in AI, not here.
+			if (CalamityMod.bossKillTimes.ContainsKey(npc.type) && !CalamityLists.AquaticScourgeIDs.Contains(npc.type))
 			{
 				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
 				KillTime = revKillTime;
