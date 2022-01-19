@@ -2,7 +2,6 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
@@ -89,7 +88,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive)
                 music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 
 			CalamityAI.AquaticScourgeAI(npc, mod, true);

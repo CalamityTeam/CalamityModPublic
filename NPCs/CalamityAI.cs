@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || malice;
 
 			// Adjust hostility and stats
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive)
 			{
 				if (calamityGlobalNPC.newAI[0] == 0f)
 				{

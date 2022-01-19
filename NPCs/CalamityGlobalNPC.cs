@@ -186,6 +186,11 @@ namespace CalamityMod.NPCs
 		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
 
+		// If a boss is affected by knockback and a timer for how long that boss is immune to knockback after being knocked back
+		public bool bossCanBeKnockedBack = false;
+		public const int knockbackResistanceMin = 180;
+		public int knockbackResistanceTimer = 0;
+
 		// Debuffs
 		public int vaporfied = 0;
         public int timeSlow = 0;
@@ -3800,6 +3805,8 @@ namespace CalamityMod.NPCs
 			// Debuff decrements
 			if (debuffResistanceTimer > 0)
 				debuffResistanceTimer--;
+			if (knockbackResistanceTimer > 0)
+				knockbackResistanceTimer--;
 
 			if (timeSlow > 0)
 				timeSlow--;
