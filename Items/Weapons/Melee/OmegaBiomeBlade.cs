@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int FlailBladeAttunement_BaseDamage = 320;
         public static int FlailBladeAttunement_MaxFlails = 3;
-        public static int FlailBladeAttunement_FlailTime = 150;
+        public static int FlailBladeAttunement_FlailTime = 30;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
         public static float FlailBladeAttunement_GhostChainDamageReduction = 0.5f;
 
@@ -164,8 +164,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins. Extra ghostly swords are summoned during the spin";
                     AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out. Ghostly swords will home onto enemies hit by the sword throw";
                     AttunementInfo.function_passive = "While attacking, extra ghost swords have a chance to be shot out";
-                    AttunementInfo.color = new Color(188, 155, 185);
-                    AttunementInfo.color2 = new Color(204, 184, 144);
+                    AttunementInfo.color = new Color(249, 166, 224);
+                    AttunementInfo.color2 = new Color(171, 239, 113);
                     break;
                 case Attunement.SuperPogo:
                     AttunementInfo.name = "Sanguine Fury";
@@ -188,8 +188,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.function_description = "Throw out a flurry of chained blades in front of you. Striking enemies with the tip of the blades guarantees a critical hit.";
                     AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets or onto the struck foe";
                     AttunementInfo.function_passive = "Gain a magical chain hook. On enemy hits the hook quickly spins around you, freezing any struck foe"; //No way sentient meat hook
-                    AttunementInfo.color = new Color(127, 173, 168);
-                    AttunementInfo.color2 = new Color(203, 201, 168);
+                    AttunementInfo.color = new Color(113, 239, 177);
+                    AttunementInfo.color2 = new Color(169, 207, 255);
                     break;
                 default:
                     AttunementInfo.name = "None";
@@ -353,9 +353,9 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 case Attunement.FlailBlade:
                     item.damage = FlailBladeAttunement_BaseDamage;
-                    item.channel = false;
+                    item.channel = true;
                     item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
+                    item.useStyle = ItemUseStyleID.HoldingOut;
                     item.shoot = ProjectileType<LamentationsOfTheChained>();
                     item.shootSpeed = 12f;
                     item.UseSound = null;
@@ -426,26 +426,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ));
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (mainAttunement == null)
-                return false;
-
-            if (mainAttunement == Attunement.FlailBlade)
-            {
-                Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<LamentationsOfTheChained>(), damage, knockBack, player.whoAmI, 0, 0);
-                if (whipProj.modProjectile is LamentationsOfTheChained whip)
-                {
-                    whip.flipped = Combo % 2 == 0 ? 1 : -1;
-                    whip.Size = 1f + Combo % 3 * 0.05f;
-                }
-                Combo++;
-                return false;
-            }
-
-            return true;
-        }
-
+        //No need for any wacky zany hijinx in the shoot method for once??? damn
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) => mainAttunement == null ? false : true;
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.White, Color.White, 0.04f, 20f);
         internal static void UpdateAllParticleSets()
@@ -607,19 +589,22 @@ namespace CalamityMod.Items.Weapons.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
+            bool ocean = Owner.ZoneBeach;
             bool holy = Owner.ZoneHoly;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
             Attunement attunement = Attunement.Whirlwind;
-            if (jungle || snow)
+            if (desert || hell)
+                attunement = Attunement.SuperPogo;
+            if (jungle || ocean || snow) //Check put after the desert check so ocean doesnt get overriden as desert
                 attunement = Attunement.FlailBlade;
-            if (desert || hell ||evil)
+            if (evil) //Evil check separated so that it overrides corrupted beach & snow biomes
                 attunement = Attunement.SuperPogo;
             if (astral || marine)
                 attunement = Attunement.Shockwave;
             if (holy)
-                attunement = Attunement.Whirlwind; //Necessary to override biome overlap
+                attunement = Attunement.Whirlwind; //Putting holy attunement at the end so it may override hallowed variants of biomes
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)

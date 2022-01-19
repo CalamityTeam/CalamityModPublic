@@ -216,10 +216,8 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.netSpam = 0;
             }
 
-            if (ChargedUp && Timer / MaxTime > 0.5 && dashTimer == 0f)
-            {
+            if (ChargedUp && dashTimer == 0f)
                 PowerLunge();
-            }
 
             if (dashTimer >= 1f)
             {
@@ -235,6 +233,8 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Owner.velocity *= 0.1f; //Abrupt stop
                     Owner.Calamity().LungingDown = false;
+
+                    Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), Owner.Center);
 
                     Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                     if (proj.modProjectile is DecaysRetortDash dash)

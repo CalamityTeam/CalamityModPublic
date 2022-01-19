@@ -299,9 +299,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
             }
 
-            //Reset the strong lunge thing just in case it didnt get caught beofre.
-            if (CanUseItem(player))
-                player.Calamity().LungingDown = false;
+
 
             //Change the swords function based on its attunement
             switch (mainAttunement)
@@ -696,18 +694,19 @@ namespace CalamityMod.Items.Weapons.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
+            bool ocean = Owner.ZoneBeach;
             bool holy = Owner.ZoneHoly;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
             Attunement attunement = Attunement.Default;
 
-            if (jungle)
-                attunement = Attunement.Tropical;
             if (desert || hell)
                 attunement = Attunement.Hot;
             if (snow)
                 attunement = Attunement.Cold;
+            if (jungle || ocean)
+                attunement = Attunement.Tropical;
             if (evil)
                 attunement = Attunement.Evil;
             if (holy)

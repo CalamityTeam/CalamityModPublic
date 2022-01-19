@@ -1606,8 +1606,10 @@ namespace CalamityMod.Projectiles.Melee
         private bool initialized = false;
         public Player Owner => Main.player[projectile.owner];
         public float Timer => MaxTime - projectile.timeLeft;
-        public ref float HasSnapped => ref projectile.ai[0];
+        public ref float ChainSwapTimer => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
+
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
         public float Size;
         public float flipped;
@@ -1615,14 +1617,21 @@ namespace CalamityMod.Projectiles.Melee
         public static readonly float MaxTime = (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime;
         const int coyoteTimeFrames = 8; //How many frames does the whip stay extended 
         const int MaxReach = 400;
-        const float SnappingPoint = 0.55f; //When does the snap occur.
+        const float SnappingPoint = 0.45f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
 
         const float MaxTangleReach = 400f; //How long can tangling vines from crits be
 
-        public BezierCurve curve;
-        private Vector2 controlPoint1;
-        private Vector2 controlPoint2;
+        public Vector2 whip1;
+        public BezierCurve curve1;
+        private Vector2 controlPoint11;
+        private Vector2 controlPoint12;
+
+        public Vector2 whip2;
+        public BezierCurve curve2;
+        private Vector2 controlPoint21;
+        private Vector2 controlPoint22;
+
         internal bool ReelingBack => Timer / MaxTime > SnappingPoint;
 
         public override void SetStaticDefaults()
@@ -1636,7 +1645,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30;
         }
@@ -1731,39 +1739,46 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization. create control points & shit)
             {
-                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
                 Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-                controlPoint1 = projectile.Center;
-                controlPoint2 = projectile.Center;
+
+                controlPoint11 = projectile.Center;
+                controlPoint12 = projectile.Center;
+
+                controlPoint21 = projectile.Center;
+                controlPoint22 = projectile.Center;
+
                 projectile.timeLeft = (int)MaxTime;
                 initialized = true;
                 projectile.netUpdate = true;
                 projectile.netSpam = 0;
             }
 
-            if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
+            if (!OwnerCanShoot)
             {
-                Main.PlaySound(SoundID.Item71, projectile.Center); //Slash
-                HasSnapped = 1f;
-                SnapCoyoteTime = coyoteTimeFrames;
+                projectile.Kill();
+                return;
             }
 
-            if (SnapCoyoteTime > 0) //keep checking for the tile hook
-            {
-                Lighting.AddLight(projectile.Center, 0.8f, 1f, 0.35f);
-                SnapCoyoteTime--;
-            }
+            projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+            projectile.velocity.Normalize();
+            projectile.rotation = projectile.velocity.ToRotation();
+            projectile.Center = Owner.Center + (projectile.velocity * 60);
 
+            //Make the owner look like theyre holding the sword bla bla
+            Owner.heldProj = projectile.whoAmI;
             Owner.direction = Math.Sign(projectile.velocity.X);
-            projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
+            Owner.itemRotation = projectile.rotation;
+            if (Owner.direction != 1)
+            {
+                Owner.itemRotation -= 3.14f;
+            }
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+            projectile.timeLeft = 2;
 
-            float ratio = GetSwingRatio();
-            projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
-            projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X) * (int)flipped;
 
-            //MessWithTiles(); 
-
-            Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+            ChainSwapTimer++;
         }
 
 
@@ -1772,51 +1787,51 @@ namespace CalamityMod.Projectiles.Melee
         private Vector2 SwingPosition(float progress)
         {
 
-           float distance = MaxReach * Size * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
-           distance = Math.Max(distance, 65); //Dont be too close to player
+            float distance = MaxReach * Size * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.01f);
+            distance = Math.Max(distance, 65); //Dont be too close to player
 
-           float angleDeviation = MathHelper.Pi / 1.2f;
-           float angleOffset = Owner.direction * flipped * MathHelper.Lerp(-angleDeviation, angleDeviation, progress); //Go from very angled to straight at the zenith of the attack
-           return projectile.velocity.RotatedBy(angleOffset) * distance;
+            float angleDeviation = MathHelper.Pi / 1.2f;
+            float angleOffset = Owner.direction * flipped * MathHelper.Lerp(-angleDeviation, angleDeviation, progress); //Go from very angled to straight at the zenith of the attack
+            return projectile.velocity.RotatedBy(angleOffset) * distance;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Timer == 0)
-                return false;
+
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained");
 
-            Vector2 projBottom = projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver4) * 0.75f;
-            DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
 
-            float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
-            drawRotation += projectile.spriteDirection < 0 ? 0f : 0f;
+            //Vector2 projBottom = projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver4) * 0.75f;
+            //DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
 
-            if (ReelingBack)
-                drawRotation = Utils.AngleLerp(drawRotation, (projectile.Center - Owner.Center).ToRotation(), GetSwingRatio());
+            //float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
 
+            Vector2 drawPos = projectile.Center - projectile.velocity * 55f;
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
-            SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
-            lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+            float drawRotation = projectile.rotation + MathHelper.PiOver4;
 
-            spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale * Size, flip, 0f);
+            //lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+
+            spriteBatch.Draw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
 
 
-                //Turn on additive blending
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                //Only update the origin for once
-                drawOrigin = new Vector2(0f, blade.Height);
-                spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale * Size, flip, 0f);
-                //Back to normal
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Turn on additive blending
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            //Draw the tip of the flails here
+
+            drawOrigin = new Vector2(0f, blade.Height);
+            spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
-        private void DrawChain(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
+        private void DrawChain(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions1 out Vector2)
         {
             Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain");
 
@@ -1824,11 +1839,17 @@ namespace CalamityMod.Projectiles.Melee
 
             float rotationAngle = MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) * flipped;
 
-            controlPoint2 = Owner.MountedCenter + SwingPosition(ratio).RotatedBy(MathHelper.Lerp(rotationAngle * 0.5f, -rotationAngle * 0.5f, ratio)) * 0.5f;
-            controlPoint1 = Owner.MountedCenter + SwingPosition(ratio).RotatedBy(MathHelper.Lerp(rotationAngle, -rotationAngle, ratio)) * 0.1f;
+            //Set the first whip
+            if (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime == 0)
+                whip1 = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 8f, MathHelper.Pi / 8f));
+
+            //Set the second whip
+            if ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 0.5f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime == 0)
+                whip2 = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 8f, MathHelper.Pi / 8f));
 
 
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
+            //Watch this randomness float offsetBase = (sin(frameY * 17.07947 + uTime * 16) + sin(coords.y * 25.13274)) * 0.5
+
             int numPoints = 30;
             chainPositions = curve.GetPoints(numPoints).ToArray();
 

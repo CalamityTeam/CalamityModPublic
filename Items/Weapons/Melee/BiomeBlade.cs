@@ -560,13 +560,10 @@ namespace CalamityMod.Items.Weapons.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
+            bool ocean = Owner.ZoneBeach;
 
             Attunement attunement = Attunement.Default;
 
-            if (jungle)
-            {
-                attunement = Attunement.Tropical;
-            }
             if (desert || hell)
             {
                 attunement = Attunement.Hot;
@@ -574,6 +571,10 @@ namespace CalamityMod.Items.Weapons.Melee
             if (snow)
             {
                 attunement = Attunement.Cold;
+            }
+            if (jungle || ocean)
+            {
+                attunement = Attunement.Tropical;
             }
             if (evil)
             {
