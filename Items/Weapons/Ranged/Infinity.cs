@@ -1,4 +1,6 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -109,5 +111,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Shredder>());
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }
