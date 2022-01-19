@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Shattered Sun");
             Tooltip.SetDefault("Throws daggers that split into scorching homing daggers\n" +
-                "Stealth strikes fire volleys of homing daggers from the player on dagger hits");
+                "Stealth strikes fire volleys of homing daggers from the player on dagger hits that suck enemies in");
         }
 
         public override void SafeSetDefaults()
