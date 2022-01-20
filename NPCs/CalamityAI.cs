@@ -72,6 +72,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
+			bool phase4 = lifeRatio < 0.25f;
 
 			// Set worm variable
 			if (npc.ai[2] > 0f)
@@ -131,36 +132,56 @@ namespace CalamityMod.NPCs
 				if (doSpiral)
 				{
 					// Barf
-					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
+					float barfDivisor = malice ? 30f : expertMode ? 40f : 60f;
+					if (calamityGlobalNPC.newAI[3] % barfDivisor == 0f)
 					{
 						Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							float num742 = death ? 10f : 8f;
-							float num743 = player.Center.X - vectorCenter.X;
-							float num744 = player.Center.Y - vectorCenter.Y;
-							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-							num745 = num742 / num745;
-							num743 *= num745;
-							num744 *= num745;
-
-							int type = ModContent.ProjectileType<SandBlast>();
-							int damage = npc.GetProjectileDamage(type);
-							int numProj = death ? 5 : 3;
-							int spread = death ? 60 : 36;
-							float rotation = MathHelper.ToRadians(spread);
-							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-							double deltaAngle = rotation / numProj;
-							double offsetAngle;
-
-							for (int i = 0; i < numProj; i++)
+							if (phase3)
 							{
-								offsetAngle = startAngle + deltaAngle * i;
-								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-								Main.projectile[proj].tileCollide = false;
+								// Circle of toxic clouds
+								int type = ModContent.ProjectileType<ToxicCloud>();
+								int damage = npc.GetProjectileDamage(type);
+								int totalProjectiles = (phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - ai3) / barfDivisor) * (phase4 ? 2 : 3);
+								float radians = MathHelper.TwoPi / totalProjectiles;
+								float cloudVelocity = 1f + enrageScale;
+								Vector2 spinningPoint = new Vector2(0f, -cloudVelocity);
+								for (int k = 0; k < totalProjectiles; k++)
+								{
+									Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+									Projectile.NewProjectile(vectorCenter, vector255, type, damage, 0f, Main.myPlayer);
+								}
+							}
+							else
+							{
+								// Spread of directed sand blasts
+								float num742 = death ? 10f : 8f;
+								float num743 = player.Center.X - vectorCenter.X;
+								float num744 = player.Center.Y - vectorCenter.Y;
+								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+								num745 = num742 / num745;
+								num743 *= num745;
+								num744 *= num745;
+
+								int type = ModContent.ProjectileType<SandBlast>();
+								int damage = npc.GetProjectileDamage(type);
+								int numProj = death ? 5 : 3;
+								int spread = death ? 60 : 36;
+								float rotation = MathHelper.ToRadians(spread);
+								float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+								double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+								double deltaAngle = rotation / numProj;
+								double offsetAngle;
+
+								for (int i = 0; i < numProj; i++)
+								{
+									offsetAngle = startAngle + deltaAngle * i;
+									int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Main.projectile[proj].tileCollide = false;
+								}
 							}
 						}
 					}
@@ -260,10 +281,11 @@ namespace CalamityMod.NPCs
 									float radians = MathHelper.TwoPi / totalProjectiles;
 									int type = ModContent.ProjectileType<SandBlast>();
 									int damage = npc.GetProjectileDamage(type);
+									float homing = phase4 ? 1f : 0f;
 									for (int i = 0; i < totalProjectiles; i++)
 									{
 										Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-										Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
+										Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, homing, 0f);
 									}
 
 									if (phase3)
@@ -277,8 +299,9 @@ namespace CalamityMod.NPCs
 											vector15.Normalize();
 											vector15 *= Main.rand.Next(50, 401) * 0.01f;
 
+											float maximumVelocityMult = death ? 0.35f : 0.25f;
 											if (expertMode)
-												vector15 *= 1f + (death ? 0.25f : 0.25f * (1f - lifeRatio));
+												vector15 *= 1f + (maximumVelocityMult * (1f - lifeRatio));
 
 											Projectile.NewProjectile(npc.Center, vector15, type, damage, 0f, Main.myPlayer, 0f, Main.rand.Next(-45, 1));
 										}
@@ -292,7 +315,7 @@ namespace CalamityMod.NPCs
 				// Fire sand blasts or teeth depending on body type
 				else
 				{
-					if (calamityGlobalNPC.newAI[0] == 1f)
+					if (calamityGlobalNPC.newAI[0] == 1f && (!phase3 || phase4))
 					{
 						npc.localAI[0] += 1f;
 						float shootProjectile = 300;
@@ -319,7 +342,8 @@ namespace CalamityMod.NPCs
 									num943 *= num944;
 									vector104.X += num942 * 5f;
 									vector104.Y += num943 * 5f;
-									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer);
+									float accelerate = phase4 ? 1f : 0f;
+									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, accelerate, 0f);
 									npc.netUpdate = true;
 								}
 							}
@@ -343,7 +367,8 @@ namespace CalamityMod.NPCs
 									num943 *= num944;
 									vector104.X += num942 * 5f;
 									vector104.Y += num943 * 5f;
-									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									float homing = phase4 ? 1f : 0f;
+									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, homing, 0f);
 									npc.netUpdate = true;
 								}
 							}

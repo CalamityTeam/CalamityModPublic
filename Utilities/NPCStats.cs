@@ -604,6 +604,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeHead>(), ModContent.ProjectileType<SandBlast>()), new int[] { 56, 92, 116, 128, 174 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeHead>(), ModContent.ProjectileType<SandPoisonCloud>()), new int[] { 66, 112, 128, 140, 192 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeHead>(), ModContent.ProjectileType<ToxicCloud>()), new int[] { 70, 120, 136, 152, 210 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeBody>(), ModContent.ProjectileType<SandTooth>()), new int[] { 60, 100, 120, 132, 180 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeBodyAlt>(), ModContent.ProjectileType<SandBlast>()), new int[] { 56, 92, 116, 128, 174 } },
 
