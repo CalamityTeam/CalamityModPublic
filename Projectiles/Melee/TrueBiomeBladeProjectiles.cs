@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            projectile.localNPCHitCooldown = OmegaBiomeBlade.WhirlwindAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -534,7 +534,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            projectile.localNPCHitCooldown = OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -626,7 +626,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = Owner.Center + (direction * 60);
 
             //Scaling based on shred
-            projectile.localNPCHitCooldown = 16 - (int)(MathHelper.Lerp(0, 8, ShredRatio)); //Increase the hit frequency
+            projectile.localNPCHitCooldown = OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames - OmegaBiomeBlade.SuperPogoAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
             projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
 
 
@@ -1604,20 +1604,9 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained";
         private bool initialized = false;
         public Player Owner => Main.player[projectile.owner];
-        public float Timer => MaxTime - projectile.timeLeft;
         public ref float ChainSwapTimer => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
-
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
-
-        public float Size;
-        public float flipped;
-
-        public static readonly float MaxTime = (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime;
-        const int coyoteTimeFrames = 8; //How many frames does the whip stay extended 
-        const int MaxReach = 400;
-        const float SnappingPoint = 0.45f; //When does the snap occur.
-        const float ReelBackStrenght = 14f;
 
         const float MaxTangleReach = 400f; //How long can tangling vines from crits be
 
@@ -1626,7 +1615,6 @@ namespace CalamityMod.Projectiles.Melee
         public Vector2 whip2;
         public Vector2 whip3;
 
-        internal bool ReelingBack => Timer / MaxTime > SnappingPoint;
 
         public override void SetStaticDefaults()
         {
@@ -1640,7 +1628,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -1730,14 +1718,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (!initialized) //Initialization. create control points & shit)
-            {
-                projectile.timeLeft = (int)MaxTime;
-                initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
-            }
-
             if (!OwnerCanShoot)
             {
                 projectile.Kill();
@@ -1838,7 +1818,7 @@ namespace CalamityMod.Projectiles.Melee
             control0 = Owner.MountedCenter + direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(MathHelper.PiOver4 * 0.3f * flip, MathHelper.PiOver4 * flip, randomNumber))) * MathHelper.Lerp(50f, 130f, (float)Math.Sin(randomNumber * MathHelper.Pi));
 
             float easedShift = angleShift == 1 ? 1 : 1 - (float)Math.Pow(2, -10 * angleShift);
-            float Reach = MaxReach * (0.75f + 0.75f * seed2 - 0.05f * easedShift);
+            float Reach = OmegaBiomeBlade.FlailBladeAttunement_Reach * (0.75f + 0.75f * seed2 - 0.05f * easedShift);
             control3 = Owner.MountedCenter + (direction * Reach).RotatedBy(MathHelper.Lerp(-0.01f * flip, 0.01f * flip, easedShift)); // The last point of the curve gets put straight at the front
 
             //Over the double fucking bezier rainbow
@@ -1946,16 +1926,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(initialized);
-            writer.Write(flipped);
-            writer.Write(Size);
+            //Nothing lol
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            initialized = reader.ReadBoolean();
-            flipped = reader.ReadSingle();
-            Size = reader.ReadSingle();
+            //Nothing lol
         }
     }
 

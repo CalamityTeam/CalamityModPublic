@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #region stats
         public static int WhirlwindAttunement_BaseDamage = 400;
+        public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
         public static int WhirlwindAttunement_SigilTime = 1200;
         public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
         public static float WhirlwindAttunement_BaseDamageReduction = 0.2f;
@@ -41,6 +42,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int SuperPogoAttunement_BaseDamage = 500;
         public static int SuperPogoAttunement_ShredIFrames = 10;
+        public static int SuperPogoAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
+        public static int SuperPogoAttunement_LocalIFramesCharged = 16;
         public static float SuperPogoAttunement_SlashDamageBoost = 5f; //Keep in mind the slice always crits
         public static int SuperPogoAttunementSlashLifesteal = 6;
         public static int SuperPogoAttunement_SlashIFrames = 60;
@@ -59,8 +62,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
         public static int FlailBladeAttunement_BaseDamage = 320;
-        public static int FlailBladeAttunement_MaxFlails = 3;
+        public static int FlailBladeAttunement_LocalIFrames = 10;
         public static int FlailBladeAttunement_FlailTime = 10;
+        public static int FlailBladeAttunement_Reach = 400;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
         public static float FlailBladeAttunement_GhostChainDamageReduction = 0.5f;
 
