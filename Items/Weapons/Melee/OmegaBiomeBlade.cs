@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement? mainAttunement = null;
         public Attunement? secondaryAttunement = null;
         public int Combo = 0;
+        public Projectile MeatHook;
 
         //Used for passive effects
         public int UseTimer = 0;
@@ -76,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float WhirlwindAttunement_SwordThrowProc = 1f;
         public static float WhirlwindAttunement_SwordBeamProc = 0.05f;
 
-        public static float SuperPogoAttunement_ShredderProc = 0.25f;
+        public static float SuperPogoAttunement_ShredderProc = 0.1f;
         public static float SuperPogoAttunement_WheelProc = 0.4f;
         public static float SuperPogoAttunement_DashProc = 1f;
 
@@ -84,8 +85,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ShockwaveAttunement_MonolithProc = 1f;
         public static float ShockwaveAttunement_BlastProc = 0.5f;
 
-        public static float FlailBladeAttunement_BladeProc = 0.2f;
-        public static float FlailBladeAttunement_ChainProc = 0.1f;
+        public static float FlailBladeAttunement_BladeProc = 0.1f;
+        public static float FlailBladeAttunement_ChainProc = 0.05f;
         public static float FlailBladeAttunement_GhostChainProc = 0.1f;
         #endregion
 
@@ -208,7 +209,6 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
     #endregion
-
 
         public override void SetDefaults()
         {
@@ -376,6 +376,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (player.whoAmI != Main.myPlayer)
                 return;
+            //PAssive effetcsts
+
+            if (secondaryAttunement != Attunement.FlailBlade || MeatHook == null || !MeatHook.active)
+                MeatHook = null;
 
             switch (secondaryAttunement)
             {
@@ -388,17 +392,17 @@ namespace CalamityMod.Items.Weapons.Melee
                         UseTimer++;
                     }
                     break;
+
                 case Attunement.SuperPogo:
                     if (OnHitProc)
                     {
-                        if (Main.rand.Next() <= SuperPogoAttunement_PassiveLifeStealChance)
-                        {
-                            player.statLife += SuperPogoAttunement_PassiveLifeSteal;
-                            player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
-                        }
+                        player.statLife += SuperPogoAttunement_PassiveLifeSteal;
+                        player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
+
                         OnHitProc = false;
                     }
                     break;
+
                 case Attunement.Shockwave:
                     if (UseTimer % 120 == 119)
                     {
@@ -406,7 +410,23 @@ namespace CalamityMod.Items.Weapons.Melee
                         UseTimer++;
                     }
                     break;
+
                 case Attunement.FlailBlade:
+
+                    if (MeatHook == null)
+                    {
+                        MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
+                    }
+
+                    if (OnHitProc)
+                    {
+                        if (MeatHook.modProjectile is ChainedMeatHook hook && hook.Twirling == 0f)
+                        {
+                            hook.Twirling = 1f;
+                            hook.projectile.timeLeft = (int)ChainedMeatHook.MaxTwirlTime;
+                        }
+                        OnHitProc = false;
+                    }
                     break;
                 default:
                     break;
