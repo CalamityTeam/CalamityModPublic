@@ -43,9 +43,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int HotAttunement_BaseDamage = 70;
         public static int HotAttunement_ShredIFrames = 8;
+        public static int HotAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
+        public static int HotAttunement_LocalIFramesCharged = 16;
 
         public static int TropicalAttunement_BaseDamage = 55;
         public static float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static int TropicalAttunement_LocalIFrames = 60; //Be warned its got 2 extra updates so all the iframes should be divided in 3
         #endregion
 
         public override void SetStaticDefaults()

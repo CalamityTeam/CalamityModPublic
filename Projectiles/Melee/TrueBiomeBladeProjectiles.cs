@@ -1624,6 +1624,7 @@ namespace CalamityMod.Projectiles.Melee
         //Doing your mom. Be warned that the X value of these vectors represents the angle of the whip while the Y value represents its RNG seed
         public Vector2 whip1;
         public Vector2 whip2;
+        public Vector2 whip3;
 
         internal bool ReelingBack => Timer / MaxTime > SnappingPoint;
 
@@ -1731,8 +1732,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization. create control points & shit)
             {
-                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-
                 projectile.timeLeft = (int)MaxTime;
                 initialized = true;
                 projectile.netUpdate = true;
@@ -1763,22 +1762,16 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemAnimation = 2;
             projectile.timeLeft = 2;
 
+            if (ChainSwapTimer % 5 == 0)
+            {
+                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
+            }
+            //if ((ChainSwapTimer - 12f) % 23 == 0)
+            //{
+            //    Main.PlaySound(SoundID.Item41, projectile.Center);
+            //}
 
             ChainSwapTimer++;
-        }
-
-
-        private float GetSwingRatio() => Timer / MaxTime;
-
-        private Vector2 SwingPosition(float progress)
-        {
-
-            float distance = MaxReach * Size * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.01f);
-            distance = Math.Max(distance, 65); //Dont be too close to player
-
-            float angleDeviation = MathHelper.Pi / 1.2f;
-            float angleOffset = Owner.direction * flipped * MathHelper.Lerp(-angleDeviation, angleDeviation, progress); //Go from very angled to straight at the zenith of the attack
-            return projectile.velocity.RotatedBy(angleOffset) * distance;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -1786,7 +1779,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained");
 
-            DrawChain(spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2);
+            CalculateChains(spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3);
 
             //float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
 
@@ -1808,11 +1801,14 @@ namespace CalamityMod.Projectiles.Melee
             Rectangle bladeFrame = new Rectangle(0, 0, 24, 48);
             Vector2 flailOrigin = new Vector2(bladeFrame.Width / 2, bladeFrame.Height); //Draw from center bottom of texture
 
-            if (chainPositions1.Length > 1)
-            {
-                float flailRotation = (chainPositions1[chainPositions1.Length - 1] - chainPositions1[chainPositions1.Length - 2]).ToRotation() + MathHelper.PiOver2;
-                spriteBatch.Draw(flailBlade, chainPositions1[chainPositions1.Length - 1] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
-            }
+            float flailRotation = (chainPositions1[chainPositions1.Length - 2] - chainPositions1[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
+            spriteBatch.Draw(flailBlade, chainPositions1[chainPositions1.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+    
+            flailRotation = (chainPositions2[chainPositions2.Length - 2] - chainPositions2[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
+            spriteBatch.Draw(flailBlade, chainPositions2[chainPositions2.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+
+            flailRotation = (chainPositions3[chainPositions3.Length - 2] - chainPositions3[chainPositions3.Length - 3]).ToRotation() + MathHelper.PiOver2;
+            spriteBatch.Draw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             drawOrigin = new Vector2(0f, blade.Height);
             spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
@@ -1824,17 +1820,26 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         //TLDR : https://media.discordapp.net/attachments/659100646397575208/933521303443501136/placeholder.gif 
-        private void GenerateCurve(float seed, Vector2 direction, out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, float angleShift = 0f)
+        private void GenerateCurve(float seed, Vector2 direction, out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, float angleShift = 0f, float necessaryOrientation = 1f)
         {
             float randomNumber = 0.5f + ((float)Math.Sin(seed * 17.07947) + (float)Math.Sin(seed * 0.2f * 25.13274)) * 0.25f ; //Ty dom for the awesome pseudo rng
+            //Get new random numbers based on the same seed
+            float seed1 = 0.5f + ((float)Math.Sin(randomNumber * 100f * 17.07947) + (float)Math.Sin(randomNumber * 100f * 0.2f * 25.13274)) * 0.25f;
+            float seed2 = 0.5f + ((float)Math.Sin(seed1 * 50f * 17.07947) + (float)Math.Sin(seed1 * 50f * 0.2f * 25.13274)) * 0.25f;
+            float seed3 = 0.5f + ((float)Math.Sin(seed2 * 17.07947) + (float)Math.Sin(seed2 * 0.2f * 25.13274)) * 0.25f;
+
+            if ((necessaryOrientation == -1 && randomNumber >= 0.5) || (necessaryOrientation == 1 && randomNumber < 0.5))
+                randomNumber = 1 - randomNumber;
+
 
             float flip = randomNumber >= 0.5 ? 1f : -1f;
 
 
             control0 = Owner.MountedCenter + direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(MathHelper.PiOver4 * 0.3f * flip, MathHelper.PiOver4 * flip, randomNumber))) * MathHelper.Lerp(50f, 130f, (float)Math.Sin(randomNumber * MathHelper.Pi));
 
-            float Reach = MaxReach * (1f + 0.5f * randomNumber);
-            control3 = Owner.MountedCenter + direction * Reach; // The last point of the curve gets put straight at the front
+            float easedShift = angleShift == 1 ? 1 : 1 - (float)Math.Pow(2, -10 * angleShift);
+            float Reach = MaxReach * (0.75f + 0.75f * seed2 - 0.05f * easedShift);
+            control3 = Owner.MountedCenter + (direction * Reach).RotatedBy(MathHelper.Lerp(-0.01f * flip, 0.01f * flip, easedShift)); // The last point of the curve gets put straight at the front
 
             //Over the double fucking bezier rainbow
             Vector2 point1 = control3 + direction.RotatedBy(MathHelper.PiOver2) * 50;
@@ -1850,66 +1855,92 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 directionFromSecondToLastPoint = Vector2.Normalize(directionFromHead.RotatedBy(MathHelper.Pi - MathHelper.ToRadians(MathHelper.Lerp(80f * flip, 110f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi))))) * MathHelper.Lerp(120f, 280f, (float)Math.Sin(randomNumber * MathHelper.Pi));
             control1 = control2 + directionFromSecondToLastPoint;
 
-            //Get new random numbers based on the same seed
-            float seed1 = 0.5f + ((float)Math.Sin(randomNumber * 100f * 17.07947) + (float)Math.Sin(randomNumber * 100f * 0.2f * 25.13274)) * 0.25f;
-            float seed2 = 0.5f + ((float)Math.Sin(seed1 * 50f * 17.07947) + (float)Math.Sin(seed1 * 50f * 0.2f * 25.13274)) * 0.25f;
-            float seed3 = 0.5f + ((float)Math.Sin(seed2 * 17.07947) + (float)Math.Sin(seed2 * 0.2f * 25.13274)) * 0.25f;
-
             control3 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed1) * seed3 * 30f;
             control2 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed2) * seed1 * 30f;
             control1 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed3) * seed2 * 30f;
         }
 
-        private void DrawChain(SpriteBatch spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2)
+        private void CalculateChains(SpriteBatch spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
+        {
+
+            if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
+            {
+                whip1.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4 / 16f, -MathHelper.PiOver4 / 16f)).ToRotation(); //X is the orientation
+                whip1.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
+
+                ChainSwapTimer++;
+            }
+
+            if ((ChainSwapTimer - 2) % 6 == 0 || whip2.Y == 0)
+            {
+                whip2.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
+                whip2.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
+
+                ChainSwapTimer++;
+            }
+
+            if ((ChainSwapTimer - 4) % 6 == 0 || whip3.Y == 0)
+            {
+                whip3.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
+                whip3.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
+
+                ChainSwapTimer++;
+            }
+
+
+            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
+            DrawChain(spriteBatch, out chainPositions1, control0, control1, control2, control3);
+
+            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            DrawChain(spriteBatch, out chainPositions2, control0, control1, control2, control3);
+
+            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            DrawChain(spriteBatch, out chainPositions3, control0, control1, control2, control3);
+        }
+
+        private void DrawChain(SpriteBatch spriteBatch, out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
         {
 
             Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
             Rectangle chainFrame = new Rectangle(0, 70, 24, 14);
             Rectangle guardFrame = new Rectangle(0, 50, 24, 18);
 
-            //Set the first whip
-            if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
-            {
-                whip1.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
-                whip1.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
-
-                ChainSwapTimer++;
-            }
-
-
-            GenerateCurve(whip1.Y, projectile.velocity, out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3);
-
             //First chain
             BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, control0, control1, control2, control3 });
             int numPoints = 40;
-            chainPositions1 = curve.GetPoints(numPoints).ToArray();
+            chainPositions = curve.GetPoints(numPoints).ToArray();
 
             //Draw each chain segment bar the very first one
             for (int i = 1; i < numPoints; i++)
             {
-                Vector2 position = chainPositions1[i];
+                Vector2 position = chainPositions[i];
 
-                float rotation = (chainPositions1[i] - chainPositions1[i - 1]).ToRotation() + MathHelper.PiOver2; //Calculate rotation based on direction from last point
+                float rotation = (chainPositions[i] - chainPositions[i - 1]).ToRotation() + MathHelper.PiOver2; //Calculate rotation based on direction from last point
                 Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
 
                 if (i < numPoints - 1)
                 {
-                    float yScale = Vector2.Distance(chainPositions1[i], chainPositions1[i - 1]) / chainFrame.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
-                    Vector2 scale = new Vector2(1, yScale); //Remember to make it get thicker and thinner based on whatever
+                    float yScale = Vector2.Distance(chainPositions[i], chainPositions[i - 1]) / chainFrame.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+
+                    float segmentProgress = i < 30f ? i / 30f : 1 - (i - 30f) / 10f;
+                    float xScale = 1f + 0.75f * (float)Math.Sin(segmentProgress * MathHelper.PiOver2);
+
+                    Vector2 scale = new Vector2(xScale, yScale); //Remember to make it get thicker and thinner based on whatever
                     Vector2 origin = new Vector2(chainFrame.Width / 2, chainFrame.Height); //Draw from center bottom of texture
-                    spriteBatch.Draw(tex, chainPositions1[i] - Main.screenPosition, chainFrame, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
                 }
                 else
                 {
                     Vector2 origin = new Vector2(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
-                    spriteBatch.Draw(tex, chainPositions1[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
+
+                    if (Main.rand.Next(6) == 0)
+                    {
+                        Particle Spark = new CritSpark(chainPositions[i], Vector2.Zero, Color.White, Color.SteelBlue, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
+                        GeneralParticleHandler.SpawnParticle(Spark);
+                    }
                 }
             }
-
-            chainPositions2 = new Vector2[1];
-            chainPositions2[0] = Owner.Center;
-
-            //Second chain
         }
 
 

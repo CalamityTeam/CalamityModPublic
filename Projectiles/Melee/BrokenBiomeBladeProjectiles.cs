@@ -504,7 +504,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            projectile.localNPCHitCooldown = BiomeBlade.HotAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -579,7 +579,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = Owner.Center + (direction * 60);
 
             //Scaling based on shred
-            projectile.localNPCHitCooldown = 16 - (int)(MathHelper.Lerp(0, 8, ShredRatio)); //Increase the hit frequency
+            projectile.localNPCHitCooldown = BiomeBlade.HotAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, BiomeBlade.HotAttunement_LocalIFrames - BiomeBlade.HotAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
             projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
 
 
@@ -726,7 +726,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = BiomeBlade.TropicalAttunement_LocalIFrames;
         }
 
         public override bool? CanCutTiles() => false; //Itd be quite counterproductive to make the whip cut the tiles it just grew
