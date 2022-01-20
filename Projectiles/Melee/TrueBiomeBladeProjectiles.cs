@@ -2221,7 +2221,7 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
 
-                projectile.velocity = projectile.velocity.RotatedBy(MathHelper.TwoPi * 2f * (1 / MaxTwirlTime));
+                projectile.velocity = projectile.velocity.RotatedBy(MathHelper.TwoPi * -2f * (1 / MaxTwirlTime));
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
                 projectile.Center = Owner.Center + (projectile.velocity * 140 * (1 + 0.3f * (float)Math.Sin(projectile.timeLeft / MaxTwirlTime * MathHelper.Pi)));
