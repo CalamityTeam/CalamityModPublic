@@ -17,7 +17,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Rune of Kos");
             Tooltip.SetDefault("A relic of the profaned flame\n" +
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
-                "When used in certain areas of the world it will unleash them\n" +
+                "When used in certain areas of the world, it will unleash them\n" +
                 "Not consumable");
         }
 

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Chunk");
-            Tooltip.SetDefault("Summons Astrum Aureus\n" +
+            Tooltip.SetDefault("Summons Astrum Aureus when used in the astral infection during nighttime\n" +
 				"Not consumable");
         }
 

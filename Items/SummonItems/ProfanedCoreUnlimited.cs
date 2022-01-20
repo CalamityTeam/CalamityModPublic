@@ -1,6 +1,5 @@
 using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Profaned Core");
             Tooltip.SetDefault("The core of the unholy flame\n" +
-                "Summons Providence\n" +
+				"Summons Providence when used in the hallow or underworld\n" +
                 "Should be used during daytime\n" +
                 "Not consumable");
         }

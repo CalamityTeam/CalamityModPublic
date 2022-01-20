@@ -13,8 +13,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seafood");
-            Tooltip.SetDefault("The sulphuric sand stirs...\n" +
-                "Summons the Aquatic Scourge\n" +
+            Tooltip.SetDefault("Summons the Aquatic Scourge when used in the sulphur sea\n" +
 				"Not consumable");
         }
 

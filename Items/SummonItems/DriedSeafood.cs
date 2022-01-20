@@ -13,8 +13,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Medallion");
-            Tooltip.SetDefault("The desert sand stirs...\n" +
-                "Summons the Desert Scourge\n" +
+            Tooltip.SetDefault("Summons the Desert Scourge when used in the desert\n" +
 				"Not consumable");
         }
 

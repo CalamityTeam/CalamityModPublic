@@ -325,6 +325,34 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
 			#endregion
 
+			// For boss summon item clarity
+			#region Boss Summon Tooltip Edits
+
+			if (item.type == ItemID.Abeemination)
+				EditTooltipByNum(0, (line) => line.text += " when used in the jungle");
+
+			if (item.type == ItemID.BloodySpine)
+				EditTooltipByNum(0, (line) => line.text += " when used in the crimson");
+
+			if (item.type == ItemID.Abeemination)
+				EditTooltipByNum(0, (line) => line.text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+
+			if (item.type == ItemID.GuideVoodooDoll)
+				EditTooltipByNum(0, (line) => line.text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
+
+			if (item.type == ItemID.LihzahrdPowerCell)
+				EditTooltipByNum(0, (line) => line.text += " to summon the Golem");
+
+			if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
+				EditTooltipByNum(0, (line) => line.text += " when used during nighttime");
+
+			if (item.type == ItemID.TruffleWorm)
+				EditTooltipByName("Consumable", (line) => line.text += "\nSummons Duke Fishron if used as bait in the ocean");
+
+			if (item.type == ItemID.WormFood)
+				EditTooltipByNum(0, (line) => line.text += " when used in the corruption");
+			#endregion
+
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +

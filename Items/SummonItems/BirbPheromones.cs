@@ -4,6 +4,7 @@ using CalamityMod.NPCs.Bumblebirb;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class BirbPheromones : ModItem
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Exotic Pheromones");
             Tooltip.SetDefault("Attracts the failed draconic experiment\n" +
+				"Summon The Dragonfolly when used in the jungle\n" +
 				"Not consumable");
         }
 
