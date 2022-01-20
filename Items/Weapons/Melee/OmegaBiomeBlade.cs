@@ -84,7 +84,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ShockwaveAttunement_BlastProc = 0.5f;
 
         public static float FlailBladeAttunement_BladeProc = 0.2f;
-        public static float FlailBladeAttunement_CritProc = 0.5f;
         public static float FlailBladeAttunement_ChainProc = 0.1f;
         public static float FlailBladeAttunement_GhostChainProc = 0.1f;
         #endregion

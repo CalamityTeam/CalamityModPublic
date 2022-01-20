@@ -264,10 +264,16 @@ namespace CalamityMod.Projectiles.Melee
             damage = (int)(damage * (OmegaBiomeBlade.WhirlwindAttunement_BaseDamageReduction + (OmegaBiomeBlade.WhirlwindAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
 
             if (CurrentState != 1)
+            {
+                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.WhirlwindAttunement_WhirlwindProc)
+                    sword.OnHitProc = true;
                 return;
+            }
+
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade blade && Main.rand.Next() <= OmegaBiomeBlade.WhirlwindAttunement_SwordThrowProc)
+                blade.OnHitProc = true;
 
             lastTarget = target;
-
             foreach (Projectile proj in Main.projectile)
             {
                 if (proj.active && proj.type == ProjectileType<PurityProjectionSigil>() && proj.owner == Owner.whoAmI)
@@ -494,6 +500,11 @@ namespace CalamityMod.Projectiles.Melee
             int debuffTime = 90;
             target.AddBuff(BuffType<ArmorCrunch>(), debuffTime);
         }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.WhirlwindAttunement_SwordBeamProc)
+                sword.OnHitProc = true;
+         }
 
         public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTime * 2f));
     }
@@ -714,6 +725,12 @@ namespace CalamityMod.Projectiles.Melee
             Owner.Calamity().LungingDown = false;
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.SuperPogoAttunement_ShredderProc)
+                sword.OnHitProc = true;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
@@ -849,6 +866,12 @@ namespace CalamityMod.Projectiles.Melee
 
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.SuperPogoAttunement_WheelProc)
+                sword.OnHitProc = true;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.End();
@@ -935,6 +958,9 @@ namespace CalamityMod.Projectiles.Melee
         {
             crit = true;
 
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.SuperPogoAttunement_DashProc)
+                sword.OnHitProc = true;
+
             Particle bloom = new StrongBloom(target.Center, target.velocity, Color.Crimson * 0.5f, 1f, 30);
             GeneralParticleHandler.SpawnParticle(bloom);
 
@@ -948,6 +974,9 @@ namespace CalamityMod.Projectiles.Melee
             Owner.statLife += OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal;
             Owner.HealEffect(OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal);
         }
+
+
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //OMw to reuse way too much code from the entangling vines
         {
 
@@ -1217,7 +1246,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = (int)(damage * (1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * Charge / MaxCharge));
-        }
+
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.ShockwaveAttunement_SwordProc)
+                sword.OnHitProc = true;
+    }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -1445,6 +1477,11 @@ namespace CalamityMod.Projectiles.Melee
             return validPositionFound;
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.ShockwaveAttunement_MonolithProc)
+                sword.OnHitProc = true;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -1577,6 +1614,12 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.ShockwaveAttunement_BlastProc)
+                sword.OnHitProc = true;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesShockwave");
@@ -1670,6 +1713,11 @@ namespace CalamityMod.Projectiles.Melee
                 Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control33 - Vector2.One * 25f, Vector2.One * 50f)
                 )
             {
+
+                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.FlailBladeAttunement_BladeProc)
+                    sword.OnHitProc = true;
+
+
                 crit = true;
                 for (int i = 0; i < 2; i++)
                 {
@@ -1684,11 +1732,13 @@ namespace CalamityMod.Projectiles.Melee
                     Lifetime = 6
                 };
                 GeneralParticleHandler.SpawnParticle(SliceLine);
-
             }
 
             else
             {
+                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.FlailBladeAttunement_ChainProc)
+                    sword.OnHitProc = true;
+
                 damage = (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
                 crit = false; //For once, we also block crits completely from the chain
             }
@@ -2054,6 +2104,12 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             projectile.Center = Target.Center;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.Next() <= OmegaBiomeBlade.FlailBladeAttunement_GhostChainProc)
+                sword.OnHitProc = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
