@@ -11,19 +11,22 @@ namespace CalamityMod.Particles
         public override string Texture => "CalamityMod/Particles/ThinEndedLine";
         public override bool UseAdditiveBlend => true;
         public override bool UseCustomDraw => true;
-
         public override bool SetLifetime => true;
+        public override bool Important => Telegraph;
+
         public float opacity;
         public Vector2 LineVector;
         public bool Concave;
+        public bool Telegraph; //Denotes if the line is used as an enemy telegraph. In that case, it'll be marked as important
 
-        public LineVFX(Vector2 startPoint, Vector2 lineVector, float thickness, Color color, bool concave = false)
+        public LineVFX(Vector2 startPoint, Vector2 lineVector, float thickness, Color color, bool concave = false, bool telegraph = false)
         {
             Position = startPoint;
             LineVector = lineVector;
             Scale = thickness;
             Color = color;
             Concave = concave;
+            Telegraph = telegraph;
             Velocity = Vector2.Zero;
             Rotation = 0;
             Lifetime = 2;

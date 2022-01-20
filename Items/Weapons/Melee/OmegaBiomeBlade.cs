@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
         public static int FlailBladeAttunement_BaseDamage = 320;
-        public static int FlailBladeAttunement_LocalIFrames = 10;
+        public static int FlailBladeAttunement_LocalIFrames = 30;
         public static int FlailBladeAttunement_FlailTime = 10;
         public static int FlailBladeAttunement_Reach = 400;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
@@ -168,7 +168,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins. Extra ghostly swords are summoned during the spin";
                     AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out. Ghostly swords will home onto enemies hit by the sword throw";
                     AttunementInfo.function_passive = "While attacking, extra ghost swords have a chance to be shot out";
-                    AttunementInfo.color = new Color(249, 166, 224);
+                    AttunementInfo.color = new Color(220, 105, 197);
                     AttunementInfo.color2 = new Color(171, 239, 113);
                     break;
                 case Attunement.SuperPogo:
@@ -190,7 +190,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.FlailBlade:
                     AttunementInfo.name = "Lamentations of the Chained";
                     AttunementInfo.function_description = "Throw out a flurry of chained blades in front of you. Striking enemies with the tip of the blades guarantees a critical hit.";
-                    AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets or onto the struck foe";
+                    AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets";
                     AttunementInfo.function_passive = "Gain a magical chain hook. On enemy hits the hook quickly spins around you, freezing any struck foe"; //No way sentient meat hook
                     AttunementInfo.color = new Color(113, 239, 177);
                     AttunementInfo.color2 = new Color(169, 207, 255);

@@ -1602,7 +1602,6 @@ namespace CalamityMod.Projectiles.Melee
         private NPC[] excludedTargets = new NPC[4];
 
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained";
-        private bool initialized = false;
         public Player Owner => Main.player[projectile.owner];
         public ref float ChainSwapTimer => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
@@ -1615,6 +1614,8 @@ namespace CalamityMod.Projectiles.Melee
         public Vector2 whip2;
         public Vector2 whip3;
 
+        public Particle smear;
+        public Particle smear2;
 
         public override void SetStaticDefaults()
         {
@@ -1633,48 +1634,64 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
+            //Cuz it intializes the hooks as pointing flat to the right of the player and we dont want that.
+            if (ChainSwapTimer < OmegaBiomeBlade.FlailBladeAttunement_FlailTime)
+                return false;
 
-            //int numPoints = 32;
-            //Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
-            //float collisionPoint = 0;
-            //for (int i = 1; i < numPoints; i++)
-            //{
-            //    Vector2 position = chainPositions[i];
-            //    Vector2 previousPosition = chainPositions[i - 1];
-            //    if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), position, previousPosition, 6, ref collisionPoint))
-            //        return true;
-            //    if (i == numPoints - 1) //Extra lenght collision for the blade itself
-            //    {
-            //        Vector2 projectileHalfLenght = 85 * projectile.rotation.ToRotationVector2();
-            //        return (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint));
-            //    }
+            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
+            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
 
-            //}
+            if (Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
+                Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
+                Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control33 - Vector2.One * 25f, Vector2.One * 50f)
+                )
+                return true;
 
-            return base.Colliding(projHitbox, targetHitbox);
+            //What you wanted me to calculate all 3 curves? Have straight line collisions instead
+            float CollisionPoint = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref  CollisionPoint) ||
+                Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref CollisionPoint) ||
+                Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref CollisionPoint)
+                )
+                return true;
+
+            return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Vector2 projectileHalfLenght = 85f * projectile.rotation.ToRotationVector2();
-            float collisionPoint = 0;
-            //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit
-            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
+            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
+            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            //If you hit the enemy with the blade of the whip, guarantee a crit
+            if (Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
+                Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
+                Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control33 - Vector2.One * 25f, Vector2.One * 50f)
+                )
             {
-                if (SnapCoyoteTime > 0f)
+                crit = true;
+                for (int i = 0; i < 2; i++)
                 {
-                    crit = true;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
-                        Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.LimeGreen, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
-                        GeneralParticleHandler.SpawnParticle(Spark);
-                    }
-
+                    Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
+                    Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.Turquoise, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 1f);
+                    GeneralParticleHandler.SpawnParticle(Spark);
                 }
+
+                Vector2 sliceDirection = Main.rand.NextVector2CircularEdge(50f, 100f);
+                Particle SliceLine = new LineVFX(target.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.PaleTurquoise * 0.6f)
+                {
+                    Lifetime = 6
+                };
+                GeneralParticleHandler.SpawnParticle(SliceLine);
+
             }
+
             else
+            {
                 damage = (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                crit = false; //For once, we also block crits completely from the chain
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -1688,7 +1705,9 @@ namespace CalamityMod.Projectiles.Melee
                     NPC potentialTarget = TargetNext(target.Center, i);
                     if (potentialTarget == null)
                         break;
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    if (proj.modProjectile is GhastlyChain chain)
+                        chain.Gravity = Main.rand.NextFloat(30f, 50f);
                 }
                 Array.Clear(excludedTargets, 0, 3);
             }
@@ -1742,10 +1761,61 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemAnimation = 2;
             projectile.timeLeft = 2;
 
-            if (ChainSwapTimer % 5 == 0)
+            if (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime == 1)
             {
                 Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
+
+                Vector2 smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.7f, 1.1f);
+                Vector2 squish = new Vector2( Main.rand.NextFloat(3f, 4f), Main.rand.NextFloat(0.5f, 1f));
+
+                if (smear == null)
+                {
+                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
+                    smear.Lifetime = 2;
+                    GeneralParticleHandler.SpawnParticle(smear);
+                }
+                //Update the variables of the smear
+                else
+                {
+                    smear.Rotation = whip1.X + MathHelper.Pi; //Add some v ariation?
+                    smear.Position = smearPos;
+                    (smear as SemiCircularSmearVFX).Squish = squish;
+                }
+
+                smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.8f, 1.3f);
+                squish = new Vector2(Main.rand.NextFloat(2f, 3f), Main.rand.NextFloat(0.9f, 1.4f));
+
+                if (smear2 == null)
+                {
+                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
+                    smear2.Lifetime = 2;
+                    GeneralParticleHandler.SpawnParticle(smear2);
+                }
+                //Update the variables of the smear
+                else
+                {
+                    smear2.Rotation = whip2.X + MathHelper.Pi; //Add some v ariation?
+                    smear2.Position = smearPos;
+                    (smear2 as SemiCircularSmearVFX).Squish = squish;
+                }
             }
+
+            if (smear != null)
+            {
+                smear.Rotation = smear.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
+                smear.Time = 0;
+                (smear as SemiCircularSmearVFX).Squish.Y *= 0.985f;
+                (smear as SemiCircularSmearVFX).Squish.X *= 1.01f;
+            }
+            if (smear2 != null)
+            {
+                smear2.Rotation = smear2.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
+                smear2.Time = 0;
+                (smear2 as SemiCircularSmearVFX).Squish.Y *= 0.985f;
+                (smear2 as SemiCircularSmearVFX).Squish.X *= 1.01f;
+            }
+
+
             //if ((ChainSwapTimer - 12f) % 23 == 0)
             //{
             //    Main.PlaySound(SoundID.Item41, projectile.Center);
@@ -1808,8 +1878,11 @@ namespace CalamityMod.Projectiles.Melee
             float seed2 = 0.5f + ((float)Math.Sin(seed1 * 50f * 17.07947) + (float)Math.Sin(seed1 * 50f * 0.2f * 25.13274)) * 0.25f;
             float seed3 = 0.5f + ((float)Math.Sin(seed2 * 17.07947) + (float)Math.Sin(seed2 * 0.2f * 25.13274)) * 0.25f;
 
+
             if ((necessaryOrientation == -1 && randomNumber >= 0.5) || (necessaryOrientation == 1 && randomNumber < 0.5))
                 randomNumber = 1 - randomNumber;
+
+            randomNumber += angleShift * 0.1f * necessaryOrientation; 
 
 
             float flip = randomNumber >= 0.5 ? 1f : -1f;
@@ -1866,8 +1939,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 ChainSwapTimer++;
             }
-
-
+            
             GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
             DrawChain(spriteBatch, out chainPositions1, control0, control1, control2, control3);
 
@@ -1907,17 +1979,20 @@ namespace CalamityMod.Projectiles.Melee
 
                     Vector2 scale = new Vector2(xScale, yScale); //Remember to make it get thicker and thinner based on whatever
                     Vector2 origin = new Vector2(chainFrame.Width / 2, chainFrame.Height); //Draw from center bottom of texture
-                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
+
+                    float chainOpacity = MathHelper.Clamp((i / (float)numPoints) * 3f, 0f, 1f);
+
+                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor * chainOpacity, rotation, origin, scale, SpriteEffects.None, 0);
                 }
                 else
                 {
                     Vector2 origin = new Vector2(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
                     spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
 
-                    if (Main.rand.Next(6) == 0)
+                    if ((ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) == 1 && Main.rand.Next(3) == 0f)
                     {
-                        Particle Spark = new CritSpark(chainPositions[i], Vector2.Zero, Color.White, Color.SteelBlue, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
-                        GeneralParticleHandler.SpawnParticle(Spark);
+                        Particle Flake = new SnowflakeSparkle(chainPositions[i], Vector2.Zero, Color.PaleTurquoise, Color.MediumTurquoise, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.2f);
+                        GeneralParticleHandler.SpawnParticle(Flake);
                     }
                 }
             }
@@ -1926,12 +2001,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            //Nothing lol
+            writer.WriteVector2(whip1);
+            writer.WriteVector2(whip2);
+            writer.WriteVector2(whip3);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            //Nothing lol
+            whip1 = reader.ReadVector2();
+            whip2 = reader.ReadVector2();
+            whip3 = reader.ReadVector2();
         }
     }
 
@@ -1940,6 +2019,9 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain";
         public Player Owner => Main.player[projectile.owner];
         public float Timer => 20 - projectile.timeLeft;
+
+        public float Gravity;
+
         public NPC NPCfrom
         {
             get => Main.npc[(int)projectile.ai[0]];
@@ -1950,8 +2032,6 @@ namespace CalamityMod.Projectiles.Melee
             get => Main.npc[(int)projectile.ai[1]];
             set => projectile.ai[1] = value.whoAmI;
         }
-
-        const float curvature = 16f;
 
         public override void SetStaticDefaults()
         {
@@ -1978,33 +2058,36 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
+            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain");
+
+
+            //Turn on additive blending
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             float opacity = projectile.timeLeft > 10 ? 1 : projectile.timeLeft / 10f;
             Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
 
-            Vector2 lineDirection = Vector2.Normalize(Target.Center - NPCfrom.Center);
-            int dist = (int)Vector2.Distance(Target.Center, NPCfrom.Center) / 16;
-            Vector2[] Nodes = new Vector2[dist + 1];
-            Nodes[0] = NPCfrom.Center;
-            Nodes[dist] = Target.Center;
-            float pointUp = Target.Center.X > NPCfrom.Center.X ? -MathHelper.PiOver2 : MathHelper.PiOver2;
+            BezierCurve curve = new BezierCurve(new Vector2[] { Target.Center, Target.Center + Vector2.UnitY * Gravity, NPCfrom.Center + Vector2.UnitY * Gravity, NPCfrom.Center });
+            int numPoints = 20; 
+            Vector2[] Nodes = curve.GetPoints(numPoints).ToArray();
 
-            for (int i = 1; i < dist + 1; i++)
+            for (int i = 1; i < numPoints; i++)
             {
-                Vector2 positionAlongLine = Vector2.Lerp(NPCfrom.Center, Target.Center, i / (float)dist); //Get the position of the segment along the line, as if it were a flat line
-                float elevation = (float)Math.Sin(i / (float)dist * MathHelper.Pi) * curvature * dist / 10f;
-                Nodes[i] = positionAlongLine + lineDirection.RotatedBy(pointUp) * elevation + Shake * (float)Math.Sin(i / (float)dist * MathHelper.Pi);
+                Vector2 position = Nodes[i] + Shake * (float)Math.Sin(i / (float)numPoints * MathHelper.Pi);
 
                 float rotation = (Nodes[i] - Nodes[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
                 float yScale = Vector2.Distance(Nodes[i], Nodes[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
                 Vector2 scale = new Vector2(1, yScale);
 
-                Color chainLightColor = Lighting.GetColor((int)Nodes[i].X / 16, (int)Nodes[i].Y / 16); //Lighting of the position of the chain segment
-
                 Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
-                spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, null, chainLightColor * opacity, rotation, origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(chainTex, position - Main.screenPosition, null, Color.White * opacity, rotation, origin, scale, SpriteEffects.None, 0);
             }
+
+            //Back to normal
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             return false;
         }
 
