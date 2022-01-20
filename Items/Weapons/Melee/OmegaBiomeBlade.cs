@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int SuperPogoAttunement_SlashIFrames = 60;
         public static float SuperPogoAttunement_ShotDamageBoost = 2f;
 
+        public static float SuperPogoAttunement_PassiveLifeStealChance = 0.2f;
         public static int SuperPogoAttunement_PassiveLifeSteal = 10;
 
 
@@ -390,8 +391,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.SuperPogo:
                     if (OnHitProc)
                     {
-                        player.statLife += SuperPogoAttunement_PassiveLifeSteal;
-                        player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
+                        if (Main.rand.Next() <= SuperPogoAttunement_PassiveLifeStealChance)
+                        {
+                            player.statLife += SuperPogoAttunement_PassiveLifeSteal;
+                            player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
+                        }
                         OnHitProc = false;
                     }
                     break;
