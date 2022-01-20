@@ -564,7 +564,7 @@ namespace CalamityMod.Projectiles.Melee
                     case 2:
                         projectile.width = projectile.height = 170;
                         Main.PlaySound(SoundID.DD2_PhantomPhoenixShot, projectile.Center);
-                        projectile.damage *= (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_ThirdSwingBoost);
+                        projectile.damage = (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_ThirdSwingBoost);
                         break;
                 }
 
@@ -1934,6 +1934,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     SlamDown();
                     projectile.timeLeft = 0;
+                    Owner.Calamity().LungingDown = false;
                     projectile.active = false;
                     projectile.netUpdate = true;
                     projectile.netSpam = 0;

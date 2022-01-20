@@ -807,8 +807,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
             projectile.direction = projectile.spriteDirection = -Owner.direction;
 
-            //MessWithTiles(); 
-
             Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
         }
         public void HookToTile()
@@ -823,108 +821,6 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 Main.PlaySound(SoundID.Item65, projectile.position);
             }
-        }
-
-        public void MessWithTiles() //This DESTROYS the grass growing meta and shall remain sealed away
-        {
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projectile.Center });
-            int numPoints = 30;
-            Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
-
-            for (int i = 0; i < numPoints; i++)
-            {
-                Vector2 position = chainPositions[i];
-                Tile targetTile = Main.tile[(int)position.X / 16, (int)position.Y / 16]; //Grab the tile
-
-                if ((targetTile.type == TileID.Dirt || targetTile.type == TileID.Mud) && targetTile.active())
-                {
-                    if (targetTile.type == TileID.Dirt)
-                    {
-                        targetTile.active(true);
-                        targetTile.type = TileID.Grass;
-
-                        if (Owner.ZoneCorrupt)
-                            targetTile.type = TileID.CorruptGrass;
-                        if (Owner.ZoneCrimson)
-                            targetTile.type = TileID.FleshGrass;
-                        if (Owner.ZoneHoly)
-                            targetTile.type = TileID.HallowedGrass;
-                    }
-                    if (targetTile.type == TileID.Mud)
-                    {
-                        targetTile.active(true);
-                        targetTile.type = TileID.JungleGrass;
-                        if (Owner.ZoneGlowshroom)
-                        {
-                            targetTile.type = TileID.MushroomGrass;
-                        }
-                    }
-
-                    WorldGen.SquareTileFrame((int)position.X / 16, (int)position.Y / 16, true); //Update the tile framing
-                    if (Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendTileSquare(-1, (int)position.X / 16, (int)position.Y / 16, 1, TileChangeType.None);
-                }
-
-                Tile targetTileAbove = Main.tile[(int)position.X / 16, (int)position.Y / 16 - 1];
-                if (!targetTileAbove.active() && ((targetTile.type == TileID.Grass || targetTile.type == TileID.HallowedGrass || targetTile.type == TileID.JungleGrass) && targetTile.active())) //If theres air above
-                {
-                    if (targetTile.type == TileID.Grass)
-                    {
-                        if (Main.rand.NextBool(2))
-                        {
-                            targetTileAbove.active(true);
-                            targetTileAbove.type = TileID.Plants;
-                            targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 11));
-                            while (targetTileAbove.frameX == 144) //Exclude the mushroom
-                            {
-                                targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 11));
-                            }
-                        }
-                        else
-                        {
-                            targetTileAbove.active(true);
-                            targetTileAbove.type = TileID.Plants2;
-                            targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 21));
-                            while (targetTileAbove.frameX == 144)
-                            {
-                                targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 21));
-                            }
-                        }
-                    }
-                    //On hallowed grass, grow hallowed plants
-                    else if (targetTile.type == TileID.Grass)
-                    {
-                        if (Main.rand.NextBool(2))
-                        {
-                            targetTileAbove.active(true);
-                            targetTileAbove.type = TileID.HallowedPlants;
-                            targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 7));
-                        }
-                        else
-                        {
-                            targetTileAbove.active(true);
-                            targetTileAbove.type = TileID.HallowedPlants2;
-                            targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 8));
-                            while (targetTileAbove.frameX == 90)
-                            {
-                                targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 8));
-                            }
-                        }
-                    }
-                    //On jungle grass, grow jungle flowers
-                    else if (targetTile.type == TileID.JungleGrass)
-                    {
-                        targetTileAbove.active(true);
-                        targetTileAbove.type = TileID.JunglePlants2;
-                        targetTileAbove.frameX = (short)(18 * Main.rand.Next(0, 17));
-                    }
-
-                    if (Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendTileSquare(-1, (int)position.X / 16, (int)position.Y / 16 - 1, 1, TileChangeType.None);
-                }
-
-            }
-            
         }
 
         internal float EaseInFunction(float progress) => progress == 0 ? 0f : (float)Math.Pow(2, 10 * progress - 10); //Potion seller i need your strongest easeIns

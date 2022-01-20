@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int FlailBladeAttunement_BaseDamage = 320;
         public static int FlailBladeAttunement_MaxFlails = 3;
-        public static int FlailBladeAttunement_FlailTime = 30;
+        public static int FlailBladeAttunement_FlailTime = 10;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
         public static float FlailBladeAttunement_GhostChainDamageReduction = 0.5f;
 
@@ -450,8 +450,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 
             AttunementInfo info = GetAttunementInfo(mainAttunement);
-            BiomeEnergyParticles.EdgeColor = Color.Lerp(info.color2, Color.Black, 0.5f);
-            BiomeEnergyParticles.CenterColor = Color.Lerp(info.color, Color.White, 0.5f);
+            BiomeEnergyParticles.EdgeColor = info.color2;
+            BiomeEnergyParticles.CenterColor = info.color;
             BiomeEnergyParticles.InterpolationSpeed = 0.1f;
             BiomeEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
 
