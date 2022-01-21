@@ -144,6 +144,13 @@ namespace CalamityMod.Particles
             batchedAlphaBlendParticles.Clear();
             batchedAdditiveBlendParticles.Clear();
         }
+
+        /// <summary>
+        /// Gives you the amount of particle slots that are available. Useful when you need multiple particles at once to make an effect and dont want it to be only halfway drawn due to a lack of particle slots
+        /// </summary>
+        /// <returns></returns>
+        public static int FreeSpacesAvailable() => CalamityConfig.Instance.ParticleLimit - particles.Count();
+
         /// <summary>
         /// Gives you the texture of the particle type. Useful for custom drawing
         /// </summary>

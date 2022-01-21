@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public enum Attunement : byte { SuperPogo, Whirlwind, Shockwave, FlailBlade }
         public Attunement? mainAttunement = null;
         public Attunement? secondaryAttunement = null;
-        public int Combo = 0;
         public Projectile MeatHook;
 
         //Used for passive effects
@@ -50,7 +49,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int SuperPogoAttunement_SlashIFrames = 60;
         public static float SuperPogoAttunement_ShotDamageBoost = 2f;
 
-        public static float SuperPogoAttunement_PassiveLifeStealChance = 0.2f;
         public static int SuperPogoAttunement_PassiveLifeSteal = 10;
 
 
@@ -183,7 +181,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Shockwave:
                     AttunementInfo.name = "Mercurial Tides";
                     AttunementInfo.function_description = "Hold LMB to charge up a heaven-shattering sword thrust, and release to unleash the devastating blow. Small shockwaves are released as you charge the sword";
-                    AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful, a shockwave of ancient monoliths will rise up and propagate through the ground";
+                    AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful a shockwave of ancient monoliths will rise up and propagate through the ground";
                     AttunementInfo.function_passive = "While attacking, release small shockwaves around you";
                     AttunementInfo.color = new Color(132, 109, 233);
                     AttunementInfo.color2 = new Color(122, 213, 233);
@@ -310,8 +308,6 @@ namespace CalamityMod.Items.Weapons.Melee
             player.Calamity().rightClickListener = true;
 
             //Reset the strong lunge thing just in case it didnt get caught beofre.
-            //||
-            // n.type == ProjectileType<LamentationsOfTheChained>()
 
             if (CanUseItem(player))
             {
@@ -705,6 +701,4 @@ namespace CalamityMod.Items.Weapons.Melee
                 return false;
         }
     }
-
-
 }
