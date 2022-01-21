@@ -419,54 +419,26 @@ namespace CalamityMod.NPCs.SlimeGod
 								float divisor = malice ? 10f : 15f;
 								if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
-									if (expertMode && Main.rand.NextBool(2))
-									{
-										float num179 = revenge ? 2f : 3f;
-										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-										float num180 = player.position.X + player.width * 0.5f - value9.X;
-										float num181 = Math.Abs(num180) * 0.1f;
-										float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-										float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										npc.netUpdate = true;
-										num183 = num179 / num183;
-										num180 *= num183;
-										num182 *= num183;
-										int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssMine>() : ModContent.ProjectileType<AbyssMine2>();
-										int damage = npc.GetProjectileDamage(type);
-										value9.X += num180;
-										value9.Y += num182;
-										num180 = player.position.X + player.width * 0.5f - value9.X;
-										num182 = player.position.Y + player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										num183 = num179 / num183;
-										num180 *= num183;
-										num182 *= num183;
-										Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-									}
-									else
-									{
-										float num179 = revenge ? 6f : 5f;
-										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-										float num180 = player.position.X + player.width * 0.5f - value9.X;
-										float num181 = Math.Abs(num180) * 0.1f;
-										float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-										float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										npc.netUpdate = true;
-										num183 = num179 / num183;
-										num180 *= num183;
-										num182 *= num183;
-										int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
-										int damage = npc.GetProjectileDamage(type);
-										value9.X += num180;
-										value9.Y += num182;
-										num180 = player.position.X + player.width * 0.5f - value9.X;
-										num182 = player.position.Y + player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										num183 = num179 / num183;
-										num180 *= num183;
-										num182 *= num183;
-										Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-									}
+									float num179 = expertMode ? 9f : 7.5f;
+									Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+									float num180 = player.position.X + player.width * 0.5f - value9.X;
+									float num181 = Math.Abs(num180) * 0.1f;
+									float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+									float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+									num183 = num179 / num183;
+									num180 *= num183;
+									num182 *= num183;
+									int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+									int damage = npc.GetProjectileDamage(type);
+									value9.X += num180;
+									value9.Y += num182;
+									num180 = player.position.X + player.width * 0.5f - value9.X;
+									num182 = player.position.Y + player.height * 0.5f - value9.Y;
+									num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+									num183 = num179 / num183;
+									num180 *= num183;
+									num182 *= num183;
+									Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								}
 							}
 						}
@@ -479,58 +451,32 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						if (npc.ai[1] % 40f == 0f)
 						{
-							if (expertMode && Main.rand.NextBool(2))
+							float num179 = expertMode ? 12f : 10f;
+							Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+							float num180 = player.position.X + player.width * 0.5f - value9.X;
+							float num181 = Math.Abs(num180) * 0.1f;
+							float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+							float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+							num183 = num179 / num183;
+							num180 *= num183;
+							num182 *= num183;
+							int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+							int damage = npc.GetProjectileDamage(type);
+							value9.X += num180;
+							value9.Y += num182;
+							int totalProjectiles = expertMode ? 3 : 2;
+							int spread = expertMode ? 45 : 30;
+							for (int num186 = 0; num186 < totalProjectiles; num186++)
 							{
-								float num179 = revenge ? 2f : 3f;
-								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								float num180 = player.position.X + player.width * 0.5f - value9.X;
-								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-								npc.netUpdate = true;
-								num183 = num179 / num183;
-								num180 *= num183;
-								num182 *= num183;
-								int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssMine>() : ModContent.ProjectileType<AbyssMine2>();
-								int damage = npc.GetProjectileDamage(type);
-								value9.X += num180;
-								value9.Y += num182;
 								num180 = player.position.X + player.width * 0.5f - value9.X;
 								num182 = player.position.Y + player.height * 0.5f - value9.Y;
 								num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 								num183 = num179 / num183;
+								num180 += Main.rand.Next(-spread, spread + 1);
+								num182 += Main.rand.Next(-spread, spread + 1);
 								num180 *= num183;
 								num182 *= num183;
 								Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-							}
-							else
-							{
-								float num179 = revenge ? 6f : 5f;
-								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								float num180 = player.position.X + player.width * 0.5f - value9.X;
-								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-								npc.netUpdate = true;
-								num183 = num179 / num183;
-								num180 *= num183;
-								num182 *= num183;
-								int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
-								int damage = npc.GetProjectileDamage(type);
-								value9.X += num180;
-								value9.Y += num182;
-								for (int num186 = 0; num186 < 2; num186++)
-								{
-									num180 = player.position.X + player.width * 0.5f - value9.X;
-									num182 = player.position.Y + player.height * 0.5f - value9.Y;
-									num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-									num183 = num179 / num183;
-									num180 += Main.rand.Next(-30, 31);
-									num182 += Main.rand.Next(-30, 31);
-									num180 *= num183;
-									num182 *= num183;
-									Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-								}
 							}
 						}
 					}

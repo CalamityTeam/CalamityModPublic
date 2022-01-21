@@ -563,16 +563,10 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssMine>()), new int[] { 60, 96, 116, 128, 174 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssMine2>()), new int[] { 54, 88, 108, 116, 162 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGod>(), ModContent.ProjectileType<AbyssMine>()), new int[] { 60, 96, 116, 128, 174 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodRun>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodRun>(), ModContent.ProjectileType<AbyssMine2>()), new int[] { 54, 88, 108, 116, 162 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodSplit>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 38, 60, 76, 84, 114 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodSplit>(), ModContent.ProjectileType<AbyssMine>()), new int[] { 54, 88, 104, 112, 156 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodRunSplit>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 34, 52, 68, 74, 102 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SlimeGodRunSplit>(), ModContent.ProjectileType<AbyssMine2>()), new int[] { 48, 80, 100, 108, 150 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SlimeSpawnCrimson2>(), ModContent.ProjectileType<CrimsonSpike>()), new int[] { 24, 48, 60, 68, 90 } },
 
 				{ new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.EyeLaser), new int[] {
