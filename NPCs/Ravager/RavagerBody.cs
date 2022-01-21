@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.damage = (int)(npc.damage * 1.5);
                 npc.defense *= 2;
-                npc.lifeMax *= 5;
+                npc.lifeMax *= 4;
                 npc.value *= 1.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -772,9 +772,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Ravager
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
 
@@ -792,11 +789,13 @@ namespace CalamityMod.NPCs.Ravager
                     DropHelper.WeightStack<RealmRavager>(w),
                     DropHelper.WeightStack<Hematemesis>(w),
                     DropHelper.WeightStack<SpikecragStaff>(w),
-                    DropHelper.WeightStack<CraniumSmasher>(w)
-                );
+                    DropHelper.WeightStack<CraniumSmasher>(w),
+					DropHelper.WeightStack<Vesuvius>(w)
+				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
+				// Equipment
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<BloodflareCore>(), true, CalamityWorld.downedProvidence);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
 
                 // Vanity

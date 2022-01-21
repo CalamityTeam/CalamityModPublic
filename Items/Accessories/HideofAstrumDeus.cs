@@ -25,13 +25,11 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.rare = ItemRarityID.Cyan;
             item.accessory = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.aBulwark = true;
             player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             modPlayer.aBulwarkRare = true;
             player.buffImmune[BuffID.CursedInferno] = true;

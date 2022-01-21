@@ -73,18 +73,31 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override void BossHeadSlot(ref int index)
 		{
-			if (phase2Started && CalamityWorld.DoGSecondStageCountdown > 60)
-				index = -1;
-			else if (phase2Started)
-				index = phase2IconIndex;
-			else
+			NPC head = CalamityGlobalNPC.DoGHead >= 0 ? Main.npc[CalamityGlobalNPC.DoGHead] : null;
+			DevourerofGodsHead modNPC = head?.ModNPC<DevourerofGodsHead>() ?? null;
+
+			index = -1;
+			if (head is null)
+				return;
+
+			if (!modNPC.Phase2Started)
+			{
 				index = phase1IconIndex;
+				return;
+			}
+
+			if (!modNPC.AwaitingPhase2Teleport)
+				index = phase2IconIndex;
 		}
 
 		public override void BossHeadRotation(ref float rotation)
 		{
-			if (phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60)
-				rotation = npc.rotation;
+			NPC head = CalamityGlobalNPC.DoGHead >= 0 ? Main.npc[CalamityGlobalNPC.DoGHead] : null;
+			DevourerofGodsHead modNPC = head?.ModNPC<DevourerofGodsHead>() ?? null;
+			if (head != null || modNPC.AwaitingPhase2Teleport || !modNPC.Phase2Started)
+				return;
+
+			rotation = npc.rotation;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -387,7 +400,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 				return false;
             }
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
+            return true;
 		}
 
 		public override bool CheckDead()

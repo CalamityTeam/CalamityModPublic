@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
+			projectile.extraUpdates = 3;
             projectile.penetrate = 1;
             projectile.timeLeft = 90;
 			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;

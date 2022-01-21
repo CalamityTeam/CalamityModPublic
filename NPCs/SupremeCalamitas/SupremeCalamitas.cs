@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -74,7 +75,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool hasSummonedBrothers = false;
 
         private int giveUpCounter = 1200;
-        private int lootTimer = 0; //900 * 5 = 4500
         private int phaseChange = 0;
         private int spawnX = 0;
         private int spawnX2 = 0;
@@ -242,7 +242,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(npc.chaseable);
 
             writer.Write(giveUpCounter);
-            writer.Write(lootTimer);
             writer.Write(phaseChange);
             writer.Write(spawnX);
             writer.Write(spawnX2);
@@ -294,7 +293,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.chaseable = reader.ReadBoolean();
 
             giveUpCounter = reader.ReadInt32();
-            lootTimer = reader.ReadInt32();
             phaseChange = reader.ReadInt32();
             spawnX = reader.ReadInt32();
             spawnX2 = reader.ReadInt32();
@@ -325,8 +323,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region StartUp
 
             CalamityGlobalNPC.SCal = npc.whoAmI;
-
-            lootTimer++;
 
 			bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -2715,21 +2711,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        // If SCal is killed too quickly, cancel all drops and chastise the player
-        public override bool SpecialNPCLoot()
-        {
-			//75 seconds for bullet hells + 25 seconds for normal phases.
-			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
-            if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
-            {
-                if (!BossRushEvent.BossRushActive)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
-                return true;
-            }
-
-            return false;
-        }
-
         public override void NPCLoot()
         {
             // Create a teleport line effect
@@ -2740,7 +2721,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for SCal
+			// Only drops in Malice because this is Leviathan's item
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
 
             // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
@@ -2765,8 +2746,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DropHelper.WeightStack<Sacrifice>(w)
                 );
 
-                // SCal vanity set (This drops all at once, or not at all)
-                if (Main.rand.NextBool(7))
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<Calamity>(), true);
+
+				// SCal vanity set (This drops all at once, or not at all)
+				if (Main.rand.NextBool(7))
                 {
                     DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
                     DropHelper.DropItem(npc, ModContent.ItemType<SCalMask>());
@@ -2791,11 +2775,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityNetcode.SyncWorld();
         }
         #endregion
-
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-        }
 
         // Prevent the player from accidentally killing SCal instead of having her turn into a town NPC.
         public override bool CheckDead()

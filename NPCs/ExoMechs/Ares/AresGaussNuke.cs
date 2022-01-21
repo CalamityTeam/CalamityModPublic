@@ -460,8 +460,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-
 		public override void FindFrame(int frameHeight)
 		{
 			// Use telegraph frames when using gauss nuke

@@ -1317,6 +1317,7 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+				SetShopItem(ref shop, ref nextSlot, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
 				SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
 			}
 

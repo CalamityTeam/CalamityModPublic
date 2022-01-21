@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.alpha = 255;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
 			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 

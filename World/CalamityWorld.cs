@@ -27,7 +27,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class CalamityWorld : ModWorld
+    public partial class CalamityWorld : ModWorld
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
@@ -46,12 +46,10 @@ namespace CalamityMod.World
         public static int deathBossSpawnCooldown = 0; // Cooldown between Death Mode natural boss spawns
 
         // Modes
-        public static bool demonMode = false; // Spawn rate boost
         public static bool onionMode = false; // Extra accessory from Moon Lord
         public static bool revenge = false; // Revengeance Mode
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
-        public static bool ironHeart = false; // Iron Heart Mode
         public static bool malice = false; // Malice Mode
 
         // New Temple Altar
@@ -322,7 +320,6 @@ namespace CalamityMod.World
             downedBumble = false;
             downedCrabulon = false;
             downedBetsy = false;
-            demonMode = false;
             onionMode = false;
             revenge = false;
             downedStarGod = false;
@@ -333,7 +330,6 @@ namespace CalamityMod.World
             downedSecondSentinels = false;
             death = false;
             armageddon = false;
-            ironHeart = false;
             malice = false;
             rainingAcid = false;
             downedEoCAcidRain = false;
@@ -404,8 +400,6 @@ namespace CalamityMod.World
                 downed.Add("betsy");
             if (downedScavenger)
                 downed.Add("scavenger");
-            if (demonMode)
-                downed.Add("demonMode");
             if (onionMode)
                 downed.Add("onionMode");
             if (revenge)
@@ -424,8 +418,6 @@ namespace CalamityMod.World
                 downed.Add("death");
             if (armageddon)
                 downed.Add("armageddon");
-            if (ironHeart)
-                downed.Add("ironHeart");
             if (malice)
                 downed.Add("malice");
             if (abyssSide)
@@ -566,7 +558,6 @@ namespace CalamityMod.World
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
             downedScavenger = downed.Contains("scavenger");
-            demonMode = downed.Contains("demonMode");
             onionMode = downed.Contains("onionMode");
             revenge = downed.Contains("revenge");
             downedStarGod = downed.Contains("starGod");
@@ -576,7 +567,6 @@ namespace CalamityMod.World
             downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
             armageddon = downed.Contains("armageddon");
-            ironHeart = downed.Contains("ironHeart");
             malice = downed.Contains("malice");
             abyssSide = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
@@ -688,7 +678,7 @@ namespace CalamityMod.World
                 _ = flags4[2];
                 _ = flags4[3];
                 _ = flags4[4];
-                demonMode = flags4[5];
+                _ = flags4[5];
                 onionMode = flags4[6];
                 revenge = flags4[7];
 
@@ -710,7 +700,7 @@ namespace CalamityMod.World
                 armageddon = flags6[4];
                 _ = flags6[5];
                 _ = flags6[6];
-                ironHeart = flags6[7];
+                _ = flags6[7];
 
                 BitsByte flags7 = reader.ReadByte();
                 BossRushEvent.BossRushActive = flags7[0];
@@ -809,7 +799,7 @@ namespace CalamityMod.World
             flags4[2] = false;
             flags4[3] = false;
             flags4[4] = false;
-            flags4[5] = demonMode;
+            flags4[5] = false;
             flags4[6] = onionMode;
             flags4[7] = revenge;
 
@@ -831,7 +821,7 @@ namespace CalamityMod.World
             flags6[4] = armageddon;
             flags6[5] = false;
             flags6[6] = false;
-            flags6[7] = ironHeart;
+            flags6[7] = false;
 
             BitsByte flags7 = new BitsByte();
             flags7[0] = BossRushEvent.BossRushActive;
@@ -952,7 +942,7 @@ namespace CalamityMod.World
             _ = flags4[2];
             _ = flags4[3];
             _ = flags4[4];
-            demonMode = flags4[5];
+            _ = flags4[5];
             onionMode = flags4[6];
             revenge = flags4[7];
 
@@ -974,7 +964,7 @@ namespace CalamityMod.World
             armageddon = flags6[4];
             _ = flags6[5];
             _ = flags6[6];
-            ironHeart = flags6[7];
+            _ = flags6[7];
 
             BitsByte flags7 = reader.ReadByte();
             BossRushEvent.BossRushActive = flags7[0];
@@ -1306,10 +1296,6 @@ namespace CalamityMod.World
                 }
             }
         }
-        #endregion
-
-        #region PostUpdate
-        public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
         #endregion
     }
 }

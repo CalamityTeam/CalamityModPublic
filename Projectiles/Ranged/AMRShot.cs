@@ -74,18 +74,15 @@ namespace CalamityMod.Projectiles.Ranged
 
 		private void OnHitEffects(Vector2 targetPos, bool crit)
 		{
-			bool skullmasher = projectile.ai[1] == 1f;
-            if (crit || skullmasher)
+            if (crit)
             {
-				int extraProjectileAmt = skullmasher ? 4 : 8;
+				int extraProjectileAmt = 8;
                 for (int x = 0; x < extraProjectileAmt; x++)
                 {
 					if (projectile.owner == Main.myPlayer)
 					{
-						bool fromRight = skullmasher ? x > 1 : x > 3;
+						bool fromRight = x > 3;
 						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
-						if (skullmasher)
-							CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, fromRight, 1000f, 1000f, 0f, 1000f, 12f, (int)projectile.ai[0], (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
 					}
                 }
             }

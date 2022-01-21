@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fetid Emesis");
-            Tooltip.SetDefault("Has a chance to release rotten chunks instead of bullets");
+            Tooltip.SetDefault("40% chance to not consume ammo\n" +
+			"Has a chance to release rotten chunks instead of bullets");
         }
 
         public override void SetDefaults()
@@ -34,6 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.PureGreen;
 			item.Calamity().canFirePointBlankShots = true;
 		}
+
+        public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) > 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 

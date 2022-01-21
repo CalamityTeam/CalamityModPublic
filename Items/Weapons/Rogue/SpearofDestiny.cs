@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 52;
-            item.damage = 32;
+            item.damage = 26;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
@@ -28,9 +28,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 52;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-			item.Calamity().challengeDrop = true;
+            item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            item.rare = ItemRarityID.LightPurple;
 			item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
@@ -49,5 +48,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             return false;
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.HallowedBar, 7);
+			recipe.AddIngredient(ItemID.SoulofLight, 5);
+			recipe.AddIngredient(ItemID.SoulofFright, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

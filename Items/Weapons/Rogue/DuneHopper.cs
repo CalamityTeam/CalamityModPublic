@@ -1,3 +1,5 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dune Hopper");
+            DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
             Tooltip.SetDefault(@"Throws a spear that bounces a lot
 Stealth strikes throw three high speed spears");
         }
@@ -19,7 +21,7 @@ Stealth strikes throw three high speed spears");
         public override void SafeSetDefaults()
         {
             item.width = 44;
-            item.damage = 18;
+            item.damage = 50;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 22;
@@ -29,12 +31,11 @@ Stealth strikes throw three high speed spears");
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 44;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,5 +55,17 @@ Stealth strikes throw three high speed spears");
             }
             return true;
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<ScourgeoftheDesert>());
+			recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 20);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

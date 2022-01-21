@@ -68,36 +68,6 @@ namespace CalamityMod.CalPlayer
 			if (player.wingsLogic > 0)
 				player.jumpSpeedBoost += 1.2f;
 
-			// Defiled jump boosts
-			if (noWings)
-			{
-				/* 8% post-Skeletron
-				 * 10% post-WoF
-				 * 20% post-ML
-				 */
-				
-				float extraJumpSpeedBoost = 0f +
-					(NPC.downedBoss3 ? 0.4f : 0f) +
-					(Main.hardMode ? (!NPC.downedBoss3 ? 0.5f : 0.1f) : 0f) +
-					(NPC.downedMoonlord ? 0.5f : 0f);
-
-				// 10% extra jump speed per extra jump
-				if (player.doubleJumpCloud)
-					player.jumpSpeedBoost += extraJumpSpeedBoost;
-
-				if (player.doubleJumpBlizzard)
-					player.jumpSpeedBoost += extraJumpSpeedBoost;
-
-				if (player.doubleJumpSandstorm)
-					player.jumpSpeedBoost += extraJumpSpeedBoost;
-
-				if (player.doubleJumpFart)
-					player.jumpSpeedBoost += extraJumpSpeedBoost;
-
-				if (player.doubleJumpSail)
-					player.jumpSpeedBoost += extraJumpSpeedBoost;
-			}
-
 			// Decrease the counter on Fearmonger set turbo regeneration
 			if (fearmongerRegenFrames > 0)
 				fearmongerRegenFrames--;
@@ -1364,6 +1334,8 @@ namespace CalamityMod.CalPlayer
 				auralisAurora--;
 			if (auralisAuroraCooldown > 0)
 				auralisAuroraCooldown--;
+			if (silvaReviveCooldown > 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+				silvaReviveCooldown--;
 
 			// God Slayer Armor dash debuff immunity
 			if (dashMod == 9 && player.dashDelay < 0)
@@ -1394,7 +1366,11 @@ namespace CalamityMod.CalPlayer
 
 				silvaCountdown -= 1;
 				if (silvaCountdown <= 0)
+				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+					// 5 minutes
+					silvaReviveCooldown = 18000;
+				}
 
 				for (int j = 0; j < 2; j++)
 				{
@@ -1408,6 +1384,11 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(2))
 						Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 				}
+			}
+			if (silvaReviveCooldown <= 0 && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+			{
+				silvaCountdown = 480;
+				hasSilvaEffect = false;
 			}
 
 			// Tarragon cloak effects

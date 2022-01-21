@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -197,16 +198,22 @@ namespace CalamityMod.Tiles
 						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
 					}
 				}
-				else if (type == TileID.DemonAltar && CalamityConfig.Instance.EarlyHardmodeProgressionRework && Main.hardMode)
+				else if (type == TileID.DemonAltar && Main.hardMode)
 				{
-					int quantity = 6;
 					Vector2 pos = new Vector2(i, j) * 16;
-					for (int k = 0; k < quantity; k += 1)
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					{
-						pos.X += Main.rand.NextFloat(-32f, 32f);
-						pos.Y += Main.rand.NextFloat(-32f, 32f);
-						Item.NewItem(pos, ItemID.SoulofNight, 1);
+						WorldGen.altarCount++;
+						int quantity = 6;
+						for (int k = 0; k < quantity; k += 1)
+						{
+							pos.X += Main.rand.NextFloat(-32f, 32f);
+							pos.Y += Main.rand.NextFloat(-32f, 32f);
+							Item.NewItem(pos, ItemID.SoulofNight);
+						}
 					}
+					if (WorldGen.altarCount % 3 == 0 && WorldGen.altarCount > 1)
+						Item.NewItem(pos, ModContent.ItemType<EvilSmasher>());
 				}
 			}
 

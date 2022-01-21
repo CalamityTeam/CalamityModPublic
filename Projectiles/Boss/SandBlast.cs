@@ -45,12 +45,26 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21);
             }
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+
+			if (projectile.ai[0] == 1f)
+			{
+				int num103 = Player.FindClosest(projectile.Center, 1, 1);
+				float inertia = 60f;
+				float scaleFactor2 = projectile.velocity.Length();
+				Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+				vector11.Normalize();
+				vector11 *= scaleFactor2;
+				projectile.velocity = (projectile.velocity * (inertia - 1f) + vector11) / inertia;
+				projectile.velocity.Normalize();
+				projectile.velocity *= scaleFactor2;
+			}
+
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
             projectile.alpha -= 50;
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 0.8f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;

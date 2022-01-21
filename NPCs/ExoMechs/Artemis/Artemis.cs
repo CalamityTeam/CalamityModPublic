@@ -1173,8 +1173,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			return minDist <= 100f && npc.Opacity == 1f && AIState == (float)Phase.Charge;
 		}
 
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			scale = 2f;

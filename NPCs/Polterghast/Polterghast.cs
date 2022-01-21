@@ -1,6 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -972,9 +972,6 @@ namespace CalamityMod.NPCs.Polterghast
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Polterghast
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PearlGod>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
 
@@ -1001,7 +998,10 @@ namespace CalamityMod.NPCs.Polterghast
                     DropHelper.WeightStack<EtherealSubjugator>(w),
                     DropHelper.WeightStack<GhoulishGouger>(w)
                 );
-            }
+
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<Affliction>(), true);
+			}
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
             if (!CalamityWorld.downedPolterghast)

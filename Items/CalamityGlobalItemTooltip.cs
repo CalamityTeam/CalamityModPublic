@@ -50,9 +50,6 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
-            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-            ElementTooltip(item, tooltips);
-
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
@@ -82,11 +79,6 @@ namespace CalamityMod.Items
 				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
 				tooltips.Add(line);
 			}
-
-			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
-			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
-			if (challengeDrop)
-				ChallengeDropTooltip(item, tooltips);
 		}
 		#endregion
 
@@ -200,43 +192,6 @@ namespace CalamityMod.Items
 				}
 			}
 			#endregion
-		}
-		#endregion
-
-		#region Challenge Drop Tooltip
-		private void ChallengeDropTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			Color? legendaryColor = null;
-			if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-				legendaryColor = new Color(255, Main.DiscoG, 53);
-			if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-				legendaryColor = new Color(Main.DiscoR, 203, 103);
-			if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-				legendaryColor = new Color(53, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<CosmicDischarge>())
-				legendaryColor = new Color(150, Main.DiscoG, 255);
-			if (item.type == ModContent.ItemType<SeasSearing>())
-				legendaryColor = new Color(60, Main.DiscoG, 190);
-			if (item.type == ModContent.ItemType<SHPC>())
-				legendaryColor = new Color(255, Main.DiscoG, 155);
-			if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
-				legendaryColor = new Color(255, Main.DiscoG, 0);
-			if (item.type == ModContent.ItemType<PristineFury>())
-				legendaryColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-			if (item.type == ModContent.ItemType<LeonidProgenitor>())
-				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-			if (item.type == ModContent.ItemType<TheCommunity>())
-				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-			if (item.type == ModContent.ItemType<GaelsGreatsword>())
-				legendaryColor = new Color(146, 0, 0);
-
-			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
-			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
-			{
-				overrideColor = lineColor
-			};
-			tooltips.Add(line);
 		}
 		#endregion
 
@@ -368,6 +323,34 @@ namespace CalamityMod.Items
 			// Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
 			if (item.type == ItemID.DD2BetsyBow)
 				EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
+			#endregion
+
+			// For boss summon item clarity
+			#region Boss Summon Tooltip Edits
+
+			if (item.type == ItemID.Abeemination)
+				EditTooltipByNum(0, (line) => line.text += " when used in the jungle");
+
+			if (item.type == ItemID.BloodySpine)
+				EditTooltipByNum(0, (line) => line.text += " when used in the crimson");
+
+			if (item.type == ItemID.ClothierVoodooDoll)
+				EditTooltipByNum(0, (line) => line.text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+
+			if (item.type == ItemID.GuideVoodooDoll)
+				EditTooltipByNum(0, (line) => line.text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
+
+			if (item.type == ItemID.LihzahrdPowerCell)
+				EditTooltipByNum(0, (line) => line.text += " to summon the Golem");
+
+			if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
+				EditTooltipByNum(0, (line) => line.text += " when used during nighttime");
+
+			if (item.type == ItemID.TruffleWorm)
+				EditTooltipByName("Consumable", (line) => line.text += "\nSummons Duke Fishron if used as bait in the ocean");
+
+			if (item.type == ItemID.WormFood)
+				EditTooltipByNum(0, (line) => line.text += " when used in the corruption");
 			#endregion
 
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
@@ -596,8 +579,15 @@ namespace CalamityMod.Items
 				EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
 			}
 
-			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
-			if (item.type == ItemID.SpectreHood)
+            // On Fire! debuff immunities
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield)
+                EditTooltipByNum(0, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
+                EditTooltipByNum(1, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            // Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
+            if (item.type == ItemID.SpectreHood)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
 
 			// Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
@@ -1035,38 +1025,6 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
-			}
-		}
-		#endregion
-
-		#region Element Tooltip
-		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityLists.fireWeaponList.Contains(item.type))
-			{
-				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "- Fire Weapon -")
-				{
-					overrideColor = new Color(255, 165, 0)
-				};
-				tooltips.Add(fireTooltip);
-			}
-
-			if (CalamityLists.iceWeaponList.Contains(item.type))
-			{
-				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "- Ice Weapon -")
-				{
-					overrideColor = new Color(94, 230, 255)
-				};
-				tooltips.Add(iceTooltip);
-			}
-
-			if (CalamityLists.natureWeaponList.Contains(item.type))
-			{
-				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "- Nature Weapon -")
-				{
-					overrideColor = new Color(46, 165, 0)
-				};
-				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion

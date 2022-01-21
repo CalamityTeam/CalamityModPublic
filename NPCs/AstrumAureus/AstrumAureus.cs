@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -46,7 +47,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.width = 374;
             npc.height = 374;
             npc.defense = 40;
-			npc.DR_NERD(0.15f);
+			npc.DR_NERD(0.4f);
             npc.LifeMaxNERB(NPC.downedMoonlord ? 243750 : 89200, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
@@ -320,9 +321,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Astrum Aureus
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
 
@@ -342,10 +340,12 @@ namespace CalamityMod.NPCs.AstrumAureus
                     DropHelper.WeightStack<AuroraBlazer>(w),
                     DropHelper.WeightStack<AlulaAustralis>(w),
                     DropHelper.WeightStack<BorealisBomber>(w),
-                    DropHelper.WeightStack<AuroradicalThrow>(w)
-                );
+                    DropHelper.WeightStack<AuroradicalThrow>(w),
+					DropHelper.WeightStack<LeonidProgenitor>(w)
+				);
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<GravistarSabaton>(), true);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
 
 				// Vanity
@@ -353,11 +353,13 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 // Other
                 DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);
-                DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
             }
 
-            // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
+			// Other
+			DropHelper.DropItemChance(npc, ItemID.HallowedKey, 3);
+
+			// Drop an Astral Meteor if applicable
+			ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!CalamityWorld.downedAstrageldon)

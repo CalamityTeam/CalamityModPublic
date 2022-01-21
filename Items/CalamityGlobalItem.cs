@@ -80,7 +80,6 @@ namespace CalamityMod.Items
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
-		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 
@@ -130,10 +129,6 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
 
-			// Fix Suspicious Looking Tentacle not being marked as Expert
-			if (item.type == ItemID.SuspiciousLookingTentacle)
-				item.expert = true;
-
 			// Fix Bones being attracted to the player when you have open ammo slots
 			if (item.type == ItemID.Bone)
 				item.notAmmo = true;
@@ -141,6 +136,27 @@ namespace CalamityMod.Items
 			// Modified Pearlwood items are now Light Red
 			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
 				item.rare = ItemRarityID.LightRed;
+
+			// Make most expert items no longer expert because they drop in all modes now.
+			switch (item.type)
+			{
+				case ItemID.RoyalGel:
+				case ItemID.EoCShield:
+				case ItemID.WormScarf:
+				case ItemID.BrainOfConfusion:
+				case ItemID.HiveBackpack:
+				case ItemID.BoneGlove:
+				case ItemID.MechanicalBatteryPiece:
+				case ItemID.MechanicalWagonPiece:
+				case ItemID.MechanicalWheelPiece:
+				case ItemID.SporeSac:
+				case ItemID.ShinyStone:
+				case ItemID.ShrimpyTruffle:
+				case ItemID.GravityGlobe:
+				case ItemID.SuspiciousLookingTentacle:
+					item.expert = false;
+					break;
+			}
 
 			SetDefaults_ApplyTweaks(item);
 
@@ -1047,7 +1063,7 @@ namespace CalamityMod.Items
 				player.buffImmune[BuffID.Frostburn] = true;
 				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
 				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
-				player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
+				player.setBonus = "All ice-themed damage over time debuffs receive a 50% damage bonus\n" +
 				"Cold enemies will deal reduced contact damage to the player\n" +
 				"Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
             }
@@ -1235,7 +1251,11 @@ namespace CalamityMod.Items
 				}
 			}
 
-			if (item.type == ItemID.FrogLeg)
+            // Obsidian Skull and its upgrades make you immune to On Fire!
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
+                player.buffImmune[BuffID.OnFire] = true;
+
+            if (item.type == ItemID.FrogLeg)
 				player.jumpSpeedBoost -= 1.2f;
 
             if (item.type == ItemID.FireGauntlet)

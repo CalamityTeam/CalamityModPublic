@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -101,6 +102,15 @@ namespace CalamityMod.NPCs
 		public bool? VulnerableToElectricity = null;
 		public bool? VulnerableToWater = null;
 
+		// Eskimo Set effect
+		public bool IncreasedColdEffects = false;
+
+		// Fireball and Cinnamon Roll effect
+		public bool IncreasedHeatEffects = false;
+
+		// Evergreen Gin effect
+		public bool IncreasedSicknessAndWaterEffects = false;
+
 		// Biome enrage timer max
 		public const int biomeEnrageTimerMax = 300;
 
@@ -175,6 +185,11 @@ namespace CalamityMod.NPCs
 		// Timer for how long an NPC is immune to certain debuffs
 		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
+
+		// If a boss is affected by knockback and a timer for how long that boss is immune to knockback after being knocked back
+		public bool bossCanBeKnockedBack = false;
+		public const int knockbackResistanceMin = 180;
+		public int knockbackResistanceTimer = 0;
 
 		// Debuffs
 		public int vaporfied = 0;
@@ -631,6 +646,18 @@ namespace CalamityMod.NPCs
 					waterDamageMult *= 0.5;
 			}
 
+			if (IncreasedHeatEffects)
+				heatDamageMult += 0.5;
+
+			if (IncreasedColdEffects)
+				coldDamageMult += 0.5;
+
+			if (IncreasedSicknessAndWaterEffects)
+			{
+				sicknessDamageMult += 0.5;
+				waterDamageMult += 0.5;
+			}
+
 			// Subtract 1 for the vanilla damage multiplier because it's already dealing DoT in the vanilla regen code.
 			double vanillaHeatDamageMult = heatDamageMult - 1D;
 			double vanillaColdDamageMult = coldDamageMult - 1D;
@@ -840,7 +867,8 @@ namespace CalamityMod.NPCs
 				DR = newDR;
 			}
 
-			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			// Aquatic Scourge sets kill time in AI, not here.
+			if (CalamityMod.bossKillTimes.ContainsKey(npc.type) && !CalamityLists.AquaticScourgeIDs.Contains(npc.type))
 			{
 				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
 				KillTime = revKillTime;
@@ -1411,15 +1439,15 @@ namespace CalamityMod.NPCs
 				case NPCID.SandsharkCorrupt:
 				case NPCID.SandsharkCrimson:
 				case NPCID.SandsharkHallow:
-				case NPCID.SandElemental:
 					VulnerableToCold = true;
 					VulnerableToSickness = true;
 					VulnerableToWater = true;
 					break;
 
-				// Scorpions.
+				// Scorpions and sand elemental.
 				case NPCID.DesertScorpionWalk:
 				case NPCID.DesertScorpionWall:
+				case NPCID.SandElemental:
 					VulnerableToCold = true;
 					VulnerableToSickness = false;
 					VulnerableToWater = true;
@@ -3777,6 +3805,8 @@ namespace CalamityMod.NPCs
 			// Debuff decrements
 			if (debuffResistanceTimer > 0)
 				debuffResistanceTimer--;
+			if (knockbackResistanceTimer > 0)
+				knockbackResistanceTimer--;
 
 			if (timeSlow > 0)
 				timeSlow--;
@@ -4034,16 +4064,6 @@ namespace CalamityMod.NPCs
 				double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
-			}
-			else if (npc.type == NPCType<Polterghast.Polterghast>())
-			{
-				if (item.type == ItemType<GrandDad>())
-					damage = (int)(damage * 0.75);
-			}
-			else if (npc.type == NPCType<Signus.Signus>())
-			{
-				if (item.type == ItemType<GrandDad>())
-					damage = (int)(damage * 0.75);
 			}
 		}
 		#endregion
@@ -4597,9 +4617,6 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.revenge)
 				spawnRate = (int)(spawnRate * 0.85);
-
-			if (CalamityWorld.demonMode)
-				spawnRate = (int)(spawnRate * 0.75);
 
 			if (Main.waterCandles > 0)
 			{

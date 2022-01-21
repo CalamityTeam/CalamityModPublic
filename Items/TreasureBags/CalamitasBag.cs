@@ -55,15 +55,16 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<TheEyeofCalamitas>(w),
                 DropHelper.WeightStack<Animosity>(w),
                 DropHelper.WeightStack<CalamitasInferno>(w),
-                DropHelper.WeightStack<BlightedEyeStaff>(w)
-            );
+                DropHelper.WeightStack<BlightedEyeStaff>(w),
+				DropHelper.WeightStack<Regenator>(w),
+				DropHelper.WeightStack<ChaosStone>(w)
+			);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChaosStone>(), 5);
 
-            // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);
 			if (Main.rand.NextBool(10))
 			{
 				DropHelper.DropItem(player, ModContent.ItemType<CalamityHood>());

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -2822,10 +2823,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Yharon
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
-
             // Normal drops: Everything that would otherwise be in the bag
             if (!Main.expertMode)
             {
@@ -2839,8 +2836,9 @@ namespace CalamityMod.NPCs.Yharon
                     DropHelper.WeightStack<PhoenixFlameBarrage>(w),
                     DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
                     DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                    DropHelper.WeightStack<FinalDawn>(w)
-                );
+                    DropHelper.WeightStack<FinalDawn>(w),
+					DropHelper.WeightStack<YharimsCrystal>(w)
+				);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
@@ -2852,8 +2850,9 @@ namespace CalamityMod.NPCs.Yharon
                 int soulFragMax = 22;
                 DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
-                // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<YharimsGift>(), true);
+				DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), true);
             }
 
             // Vanity

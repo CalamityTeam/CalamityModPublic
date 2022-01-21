@@ -731,9 +731,6 @@ namespace CalamityMod.NPCs.Crabulon
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Crabulon
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
 
@@ -754,8 +751,11 @@ namespace CalamityMod.NPCs.Crabulon
                     DropHelper.WeightStack<Shroomerang>(w)
                 );
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<FungalClump>(), true);
+
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
             }
 
             // Mark Crabulon as dead

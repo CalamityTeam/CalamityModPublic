@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Starcore");
             Tooltip.SetDefault("May the stars guide your way\n" +
-                "Summons Astrum Deus at the Astral Beacon but is not consumed.");
+                "Summons Astrum Deus at the Astral Beacon, but is not consumed");
         }
 
         public override void SetDefaults()

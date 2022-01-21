@@ -11,7 +11,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Portabulb");
-            Tooltip.SetDefault("Summons Plantera\n" +
+            Tooltip.SetDefault("Summons Plantera when used in the jungle\n" +
 				"Not consumable");
         }
 

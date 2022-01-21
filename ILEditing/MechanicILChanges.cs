@@ -492,58 +492,14 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fire Cursor Effect for the Calamity Accessory
 
-        #region Fusable Particle Rendering
-        private static void DrawFusableParticles(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-
-            // Over NPCs but before Projectiles.
-            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("SortDrawCacheWorms")))
-            {
-                LogFailure("Fusable Particle Rendering", "Could not locate the SortDrawCacheWorms reference method to attach to.");
-                return;
-            }
-            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverNPCsBeforeProjectiles));
-
-            // Over Players.
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Main>("DrawPlayers")))
-            {
-                LogFailure("Fusable Particle Rendering", "Could not locate the DrawPlayers reference method to attach to.");
-                return;
-            }
-            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverPlayers));
-
-            // Over Water.
-            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<MoonlordDeathDrama>("DrawWhite")))
-            {
-                LogFailure("Fusable Particle Rendering", "Could not locate the DrawWhite reference method to attach to.");
-                return;
-            }
-            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
-        }
-        #endregion Fusable Particle Rendering
-
-        #region Ash Particle Rendering
-        private static void DrawAshParticles(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-
-            // Over NPCs but before Projectiles.
-            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("DrawDust")))
-            {
-                LogFailure("Ash Particle Rendering", "Could not locate the DrawDust reference method to attach to.");
-                return;
-            }
-            cursor.EmitDelegate<Action>(DeathAshParticle.DrawAll);
-        }
-        #endregion Ash Particle Rendering
-
         #region General Particle Rendering
         private static void DrawGeneralParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
+            FusableParticleManager.RenderAllFusableParticles();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.ZoomMatrix);
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             Main.spriteBatch.End();
+            DeathAshParticle.DrawAll();
 
             orig(self, gameTime);
         }

@@ -166,20 +166,6 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.velocity = Vector2.Lerp(projectile.velocity, IdealVelocity, 0.125f);
                 }
 
-                if (!CalamityPlayer.areThereAnyDamnBosses && player.Calamity().burdenBreakerYeet)
-                {
-                    if (projectile.ai[1] < 500f)
-                    {
-                        projectile.ai[1] *= 1.02f;
-                        IdealVelocity = Vector2.Normalize(IdealVelocity) * projectile.ai[1];
-                    }
-                    else
-                    {
-                        projectile.Kill();
-                        return;
-                    }
-                }
-
                 player.velocity = projectile.velocity;
                 // Count down the charge cooldown
                 if (projectile.localAI[1] > 0f)

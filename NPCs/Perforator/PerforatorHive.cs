@@ -474,9 +474,6 @@ namespace CalamityMod.NPCs.Perforator
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
 
@@ -503,11 +500,12 @@ namespace CalamityMod.NPCs.Perforator
 					DropHelper.WeightStack<Eviscerator>(w),
 					DropHelper.WeightStack<BloodBath>(w),
 					DropHelper.WeightStack<BloodClotStaff>(w),
-					DropHelper.WeightStack<ToothBall>(w, 30, 50)
+					DropHelper.WeightStack<ToothBall>(w, 30, 50),
+					DropHelper.WeightStack<BloodstainedGlove>(w)
 				);
 
-				//Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<BloodyWormTooth>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);

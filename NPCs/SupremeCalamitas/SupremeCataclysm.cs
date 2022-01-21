@@ -209,11 +209,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;

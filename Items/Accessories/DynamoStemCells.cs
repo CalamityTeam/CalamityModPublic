@@ -22,7 +22,6 @@ Ranged weapons have a chance to fire mini swarmers");
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
 			item.accessory = true;
-            item.expert = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

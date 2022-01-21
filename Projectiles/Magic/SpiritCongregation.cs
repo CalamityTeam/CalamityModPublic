@@ -115,6 +115,8 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
 
+			projectile.rotation = projectile.velocity.ToRotation();
+
 			// Handle dynamic damage.
 			if (BaseDamage == 0f)
 				BaseDamage = projectile.damage;
@@ -198,7 +200,6 @@ namespace CalamityMod.Projectiles.Magic
 			// Approach the ideal velocity.
 			projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, MovementSpeed * 0.04f);
 			projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
-			projectile.rotation = projectile.velocity.ToRotation();
 		}
 
 		public void ReleaseSmallSpirits()
@@ -232,12 +233,12 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				// Summon a base particle.
 				Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * particleSize / 26f;
-				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, particleSize);
+				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, particleSize);
 
 				// And an "ahead" particle that spawns based on current movement.
 				// This causes the "head" of the overall thing to have bumps when moving.
 				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 105f;
-				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, particleSize * 0.4f);
+				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, particleSize * 0.4f);
 			}
 
 			// Release gas projectiles randomly. This does not happen when dying.

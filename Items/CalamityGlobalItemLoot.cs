@@ -3,6 +3,8 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
@@ -43,8 +45,13 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
+				case ItemID.KingSlimeBossBag:
+					DropHelper.DropItemChance(player, ModContent.ItemType<CrownJewel>(), DropHelper.BagWeaponDropRateFloat);
+					break;
+
 				case ItemID.EyeOfCthulhuBossBag:
 					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
+					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.QueenBeeBossBag:
@@ -54,6 +61,7 @@ namespace CalamityMod.Items
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
 						ItemID.BeeGun,
+						ModContent.ItemType<TheBee>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
 					DropHelper.BlockDrops(queenBeeWeapons);
@@ -72,6 +80,7 @@ namespace CalamityMod.Items
 						ItemID.LaserRifle,
 						ModContent.ItemType<BlackHawkRemote>(),
 						ModContent.ItemType<BlastBarrel>(),
+						ModContent.ItemType<Carnage>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, wofWeapons);
 					DropHelper.BlockDrops(wofWeapons);
@@ -87,17 +96,29 @@ namespace CalamityMod.Items
 					};
 					DropHelper.DropEntireSet(player, 0.25f, emblems);
 					DropHelper.BlockDrops(emblems);
-
-					DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-					DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
 					break;
 
 				case ItemID.DestroyerBossBag:
+					// Only drop hallowed bars after all mechs are down.
+					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						DropHelper.BlockDrops(ItemID.HallowedBar);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<SHPC>(), DropHelper.BagWeaponDropRateFloat);
+					break;
+
 				case ItemID.TwinsBossBag:
+					// Only drop hallowed bars after all mechs are down.
+					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						DropHelper.BlockDrops(ItemID.HallowedBar);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<Arbalest>(), DropHelper.BagWeaponDropRateFloat);
+					break;
+
 				case ItemID.SkeletronPrimeBossBag:
 					// Only drop hallowed bars after all mechs are down.
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
+
 					break;
 
 				case ItemID.PlanteraBossBag:
@@ -110,16 +131,14 @@ namespace CalamityMod.Items
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun
+						ItemID.WaspGun,
+						ModContent.ItemType<BlossomFlux>(),
+						ModContent.ItemType<BloomStone>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
 
-					// Equipment
-					DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 5);
-
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
-					DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 					break;
 
 				case ItemID.GolemBossBag:
@@ -133,6 +152,7 @@ namespace CalamityMod.Items
 						ItemID.StaffofEarth,
 						ItemID.EyeoftheGolem,
 						ItemID.SunStone,
+						ModContent.ItemType<AegisBlade>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, golemItems);
 					DropHelper.BlockDrops(golemItems);
@@ -166,7 +186,9 @@ namespace CalamityMod.Items
 						ItemID.BubbleGun,
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
+						ItemID.FishronWings,
 						ModContent.ItemType<DukesDecapitator>(),
+						ModContent.ItemType<BrinyBaron>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);

@@ -12,8 +12,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryo Key");
-            Tooltip.SetDefault("Summons Cryogen\n" +
-                "The boss enrages outside of the snowy tundra\n" +
+            Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
                 "Not consumable");
         }
 

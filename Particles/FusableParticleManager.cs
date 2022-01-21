@@ -104,7 +104,7 @@ namespace CalamityMod.Particles
 		/// <summary>
 		/// Renders each cached <see cref="FusableParticleRenderCollection"/> instance with its connecting shader.
 		/// </summary>
-		internal static void RenderAllFusableParticles(FusableParticleRenderLayer renderLayer)
+		internal static void RenderAllFusableParticles()
 		{
 			// Don't attempt to render anything serverside or on the menu.
 			if (Main.netMode == NetmodeID.Server || Main.gameMenu)
@@ -118,16 +118,7 @@ namespace CalamityMod.Particles
 				if (particleSet.Particles.Count <= 0)
 					continue;
 
-				// Ignore particle sets of incompatible render layers.
-				// They will be drawn later when appropriate.
-				if (renderLayer != particleSet.RenderLayer)
-					continue;
-
-				bool needsRestartAtEnd = renderLayer == FusableParticleRenderLayer.OverWater;
 				List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
-
-				if (needsRestartAtEnd)
-					Main.spriteBatch.End();
 
 				// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -164,9 +155,6 @@ namespace CalamityMod.Particles
 				}
 
 				Main.spriteBatch.End();
-
-				if (needsRestartAtEnd)
-					Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 			}
 		}
 
@@ -176,6 +164,9 @@ namespace CalamityMod.Particles
 		/// <param name="type">The type to check.</param>
 		internal static FusableParticleRenderCollection GetParticleRenderCollectionByType(Type type)
 		{
+			if (Main.netMode == NetmodeID.Server)
+				return null;
+
 			return ParticleSets.First(s => s.ParticleSet.GetType() == type);
 		}
 
@@ -185,6 +176,9 @@ namespace CalamityMod.Particles
 		/// <typeparam name="T">The type to check.</typeparam>
 		public static T GetParticleSetByType<T>() where T : BaseFusableParticleSet
 		{
+			if (Main.netMode == NetmodeID.Server)
+				return null;
+
 			return ParticleSets.First(s => s.ParticleSet.GetType() == typeof(T)).ParticleSet as T;
 		}
 	}

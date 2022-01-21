@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             item.width = 34;
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.expert = true;
             item.rare = ItemRarityID.LightRed;
             item.accessory = true;
         }

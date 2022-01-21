@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 106;
-            item.damage = 153;
+            item.damage = 122;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 22;
@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
 			item.Calamity().customRarity = CalamityRarity.PureGreen;
 			item.rare = ItemRarityID.Purple;
-			item.Calamity().challengeDrop = true;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

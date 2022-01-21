@@ -11,7 +11,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Power Cell");
-            Tooltip.SetDefault("Summons the Golem when used in the Temple\n" +
+            Tooltip.SetDefault("Summons the Golem when used in the temple\n" +
 				"Not consumable");
         }
 

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
 		{
 			DisplayName.SetDefault("Titan Heart Mask");
 			Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
-			"Rogue weapons spread the astral infection");
+			"Rogue weapons inflict the Astral Infection debuff");
 		}
 
 		public override void SetDefaults()

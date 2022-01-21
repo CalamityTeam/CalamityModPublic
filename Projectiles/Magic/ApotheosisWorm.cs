@@ -75,6 +75,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            if (Segments is null || Segments[0] is null)
+                InitializeSegments();
+
             for (int i = 0; i < Segments.Length; i++)
             {
                 Segments[i].WriteTo(writer);
@@ -83,6 +86,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            if (Segments is null || Segments[0] is null)
+                InitializeSegments();
+
             for (int i = 0; i < Segments.Length; i++)
             {
                 Segments[i].ReadFrom(reader);

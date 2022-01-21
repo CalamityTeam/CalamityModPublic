@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -764,9 +765,6 @@ namespace CalamityMod.NPCs.Signus
 
 				DropHelper.DropBags(npc);
 
-				// Legendary drop for Signus
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, CalamityWorld.malice);
-
 				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
@@ -780,7 +778,8 @@ namespace CalamityMod.NPCs.Signus
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 4);
 					DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 4);
 
-					//Equipment (None in Normal)
+					// Equipment
+					DropHelper.DropItem(npc, ModContent.ItemType<SpectralVeil>(), true);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);

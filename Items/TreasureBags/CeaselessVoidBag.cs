@@ -42,9 +42,9 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());
+			DropHelper.DropItem(player, ModContent.ItemType<TheEvolution>());
 
-            // Vanity
+			// Vanity
 			DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
 			if (Main.rand.NextBool(20))
 			{

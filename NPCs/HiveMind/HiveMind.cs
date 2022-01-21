@@ -1097,9 +1097,6 @@ namespace CalamityMod.NPCs.HiveMind
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Evil boss tier 2
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
 
@@ -1125,11 +1122,12 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.WeightStack<ShadowdropStaff>(w),
                     DropHelper.WeightStack<ShaderainStaff>(w),
                     DropHelper.WeightStack<DankStaff>(w),
-                    DropHelper.WeightStack<RotBall>(w, 30, 50)
-                );
+                    DropHelper.WeightStack<RotBall>(w, 30, 50),
+					DropHelper.WeightStack<FilthyGlove>(w)
+				);
 
-                //Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<RottenBrain>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);

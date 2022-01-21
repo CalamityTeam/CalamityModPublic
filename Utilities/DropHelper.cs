@@ -1,5 +1,4 @@
 using CalamityMod.Items.Accessories;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -247,14 +246,6 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Extra Boss Bags
-        /// <summary>
-        /// The number of extra loot bags bosses drop when Armageddon is active.<br></br>
-        /// This is normally 5. Bosses drop 5 bags on normal, and 6 on Expert+.
-        /// </summary>
-        public static int ArmageddonExtraBags = 5;
-        #endregion
-
         #region Boss Bag Drop Helpers
         /// <summary>
         /// Automatically drops the correct number of boss bags for each difficulty based on constants kept in DropHelper.
@@ -269,9 +260,6 @@ namespace CalamityMod
             if (theBoss is null)
                 return bagsDropped;
 
-            // Armageddon's bonus bags drop even on Normal.
-            bagsDropped += DropArmageddonBags(theBoss);
-
             // If the difficulty isn't Expert+, no more bags are dropped.
             if (!Main.expertMode)
                 return bagsDropped;
@@ -281,21 +269,6 @@ namespace CalamityMod
             bagsDropped++;
 
             return bagsDropped;
-        }
-
-        /// <summary>
-        /// Drops the correct number of boss bags for Armageddon.
-        /// </summary>
-        /// <param name="theBoss">The NPC to drop boss bags for.</param>
-        /// <returns>The number of boss bags dropped. No bags are dropped if the boss has been downed already.</returns>
-        public static int DropArmageddonBags(NPC theBoss)
-        {
-            if (!CalamityWorld.armageddon || CalamityGlobalNPC.GetDownedBossVariable(theBoss.type))
-                return 0;
-
-            for (int i = 0; i < ArmageddonExtraBags; ++i)
-                theBoss.DropBossBags();
-            return ArmageddonExtraBags;
         }
         #endregion
 

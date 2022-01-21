@@ -57,12 +57,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<ShadowdropStaff>(w),
                 DropHelper.WeightStack<ShaderainStaff>(w),
                 DropHelper.WeightStack<DankStaff>(w),
-                DropHelper.WeightStack<RotBall>(w, 50, 75)
-            );
+                DropHelper.WeightStack<RotBall>(w, 50, 75),
+				DropHelper.WeightStack<FilthyGlove>(w)
+			);
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<FilthyGlove>(), 3);
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);

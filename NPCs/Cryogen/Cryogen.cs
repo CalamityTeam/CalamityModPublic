@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -1053,10 +1054,6 @@ namespace CalamityMod.NPCs.Cryogen
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Cryogen
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
 
@@ -1073,22 +1070,24 @@ namespace CalamityMod.NPCs.Cryogen
                     DropHelper.WeightStack<EffluviumBow>(w),
                     DropHelper.WeightStack<BittercoldStaff>(w),
                     DropHelper.WeightStack<SnowstormStaff>(w),
-                    DropHelper.WeightStack<Icebreaker>(w)
-                );
+                    DropHelper.WeightStack<Icebreaker>(w),
+					DropHelper.WeightStack<CryoStone>(w),
+					DropHelper.WeightStack<ColdDivinity>(w),
+					DropHelper.WeightStack<FrostFlare>(w)
+				);
 
 				// Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<FrostFlare>(), 5);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 5);
+				DropHelper.DropItem(npc, ModContent.ItemType<SoulofCryogen>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);
-
-                // Other
-                DropHelper.DropItemChance(npc, ItemID.FrozenKey, 5);
             }
 
-            // Spawn Permafrost if he isn't in the world
-            int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
+			// Other
+			DropHelper.DropItemChance(npc, ItemID.FrozenKey, 3);
+
+			// Spawn Permafrost if he isn't in the world
+			int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);

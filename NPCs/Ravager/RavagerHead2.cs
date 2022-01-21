@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Ravager
 			if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
 			{
 				npc.defense *= 2;
-				npc.lifeMax *= 5;
+				npc.lifeMax *= 4;
 			}
 			if (BossRushEvent.BossRushActive)
 			{
@@ -57,23 +57,14 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 
+			Player player = Main.player[Main.npc[CalamityGlobalNPC.scavenger].target];
+
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
-
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
-
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
-
-			// Target variable
-			Player player = Main.player[npc.target];
 
 			// Rotation
 			float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
@@ -124,8 +115,10 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(SoundID.Item33, npc.position);
-						Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * projectileVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
+						Main.PlaySound(SoundID.Item62, npc.position);
+						type = ModContent.ProjectileType<ScavengerNuke>();
+						damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * projectileVelocity * 0.25f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, Main.npc[CalamityGlobalNPC.scavenger].target, 0f);
 					}
 				}
 				else

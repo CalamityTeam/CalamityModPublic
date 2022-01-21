@@ -570,9 +570,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
             DropHelper.DropBags(npc);
 
-            // Legendary drop for Desert Scourge
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, CalamityWorld.malice);
-
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
@@ -594,12 +591,13 @@ namespace CalamityMod.NPCs.DesertScourge
                     DropHelper.WeightStack<Barinade>(w),
                     DropHelper.WeightStack<StormSpray>(w),
                     DropHelper.WeightStack<SeaboundStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheDesert>(w)
-                );
+                    DropHelper.WeightStack<ScourgeoftheDesert>(w),
+					DropHelper.WeightStack<AeroStone>(w),
+					DropHelper.WeightStack<SandCloak>(w)
+				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 5);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SandCloak>(), 10);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<OceanCrest>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);

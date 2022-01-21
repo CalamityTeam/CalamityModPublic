@@ -1,7 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Polterghast;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Necroplasmic Beacon");
             Tooltip.SetDefault("It's spooky\n" +
-                "Summons Polterghast\n" +
+				"Summons Polterghast when used in the dungeon\n" +
                 "Not consumable");
         }
 

@@ -2,7 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
@@ -34,10 +34,14 @@ using static CalamityMod.World.CalamityWorld;
 
 namespace CalamityMod.World
 {
-    public class WorldUpdateMiscEffects
+    public partial class CalamityWorld : ModWorld
     {
-        public static void PerformWorldUpdates()
+        public override void PostUpdate()
         {
+			// Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
+			if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
+                CalamityGlobalNPC.draedon = -1;
+
             // Reset the exo mech to summon if Draedon is absent.
             if (DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
                 DraedonMechToSummon = ExoMech.None;
@@ -387,9 +391,6 @@ namespace CalamityMod.World
 
                     if (revenge)
                         spawnRate *= 0.85D;
-
-                    if (demonMode)
-                        spawnRate *= 0.75D;
 
                     if (death && Main.bloodMoon)
                         spawnRate *= 0.2D;

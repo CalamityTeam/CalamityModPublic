@@ -52,11 +52,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<PhoenixFlameBarrage>(w),
                 DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
                 DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                DropHelper.WeightStack<FinalDawn>(w)
-            );
+                DropHelper.WeightStack<FinalDawn>(w),
+				DropHelper.WeightStack<YharimsCrystal>(w)
+			);
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
 
             int soulFragMin = 22;

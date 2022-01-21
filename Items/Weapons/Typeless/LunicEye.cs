@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.shoot = ModContent.ProjectileType<LunicBeam>();
-            item.shootSpeed = 13f;
+            item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,12 +50,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             formula += player.minionDamage - 1f;
             formula += player.Calamity().throwingDamage - 1f;
             add += formula;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
         }
 
         public override void AddRecipes()

@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -5,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class ShockstormShuttle : ModNPC
@@ -392,6 +394,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DropHelper.DropItemCondition(npc, ItemID.MartianConduitPlating, NPC.downedGolemBoss, 1, 10, 30);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), 3);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<TheTransformer>(), 10);
 		}
 	}
 }

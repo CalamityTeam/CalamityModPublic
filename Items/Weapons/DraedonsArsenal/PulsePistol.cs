@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Pistol");
-			Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits\n" +
-							   "Inflicts more damage to inorganic targets");
+			Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits");
 		}
 
 		public override void SetDefaults()

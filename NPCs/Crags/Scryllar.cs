@@ -2,10 +2,12 @@ using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Crags
 {
     public class Scryllar : ModNPC
@@ -255,7 +257,8 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), CalamityWorld.downedProvidence, 20, 1, 1);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
         }
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandstorm's Core");
-            Tooltip.SetDefault("Summons the Great Sand Shark\n" +
+            Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
 				"Not consumable");
         }
 

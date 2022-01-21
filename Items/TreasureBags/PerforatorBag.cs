@@ -58,12 +58,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Eviscerator>(w),
                 DropHelper.WeightStack<BloodBath>(w),
                 DropHelper.WeightStack<BloodClotStaff>(w),
-                DropHelper.WeightStack<ToothBall>(w, 50, 75)
-            );
+                DropHelper.WeightStack<ToothBall>(w, 50, 75),
+				DropHelper.WeightStack<BloodstainedGlove>(w)
+			);
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodstainedGlove>(), 3);
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);

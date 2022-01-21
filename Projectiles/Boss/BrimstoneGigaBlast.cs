@@ -118,8 +118,8 @@ namespace CalamityMod.Projectiles.Boss
 					for (int i = 0; i < 8; i++)
 					{
 						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
 					}
 				}
 			}

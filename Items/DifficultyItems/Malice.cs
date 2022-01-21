@@ -16,11 +16,9 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malice");
-            Tooltip.SetDefault("Enables/disables Malice Mode.\n" +
+            Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Revengeance Mode.\n" +
 				// Overall description and warning lines
 				"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
-				"[c/c01818:This mode is intended as a boss rematch mode, however, bosses are still possible when fought on-tier.]\n" +
-                "While enabled, bosses will drop Challenge and Legendary Challenge items.\n" +
 
                 // Misc lines
                 "Greatly nerfs the effectiveness of life steal.\n" +

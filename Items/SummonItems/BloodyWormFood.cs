@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Worm Food");
-            Tooltip.SetDefault("Summons the Perforator Hive\n" +
+            Tooltip.SetDefault("Summons the Perforator Hive when used in the crimson\n" +
 				"Not consumable");
         }
 

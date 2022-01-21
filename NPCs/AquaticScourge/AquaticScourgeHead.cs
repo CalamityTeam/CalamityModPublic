@@ -2,7 +2,6 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
@@ -89,7 +88,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive)
                 music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 
 			CalamityAI.AquaticScourgeAI(npc, mod, true);
@@ -184,10 +183,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drops for Aquatic Scourge
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
@@ -205,11 +200,14 @@ namespace CalamityMod.NPCs.AquaticScourge
                     DropHelper.WeightStack<Barinautical>(w),
                     DropHelper.WeightStack<Downpour>(w),
                     DropHelper.WeightStack<DeepseaStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheSeas>(w)
-                );
+                    DropHelper.WeightStack<ScourgeoftheSeas>(w),
+					DropHelper.WeightStack<SeasSearing>(w),
+					DropHelper.WeightStack<DeepDiver>(w),
+					DropHelper.WeightStack<CorrosiveSpine>(w)
+				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CorrosiveSpine>(), 9);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<AquaticEmblem>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);

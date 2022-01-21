@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBlast : ModProjectile
@@ -100,11 +101,13 @@ namespace CalamityMod.Projectiles.Boss
                 double offsetAngle;
 				float velocity = 5f;
 				int totalProjectiles = (!Main.dayTime || CalamityWorld.malice) ? 5 : 4;
+				int type = ModContent.ProjectileType<HolyFire2>();
+				int damage = (int)Math.Round(projectile.damage * 0.75);
 				for (int i = 0; i < totalProjectiles; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), projectile.Center);

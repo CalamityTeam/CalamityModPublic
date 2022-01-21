@@ -10,7 +10,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Decapodita Sprout");
-            Tooltip.SetDefault("Summons Crabulon\n" +
+            Tooltip.SetDefault("Summons Crabulon when used in the mushroom biome\n" +
 				"Not consumable");
         }
 

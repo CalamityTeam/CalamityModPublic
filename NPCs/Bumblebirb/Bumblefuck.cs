@@ -1,6 +1,5 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -413,9 +412,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Dragonfolly
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
 
@@ -430,11 +426,13 @@ namespace CalamityMod.NPCs.Bumblebirb
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<GildedProboscis>(w),
 					DropHelper.WeightStack<GoldenEagle>(w),
-					DropHelper.WeightStack<RougeSlash>(w)
+					DropHelper.WeightStack<RougeSlash>(w),
+					DropHelper.WeightStack<Swordsplosion>(w),
+					DropHelper.WeightStack<BirdSeed>(w)
 				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 4);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<DynamoStemCells>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);

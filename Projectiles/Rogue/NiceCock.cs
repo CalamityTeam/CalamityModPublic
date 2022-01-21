@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 	public class NiceCock : ModProjectile
     {
         public bool homing = false;
+        public int Timer = 0;
 		private bool initialized = false;
         private Color[] colors = new Color[]
         {
@@ -94,6 +95,12 @@ namespace CalamityMod.Projectiles.Rogue
 			// If the target doesn't exist or is dead, spontaneously combust
 			if (Main.npc[index] is null || !Main.npc[index].active || Main.npc[index].life < 0)
 				projectile.Kill();
+
+			// Decrement the timer. This should last a second as stealth strikes will initialize this at 61.
+			if (Timer > 1)
+				Timer --;
+			if (Timer == 1)
+				homing = true;
 
 			NPC target = Main.npc[index];
 

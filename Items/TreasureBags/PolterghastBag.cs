@@ -64,8 +64,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GhoulishGouger>(w)
             );
 
-            // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
+			// Equipment
+			DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
 
             // Vanity

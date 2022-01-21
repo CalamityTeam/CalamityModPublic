@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -229,11 +230,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<TrueBiomeBlade>());
-            recipe.AddIngredient(ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ItemType<GalacticaSingularity>(), 3);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<TrueBiomeBlade>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

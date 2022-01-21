@@ -17,6 +17,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
 	[AutoloadHead]
@@ -146,6 +147,8 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
 				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cryophobia>());
 				nextSlot++;
 			}
 			if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)

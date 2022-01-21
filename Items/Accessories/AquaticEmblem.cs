@@ -25,7 +25,6 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.accessory = true;
-            item.expert = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

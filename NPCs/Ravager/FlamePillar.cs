@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Ravager
 			npc.DR_NERD(0.2f);
 			npc.chaseable = false;
 			npc.canGhostHeal = false;
-			npc.lifeMax = CalamityWorld.downedProvidence ? 16000 : 3500;
+			npc.lifeMax = CalamityWorld.downedProvidence ? 14000 : 3500;
 			npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;

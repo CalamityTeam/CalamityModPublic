@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.width = 50;
             npc.height = 50;
             npc.defense = 14;
-            npc.lifeMax = 1600;
+            npc.lifeMax = 800;
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 10000;

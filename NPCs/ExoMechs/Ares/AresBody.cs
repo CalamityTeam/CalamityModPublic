@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -855,8 +856,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
-
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			scale = 2f;
@@ -1343,6 +1342,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 
 				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<DraedonsHeart>(), true);
 				DropHelper.DropItem(npc, ModContent.ItemType<ExoThrone>());
 
 				// Vanity

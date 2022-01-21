@@ -1,4 +1,6 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,32 +15,31 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infinity");
-            Tooltip.SetDefault("Bad PC\n" +
-                "Fires a barrage of energy bolts that split and bounce\n" +
+            Tooltip.SetDefault("Fires a barrage of energy bolts that split and bounce\n" +
                 "Right click to fire a barrage of normal bullets\n" +
                 "They say infinity is neverending, yet you hold it in your hands");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 45;
             item.ranged = true;
             item.width = 56;
             item.height = 24;
             item.useTime = 2;
             item.reuseDelay = 6;
-            item.useAnimation = 1800;
+            item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
-			item.value = CalamityGlobalItem.Rarity10BuyPrice;
-			item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item31;
+			item.value = Item.buyPrice(1, 80, 0, 0);
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item31;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().challengeDrop = true;
 			item.Calamity().canFirePointBlankShots = true;
 		}
 
@@ -54,7 +55,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-
             if (player.altFunctionUse == 2)
             {
                 //If you right click, shoots an helix of normal bullets
@@ -111,5 +111,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Shredder>());
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

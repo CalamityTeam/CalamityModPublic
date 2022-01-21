@@ -29,6 +29,7 @@ namespace CalamityMod
         public static void AddRecipes()
         {
             EditLeatherRecipe();
+            EditPhoenixBlaster();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
@@ -142,6 +143,26 @@ namespace CalamityMod
             rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
             {
                 s.requiredItem[0].stack = 2;
+            });
+        }
+
+        // Change Phoenix Blaster's recipe to be consistent with literally every other weapon recipes in the game
+        private static void EditPhoenixBlaster()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.PhoenixBlaster).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.Handgun, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.HellstoneBar, false);
+                s.requiredItem[1].stack = 10;
+
+                s.createItem.SetDefaults(ItemID.PhoenixBlaster, false);
+                s.createItem.stack = 1;
             });
         }
 

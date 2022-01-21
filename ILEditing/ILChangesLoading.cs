@@ -48,8 +48,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
-            IL.Terraria.Main.DoDraw += DrawFusableParticles;
-            IL.Terraria.Main.DoDraw += DrawAshParticles;
             On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
@@ -123,8 +121,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
-            IL.Terraria.Main.DoDraw -= DrawFusableParticles;
-            IL.Terraria.Main.DoDraw -= DrawAshParticles;
             On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;

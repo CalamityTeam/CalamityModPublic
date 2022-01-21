@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Teratoma");
-            Tooltip.SetDefault("Summons the Hive Mind\n" +
+            Tooltip.SetDefault("Summons the Hive Mind when used in the corruption\n" +
 				"Not consumable");
         }
 

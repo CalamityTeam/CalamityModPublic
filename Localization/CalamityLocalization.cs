@@ -78,10 +78,7 @@ namespace CalamityMod.Localization
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
                 new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
 
-                new [] { "SCalFunnyCheatText", "Go to hell." },
-
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },
@@ -166,12 +163,6 @@ namespace CalamityMod.Localization
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
                 new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
                 new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
-
-                new [] { "DefiledText", "Your soul is mine..." },
-                new [] { "DefiledText2", "Your soul is yours once more..." },
-
-                new [] { "IronHeartText", "Iron Heart is active, healing is disabled." },
-                new [] { "IronHeartText2", "Iron Heart is not active, healing is restored." },
 
                 new [] { "ChangingTheRules", "You cannot change the rules now." },
 

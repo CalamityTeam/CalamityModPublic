@@ -380,9 +380,6 @@ namespace CalamityMod.NPCs.OldDuke
 
 			DropHelper.DropBags(npc);
 
-			// Legendary drop for Old Duke
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
-
 			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
 
@@ -399,11 +396,13 @@ namespace CalamityMod.NPCs.OldDuke
 					DropHelper.WeightStack<SepticSkewer>(w),
 					DropHelper.WeightStack<VitriolicViper>(w),
 					DropHelper.WeightStack<CadaverousCarrion>(w),
-					DropHelper.WeightStack<ToxicantTwister>(w)
+					DropHelper.WeightStack<ToxicantTwister>(w),
+					DropHelper.WeightStack<TheReaper>(w),
+					DropHelper.WeightStack<DukeScales>(w)
 				);
 
-				//Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);
+				// Equipment
+				DropHelper.DropItem(npc, ModContent.ItemType<MutatedTruffle>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeMask>(), 7);

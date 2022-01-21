@@ -11,7 +11,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolon Tablet");
-			Tooltip.SetDefault("Not consumable");
+			Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
+				"Not consumable");
 		}
 
         public override void SetDefaults()

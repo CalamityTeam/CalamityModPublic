@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 102;
+            projectile.width = 94;
             projectile.height = 94;
             projectile.timeLeft = Projectile.SentryLifeTime;
             projectile.ignoreWater = true;
