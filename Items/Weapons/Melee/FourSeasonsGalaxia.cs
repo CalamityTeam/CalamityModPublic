@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
-                               "Use RMB to cycle the sword's attunement forward\n" +
+                               "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
                                "Active attunement : None\n" +
                                "Passive blessing: None\n"); ;
         }
@@ -180,8 +180,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     AttunementInfo.name = "Aries's Wrath";
                     AttunementInfo.function_description = "Throw out a spinning . Striking enemies with the tip of the blades guarantees a critical hit.";
                     AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets";
-                    AttunementInfo.color = new Color(113, 239, 177);
-                    AttunementInfo.color2 = new Color(169, 207, 255);
+                    AttunementInfo.color = new Color(196, 89, 201);
+                    AttunementInfo.color2 = new Color(255, 0, 0);
                     break;
                 default:
                     AttunementInfo.name = "None";
@@ -394,7 +394,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<GalaxiaVisuals>() && n.owner == player.whoAmI))
                     return;
 
-                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaVisuals>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaVisuals>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
         }
     }
@@ -404,6 +404,7 @@ namespace CalamityMod.Items.Weapons.Melee
         private Player Owner => Main.player[projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as FourSeasonsGalaxia).CanUseItem(Owner) : false;
         public ref float Initialized => ref projectile.ai[0];
+        public ref float CycleDirection => ref projectile.ai[1];
 
         private Item associatedItem;
 
@@ -472,22 +473,58 @@ namespace CalamityMod.Items.Weapons.Melee
             Particle Line;
             Color StarColor;
 
-            switch (item.mainAttunement)
+            if (CycleDirection == -1) //Cycles goes Whirlwind => Flailblade => Superpogo => Shockwave
             {
-                case Attunement.Whirlwind: //Switching to the flailblade attunement. Drawing Aries
-                    attunement = Attunement.FlailBlade;
+                switch (item.mainAttunement)
+                {
+                    case Attunement.Whirlwind: //Switching to the flailblade attunement. 
+                        attunement = Attunement.FlailBlade;
+                        break;
+                    case Attunement.FlailBlade: //Switching to the superpogo attunement. 
+                        attunement = Attunement.SuperPogo;
+                        break;
+                    case Attunement.SuperPogo: //Switching to the shockwave attunement. 
+                        attunement = Attunement.Shockwave;
+                        break;
+                    case Attunement.Shockwave: //Switching to the whirlwind attunement. 
+                    default:
+                        attunement = Attunement.Whirlwind;
+                        break;
+                }
+            }
+            else //Cycles goes Whirlwind <= Flailblade <= Superpogo <= Shockwave
+            {
+                switch (item.mainAttunement)
+                {
+                    case Attunement.Whirlwind: //Switching to the shockwave attunement. 
+                        attunement = Attunement.Shockwave;
+                        break;
+                    case Attunement.Shockwave: //Switching to the superpogo attunement. 
+                        attunement = Attunement.SuperPogo;
+                        break;
+                    case Attunement.SuperPogo: //Switching to the flailblade attunement. 
+                        attunement = Attunement.FlailBlade;
+                        break;
+                    case Attunement.FlailBlade: //Switching to the whirlwind attunement. 
+                    default:
+                        attunement = Attunement.Whirlwind;
+                        break;
+                }
+            }
+
+            switch (attunement)
+            {
+                case Attunement.FlailBlade: // Drawing Aries
                     StarPositions = new Vector2[] { new Vector2(-160, -150), new Vector2(45, -170), new Vector2(137, 40), new Vector2(146, 126), new Vector2(129, 151) };
                     ExtraLines = new Vector2[] { };
                     StarColor = Color.Orchid;
                     break;
-                case Attunement.FlailBlade: //Switching to the superpogo attunement. Drawing Ursa Minor
-                    attunement = Attunement.SuperPogo;
+                case Attunement.SuperPogo: //Drawing Ursa Minor
                     StarPositions = new Vector2[] { new Vector2(69, -188), new Vector2(18, -122), new Vector2(-23, -39), new Vector2(-13, 63), new Vector2(42, 147), new Vector2(-8, 184), new Vector2(-61, 83) };
                     ExtraLines = new Vector2[] { new Vector2(3, 6) };
                     StarColor = Color.CornflowerBlue;
                     break;
-                case Attunement.SuperPogo: //Switching to the shockwave attunement. Drawing Andromeda
-                    attunement = Attunement.Shockwave;
+                case Attunement.Shockwave: //Drawing Andromeda
                     //https://media.discordapp.net/attachments/802291445360623686/934200685254291546/unknown.png
                     StarPositions = new Vector2[] { 
                         new Vector2(-210, -46), new Vector2(-150, -35), new Vector2(-69, 18), new Vector2(33, 61), new Vector2(127, 72), //The horizontal line
@@ -501,9 +538,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     IgnoredLines.Add(15);
                     StarColor = Color.MediumSlateBlue;
                     break;
-                case Attunement.Shockwave: //Switching to the whirlwind attunement. Drawing Phoenix
+                case Attunement.Whirlwind: //Drawing Phoenix
                 default: 
-                    attunement = Attunement.Whirlwind;
                     StarPositions = new Vector2[] { new Vector2(-206, -99), new Vector2(-150, -43), new Vector2(-120, -146), new Vector2(-60, -71), new Vector2(-106, 71), new Vector2(-59, 138), new Vector2(116, -22),//The main line
                     new Vector2(246, -26),  new Vector2(192, 36), new Vector2(138, 81), //The side bit
                     new Vector2(88, -107), new Vector2(84, -75) }; //Complete the loop

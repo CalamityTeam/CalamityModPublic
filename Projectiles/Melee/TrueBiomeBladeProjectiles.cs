@@ -1568,7 +1568,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + (projHitbox.Size() * projectile.scale * 0.5f), projHitbox.Size() * projectile.scale);
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - (projHitbox.Size() * projectile.scale * 0.5f), projHitbox.Size() * projectile.scale);
         }
 
         public override void AI()
