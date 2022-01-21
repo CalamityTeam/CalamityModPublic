@@ -1439,15 +1439,15 @@ namespace CalamityMod.NPCs
 				case NPCID.SandsharkCorrupt:
 				case NPCID.SandsharkCrimson:
 				case NPCID.SandsharkHallow:
-				case NPCID.SandElemental:
 					VulnerableToCold = true;
 					VulnerableToSickness = true;
 					VulnerableToWater = true;
 					break;
 
-				// Scorpions.
+				// Scorpions and sand elemental.
 				case NPCID.DesertScorpionWalk:
 				case NPCID.DesertScorpionWall:
+				case NPCID.SandElemental:
 					VulnerableToCold = true;
 					VulnerableToSickness = false;
 					VulnerableToWater = true;
