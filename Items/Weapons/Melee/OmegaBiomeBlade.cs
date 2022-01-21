@@ -601,6 +601,16 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                 }
 
+                if (ChannelTimer >= ChannelTime - 15)
+                {
+                    Vector2 Shake = Main.rand.NextVector2Circular(6f, 6f);
+                    projectile.Center += Shake;
+
+                    Vector2 Bottom = projectile.Center + Vector2.UnitY * 20f;
+                    Particle Sparkle = new ElectricSpark(Bottom, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(10f, 20f), Color.White, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 1f + Main.rand.NextFloat(0f, 1f), 34, rotationSpeed : 0.1f, bloomScale : 4f);
+                    GeneralParticleHandler.SpawnParticle(Sparkle);
+                }
+
                 if (ChannelTimer >= ChannelTime)
                 {
                     projectile.timeLeft = 60;
@@ -646,7 +656,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             //Chunger
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
-            Particle thunder = new ThunderBoltVFX(projectile.Center + Vector2.UnitY * 20f, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 0f, 1.5f, Vector2.One, 1f, 20f, projectile, 20f);
+            Particle thunder = new ThunderBoltVFX(projectile.Center + Vector2.UnitY * 20f, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 0f, 1.5f, Vector2.One, 1f, 15f, projectile, 20f);
             GeneralParticleHandler.SpawnParticle(thunder);
 
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)

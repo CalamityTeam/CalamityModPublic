@@ -32,13 +32,13 @@ namespace CalamityMod.Particles
             if (projectileToFollow != null)
                 AttachedProjectile = projectileToFollow;
             DisplacementFromProjectile = displacementFromProjectile;
-            Lifetime = 15;
+            Lifetime = 30;
         }
 
         public override void Update()
         {
             Lighting.AddLight(Position, Color.ToVector3() * 3f);
-            float fadeFactor = 1f - 0.05f * MathHelper.Clamp((Time - 8) / 7f, 0f, 1f);
+            float fadeFactor = 1f - 0.05f * MathHelper.Clamp((Time - 10) / 10f, 0f, 1f);
             Opacity *= fadeFactor;
             Squish.X *= fadeFactor;
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Particles
 
             Color drawColor = Color.Lerp(Color.White, Color, (Time / (float)Lifetime));
 
-            SpriteEffects flip = (Main.GlobalTime % 15 < 7) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flip = (Main.GlobalTime % 30 < 15) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(tex, Position + Shake - Main.screenPosition, null, Color * Opacity * 0.6f, Rotation, Origin, Squish * Scale, flip, 0);
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, drawColor * Opacity, Rotation, Origin, Squish * Scale, flip, 0);
