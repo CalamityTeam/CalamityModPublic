@@ -334,7 +334,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.BloodySpine)
 				EditTooltipByNum(0, (line) => line.text += " when used in the crimson");
 
-			if (item.type == ItemID.Abeemination)
+			if (item.type == ItemID.ClothierVoodooDoll)
 				EditTooltipByNum(0, (line) => line.text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
 
 			if (item.type == ItemID.GuideVoodooDoll)
