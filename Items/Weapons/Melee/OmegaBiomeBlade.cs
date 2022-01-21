@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int FlailBladeAttunement_PassiveBaseDamage = 500;
 
         //Proc coefficients. aka the likelihood of any given attack to trigger a on-hit passive.
-        public static float WhirlwindAttunement_WhirlwindProc = 0.1f;
+        public static float WhirlwindAttunement_WhirlwindProc = 0.24f;
         public static float WhirlwindAttunement_SwordThrowProc = 1f;
         public static float WhirlwindAttunement_SwordBeamProc = 0.05f;
 
@@ -582,12 +582,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 ChannelTimer++;
                 projectile.timeLeft = 60;
 
-                if (ChannelTimer >= ChannelTime)
+                if (ChannelTimer == ChannelTime - 15)
                 {
                     Attune((OmegaBiomeBlade)associatedItem.modItem);
-                    projectile.timeLeft = 120;
-                    ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
-
                     Color particleColor = (associatedItem.modItem as OmegaBiomeBlade).GetAttunementInfo((associatedItem.modItem as OmegaBiomeBlade).mainAttunement).color;
 
                     for (int i = 0; i <= 5; i++)
@@ -602,6 +599,12 @@ namespace CalamityMod.Items.Weapons.Melee
                         Particle Sparkle = new GenericSparkle(Owner.Bottom + displace, -Vector2.UnitY * Main.rand.NextFloat(1f, 5f), particleColor, particleColor, 0.5f + Main.rand.NextFloat(-0.2f, 0.2f), 20 + Main.rand.Next(30), 1, 2f);
                         GeneralParticleHandler.SpawnParticle(Sparkle);
                     }
+                }
+
+                if (ChannelTimer >= ChannelTime)
+                {
+                    projectile.timeLeft = 60;
+                    ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
                 }
             }
 
@@ -642,7 +645,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
             }
             //Chunger
-            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.Center);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            Particle thunder = new ThunderBoltVFX(projectile.Center + Vector2.UnitY * 20f, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 0f, 1.5f, Vector2.One, 1f, 20f, projectile, 20f);
+            GeneralParticleHandler.SpawnParticle(thunder);
+
+            if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;
+
             item.mainAttunement = attunement;
         }
 
