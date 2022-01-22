@@ -93,20 +93,19 @@ namespace CalamityMod.Projectiles.Boss
         {
             Main.PlaySound(SoundID.Item27, projectile.position);
 
-            float spread = 60f * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            int i;
-			float velocity = 7f;
             if (projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 3; i++)
-                {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f, 0f);
-                }
+				int totalProjectiles = 3 + (int)projectile.ai[1];
+				float radians = MathHelper.TwoPi / totalProjectiles;
+				int type = ModContent.ProjectileType<IceRain>();
+				int damage = (int)Math.Round(projectile.damage * 0.75);
+				float velocity = 7f;
+				Vector2 spinningPoint = new Vector2(0f, -velocity);
+				for (int k = 0; k < totalProjectiles; k++)
+				{
+					Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+					Projectile.NewProjectile(projectile.Center, vector255, type, damage, 0f, projectile.owner, 1f, 0f);
+				}
             }
 
             for (int k = 0; k < 10; k++)
