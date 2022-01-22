@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class PlagueStingerGoliathV2 : ModProjectile
@@ -61,10 +62,18 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
-            if (projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            }
+
+			if (projectile.owner == Main.myPlayer)
+			{
+				float scale = 1.5f + projectile.ai[0] * 0.015f;
+				int baseWidthAndHeight = 20;
+				int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Main.projectile[proj].scale = scale;
+				Main.projectile[proj].width = (int)(baseWidthAndHeight * scale);
+				Main.projectile[proj].height = (int)(baseWidthAndHeight * scale);
+				Main.projectile[proj].position.X = projectile.Center.X - Main.projectile[proj].width * 0.5f;
+				Main.projectile[proj].position.Y = projectile.Center.Y - Main.projectile[proj].height * 0.5f;
+			}
         }
     }
 }

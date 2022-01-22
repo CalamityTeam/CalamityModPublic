@@ -135,6 +135,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool phase4 = lifeRatio < 0.25f;
 			bool phase5 = lifeRatio < 0.1f;
 
+			// Adjusts how 'challenging' the projectiles are to deal with
+			float projectileChallengeAmt = (1f - lifeRatio) * 100f;
+			float nukeBarrageChallengeAmt = (0.5f - lifeRatio) * 200f;
+
 			// Adjust slowing debuff immunity
 			bool immuneToSlowingDebuffs = npc.ai[0] == 0f || npc.ai[0] == 4f;
 			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
@@ -737,7 +741,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float projectileSpeed = revenge ? 6.5f : 6f;
+                        float projectileSpeed = revenge ? 6f : 5f;
 						projectileSpeed += 2f * enrageScale;
 
                         float num1071 = player.position.X + player.width * 0.5f - vector121.X;
@@ -764,7 +768,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						}
 
 						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, projectileChallengeAmt, player.position.Y);
                         npc.netUpdate = true;
                     }
 
@@ -852,7 +856,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                     Vector2 spawn = vectorCenter; // Normal = 96, Malice = 144
                                     spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Malice = -144 to 156
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                    Projectile.NewProjectile(spawn, velocity, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
+                                    Projectile.NewProjectile(spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
                                 }
                             }
                         }

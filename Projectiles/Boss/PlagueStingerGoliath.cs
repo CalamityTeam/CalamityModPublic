@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
             int num123 = Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] < 90f && projectile.ai[0] > 30f)
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] < (60f + projectile.ai[0] * 0.5f) && projectile.localAI[0] > 30f)
             {
                 float scaleFactor2 = projectile.velocity.Length();
                 Vector2 vector17 = Main.player[num123].Center - projectile.Center;
@@ -44,10 +44,9 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }
-            if (projectile.velocity.Length() < 18f)
-            {
+
+            if (projectile.velocity.Length() < (16f + projectile.ai[0] * 0.04f))
                 projectile.velocity *= 1.02f;
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

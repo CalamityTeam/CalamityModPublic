@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueHomingMissile : ModNPC

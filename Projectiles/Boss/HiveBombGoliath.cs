@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HiveBombGoliath : ModProjectile
@@ -31,7 +32,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity *= 1.01f;
+			if (projectile.velocity.Length() < 18f)
+				projectile.velocity *= 1.01f + (projectile.ai[0] * 0.0002f);
 
             if (projectile.position.Y > projectile.ai[1])
                 projectile.tileCollide = true;
