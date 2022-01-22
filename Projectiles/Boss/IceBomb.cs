@@ -1,4 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -95,11 +97,11 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.owner == Main.myPlayer)
             {
-				int totalProjectiles = 3 + (int)projectile.ai[1];
+				int totalProjectiles = (CalamityWorld.revenge || BossRushEvent.BossRushActive ? 3 : 2) + (int)projectile.ai[1];
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<IceRain>();
 				int damage = (int)Math.Round(projectile.damage * 0.75);
-				float velocity = 7f;
+				float velocity = CalamityWorld.revenge || BossRushEvent.BossRushActive ? 7f : 6f;
 				Vector2 spinningPoint = new Vector2(0f, -velocity);
 				for (int k = 0; k < totalProjectiles; k++)
 				{
