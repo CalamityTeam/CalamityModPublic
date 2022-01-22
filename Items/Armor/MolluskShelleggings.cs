@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
             recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
