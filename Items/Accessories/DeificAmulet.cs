@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Deific Amulet");
 			Tooltip.SetDefault("Causes stars to fall and grants increased immune time when damaged\n" +
-				"Reduces the cooldown of healing potions\n");
+                "Provides life regeneration and reduces the cooldown of healing potions\n");
         }
 
         public override void SetDefaults()
@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
 			player.longInvince = true;
+            player.lifeRegen += 1;
         }
 
         public override void AddRecipes()

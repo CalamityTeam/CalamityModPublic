@@ -77,10 +77,10 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Magnum>());
+            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.SoulofMight, 20);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
             recipe.AddIngredient(ItemID.SoulofFright, 20);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.HallowedBar, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
             recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
             recipe.AddIngredient(ItemID.Amethyst, 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
