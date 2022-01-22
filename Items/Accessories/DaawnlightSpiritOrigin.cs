@@ -88,8 +88,8 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DaedalusEmblem>());
             recipe.AddIngredient(ModContent.ItemType<LeadCore>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
