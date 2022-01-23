@@ -44,8 +44,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void AddRecipes()
         {
             SchematicRecipe recipe = new SchematicRecipe(mod, "Sunken Sea");
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddIngredient(ItemID.Glass, 50);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

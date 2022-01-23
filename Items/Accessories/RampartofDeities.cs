@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Rampart of Deities");
             Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
-                "Reduces the cooldown of healing potions\n" +
+                "Provides life regeneration and reduces the cooldown of healing potions\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
@@ -55,7 +55,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.rampartOfDeities = true;
             modPlayer.fBulwark = true;
 			player.longInvince = true;
-		}
+            player.lifeRegen += 1;
+        }
 
         public override void AddRecipes()
         {

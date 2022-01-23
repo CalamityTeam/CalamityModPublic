@@ -55,11 +55,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.HolyWater, 10);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
 			recipe.AddIngredient(ItemID.SoulofMight, 6);
 			recipe.AddIngredient(ItemID.SoulofSight, 6);
 			recipe.AddIngredient(ItemID.SoulofFright, 6);
-			recipe.AddIngredient(ItemID.HolyWater, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

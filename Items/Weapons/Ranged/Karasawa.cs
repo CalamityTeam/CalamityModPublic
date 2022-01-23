@@ -77,8 +77,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.LargeRuby);
-            r.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
             r.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+            r.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
             r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
             r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);

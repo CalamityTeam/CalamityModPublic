@@ -87,11 +87,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.JungleRose);
             recipe.AddIngredient(ItemID.RichMahogany, 15);
             recipe.AddIngredient(ItemID.JungleSpores, 12);
             recipe.AddIngredient(ItemID.Stinger, 4);
             recipe.AddIngredient(ItemID.Vine, 2);
-            recipe.AddIngredient(ItemID.JungleRose);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

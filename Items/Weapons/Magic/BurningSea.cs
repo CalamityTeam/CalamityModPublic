@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SpellTome);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);

@@ -38,16 +38,16 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Shadowfish>());
             recipe.AddIngredient(ItemID.InvisibilityPotion);
+            recipe.AddIngredient(ModContent.ItemType<Shadowfish>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.alchemy = true;
             recipe.SetResult(this, 2);
             recipe.AddRecipe();
 			// blood orb recipes no alch table effect
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddIngredient(ItemID.InvisibilityPotion);
+            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

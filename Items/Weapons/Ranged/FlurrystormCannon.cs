@@ -62,11 +62,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SnowballCannon);
+            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
             recipe.AddIngredient(ItemID.Bone, 50);
             recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 25);
             recipe.AddIngredient(ItemID.WaterBucket, 3);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

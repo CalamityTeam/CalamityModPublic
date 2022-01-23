@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
             recipe.AddRecipeGroup("AnyAdamantiteBar", 13);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
