@@ -2,6 +2,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
@@ -1313,8 +1314,13 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
-				SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
-			}
+                SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerHornedHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerVisage>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHornedHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaMask>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+            }
 
 			if (type == NPCID.Painter)
 			{

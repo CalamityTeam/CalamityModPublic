@@ -2259,12 +2259,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
-				if (Main.rand.NextBool(5))
-				{
-					DropHelper.DropItem(npc, ModContent.ItemType<SilvaHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<SilvaHornedHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<SilvaMask>());
-				}
 			}
 
 			// If DoG has not been killed yet, notify players that the holiday moons are buffed
