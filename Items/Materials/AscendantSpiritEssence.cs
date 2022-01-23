@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 2);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 2);
