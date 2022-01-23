@@ -499,7 +499,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             //Draw the charged version if you can
             Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
-            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, Color.White, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }
     }

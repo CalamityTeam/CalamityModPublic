@@ -79,6 +79,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float FlailBladeAttunement_GhostChainProc = 0.1f;
         #endregion
 
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Just in case the player SOMEHOW gets to swing galaxia itself. Sprite also used as the base for other attacks
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galaxia");
@@ -270,7 +272,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override TagCompound Save()
         {
-            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement;
+            int attunement1 = mainAttunement == null ? 1 : (int)mainAttunement;
             TagCompound tag = new TagCompound
             {
                 { "mainAttunement", attunement1 }
@@ -282,7 +284,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             int attunement1 = tag.GetInt("mainAttunement");
             if (attunement1 == -1)
-                mainAttunement = null;
+                mainAttunement = Attunement.Whirlwind;
             else
                 mainAttunement = (Attunement?)attunement1;
         }
@@ -363,7 +365,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     item.noMelee = true;
                     break;
                 default:
-                    item.noUseGraphic = false;
+                    mainAttunement = Attunement.Whirlwind;
+                    item.noUseGraphic = true;
                     item.useStyle = ItemUseStyleID.SwingThrow;
                     item.shoot = ProjectileID.PurificationPowder;
                     item.shootSpeed = 12f;
@@ -396,6 +399,33 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaVisuals>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
+            (n.type == ProjectileType<PhoenixsPride>() ||
+             n.type == ProjectileType<AndromedasStride>() ||
+             n.type == ProjectileType<PolarissGaze>() ||
+             n.type == ProjectileType<AriessWrath>()
+            ));
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (mainAttunement == null)
+                mainAttunement = Attunement.Whirlwind;
+
+            Texture2D itemTexture = GetTexture((mainAttunement == Attunement.SuperPogo || mainAttunement == Attunement.Shockwave) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
+            spriteBatch.Draw(itemTexture, position, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D itemTexture = GetTexture((mainAttunement == Attunement.SuperPogo || mainAttunement == Attunement.Shockwave) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
+            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            return false;
         }
     }
 
@@ -459,7 +489,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
 
                 Initialized = 1f;
-            }     
+            }
         }
 
         public void Reattune(FourSeasonsGalaxia item)
@@ -560,14 +590,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
                     if (i > 0 && !IgnoredLines.Contains(i))
                     {
-                        Line = new BloomLineVFX(Owner.Center + StarPositions[i - 1], StarPositions[i] - StarPositions[i - 1], 0.2f, StarColor, 20);
+                        Line = new BloomLineVFX(Owner.Center + StarPositions[i - 1], StarPositions[i] - StarPositions[i - 1], 0.5f, StarColor, 20, true);
                         GeneralParticleHandler.SpawnParticle(Line);
                     }
                 }
 
                 for (int i = 0; i < ExtraLines.Length; i++)
                 {
-                    Line = new BloomLineVFX(Owner.Center + StarPositions[(int)ExtraLines[i].Y], StarPositions[(int)ExtraLines[i].X] - StarPositions[(int)ExtraLines[i].Y], 0.2f, StarColor, 20);
+                    Line = new BloomLineVFX(Owner.Center + StarPositions[(int)ExtraLines[i].Y], StarPositions[(int)ExtraLines[i].X] - StarPositions[(int)ExtraLines[i].Y], 0.5f, StarColor, 20, true);
                     GeneralParticleHandler.SpawnParticle(Line);
                 }
             }
