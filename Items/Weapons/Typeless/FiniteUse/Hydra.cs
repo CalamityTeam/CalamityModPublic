@@ -88,9 +88,9 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun);
+            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.IronBar, 20);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.Ectoplasm, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

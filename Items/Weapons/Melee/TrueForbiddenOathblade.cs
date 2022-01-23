@@ -51,9 +51,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ForbiddenOathblade>());
+            recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
             recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 3);
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

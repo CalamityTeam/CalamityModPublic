@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.ObsidianRose);
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 8);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddIngredient(ItemID.ObsidianRose);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.HolyWater, 20);
 			recipe.AddIngredient(ItemID.SandstorminaBottle);
+			recipe.AddIngredient(ItemID.HolyWater, 20);
 			recipe.AddIngredient(ModContent.ItemType<GrandScale>());
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

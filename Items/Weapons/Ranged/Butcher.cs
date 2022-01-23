@@ -50,9 +50,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Shotgun);
+			recipe.AddIngredient(ItemID.IllegalGunParts);
 			recipe.AddRecipeGroup("AnyCobaltBar", 5);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
-			recipe.AddIngredient(ItemID.IllegalGunParts);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
