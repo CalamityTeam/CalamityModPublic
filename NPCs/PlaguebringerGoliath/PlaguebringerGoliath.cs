@@ -135,8 +135,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool phase4 = lifeRatio < 0.25f;
 			bool phase5 = lifeRatio < 0.1f;
 
-			// Adjusts how 'challenging' the projectiles are to deal with
-			float projectileChallengeAmt = (1f - lifeRatio) * 100f;
+			// Adjusts how 'challenging' the projectiles and enemies are to deal with
+			float challengeAmt = (1f - lifeRatio) * 100f;
 			float nukeBarrageChallengeAmt = (0.5f - lifeRatio) * 200f;
 
 			// Adjust slowing debuff immunity
@@ -600,19 +600,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
-							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
-						float projectileSpeed = (revenge ? 9f : 7f) + enrageScale * 2f;
+						float npcSpeed = (revenge ? 9f : 7f) + enrageScale * 2f;
 
 						float num1071 = player.position.X + player.width * 0.5f - vector119.X;
 						float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
 						float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
 
-						num1073 = projectileSpeed / num1073;
+						num1073 = npcSpeed / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
 
-						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
+						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
 						Main.npc[num1062].velocity.X = num1071;
 						Main.npc[num1062].velocity.Y = num1072;
 						Main.npc[num1062].netUpdate = true;
@@ -680,19 +680,21 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
-							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
-						float projectileSpeed = (revenge ? 11f : 9f) + enrageScale * 2f;
+						float npcSpeed = (revenge ? 11f : 9f) + enrageScale * 2f;
 
 						float num1071 = player.position.X + player.width * 0.5f - vector119.X;
 						float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
 						float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
 
-						num1073 = projectileSpeed / num1073;
+						num1073 = npcSpeed / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
+						num1071 += Main.rand.Next(-20, 21) * 0.05f;
+						num1072 += Main.rand.Next(-20, 21) * 0.05f;
 
-						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
+						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
 						Main.npc[num1062].velocity.X = num1071;
 						Main.npc[num1062].velocity.Y = num1072;
 						Main.npc[num1062].netUpdate = true;
@@ -768,7 +770,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						}
 
 						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, projectileChallengeAmt, player.position.Y);
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
                         npc.netUpdate = true;
                     }
 

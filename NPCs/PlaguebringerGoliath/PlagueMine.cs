@@ -64,23 +64,23 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
 			float distanceRequiredForExplosion = 90f;
-			float timeBeforeExplosion = malice ? 1200f : death ? 940f : revenge ? 720f : 600f;
-            if (vector.Length() < distanceRequiredForExplosion || npc.ai[3] >= timeBeforeExplosion)
+			float timeBeforeExplosion = (malice ? 1000f : death ? 740f : revenge ? 520f : 400f) + npc.ai[3] * 4f;
+            if (vector.Length() < distanceRequiredForExplosion || npc.ai[0] >= timeBeforeExplosion)
             {
                 CheckDead();
                 npc.life = 0;
                 return;
             }
 
-            npc.ai[3] += 1f;
-            if (npc.ai[3] >= timeBeforeExplosion * 0.8f)
+            npc.ai[0] += 1f;
+            if (npc.ai[0] >= timeBeforeExplosion * 0.8f)
             {
                 npc.velocity *= 0.98f;
                 return;
             }
 
             npc.TargetClosest(true);
-            float velocity = malice ? 16f : death ? 14f : revenge ? 12f : 10f;
+            float velocity = (malice ? 14f : death ? 12f : revenge ? 10f : 8f) + npc.ai[3] * 0.04f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float num1376 = velocity / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-			float inertia = malice ? 20f : death ? 26f : revenge ? 28f : 30f;
+			float inertia = (malice ? 35f : death ? 40f : revenge ? 45f : 50f) - npc.ai[3] * 0.25f;
             npc.velocity.X = (npc.velocity.X * inertia + num1373) / (inertia + 1f);
             npc.velocity.Y = (npc.velocity.Y * inertia + num1374) / (inertia + 1f);
         }
