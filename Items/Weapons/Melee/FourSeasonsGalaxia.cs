@@ -32,18 +32,19 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool OnHitProc = false;
 
         #region stats
-        public static int WhirlwindAttunement_BaseDamage = 400;
+        public static int WhirlwindAttunement_BaseDamage = 800;
         public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
-        public static int WhirlwindAttunement_SigilTime = 1200;
-        public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
+        public static float WhirlwindAttunement_BoltDamageReduction = 0.5f;
+        public static float WhirlwindAttunement_BoltThrowDamageMultiplier = 1.5f;
         public static float WhirlwindAttunement_BaseDamageReduction = 0.2f;
         public static float WhirlwindAttunement_FullChargeDamageBoost = 2f;
 
-        public static int SuperPogoAttunement_BaseDamage = 500;
+        public static int SuperPogoAttunement_BaseDamage = 1200;
         public static int SuperPogoAttunement_ShredIFrames = 10;
         public static int SuperPogoAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int SuperPogoAttunement_LocalIFramesCharged = 16;
         public static float SuperPogoAttunement_SlashDamageBoost = 5f; //Keep in mind the slice always crits
+        public static int SuperPogoAttunement_SlashBoltsDamage = 1300;
         public static int SuperPogoAttunementSlashLifesteal = 6;
         public static int SuperPogoAttunement_SlashIFrames = 60;
         public static float SuperPogoAttunement_ShotDamageBoost = 2f;
@@ -87,6 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
+                               "Upgrading the sword let it break free from its earthly boundaries.You now have access to every single attunement at all times.\n" +
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
                                "Active attunement : None\n" +
                                "Passive blessing: None\n"); ;
@@ -187,8 +189,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 default:
                     AttunementInfo.name = "None";
-                    AttunementInfo.function_description = "Does nothing... yet";
-                    AttunementInfo.function_extra = "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times.";
+                    AttunementInfo.function_description = "";
+                    AttunementInfo.function_extra = "";
                     AttunementInfo.color = new Color(163, 163, 163);
                     AttunementInfo.color2 = new Color(163, 163, 163);
                     break;

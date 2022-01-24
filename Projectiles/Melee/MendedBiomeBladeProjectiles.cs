@@ -1014,11 +1014,10 @@ namespace CalamityMod.Projectiles.Melee
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public ref float Shred => ref projectile.ai[0];
-        public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
+        public float ShredRatio => MathHelper.Clamp(Shred / (TrueAridGrandeur.maxShred * 0.5f), 0f, 1f);
         public Player Owner => Main.player[projectile.owner];
 
         public const float pogoStrenght = 16f; //How much the player gets pogoed up
-        public const float maxShred = 500; //How much shred you get
 
         public override void SetStaticDefaults()
         {
