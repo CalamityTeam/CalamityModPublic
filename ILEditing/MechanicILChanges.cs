@@ -509,7 +509,8 @@ namespace CalamityMod.ILEditing
         #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {
-            FusableParticleManager.LoadParticleRenderSets(true, width, height);
+            if (FusableParticleManager.HasBeenFormallyDefined)
+                FusableParticleManager.LoadParticleRenderSets(true, width, height);
             orig(width, height, fullscreen);
         }
 
