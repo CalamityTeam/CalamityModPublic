@@ -72,6 +72,11 @@ namespace CalamityMod.Particles
 		public virtual bool UseAdditiveBlend => false;
 
 		/// <summary>
+		/// Set this to true to make your particles work with semi transparent pixels. Is overriden if UseAdditiveBlend is set to true.
+		/// </summary>
+		public virtual bool UseHalfTransparency => false;
+
+		/// <summary>
 		/// Removes the particle from the handler
 		/// </summary>
 		public void Kill() => GeneralParticleHandler.RemoveParticle(this);

@@ -22,7 +22,9 @@ namespace CalamityMod.Particles
         private static List<Particle> particleInstances;
         //Lists used when drawing particles batched
         private static List<Particle> batchedAlphaBlendParticles;
+        private static List<Particle> batchedNonPremultipliedParticles;
         private static List<Particle> batchedAdditiveBlendParticles;
+
 
         internal static void Load()
         {
@@ -33,6 +35,7 @@ namespace CalamityMod.Particles
             particleInstances = new List<Particle>();
 
             batchedAlphaBlendParticles = new List<Particle>();
+            batchedNonPremultipliedParticles = new List<Particle>();
             batchedAdditiveBlendParticles = new List<Particle>();
 
             Type baseParticleType = typeof(Particle);
@@ -64,6 +67,7 @@ namespace CalamityMod.Particles
             particleTextures = null;
             particleInstances = null;
             batchedAlphaBlendParticles = null;
+            batchedNonPremultipliedParticles = null;
             batchedAdditiveBlendParticles = null;
         }
 
@@ -109,6 +113,8 @@ namespace CalamityMod.Particles
 
                 if (particle.UseAdditiveBlend)
                     batchedAdditiveBlendParticles.Add(particle);
+                else if (particle.UseHalfTransparency)
+                    batchedNonPremultipliedParticles.Add(particle);
                 else
                     batchedAlphaBlendParticles.Add(particle);
             }
@@ -124,24 +130,49 @@ namespace CalamityMod.Particles
                 }
             }
 
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
-
-            foreach (Particle particle in batchedAdditiveBlendParticles)
+            if (batchedNonPremultipliedParticles.Count > 0)
             {
-                if (particle.UseCustomDraw)
-                    particle.CustomDraw(sb);
-                else
+                sb.End();
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+                foreach (Particle particle in batchedNonPremultipliedParticles)
                 {
-                    Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
-                    sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                    if (particle.UseCustomDraw)
+                        particle.CustomDraw(sb);
+                    else
+                    {
+                        Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
+                        sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                    }
                 }
             }
 
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            if (batchedAdditiveBlendParticles.Count > 0)
+            {
+                sb.End();
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+                foreach (Particle particle in batchedAdditiveBlendParticles)
+                {
+                    if (particle.UseCustomDraw)
+                        particle.CustomDraw(sb);
+                    else
+                    {
+                        Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
+                        sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                    }
+                }
+            }
+
+            //Return to normal if we swapped the blend state before
+            if (batchedAdditiveBlendParticles.Count > 0 || batchedNonPremultipliedParticles.Count > 0)
+            { 
+                sb.End();
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            }
 
             batchedAlphaBlendParticles.Clear();
+            batchedNonPremultipliedParticles.Clear();
             batchedAdditiveBlendParticles.Clear();
         }
 
