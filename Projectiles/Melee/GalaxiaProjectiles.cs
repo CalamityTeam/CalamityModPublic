@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
 
     public class PhoenixsPride : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2"; //The blue one, since this is long range
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public ref float CurrentState => ref projectile.ai[0];
@@ -1272,7 +1272,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         private NPC[] excludedTargets = new NPC[4];
 
-        public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
         public Player Owner => Main.player[projectile.owner];
         public ref float ChainSwapTimer => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];

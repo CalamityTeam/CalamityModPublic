@@ -531,11 +531,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D itemTexture = Main.itemTexture[item.type];
-            Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
 
             if (mainAttunement == null)
+            {
+                spriteBatch.Draw(itemTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 return true;
+            }
+                
 
             // Draw all particles.
 
@@ -580,13 +583,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            spriteBatch.Draw(itemTexture, position + displacement, itemFrame, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(itemTexture, position - displacement, itemFrame, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(itemTexture, position + displacement, null, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(itemTexture, position - displacement, null, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
             spriteBatch.End();
             spriteBatch.Begin(default, default);
 
-            return true;
+            spriteBatch.Draw(itemTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
+            return false;
         }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade"); //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal 
+            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
     }
 
     public class MendedBiomeBladeVisuals : ModProjectile //Visuals

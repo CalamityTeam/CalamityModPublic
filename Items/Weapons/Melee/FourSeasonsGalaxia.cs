@@ -159,15 +159,15 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 case Attunement.Whirlwind:
                     AttunementInfo.name = "Phoenix's Pride";
-                    AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins. Homing cosmic bolts get released around you as you spin";
-                    AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out alongside a blast of 5 stronger cosmic bolts";
+                    AttunementInfo.function_description = "Hold LMB to swing Galaxia around you, powering up as it spins. Homing cosmic bolts get released around you as you spin";
+                    AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out alongside a blast of 6 stronger cosmic bolts";
                     AttunementInfo.color = new Color(255, 87, 0);
                     AttunementInfo.color2 = new Color(255, 143, 0);
                     break;
                 case Attunement.SuperPogo:
                     AttunementInfo.name = "Polaris's Gaze"; //It carries the mark of the Northern Star
                     AttunementInfo.function_description = "Channels the mark of the Northern Star into a short ranged shredding blade, surrounded by spinning stars. The blade powers up over time and when hitting enemies";
-                    AttunementInfo.function_extra = "Releasing LMB sends the charged star flying. Using LMB right after the throw makes the player perform a powerful dash towards the star, releasing cosmic bolts at the end of the lunge";
+                    AttunementInfo.function_extra = "Releasing LMB sends the charged star flying. Using LMB right after it makes the player perform a dash towards the star, releasing cosmic bolts at the end of the lunge";
                     AttunementInfo.color = new Color(128, 189, 255);
                     AttunementInfo.color2 = new Color(255, 128, 140);
                     break;
@@ -180,8 +180,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 case Attunement.FlailBlade:
                     AttunementInfo.name = "Aries's Wrath";
-                    AttunementInfo.function_description = "Throw out a spinning . Striking enemies with the tip of the blades guarantees a critical hit.";
-                    AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets";
+                    AttunementInfo.function_description = "Send out Galaxia flying, circling at your cursors' position, connected to you by constellations";
+                    AttunementInfo.function_extra = "Enemy hits explode into extra homing cosmic bolts";
                     AttunementInfo.color = new Color(196, 89, 201);
                     AttunementInfo.color2 = new Color(255, 0, 0);
                     break;
