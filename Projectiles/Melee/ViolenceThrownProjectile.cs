@@ -1,3 +1,4 @@
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Owner.channel)
             {
                 HomeTowardsMouse();
-                projectile.rotation += 0.35f / projectile.MaxUpdates;
+                projectile.rotation += 0.45f / projectile.MaxUpdates;
             }
             else
             {
@@ -95,6 +96,78 @@ namespace CalamityMod.Projectiles.Melee
         {
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Play a splatter and impact sound.
+                Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);
+
+                float damageInterpolant = Utils.InverseLerp(950f, 2000f, damage, true);
+                float impactAngularVelocity = MathHelper.Lerp(0.08f, 0.2f, damageInterpolant);
+                float impactParticleScale = MathHelper.Lerp(0.6f, 1f, damageInterpolant);
+                impactAngularVelocity *= Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(0.75f, 1.25f);
+
+                Color impactColor = Color.Lerp(Color.Silver, Color.Gold, Main.rand.NextFloat(0.5f));
+                Vector2 impactPoint = Vector2.Lerp(projectile.Center, target.Center, 0.65f);
+                Vector2 bloodSpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
+                Vector2 splatterDirection = (projectile.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+
+                // Emit blood if the target is organic.
+                if (target.Organic())
+                {
+                    Main.PlaySound(SoundID.NPCHit18, projectile.Center);
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int bloodLifetime = Main.rand.Next(22, 36);
+                        float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
+                        Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
+                        bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
+
+                        if (Main.rand.NextBool(20))
+                            bloodScale *= 2f;
+
+                        Vector2 bloodVelocity = splatterDirection.RotatedByRandom(0.81f) * Main.rand.NextFloat(11f, 23f);
+                        bloodVelocity.Y -= 12f;
+                        BloodParticle blood = new BloodParticle(bloodSpawnPosition, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
+                        GeneralParticleHandler.SpawnParticle(blood);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        float bloodScale = Main.rand.NextFloat(0.2f, 0.33f);
+                        Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.5f, 1f));
+                        Vector2 bloodVelocity = splatterDirection.RotatedByRandom(0.9f) * Main.rand.NextFloat(9f, 14.5f);
+                        BloodParticle2 blood = new BloodParticle2(bloodSpawnPosition, bloodVelocity, 20, bloodScale, bloodColor);
+                        GeneralParticleHandler.SpawnParticle(blood);
+                    }
+                }
+
+                // Emit sparks if the target is not organic.
+                else
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int sparkLifetime = Main.rand.Next(22, 36);
+                        float sparkScale = Main.rand.NextFloat(0.8f, 1f) + damageInterpolant * 0.85f;
+                        Color sparkColor = Color.Lerp(Color.Silver, Color.Gold, Main.rand.NextFloat(0.7f));
+                        sparkColor = Color.Lerp(sparkColor, Color.Orange, Main.rand.NextFloat());
+
+                        if (Main.rand.NextBool(10))
+                            sparkScale *= 2f;
+
+                        Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                        sparkVelocity.Y -= 6f;
+                        SparkParticle spark = new SparkParticle(impactPoint, sparkVelocity, sparkLifetime, sparkScale, sparkColor);
+                        GeneralParticleHandler.SpawnParticle(spark);
+                    }
+                }
+
+                // And create an impact point particle.
+                ImpactParticle impactParticle = new ImpactParticle(impactPoint, impactAngularVelocity, 20, impactParticleScale, impactColor);
+                GeneralParticleHandler.SpawnParticle(impactParticle);
+            }
         }
 
         internal float PrimitiveWidthFunction(float completionRatio)
