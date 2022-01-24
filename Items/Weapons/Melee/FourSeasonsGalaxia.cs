@@ -374,6 +374,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
 
+
             if (player.whoAmI != Main.myPlayer)
                 return;
 
