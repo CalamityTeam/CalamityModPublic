@@ -505,6 +505,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = BiomeBlade.HotAttunement_LocalIFrames;
+            projectile.timeLeft = BiomeBlade.HotAttunement_LocalIFrames;
+        }
+
+        public override bool CanDamage()
+        {
+            return projectile.timeLeft <= 2; //Prevent spam click abuse
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -604,7 +610,8 @@ namespace CalamityMod.Projectiles.Melee
 
             Shred--;
             PogoCooldown--;
-            projectile.timeLeft = 2;
+            if (projectile.timeLeft <= 2)
+                projectile.timeLeft = 2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget(target);

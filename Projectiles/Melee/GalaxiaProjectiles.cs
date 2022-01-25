@@ -607,6 +607,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames;
         }
 
+        public override bool CanDamage()
+        {
+            return Shred >= FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames; //Prevent spam click abuse
+        }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
