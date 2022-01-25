@@ -3327,11 +3327,10 @@ namespace CalamityMod.NPCs
 			bool halfHealth = npc.life / (float)npc.lifeMax < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
-			bool doubleLasersAndSplittingMines = lifeRatio < 0.7f;
-			bool aetherFluxLasers = lifeRatio < 0.5f;
-			bool movingMines = lifeRatio < 0.3f;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
+			bool doubleLasersAndSplittingMines = lifeRatio < 0.7f;
+			bool movingMines = lifeRatio < 0.3f && doubleWormPhase && expertMode;
 
 			// 5 seconds of resistance in phase 2, 10 seconds in phase 1, to prevent spawn killing
 			float resistanceTime = doubleWormPhase ? 300f : 600f;
@@ -3906,9 +3905,9 @@ namespace CalamityMod.NPCs
 								vector104.Y += num943 * 5f;
 								Vector2 shootDirection = new Vector2(num942, num943).SafeNormalize(Vector2.UnitY);
 								Vector2 laserVelocity = shootDirection * num941;
-								int type = aetherFluxLasers ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
+								int type = phase2 ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
 								int damage = npc.GetProjectileDamage(type);
-								if (aetherFluxLasers)
+								if (phase2)
 								{
 									// Waving beams need to start offset so they cross each other neatly.
 									float waveSideOffset = Main.rand.NextFloat(18f, 28f);
