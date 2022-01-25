@@ -59,6 +59,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int FlailBladeAttunement_Reach = 600;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
         public static float FlailBladeAttunement_OnHitBoltDamageReduction = 0.5f;
+
+        public static int CancerPassiveDamage = 400;
+        public static int CancerPassiveLifeSteal = 1;
+        public static float CancerPassiveLifeStealProc = 0.4f;
+        public static int CapricornPassiveDebuffTime = 200;
+
+
         #endregion
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Just in case the player SOMEHOW gets to swing galaxia itself. Sprite also used as the base for other attacks
@@ -102,7 +109,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (l.text.StartsWith("FUNCTION_PASSIVE"))
                 {
                     AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
+                    l.overrideColor = info.passive_color;
                     l.text = info.passive_desc;
                 }
 
@@ -182,13 +189,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Whirlwind:
                 case Attunement.FlailBlade:
                     AttunementInfo.passive_name = "Capricorn's Blessing";
-                    AttunementInfo.passive_desc = "IDK";
+                    AttunementInfo.passive_desc = "Periodically releases a ring of weakening stars around your cursor when attacking";
                     AttunementInfo.passive_color = new Color(76, 137, 237);
                     break;
                 case Attunement.SuperPogo:
                 case Attunement.Shockwave:
                     AttunementInfo.passive_name = "Cancer's Blessing";
-                    AttunementInfo.passive_desc = "IDK";
+                    AttunementInfo.passive_desc = "Periodically releases a ring of lifestealing stars around yourself when attacking";
                     AttunementInfo.passive_color = new Color(203, 25, 119);
                     break;
                 default:
@@ -366,9 +373,21 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 case Attunement.SuperPogo:
                 case Attunement.Shockwave:
+                    if (UseTimer % 500 == 449)
+                    {
+                        Main.PlaySound(SoundID.Item78);
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), CancerPassiveDamage, 0f, player.whoAmI, 0f);
+                        UseTimer++;
+                    }
                     break;
                 case Attunement.FlailBlade:
                 case Attunement.Whirlwind:
+                    if (UseTimer % 500 == 449)
+                    {
+                        Main.PlaySound(SoundID.Item78);
+                        Projectile.NewProjectile(Main.MouseWorld,  Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
+                        UseTimer++;
+                    }
                     break;
                 default:
                     break;
