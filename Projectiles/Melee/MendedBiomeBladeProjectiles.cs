@@ -236,13 +236,15 @@ namespace CalamityMod.Projectiles.Melee
 
                     Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), Owner.Center);
 
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                    if (proj.modProjectile is DecaysRetortDash dash)
+                    if (Owner.whoAmI == Main.myPlayer)
                     {
-                        dash.DashStart = PowerLungeStart;
-                        dash.DashEnd = Owner.Center;
+                        Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                        if (proj.modProjectile is DecaysRetortDash dash)
+                        {
+                            dash.DashStart = PowerLungeStart;
+                            dash.DashEnd = Owner.Center;
+                        }
                     }
-
                     dashTimer = maxDash + 1;
                 }
             }
@@ -598,7 +600,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
                     projectile.frame++;
 
-                if (Main.rand.NextBool())
+                if (Main.rand.NextBool() && Owner.whoAmI == Main.myPlayer)
                 {
                     Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
                     mist.velocity = (mist.Center - Owner.Center) * 0.2f + Owner.velocity;
@@ -608,7 +610,7 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
-                if (Main.rand.NextFloat(0f, 1f) > 0.75f)
+                if (Main.rand.NextFloat(0f, 1f) > 0.75f && Owner.whoAmI == Main.myPlayer)
                 {
                     Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
 
@@ -2302,9 +2304,10 @@ namespace CalamityMod.Projectiles.Melee
                 var splash = new LegacySoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
                 Main.PlaySound(splash, projectile.Center);
 
-
-                Projectile proj = Projectile.NewProjectileDirect(Owner.Center, direction * 0.1f + Owner.velocity , ProjectileType<GestureForTheDrownedOrb>(), projectile.damage, 0, Owner.whoAmI);
-
+                if (Owner.whoAmI == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(Owner.Center, direction * 0.1f + Owner.velocity, ProjectileType<GestureForTheDrownedOrb>(), projectile.damage, 0, Owner.whoAmI);
+                }
 
                 Particle Sparkle = new CritSpark(projectile.Center, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(7.5f, 20f), Color.White, Main.rand.NextBool() ? Color.CornflowerBlue : Color.DodgerBlue, 0.1f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 3f);
                 GeneralParticleHandler.SpawnParticle(Sparkle);

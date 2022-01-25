@@ -373,8 +373,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (player.whoAmI != Main.myPlayer)
                 return;
-            //PAssive effetcsts
 
+            //PAssive effetcsts only happen on the side of the owner
             if (secondaryAttunement != Attunement.FlailBlade || MeatHook == null || !MeatHook.active)
                 MeatHook = null;
 

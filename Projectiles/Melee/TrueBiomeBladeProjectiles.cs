@@ -131,38 +131,34 @@ namespace CalamityMod.Projectiles.Melee
 
             if (CurrentState == 0f)
             {
-                if (Owner.whoAmI == Main.myPlayer)
+
+                if (hasMadeChargeSound == 0f && Empowerment / maxEmpowerment >= 0.5)
                 {
-                    if (hasMadeChargeSound == 0f && Empowerment / maxEmpowerment >= 0.5)
-                    {
-                        hasMadeChargeSound = 1f;
-                        Main.PlaySound(SoundID.Item76);
-                    }
-
-                    float rotation = direction.ToRotation();
-                    if (rotation > -MathHelper.PiOver2 - MathHelper.PiOver4 && rotation < -MathHelper.PiOver2 + MathHelper.PiOver4 && hasMadeSound == 1f)
-                        hasMadeSound = 0f;
-
-                    else if (rotation > MathHelper.PiOver2 - MathHelper.PiOver4 && rotation < MathHelper.PiOver2 + MathHelper.PiOver4 && hasMadeSound == 0f)
-                    {
-                        CanDirectFire = true;
-                        hasMadeSound = 1f;
-                        Main.PlaySound(SoundID.Item71);
-                    }
+                    hasMadeChargeSound = 1f;
+                    Main.PlaySound(SoundID.Item76, projectile.Center);
                 }
 
-                if (Empowerment / maxEmpowerment >= 0.5)
-                {
+                float rotation = direction.ToRotation();
+                if (rotation > -MathHelper.PiOver2 - MathHelper.PiOver4 && rotation < -MathHelper.PiOver2 + MathHelper.PiOver4 && hasMadeSound == 1f)
+                    hasMadeSound = 0f;
 
-                    if ((Empowerment + OverEmpowerment) % 30 == 29)
-                    {
-                        Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
-                        if (lastTarget != null && lastTarget.active) //If you've got an actual target, angle your shots towards them
-                        {
-                            shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
-                        }
-                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
-                    }
+                else if (rotation > MathHelper.PiOver2 - MathHelper.PiOver4 && rotation < MathHelper.PiOver2 + MathHelper.PiOver4 && hasMadeSound == 0f)
+                {
+                    CanDirectFire = true;
+                    hasMadeSound = 1f;
+                    Main.PlaySound(SoundID.Item71, projectile.Center);
+                }
+                
+
+                if (Empowerment / maxEmpowerment >= 0.5 && (Empowerment + OverEmpowerment) % 30 == 29 && Owner.whoAmI == Main.myPlayer)
+                {
+                     Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
+                     if (lastTarget != null && lastTarget.active) //If you've got an actual target, angle your shots towards them
+                     {
+                        shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
+                     }
+                     Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                    
                 }
 
 
@@ -207,7 +203,10 @@ namespace CalamityMod.Projectiles.Melee
                         Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 1.5f, 10, 0.1f, 3f);
                         GeneralParticleHandler.SpawnParticle(Blink);
 
-                        Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                        if (Owner.whoAmI == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                        }
                         CanDirectFire = false;
                         AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
                     }
@@ -647,13 +646,15 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.velocity *= 0.1f; //Abrupt stop
 
                 Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
-                Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                if (proj.modProjectile is SanguineFuryDash dash)
+                if (Owner.whoAmI == Main.myPlayer)
                 {
-                    dash.DashStart = DashStart;
-                    dash.DashEnd = Owner.Center;
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    if (proj.modProjectile is SanguineFuryDash dash)
+                    {
+                        dash.DashStart = DashStart;
+                        dash.DashEnd = Owner.Center;
+                    }
                 }
-
             }
 
             Owner.Calamity().LungingDown = false;
@@ -1113,9 +1114,8 @@ namespace CalamityMod.Projectiles.Melee
                 Charge++;
                 OverCharge--;
                 projectile.timeLeft = 2;
-                if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
+                if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
-
                     Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                     Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
                     CurrentIndicator++;

@@ -364,11 +364,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
 
-
+            //Passive effects only jappen player side haha
             if (player.whoAmI != Main.myPlayer)
                 return;
 
-            //PAssive effetcsts : break
             switch (mainAttunement)
             {
                 case Attunement.SuperPogo:

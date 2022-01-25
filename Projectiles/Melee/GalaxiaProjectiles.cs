@@ -310,11 +310,14 @@ namespace CalamityMod.Projectiles.Melee
                         GeneralParticleHandler.SpawnParticle(Sparkle);
                     }
 
-                    //Actually do projectiles
-                    for (int i = 0; i <= 5; i++)
+                    //Actually do projectiles now
+                    if (Owner.whoAmI == Main.myPlayer)
                     {
-                        float angle = direction.ToRotation() + MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / 5f);
-                        Projectile.NewProjectile(Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            float angle = direction.ToRotation() + MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / 5f);
+                            Projectile.NewProjectile(Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        }
                     }
                 }
             }
@@ -373,7 +376,7 @@ namespace CalamityMod.Projectiles.Melee
                         }
                     }
 
-                    if ((Empowerment + OverEmpowerment) % 30 == 29)
+                    if ((Empowerment + OverEmpowerment) % 30 == 29 && Owner.whoAmI == Main.myPlayer)
                     {
                         Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
                         Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
@@ -405,7 +408,10 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (CanDirectFire && deltaAngleShoot < 0.1f)
                     {
-                        Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        if (Owner.whoAmI == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        }
                         CanDirectFire = false;
                         AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
                     }
@@ -711,21 +717,25 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
-
-                for (int i = 0; i < 5; i++)
-                {
-                    Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.SuperPogoAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
-                    {
-                        blast.timeLeft = 100;
-                    }
-                }
-
                 Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
-                Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarissGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                if (proj.modProjectile is PolarissGazeDash dash)
+
+                if (Owner.whoAmI == Main.myPlayer)
                 {
-                    dash.DashStart = DashStart;
-                    dash.DashEnd = Owner.Center;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.SuperPogoAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        {
+                            blast.timeLeft = 100;
+                        }
+                    }
+
+                    
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarissGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    if (proj.modProjectile is PolarissGazeDash dash)
+                    {
+                        dash.DashStart = DashStart;
+                        dash.DashEnd = Owner.Center;
+                    }
                 }
 
             }
@@ -1144,7 +1154,7 @@ namespace CalamityMod.Projectiles.Melee
                 Charge++;
                 OverCharge--;
                 projectile.timeLeft = 2;
-                if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
+                if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
                     //WOahhh do a ring of projectiles!! woahhh
                     for (int i = 0; i < 5; i++)
@@ -1188,7 +1198,6 @@ namespace CalamityMod.Projectiles.Melee
                                 blast.timeLeft = 50;
                             }
                         }
-
 
                         OverCharge = 20f;
                         Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
@@ -1435,9 +1444,12 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.timeLeft == 2)
             {
                 //New bolt
-                Projectile proj = Projectile.NewProjectileDirect(projectile.position, projectile.rotation.ToRotationVector2() * 18f, ProjectileType<GalaxiaBolt>(), projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
-                proj.scale = Size * 3f;
-                proj.timeLeft = 50;
+                if (Owner.whoAmI == Main.myPlayer)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(projectile.position, projectile.rotation.ToRotationVector2() * 18f, ProjectileType<GalaxiaBolt>(), projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+                    proj.scale = Size * 3f;
+                    proj.timeLeft = 50;
+                }
 
                 Vector2 particleDirection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
                 Main.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, projectile.Center);
@@ -1719,7 +1731,7 @@ namespace CalamityMod.Projectiles.Melee
                GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
 
-            if (ChainSwapTimer % (20 - Math.Ceiling(14 * MathHelper.Clamp((projectile.position - projectile.oldPosition).Length() / 30f, 0, 1))) == 1)
+            if (ChainSwapTimer % (20 - Math.Ceiling(14 * MathHelper.Clamp((projectile.position - projectile.oldPosition).Length() / 30f, 0, 1))) == 1 && Owner.whoAmI == Main.myPlayer)
             {
                 if (lastConstellation != null && lastConstellation.active)
                     lastConstellation.Kill();
