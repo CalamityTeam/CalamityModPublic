@@ -129,6 +129,9 @@ namespace CalamityMod.CalPlayer
 			// This must be done here instead of in the item logic because these sets are not properly instanced
 			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
 			CalamityGlobalItem.UpdateAllParticleSets();
+			BiomeBlade.UpdateAllParticleSets();
+			TrueBiomeBlade.UpdateAllParticleSets();
+			OmegaBiomeBlade.UpdateAllParticleSets();
 
 			// Update the gem tech armor set.
 			GemTechState.Update();
@@ -1062,6 +1065,15 @@ namespace CalamityMod.CalPlayer
 					if (gSabatonFall > 0 || player.PortalPhysicsEnabled)
 						player.maxFallSpeed = 20f;
 				}
+
+				if (LungingDown)
+				{
+					player.maxFallSpeed = 80f;
+					player.noFallDmg = true;
+				}
+
+
+
 			}
 
 			// Omega Blue Armor bonus

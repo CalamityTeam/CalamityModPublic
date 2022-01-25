@@ -136,6 +136,7 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
+        public bool LungingDown = false;
         #endregion
 
         #region IL Editing Constants
@@ -2557,6 +2558,7 @@ namespace CalamityMod.CalPlayer
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
             persecutedEnchantSummonTimer = 0;
+            LungingDown = false;
 
             if (BossRushEvent.BossRushActive)
             {
