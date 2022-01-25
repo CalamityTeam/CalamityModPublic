@@ -609,7 +609,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						if (npc.alpha <= 0 && distanceFromTarget > 500f)
 						{
 							calamityGlobalNPC.newAI[0] += 1f;
-							if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (phase7 ? 60f : 120f) == 0f)
+							if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (phase7 ? 20f : 40f) == 0f)
 							{
 								Vector2 vector44 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								float num427 = player.position.X + (player.width / 2) - vector44.X;

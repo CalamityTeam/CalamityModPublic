@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs
 
 											float maximumVelocityMult = death ? 0.35f : 0.25f;
 											if (expertMode)
-												vector15 *= 1f + (maximumVelocityMult * (1f - lifeRatio));
+												vector15 *= 1f + (maximumVelocityMult * (0.5f - lifeRatio) * 2f);
 
 											Projectile.NewProjectile(npc.Center, vector15, type, damage, 0f, Main.myPlayer, 0f, Main.rand.Next(-45, 1));
 										}
@@ -3327,6 +3327,9 @@ namespace CalamityMod.NPCs
 			bool halfHealth = npc.life / (float)npc.lifeMax < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
+			bool doubleLasersAndSplittingMines = lifeRatio < 0.7f;
+			bool aetherFluxLasers = lifeRatio < 0.5f;
+			bool movingMines = lifeRatio < 0.3f;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
 
@@ -3899,12 +3902,33 @@ namespace CalamityMod.NPCs
 								num944 = num941 / num944;
 								num942 *= num944;
 								num943 *= num944;
-								int type = ModContent.ProjectileType<AstralShot2>();
-								int damage = npc.GetProjectileDamage(type);
 								vector104.X += num942 * 5f;
 								vector104.Y += num943 * 5f;
-								Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
-								npc.netUpdate = true;
+								Vector2 shootDirection = new Vector2(num942, num943).SafeNormalize(Vector2.UnitY);
+								Vector2 laserVelocity = shootDirection * num941;
+								int type = aetherFluxLasers ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
+								int damage = npc.GetProjectileDamage(type);
+								if (aetherFluxLasers)
+								{
+									// Waving beams need to start offset so they cross each other neatly.
+									float waveSideOffset = Main.rand.NextFloat(18f, 28f);
+									Vector2 perp = shootDirection.RotatedBy(-MathHelper.PiOver2) * waveSideOffset;
+
+									for (int i = -1; i <= 1; i += 2)
+									{
+										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.25f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+
+										// Tell this Phased God Ray exactly which way it should be waving.
+										godRay.localAI[1] = i * 0.5f;
+									}
+								}
+								else
+								{
+									Projectile.NewProjectile(vector104, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+									if (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f)
+										Projectile.NewProjectile(vector104, laserVelocity * 0.75f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+								}
 							}
 						}
 					}
@@ -3912,9 +3936,18 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
+							Vector2 velocity = Vector2.Zero;
+							if (movingMines)
+							{
+								Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+								vector15.Normalize();
+								vector15 *= Main.rand.Next(30, 121) * 0.01f;
+								velocity = vector15;
+							}
 							int type = ModContent.ProjectileType<DeusMine>();
 							int damage = npc.GetProjectileDamage(type);
-							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+							float split = (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f) ? 1f : 0f;
+							int proj = Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 						}
 					}
 				}

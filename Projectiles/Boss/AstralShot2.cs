@@ -1,10 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class AstralShot2 : ModProjectile
@@ -32,9 +35,26 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-				projectile.tileCollide = true;
+			if (projectile.ai[0] == 1f)
+			{
+				bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+				float maxVelocity = malice ? 15f : 12f;
+				if (projectile.velocity.Length() < maxVelocity)
+				{
+					projectile.velocity *= malice ? 1.075f : 1.05f;
+					if (projectile.velocity.Length() > maxVelocity)
+					{
+						projectile.velocity.Normalize();
+						projectile.velocity *= maxVelocity;
+					}
+				}
+			}
+			else
+			{
+				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+					projectile.tileCollide = true;
+			}
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
