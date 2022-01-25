@@ -3892,7 +3892,7 @@ namespace CalamityMod.NPCs
 							npc.TargetClosest();
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
-								Main.PlaySound(SoundID.Item12, npc.Center);
+								Main.PlaySound(phase2 ? SoundID.Item91 : SoundID.Item12, npc.Center);
 								float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
 								Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 								float num942 = player.position.X + player.width * 0.5f - vector104.X;
@@ -3916,7 +3916,7 @@ namespace CalamityMod.NPCs
 									for (int i = -1; i <= 1; i += 2)
 									{
 										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.25f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.8f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
 										// Tell this Phased God Ray exactly which way it should be waving.
 										godRay.localAI[1] = i * 0.5f;
@@ -3926,7 +3926,7 @@ namespace CalamityMod.NPCs
 								{
 									Projectile.NewProjectile(vector104, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 									if (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f)
-										Projectile.NewProjectile(vector104, laserVelocity * 0.75f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile.NewProjectile(vector104, laserVelocity * 0.8f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}

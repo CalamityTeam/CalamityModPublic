@@ -11,6 +11,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DeusMine : ModProjectile
     {
+		private const int MaxTimeLeft = 600;
+		private const int FadeTime = 85;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Mine");
@@ -25,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 100;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 900;
+            projectile.timeLeft = MaxTimeLeft;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -50,29 +53,21 @@ namespace CalamityMod.Projectiles.Boss
             }
 
 			// Deal no damage if fading out and not set to explode
-			// Grow in size if set to explode
-			if (projectile.timeLeft < 85)
+			if (projectile.timeLeft < FadeTime)
 			{
 				if (projectile.ai[0] == 0f)
-				{
 					projectile.damage = 0;
-				}
-				else
-				{
-					projectile.scale += 1f / 85f;
-					projectile.width = projectile.height = (int)(30f * projectile.scale);
-				}
 			}
 		}
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 12f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 815 && (projectile.timeLeft >= 85 || projectile.ai[0] == 1f);
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= MaxTimeLeft - FadeTime && (projectile.timeLeft >= FadeTime || projectile.ai[0] == 1f);
 
         public override Color? GetAlpha(Color lightColor)
         {
 			// Fade in
-            if (projectile.timeLeft > 815)
+            if (projectile.timeLeft > MaxTimeLeft - FadeTime)
             {
                 projectile.localAI[1] += 1f;
                 byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
@@ -82,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Fade out if not set to explode
 			// Glow more red over time if set to explode
-            if (projectile.timeLeft < 85)
+            if (projectile.timeLeft < FadeTime)
             {
 				byte b2 = (byte)(projectile.timeLeft * 3);
 				if (projectile.ai[0] == 0f)
@@ -148,7 +143,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.timeLeft > 815 || (projectile.timeLeft < 85 && projectile.ai[0] == 0f))
+			if (projectile.timeLeft > MaxTimeLeft - FadeTime || (projectile.timeLeft < FadeTime && projectile.ai[0] == 0f))
 				return;
 
 			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);

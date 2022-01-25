@@ -86,7 +86,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
-            IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
+            //IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Main.UpdateTime += BloodMoonsRequire200MaxLife;
 
             // Fix vanilla bugs exposed by Calamity mechanics
@@ -159,7 +159,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
-            IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
+            //IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Main.UpdateTime -= BloodMoonsRequire200MaxLife;
 
             // Fix vanilla bugs exposed by Calamity mechanics

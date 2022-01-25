@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.MaxUpdates = 3;
-            projectile.timeLeft = 2400;
+            projectile.MaxUpdates = 1;
+            projectile.timeLeft = 1200;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override Color? GetAlpha(Color lightColor)
 		{
 			if (WaveFrameState < 0f)
-				return new Color(255, 200, 0, projectile.alpha);
+				return new Color(255, 100, 0, projectile.alpha);
 
 			return new Color(0, 255, 200, projectile.alpha);
 		}
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 dustVel = projectile.velocity / 4f;
             for (int i = 0; i < dustAmt; ++i)
             {
-                Dust d = Dust.NewDustDirect(dustPos, 0, 0, dustID, 0f, 0f, Scale: 2.5f);
+                Dust d = Dust.NewDustDirect(dustPos, 0, 0, dustID, 0f, 0f, Scale: 1.5f);
                 d.velocity += dustVel;
                 d.velocity *= Main.rand.NextFloat(0.4f, 1f);
                 d.noGravity = true;
