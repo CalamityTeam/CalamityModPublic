@@ -60,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
         public static float FlailBladeAttunement_OnHitBoltDamageReduction = 0.5f;
 
-        public static int CancerPassiveDamage = 400;
-        public static int CancerPassiveLifeSteal = 1;
+        public static int CancerPassiveDamage = 3000;
+        public static int CancerPassiveLifeSteal = 3;
         public static float CancerPassiveLifeStealProc = 0.4f;
         public static int CapricornPassiveDebuffTime = 200;
 
@@ -189,13 +189,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 case Attunement.Whirlwind:
                 case Attunement.FlailBlade:
                     AttunementInfo.passive_name = "Capricorn's Blessing";
-                    AttunementInfo.passive_desc = "Periodically releases a ring of weakening stars around your cursor when attacking";
+                    AttunementInfo.passive_desc = "Periodically releases a ring of weakening stars around your cursor when attacking\nThe ring is repelled away from you at first, before slowing down over time";
                     AttunementInfo.passive_color = new Color(76, 137, 237);
                     break;
                 case Attunement.SuperPogo:
                 case Attunement.Shockwave:
                     AttunementInfo.passive_name = "Cancer's Blessing";
-                    AttunementInfo.passive_desc = "Periodically releases a ring of lifestealing stars around yourself when attacking";
+                    AttunementInfo.passive_desc = "Periodically releases a ring of lifestealing stars around yourself when attacking\nThe ring is attracted towards you at first, before slowing down over time";
                     AttunementInfo.passive_color = new Color(203, 25, 119);
                     break;
                 default:

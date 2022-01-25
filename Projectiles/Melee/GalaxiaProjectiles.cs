@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Mode == 0f && Main.rand.NextBool < FourSeasonsGalaxia.CancerPassiveLifeStealProc)
+            if (Mode == 0f && Main.rand.NextFloat() < FourSeasonsGalaxia.CancerPassiveLifeStealProc)
             {
                 Owner.statLife += FourSeasonsGalaxia.CancerPassiveLifeSteal;
                 Owner.HealEffect(FourSeasonsGalaxia.CancerPassiveLifeSteal);
@@ -148,6 +148,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+            projectile.velocity *= 0.95f;
+
+            if (Mode == 0f)
+                projectile.Center = Vector2.Lerp(projectile.Center, Owner.Center, 0.4f * MathHelper.Clamp((projectile.timeLeft - 150) / 150f, 0, 1));
+            else
+                projectile.velocity = Utils.SafeNormalize(projectile.Center - Owner.Center, Vector2.Zero) * MathHelper.Clamp((projectile.timeLeft - 150) / 150f, 0, 1) * 3f * (5f - MathHelper.Clamp((projectile.Center - Owner.Center).Length() / 150f, 0, 4f));
+
             Fade = projectile.timeLeft > 250 ? (float)Math.Sin((300 - projectile.timeLeft) / 50f * MathHelper.PiOver2) * 0.6f + 0.4f : projectile.timeLeft > 50 ? 1f : (float)Math.Sin((projectile.timeLeft) / 50f * MathHelper.PiOver2);
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
 
