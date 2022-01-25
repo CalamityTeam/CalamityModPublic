@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Dusts;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -35,13 +36,10 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i < 15; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(15f, 15f), ModContent.DustType<PumplerDust>());
-                    dust.velocity = (dust.position - projectile.Center) * 0.2f + projectile.velocity;
-                    dust.scale = Main.rand.NextFloat(0.8f, 1.6f);
-                    dust.alpha = Main.rand.Next(30) + 100;
-                    dust.rotation = Main.rand.NextFloat(6.28f);
+                    Particle smoke = new SmallSmokeParticle(projectile.Center + Main.rand.NextVector2Circular(15f, 15f), Vector2.Zero, Color.Orange, new Color(40, 40, 40), Main.rand.NextFloat(0.8f, 1.6f), 145 - Main.rand.Next(30));
+                    smoke.Velocity = (smoke.Position - projectile.Center) * 0.2f + projectile.velocity;
+                    GeneralParticleHandler.SpawnParticle(smoke);
                 }
-                //CalamityUtils.ExplosionGores(projectile.Center, 1);
             }
             projectile.Kill();
         }
