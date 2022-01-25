@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Head.Position = projectile.Center + projectile.velocity * 0.5f;
                 Head.Time = 0;
-                Head.Scale += (float)Math.Sin(Main.GlobalTime * 6) * 0.02f;
+                Head.Scale += (float)Math.Sin(Main.GlobalTime * 6) * 0.02f * projectile.scale;
             }
 
 
@@ -81,12 +81,12 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Main.rand.Next(2) == 0)
             {
-                Particle smoke = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
+                Particle smoke = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * projectile.scale, 0.8f, 0, false, 0, true);
                 GeneralParticleHandler.SpawnParticle(smoke);
 
                 if (Main.rand.Next(3) == 0)
                 {
-                    Particle smokeGlow = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Main.hslToRgb(Hue, 100, 50), 20, Main.rand.NextFloat(0.4f, 0.7f), 0.8f, 0, true, 0.005f, true);
+                    Particle smokeGlow = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Main.hslToRgb(Hue, 1, 0.7f), 20, Main.rand.NextFloat(0.4f, 0.7f) * projectile.scale, 0.8f, 0, true, 0.005f, true);
                     GeneralParticleHandler.SpawnParticle(smokeGlow);
                 }
             }
@@ -547,13 +547,13 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Rings[i] == null)
                 {
-                    Rings[i] = new ConstellationRingVFX(Owner.Center + (direction * (25 + bladeLenght * 0.33f * i)), Color.CornflowerBlue, direction.ToRotation(), projectile.scale * 0.25f * i, new Vector2(0.5f, 1f), spinSpeed: 7, starAmount: 3 + i, important : true) ;
+                    Rings[i] = new ConstellationRingVFX(Owner.Center + (direction * (25 + bladeLenght * 0.33f * i)), Color.DarkOrchid, direction.ToRotation(), projectile.scale * 0.25f * i, new Vector2(0.5f, 1f), spinSpeed: 7, starAmount: 3 + i, important : true) ;
                     GeneralParticleHandler.SpawnParticle(Rings[i]);
                 }
                 else
                 {
                     Rings[i].Time = 0;
-                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTime * 10f - i * 0.5f)) * direction * (25 + bladeLenght * 0.33f * (i + 1))), Bounce(Shred - 30 * i));
+                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTime * 10f - i * 0.5f)) * direction * (25 + bladeLenght * 0.33f * (i + 1))), Bounce(MathHelper.Clamp(Shred - 30 * i, 0, maxShred)));
                     Rings[i].Rotation = direction.ToRotation();
                     Rings[i].Scale = projectile.scale * 0.25f * (i + 1);
                     (Rings[i] as ConstellationRingVFX).Opacity = 0.5f + 0.5f * ShredRatio;
@@ -943,7 +943,7 @@ namespace CalamityMod.Projectiles.Melee
 
     public class AndromedasStride : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTides";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[projectile.owner];
@@ -960,7 +960,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mercurial Tides");
+            DisplayName.SetDefault("Andromeda's Stride");
         }
         public override void SetDefaults()
         {
@@ -1042,9 +1042,16 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = 2;
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
+                    //WOahhh do a ring of projectiles!! woahhh
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                        {
+                            blast.timeLeft = 30;
+                        }
+                    }
 
-                    Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
-                    Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
+                    Main.PlaySound(SoundID.Item79, projectile.Center);
                     CurrentIndicator++;
                     OverCharge = 20f;
                 }
@@ -1052,9 +1059,33 @@ namespace CalamityMod.Projectiles.Melee
                 if (Charge >= MaxCharge)
                 {
                     Charge = MaxCharge;
+
+                    if (Main.rand.NextBool())
+                    {
+                        Vector2 smokeSpeed = direction.RotatedByRandom(MathHelper.PiOver4 * 0.3f) * Main.rand.NextFloat(10f, 30f) * 0.9f;
+                        Particle smoke = new HeavySmokeParticle(projectile.Center + direction * 50f, smokeSpeed + Owner.velocity, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
+                        GeneralParticleHandler.SpawnParticle(smoke);
+
+                        if (Main.rand.Next(3) == 0)
+                        {
+                            Particle smokeGlow = new HeavySmokeParticle(projectile.Center + direction * 50f, smokeSpeed + Owner.velocity, Main.hslToRgb(0.85f, 1, 0.8f), 20, Main.rand.NextFloat(0.4f, 0.7f), 0.8f, 0, true, 0.01f, true);
+                            GeneralParticleHandler.SpawnParticle(smokeGlow);
+                        }
+                    }
+
+
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
-                        Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                        //Projectiles!!! wah!!!
+                        for (int i = 0; i < 9; i++)
+                        {
+                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                            {
+                                blast.timeLeft = 50;
+                            }
+                        }
+
+
                         OverCharge = 20f;
                         Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
                         CurrentIndicator++;
@@ -1114,14 +1145,15 @@ namespace CalamityMod.Projectiles.Melee
             if (slamSound != null)
                 slamSound.Volume *= 1.5f;
 
-            if (Owner.whoAmI != Main.myPlayer || Owner.velocity.Y == 0f)
+            if (Owner.whoAmI != Main.myPlayer)
                 return;
 
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
-            proj.timeLeft = 81;
+            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * projectile.scale), -direction * 16f, ProjectileType<GalaxiaBolt>(), projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+            proj.scale = 3f;
+            proj.timeLeft = 50;
 
 
             SideSprouts(1, 150f, 1f * Charge / MaxCharge);
@@ -1152,12 +1184,12 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
-                if (proj.modProjectile is MercurialTidesMonolith monolith)
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.modProjectile is AndromedasStrideBoltSpawner spawner)
                 {
-                    monolith.WaitTimer = (1 - projSize) * 34f;
-                    monolith.OriginDirection = direction;
-                    monolith.Facing = facing;
+                    spawner.WaitTimer = (1 - projSize) * 34f;
+                    spawner.OriginDirection = direction;
+                    spawner.Facing = facing;
                 }
             }
 
@@ -1172,44 +1204,30 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = (int)(damage * (1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * Charge / MaxCharge));
-
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_SwordProc)
-                sword.OnHitProc = true;
-    }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTides");
+            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra");
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
 
-            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = projectile.Center - Main.screenPosition;
 
-            spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-
-            //Turn on additive blending
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            //Just in case
+            CalamityUtils.EnterShaderRegion(spriteBatch);
+            
             if (OverCharge < 0)
                 OverCharge = 0f;
             //When the blink is
             GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(OverCharge / 20f);
-            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(new Color(154, 244, 240));
+            GameShaders.Misc["CalamityMod:BasicTint"].UseColor(new Color(255, 129, 153));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            //Update the parameters
-            drawOrigin = new Vector2(0f, blade.Height);
+            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
 
-            spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-
-            //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            CalamityUtils.ExitShaderRegion(spriteBatch);
 
             return false;
         }
@@ -1243,32 +1261,187 @@ namespace CalamityMod.Projectiles.Melee
         }
     }
 
+    public class AndromedasStrideBoltSpawner : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public Player Owner => Main.player[projectile.owner];
+        public ref float Size => ref projectile.ai[1]; //Yes
+
+        public float WaitTimer; //How long until the monoliths appears
+        public Vector2 OriginDirection; //The direction of the original strike
+        public float Facing; //The direction of the original strike
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Andromeda Shock");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 70;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 30;
+            projectile.hide = true;
+        }
+
+        public override bool CanDamage() => false;
+
+        public override void AI()
+        {
+            if (projectile.velocity != Vector2.Zero)
+            {
+                SurfaceUp();
+                projectile.rotation = projectile.velocity.ToRotation();
+                projectile.velocity = Vector2.Zero;
+            }
+
+            if (WaitTimer > 0)
+            {
+                projectile.timeLeft = 30;
+                WaitTimer--;
+            }
+
+            if (projectile.timeLeft == 29)
+            {
+                if (Size * 0.8 > 0.4 && Facing != 0)
+                  SideSprouts(Facing, 150f, Size * 0.8f);
+            }
+
+            if (projectile.timeLeft < 29)
+            {
+               if (Main.rand.Next(3) == 0)
+                {
+                    Vector2 particleDirection = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2();
+                    Vector2 flyDirection = particleDirection.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4 / 2f, MathHelper.PiOver4 / 2f)) * Main.rand.NextFloat(15f, 35f);
+
+                    Particle smoke = new HeavySmokeParticle(projectile.Center, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.4f, 1.3f) * projectile.scale, 0.8f, 0, false, 0, true);
+                    GeneralParticleHandler.SpawnParticle(smoke);
+
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Particle smokeGlow = new HeavySmokeParticle(projectile.Center, flyDirection, Color.Red, 20, Main.rand.NextFloat(0.1f, 0.7f) * projectile.scale, 0.8f, 0, true, 0.01f, true);
+                        GeneralParticleHandler.SpawnParticle(smokeGlow);
+                    }
+
+                }
+            }
+
+            if (projectile.timeLeft == 2)
+            {
+                //New bolt
+                Projectile proj = Projectile.NewProjectileDirect(projectile.position, projectile.rotation.ToRotationVector2() * 18f, ProjectileType<GalaxiaBolt>(), projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+                proj.scale = Size * 3f;
+                proj.timeLeft = 50;
+
+                Vector2 particleDirection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
+                Main.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, projectile.Center);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Vector2 hitPositionDisplace = particleDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(0f, 10f);
+                    Vector2 flyDirection = particleDirection.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * Main.rand.NextFloat(5f, 15f);
+
+                    Particle smoke = new HeavySmokeParticle(projectile.Center + hitPositionDisplace, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(1.6f, 2.2f) * projectile.scale, 0.8f, 0, false, 0, true);
+                    GeneralParticleHandler.SpawnParticle(smoke);
+
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Particle smokeGlow = new HeavySmokeParticle(projectile.Center + hitPositionDisplace, flyDirection, Color.Red, 20, Main.rand.NextFloat(1.4f, 1.7f) * projectile.scale, 0.8f, 0, true, 0.005f, true);
+                        GeneralParticleHandler.SpawnParticle(smokeGlow);
+                    }
+                }
+            }
+        }
+
+        //Go up to the "surface" so you're not stuck in the middle of the ground like a complete moron.
+        public void SurfaceUp()
+        {
+            for (float i = 0; i < 40; i += 0.5f)
+            {
+                Vector2 positionToCheck = projectile.Center + projectile.velocity * i;
+                if (!Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                {
+                    projectile.Center = projectile.Center + projectile.velocity * i;
+                    return;
+                }
+            }
+            projectile.Center = projectile.Center + projectile.velocity * 40f;
+        }
+
+        public bool SideSprouts(float facing, float distance, float projSize)
+        {
+            float widestAngle = 0f;
+            float widestSurfaceAngle = 0f;
+            bool validPositionFound = false;
+            for (float i = 0f; i < 1; i += 1 / distance)
+            {
+                Vector2 positionToCheck = projectile.Center + OriginDirection.RotatedBy((i * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
+
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                    widestAngle = i;
+
+                else if (widestAngle != 0)
+                {
+                    validPositionFound = true;
+                    widestSurfaceAngle = widestAngle;
+                }
+            }
+
+            if (validPositionFound)
+            {
+                Vector2 projPosition = projectile.Center + OriginDirection.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
+                Vector2 monolithRotation = OriginDirection.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.modProjectile is AndromedasStrideBoltSpawner spawner)
+                {
+                    spawner.WaitTimer = (float)Math.Sqrt(1.0 - Math.Pow(projSize - 1.0, 2)) * 3f;
+                    spawner.OriginDirection = OriginDirection;
+                    spawner.Facing = facing;
+                }
+            }
+
+            return validPositionFound;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(WaitTimer);
+            writer.Write(Facing);
+            writer.WriteVector2(OriginDirection);
+
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            WaitTimer = reader.ReadSingle();
+            Facing = reader.ReadSingle();
+            OriginDirection = reader.ReadVector2();
+        }
+    }
 
     //Aries's Wrath aka FlailBlade attunement
 
     public class AriessWrath : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
-
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
         public Player Owner => Main.player[projectile.owner];
         public ref float ChainSwapTimer => ref projectile.ai[0];
-        public ref float SnapCoyoteTime => ref projectile.ai[1];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
-        const float MaxTangleReach = 400f; //How long can tangling vines from crits be
-
-        //Doing your mom. Be warned that the X value of these vectors represents the angle of the whip while the Y value represents its RNG seed
-        public Vector2 whip1;
-        public Vector2 whip2;
-        public Vector2 whip3;
+        const float MaxProjReach = 500f; //How far away do you check for enemies for the extra projs from crits be
 
         public Particle smear;
-        public Particle smear2;
+        public Projectile lastConstellation;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lamentations of the Chained");
+            DisplayName.SetDefault("Aries's Wrath");
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+
         }
         public override void SetDefaults()
         {
@@ -1278,100 +1451,46 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames;
+            projectile.localNPCHitCooldown = FourSeasonsGalaxia.FlailBladeAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            //Cuz it intializes the hooks as pointing flat to the right of the player and we dont want that.
-            if (ChainSwapTimer < OmegaBiomeBlade.FlailBladeAttunement_FlailTime)
-                return false;
-
-            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-
-            if (Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
-                Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
-                Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control33 - Vector2.One * 25f, Vector2.One * 50f)
-                )
-                return true;
-
-            //What you wanted me to calculate all 3 curves? Have straight line collisions instead
-            float CollisionPoint = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref  CollisionPoint) ||
-                Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref CollisionPoint) ||
-                Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, control13, 20f, ref CollisionPoint)
-                )
-                return true;
-
-            return false;
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            //If you hit the enemy with the blade of the whip, guarantee a crit
-            if (Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
-                Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
-                Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control33 - Vector2.One * 25f, Vector2.One * 50f)
-                )
-            {
-
-                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_BladeProc)
-                    sword.OnHitProc = true;
-
-
-                crit = true;
-                for (int i = 0; i < 2; i++)
-                {
-                    Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
-                    Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.Turquoise, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 1f);
-                    GeneralParticleHandler.SpawnParticle(Spark);
-                }
-
-                Vector2 sliceDirection = Main.rand.NextVector2CircularEdge(50f, 100f);
-                Particle SliceLine = new LineVFX(target.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.PaleTurquoise * 0.6f)
-                {
-                    Lifetime = 6
-                };
-                GeneralParticleHandler.SpawnParticle(SliceLine);
-            }
-
-            else
-            {
-                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_ChainProc)
-                    sword.OnHitProc = true;
-
-                damage = (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
-                crit = false; //For once, we also block crits completely from the chain
-            }
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - Vector2.One * 50 * projectile.scale, Vector2.One * 100 * projectile.scale);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (crit)
+            for (int i = 0; i < 2; i++)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), projectile.Center);
-                excludedTargets[0] = target;
-                for (int i = 0; i < 3; i++)
-                {
-                    NPC potentialTarget = TargetNext(target.Center, i);
-                    if (potentialTarget == null)
-                        break;
-                    Projectile proj = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
-                    if (proj.modProjectile is GhastlyChain chain)
-                        chain.Gravity = Main.rand.NextFloat(30f, 50f);
-                }
-                Array.Clear(excludedTargets, 0, 3);
+                Vector2 sparkSpeed = Owner.DirectionTo(target.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * 9f;
+                Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.HotPink, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 1f);
+                GeneralParticleHandler.SpawnParticle(Spark);
             }
+
+            Vector2 sliceDirection = Main.rand.NextVector2CircularEdge(50f, 100f);
+            Particle SliceLine = new LineVFX(target.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.HotPink * 0.6f)
+            {
+                Lifetime = 6
+            };
+            GeneralParticleHandler.SpawnParticle(SliceLine);
+
+             excludedTargets[0] = target;
+             for (int i = 0; i < 3; i++)
+             {
+                  NPC potentialTarget = TargetNext(target.Center, i);
+                  if (potentialTarget == null)
+                       break;
+                  Projectile proj = Projectile.NewProjectileDirect(target.Center, target.DirectionTo(potentialTarget.Center) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.FlailBladeAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
+                  proj.scale = 2f;
+             }
+             Array.Clear(excludedTargets, 0, 3);
+            
         }
 
         public NPC TargetNext(Vector2 hitFrom, int index)
         {
-            float longestReach = MaxTangleReach;
+            float longestReach = MaxProjReach;
             NPC target = null;
             for (int i = 0; i < 200; ++i)
             {
@@ -1391,23 +1510,68 @@ namespace CalamityMod.Projectiles.Melee
             return target;
         }
 
+        //Animation keys
+        public CurveSegment slowIn = new CurveSegment(EasingType.PolyIn, 0f, 0.2f, 1f, 3);
+        public CurveSegment bounce = new CurveSegment(EasingType.SineBump, 0.3f, 1f, 0.2f);
+        public CurveSegment remain = new CurveSegment(EasingType.SineBump, 0.6f, 1f, -0.1f);
+        internal float ThrowDisplace() => PiecewiseAnimation(MathHelper.Clamp(ChainSwapTimer / 40f, 0, 1), new CurveSegment[] { slowIn, bounce, remain });
+
+        //Animation keys
+        public CurveSegment scaleUp = new CurveSegment(EasingType.PolyIn, 0f, 0.2f, 1f, 3);
+        public CurveSegment scaleDown = new CurveSegment(EasingType.SineBump, 0.3f, 1f, 0.2f);
+        internal float ScaleEquation() => PiecewiseAnimation(MathHelper.Clamp(ChainSwapTimer / 30f, 0, 1), new CurveSegment[] { scaleUp, scaleDown});
+
+
         public override void AI()
         {
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
+                if ((Owner.Center - projectile.Center).Length() < 30f)
+                    projectile.Kill();
+
+                else
+                {
+                    if (projectile.timeLeft <= 2)
+                    {
+                        projectile.velocity *= 10f;
+                    }
+                    if (projectile.velocity.AngleBetween(Owner.Center - projectile.Center) > MathHelper.PiOver4)
+                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Owner.Center).ToRotation(), MathHelper.Pi / 20f)).ToRotationVector2() * projectile.velocity.Length() * 0.98f;
+                    else
+                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Owner.Center).ToRotation(), MathHelper.Pi)).ToRotationVector2() * projectile.velocity.Length() * 1.05f;
+                    projectile.rotation = Main.GlobalTime * 25f;
+                    projectile.scale = MathHelper.Clamp((Owner.Center - projectile.Center).Length() / (FourSeasonsGalaxia.FlailBladeAttunement_Reach * 0.5f) , 0.3f, 2f);
+                    projectile.timeLeft = 4;
+                }
                 return;
             }
 
-            projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
-            projectile.velocity.Normalize();
-            projectile.rotation = projectile.velocity.ToRotation();
-            projectile.Center = Owner.Center + (projectile.velocity * 60);
+            if (ChainSwapTimer == 0f)
+            {
+                projectile.Center = Owner.Center;
+                var scream = Main.PlaySound(SoundID.Item120, projectile.Center);
+                if (scream != null)
+                    scream.Volume *= 0.5f;
 
-            //Make the owner look like theyre holding the sword bla bla
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
+                    Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+            }
+
+            projectile.scale = 1f + ScaleEquation();
+            projectile.timeLeft = 2;
+
+            projectile.Center = Vector2.Lerp(projectile.Center, Main.MouseWorld, 0.05f * ThrowDisplace());
+            projectile.Center = projectile.Center.MoveTowards(Main.MouseWorld, 40f * ThrowDisplace());
+
+            if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.FlailBladeAttunement_Reach)
+                projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.FlailBladeAttunement_Reach;
+
+            projectile.rotation = Main.GlobalTime * 25f;
+            //Make the owner look like theyre "holding" the sword bla bla
             Owner.heldProj = projectile.whoAmI;
+            projectile.velocity = Owner.DirectionTo(projectile.Center);
             Owner.direction = Math.Sign(projectile.velocity.X);
-            Owner.itemRotation = projectile.rotation;
+            Owner.itemRotation = projectile.velocity.ToRotation();
             if (Owner.direction != 1)
             {
                 Owner.itemRotation -= 3.14f;
@@ -1415,262 +1579,156 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            projectile.timeLeft = 2;
 
-            if (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime == 1)
+            if (smear == null)
             {
-                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-
-                Vector2 smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.7f, 1.1f);
-                Vector2 squish = new Vector2( Main.rand.NextFloat(3f, 4f), Main.rand.NextFloat(0.5f, 1f));
-
-                if (smear == null)
-                {
-                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
-                    smear.Lifetime = 2;
-                    GeneralParticleHandler.SpawnParticle(smear);
-                }
-                //Update the variables of the smear
-                else
-                {
-                    smear.Rotation = whip1.X + MathHelper.Pi; //Add some v ariation?
-                    smear.Position = smearPos;
-                    (smear as SemiCircularSmearVFX).Squish = squish;
-                }
-
-                smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.8f, 1.3f);
-                squish = new Vector2(Main.rand.NextFloat(2f, 3f), Main.rand.NextFloat(0.9f, 1.4f));
-
-                if (smear2 == null)
-                {
-                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
-                    smear2.Lifetime = 2;
-                    GeneralParticleHandler.SpawnParticle(smear2);
-                }
-                //Update the variables of the smear
-                else
-                {
-                    smear2.Rotation = whip2.X + MathHelper.Pi; //Add some v ariation?
-                    smear2.Position = smearPos;
-                    (smear2 as SemiCircularSmearVFX).Squish = squish;
-                }
+                smear = new CircularSmearSmokeyVFX(projectile.Center, Color.MediumOrchid, projectile.rotation, projectile.scale);
+                GeneralParticleHandler.SpawnParticle(smear);
             }
-
             if (smear != null)
             {
-                smear.Rotation = smear.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
+                smear.Position = projectile.Center;
+                smear.Rotation = projectile.rotation + MathHelper.PiOver2 + MathHelper.PiOver4;
                 smear.Time = 0;
-                (smear as SemiCircularSmearVFX).Squish.Y *= 0.985f;
-                (smear as SemiCircularSmearVFX).Squish.X *= 1.01f;
+                smear.Scale = projectile.scale;
+                smear.Color.A = (byte)(255 * MathHelper.Clamp(ChainSwapTimer / 50f, 0, 1));
             }
-            if (smear2 != null)
+
+            if (Main.rand.NextBool())
             {
-                smear2.Rotation = smear2.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
-                smear2.Time = 0;
-                (smear2 as SemiCircularSmearVFX).Squish.Y *= 0.985f;
-                (smear2 as SemiCircularSmearVFX).Squish.X *= 1.01f;
+                float maxDistance = projectile.scale * 82f;
+                Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
+                Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2)) * 2f * (1f + distance.Length() / 15f);
+                Particle glitter = new CritSpark(projectile.Center + distance, angularVelocity, Main.rand.Next(3) == 0 ? Color.HotPink : Color.Plum, Color.DarkOrchid, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
+                GeneralParticleHandler.SpawnParticle(glitter);
             }
 
+            float smokeDistance = projectile.scale * 62f;
+            Vector2 smokePos = Main.rand.NextVector2Circular(smokeDistance, smokeDistance);
+            Vector2 smokeSpeed = Vector2.Normalize(smokePos.RotatedBy(MathHelper.PiOver2)) * 0.1f * (1f + smokePos.Length() / 15f);
+            Particle smoke = new HeavySmokeParticle(projectile.Center + smokePos, smokeSpeed, Color.Lerp(Color.Navy, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.4f, 1f) * projectile.scale, 0.8f, 0, false, 0, true);
+            GeneralParticleHandler.SpawnParticle(smoke);
 
-            //if ((ChainSwapTimer - 12f) % 23 == 0)
-            //{
-            //    Main.PlaySound(SoundID.Item41, projectile.Center);
-            //}
+            if (Main.rand.Next(3) == 0)
+            {
+               Particle smokeGlow = new HeavySmokeParticle(projectile.Center + smokePos, smokeSpeed, Main.hslToRgb(0.85f, 1, 0.5f), 20, Main.rand.NextFloat(0.4f, 1f) * projectile.scale, 0.8f, 0, true, 0.01f, true);
+               GeneralParticleHandler.SpawnParticle(smokeGlow);
+            }
+
+            if (ChainSwapTimer % (20 - Math.Ceiling(14 * MathHelper.Clamp((projectile.position - projectile.oldPosition).Length() / 30f, 0, 1))) == 1)
+            {
+                if (lastConstellation != null && lastConstellation.active)
+                    lastConstellation.Kill();
+
+                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriessWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.FlailBladeAttunement_ChainDamageReduction), 0, Owner.whoAmI);
+                if (lastConstellation.modProjectile is AriessWrathConstellation constellation)
+                {
+                    constellation.SizeVector = projectile.Center - Owner.Center;
+                }
+            }
 
             ChainSwapTimer++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained");
+            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra2");
 
-            CalculateChains(spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3);
-
-            //float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
-
-            Vector2 drawPos = projectile.Center - projectile.velocity * 55f;
-            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawPos = projectile.Center;
+            Vector2 drawOrigin = sword.Size() / 2f;
             float drawRotation = projectile.rotation + MathHelper.PiOver4;
 
-            //lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
-
-            spriteBatch.Draw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-
-
-            //Turn on additive blending
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            //Draw the tip of the flails here
-            Texture2D flailBlade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
-            Rectangle bladeFrame = new Rectangle(0, 0, 24, 48);
-            Vector2 flailOrigin = new Vector2(bladeFrame.Width / 2, bladeFrame.Height); //Draw from center bottom of texture
-
-            float flailRotation = (chainPositions1[chainPositions1.Length - 2] - chainPositions1[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions1[chainPositions1.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
-    
-            flailRotation = (chainPositions2[chainPositions2.Length - 2] - chainPositions2[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions2[chainPositions2.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
-
-            flailRotation = (chainPositions3[chainPositions3.Length - 2] - chainPositions3[chainPositions3.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
-
-            drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-            //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Draw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
 
             return false;
         }
+    }
 
-        //TLDR : https://media.discordapp.net/attachments/659100646397575208/933521303443501136/placeholder.gif 
-        private void GenerateCurve(float seed, Vector2 direction, out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, float angleShift = 0f, float necessaryOrientation = 1f)
+    public class AriessWrathConstellation : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public Player Owner => Main.player[projectile.owner];
+        public float Timer => 20 - projectile.timeLeft;
+
+        public Vector2 SizeVector;
+
+        public override void SetStaticDefaults()
         {
-            float randomNumber = 0.5f + ((float)Math.Sin(seed * 17.07947) + (float)Math.Sin(seed * 0.2f * 25.13274)) * 0.25f ; //Ty dom for the awesome pseudo rng
-            //Get new random numbers based on the same seed
-            float seed1 = 0.5f + ((float)Math.Sin(randomNumber * 100f * 17.07947) + (float)Math.Sin(randomNumber * 100f * 0.2f * 25.13274)) * 0.25f;
-            float seed2 = 0.5f + ((float)Math.Sin(seed1 * 50f * 17.07947) + (float)Math.Sin(seed1 * 50f * 0.2f * 25.13274)) * 0.25f;
-            float seed3 = 0.5f + ((float)Math.Sin(seed2 * 17.07947) + (float)Math.Sin(seed2 * 0.2f * 25.13274)) * 0.25f;
-
-
-            if ((necessaryOrientation == -1 && randomNumber >= 0.5) || (necessaryOrientation == 1 && randomNumber < 0.5))
-                randomNumber = 1 - randomNumber;
-
-            randomNumber += angleShift * 0.1f * necessaryOrientation; 
-
-
-            float flip = randomNumber >= 0.5 ? 1f : -1f;
-
-
-            control0 = Owner.MountedCenter + direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(MathHelper.PiOver4 * 0.3f * flip, MathHelper.PiOver4 * flip, randomNumber))) * MathHelper.Lerp(50f, 130f, (float)Math.Sin(randomNumber * MathHelper.Pi));
-
-            float easedShift = angleShift == 1 ? 1 : 1 - (float)Math.Pow(2, -10 * angleShift);
-            float Reach = OmegaBiomeBlade.FlailBladeAttunement_Reach * (0.75f + 0.75f * seed2 - 0.05f * easedShift);
-            control3 = Owner.MountedCenter + (direction * Reach).RotatedBy(MathHelper.Lerp(-0.01f * flip, 0.01f * flip, easedShift)); // The last point of the curve gets put straight at the front
-
-            //Over the double fucking bezier rainbow
-            Vector2 point1 = control3 + direction.RotatedBy(MathHelper.PiOver2) * 50;
-            Vector2 point2 = control3 + direction.RotatedBy(MathHelper.PiOver2) * 50  + direction * 250;
-            Vector2 point3 = control3 + direction.RotatedBy(-MathHelper.PiOver2) * 50  + direction * 250;
-            Vector2 point4 = control3 + direction.RotatedBy(-MathHelper.PiOver2) * 50;
-            BezierCurve curve = new BezierCurve(new Vector2[] { point1, point2, point3, point4 });
-            control3 = curve.Evaluate(randomNumber);
-
-            Vector2 directionFromHead = direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(0, 160f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi)))) * MathHelper.Lerp(130f, 200f, MathHelper.Clamp((float)Math.Sin(randomNumber * MathHelper.Pi) - 0.5f, 0f, 1f) * 2f);
-            control2 = control3 + directionFromHead;
-
-            Vector2 directionFromSecondToLastPoint = Vector2.Normalize(directionFromHead.RotatedBy(MathHelper.Pi - MathHelper.ToRadians(MathHelper.Lerp(80f * flip, 110f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi))))) * MathHelper.Lerp(120f, 280f, (float)Math.Sin(randomNumber * MathHelper.Pi));
-            control1 = control2 + directionFromSecondToLastPoint;
-
-            control3 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed1) * seed3 * 30f;
-            control2 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed2) * seed1 * 30f;
-            control1 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed3) * seed2 * 30f;
+            DisplayName.SetDefault("Constellation");
+        }
+        public override void SetDefaults()
+        {
+            projectile.melee = true;
+            projectile.width = projectile.height = 8;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 30;
+            projectile.timeLeft = 20;
         }
 
-        private void CalculateChains(SpriteBatch spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-
-            if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
-            {
-                whip1.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4 / 16f, -MathHelper.PiOver4 / 16f)).ToRotation(); //X is the orientation
-                whip1.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
-
-                ChainSwapTimer++;
-            }
-
-            if ((ChainSwapTimer - 2) % 6 == 0 || whip2.Y == 0)
-            {
-                whip2.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
-                whip2.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
-
-                ChainSwapTimer++;
-            }
-
-            if ((ChainSwapTimer - 4) % 6 == 0 || whip3.Y == 0)
-            {
-                whip3.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
-                whip3.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
-
-                ChainSwapTimer++;
-            }
-            
-            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            DrawChain(spriteBatch, out chainPositions1, control0, control1, control2, control3);
-
-            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            DrawChain(spriteBatch, out chainPositions2, control0, control1, control2, control3);
-
-            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            DrawChain(spriteBatch, out chainPositions3, control0, control1, control2, control3);
+            float collisionPoint = 0f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + SizeVector, 30f, ref collisionPoint);
         }
 
-        private void DrawChain(SpriteBatch spriteBatch, out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
+        public override void AI()
         {
-
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
-            Rectangle chainFrame = new Rectangle(0, 70, 24, 14);
-            Rectangle guardFrame = new Rectangle(0, 50, 24, 18);
-
-            //First chain
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, control0, control1, control2, control3 });
-            int numPoints = 40;
-            chainPositions = curve.GetPoints(numPoints).ToArray();
-
-            //Draw each chain segment bar the very first one
-            for (int i = 1; i < numPoints; i++)
+            if (projectile.ai[0] == 0)
             {
-                Vector2 position = chainPositions[i];
+                projectile.ai[0] = 1;
+                Vector2 previousStar = projectile.Center;
+                Vector2 offset;
+                Particle Line;
+                Particle Star = new GenericSparkle(previousStar, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
+                GeneralParticleHandler.SpawnParticle(Star);
 
-                float rotation = (chainPositions[i] - chainPositions[i - 1]).ToRotation() + MathHelper.PiOver2; //Calculate rotation based on direction from last point
-                Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
 
-                if (i < numPoints - 1)
+                for (float i = 0 + Main.rand.NextFloat(0.2f, 0.5f); i < 1; i += Main.rand.NextFloat(0.2f, 0.5f))
                 {
-                    float yScale = Vector2.Distance(chainPositions[i], chainPositions[i - 1]) / chainFrame.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+                    offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                    Star = new GenericSparkle(projectile.Center + SizeVector * i + offset, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
+                    GeneralParticleHandler.SpawnParticle(Star);
 
-                    float segmentProgress = i < 30f ? i / 30f : 1 - (i - 30f) / 10f;
-                    float xScale = 1f + 0.75f * (float)Math.Sin(segmentProgress * MathHelper.PiOver2);
+                    Line = new BloomLineVFX(previousStar, projectile.Center + SizeVector * i + offset - previousStar, 0.8f, Color.MediumVioletRed * 0.75f, 20, true, true);
+                    GeneralParticleHandler.SpawnParticle(Line);
 
-                    Vector2 scale = new Vector2(xScale, yScale); //Remember to make it get thicker and thinner based on whatever
-                    Vector2 origin = new Vector2(chainFrame.Width / 2, chainFrame.Height); //Draw from center bottom of texture
-
-                    float chainOpacity = MathHelper.Clamp((i / (float)numPoints) * 3f, 0f, 1f);
-
-                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor * chainOpacity, rotation, origin, scale, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    Vector2 origin = new Vector2(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
-                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
-
-                    if ((ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) == 1 && Main.rand.Next(3) == 0f)
+                    if (Main.rand.Next(3) == 0)
                     {
-                        Particle Flake = new SnowflakeSparkle(chainPositions[i], Vector2.Zero, Color.PaleTurquoise, Color.MediumTurquoise, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.2f);
-                        GeneralParticleHandler.SpawnParticle(Flake);
+                        offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                        Star = new GenericSparkle(projectile.Center + SizeVector * i + offset, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
+                        GeneralParticleHandler.SpawnParticle(Star);
+
+                        Line = new BloomLineVFX(previousStar, projectile.Center + SizeVector * i + offset - previousStar, 0.8f, Color.MediumVioletRed * 0.75f, 20, true, true);
+                        GeneralParticleHandler.SpawnParticle(Line);
                     }
+
+                    previousStar = projectile.Center + SizeVector * i + offset;
                 }
+
+                Star = new GenericSparkle(projectile.Center + SizeVector, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
+                GeneralParticleHandler.SpawnParticle(Star);
+
+                Line = new BloomLineVFX(previousStar, projectile.Center + SizeVector - previousStar, 0.8f, Color.MediumVioletRed * 0.75f, 20, true);
+                GeneralParticleHandler.SpawnParticle(Line);
             }
         }
 
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.WriteVector2(whip1);
-            writer.WriteVector2(whip2);
-            writer.WriteVector2(whip3);
+            writer.WriteVector2(SizeVector);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            whip1 = reader.ReadVector2();
-            whip2 = reader.ReadVector2();
-            whip3 = reader.ReadVector2();
+            SizeVector = reader.ReadVector2();
         }
+
     }
-
-
 }
 
 

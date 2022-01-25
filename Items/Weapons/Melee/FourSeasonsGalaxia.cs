@@ -45,39 +45,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int SuperPogoAttunement_LocalIFramesCharged = 16;
         public static float SuperPogoAttunement_SlashDamageBoost = 5f; //Keep in mind the slice always crits
         public static int SuperPogoAttunement_SlashBoltsDamage = 1300;
-        public static int SuperPogoAttunementSlashLifesteal = 6;
         public static int SuperPogoAttunement_SlashIFrames = 60;
-        public static float SuperPogoAttunement_ShotDamageBoost = 2f;
+        public static float SuperPogoAttunement_ShotDamageBoost = 2f; //The shots fired if the dash connects
 
-        public static int ShockwaveAttunement_BaseDamage = 2500;
+        public static int ShockwaveAttunement_BaseDamage = 3500;
         public static int ShockwaveAttunement_DashHitIFrames = 60;
         public static float ShockwaveAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
         public static float ShockwaveAttunement_MonolithDamageBoost = 2f;
-        public static float ShockwaveAttunement_BlastDamageReduction = 0.6f;
+        public static float ShockwaveAttunement_BoltsDamageReduction = 0.2f; //The shots fired as it charges
 
-        public static int FlailBladeAttunement_BaseDamage = 320;
-        public static int FlailBladeAttunement_LocalIFrames = 30;
-        public static int FlailBladeAttunement_FlailTime = 10;
-        public static int FlailBladeAttunement_Reach = 400;
+        public static int FlailBladeAttunement_BaseDamage = 1420;
+        public static int FlailBladeAttunement_LocalIFrames = 10;
+        public static int FlailBladeAttunement_Reach = 600;
         public static float FlailBladeAttunement_ChainDamageReduction = 0.5f;
-        public static float FlailBladeAttunement_GhostChainDamageReduction = 0.5f;
-
-        //Proc coefficients. aka the likelihood of any given attack to trigger a on-hit passive.
-        public static float WhirlwindAttunement_WhirlwindProc = 0.24f;
-        public static float WhirlwindAttunement_SwordThrowProc = 1f;
-        public static float WhirlwindAttunement_SwordBeamProc = 0.05f;
-
-        public static float SuperPogoAttunement_ShredderProc = 0.1f;
-        public static float SuperPogoAttunement_WheelProc = 0.4f;
-        public static float SuperPogoAttunement_DashProc = 1f;
-
-        public static float ShockwaveAttunement_SwordProc = 1f;
-        public static float ShockwaveAttunement_MonolithProc = 1f;
-        public static float ShockwaveAttunement_BlastProc = 0.5f;
-
-        public static float FlailBladeAttunement_BladeProc = 0.1f;
-        public static float FlailBladeAttunement_ChainProc = 0.05f;
-        public static float FlailBladeAttunement_GhostChainProc = 0.1f;
+        public static float FlailBladeAttunement_OnHitBoltDamageReduction = 0.5f;
         #endregion
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Just in case the player SOMEHOW gets to swing galaxia itself. Sprite also used as the base for other attacks
@@ -88,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
-                               "Upgrading the sword let it break free from its earthly boundaries.You now have access to every single attunement at all times.\n" +
+                               "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
                                "Active attunement : None\n" +
                                "Passive blessing: None\n"); ;
@@ -182,7 +163,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 case Attunement.FlailBlade:
                     AttunementInfo.name = "Aries's Wrath";
-                    AttunementInfo.function_description = "Send out Galaxia flying, circling at your cursors' position, connected to you by constellations";
+                    AttunementInfo.function_description = "Send out Galaxia flying, circling at your cursor's position, connected to you by constellations";
                     AttunementInfo.function_extra = "Enemy hits explode into extra homing cosmic bolts";
                     AttunementInfo.color = new Color(196, 89, 201);
                     AttunementInfo.color2 = new Color(255, 0, 0);
