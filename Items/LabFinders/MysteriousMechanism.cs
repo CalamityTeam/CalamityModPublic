@@ -24,8 +24,8 @@ namespace CalamityMod.Items.LabFinders
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
             recipe.AddIngredient(ItemID.IronBar, 10);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);

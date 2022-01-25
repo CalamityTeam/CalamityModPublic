@@ -44,8 +44,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LavaBucket, 2);
             recipe.AddIngredient(ItemID.HellstoneBar, 7);
+            recipe.AddIngredient(ItemID.LavaBucket, 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 15);
             recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 15);
             recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 15);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 15);
 

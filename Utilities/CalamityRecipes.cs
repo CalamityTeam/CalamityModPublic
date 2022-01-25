@@ -30,9 +30,11 @@ namespace CalamityMod
         {
             EditLeatherRecipe();
             EditPhoenixBlaster();
+            EditFlamarang();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
+            EditBeetleArmor();
             EditGoblinArmySummonRecipe();
             EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
@@ -166,6 +168,26 @@ namespace CalamityMod
             });
         }
 
+        // Change Flamarang's recipe to be consistent with literally every other weapon recipes in the game
+        private static void EditFlamarang()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.Flamarang).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.EnchantedBoomerang, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.HellstoneBar, false);
+                s.requiredItem[1].stack = 10;
+
+                s.createItem.SetDefaults(ItemID.Flamarang, false);
+                s.createItem.stack = 1;
+            });
+        }
+
         // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
         private static void EditTerraBladeRecipe()
         {
@@ -238,6 +260,71 @@ namespace CalamityMod
                 r.AddTile(TileID.MythrilAnvil);
                 r.SetResult(ItemID.SpiritFlame);
                 r.AddRecipe();
+            });
+        }
+
+        // Change Beetle Armor recipes to have Turtle Armor at the top of them (my dreaded)
+        private static void EditBeetleArmor()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.BeetleHelmet).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.TurtleHelmet, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
+                s.requiredItem[1].stack = 4;
+
+                s.createItem.SetDefaults(ItemID.BeetleHelmet, false);
+                s.createItem.stack = 1;
+            });
+
+            rec.Where(x => x.createItem.type == ItemID.BeetleScaleMail).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.TurtleScaleMail, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
+                s.requiredItem[1].stack = 8;
+
+                s.createItem.SetDefaults(ItemID.BeetleScaleMail, false);
+                s.createItem.stack = 1;
+            });
+
+            rec.Where(x => x.createItem.type == ItemID.BeetleShell).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.TurtleScaleMail, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
+                s.requiredItem[1].stack = 8;
+
+                s.createItem.SetDefaults(ItemID.BeetleShell, false);
+                s.createItem.stack = 1;
+            });
+
+            rec.Where(x => x.createItem.type == ItemID.BeetleLeggings).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.TurtleLeggings, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
+                s.requiredItem[1].stack = 6;
+
+                s.createItem.SetDefaults(ItemID.BeetleLeggings, false);
+                s.createItem.stack = 1;
             });
         }
 

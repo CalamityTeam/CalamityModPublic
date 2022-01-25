@@ -124,14 +124,14 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.ShinyStone);
             recipe.AddIngredient(ItemID.Campfire, 10);
             recipe.AddIngredient(ItemID.HeartLantern, 5);
-            recipe.AddRecipeGroup("AnyFood", 50);
-            recipe.AddIngredient(ItemID.ShinyStone);
             recipe.AddIngredient(ItemID.SharpeningStation);
             recipe.AddIngredient(ItemID.CrystalBall);
             recipe.AddIngredient(ItemID.AmmoBox);
             recipe.AddIngredient(ItemID.BewitchingTable);
+            recipe.AddRecipeGroup("AnyFood", 50);
 
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

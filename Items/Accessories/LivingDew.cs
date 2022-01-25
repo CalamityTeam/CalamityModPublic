@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Bezoar);
             recipe.AddIngredient(ItemID.Vine, 2);
             recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 5);
-            recipe.AddIngredient(ItemID.Bezoar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

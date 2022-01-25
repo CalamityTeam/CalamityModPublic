@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueHomingMissile : ModNPC
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
 
-			float timeBeforeHoming = 90f;
+			float timeBeforeHoming = 120f - npc.ai[3] * 0.5f;
             if (npc.ai[2] < timeBeforeHoming)
             {
                 npc.ai[2] += 1f;
@@ -99,8 +100,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 1f)
             {
                 npc.localAI[1] += 1f;
-                float timeBeforeExploding = 600f;
-                float homingDuration = malice ? 600f : death ? 420f : revenge ? 360f : expertMode ? 300f : 180f;
+                float timeBeforeExploding = 480f + npc.ai[3] * 2f;
+                float homingDuration = (malice ? 430f : death ? 340f : revenge ? 290f : expertMode ? 240f : 150f) + npc.ai[3] * 2f;
                 if (npc.localAI[1] == timeBeforeExploding)
                 {
                     CheckDead();
@@ -122,7 +123,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     npc.noTileCollide = false;
 
-					if (npc.velocity.Length() < 20f)
+					if (npc.velocity.Length() < (malice ? 25f : 20f))
 						npc.velocity *= 1.01f;
 
 					if (Collision.SolidCollision(npc.position, npc.width, npc.height))
