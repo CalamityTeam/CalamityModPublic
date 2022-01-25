@@ -19,6 +19,7 @@ namespace CalamityMod.Particles
 	public static class FusableParticleManager
 	{
 		internal static List<FusableParticleRenderCollection> ParticleSets = new List<FusableParticleRenderCollection>();
+		internal static bool HasBeenFormallyDefined = false;
 
 		/// <summary>
 		/// Loads all render sets.
@@ -44,7 +45,10 @@ namespace CalamityMod.Particles
 			// Redefine the particle set list in case the mod was reloaded and this field was nullified during that.
 			// This does not happen during reloads, as that would delete particles outside of load-time.
 			if (!reload)
+			{
 				ParticleSets = new List<FusableParticleRenderCollection>();
+				HasBeenFormallyDefined = true;
+			}
 
 			// Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
 			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
@@ -84,6 +88,7 @@ namespace CalamityMod.Particles
 				foreach (RenderTarget2D target in particleRenderSet.BackgroundTargets)
 					target?.Dispose();
 			}
+			HasBeenFormallyDefined = false;
 			ParticleSets = null;
 		}
 
