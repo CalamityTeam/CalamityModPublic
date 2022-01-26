@@ -456,7 +456,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
-            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
+            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f, 100, default, 0.9f);
             Main.dust[dustParticle].noGravity = true;
             Main.dust[dustParticle].velocity *= 0.5f;
             Main.dust[dustParticle].velocity += projectile.velocity * 0.1f;
@@ -488,7 +488,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i <= 15; i++)
             {
                 Vector2 displace = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * (-0.5f + (i / 15f)) * 88f;
-                int dustParticle = Dust.NewDust(projectile.Center + displace, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 2f);
+                int dustParticle = Dust.NewDust(projectile.Center + displace, projectile.width, projectile.height, 75, 0f, 0f, 100, default, 2f);
                 Main.dust[dustParticle].noGravity = true;
                 Main.dust[dustParticle].velocity = projectile.oldVelocity;
             }

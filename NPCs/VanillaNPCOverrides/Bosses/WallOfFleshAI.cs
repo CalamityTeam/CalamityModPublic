@@ -41,11 +41,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
+			
             // Clamp life ratio to prevent bad velocity math.
             lifeRatio = MathHelper.Clamp(lifeRatio, 0f, 1f);
 
@@ -495,10 +491,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Percent life remaining
                 float lifeRatio = Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
-
-                // Increase aggression if player is taking a long time to kill the boss
-                if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                    lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
                 bool charging = Main.npc[Main.wof].ai[3] == 1f;
 

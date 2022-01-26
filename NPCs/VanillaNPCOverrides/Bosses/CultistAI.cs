@@ -25,11 +25,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
+			
             // Phases
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
             bool death = CalamityWorld.death || malice;
@@ -1074,11 +1070,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining for Cultist or Eidolon Wyrm
             float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;
-
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > Main.npc[(int)npc.ai[0]].Calamity().killTimeRatio_IncreasedAggression)
-                lifeRatio = Main.npc[(int)npc.ai[0]].Calamity().killTimeRatio_IncreasedAggression;
-
+			
             bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>() ? 0.6f : 0.55f);
             bool phase4 = lifeRatio < 0.4f;

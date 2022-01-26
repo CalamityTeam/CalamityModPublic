@@ -107,13 +107,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
 			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
@@ -198,13 +191,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;

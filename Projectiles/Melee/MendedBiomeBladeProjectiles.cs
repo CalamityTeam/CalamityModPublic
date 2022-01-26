@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.tileCollide = true;
 
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
-            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
+            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f, 100, default, 0.9f);
             Main.dust[dustParticle].noGravity = true;
             Main.dust[dustParticle].velocity *= 0.5f;
             Main.dust[dustParticle].velocity += projectile.velocity * 0.1f;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i <= 15; i++)
             {
                 Vector2 displace = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * (-0.5f + (i / 15f)) * 88f;
-                int dustParticle = Dust.NewDust(projectile.Center + displace, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 2f);
+                int dustParticle = Dust.NewDust(projectile.Center + displace, projectile.width, projectile.height, 75, 0f, 0f, 100, default, 2f);
                 Main.dust[dustParticle].noGravity = true;
                 Main.dust[dustParticle].velocity = projectile.oldVelocity;
             }
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
         {
 
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
-            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100, default, 0.9f);
+            int dustParticle = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f, 100, default, 0.9f);
             Main.dust[dustParticle].noGravity = true;
             Main.dust[dustParticle].velocity *= 0.5f;
 
@@ -2429,7 +2429,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 for (int i = 0; i <= 4; i++)
                 {
-                    Dust waterTrail = Main.dust[Dust.NewDust(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), 23, 0, DustID.Water, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
+                    Dust waterTrail = Main.dust[Dust.NewDust(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), 23, 0, 33, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
                     waterTrail.fadeIn = 3f;
                 }
 
@@ -2472,11 +2472,11 @@ namespace CalamityMod.Projectiles.Melee
                 if (TimeSinceLanding > 10)
                 {
                     //Trailing water!! Dust spam!!!
-                    Dust waterTrail = Main.dust[Dust.NewDust(projectile.Top + Vector2.UnitY * groundOffset, 23, 0, DustID.Water, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
+                    Dust waterTrail = Main.dust[Dust.NewDust(projectile.Top + Vector2.UnitY * groundOffset, 23, 0, 33, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
                     waterTrail.fadeIn = 3f;
-                    waterTrail = Main.dust[Dust.NewDust(projectile.TopRight + Vector2.UnitY * groundOffset + Main.rand.NextVector2Circular(16f, 16f) + Vector2.UnitX * projectile.velocity.X * 4f, 23, 0, DustID.Water, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
+                    waterTrail = Main.dust[Dust.NewDust(projectile.TopRight + Vector2.UnitY * groundOffset + Main.rand.NextVector2Circular(16f, 16f) + Vector2.UnitX * projectile.velocity.X * 4f, 23, 0, 33, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
                     waterTrail.fadeIn = 3f;
-                    waterTrail = Main.dust[Dust.NewDust(projectile.TopLeft + Vector2.UnitY * groundOffset + Main.rand.NextVector2Circular(16f, 16f) + Vector2.UnitX * projectile.velocity.X * 4f, 23, 0, DustID.Water, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
+                    waterTrail = Main.dust[Dust.NewDust(projectile.TopLeft + Vector2.UnitY * groundOffset + Main.rand.NextVector2Circular(16f, 16f) + Vector2.UnitX * projectile.velocity.X * 4f, 23, 0, 33, -3.7f * Math.Sign(projectile.velocity.X), -6f, 0, new Color(255, 255, 255), Main.rand.NextFloat(1f, 3f))];
                     waterTrail.fadeIn = 3f;
 
 

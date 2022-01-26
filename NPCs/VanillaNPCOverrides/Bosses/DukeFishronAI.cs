@@ -20,11 +20,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
+			
             // Variables
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
             bool death = CalamityWorld.death || malice;

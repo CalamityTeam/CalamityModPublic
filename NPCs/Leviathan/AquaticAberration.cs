@@ -82,13 +82,6 @@ namespace CalamityMod.NPCs.Leviathan
 			// Percent life remaining
 			float lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax;
 
-			if (CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive || Main.npc[CalamityGlobalNPC.leviathan].Calamity().enraged > 0)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > Main.npc[CalamityGlobalNPC.leviathan].Calamity().killTimeRatio_IncreasedAggression)
-					lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].Calamity().killTimeRatio_IncreasedAggression;
-			}
-
 			// Phases
 			bool leviathanInPhase4 = lifeRatio < 0.2f;
 

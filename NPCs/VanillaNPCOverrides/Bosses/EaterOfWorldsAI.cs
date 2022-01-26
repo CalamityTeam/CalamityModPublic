@@ -58,10 +58,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
             // 10 seconds of resistance to prevent spawn killing
             if (calamityGlobalNPC.newAI[1] < 600f && BossRushEvent.BossRushActive)
                 calamityGlobalNPC.newAI[1] += 1f;

@@ -151,13 +151,6 @@ namespace CalamityMod.NPCs.Polterghast
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Phases
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
             bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
@@ -1107,13 +1100,6 @@ namespace CalamityMod.NPCs.Polterghast
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > npc.Calamity().killTimeRatio_IncreasedAggression)
-					lifeRatio = npc.Calamity().killTimeRatio_IncreasedAggression;
-			}
 
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
 			bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
