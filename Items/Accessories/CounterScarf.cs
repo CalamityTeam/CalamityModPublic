@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
             modPlayer.dashMod = 1;
+			player.dash = 0;
         }
     }
 }

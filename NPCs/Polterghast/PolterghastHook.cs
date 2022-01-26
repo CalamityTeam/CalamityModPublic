@@ -87,13 +87,6 @@ namespace CalamityMod.NPCs.Polterghast
 			// Percent life remaining, Polter
 			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression)
-					lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression;
-			}
-
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
 

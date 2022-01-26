@@ -352,10 +352,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
             // Easier to send info to Spazmatism
             CalamityGlobalNPC.laserEye = npc.whoAmI;
 
@@ -1053,10 +1049,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Increase aggression if player is taking a long time to kill the boss
-            if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-                lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
             // Easier to send info to Retinazer
             CalamityGlobalNPC.fireEye = npc.whoAmI;

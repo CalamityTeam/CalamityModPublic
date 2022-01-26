@@ -5,7 +5,9 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
@@ -370,9 +372,19 @@ namespace CalamityMod.UI
                 return;
 
             // Do not attempt to create a new bar for an NPC that's already in the list of bars.
-            bool canAddBar = Main.npc[index].active && Main.npc[index].life > 0 && Bars.All(b => b.NPCIndex != index) && !Main.npc[index].Calamity().ShouldCloseHPBar;
+            NPC npc = Main.npc[index];
+            bool canAddBar = npc.active && npc.life > 0 && Bars.All(b => b.NPCIndex != index) && !npc.Calamity().ShouldCloseHPBar;
+
+            // SPECIAL CASE: Artemis and Apollo should be registered as one boss, as they share HP.
+            // Apollo is the only NPC to recieve a bar, with a special overriding name.
+            string overridingName = null;
+            if (npc.type == NPCType<Artemis>())
+                canAddBar = false;
+            if (npc.type == NPCType<Apollo>())
+                overridingName = $"{Artemis.NameToDisplay} and {Apollo.NameToDisplay}";
+
             if (canAddBar)
-                Bars.Add(new BossHPUI(index));
+                Bars.Add(new BossHPUI(index, overridingName));
         }
 
         public static void Draw(SpriteBatch sb)
@@ -401,6 +413,7 @@ namespace CalamityMod.UI
             public long PreviousLife;
             public long HealthAtStartOfCombo;
             public long InitialMaxLife;
+            public string OverridingName = null;
             public NPC AssociatedNPC => Main.npc.IndexInRange(NPCIndex) ? Main.npc[NPCIndex] : null;
             public int NPCType => AssociatedNPC?.type ?? -1;
             public long CombinedNPCLife
@@ -518,7 +531,7 @@ namespace CalamityMod.UI
             public static Color MainColor = new Color(229, 189, 62);
             public static Color MainBorderColour = new Color(197, 127, 46);
 
-            public BossHPUI(int index)
+            public BossHPUI(int index, string overridingName = null)
             {
                 NPCIndex = index;
 
@@ -532,6 +545,7 @@ namespace CalamityMod.UI
                     IntendedNPCType = AssociatedNPC.type;
                     PreviousLife = CombinedNPCLife;
                 }
+                OverridingName = overridingName;
             }
 
             public void Update()
@@ -607,7 +621,8 @@ namespace CalamityMod.UI
                 CalamityUtils.DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), MainColor, MainBorderColour * 0.25f);
 
                 // Draw a red back-glow of the text if the NPC is enraged.
-                string name = AssociatedNPC.FullName;
+                string name = OverridingName ?? AssociatedNPC.FullName;
+
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
                 if (EnrageTimer > 0)
                 {

@@ -444,13 +444,14 @@ namespace CalamityMod.CalPlayer
             Rectangle frame = texture.Frame(1, 4, 0, modPlayer.tailFrame);
             if (modPlayer.fathomSwarmerTail)
             {
+				int dyeShader = drawPlayer.dye?[2].dye ?? 0;
                 int frameSizeY = texture.Height / 4;
                 int centerX = (int)(drawInfo.position.X + drawPlayer.width / 2f);
                 int centerY = (int)(drawInfo.position.Y + drawPlayer.height / 2f);
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
-                Color color = Lighting.GetColor(centerX, centerY);
-                DrawData tailDrawData = new DrawData(texture, new Vector2(drawX, drawY), frame, color, 0f, new Vector2(texture.Width / 2f, frameSizeY / 2f), 1f, drawInfo.spriteEffects, 0);
+                DrawData tailDrawData = new DrawData(texture, new Vector2(drawX, drawY), frame, drawInfo.pantsColor, 0f, new Vector2(texture.Width / 2f, frameSizeY / 2f), 1f, drawInfo.spriteEffects, 0);
+                tailDrawData.shader = dyeShader;
                 Main.playerDrawData.Add(tailDrawData);
             }
         });

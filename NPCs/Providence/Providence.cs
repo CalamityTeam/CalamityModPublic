@@ -198,13 +198,6 @@ namespace CalamityMod.NPCs.Providence
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Play enrage animation if night starts
 			if (nightTime && calamityGlobalNPC.newAI[3] == spawnAnimationTime)
 			{

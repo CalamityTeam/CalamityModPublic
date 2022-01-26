@@ -106,13 +106,6 @@ namespace CalamityMod.NPCs.Signus
 
 			double lifeRatio = npc.life / (double)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;

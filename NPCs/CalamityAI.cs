@@ -62,13 +62,6 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Phases
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
@@ -703,13 +696,6 @@ namespace CalamityMod.NPCs
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			bool phase2 = lifeRatio < 0.5f && revenge;
 			bool phase3 = lifeRatio < 0.33f;
 
@@ -1253,13 +1239,6 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			// Phases
 			bool phase3 = lifeRatio < 0.7f;
@@ -2046,13 +2025,6 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || malice;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -2335,13 +2307,6 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || malice;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -2622,13 +2587,6 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			float shootTimer = 1f;
 			if (expertMode)
@@ -3316,13 +3274,6 @@ namespace CalamityMod.NPCs
 			// Life
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Phases based on life percentage
 			bool halfHealth = npc.life / (float)npc.lifeMax < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
@@ -3892,7 +3843,7 @@ namespace CalamityMod.NPCs
 							npc.TargetClosest();
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
-								Main.PlaySound(SoundID.Item12, npc.Center);
+								Main.PlaySound(phase2 ? SoundID.Item91 : SoundID.Item12, npc.Center);
 								float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
 								Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 								float num942 = player.position.X + player.width * 0.5f - vector104.X;
@@ -3910,13 +3861,13 @@ namespace CalamityMod.NPCs
 								if (phase2)
 								{
 									// Waving beams need to start offset so they cross each other neatly.
-									float waveSideOffset = Main.rand.NextFloat(18f, 28f);
+									float waveSideOffset = Main.rand.NextFloat(9f, 14f);
 									Vector2 perp = shootDirection.RotatedBy(-MathHelper.PiOver2) * waveSideOffset;
 
 									for (int i = -1; i <= 1; i += 2)
 									{
 										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.25f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
 										// Tell this Phased God Ray exactly which way it should be waving.
 										godRay.localAI[1] = i * 0.5f;
@@ -3926,7 +3877,7 @@ namespace CalamityMod.NPCs
 								{
 									Projectile.NewProjectile(vector104, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 									if (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f)
-										Projectile.NewProjectile(vector104, laserVelocity * 0.75f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile.NewProjectile(vector104, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
@@ -4012,13 +3963,6 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			// Phases
 			bool phase2 = lifeRatio <= 0.7;
@@ -4674,13 +4618,6 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f);
@@ -5495,13 +5432,6 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
 
 			bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
 			bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;

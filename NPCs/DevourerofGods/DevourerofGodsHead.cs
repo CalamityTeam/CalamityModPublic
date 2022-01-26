@@ -272,13 +272,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Phase 1 phases
 			bool phase2 = lifeRatio < 0.9f;
 			bool phase3 = lifeRatio < 0.68f;
@@ -371,9 +364,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				{
 					Phase2Started = true;
 
-					// Timed DR and aggression
+					// Timed DR
 					calamityGlobalNPC.AITimer = CalamityGlobalNPC.DoGPhase1KillTime;
-					calamityGlobalNPC.AIIncreasedAggressionTimer = CalamityGlobalNPC.DoGPhase1KillTime;
 
 					// Reset important shit
 					npc.ai[3] = 0f;

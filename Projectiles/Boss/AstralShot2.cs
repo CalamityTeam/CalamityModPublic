@@ -37,11 +37,12 @@ namespace CalamityMod.Projectiles.Boss
         {
 			if (projectile.ai[0] == 1f)
 			{
+				projectile.extraUpdates = 2;
 				bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-				float maxVelocity = malice ? 15f : 12f;
+				float maxVelocity = malice ? 3.75f : 3f;
 				if (projectile.velocity.Length() < maxVelocity)
 				{
-					projectile.velocity *= malice ? 1.075f : 1.05f;
+					projectile.velocity *= malice ? 1.02f : 1.015f;
 					if (projectile.velocity.Length() > maxVelocity)
 					{
 						projectile.velocity.Normalize();

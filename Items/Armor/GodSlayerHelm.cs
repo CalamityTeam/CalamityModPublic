@@ -53,7 +53,10 @@ namespace CalamityMod.Items.Armor
             player.aggro += 1000;
 
             if (modPlayer.godSlayerDashHotKeyPressed)
+			{
                 modPlayer.dashMod = 9;
+				player.dash = 0;
+			}
         }
 
         public override void UpdateEquip(Player player)

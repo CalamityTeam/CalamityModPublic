@@ -168,8 +168,6 @@ namespace CalamityMod.NPCs
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 		public int AITimer = 0;
-		public int AIIncreasedAggressionTimer = 0;
-		public float killTimeRatio_IncreasedAggression = 0f;
 
         // Town NPC Patreon
         public bool setNewName = true;
@@ -2753,14 +2751,6 @@ namespace CalamityMod.NPCs
 				{
 					if (AITimer < KillTime)
 						AITimer++;
-
-					// Separate timer for aggression to avoid entering later phases too quickly
-					int aggressionTimerCap = (int)(KillTime * 1.5);
-					if (AIIncreasedAggressionTimer < aggressionTimerCap)
-						AIIncreasedAggressionTimer++;
-
-					// Increases aggression over time if the fight is taking too long
-					killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)aggressionTimerCap);
 				}
 			}
 
@@ -3387,7 +3377,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 26:
-						if (npc.type == NPCType<Pitbull>())
+						if (npc.type == NPCType<Rotdog>())
 						{
 							return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
 						}

@@ -361,13 +361,6 @@ namespace CalamityMod.NPCs.HiveMind
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			if (revenge)
-			{
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-			}
-
 			// Enrage
 			if ((!player.ZoneCorrupt || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
 			{
@@ -1111,7 +1104,7 @@ namespace CalamityMod.NPCs.HiveMind
                 DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15, 3);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20, 2);
-                DropHelper.DropItem(npc, ItemID.CorruptSeeds, 2, 4);
+                DropHelper.DropItem(npc, ItemID.CorruptSeeds, 10, 15);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

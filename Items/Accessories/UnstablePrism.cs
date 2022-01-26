@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Unstable Prism");
+            DisplayName.SetDefault("Unstable Granite Core");
             Tooltip.SetDefault("Three sparks are released on critical hits");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 5));
         }
