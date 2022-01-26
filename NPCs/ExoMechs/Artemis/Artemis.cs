@@ -127,9 +127,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		// Primitive trail drawer for the ribbon things
 		public PrimitiveTrail RibbonTrail = null;
 
+		public const string NameToDisplay = "XS-01 Artemis";
+
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("XS-01 Artemis");
+            DisplayName.SetDefault(NameToDisplay);
 			NPCID.Sets.TrailingMode[npc.type] = 3;
 			NPCID.Sets.TrailCacheLength[npc.type] = 15;
 		}

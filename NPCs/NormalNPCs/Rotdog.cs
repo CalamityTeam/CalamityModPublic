@@ -6,11 +6,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Pitbull : ModNPC
+    public class Rotdog : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pitbull");
+            DisplayName.SetDefault("Rotdog");
             Main.npcFrameCount[npc.type] = 10;
         }
 
