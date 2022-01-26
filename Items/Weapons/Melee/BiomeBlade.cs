@@ -259,11 +259,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                int x = (int)player.Center.X / 16;
-                int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
-                Tile tileStandingOn = Main.tile[x, y + 1];
 
-                bool mayAttune = player.StandingStill() && !player.mount.Active && tileStandingOn.IsTileSolidGround();
+                bool mayAttune = player.StandingStill() && !player.mount.Active && player.CheckSolidGround(1, 3);
                 Vector2 displace = new Vector2(18f, 0f);
                 Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
@@ -326,9 +323,8 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         private Player Owner => Main.player[projectile.owner];
 
-        public bool OwnerOnGround => Main.tile[(int)Owner.Center.X / 16, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround() && Main.tile[(int)Owner.Center.X / 16 + Owner.direction, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround();
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as BiomeBlade).CanUseItem(Owner) : false;
-        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && OwnerOnGround;
+        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && Owner.CheckSolidGround(1, 3);
         public ref float ChanneledState => ref projectile.ai[0];
         public ref float ChannelTimer => ref projectile.ai[1];
         public ref float Initialized => ref projectile.localAI[0];
