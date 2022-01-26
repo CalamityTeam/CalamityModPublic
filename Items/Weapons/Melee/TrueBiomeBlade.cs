@@ -266,7 +266,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             else
-                mainAttunement.ApplyStats(ref item);
+                mainAttunement.ApplyStats(item);
 
             if (mainAttunement != null && mainAttunement.id != AttunementID.TrueCold && mainAttunement.id != AttunementID.TrueTropical)
                 Combo = 0;

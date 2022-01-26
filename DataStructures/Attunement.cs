@@ -96,7 +96,7 @@ namespace CalamityMod.DataStructures
         public Color energyParticleEdgeColor;
         public Color energyParticleCenterColor;
 
-        public virtual void ApplyStats(ref Item item)
+        public virtual void ApplyStats(Item item)
         {
         }
 
@@ -136,7 +136,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = BiomeBlade.DefaultAttunement_BaseDamage;
             item.channel = false;
@@ -161,7 +161,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = BiomeBlade.HotAttunement_BaseDamage;
             item.channel = true;
@@ -186,7 +186,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = BiomeBlade.ColdAttunement_BaseDamage;
             item.channel = true;
@@ -234,7 +234,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = BiomeBlade.TropicalAttunement_BaseDamage;
             item.channel = false;
@@ -260,7 +260,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = BiomeBlade.EvilAttunement_BaseDamage;
             item.channel = false;
@@ -296,7 +296,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.DefaultAttunement_BaseDamage;
             item.channel = false;
@@ -322,7 +322,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.HotAttunement_BaseDamage;
             item.channel = true;
@@ -348,7 +348,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.ColdAttunement_BaseDamage;
             item.channel = true;
@@ -397,7 +397,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.TropicalAttunement_BaseDamage;
             item.channel = false;
@@ -435,7 +435,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.EvilAttunement_BaseDamage;
             item.channel = false;
@@ -479,7 +479,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(255, 143, 255);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.HolyAttunement_BaseDamage;
             item.channel = true;
@@ -506,7 +506,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(153, 120, 255);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.AstralAttunement_BaseDamage;
             item.channel = true;
@@ -533,7 +533,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(27, 112643, 255);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = TrueBiomeBlade.MarineAttunement_BaseDamage;
             item.channel = false;
@@ -561,7 +561,7 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(171, 239, 113);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = OmegaBiomeBlade.WhirlwindAttunement_BaseDamage;
             item.channel = true;
@@ -598,7 +598,7 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(169, 207, 255);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
             item.channel = true;
@@ -637,7 +637,7 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(216, 131, 22);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
             item.channel = true;
@@ -674,7 +674,7 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(122, 213, 233);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
             item.channel = true;
@@ -716,7 +716,7 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(76, 137, 237);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = FourSeasonsGalaxia.PhoenixAttunement_BaseDamage;
             item.channel = true;
@@ -755,7 +755,7 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(76, 137, 237);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = FourSeasonsGalaxia.AriesAttunement_BaseDamage;
             item.channel = true;
@@ -794,7 +794,7 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(203, 25, 119);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
             item.channel = true;
@@ -829,7 +829,7 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(194, 166, 255);
         }
 
-        public override void ApplyStats(ref Item item)
+        public override void ApplyStats(Item item)
         {
             item.damage = FourSeasonsGalaxia.AndromedaAttunement_BaseDamage;
             item.channel = true;

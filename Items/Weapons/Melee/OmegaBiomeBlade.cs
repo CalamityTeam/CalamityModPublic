@@ -300,7 +300,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.UseSound = SoundID.Item1;
             }
             else
-                mainAttunement.ApplyStats(ref item);
+                mainAttunement.ApplyStats(item);
 
             if (player.whoAmI != Main.myPlayer)
                 return;

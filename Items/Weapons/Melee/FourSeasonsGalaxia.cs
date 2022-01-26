@@ -270,7 +270,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 mainAttunement = new PhoenixAttunement();
 
-            mainAttunement.ApplyStats(ref item);
+            mainAttunement.ApplyStats(item);
 
             //Passive effects only jappen player side haha
             if (player.whoAmI != Main.myPlayer)
