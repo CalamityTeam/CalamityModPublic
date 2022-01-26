@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
+using CalamityMod.Particles;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
