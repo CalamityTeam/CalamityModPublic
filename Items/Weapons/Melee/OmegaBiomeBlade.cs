@@ -125,6 +125,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = new Color(163, 163, 163);
                         l.text = "Does nothing.. yet";
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("FUNCTION_EXTRA"))
@@ -139,6 +140,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = new Color(163, 163, 163);
                         l.text = "It seems that upgrading the blade expanded the scope of the previous attunements";
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("FUNCTION_PASSIVE"))
@@ -153,6 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = new Color(163, 163, 163);
                         l.text = "Your secondary attunement can now provide passive bonuses";
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("Active attunement"))
@@ -167,6 +170,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = new Color(163, 163, 163);
                         l.text = "Active Attumenent : [None]";
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("Passive attunement"))
@@ -181,6 +185,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = new Color(163, 163, 163);
                         l.text = "Passive Attumenent : [None]";
                     }
+                    continue;
                 }
             }
         }
@@ -303,7 +308,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.UseSound = SoundID.Item1;
             }
             else
+            {
+                if (mainAttunement.id < AttunementID.Whirlwind || mainAttunement.id > AttunementID.Shockwave)
+                    mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.Whirlwind, (float)AttunementID.Shockwave)];
+
                 mainAttunement.ApplyStats(item);
+            }
+
 
             if (player.whoAmI != Main.myPlayer)
                 return;

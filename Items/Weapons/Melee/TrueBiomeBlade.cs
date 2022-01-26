@@ -266,7 +266,11 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             else
+            {
+                if (mainAttunement.id < AttunementID.TrueDefault || mainAttunement.id > AttunementID.Marine)
+                    mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
                 mainAttunement.ApplyStats(item);
+            }
 
             if (mainAttunement != null && mainAttunement.id != AttunementID.TrueCold && mainAttunement.id != AttunementID.TrueTropical)
                 Combo = 0;

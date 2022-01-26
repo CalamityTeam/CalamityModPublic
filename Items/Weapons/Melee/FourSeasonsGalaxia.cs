@@ -102,11 +102,12 @@ namespace CalamityMod.Items.Weapons.Melee
                         l.overrideColor = mainAttunement.tooltipColor;
                         l.text = mainAttunement.function_description;
                     }
-                    else
+                    else //Fake the existence of a main attunement
                     {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Has 4 different functions that the owner can swap between";
+                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
+                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description;
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("FUNCTION_EXTRA"))
@@ -118,9 +119,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                     else
                     {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "This text should never be seen";
+                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
+                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description_extra;
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("FUNCTION_PASSIVE"))
@@ -132,9 +134,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                     else
                     {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "This text should never be seen";
+                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
+                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].passive_description;
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("Active Attunement"))
@@ -146,9 +149,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                     else
                     {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Active Attumenent : [None]";
+                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
+                        l.text = "Active Attumenent : [" + Attunement.attunementArray[(int)AttunementID.Phoenix].name + "]";
                     }
+                    continue;
                 }
 
                 if (l.text.StartsWith("Passive Blessing"))
@@ -160,9 +164,10 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                     else
                     {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Passive Blessing : [None]";
+                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
+                        l.text = "Passive Blessing : ["+ Attunement.attunementArray[(int)AttunementID.Phoenix].passive_name + "]";
                     }
+                    continue;
                 }
             }
         }
@@ -269,6 +274,9 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             if (mainAttunement == null)
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+            //Clamp the attunement to only be part of the 4 galaxia attunements
+            else if (mainAttunement.id < AttunementID.Phoenix)
                 mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
             mainAttunement.ApplyStats(item);

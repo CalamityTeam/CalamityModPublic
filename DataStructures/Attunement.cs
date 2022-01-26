@@ -790,6 +790,10 @@ namespace CalamityMod.DataStructures
             function_description_extra = "Striking the ground with the charge will create an impact so powerful large homing cosmic energies will rise from the ground";
             tooltipColor = new Color(132, 128, 255);
             tooltipColor2 = new Color(194, 166, 255);
+
+            passive_name = "Cancer's Blessing";
+            passive_description = "Periodically releases a ring of lifestealing stars around yourself when attacking\nThe ring is attracted towards you at first, before slowing down over time";
+            tooltipPassiveColor = new Color(203, 25, 119);
         }
 
         public override void ApplyStats(Item item)
