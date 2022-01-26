@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -20,9 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TrueBiomeBlade : ModItem
     {
-        public enum Attunement : byte { Default, Hot, Cold, Tropical, Evil, Holy, Astral, Marine }
-        public Attunement? mainAttunement = null;
-        public Attunement? secondaryAttunement = null;
+        public Attunement mainAttunement = null;
+        public Attunement secondaryAttunement = null;
         public int Combo = 0;
         public int StoredLunges = 2;
         public int PowerLungeCounter = 0;
@@ -90,105 +90,60 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (l.text.StartsWith("FUNCTION_DESC"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
-                    l.text = info.function_description;
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = mainAttunement.tooltipColor;
+                        l.text = mainAttunement.function_description;
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Does nothing.. yet";
+                    }
                 }
 
                 if (l.text.StartsWith("FUNCTION_EXTRA"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
-                    l.text = info.function_extra;
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = mainAttunement.tooltipColor;
+                        l.text = mainAttunement.function_description_extra;
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Repairing the blade seems to have improved its attuning capacities";
+                    }
                 }
 
                 if (l.text.StartsWith("Main attunement"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
-                    l.text = "Main Attumenent : [" + info.name + "]";
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = mainAttunement.tooltipColor;
+                        l.text = "Main Attumenent : [" + mainAttunement.name + "]";
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Main Attumenent : [None]";
+                    }
                 }
 
                 if (l.text.StartsWith("Secondary attunement"))
                 {
-                    AttunementInfo info = GetAttunementInfo(secondaryAttunement);
-                    l.overrideColor = Color.Lerp(info.color, Color.Gray, 0.5f);
-                    l.text = "Secondary Attumenent : [" + info.name + "]";
+                    if (secondaryAttunement != null)
+                    {
+                        l.overrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
+                        l.text = "Secondary Attumenent : [" + secondaryAttunement.name + "]";
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Secondary Attumenent : [None]";
+                    }
                 }
             }
-        }
-
-        internal struct AttunementInfo
-        {
-            public string name;
-            public string function_description;
-            public string function_extra;
-            public Color color;
-        }
-
-        internal AttunementInfo GetAttunementInfo(Attunement? attunement)
-        {
-            AttunementInfo AttunementInfo = new AttunementInfo();
-
-            switch (attunement)
-            {
-                case Attunement.Default:
-                    AttunementInfo.name = "Pure Clarity";
-                    AttunementInfo.function_description = "Fires a weak projectile that crushes enemy defenses";
-                    AttunementInfo.function_extra = "Landing true melee hits places a sigil of purity over the enemy. Your projectiles home onto the marked foes"; 
-                    AttunementInfo.color = new Color(171, 180, 73);
-                    break;
-                case Attunement.Hot:
-                    AttunementInfo.name = "Arid Grandeur";
-                    AttunementInfo.function_description = "Conjures searing blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
-                    AttunementInfo.function_extra = "Releasing LMB after charging up the blades sends them out flying to shred your foes";
-                    AttunementInfo.color = new Color(238, 156, 73);
-                    break;
-                case Attunement.Cold:
-                    AttunementInfo.name = "Biting Embrace";
-                    AttunementInfo.function_description = "Perform a 3 strike combo with a glacial blade. The final strike freezes foes for a split second";
-                    AttunementInfo.function_extra = "Lingering glacial mist is released on each swing, dealing damage to enemies wandering into it";
-                    AttunementInfo.color = new Color(165, 235, 235);
-                    break;
-                case Attunement.Tropical:
-                    AttunementInfo.name = "Grovetender's Touch";
-                    AttunementInfo.function_description = "Throw out the blade using a vine whip. Striking enemies with the tip of the whip as it cracks guarantees a critical hit. The whip will also propel you towards struck tiles";
-                    AttunementInfo.function_extra = "Critical strikes sprout up extra vines that can hit up to three targets";
-                    AttunementInfo.color = new Color(162, 200, 85);
-                    break;
-                case Attunement.Evil:
-                    AttunementInfo.name = "Decay's Retort";
-                    AttunementInfo.function_description = "Lunge forward using a ghostly rapier projection that leeches life off any struck foes. You also get bounced away from hit targets";
-                    AttunementInfo.function_extra = "Lining up three strikes without touching the ground empowers the next strike into a powerful dash thrust ";
-                    AttunementInfo.color = new Color(211, 64, 147);
-                    break;
-                case Attunement.Holy:
-                    AttunementInfo.name = "Heaven's Might";
-                    AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins";
-                    AttunementInfo.function_extra = "Releasing LMB will throw the sword in front of you, flying a short distance away before coming back";
-                    AttunementInfo.color = new Color(220, 143, 255);
-                    break;
-                case Attunement.Astral:
-                    AttunementInfo.name = "Their Abhorrence";
-                    AttunementInfo.function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
-                    AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful massive otherwordly monoliths will rise up from the earth";
-                    AttunementInfo.color = new Color(91, 73, 196);
-                    break;
-                case Attunement.Marine:
-                    AttunementInfo.name = "Gesture for the Drowned";
-                    AttunementInfo.function_description = "Shoot out two water balls at your sides. On ground contact the water balls will turn into small waves that ride along the ground";
-                    AttunementInfo.function_extra = "If used while submerged, or if the waves contact water, the waves will turn into bigger and faster ones";
-                    AttunementInfo.color = new Color(98, 225, 255);
-                    break;
-                default:
-                    AttunementInfo.name = "None";
-                    AttunementInfo.function_description = "Does nothing... yet";
-                    AttunementInfo.function_extra = "Repairing the blade did increase its attuning capacities";
-                    AttunementInfo.color = new Color(163, 163, 163);
-                    break;
-            }
-
-            return AttunementInfo;
         }
 
         #endregion
@@ -251,8 +206,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override TagCompound Save()
         {
-            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement;
-            int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement;
+            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
+            int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement.id;
             TagCompound tag = new TagCompound
             {
                 { "mainAttunement", attunement1 },
@@ -265,35 +220,30 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
-            if (attunement1 == -1)
-                mainAttunement = null;
-            else
-                mainAttunement = (Attunement?)attunement1;
 
-            if (attunement2 == -1 || (attunement1 == attunement2))
+            mainAttunement = AttunementHelper.IDtoAttunement(attunement1);
+            secondaryAttunement = AttunementHelper.IDtoAttunement(attunement2);
+
+            if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
-            else
-                secondaryAttunement = (Attunement?)attunement2;
         }
 
         public override void NetSend(BinaryWriter writer)
         {
-            writer.Write((byte)mainAttunement);
-            writer.Write((byte)secondaryAttunement);
+            writer.Write((byte)mainAttunement.id);
+            writer.Write((byte)secondaryAttunement.id);
         }
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = (Attunement?)reader.ReadByte();
-            secondaryAttunement = (Attunement?)reader.ReadByte();
+            mainAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
+            secondaryAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
         }
 
         #endregion
 
-
         public override void HoldItem(Player player)
         {
-
             player.Calamity().rightClickListener = true;
 
             if (player.velocity.Y == 0) //reset the amount of lunges on ground contact
@@ -303,128 +253,28 @@ namespace CalamityMod.Items.Weapons.Melee
                     PowerLungeCounter = 0;
             }
 
-
-
-            //Change the swords function based on its attunement
-            switch (mainAttunement)
+            if (mainAttunement == null)
             {
-                case Attunement.Default:
-                    item.damage = DefaultAttunement_BaseDamage;
-                    item.channel = false;
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileType<TruePurityProjection>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = SoundID.Item1;
-                    item.noMelee = false;
+                item.noUseGraphic = false;
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.shoot = ProjectileID.PurificationPowder;
+                item.shootSpeed = 12f;
+                item.UseSound = SoundID.Item1;
 
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Hot:
-                    item.damage = HotAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<TrueAridGrandeur>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Cold:
-                    item.damage = ColdAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<TrueBitingEmbrace>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Tropical:
-                    item.damage = TropicalAttunement_BaseDamage;
-                    item.channel = false;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileType<TrueGrovetendersTouch>();
-                    item.shootSpeed = 30;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Evil:
-                    item.damage = EvilAttunement_BaseDamage;
-                    item.channel = false;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.Stabbing;
-                    item.shoot = ProjectileType<TrueDecaysRetort>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    Combo = 0;
-                    break;
-                case Attunement.Holy:
-                    item.damage = HolyAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<HeavensMight>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Astral:
-                    item.damage = AstralAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.Stabbing;
-                    item.shoot = ProjectileType<TheirAbhorrence>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
-                case Attunement.Marine:
-                    item.damage = MarineAttunement_BaseDamage;
-                    item.channel = false;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.Stabbing;
-                    item.shoot = ProjectileType<GestureForTheDrowned>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
-                default:
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileID.PurificationPowder;
-                    item.shootSpeed = 12f;
-                    item.UseSound = SoundID.Item1;
-
-                    Combo = 0;
-                    PowerLungeCounter = 0;
-                    break;
+                Combo = 0;
+                PowerLungeCounter = 0;
             }
+
+            else
+                mainAttunement.ApplyStats(ref item);
+
+            if (mainAttunement != null && mainAttunement.id != AttunementID.TrueCold && mainAttunement.id != AttunementID.TrueTropical)
+                Combo = 0;
 
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {
                 //Don't shoot out a visual blade if you already have one out
-                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<MendedBiomeBladeVisuals>() && n.owner == player.whoAmI))
+                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
                 int x = (int)player.Center.X / 16;
@@ -433,7 +283,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 bool mayAttune = player.StandingStill() && !player.mount.Active && tileStandingOn.IsTileSolidGround();
                 Vector2 displace = new Vector2(18f, 0f);
-                Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<MendedBiomeBladeVisuals>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
+                Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
         }
 
@@ -453,61 +303,14 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 return false;
 
-            switch (mainAttunement)
-            {
-                case Attunement.Cold:
-                    switch (Combo)
-                    {
-                        case 0:
-                            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 0, 15);
-                            break;
-
-                        case 1:
-                            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 1, 20);
-                            break;
-
-                        case 2:
-                            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
-                            break;
-                    }
-                    Combo++;
-                    if (Combo > 2)
-                        Combo = 0;
-                    return false;
-
-                case Attunement.Tropical:
-                    Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 0);
-                    if (whipProj.modProjectile is TrueGrovetendersTouch whip)
-                        whip.flipped = Combo == 0 ? 1 : -1;
-                    Combo++;
-                    if (Combo > 1)
-                        Combo = 0;
-                    return false;
-
-                case Attunement.Evil:
-                    bool powerLungeAvailable = false;
-                    if (PowerLungeCounter == 3)
-                    {
-                        powerLungeAvailable = true;
-                        PowerLungeCounter = 0;
-                    }
-                    Projectile proj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage, knockBack, player.whoAmI, 26f, StoredLunges > 0 ? 1f : 0f);
-                    if (proj.modProjectile is TrueDecaysRetort rapier)
-                        rapier.ChargedUp = powerLungeAvailable;
-                    StoredLunges --;
-                    if (StoredLunges < 0)
-                        StoredLunges = 0;
-                    return false;
-
-                default:
-                    return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
-            }
+            return mainAttunement.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack, ref Combo, ref StoredLunges, ref PowerLungeCounter);
         }
+
 
         //This is only used for the purity sigil effect of the default attunement
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (mainAttunement != Attunement.Default || player.whoAmI != Main.myPlayer)
+            if (mainAttunement.id != AttunementID.TrueDefault || player.whoAmI != Main.myPlayer)
                 return;
 
             foreach (Projectile proj in Main.projectile)
@@ -520,7 +323,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     return;
                 }
             }
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
         }
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.White, Color.White, 0.04f, 20f);
@@ -544,38 +347,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 
-            switch (mainAttunement)
-            {
-                case Attunement.Default:
-                    BiomeEnergyParticles.EdgeColor = new Color(117, 126, 72);
-                    BiomeEnergyParticles.CenterColor = new Color(200, 184, 136);
-                    break;
-                case Attunement.Hot:
-                    BiomeEnergyParticles.EdgeColor = new Color(137, 32, 0);
-                    BiomeEnergyParticles.CenterColor = new Color(209, 154, 0);
-                    break;
-                case Attunement.Cold:
-                    BiomeEnergyParticles.EdgeColor = new Color(165, 235, 235);
-                    BiomeEnergyParticles.CenterColor = new Color(58, 110, 141);
-                    break;
-                case Attunement.Tropical:
-                    BiomeEnergyParticles.EdgeColor = new Color(53, 112, 4);
-                    BiomeEnergyParticles.CenterColor = new Color(131, 173, 39);
-                    break;
-                case Attunement.Evil:
-                    BiomeEnergyParticles.EdgeColor = new Color(112, 4, 35);
-                    BiomeEnergyParticles.CenterColor = new Color(195, 42, 200);
-                    break;
-                case Attunement.Holy:
-                case Attunement.Astral:
-                    BiomeEnergyParticles.EdgeColor = new Color(62, 55, 110);
-                    BiomeEnergyParticles.CenterColor = new Color(255, 143, 255);
-                    break;
-                case Attunement.Marine:
-                    BiomeEnergyParticles.EdgeColor = new Color(27, 59, 101);
-                    BiomeEnergyParticles.CenterColor = new Color(27, 112643, 255);
-                    break;
-            }
+            BiomeEnergyParticles.EdgeColor = mainAttunement.energyParticleEdgeColor;
+            BiomeEnergyParticles.CenterColor = mainAttunement.energyParticleCenterColor;
             BiomeEnergyParticles.InterpolationSpeed = 0.1f;
             BiomeEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
 
@@ -601,7 +374,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
     }
 
-    public class MendedBiomeBladeVisuals : ModProjectile //Visuals
+    public class BiomeBladeHoldout : ModProjectile //Visuals
     {
         private Player Owner => Main.player[projectile.owner];
         public bool OwnerOnGround => Main.tile[(int)Owner.Center.X / 16, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround() && Main.tile[(int)Owner.Center.X / 16 + Owner.direction, (int)(Owner.position.Y + (float)Owner.height - 1f) / 16 + 1].IsTileSolidGround();
@@ -653,7 +426,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement? temporaryAttunementStorage = (associatedItem.modItem as TrueBiomeBlade).mainAttunement;
+                Attunement temporaryAttunementStorage = (associatedItem.modItem as TrueBiomeBlade).mainAttunement;
                 (associatedItem.modItem as TrueBiomeBlade).mainAttunement = (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement;
                 (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
@@ -682,7 +455,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     projectile.timeLeft = 120;
                     ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
 
-                    Color particleColor = (associatedItem.modItem as TrueBiomeBlade).GetAttunementInfo((associatedItem.modItem as TrueBiomeBlade).mainAttunement).color;
+                    Color particleColor = (associatedItem.modItem as TrueBiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -715,22 +488,22 @@ namespace CalamityMod.Items.Weapons.Melee
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
-            Attunement attunement = Attunement.Default;
+            Attunement attunement = new TrueDefaultAttunement();
 
             if (desert || hell)
-                attunement = Attunement.Hot;
+                attunement = new TrueHotAttunement();
             if (snow)
-                attunement = Attunement.Cold;
+                attunement = new TrueColdAttunement();
             if (jungle || ocean)
-                attunement = Attunement.Tropical;
+                attunement = new TrueTropicalAttunement();
             if (evil)
-                attunement = Attunement.Evil;
+                attunement = new TrueEvilAttunement();
             if (holy)
-                attunement = Attunement.Holy;
+                attunement = new HolyAttunement();
             if (astral)
-                attunement = Attunement.Astral;
+                attunement = new AstralAttunement();
             if (marine)
-                attunement = Attunement.Marine;
+                attunement = new MarineAttunement();
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)

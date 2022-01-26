@@ -254,7 +254,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = FourSeasonsGalaxia.WhirlwindAttunement_LocalIFrames;
+            projectile.localNPCHitCooldown = FourSeasonsGalaxia.PhoenixAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -316,7 +316,7 @@ namespace CalamityMod.Projectiles.Melee
                         for (int i = 0; i <= 5; i++)
                         {
                             float angle = direction.ToRotation() + MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / 5f);
-                            Projectile.NewProjectile(Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                            Projectile.NewProjectile(Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                         }
                     }
                 }
@@ -379,7 +379,7 @@ namespace CalamityMod.Projectiles.Melee
                     if ((Empowerment + OverEmpowerment) % 30 == 29 && Owner.whoAmI == Main.myPlayer)
                     {
                         Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
-                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                     }
                 }
 
@@ -410,7 +410,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.WhirlwindAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                         }
                         CanDirectFire = false;
                         AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
@@ -465,7 +465,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (OmegaBiomeBlade.WhirlwindAttunement_BaseDamageReduction + (OmegaBiomeBlade.WhirlwindAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
+            damage = (int)(damage * (FourSeasonsGalaxia.PhoenixAttunement_BaseDamageReduction + (FourSeasonsGalaxia.PhoenixAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
         }
 
         public override void Kill(int timeLeft)
@@ -604,12 +604,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames;
+            projectile.localNPCHitCooldown = FourSeasonsGalaxia.PolarisAttunement_LocalIFrames;
         }
 
         public override bool CanDamage()
         {
-            return Shred >= FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames; //Prevent spam click abuse
+            return Shred >= FourSeasonsGalaxia.PolarisAttunement_LocalIFrames; //Prevent spam click abuse
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -642,7 +642,7 @@ namespace CalamityMod.Projectiles.Melee
                         Dashing = true;
                         DashStart = Owner.Center;
                         Wheel.timeLeft = 60;
-                        Owner.GiveIFrames(FourSeasonsGalaxia.SuperPogoAttunement_SlashIFrames);
+                        Owner.GiveIFrames(FourSeasonsGalaxia.PolarisAttunement_SlashIFrames);
                         break;
                     }
                 }
@@ -714,7 +714,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = Owner.Center + (direction * 60);
 
             //Scaling based on shred
-            projectile.localNPCHitCooldown = FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, FourSeasonsGalaxia.SuperPogoAttunement_LocalIFrames - FourSeasonsGalaxia.SuperPogoAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
+            projectile.localNPCHitCooldown = FourSeasonsGalaxia.PolarisAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, FourSeasonsGalaxia.PolarisAttunement_LocalIFrames - FourSeasonsGalaxia.PolarisAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
             projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
 
 
@@ -728,14 +728,14 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.SuperPogoAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 100;
                         }
                     }
 
                     
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarissGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarissGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                     if (proj.modProjectile is PolarissGazeDash dash)
                     {
                         dash.DashStart = DashStart;
@@ -790,7 +790,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 80; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(FourSeasonsGalaxia.SuperPogoAttunement_ShredIFrames); // i framez.
+                Owner.GiveIFrames(FourSeasonsGalaxia.PolarisAttunement_ShredIFrames); // i framez.
                 HitChargeCooldown = 20;
             }
         }
@@ -800,7 +800,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
             if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer) 
             {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<PolarissGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.SuperPogoAttunement_ShotDamageBoost) , projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<PolarissGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost) , projectile.knockBack, Owner.whoAmI, Shred);
             }
             Owner.Calamity().LungingDown = false;
         }
@@ -1013,7 +1013,7 @@ namespace CalamityMod.Projectiles.Melee
             //Explode into cosmic bolts
             for (int i = 0; i < 3; i++)
             {
-                Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Owner.DirectionTo(target.Center).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.SuperPogoAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
+                Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Owner.DirectionTo(target.Center).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
                 {
                     blast.timeLeft = 100;
                 }
@@ -1164,7 +1164,7 @@ namespace CalamityMod.Projectiles.Melee
                     //WOahhh do a ring of projectiles!! woahhh
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 30;
                         }
@@ -1198,7 +1198,7 @@ namespace CalamityMod.Projectiles.Melee
                         //Projectiles!!! wah!!!
                         for (int i = 0; i < 9; i++)
                         {
-                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                             {
                                 blast.timeLeft = 50;
                             }
@@ -1302,7 +1302,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(projectile.damage * FourSeasonsGalaxia.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.modProjectile is AndromedasStrideBoltSpawner spawner)
                 {
                     spawner.WaitTimer = (1 - projSize) * 34f;
@@ -1572,7 +1572,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = FourSeasonsGalaxia.FlailBladeAttunement_LocalIFrames;
+            projectile.localNPCHitCooldown = FourSeasonsGalaxia.AriesAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -1602,7 +1602,7 @@ namespace CalamityMod.Projectiles.Melee
                   NPC potentialTarget = TargetNext(target.Center, i);
                   if (potentialTarget == null)
                        break;
-                  Projectile proj = Projectile.NewProjectileDirect(target.Center, target.DirectionTo(potentialTarget.Center) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.FlailBladeAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
+                  Projectile proj = Projectile.NewProjectileDirect(target.Center, target.DirectionTo(potentialTarget.Center) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
                   proj.scale = 2f;
              }
              Array.Clear(excludedTargets, 0, 3);
@@ -1661,7 +1661,7 @@ namespace CalamityMod.Projectiles.Melee
                     else
                         projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Owner.Center).ToRotation(), MathHelper.Pi)).ToRotationVector2() * projectile.velocity.Length() * 1.05f;
                     projectile.rotation = Main.GlobalTime * 25f;
-                    projectile.scale = MathHelper.Clamp((Owner.Center - projectile.Center).Length() / (FourSeasonsGalaxia.FlailBladeAttunement_Reach * 0.5f) , 0.3f, 2f);
+                    projectile.scale = MathHelper.Clamp((Owner.Center - projectile.Center).Length() / (FourSeasonsGalaxia.AriesAttunement_Reach * 0.5f) , 0.3f, 2f);
                     projectile.timeLeft = 4;
                 }
                 return;
@@ -1684,8 +1684,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = Vector2.Lerp(projectile.Center, Main.MouseWorld, 0.05f * ThrowDisplace());
             projectile.Center = projectile.Center.MoveTowards(Main.MouseWorld, 40f * ThrowDisplace());
 
-            if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.FlailBladeAttunement_Reach)
-                projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.FlailBladeAttunement_Reach;
+            if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.AriesAttunement_Reach)
+                projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.AriesAttunement_Reach;
 
             projectile.rotation = Main.GlobalTime * 25f;
             //Make the owner look like theyre "holding" the sword bla bla
@@ -1741,7 +1741,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (lastConstellation != null && lastConstellation.active)
                     lastConstellation.Kill();
 
-                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriessWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.FlailBladeAttunement_ChainDamageReduction), 0, Owner.whoAmI);
+                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriessWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
                 if (lastConstellation.modProjectile is AriessWrathConstellation constellation)
                 {
                     constellation.SizeVector = projectile.Center - Owner.Center;

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Placeables.Ores;
@@ -21,9 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class OmegaBiomeBlade : ModItem
     {
-        public enum Attunement : byte { SuperPogo, Whirlwind, Shockwave, FlailBlade }
-        public Attunement? mainAttunement = null;
-        public Attunement? secondaryAttunement = null;
+        public Attunement mainAttunement = null;
+        public Attunement secondaryAttunement = null;
         public Projectile MeatHook;
 
         //Used for passive effects
@@ -112,99 +112,74 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (l.text.StartsWith("FUNCTION_DESC"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
-                    l.text = info.function_description;
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = mainAttunement.tooltipColor;
+                        l.text = mainAttunement.function_description;
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Does nothing.. yet";
+                    }
                 }
 
                 if (l.text.StartsWith("FUNCTION_EXTRA"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = info.color;
-                    l.text = info.function_extra;
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = mainAttunement.tooltipColor;
+                        l.text = mainAttunement.function_description_extra;
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "It seems that upgrading the blade expanded the scope of the previous attunements";
+                    }
                 }
 
                 if (l.text.StartsWith("FUNCTION_PASSIVE"))
                 {
-                    AttunementInfo info = GetAttunementInfo(secondaryAttunement);
-                    l.overrideColor = info.color;
-                    l.text = info.function_passive;
+                    if (secondaryAttunement != null)
+                    {
+                        l.overrideColor = secondaryAttunement.tooltipColor;
+                        l.text = secondaryAttunement.passive_description;
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Your secondary attunement can now provide passive bonuses";
+                    }
                 }
 
                 if (l.text.StartsWith("Active attunement"))
                 {
-                    AttunementInfo info = GetAttunementInfo(mainAttunement);
-                    l.overrideColor = Color.Lerp(info.color, info.color2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
-                    l.text = "Active Attumenent : [" + info.name + "]";
+                    if (mainAttunement != null)
+                    {
+                        l.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+                        l.text = "Active Attumenent : [" + mainAttunement.name + "]";
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Active Attumenent : [None]";
+                    }
                 }
 
                 if (l.text.StartsWith("Passive attunement"))
                 {
-                    AttunementInfo info = GetAttunementInfo(secondaryAttunement);
-                    l.overrideColor = Color.Lerp(Color.Lerp(info.color, info.color2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
-                    l.text = "Passive Attumenent : [" + info.name + "]";
+                    if (secondaryAttunement != null)
+                    {
+                        l.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
+                        l.text = "Passive Attumenent : [" + secondaryAttunement.name + "]";
+                    }
+                    else
+                    {
+                        l.overrideColor = new Color(163, 163, 163);
+                        l.text = "Passive Attumenent : [None]";
+                    }
                 }
             }
-        }
-
-        internal struct AttunementInfo
-        {
-            public string name;
-            public string function_description;
-            public string function_extra;
-            public string function_passive;
-            public Color color;
-            public Color color2;
-        }
-
-        internal AttunementInfo GetAttunementInfo(Attunement? attunement)
-        {
-            AttunementInfo AttunementInfo = new AttunementInfo();
-
-            switch (attunement)
-            {
-                case Attunement.Whirlwind:
-                    AttunementInfo.name = "Swordsmith's Pride";
-                    AttunementInfo.function_description = "Hold LMB to swing the sword around you, powering up as it spins. Extra ghostly swords are summoned during the spin";
-                    AttunementInfo.function_extra = "Releasing LMB during a spin will throw the sword out. Ghostly swords will home onto enemies hit by the sword throw";
-                    AttunementInfo.function_passive = "While attacking, extra ghost swords have a chance to be shot out";
-                    AttunementInfo.color = new Color(220, 105, 197);
-                    AttunementInfo.color2 = new Color(171, 239, 113);
-                    break;
-                case Attunement.SuperPogo:
-                    AttunementInfo.name = "Sanguine Fury";
-                    AttunementInfo.function_description = "Conjures molten blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
-                    AttunementInfo.function_extra = "Releasing LMB sends the charged blades flying in a wheel. Using LMB right after the throw makes the player perform dash towards the blade wheel, shredding anything inbetween";
-                    AttunementInfo.function_passive = "Successful strikes rarely grant lifesteal";
-                    AttunementInfo.color = new Color(216, 55, 22);
-                    AttunementInfo.color2 = new Color(216, 131, 22);
-                    break;
-                case Attunement.Shockwave:
-                    AttunementInfo.name = "Mercurial Tides";
-                    AttunementInfo.function_description = "Hold LMB to charge up a heaven-shattering sword thrust, and release to unleash the devastating blow. Small shockwaves are released as you charge the sword";
-                    AttunementInfo.function_extra = "Striking the ground after a jump will create an impact so powerful a shockwave of ancient monoliths will rise up and propagate through the ground";
-                    AttunementInfo.function_passive = "While attacking, release small shockwaves around you";
-                    AttunementInfo.color = new Color(132, 109, 233);
-                    AttunementInfo.color2 = new Color(122, 213, 233);
-                    break;
-                case Attunement.FlailBlade:
-                    AttunementInfo.name = "Lamentations of the Chained";
-                    AttunementInfo.function_description = "Throw out a flurry of chained blades in front of you. Striking enemies with the tip of the blades guarantees a critical hit.";
-                    AttunementInfo.function_extra = "Critical strikes create extra ghostly chains to latch onto extra targets";
-                    AttunementInfo.function_passive = "Gain a magical chain hook. On enemy hits the hook quickly spins around you, freezing any struck foe"; //No way sentient meat hook
-                    AttunementInfo.color = new Color(113, 239, 177);
-                    AttunementInfo.color2 = new Color(169, 207, 255);
-                    break;
-                default:
-                    AttunementInfo.name = "None";
-                    AttunementInfo.function_description = "Does nothing... yet";
-                    AttunementInfo.function_extra = "It seems upgrading the blade expanded the scope of the previous attunements";
-                    AttunementInfo.function_passive = "Your secondary attunement can now provide passive bonuses";
-                    AttunementInfo.color = new Color(163, 163, 163);
-                    AttunementInfo.color2 = new Color(163, 163, 163);
-                    break;
-            }
-            return AttunementInfo;
         }
 
     #endregion
@@ -265,8 +240,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override TagCompound Save()
         {
-            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement;
-            int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement;
+            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
+            int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement.id;
             TagCompound tag = new TagCompound
             {
                 { "mainAttunement", attunement1 },
@@ -279,27 +254,24 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
-            if (attunement1 == -1)
-                mainAttunement = null;
-            else
-                mainAttunement = (Attunement?)attunement1;
 
-            if (attunement2 == -1 || (attunement1 == attunement2))
+            mainAttunement = AttunementHelper.IDtoAttunement(attunement1);
+            secondaryAttunement = AttunementHelper.IDtoAttunement(attunement2);
+
+            if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
-            else
-                secondaryAttunement = (Attunement?)attunement2;
         }
 
         public override void NetSend(BinaryWriter writer)
         {
-            writer.Write((byte)mainAttunement);
-            writer.Write((byte)secondaryAttunement);
+            writer.Write((byte)mainAttunement.id);
+            writer.Write((byte)secondaryAttunement.id);
         }
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = (Attunement?)reader.ReadByte();
-            secondaryAttunement = (Attunement?)reader.ReadByte();
+            mainAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
+            secondaryAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
         }
 
         #endregion
@@ -319,124 +291,38 @@ namespace CalamityMod.Items.Weapons.Melee
                 UseTimer++;
             }
 
-            //Change the swords function based on its attunement
-            switch (mainAttunement)
+            if (mainAttunement == null)
             {
-                case Attunement.Whirlwind:
-                    item.damage = WhirlwindAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<SwordsmithsPride>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-                    break;
-                case Attunement.SuperPogo:
-                    item.damage = SuperPogoAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<SanguineFury>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-                    break;
-                case Attunement.Shockwave:
-                    item.damage = ShockwaveAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<MercurialTides>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-                    break;
-                case Attunement.FlailBlade:
-                    item.damage = FlailBladeAttunement_BaseDamage;
-                    item.channel = true;
-                    item.noUseGraphic = true;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
-                    item.shoot = ProjectileType<LamentationsOfTheChained>();
-                    item.shootSpeed = 12f;
-                    item.UseSound = null;
-                    item.noMelee = true;
-                    break;
-                default:
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.SwingThrow;
-                    item.shoot = ProjectileID.PurificationPowder;
-                    item.shootSpeed = 12f;
-                    item.UseSound = SoundID.Item1;
-                    break;
+                item.noUseGraphic = false;
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.shoot = ProjectileID.PurificationPowder;
+                item.shootSpeed = 12f;
+                item.UseSound = SoundID.Item1;
             }
+            else
+                mainAttunement.ApplyStats(ref item);
 
             if (player.whoAmI != Main.myPlayer)
                 return;
 
+
             //PAssive effetcsts only happen on the side of the owner
-            if (secondaryAttunement != Attunement.FlailBlade || MeatHook == null || !MeatHook.active)
+            if (secondaryAttunement.id != AttunementID.FlailBlade || MeatHook == null || !MeatHook.active)
                 MeatHook = null;
+            if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null )
+                MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
 
-            switch (secondaryAttunement)
-            {
-                case Attunement.Whirlwind:
-                    if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
-                    {
-                        Main.PlaySound(SoundID.Item78);
-                        Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
-                        beamSword.timeLeft = 50;
-                        UseTimer++;
-                    }
-                    break;
 
-                case Attunement.SuperPogo:
-                    if (OnHitProc)
-                    {
-                        player.statLife += SuperPogoAttunement_PassiveLifeSteal;
-                        player.HealEffect(SuperPogoAttunement_PassiveLifeSteal);
-
-                        OnHitProc = false;
-                    }
-                    break;
-
-                case Attunement.Shockwave:
-                    if (UseTimer % 120 == 119)
-                    {
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
-                        UseTimer++;
-                    }
-                    break;
-
-                case Attunement.FlailBlade:
-
-                    if (MeatHook == null)
-                    {
-                        MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
-                    }
-
-                    if (OnHitProc)
-                    {
-                        if (MeatHook.modProjectile is ChainedMeatHook hook && hook.Twirling == 0f)
-                        {
-                            hook.Twirling = 1f;
-                            hook.projectile.timeLeft = (int)ChainedMeatHook.MaxTwirlTime;
-                        }
-                        OnHitProc = false;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
+            if (secondaryAttunement != null)
+                secondaryAttunement.PassiveEffect(player, ref UseTimer, ref OnHitProc, MeatHook);
 
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {
                 //Don't shoot out a visual blade if you already have one out
-                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<TrueBiomeBladeVisuals>() && n.owner == player.whoAmI))
+                if (Main.projectile.Any(n => n.active && n.type == ProjectileType<TrueBiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<TrueBiomeBladeVisuals>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<TrueBiomeBladeHoldout>(), 0, 0, player.whoAmI);
             }
         }
 
@@ -473,9 +359,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 
-            AttunementInfo info = GetAttunementInfo(mainAttunement);
-            BiomeEnergyParticles.EdgeColor = info.color2;
-            BiomeEnergyParticles.CenterColor = info.color;
+            BiomeEnergyParticles.EdgeColor = mainAttunement.tooltipColor2;
+            BiomeEnergyParticles.CenterColor = mainAttunement.tooltipColor;
             BiomeEnergyParticles.InterpolationSpeed = 0.1f;
             BiomeEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
 
@@ -504,7 +389,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
     }
 
-    public class TrueBiomeBladeVisuals : ModProjectile //Visuals
+    public class TrueBiomeBladeHoldout : ModProjectile //Visuals
     {
         private Player Owner => Main.player[projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
@@ -555,7 +440,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement? temporaryAttunementStorage = (associatedItem.modItem as OmegaBiomeBlade).mainAttunement;
+                Attunement temporaryAttunementStorage = (associatedItem.modItem as OmegaBiomeBlade).mainAttunement;
                 (associatedItem.modItem as OmegaBiomeBlade).mainAttunement = (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement;
                 (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
@@ -582,7 +467,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (ChannelTimer == ChannelTime - 15)
                 {
                     Attune((OmegaBiomeBlade)associatedItem.modItem);
-                    Color particleColor = (associatedItem.modItem as OmegaBiomeBlade).GetAttunementInfo((associatedItem.modItem as OmegaBiomeBlade).mainAttunement).color;
+                    Color particleColor = (associatedItem.modItem as OmegaBiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -631,17 +516,17 @@ namespace CalamityMod.Items.Weapons.Melee
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
-            Attunement attunement = Attunement.Whirlwind;
+            Attunement attunement = new WhirlwindAttunement();
             if (desert || hell)
-                attunement = Attunement.SuperPogo;
+                attunement = new SuperPogoAttunement();
             if (jungle || ocean || snow) //Check put after the desert check so ocean doesnt get overriden as desert
-                attunement = Attunement.FlailBlade;
+                attunement = new FlailBladeAttunement();
             if (evil) //Evil check separated so that it overrides corrupted beach & snow biomes
-                attunement = Attunement.SuperPogo;
+                attunement = new SuperPogoAttunement();
             if (astral || marine)
-                attunement = Attunement.Shockwave;
+                attunement = new ShockwaveAttunement();
             if (holy)
-                attunement = Attunement.Whirlwind; //Putting holy attunement at the end so it may override hallowed variants of biomes
+                attunement = new WhirlwindAttunement(); //Putting holy attunement at the end so it may override hallowed variants of biomes
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)
