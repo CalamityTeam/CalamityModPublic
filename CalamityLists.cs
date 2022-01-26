@@ -772,7 +772,7 @@ namespace CalamityMod
                 NPCType<OverloadedSoldier>(),
                 NPCType<PerennialSlime>(),
                 NPCType<PhantomDebris>(),
-                NPCType<MutatedHound>(),
+                NPCType<Rotdog>(),
                 NPCType<SandTortoise>(),
                 NPCType<Scryllar>(),
                 NPCType<ScryllarRage>(),

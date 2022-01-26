@@ -882,7 +882,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<WulfrumDrone>();
                     break;
                 case 53:
-                    npc = ModContent.NPCType<MutatedHound>();
+                    npc = ModContent.NPCType<Rotdog>();
                     break;
                 case 54:
                     npc = ModContent.NPCType<BlightedEye>();

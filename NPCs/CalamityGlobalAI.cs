@@ -8102,7 +8102,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type == NPCID.Wolf || npc.type == NPCID.Hellhound || npc.type == ModContent.NPCType<MutatedHound>())
+            else if (npc.type == NPCID.Wolf || npc.type == NPCID.Hellhound || npc.type == ModContent.NPCType<Rotdog>())
             {
                 if (npc.velocity.Y == 0f && num4 < 100f && Math.Abs(npc.velocity.X) > 3f && ((npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X > 0f) || (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X < 0f)))
                 {
@@ -8159,7 +8159,7 @@ namespace CalamityMod.NPCs
             float num7 = 0.1f;
             if (!flag && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
             {
-                if (npc.type == NPCID.Wolf || npc.type == ModContent.NPCType<MutatedHound>())
+                if (npc.type == NPCID.Wolf || npc.type == ModContent.NPCType<Rotdog>())
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
