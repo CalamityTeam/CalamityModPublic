@@ -221,8 +221,8 @@ namespace CalamityMod.Items.Weapons.Melee
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
 
-            mainAttunement = AttunementHelper.IDtoAttunement(attunement1);
-            secondaryAttunement = AttunementHelper.IDtoAttunement(attunement2);
+            mainAttunement = Attunement.attunementArray[attunement1 != -1 ? attunement1 : Attunement.attunementArray.Length - 1];
+            secondaryAttunement = Attunement.attunementArray[attunement2 != -1 ? attunement2 : Attunement.attunementArray.Length - 1];
 
             if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
@@ -230,14 +230,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetSend(BinaryWriter writer)
         {
-            writer.Write((byte)mainAttunement.id);
-            writer.Write((byte)secondaryAttunement.id);
+            writer.Write(mainAttunement != null ? (byte)mainAttunement.id : Attunement.attunementArray.Length - 1);
+            writer.Write(secondaryAttunement != null ? (byte)secondaryAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
-            secondaryAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
+            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
+            secondaryAttunement = Attunement.attunementArray[reader.ReadByte()];
         }
 
         #endregion
@@ -488,22 +488,22 @@ namespace CalamityMod.Items.Weapons.Melee
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
-            Attunement attunement = new TrueDefaultAttunement();
+            Attunement attunement = Attunement.attunementArray[(int)AttunementID.TrueDefault];
 
             if (desert || hell)
-                attunement = new TrueHotAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.TrueHot];
             if (snow)
-                attunement = new TrueColdAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.TrueCold];
             if (jungle || ocean)
-                attunement = new TrueTropicalAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.TrueTropical];
             if (evil)
-                attunement = new TrueEvilAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.TrueEvil];
             if (holy)
-                attunement = new HolyAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.Holy];
             if (astral)
-                attunement = new AstralAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.Astral];
             if (marine)
-                attunement = new MarineAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.Marine];
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)

@@ -4,7 +4,6 @@ using CalamityMod.Projectiles.Melee;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,62 +25,26 @@ namespace CalamityMod.DataStructures
         Phoenix, Aries, Polaris, Andromeda //Galaxia
     }
 
-    public static class AttunementHelper
-    {
-        public static Attunement IDtoAttunement(int ID)
-        {
-            switch (ID)
-            {
-                case 0:
-                    return new DefaultAttunement();
-                case 1:
-                    return new HotAttunement();
-                case 2:
-                    return new ColdAttunement();
-                case 3:
-                    return new TropicalAttunement();
-                case 4:
-                    return new EvilAttunement();
-                case 5:
-                    return new TrueDefaultAttunement();
-                case 6:
-                    return new TrueHotAttunement();
-                case 7:
-                    return new TrueColdAttunement();
-                case 8:
-                    return new TrueTropicalAttunement();
-                case 9:
-                    return new TrueEvilAttunement();
-                case 10:
-                    return new HolyAttunement();
-                case 11:
-                    return new AstralAttunement();
-                case 12:
-                    return new MarineAttunement();
-                case 13:
-                    return new WhirlwindAttunement();
-                case 14:
-                    return new FlailBladeAttunement();
-                case 15:
-                    return new SuperPogoAttunement();
-                case 16:
-                    return new ShockwaveAttunement();
-                case 17:
-                    return new PhoenixAttunement();
-                case 18:
-                    return new AriesAttunement();
-                case 19:
-                    return new PolarisAttunement();
-                case 20:
-                    return new AndromedaAttunement();
-                default:
-                    return null;
-            }
-        }
-    }
-
     public abstract class Attunement
     {
+        public static Attunement[] attunementArray;
+
+        public static void Load()
+        {
+             attunementArray = new Attunement[] {
+                  new DefaultAttunement(), new HotAttunement(), new ColdAttunement(), new TropicalAttunement(), new EvilAttunement(),
+                  new TrueDefaultAttunement(), new TrueHotAttunement(), new TrueColdAttunement(), new TrueTropicalAttunement(), new TrueEvilAttunement(), new HolyAttunement(), new AstralAttunement(), new MarineAttunement(),
+                  new WhirlwindAttunement(), new FlailBladeAttunement(), new SuperPogoAttunement(), new ShockwaveAttunement(),
+                  new PhoenixAttunement(), new AriesAttunement(), new PolarisAttunement(), new AndromedaAttunement(),
+                  null
+             };
+        }
+
+        public static void Unload()
+        {
+            attunementArray = null;
+        }
+
         public AttunementID id;
 
         public string name;

@@ -255,8 +255,8 @@ namespace CalamityMod.Items.Weapons.Melee
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
 
-            mainAttunement = AttunementHelper.IDtoAttunement(attunement1);
-            secondaryAttunement = AttunementHelper.IDtoAttunement(attunement2);
+            mainAttunement = Attunement.attunementArray[attunement1 != -1 ? attunement1 : Attunement.attunementArray.Length - 1];
+            secondaryAttunement = Attunement.attunementArray[attunement2 != -1 ? attunement2 : Attunement.attunementArray.Length - 1];
 
             if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
@@ -264,14 +264,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetSend(BinaryWriter writer)
         {
-            writer.Write((byte)mainAttunement.id);
-            writer.Write((byte)secondaryAttunement.id);
+            writer.Write(mainAttunement != null ? (byte)mainAttunement.id : Attunement.attunementArray.Length - 1);
+            writer.Write(secondaryAttunement != null ? (byte)secondaryAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
-            secondaryAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
+            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
+            secondaryAttunement = Attunement.attunementArray[reader.ReadByte()];
         }
 
         #endregion
@@ -516,17 +516,17 @@ namespace CalamityMod.Items.Weapons.Melee
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
-            Attunement attunement = new WhirlwindAttunement();
+            Attunement attunement = Attunement.attunementArray[(int)AttunementID.Whirlwind];
             if (desert || hell)
-                attunement = new SuperPogoAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.SuperPogo];
             if (jungle || ocean || snow) //Check put after the desert check so ocean doesnt get overriden as desert
-                attunement = new FlailBladeAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.FlailBlade];
             if (evil) //Evil check separated so that it overrides corrupted beach & snow biomes
-                attunement = new SuperPogoAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.SuperPogo];
             if (astral || marine)
-                attunement = new ShockwaveAttunement();
+                attunement = Attunement.attunementArray[(int)AttunementID.Shockwave];
             if (holy)
-                attunement = new WhirlwindAttunement(); //Putting holy attunement at the end so it may override hallowed variants of biomes
+                attunement = Attunement.attunementArray[(int)AttunementID.Whirlwind]; //Putting holy check  at the end so it may override hallowed variants of biomes
 
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)

@@ -218,10 +218,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override TagCompound Save()
         {
-            int attunement1 = mainAttunement == null ? 1 : (int)mainAttunement.id;
+            int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
             TagCompound tag = new TagCompound
             {
-                { "mainAttunement", attunement1 }
+                { "mainAttunement", attunement1 },
             };
             return tag;
         }
@@ -229,20 +229,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void Load(TagCompound tag)
         {
             int attunement1 = tag.GetInt("mainAttunement");
-            if (attunement1 == -1)
-                mainAttunement = new PhoenixAttunement();
-            else
-                mainAttunement = AttunementHelper.IDtoAttunement(attunement1);
+
+            mainAttunement = Attunement.attunementArray[attunement1 != -1 ? attunement1 : Attunement.attunementArray.Length - 1];
         }
 
         public override void NetSend(BinaryWriter writer)
         {
-            writer.Write((byte)mainAttunement.id);
+            writer.Write(mainAttunement != null ? (byte)mainAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = AttunementHelper.IDtoAttunement(reader.ReadByte());
+            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
         }
 
         #endregion
@@ -390,41 +388,41 @@ namespace CalamityMod.Items.Weapons.Melee
             Particle Line;
             Color StarColor;
 
-            if (CycleDirection == -1) //Cycles goes Whirlwind => Flailblade => Superpogo => Shockwave
+            if (CycleDirection == -1) //Cycles goes Phoenix => Aries => Polaris => Andromeda
             {
                 switch (item.mainAttunement.id)
                 {
-                    case AttunementID.Phoenix: //Switching to the flailblade attunement. 
-                        attunement = new AriesAttunement();
+                    case AttunementID.Phoenix: //Switching to the aries attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Aries];
                         break;
-                    case AttunementID.Aries: //Switching to the superpogo attunement. 
-                        attunement = new PolarisAttunement();
+                    case AttunementID.Aries: //Switching to the polaris attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Polaris];
                         break;
-                    case AttunementID.Polaris: //Switching to the shockwave attunement. 
-                        attunement = new AndromedaAttunement();
+                    case AttunementID.Polaris: //Switching to the andromeda attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Andromeda];
                         break;
-                    case AttunementID.Andromeda: //Switching to the whirlwind attunement. 
+                    case AttunementID.Andromeda: //Switching to the phoenix attunement. 
                     default:
-                        attunement = new PhoenixAttunement();
+                        attunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
                         break;
                 }
             }
-            else //Cycles goes Whirlwind <= Flailblade <= Superpogo <= Shockwave
+            else //Cycles goes Phoenix <= Aries <= Polaris <= Andromeda
             {
                 switch (item.mainAttunement.id)
                 {
-                    case AttunementID.Phoenix: //Switching to the shockwave attunement. 
-                        attunement = new AndromedaAttunement();
+                    case AttunementID.Phoenix: //Switching to the andromeda attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Andromeda];
                         break;
-                    case AttunementID.Andromeda: //Switching to the superpogo attunement. 
-                        attunement = new PolarisAttunement();
+                    case AttunementID.Andromeda: //Switching to the polaris attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Polaris];
                         break;
-                    case AttunementID.Polaris: //Switching to the flailblade attunement. 
-                        attunement = new AriesAttunement();
+                    case AttunementID.Polaris: //Switching to the aries attunement. 
+                        attunement = Attunement.attunementArray[(int)AttunementID.Aries];
                         break;
-                    case AttunementID.Aries: //Switching to the whirlwind attunement. 
+                    case AttunementID.Aries: //Switching to the phoenix attunement. 
                     default:
-                        attunement = new PhoenixAttunement();
+                        attunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
                         break;
                 }
             }

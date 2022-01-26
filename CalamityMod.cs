@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.DataStructures;
 using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
@@ -224,6 +225,7 @@ namespace CalamityMod
             CalamityLocalization.AddLocalizations();
             SchematicManager.Load();
             CustomLavaManagement.Load();
+            Attunement.Load();
         }
 
         private void LoadClient()
@@ -374,6 +376,7 @@ namespace CalamityMod
             bossVelocityDamageScaleValues?.Clear();
             bossVelocityDamageScaleValues = null;
 
+            Attunement.Unload();
             EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
