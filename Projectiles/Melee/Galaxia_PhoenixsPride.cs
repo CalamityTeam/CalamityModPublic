@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pohenix's Pride");
+            DisplayName.SetDefault("Phoenix's Pride");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }

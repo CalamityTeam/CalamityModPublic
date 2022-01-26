@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sanguine Wheel");
+            DisplayName.SetDefault("Sanguine Bladewheel");
         }
         public override void SetDefaults()
         {

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Decay's retort");
+            DisplayName.SetDefault("Decay's Retort");
         }
         public override void SetDefaults()
         {

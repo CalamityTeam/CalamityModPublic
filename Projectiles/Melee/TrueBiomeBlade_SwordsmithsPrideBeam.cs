@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ghostly projection");
+            DisplayName.SetDefault("Swordsmith's Projection");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
