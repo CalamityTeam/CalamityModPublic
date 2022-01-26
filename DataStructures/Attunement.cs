@@ -91,7 +91,7 @@ namespace CalamityMod.DataStructures
         public DefaultAttunement()
         {
             id = AttunementID.Default;
-            name = "Pure clarity";
+            name = "Pure Clarity";
             function_description = "Fires a weak projectile that crushes enemy defenses";
             tooltipColor = new Color(171, 180, 73);
 
@@ -250,7 +250,7 @@ namespace CalamityMod.DataStructures
         public TrueDefaultAttunement()
         {
             id = AttunementID.TrueDefault;
-            name = "Pure clarity";
+            name = "Pure Clarity";
             function_description = "Fires a weak projectile that crushes enemy defenses";
             function_description_extra = "Landing true melee hits places a sigil of purity over the enemy. Your projectiles home onto the marked foes";
             tooltipColor = new Color(171, 180, 73);
@@ -278,7 +278,7 @@ namespace CalamityMod.DataStructures
             id = AttunementID.TrueHot;
             name = "Arid Grandeur";
             function_description = "Conjures searing blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
-            function_description_extra = "Releasing LMB after charging up the blades sends them out flying to shred your foes";
+            function_description_extra = "Releasing the attack button after the blades are fully charged sends them hurtling forwards to shred your foes";
             tooltipColor = new Color(238, 156, 73);
 
             energyParticleEdgeColor = new Color(137, 32, 0);
@@ -353,7 +353,7 @@ namespace CalamityMod.DataStructures
             id = AttunementID.TrueTropical;
             name = "Grovetender's Touch";
             function_description = "Throw out the blade using a vine whip. Striking enemies with the tip of the whip as it cracks guarantees a critical hit. The whip will also propel you towards struck tiles";
-            function_description_extra = "Critical strikes sprout up extra vines that can hit up to three targets";
+            function_description_extra = "Spreading vines sprout from critical strikes. These vines can hit up to three targets";
             tooltipColor = new Color(162, 200, 85);
 
             energyParticleEdgeColor = new Color(53, 112, 4);
@@ -391,7 +391,7 @@ namespace CalamityMod.DataStructures
             id = AttunementID.TrueEvil;
             name = "Decay's Retort";
             function_description = "Lunge forward using a ghostly rapier projection that leeches life off any struck foes. You also get bounced away from hit targets";
-            function_description_extra = "Lining up three strikes without touching the ground empowers the next strike into a powerful dash thrust";
+            function_description_extra = "Landing three strikes without touching the ground changes your next attack into an empowered dash thrust";
             tooltipColor = new Color(211, 64, 147);
 
             energyParticleEdgeColor = new Color(112, 4, 35);
@@ -434,8 +434,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Holy;
             name = "Heaven's Might";
-            function_description = "Hold LMB to swing the sword around you, powering up as it spins";
-            function_description_extra = "Releasing LMB will throw the sword in front of you, flying a short distance away before coming back";
+            function_description = "Hold the attack button to swing the sword around you, accelerating over time";
+            function_description_extra = "Releasing the attack button hurls the sword towards your cursor. The sword then quickly returns to your hand";
             tooltipColor = new Color(220, 143, 255);
 
             energyParticleEdgeColor = new Color(62, 55, 110);
@@ -460,9 +460,9 @@ namespace CalamityMod.DataStructures
         public AstralAttunement()
         {
             id = AttunementID.Astral;
-            name = "Their Abhorrence";
-            function_description = "Hold LMB to charge up a star-piercing sword thrust, and release to unleash the devastating blow";
-            function_description_extra = "Striking the ground after a jump will create an impact so powerful massive otherwordly monoliths will rise up from the earth";
+            name = "Extant Abhorrence";
+            function_description = "Hold the attack button to charge a star-piercing lunge, release to unleash the devastating blow";
+            function_description_extra = "Striking the earth with the lunge will cause a massive impact which raises otherworldly monoliths";
             tooltipColor = new Color(91, 73, 196);
 
             energyParticleEdgeColor = new Color(58, 56, 165);
@@ -489,7 +489,7 @@ namespace CalamityMod.DataStructures
             id = AttunementID.Marine;
             name = "Gesture for the Drowned";
             function_description = "Shoot out two water balls at your sides. On ground contact the water balls will turn into small waves that ride along the ground";
-            function_description_extra = "If used while submerged, or if the waves contact water, the waves will turn into bigger and faster ones";
+            function_description_extra = "Waves fired while underwater or that touch water will become much larger and faster";
             tooltipColor = new Color(91, 73, 196);
 
             energyParticleEdgeColor = new Color(27, 59, 101);
@@ -517,9 +517,9 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Whirlwind;
             name = "Swordsmith's Pride";
-            function_description = "Hold LMB to swing the sword around you, powering up as it spins. Extra ghostly swords are summoned during the spin";
-            function_description_extra = "Releasing LMB during a spin will throw the sword out. Ghostly swords will home onto enemies hit by the sword throw";
-            passive_description = "While attacking, extra ghost swords have a chance to be shot out";
+            function_description = "Hold the attack button to swing the sword around you, accelerating over time. Sword beams are fired wildly while swinging";
+            function_description_extra = "Releasing the attack button hurls the sword towards your cursor. Sword beams home onto enemies struck by the thrown sword";
+            passive_description = "All attacks have a chance to fire sword beams";
             tooltipColor = new Color(220, 105, 197);
             tooltipColor2 = new Color(171, 239, 113);
         }
@@ -554,9 +554,9 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.FlailBlade;
             name = "Lamentations of the Chained";
-            function_description = "Throw out a flurry of chained blades in front of you. Striking enemies with the tip of the blades guarantees a critical hit";
-            function_description_extra = "Critical strikes create extra ghostly chains to latch onto extra targets";
-            passive_description = "Gain a magical chain hook. On enemy hits the hook quickly spins around you, freezing any struck foe"; //No way sentient meat hook
+            function_description = "Lash out with a flurry of chained blades. Striking enemies with the tip of the blades guarantees a critical hit";
+            function_description_extra = "Critical strikes send out extra phantom chains which latch onto multiple targets";
+            passive_description = "An enchanted chain hook floats near you. Striking enemies makes the hook whirl around you, freezing enemies"; //No way sentient meat hook
             tooltipColor = new Color(113, 239, 177);
             tooltipColor2 = new Color(169, 207, 255);
         }
@@ -594,8 +594,8 @@ namespace CalamityMod.DataStructures
             id = AttunementID.SuperPogo;
             name = "Sanguine Fury";
             function_description = "Conjures molten blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
-            function_description_extra = "Releasing LMB sends the charged blades flying in a wheel. Using LMB right after the throw makes the player perform dash towards the blade wheel, shredding anything inbetween";
-            passive_description = "Successful strikes rarely grant lifesteal";
+            function_description_extra = "Releasing the attack button sends the charged blades hurtling forwards like a wheel. Attacking again immediately thereafter dashes to the wheel, shredding anything in the way";
+            passive_description = "Striking enemies rarely steals a small amount of life";
             tooltipColor = new Color(216, 55, 22);
             tooltipColor2 = new Color(216, 131, 22);
         }
@@ -630,9 +630,9 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Shockwave;
             name = "Mercurial Tides";
-            function_description = "Hold LMB to charge up a heaven-shattering sword thrust, and release to unleash the devastating blow. Small shockwaves are released as you charge the sword";
-            function_description_extra = "Striking the ground after a jump will create an impact so powerful a shockwave of ancient monoliths will rise up and propagate through the ground";
-            passive_description = "While attacking, periodically release small shockwaves around you";
+            function_description = "Hold the attack button to charge a heaven-shattering lunge, release to unleash the devastating blow. Shock waves are emitted as the sword charges up";
+            function_description_extra = "Striking the earth with the lunge will cause a massive shock wave on impact which raises a flood of monoliths";
+            passive_description = "Periodically emit shock waves while attacking";
             tooltipColor = new Color(132, 109, 233);
             tooltipColor2 = new Color(122, 213, 233);
         }
@@ -669,8 +669,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Phoenix;
             name = "Phoenix's Pride";
-            function_description = "Hold LMB to swing Galaxia around you, powering up as it spins. Homing cosmic bolts get released around you as you spin";
-            function_description_extra = "Releasing LMB during a spin will throw the sword out alongside a blast of 6 stronger cosmic bolts";
+            function_description = "Hold the attack button to swing Galaxia around you, accelerating over time. The swirling nebula constantly emits homing cosmic bolts";
+            function_description_extra = "Releasing the attack button hurls the sword towards your cursor alongside a burst of 6 gigantic cosmic bolts. The sword then quickly returns to your hand";
             tooltipColor = new Color(255, 87, 0);
             tooltipColor2 = new Color(255, 143, 0);
 
@@ -708,8 +708,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Aries;
             name = "Aries's Wrath";
-            function_description = "Send out Galaxia flying, circling at your cursor's position, connected to you by constellations";
-            function_description_extra = "Enemy hits explode into extra homing cosmic bolts";
+            function_description = "Throw Galaxia to your cursor, holding it in place with constellations. Galaxia follows your cursor, rapidly spinning to shred enemies";
+            function_description_extra = "Striking enemies causes nebulous explosions which spawn homing cosmic bolts";
             tooltipColor = new Color(196, 89, 201);
             tooltipColor2 = new Color(255, 0, 0);
 
@@ -747,8 +747,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Polaris;
             name = "Polaris's Gaze"; //It carries the mark of the Northern Star
-            function_description = "Channels the mark of the Northern Star into a short ranged shredding blade, surrounded by spinning stars. The blade powers up over time and when hitting enemies";
-            function_description_extra = "Releasing LMB sends the charged star flying. Using LMB right after it makes the player perform a dash towards the star, releasing cosmic bolts at the end of the lunge";
+            function_description = "Hold the attack button to channel the Northern Star's power into a tight vortex of galactic energies, bound by concentric rings of stars. The vortex powers up over time and when hitting enemies";
+            function_description_extra = "Release the attack button to fire off the charged star. Attacking again immediately thereafter dashes to the star, emitting a nova of cosmic bolts";
             tooltipColor = new Color(128, 189, 255);
             tooltipColor2 = new Color(255, 128, 140);
 
@@ -786,8 +786,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Andromeda;
             name = "Andromeda's Stride"; //EHEEHEHEHE GOD ERASING BECAUSE THE ANDROMEDA BOSS WAS SCRAPPED (ALSO KNOWN AS A "GOD" BEING "ERASED") EHEHEHE
-            function_description = "Hold LMB to charge up a god-erasing sword thrust, and release to unleash the devastating blow. Small cosmic bolts are released as you charge the sword";
-            function_description_extra = "Striking the ground with the charge will create an impact so powerful large homing cosmic energies will rise from the ground";
+            function_description = "Hold the attack button to charge a god-erasing lunge, release to unleash the devastating blow. Galaxia emits cosmic bolts while charging";
+            function_description_extra = "Striking the earth with the lunge will cause a massive impact which summons an apocalyptic storm of cosmic energies";
             tooltipColor = new Color(132, 128, 255);
             tooltipColor2 = new Color(194, 166, 255);
 
