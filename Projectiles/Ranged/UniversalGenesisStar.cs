@@ -40,16 +40,6 @@ namespace CalamityMod.Projectiles.Ranged
 					Main.PlaySound(SoundID.Item9, projectile.position);
 				}
 			}
-			projectile.alpha -= 15;
-			int alphaMin = 150;
-			if (projectile.Center.Y >= projectile.ai[1])
-			{
-				alphaMin = 0;
-			}
-			if (projectile.alpha < alphaMin)
-			{
-				projectile.alpha = alphaMin;
-			}
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
 			if (Main.rand.NextBool(48))
 			{
@@ -57,17 +47,13 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.gore[idx].velocity *= 0.66f;
 				Main.gore[idx].velocity += projectile.velocity * 0.3f;
 			}
-			if (projectile.ai[1] == 1f)
+			if (Main.rand.NextBool(10))
 			{
-				projectile.light = 0.9f;
-				if (Main.rand.NextBool(10))
-				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-				}
-				if (Main.rand.NextBool(20))
-				{
-					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
-				}
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+			}
+			if (Main.rand.NextBool(20))
+			{
+				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
 			}
 		}
 
@@ -86,11 +72,50 @@ namespace CalamityMod.Projectiles.Ranged
 			return new Color(200, 200, 200, projectile.alpha);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			if (projectile.ai[1] == 1f)
+			{
+				Texture2D tex = Main.projectileTexture[projectile.type];
+				Vector2 offsets = new Vector2(0f, projectile.gfxOffY) - Main.screenPosition;
+				Color alpha = projectile.GetAlpha(lightColor);
+				Rectangle spriteRec = new Microsoft.Xna.Framework.Rectangle(0, 0, tex.Width, tex.Height);
+				Vector2 spriteOrigin = spriteRec.Size() / 2f;
+				SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+				Texture2D aura = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/FallenStarAura");
+				Vector2 drawStart = projectile.Center + projectile.velocity;
+				Vector2 drawStart2 = projectile.Center - projectile.velocity * 0.5f;
+				Vector2 spinPoint = new Vector2(0f, -10f);
+				float time = Main.player[projectile.owner].miscCounter % 216000f / 60f;
+				Rectangle auraRec = aura.Frame();
+				Color blue = Color.Blue * 0.2f;
+				Color white = Color.White * 0.5f;
+				white.A = 0;
+				blue.A = 0;
+				Vector2 auraOrigin = new Vector2(auraRec.Width / 2f, 10f);
+
+				//Draw the aura
+				spriteBatch.Draw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time), auraRec, blue, projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.5f, SpriteEffects.None, 0);
+				spriteBatch.Draw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time + MathHelper.TwoPi / 3f), auraRec, blue, projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.1f, SpriteEffects.None, 0);
+				spriteBatch.Draw(aura, drawStart + offsets + spinPoint.RotatedBy(MathHelper.TwoPi * time + MathHelper.Pi * 4f / 3f), auraRec, blue, projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 1.3f, SpriteEffects.None, 0);
+				for (float d = 0f; d < 1f; d += 0.5f)
+				{
+					float scaleMult = time % 0.5f / 0.5f;
+					scaleMult = (scaleMult + d) % 1f;
+					float colorMult = scaleMult * 2f;
+					if (colorMult > 1f)
+					{
+						colorMult = 2f - colorMult;
+					}
+					spriteBatch.Draw(aura, drawStart2 + offsets, auraRec, white * colorMult, projectile.velocity.ToRotation() + MathHelper.PiOver2, auraOrigin, 0.3f + scaleMult * 0.5f, SpriteEffects.None, 0);
+				}
+			}
+
+			//Draw the actual projectile
 			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-			return false;
-		}
+            return false;
+        }
 
 		public override void Kill(int timeLeft)
 		{

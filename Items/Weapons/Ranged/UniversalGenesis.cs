@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Universal Genesis");
-			Tooltip.SetDefault("Seeing the cosmos makes you realize how insignificant we are\n" +
-				"Fires a spread of bullets from the gun and a spread of stars above the cursor\n" +
+			Tooltip.SetDefault("Let the starry sky fall upon your enemies\n" +
+				"Fires a spread of bullets from the gun and a flurry of stars to rain down on the cursor\n" +
 				"Converts musket balls into starcaller shots that summon additional stars on enemy hits\n" +
 				"50% chance to not consume ammo");
 		}
@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				yDist *= travelDist;
 				float xVel = xDist + Main.rand.NextFloat(-0.6f, 0.6f);
 				float yVel = yDist + Main.rand.NextFloat(-0.6f, 0.6f);
-				int star = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockBack, player.whoAmI, i);
+				int star = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockBack, player.whoAmI, i, 1f);
 				Main.projectile[star].extraUpdates = 2;
 				Main.projectile[star].localNPCHitCooldown = 30;
 			}
