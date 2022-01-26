@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
             player.extraFall += 35;
             player.blackBelt = true;
             player.dash = 1;
+			player.Calamity().dashMod = 0;
             player.spikedBoots = 2;
         }
 
@@ -42,8 +43,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.MasterNinjaGear);
             recipe.AddIngredient(ItemID.FrogLeg);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

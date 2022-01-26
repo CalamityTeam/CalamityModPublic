@@ -46,7 +46,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);
             DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
-			DropHelper.DropItem(player, ItemID.CrimsonSeeds, 2, 4);
+			DropHelper.DropItem(player, ItemID.CrimsonSeeds, 10, 15);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

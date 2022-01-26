@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Accessories
                 player.statLifeMax2 += 20;
             }
 			player.Calamity().dashMod = 6;
+			player.dash = 0;
 		}
 
         public override void AddRecipes()
