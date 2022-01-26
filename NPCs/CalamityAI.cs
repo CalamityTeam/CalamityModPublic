@@ -3910,13 +3910,13 @@ namespace CalamityMod.NPCs
 								if (phase2)
 								{
 									// Waving beams need to start offset so they cross each other neatly.
-									float waveSideOffset = Main.rand.NextFloat(18f, 28f);
+									float waveSideOffset = Main.rand.NextFloat(9f, 14f);
 									Vector2 perp = shootDirection.RotatedBy(-MathHelper.PiOver2) * waveSideOffset;
 
 									for (int i = -1; i <= 1; i += 2)
 									{
 										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.8f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
 										// Tell this Phased God Ray exactly which way it should be waving.
 										godRay.localAI[1] = i * 0.5f;
@@ -3926,7 +3926,7 @@ namespace CalamityMod.NPCs
 								{
 									Projectile.NewProjectile(vector104, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 									if (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f)
-										Projectile.NewProjectile(vector104, laserVelocity * 0.8f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile.NewProjectile(vector104, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
