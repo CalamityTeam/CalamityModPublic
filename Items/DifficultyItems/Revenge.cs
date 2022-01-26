@@ -34,8 +34,7 @@ namespace CalamityMod.Items.DifficultyItems
                 // Boss lines
                 "All boss minions no longer drop hearts.\n" +
                 "Changes all boss AIs and some enemy AIs.\n" +
-                "Increases the health and damage of all bosses.\n" +
-                "Most bosses will enter later phases sooner if the fight has gone on for a long time.");
+                "Increases the health and damage of all bosses.");
         }
 
         public override void SetDefaults()
