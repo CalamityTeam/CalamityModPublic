@@ -78,8 +78,8 @@ namespace CalamityMod.Items.Weapons.Melee
                                "FUNCTION_PASSIVE\n" +
                                "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
-                               "Active attunement : None\n" +
-                               "Passive blessing: None\n"); ;
+                               "Active Attunement : None\n" +
+                               "Passive Blessing : None\n"); ;
         }
 
         #region tooltip editing
@@ -92,6 +92,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             foreach (TooltipLine l in list)
             {
+                if (l.text == null)
+                    continue;
+
                 if (l.text.StartsWith("FUNCTION_DESC"))
                 {
                     if (mainAttunement != null)
@@ -102,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     else
                     {
                         l.overrideColor = new Color(163, 163, 163);
-                        l.text = "";
+                        l.text = "Has 4 different functions that the owner can swap between";
                     }
                 }
 
@@ -116,7 +119,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     else
                     {
                         l.overrideColor = new Color(163, 163, 163);
-                        l.text = "";
+                        l.text = "This text should never be seen";
                     }
                 }
 
@@ -130,11 +133,11 @@ namespace CalamityMod.Items.Weapons.Melee
                     else
                     {
                         l.overrideColor = new Color(163, 163, 163);
-                        l.text = "";
+                        l.text = "This text should never be seen";
                     }
                 }
 
-                if (l.text.StartsWith("Active attunement"))
+                if (l.text.StartsWith("Active Attunement"))
                 {
                     if (mainAttunement != null)
                     {
@@ -266,7 +269,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             if (mainAttunement == null)
-                mainAttunement = new PhoenixAttunement();
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
             mainAttunement.ApplyStats(item);
 

@@ -110,6 +110,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             foreach (TooltipLine l in list)
             {
+                if (l.text == null)
+                    continue;
+
                 if (l.text.StartsWith("FUNCTION_DESC"))
                 {
                     if (mainAttunement != null)
@@ -307,14 +310,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             //PAssive effetcsts only happen on the side of the owner
-            if (secondaryAttunement.id != AttunementID.FlailBlade || MeatHook == null || !MeatHook.active)
-                MeatHook = null;
-            if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null )
-                MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
-
-
             if (secondaryAttunement != null)
+            {
+                if (secondaryAttunement.id != AttunementID.FlailBlade || MeatHook == null || !MeatHook.active)
+                    MeatHook = null;
+
+                if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null)
+                {
+                    MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
+                }
+
                 secondaryAttunement.PassiveEffect(player, ref UseTimer, ref OnHitProc, MeatHook);
+            }
+
 
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {

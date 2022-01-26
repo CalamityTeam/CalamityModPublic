@@ -339,7 +339,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
             {
                 spriteBatch.Draw(itemTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
-                return true;
+                return false;
             }
                 
 

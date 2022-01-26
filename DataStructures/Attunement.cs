@@ -602,11 +602,11 @@ namespace CalamityMod.DataStructures
 
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
+            item.damage = OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ProjectileType<LamentationsOfTheChained>();
+            item.shoot = ProjectileType<SanguineFury>();
             item.shootSpeed = 12f;
             item.UseSound = null;
             item.noMelee = true;
@@ -639,11 +639,11 @@ namespace CalamityMod.DataStructures
 
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
+            item.damage = OmegaBiomeBlade.ShockwaveAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ProjectileType<LamentationsOfTheChained>();
+            item.shoot = ProjectileType<MercurialTides>();
             item.shootSpeed = 12f;
             item.UseSound = null;
             item.noMelee = true;

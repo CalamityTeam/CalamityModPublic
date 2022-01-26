@@ -2164,7 +2164,7 @@ namespace CalamityMod.Projectiles.Melee
         public static float MaxTwirlTime = 30;
         public ref float Twirling => ref projectile.ai[0];
 
-        public bool MayIExist => Owner.active && (Owner.HeldItem.modItem is OmegaBiomeBlade blade) && blade.secondaryAttunement.id == AttunementID.FlailBlade;
+        public bool MayIExist => Owner.active && (Owner.HeldItem.modItem is OmegaBiomeBlade blade) && blade.secondaryAttunement != null && blade.secondaryAttunement.id == AttunementID.FlailBlade;
 
         Particle smear;
 
