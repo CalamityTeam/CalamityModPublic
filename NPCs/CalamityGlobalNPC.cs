@@ -3387,7 +3387,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 26:
-						if (npc.type == NPCType<Pitbull>())
+						if (npc.type == NPCType<MutatedHound>())
 						{
 							return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
 						}
