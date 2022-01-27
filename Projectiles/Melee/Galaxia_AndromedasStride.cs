@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Melee
                         }
 
                         OverCharge = 20f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 positionToCheck = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((i * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
 
-                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolid())
                     widestAngle = i;
 
                 else if (widestAngle != 0)

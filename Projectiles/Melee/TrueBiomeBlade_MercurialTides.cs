@@ -118,7 +118,9 @@ namespace CalamityMod.Projectiles.Melee
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
                     Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
-                    Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
+                    var chargeSound = Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
+                    if (chargeSound != null)
+                        chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
                     OverCharge = 20f;
                 }
@@ -130,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
+                        Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -212,7 +214,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 positionToCheck = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((i * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
 
-                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolid())
                     widestAngle = i;
 
                 else if (widestAngle != 0)

@@ -14,7 +14,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -120,7 +119,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
-                    Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
+                    var chargeSound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
+                    if (chargeSound != null)
+                        chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
                     OverCharge = 20f;
                 }
@@ -131,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
                         OverCharge = 20f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/CorvinaScream"), projectile.Center);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -221,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 positionToCheck = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((i * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
 
-                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolid())
                     widestAngle = i;
 
                 else if (widestAngle != 0)

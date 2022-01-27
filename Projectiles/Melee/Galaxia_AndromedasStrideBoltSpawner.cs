@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             for (float i = 0; i < 40; i += 0.5f)
             {
                 Vector2 positionToCheck = projectile.Center + projectile.velocity * i;
-                if (!Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                if (!Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolid())
                 {
                     projectile.Center = projectile.Center + projectile.velocity * i;
                     return;
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 positionToCheck = projectile.Center + OriginDirection.RotatedBy((i * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
 
-                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolidGround())
+                if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].IsTileSolid())
                     widestAngle = i;
 
                 else if (widestAngle != 0)
