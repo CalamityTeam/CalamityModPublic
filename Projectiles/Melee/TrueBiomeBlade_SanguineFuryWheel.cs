@@ -99,21 +99,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 var tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_SanguineFuryExtra");
 
-                float transition = MathHelper.Clamp((Timer - 15 - (i * 20)) / (MaxTime * 0.2f), 0f, 1f);
-                transition = MathHelper.Clamp(Timer / MaxTime, 0f, 1f);
-
-                //float circleCompletion = (float)Math.Sin(Main.GlobalTime * 5 + i * MathHelper.PiOver2);
-                //float drawAngleShot = MathHelper.WrapAngle(direction.ToRotation() + MathHelper.PiOver4 + (circleCompletion * MathHelper.Pi / 10f) - (circleCompletion * (MathHelper.Pi / 9f) * ShredRatio));
                 float drawAngleWheel = MathHelper.WrapAngle(i * MathHelper.PiOver2 + (Main.GlobalTime * 6));
-                //Lerp between the position in the shot and the position in  the wheel
-                //float drawAngle = MathHelper.WrapAngle(Utils.AngleLerp(drawAngleShot, drawAngleWheel, transition));
-
                 Vector2 drawOrigin = new Vector2(0f, tex.Height);
-
-
-                //Vector2 drawOffsetStraight = projectile.Center + direction * (float)Math.Sin(Main.GlobalTime * 7) * 10 - Main.screenPosition; //How far from the player
-                //Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
-                //Vector2 drawPositionShot = drawOffsetStraight + drawDisplacementAngle;
                 Vector2 drawPositionWheel = projectile.Center - drawAngleWheel.ToRotationVector2() * 20f - Main.screenPosition;
 
                 //Vector2 drawPosition = Vector2.Lerp(drawPositionShot, drawPositionWheel, transition);

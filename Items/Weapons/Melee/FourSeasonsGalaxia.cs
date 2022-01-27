@@ -302,8 +302,8 @@ namespace CalamityMod.Items.Weapons.Melee
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
             (n.type == ProjectileType<PhoenixsPride>() ||
              n.type == ProjectileType<AndromedasStride>() ||
-             n.type == ProjectileType<PolarissGaze>() ||
-             n.type == ProjectileType<AriessWrath>()
+             n.type == ProjectileType<PolarisGaze>() ||
+             n.type == ProjectileType<AriesWrath>()
             ));
         }
 

@@ -15,7 +15,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AriessWrath : ModProjectile
+    public class AriesWrath : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
@@ -213,8 +213,8 @@ namespace CalamityMod.Projectiles.Melee
                 if (lastConstellation != null && lastConstellation.active)
                     lastConstellation.Kill();
 
-                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriessWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
-                if (lastConstellation.modProjectile is AriessWrathConstellation constellation)
+                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
+                if (lastConstellation.modProjectile is AriesWrathConstellation constellation)
                 {
                     constellation.SizeVector = projectile.Center - Owner.Center;
                 }

@@ -18,9 +18,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TheirAbhorrence : ModProjectile
+    public class ExtantAbhorrence : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrence";
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence";
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[projectile.owner];
@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Melee
             //Only create the central monolith if over half charge
             if (Charge / MaxCharge < 0.5f)
                 return;
-            Projectile.NewProjectile(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<TheirAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile.NewProjectile(Owner.Center + (direction * 120 * projectile.scale), -direction, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
 
             //Only create the side monoliths if over 3/4th charge
             if (Charge / MaxCharge < 0.75f)
@@ -235,8 +235,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<TheirAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
-                if (proj.modProjectile is TheirAbhorrenceMonolith monolith)
+                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.modProjectile is ExtantAbhorrenceMonolith monolith)
                     monolith.WaitTimer = (1 - projSize) * 34f;
             }
 
@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrence");
+            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence");
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;

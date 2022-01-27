@@ -475,7 +475,7 @@ namespace CalamityMod.DataStructures
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.Stabbing;
-            item.shoot = ProjectileType<TheirAbhorrence>();
+            item.shoot = ProjectileType<ExtantAbhorrence>();
             item.shootSpeed = 12f;
             item.UseSound = null;
             item.noMelee = true;
@@ -724,7 +724,7 @@ namespace CalamityMod.DataStructures
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ProjectileType<AriessWrath>();
+            item.shoot = ProjectileType<AriesWrath>();
             item.shootSpeed = 12f;
             item.UseSound = null;
             item.noMelee = true;
@@ -763,7 +763,7 @@ namespace CalamityMod.DataStructures
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ProjectileType<PolarissGaze>();
+            item.shoot = ProjectileType<PolarisGaze>();
             item.shootSpeed = 12f;
             item.UseSound = null;
             item.noMelee = true;

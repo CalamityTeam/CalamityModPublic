@@ -90,10 +90,5 @@ namespace CalamityMod.Projectiles.Melee
             DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
-
-        public override void Kill(int timeLeft)
-        {
-            //Shit out a lot of particles or smth
-        }
     }
 }

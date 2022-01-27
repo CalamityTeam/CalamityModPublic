@@ -15,7 +15,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PolarissGaze : ModProjectile
+    public class PolarisGaze : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Red cuz close range yget the deal
         private bool initialized = false;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.type == ProjectileType<PolarissGazeStar>() && proj.owner == Owner.whoAmI)
+                    if (proj.active && proj.type == ProjectileType<PolarisGazeStar>() && proj.owner == Owner.whoAmI)
                     {
                         if (CalamityUtils.AngleBetween(Owner.Center - Main.MouseWorld, Owner.Center - proj.Center) > MathHelper.PiOver4)
                         {
@@ -181,8 +181,8 @@ namespace CalamityMod.Projectiles.Melee
                     }
 
 
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarissGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                    if (proj.modProjectile is PolarissGazeDash dash)
+                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarisGazeDash>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    if (proj.modProjectile is PolarisGazeDash dash)
                     {
                         dash.DashStart = DashStart;
                         dash.DashEnd = Owner.Center;
@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
             if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<PolarissGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<PolarisGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }
             Owner.Calamity().LungingDown = false;
         }

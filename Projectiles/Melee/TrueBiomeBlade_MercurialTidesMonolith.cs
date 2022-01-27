@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WaitTimer > 0)
                 return;
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrenceMonolith_Glow");
+            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith_Glow");
 
             float drawAngle = projectile.rotation;
             Rectangle frame = new Rectangle(0 + (int)Variant * 94, 0, 94, 420);

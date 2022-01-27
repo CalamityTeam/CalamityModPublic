@@ -291,7 +291,7 @@ namespace CalamityMod.Items.Weapons.Melee
              n.type == ProjectileType<TrueGrovetendersTouch>() ||
              n.type == ProjectileType<TrueAridGrandeur>() ||
              n.type == ProjectileType<HeavensMight>() ||
-             n.type == ProjectileType<TheirAbhorrence>() ||
+             n.type == ProjectileType<ExtantAbhorrence>() ||
              n.type == ProjectileType<GestureForTheDrowned>()));  
         }
 

@@ -18,9 +18,9 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TheirAbhorrenceMonolith : ModProjectile
+    public class ExtantAbhorrenceMonolith : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrenceMonolith";
+        public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith";
         public Player Owner => Main.player[projectile.owner];
         public float Timer => (100f - projectile.timeLeft) / 100f;
         public ref float Variant => ref projectile.ai[0]; //Yes
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WaitTimer > 0)
                 return false;
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrenceMonolith");
+            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith");
 
             float drawAngle = projectile.rotation;
             Rectangle frame = new Rectangle(0 + (int)Variant * 94, 0, 94, 420);
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WaitTimer > 0)
                 return;
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_TheirAbhorrenceMonolith_Glow");
+            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith_Glow");
 
             float drawAngle = projectile.rotation;
             Rectangle frame = new Rectangle(0 + (int)Variant * 94, 0, 94, 420);

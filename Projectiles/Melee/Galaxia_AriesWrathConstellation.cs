@@ -15,7 +15,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AriessWrathConstellation : ModProjectile
+    public class AriesWrathConstellation : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[projectile.owner];

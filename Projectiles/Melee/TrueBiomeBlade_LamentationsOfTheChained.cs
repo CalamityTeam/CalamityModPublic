@@ -242,12 +242,6 @@ namespace CalamityMod.Projectiles.Melee
                 (smear2 as SemiCircularSmearVFX).Squish.X *= 1.01f;
             }
 
-
-            //if ((ChainSwapTimer - 12f) % 23 == 0)
-            //{
-            //    Main.PlaySound(SoundID.Item41, projectile.Center);
-            //}
-
             ChainSwapTimer++;
         }
 
