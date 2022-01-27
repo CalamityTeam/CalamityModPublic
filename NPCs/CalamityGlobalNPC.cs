@@ -989,7 +989,7 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.DukeFishron:
-					npc.lifeMax = 81250;
+					npc.lifeMax = 105625;
 					break;
 
 				case NPCID.Golem:
