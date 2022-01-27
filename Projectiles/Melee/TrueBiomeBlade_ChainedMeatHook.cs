@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 1;
         }
 
-        public override bool? CanHitNPC(NPC target) => Twirling == 1f;
+        public override bool? CanHitNPC(NPC target) => Twirling == 1f && !target.friendly;
 
         public override void AI()
         {
