@@ -1,12 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Ravager
 {
 	public class RavagerLegRight : ModNPC
@@ -19,12 +17,12 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 0;
+            npc.damage = 50;
             npc.width = 60;
             npc.height = 60;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.lifeMax = 22010;
+            npc.lifeMax = 12788;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
@@ -57,8 +55,8 @@ namespace CalamityMod.NPCs.Ravager
 				return;
 			}
 
-			if (npc.timeLeft < 1800)
-				npc.timeLeft = 1800;
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
 
 			if (npc.alpha > 0)
 			{

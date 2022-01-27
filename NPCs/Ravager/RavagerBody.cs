@@ -151,21 +151,25 @@ namespace CalamityMod.NPCs.Ravager
             bool headActive = false;
             bool rightClawActive = false;
             bool leftClawActive = false;
+			bool freeHeadActive = false;
 
-            for (int num619 = 0; num619 < Main.maxNPCs; num619++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerHead>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerHead>())
                     headActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerClawRight>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerClawRight>())
                     rightClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerClawLeft>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerClawLeft>())
                     leftClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerLegRight>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerLegRight>())
                     rightLegActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerLegLeft>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerLegLeft>())
                     leftLegActive = true;
-            }
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<RavagerHead2>())
+					freeHeadActive = true;
+			}
 
+			bool anyHeadActive = headActive || freeHeadActive;
 			bool immunePhase = headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive;
 			bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive && expertMode;
 			bool phase2 = npc.ai[0] == 2f;
@@ -351,7 +355,7 @@ namespace CalamityMod.NPCs.Ravager
 						npc.TargetClosest();
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
-						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+						float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 4f + velocityXBoost;
 						velocityY = -16f;
 
@@ -490,7 +494,8 @@ namespace CalamityMod.NPCs.Ravager
 							npc.velocity.Y = -velocityY;
 					}
 
-					float maxOffset = death ? 320f * (1f - lifeRatio) : 240f * (1f - lifeRatio);
+					float maxOffsetScale = death ? 320f : 240f;
+					float maxOffset = maxOffsetScale * (1f - lifeRatio);
 					float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
@@ -506,7 +511,9 @@ namespace CalamityMod.NPCs.Ravager
 						if (phase2)
 						{
 							float stopBeforeFallTime = malice ? 25f : 30f;
-							if (expertMode)
+							if (!anyHeadActive)
+								stopBeforeFallTime -= 15f;
+							else if (expertMode)
 								stopBeforeFallTime -= death ? 15f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
 
 							if (npc.ai[1] < stopBeforeFallTime)
@@ -516,7 +523,7 @@ namespace CalamityMod.NPCs.Ravager
 							}
 							else
 							{
-								float fallSpeedBoost = death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
+								float fallSpeedBoost = !anyHeadActive ? 1.8f : death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
 								float fallSpeed = (malice ? 1.8f : 1.2f) + fallSpeedBoost;
 
 								if (calamityGlobalNPC.newAI[1] > 1f)
@@ -533,7 +540,7 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (npc.Bottom.Y < player.position.Y)
 							{
-								float fallSpeedBoost = death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
+								float fallSpeedBoost = !anyHeadActive ? 0.9f : death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
 								float fallSpeed = (malice ? 0.9f : 0.6f) + fallSpeedBoost;
 
 								if (calamityGlobalNPC.newAI[1] > 1f)
@@ -548,7 +555,7 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityMult = malice ? 2f : 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
-						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+						float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
 						if (!rightClawActive)

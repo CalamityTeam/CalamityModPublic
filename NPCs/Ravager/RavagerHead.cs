@@ -18,12 +18,12 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 0;
+            npc.damage = 50;
             npc.width = 80;
             npc.height = 80;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.lifeMax = 32705;
+            npc.lifeMax = 19182;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
@@ -49,11 +49,6 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void AI()
         {
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool death = CalamityWorld.death || malice;
-
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
@@ -61,7 +56,15 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 
-            if (npc.timeLeft < 1800)
+			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || malice;
+
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
 			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);

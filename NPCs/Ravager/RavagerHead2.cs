@@ -19,12 +19,12 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 0;
+            npc.damage = 50;
             npc.width = 80;
             npc.height = 80;
 			npc.defense = 40;
 			npc.DR_NERD(0.15f);
-			npc.lifeMax = 16352;
+			npc.lifeMax = 9591;
 			npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
@@ -56,6 +56,9 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
+
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
 
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.scavenger].target];
 

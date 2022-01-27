@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -8,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Ravager
 {
 	public class RavagerClawLeft : ModNPC
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.height = 40;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.lifeMax = 11120;
+            npc.lifeMax = 12788;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
