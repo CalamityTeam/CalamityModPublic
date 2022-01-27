@@ -84,7 +84,7 @@ namespace CalamityMod.Particles
 			foreach (Particle particle in Particles.OrderBy(p => p.Time))
 			{
 				if (particle.UseCustomDraw)
-					particle.CustomDraw(Main.spriteBatch);
+					particle.CustomDraw(Main.spriteBatch, basePosition);
 				else
 				{
 					var tex = ModContent.GetTexture(particle.Texture);

@@ -85,6 +85,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Spawn rate for enrage steam
 		public const int ventCloudSpawnRate = 3;
 
+		// Spawn rate for telegraph particles
+		public const int telegraphParticlesSpawnRate = 5;
+
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
 		private const int maxFramesY = 8;
