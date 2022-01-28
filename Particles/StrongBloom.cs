@@ -39,5 +39,12 @@ namespace CalamityMod.Particles
 
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }
+
+        public override void CustomDraw(SpriteBatch spriteBatch, Vector2 relativePosition)
+        {
+            Texture2D tex = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+
+            spriteBatch.Draw(tex, relativePosition - Main.screenPosition, null, Color, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
+        }
     }
 }

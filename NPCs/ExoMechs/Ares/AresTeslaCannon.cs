@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 		public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.Aqua);
+		public Vector2 CoreSpritePosition => npc.Center - npc.rotation.ToRotationVector2() * 35f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -405,7 +406,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						}
 
 						EnergyDrawer.ParticleSpawnRate = AresBody.telegraphParticlesSpawnRate;
-						EnergyDrawer.SpawnAreaCompactness = 500f;
+						EnergyDrawer.SpawnAreaCompactness = 100f;
+						EnergyDrawer.chargeProgress = calamityGlobalNPC.newAI[2] / teslaOrbTelegraphDuration;
 
 					}
 					else
@@ -428,6 +430,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							}
 						}
 					}
+
+					if (calamityGlobalNPC.newAI[2] % (float)Math.Floor(teslaOrbTelegraphDuration / 5f) == (float)Math.Floor(teslaOrbTelegraphDuration / 5f) - 1 && calamityGlobalNPC.newAI[2] <= teslaOrbTelegraphDuration)
+                    {
+						float pulseCounter = (float)Math.Floor(calamityGlobalNPC.newAI[2] / (teslaOrbTelegraphDuration / 5f)) + 1;
+						EnergyDrawer.AddPulse(pulseCounter);
+                    }
 
 					if (calamityGlobalNPC.newAI[2] >= teslaOrbTelegraphDuration + teslaOrbDuration)
 					{
@@ -598,9 +606,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				float pulseOpacity = MathHelper.Clamp((float)Math.Floor(npc.Calamity().newAI[2] / (teslaOrbTelegraphDuration / 5f)) * 0.3f, 1f, 2f);
 				spriteBatch.Draw(texture, center, frame, Color.Aqua * MathHelper.Lerp(1f, 0f, pulseRatio) * pulseOpacity, npc.rotation, vector, npc.scale + pulseRatio * pulseSize, spriteEffects, 0f);
 
-
+				//Draw the bloom
+				EnergyDrawer.DrawBloom(CoreSpritePosition);
 			}
-			EnergyDrawer.DrawSet(npc.Center - npc.rotation.ToRotationVector2() * 35f);
+
+			EnergyDrawer.DrawPulses(CoreSpritePosition);
+			EnergyDrawer.DrawSet(CoreSpritePosition);
+
 
 			//Back to normal
 			spriteBatch.End();
