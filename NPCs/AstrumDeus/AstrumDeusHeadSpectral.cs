@@ -238,10 +238,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void NPCLoot()
         {
-			// Unsplit Deus does not drop anything when killed/despawned.
-			if (npc.Calamity().newAI[0] == 0f)
-				return;
-
 			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
 			DropHelper.DropBags(npc);
