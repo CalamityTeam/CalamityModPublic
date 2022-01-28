@@ -21,7 +21,8 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";
         public Player Owner => Main.player[projectile.owner];
         public ref float ChainSwapTimer => ref projectile.ai[0];
-        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
+        public ref float BlastCooldown => ref projectile.ai[1];
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed && Owner.HeldItem.type == ItemType<FourSeasonsGalaxia>();
 
         const float MaxProjReach = 500f; //How far away do you check for enemies for the extra projs from crits be
 
@@ -68,6 +69,9 @@ namespace CalamityMod.Projectiles.Melee
             };
             GeneralParticleHandler.SpawnParticle(SliceLine);
 
+            if (BlastCooldown > 0)
+                return;
+
             excludedTargets[0] = target;
             for (int i = 0; i < 3; i++)
             {
@@ -78,6 +82,7 @@ namespace CalamityMod.Projectiles.Melee
                 proj.scale = 2f;
             }
             Array.Clear(excludedTargets, 0, 3);
+            BlastCooldown = 30f;
 
         }
 
@@ -119,7 +124,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!OwnerCanShoot)
             {
-                if ((Owner.Center - projectile.Center).Length() < 30f)
+                //Kill the projectile if too far away from the player or close enough to get "re-absorbed)
+                if ((Owner.Center - projectile.Center).Length() < 30f || (Owner.Center - projectile.Center).Length() > 2000f)
                     projectile.Kill();
 
                 else
@@ -221,6 +227,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             ChainSwapTimer++;
+            BlastCooldown--;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
