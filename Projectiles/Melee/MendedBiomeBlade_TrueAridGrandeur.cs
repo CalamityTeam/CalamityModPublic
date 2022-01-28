@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Melee
         public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
         public ref float PogoCooldown => ref projectile.ai[1]; //Cooldown for the pogo
         public ref float BounceTime => ref projectile.localAI[0];
+        public ref float ChargeSoundCooldown => ref projectile.localAI[1];
         public Player Owner => Main.player[projectile.owner];
         public bool CanPogo => Owner.velocity.Y != 0 && PogoCooldown <= 0; //Only pogo when in the air and if the cooldown is zero
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
@@ -152,6 +153,20 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
+            //Play a sound when the blade throw is available
+            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer)
+            {
+                if (ChargeSoundCooldown <= 0)
+                {
+                    Main.PlaySound(SoundID.DD2_SonicBoomBladeSlash);
+                    ChargeSoundCooldown = 20;
+                }
+            }
+            else
+            {
+                ChargeSoundCooldown--;
+            }
+
             Shred--;
             PogoCooldown--;
             BounceTime--;
@@ -181,7 +196,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
-            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) //Keep this for the True biome blade/Repaired biome blade.
+            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) 
             {
                 Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), (int)(projectile.damage * TrueBiomeBlade.HotAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }

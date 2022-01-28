@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Melee
         Vector2 direction = Vector2.Zero;
         public ref float Shred => ref projectile.ai[0]; //Charge, basically
         public ref float HitChargeCooldown => ref projectile.ai[1];
+        public ref float ChargeSoundCooldown => ref projectile.localAI[0];
         public float Bounce(float x) => x <= 50 ? x / 50f : x <= 65 ? 1 + 0.15f * (float)Math.Sin((x - 50f) / 15f * MathHelper.Pi) : 1f;
         public float ShredRatio => MathHelper.Clamp(Shred / (maxShred * 0.5f), 0f, 1f);
         public Player Owner => Main.player[projectile.owner];
@@ -214,6 +215,22 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
+
+            //Play a sound when the blade throw is available
+            if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer)
+            {
+                if (ChargeSoundCooldown <= 0)
+                {
+                    var chargeSound = Main.PlaySound(SoundID.DD2_BookStaffCast);
+                    chargeSound.Volume *= 2.5f;
+                    ChargeSoundCooldown = 20;
+                }
+            }
+            else
+            {
+                ChargeSoundCooldown--;
+            }
+
 
             Shred += 1;
             HitChargeCooldown--;
