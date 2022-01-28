@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
-            bool ocean = Owner.ZoneBeach;
+            bool ocean = Owner.ZoneBeach || Owner.Calamity().ZoneSulphur;
             bool holy = Owner.ZoneHoly;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;

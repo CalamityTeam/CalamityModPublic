@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
             bool evil = Owner.ZoneCorrupt || Owner.ZoneCrimson;
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
-            bool ocean = Owner.ZoneBeach;
+            bool ocean = Owner.ZoneBeach || Owner.Calamity().ZoneSulphur;
 
             Attunement attunement = Attunement.attunementArray[(int)AttunementID.Default];
 
