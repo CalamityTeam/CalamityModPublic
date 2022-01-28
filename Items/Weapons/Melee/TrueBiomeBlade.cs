@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int AstralAttunement_BaseDamage = 500;
         public static int AstralAttunement_DashHitIFrames = 30;
-        public static float AstralAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float AstralAttunement_FullChargeBoost = 5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
         public static float AstralAttunement_MonolithDamageBoost = 2f;
 
         public static int MarineAttunement_BaseDamage = 160;

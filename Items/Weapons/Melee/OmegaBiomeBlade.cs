@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int ShockwaveAttunement_BaseDamage = 2500;
         public static int ShockwaveAttunement_DashHitIFrames = 60;
-        public static float ShockwaveAttunement_FullChargeBoost = 1f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float ShockwaveAttunement_FullChargeBoost = 5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
         public static float ShockwaveAttunement_MonolithDamageBoost = 2f;
         public static float ShockwaveAttunement_BlastDamageReduction = 0.6f;
 
