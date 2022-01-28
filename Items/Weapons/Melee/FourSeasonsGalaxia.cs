@@ -310,7 +310,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (mainAttunement == null)
-                mainAttunement = new PhoenixAttunement();
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
             Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
             spriteBatch.Draw(itemTexture, position, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
@@ -319,6 +319,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
+            if (mainAttunement == null)
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+
             Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
             spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
