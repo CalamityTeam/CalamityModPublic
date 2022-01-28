@@ -263,7 +263,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
             if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<PolarisGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }
             Owner.Calamity().LungingDown = false;
         }
