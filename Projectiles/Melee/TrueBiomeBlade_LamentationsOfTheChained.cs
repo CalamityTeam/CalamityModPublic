@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             //Cuz it intializes the hooks as pointing flat to the right of the player and we dont want that.
-            if (ChainSwapTimer < OmegaBiomeBlade.FlailBladeAttunement_FlailTime)
+            if (ChainSwapTimer < Math.Max(OmegaBiomeBlade.FlailBladeAttunement_FlailTime, OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames))
                 return false;
 
             GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
