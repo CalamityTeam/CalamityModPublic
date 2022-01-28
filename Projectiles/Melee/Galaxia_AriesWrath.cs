@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
             if (!OwnerCanShoot)
             {
                 //Kill the projectile if too far away from the player or close enough to get "re-absorbed)
-                if ((Owner.Center - projectile.Center).Length() < 30f || (Owner.Center - projectile.Center).Length() > 2000f)
+                if ((Owner.Center - projectile.Center).Length() < 30f || (Owner.Center - projectile.Center).Length() > 2000f || projectile.velocity.Length() > 100f)
                     projectile.Kill();
 
                 else
