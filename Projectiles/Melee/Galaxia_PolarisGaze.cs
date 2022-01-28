@@ -265,6 +265,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.NewProjectile(projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }
+            if (Dashing)
+            {
+                Owner.velocity *= 0.1f; //Abrupt stop
+            }
+
             Owner.Calamity().LungingDown = false;
         }
 

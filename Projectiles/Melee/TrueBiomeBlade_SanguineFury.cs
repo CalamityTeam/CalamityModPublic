@@ -252,6 +252,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }
+            if (Dashing)
+            {
+                Owner.velocity *= 0.1f; //Abrupt stop
+            }
             Owner.Calamity().LungingDown = false;
         }
 
