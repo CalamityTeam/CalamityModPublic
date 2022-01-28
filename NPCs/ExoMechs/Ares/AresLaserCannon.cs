@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,6 +29,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		}
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+		public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.OrangeRed);
+		public Vector2 CoreSpritePosition => npc.Center - npc.rotation.ToRotationVector2() * 35f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -364,6 +367,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			SmokeDrawer.Update();
 
+			EnergyDrawer.ParticleSpawnRate = 9999999;
 			// Attacking phases
 			switch ((int)AIState)
 			{
@@ -435,6 +439,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							// Y = 4 sets to frame 12
 							frameY = 4;
 						}
+
+						EnergyDrawer.ParticleSpawnRate = AresBody.telegraphParticlesSpawnRate;
+						EnergyDrawer.SpawnAreaCompactness = 100f;
+						EnergyDrawer.chargeProgress = calamityGlobalNPC.newAI[2] / deathrayTelegraphDuration;
 					}
 					else
 					{
@@ -513,6 +521,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						}
 					}
 
+					if (calamityGlobalNPC.newAI[2] % (float)Math.Floor(deathrayTelegraphDuration / 5f) == (float)Math.Floor(deathrayTelegraphDuration / 5f) - 1 && calamityGlobalNPC.newAI[2] <= deathrayTelegraphDuration)
+					{
+						float pulseCounter = (float)Math.Floor(calamityGlobalNPC.newAI[2] / (deathrayTelegraphDuration / 5f)) + 1;
+						EnergyDrawer.AddPulse(pulseCounter);
+					}
+
 					if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
 					{
 						// Reset
@@ -527,6 +541,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					break;
 			}
+
+			EnergyDrawer.Update();
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -612,9 +628,28 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			Vector2 center = npc.Center - Main.screenPosition;
+
+			//Draw an outline to the arm when it charges up
+			if ((npc.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
+			{
+				CalamityUtils.EnterShaderRegion(spriteBatch);
+				Color outlineColor = Color.Lerp(Color.GreenYellow, Color.White, npc.Calamity().newAI[2] / deathrayTelegraphDuration);
+				float outlineThickness = MathHelper.Clamp(npc.Calamity().newAI[2] / deathrayTelegraphDuration * 4f, 0f, 3f);
+
+				GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+				GameShaders.Misc["CalamityMod:BasicTint"].UseColor(outlineColor);
+				GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+				for (float i = 0; i < 1; i += 0.125f)
+				{
+					spriteBatch.Draw(texture, center + (i * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * outlineThickness, frame, outlineColor, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+				}
+				CalamityUtils.ExitShaderRegion(spriteBatch);
+			}
+
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
-			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresLaserCannonGlow");
+			Texture2D glowTexture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresLaserCannonGlow");
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -625,13 +660,37 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(glowTexture.Width, glowTexture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(glowTexture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(glowTexture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+			//Update the parameters
+
+			//Draw a pulsing version of the cannon above the real one
+			if ((npc.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
+			{
+
+				float pulseRatio = (npc.Calamity().newAI[2] % (deathrayTelegraphDuration / 5f)) / (deathrayTelegraphDuration / 5f);
+				float pulseSize = MathHelper.Lerp(0.1f, 0.6f, (float)Math.Floor(npc.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) / 4f);
+				float pulseOpacity = MathHelper.Clamp((float)Math.Floor(npc.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) * 0.3f, 1f, 2f);
+				spriteBatch.Draw(texture, center, frame, Color.Aqua * MathHelper.Lerp(1f, 0f, pulseRatio) * pulseOpacity, npc.rotation, vector, npc.scale + pulseRatio * pulseSize, spriteEffects, 0f);
+
+				//Draw the bloom
+				EnergyDrawer.DrawBloom(CoreSpritePosition);
+			}
+
+			EnergyDrawer.DrawPulses(CoreSpritePosition);
+			EnergyDrawer.DrawSet(CoreSpritePosition);
+
+			//Back to normal
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 			return false;
 		}
