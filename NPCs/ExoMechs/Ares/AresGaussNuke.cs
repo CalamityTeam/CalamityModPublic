@@ -565,10 +565,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				CalamityUtils.EnterShaderRegion(spriteBatch);
 				Color outlineColor = Color.Lerp(Color.Yellow, Color.White, npc.Calamity().newAI[2] / telegraphDuration);
+				Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
 				float outlineThickness = MathHelper.Clamp(npc.Calamity().newAI[2] / telegraphDuration * 4f, 0f, 3f);
 
 				GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
-				GameShaders.Misc["CalamityMod:BasicTint"].UseColor(outlineColor);
+				GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
 				GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
 				for (float i = 0; i < 1; i += 0.125f)
