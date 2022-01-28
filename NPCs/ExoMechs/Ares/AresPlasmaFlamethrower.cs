@@ -413,13 +413,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						EnergyDrawer.SpawnAreaCompactness = 100f;
 						EnergyDrawer.chargeProgress = calamityGlobalNPC.newAI[2] / plasmaBoltTelegraphDuration;
 					}
-					else
+					else if (calamityGlobalNPC.newAI[2] < plasmaBoltTelegraphDuration + plasmaBoltDuration)
 					{
 						// Fire plasma bolts
 						int numPlasmaBolts = lastMechAlive ? 3 : 2;
 						float divisor = plasmaBoltDuration / numPlasmaBolts;
 
-						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
+						if ((calamityGlobalNPC.newAI[2] - plasmaBoltTelegraphDuration) % divisor == 0f && canFire)
 						{
 							npc.ai[3] += 1f;
 							if (Main.netMode != NetmodeID.MultiplayerClient)

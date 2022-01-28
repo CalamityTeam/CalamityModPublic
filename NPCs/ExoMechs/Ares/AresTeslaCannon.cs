@@ -410,13 +410,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						EnergyDrawer.chargeProgress = calamityGlobalNPC.newAI[2] / teslaOrbTelegraphDuration;
 
 					}
-					else
+					else if (calamityGlobalNPC.newAI[2] < teslaOrbTelegraphDuration + teslaOrbDuration)
 					{
 						// Fire tesla orbs
 						int numTeslaOrbs = lastMechAlive ? 6 : shouldGetBuffedByBerserkPhase ? 5 : nerfedAttacks ? 3 : 4;
 						float divisor = teslaOrbDuration / numTeslaOrbs;
 
-						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
+						if ((calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) % divisor == 0f && canFire)
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
