@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 		public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.OrangeRed);
-		public Vector2 CoreSpritePosition => npc.Center - npc.rotation.ToRotationVector2() * 35f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
+		public Vector2 CoreSpritePosition => npc.Center + npc.spriteDirection * npc.rotation.ToRotationVector2() * 30f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 15f;
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -672,14 +672,20 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 			//Update the parameters
 
-			//Draw a pulsing version of the cannon above the real one
+
+
+			//Draw a pulsing version of the cannon above the real one.
 			if ((npc.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
 			{
+
+				Texture2D lineTex = ModContent.GetTexture("CalamityMod/Particles/BloomLine");
+				Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, npc.Calamity().newAI[2] / deathrayTelegraphDuration);
+				spriteBatch.Draw(lineTex, CoreSpritePosition - npc.rotation.ToRotationVector2() * npc.spriteDirection * 104 - Main.screenPosition, null, outlineColor, npc.rotation + MathHelper.PiOver2, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * npc.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
 
 				float pulseRatio = (npc.Calamity().newAI[2] % (deathrayTelegraphDuration / 5f)) / (deathrayTelegraphDuration / 5f);
 				float pulseSize = MathHelper.Lerp(0.1f, 0.6f, (float)Math.Floor(npc.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) / 4f);
 				float pulseOpacity = MathHelper.Clamp((float)Math.Floor(npc.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) * 0.3f, 1f, 2f);
-				spriteBatch.Draw(texture, center, frame, Color.Aqua * MathHelper.Lerp(1f, 0f, pulseRatio) * pulseOpacity, npc.rotation, vector, npc.scale + pulseRatio * pulseSize, spriteEffects, 0f);
+				spriteBatch.Draw(texture, center, frame, Color.OrangeRed * MathHelper.Lerp(1f, 0f, pulseRatio) * pulseOpacity, npc.rotation, vector, npc.scale + pulseRatio * pulseSize, spriteEffects, 0f);
 
 				//Draw the bloom
 				EnergyDrawer.DrawBloom(CoreSpritePosition);

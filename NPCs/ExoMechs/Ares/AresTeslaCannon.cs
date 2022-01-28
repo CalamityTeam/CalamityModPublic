@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 		public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.Aqua);
-		public Vector2 CoreSpritePosition => npc.Center - npc.rotation.ToRotationVector2() * 35f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
+		public Vector2 CoreSpritePosition => npc.Center + npc.spriteDirection * npc.rotation.ToRotationVector2() * 35f + (npc.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -552,7 +552,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			Vector2 center = npc.Center - Main.screenPosition;
 
-
 			//Draw an outline to the arm when it charges up
 			if ((npc.Calamity().newAI[2] < teslaOrbTelegraphDuration) && AIState == (float)Phase.TeslaOrbs)
 			{
@@ -570,7 +569,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 				CalamityUtils.ExitShaderRegion(spriteBatch);
 			}
-
 
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
