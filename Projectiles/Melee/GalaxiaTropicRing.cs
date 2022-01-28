@@ -113,6 +113,9 @@ namespace CalamityMod.Projectiles.Melee
                 spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, Color.White * Fade, Main.GlobalTime * 5, starTexture.Size() / 2f, 1.4f, SpriteEffects.None, 0);
             }
 
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             return false;
         }
     }
