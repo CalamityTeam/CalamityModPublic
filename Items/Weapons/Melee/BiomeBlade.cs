@@ -300,11 +300,14 @@ namespace CalamityMod.Items.Weapons.Melee
             Vector2 displacement = Vector2.UnitX.RotatedBy(Main.GlobalTime * 3f) * 2f * (float)Math.Sin(Main.GlobalTime);
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
+
             spriteBatch.Draw(itemTexture, position + displacement, itemFrame, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(itemTexture, position - displacement, itemFrame, BiomeEnergyParticles.CenterColor, 0f, origin, scale, SpriteEffects.None, 0f);
+
             spriteBatch.End();
-            spriteBatch.Begin(default, default);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+
 
             return true;
         }
