@@ -188,6 +188,38 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Checks if the player is ontop of solid ground. May also check for solid ground for X tiles in front of them
+		/// </summary>
+		/// <param name="player">The Player whose position is being checked</param>
+		/// <param name="solidGroundAhead">How many tiles in front of the player to check</param>
+		/// <param name="airExposureNeeded">How many tiles above every checked tile are checked for non-solid ground</param>
+		public static bool CheckSolidGround(this Player player, int solidGroundAhead = 0, int airExposureNeeded = 0)
+		{
+			if (player.velocity.Y != 0) //Player gotta be standing still in any case
+				return false;
+
+			Tile checkedTile;
+			bool ConditionMet = true;
+
+			for (int i = 0; i <= solidGroundAhead; i++) //Check i tiles in front of the player
+			{
+				ConditionMet = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1].IsTileSolidGround();
+				if (!ConditionMet)
+					return ConditionMet;
+
+				for (int j = 1; j <= airExposureNeeded; j++) //Check j tiles ontop of each checked tiles for non-solid ground
+				{
+					checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
+
+					ConditionMet = !(checkedTile != null && checkedTile.nactive() && Main.tileSolid[checkedTile.type]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
+					if (!ConditionMet) 
+						return ConditionMet;
+				}
+			}
+			return ConditionMet;
+		}
+
+		/// <summary>
 		/// Makes the given player send the given packet to all appropriate receivers.<br />
 		/// If server is false, the packet is sent only to the multiplayer host.<br />
 		/// If server is true, the packet is sent to all clients except the player it pertains to.

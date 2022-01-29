@@ -60,6 +60,8 @@ namespace CalamityMod.Particles
 		/// Use this method if you want to handle the particle drawing yourself. Only called if Particle.UseCustomDraw is set to true.
 		/// </summary>
 		public virtual void CustomDraw(SpriteBatch spriteBatch) { }
+
+		public virtual void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition) { }
 		/// <summary>
 		/// Called for every update of the particle handler.
 		/// The particle's velocity gets automatically added to its position, and its time automatically increases.
