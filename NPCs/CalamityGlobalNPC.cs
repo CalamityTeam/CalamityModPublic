@@ -546,19 +546,19 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.type != NPCID.QueenBee || CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
 				{
-					float baseXVelocityMult = 0.5f;
-					float baseYVelocityIncrease = 0.1f;
+					float baseXVelocityMult = 0.9f;
+					float baseYVelocityIncrease = 0.05f;
 					if (VulnerableToCold.HasValue)
 					{
 						if (VulnerableToCold.Value)
 						{
-							baseXVelocityMult = 0.25f;
+							baseXVelocityMult = 0.5f;
 							baseYVelocityIncrease = 0.2f;
 						}
 						else
 						{
-							baseXVelocityMult = 0.75f;
-							baseYVelocityIncrease = 0.05f;
+							baseXVelocityMult = 0.98f;
+							baseYVelocityIncrease = 0.01f;
 						}
 					}
 
@@ -3898,13 +3898,13 @@ namespace CalamityMod.NPCs
 				{
 					if (eutrophication > 0)
 					{
-						float velocityMult = 0.5f;
+						float velocityMult = 0.95f;
 						if (VulnerableToWater.HasValue)
 						{
 							if (VulnerableToWater.Value)
-								velocityMult = 0.25f;
+								velocityMult = 0.6f;
 							else
-								velocityMult = 0.75f;
+								velocityMult = 0.99f;
 						}
 						npc.velocity *= velocityMult;
 					}
@@ -3914,15 +3914,15 @@ namespace CalamityMod.NPCs
 					}
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 					{
-						float velocityMult = 0.9f;
+						float velocityMult = 0.95f;
 						if (tesla > 0)
 						{
 							if (VulnerableToElectricity.HasValue)
 							{
 								if (VulnerableToElectricity.Value)
-									velocityMult = 0.8f;
+									velocityMult = 0.6f;
 								else
-									velocityMult = 0.95f;
+									velocityMult = 0.99f;
 							}
 						}
 						npc.velocity *= velocityMult;
