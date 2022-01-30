@@ -49,6 +49,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
 
+		// The distance from target location in order to initiate an attack
+		private const float baseAttackTriggerDistance = 80f;
+
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 2800f;
 
@@ -331,7 +334,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			Vector2 chargeVector = Vector2.Zero;
 			float chargeDistance = baseDistance;
 			float turnDistance = baseTurnDistance;
-			float chargeLocationDistance = turnDistance * 0.2f;
+			float chargeLocationDistance = baseAttackTriggerDistance;
 			switch ((int)calamityGlobalNPC.newAI[1])
 			{
 				case 0:
@@ -369,26 +372,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
 			// Lightning Rain variables
 			Vector2 lightningRainLocation = new Vector2(0f, -baseDistance);
-			float lightningRainLocationDistance = turnDistance * 0.2f;
+			float lightningRainLocationDistance = baseAttackTriggerDistance;
 
 			// Wyrm and Eidolist variables
 			Vector2 eidolonWyrmPhaseLocation = new Vector2(0f, baseDistance);
-			float eidolonWyrmPhaseLocationDistance = turnDistance * 0.5f;
+			float eidolonWyrmPhaseLocationDistance = baseAttackTriggerDistance;
 			int eidolistScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
 			int maxEidolists = (targetDownDeep ? 3 : 6) + eidolistScale;
 
 			// Ice Mist variables
 			Vector2 iceMistLocation = new Vector2(0f, baseDistance);
-			float iceMistLocationDistance = turnDistance * 0.2f;
+			float iceMistLocationDistance = baseAttackTriggerDistance;
 
 			// Spin variables
 			float spinRadius = baseDistance;
 			Vector2 spinLocation = new Vector2(0f, -spinRadius);
-			float spinLocationDistance = turnDistance * 0.1f;
+			float spinLocationDistance = baseAttackTriggerDistance;
 
 			// Ancient Doom variables
 			Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
-			float ancientDoomLocationDistance = turnDistance * 0.2f;
+			float ancientDoomLocationDistance = baseAttackTriggerDistance;
 			int ancientDoomScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
 			int ancientDoomLimit = (targetDownDeep ? 4 : 8) + ancientDoomScale;
 			int ancientDoomDistance = malice ? 480 : death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
@@ -396,7 +399,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
 			// Lightning charge variables
 			Vector2 lightningChargeVector = npc.localAI[2] == 0f ? new Vector2(baseDistance, 0f) : new Vector2(-baseDistance, 0f);
-			float lightningChargeLocationDistance = turnDistance * 0.2f;
+			float lightningChargeLocationDistance = baseAttackTriggerDistance;
 			Vector2 lightningChargeLocation = destination + lightningChargeVector;
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
 			float lightningSpawnY = 540f;
