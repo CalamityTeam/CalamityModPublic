@@ -1422,7 +1422,7 @@ namespace CalamityMod.NPCs.Providence
 			return Utils.InverseLerp(drawFireDistanceStart, maxDistance, distanceToTarget, true);
 		}
 
-		private void DespawnSpecificProjectiles()
+		private void DespawnSpecificProjectiles(bool dying = false)
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)
 			{
@@ -1433,6 +1433,17 @@ namespace CalamityMod.NPCs.Providence
 						projectile.Kill();
 					else if (projectile.type == ModContent.ProjectileType<HolyBlast>() || projectile.type == ModContent.ProjectileType<HolyFire>())
 						projectile.active = false;
+
+					if (dying)
+					{
+						if (projectile.type == ModContent.ProjectileType<ProvidenceHolyRay>() || projectile.type == ModContent.ProjectileType<ProvidenceCrystal>() ||
+							projectile.type == ModContent.ProjectileType<ProvidenceCrystalShard>() || projectile.type == ModContent.ProjectileType<HolySpear>() ||
+							projectile.type == ModContent.ProjectileType<HolyBomb>() || projectile.type == ModContent.ProjectileType<MoltenBlob>() ||
+							projectile.type == ModContent.ProjectileType<HolyBurnOrb>() || projectile.type == ModContent.ProjectileType<HolyLight>())
+							projectile.Kill();
+						else if (projectile.type == ModContent.ProjectileType<MoltenBlast>())
+							projectile.active = false;
+					}
 				}
 			}
 		}
@@ -1866,6 +1877,7 @@ namespace CalamityMod.NPCs.Providence
 		{
 			if (!Dying)
 			{
+				DespawnSpecificProjectiles(true);
 				Dying = true;
 				npc.life = 1;
 				npc.dontTakeDamage = true;
