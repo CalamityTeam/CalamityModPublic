@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
         public int Combo = 0;
+        public float ComboResetTimer = 0f;
         public int StoredLunges = 2;
         public int PowerLungeCounter = 0;
 
@@ -284,6 +285,15 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        public override void UpdateInventory(Player player)
+        {
+            if (mainAttunement != null && mainAttunement.id == AttunementID.Cold && CanUseItem(player))
+                ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
+
+            if (ComboResetTimer < 0)
+                Combo = 0;
+        }
+
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
@@ -300,6 +310,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 return false;
 
+            ComboResetTimer = 1f;
             return mainAttunement.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack, ref Combo, ref StoredLunges, ref PowerLungeCounter);
         }
 

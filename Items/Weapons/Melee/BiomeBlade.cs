@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
         public int Combo = 0;
+        public float ComboResetTimer = 0f;
         public int CanLunge = 1;
 
         #region stats
@@ -222,6 +223,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 CanLunge = 1;
 
 
+
             //Change the swords function based on its attunement
             if (mainAttunement == null)
             {
@@ -244,7 +246,6 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement != null && mainAttunement.id != AttunementID.Cold)
                 Combo = 0;
 
-
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {
                 //Don't shoot out a visual blade if you already have one out
@@ -256,6 +257,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 Vector2 displace = new Vector2(18f, 0f);
                 Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            if (mainAttunement != null && mainAttunement.id == AttunementID.Cold && CanUseItem(player))
+                ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
+
+            if (ComboResetTimer < 0)
+                Combo = 0;
         }
 
         public override bool CanUseItem(Player player)
@@ -271,6 +281,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             int powerLungeCounter = 0; //Unused here
+            ComboResetTimer = 1f;
             return mainAttunement.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack, ref Combo, ref CanLunge, ref powerLungeCounter);
         }
 

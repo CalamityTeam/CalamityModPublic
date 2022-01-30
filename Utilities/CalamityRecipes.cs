@@ -29,12 +29,12 @@ namespace CalamityMod
         public static void AddRecipes()
         {
             EditLeatherRecipe();
-            EditPhoenixBlaster();
-            EditFlamarang();
+            EditPhoenixBlasterRecipe();
+            EditFlamarangRecipe();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
-            EditBeetleArmor();
+            EditBeetleArmorRecipes();
             EditGoblinArmySummonRecipe();
             EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
@@ -46,6 +46,8 @@ namespace CalamityMod
             EditPhasesaberRecipes();
             EditOpticStaffRecipe();
             AstralAlternatives();
+            EditTier3HardmodeOreRecipes();
+            EditHardmodeOreSetRecipes();
 
             AddPotionRecipes();
             AddCookedFood();
@@ -149,7 +151,7 @@ namespace CalamityMod
         }
 
         // Change Phoenix Blaster's recipe to be consistent with literally every other weapon recipes in the game
-        private static void EditPhoenixBlaster()
+        private static void EditPhoenixBlasterRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.PhoenixBlaster).ToList().ForEach(s =>
@@ -169,7 +171,7 @@ namespace CalamityMod
         }
 
         // Change Flamarang's recipe to be consistent with literally every other weapon recipes in the game
-        private static void EditFlamarang()
+        private static void EditFlamarangRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.Flamarang).ToList().ForEach(s =>
@@ -264,7 +266,7 @@ namespace CalamityMod
         }
 
         // Change Beetle Armor recipes to have Turtle Armor at the top of them (my dreaded)
-        private static void EditBeetleArmor()
+        private static void EditBeetleArmorRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.BeetleHelmet).ToList().ForEach(s =>
@@ -458,6 +460,146 @@ namespace CalamityMod
                 s.createItem.SetDefaults(ItemID.OpticStaff, false);
                 s.createItem.stack = 1;
             });
+        }
+
+        //Change the recipes to be like 1.4
+        private static void EditTier3HardmodeOreRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.AdamantiteBar || x.createItem.type == ItemID.TitaniumBar).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 4;
+            });
+        }
+
+
+        //Change the recipes to be consistent on each tier and less cost for pickaxe. (I'm aware some recipes already have the proper recipe amounts but consider this futureproofing and laziness)
+        private static void EditHardmodeOreSetRecipes()
+        {
+            short MeleeHelm;
+            short RangedHelm;
+            short MagicHelm;
+            short Breastplate;
+            short Leggings;
+            short Pickaxe;
+            short Drill;
+            short Waraxe;
+            short Chainsaw;
+            short Sword;
+            short Glaive;
+            short Repeater;
+
+            for (int HardmodeOre = 0; HardmodeOre < 6; HardmodeOre++)
+            {
+                switch (HardmodeOre)
+                {
+                    case 1:
+                        MeleeHelm = ItemID.CobaltHelmet;
+                        RangedHelm = ItemID.CobaltMask;
+                        MagicHelm = ItemID.CobaltHat;
+                        Breastplate = ItemID.CobaltBreastplate;
+                        Leggings = ItemID.CobaltLeggings;
+                        Pickaxe = ItemID.CobaltPickaxe;
+                        Drill = ItemID.CobaltDrill;
+                        Waraxe = ItemID.CobaltWaraxe;
+                        Chainsaw = ItemID.CobaltChainsaw;
+                        Sword = ItemID.CobaltSword;
+                        Glaive = ItemID.CobaltNaginata;
+                        Repeater = ItemID.CobaltRepeater;
+                        break;
+
+                    case 2:
+                        MeleeHelm = ItemID.PalladiumMask;
+                        RangedHelm = ItemID.PalladiumHelmet;
+                        MagicHelm = ItemID.PalladiumHeadgear;
+                        Breastplate = ItemID.PalladiumBreastplate;
+                        Leggings = ItemID.PalladiumLeggings;
+                        Pickaxe = ItemID.PalladiumPickaxe;
+                        Drill = ItemID.PalladiumDrill;
+                        Waraxe = ItemID.PalladiumWaraxe;
+                        Chainsaw = ItemID.PalladiumChainsaw;
+                        Sword = ItemID.PalladiumSword;
+                        Glaive = ItemID.PalladiumPike;
+                        Repeater = ItemID.PalladiumRepeater;
+                        break;
+
+                    case 3:
+                        MeleeHelm = ItemID.MythrilHelmet;
+                        RangedHelm = ItemID.MythrilHat;
+                        MagicHelm = ItemID.MythrilHood;
+                        Breastplate = ItemID.MythrilChainmail;
+                        Leggings = ItemID.MythrilGreaves;
+                        Pickaxe = ItemID.MythrilPickaxe;
+                        Drill = ItemID.MythrilDrill;
+                        Waraxe = ItemID.MythrilWaraxe;
+                        Chainsaw = ItemID.MythrilChainsaw;
+                        Sword = ItemID.MythrilSword;
+                        Glaive = ItemID.MythrilHalberd;
+                        Repeater = ItemID.MythrilRepeater;
+                        break;
+
+                    case 4:
+                        MeleeHelm = ItemID.OrichalcumMask;
+                        RangedHelm = ItemID.OrichalcumHelmet;
+                        MagicHelm = ItemID.OrichalcumHeadgear;
+                        Breastplate = ItemID.OrichalcumBreastplate;
+                        Leggings = ItemID.OrichalcumLeggings;
+                        Pickaxe = ItemID.OrichalcumPickaxe;
+                        Drill = ItemID.OrichalcumDrill;
+                        Waraxe = ItemID.OrichalcumWaraxe;
+                        Chainsaw = ItemID.OrichalcumChainsaw;
+                        Sword = ItemID.OrichalcumSword;
+                        Glaive = ItemID.OrichalcumHalberd;
+                        Repeater = ItemID.OrichalcumRepeater;
+                        break;
+
+                    case 5:
+                        MeleeHelm = ItemID.AdamantiteHelmet;
+                        RangedHelm = ItemID.AdamantiteMask;
+                        MagicHelm = ItemID.AdamantiteHeadgear;
+                        Breastplate = ItemID.AdamantiteBreastplate;
+                        Leggings = ItemID.AdamantiteLeggings;
+                        Pickaxe = ItemID.AdamantitePickaxe;
+                        Drill = ItemID.AdamantiteDrill;
+                        Waraxe = ItemID.AdamantiteWaraxe;
+                        Chainsaw = ItemID.AdamantiteChainsaw;
+                        Sword = ItemID.AdamantiteSword;
+                        Glaive = ItemID.AdamantiteGlaive;
+                        Repeater = ItemID.AdamantiteRepeater;
+                        break;
+
+                    default:
+                        MeleeHelm = ItemID.TitaniumMask;
+                        RangedHelm = ItemID.TitaniumHelmet;
+                        MagicHelm = ItemID.TitaniumHeadgear;
+                        Breastplate = ItemID.TitaniumBreastplate;
+                        Leggings = ItemID.TitaniumLeggings;
+                        Pickaxe = ItemID.TitaniumPickaxe;
+                        Drill = ItemID.TitaniumDrill;
+                        Waraxe = ItemID.TitaniumWaraxe;
+                        Chainsaw = ItemID.TitaniumChainsaw;
+                        Sword = ItemID.TitaniumSword;
+                        Glaive = ItemID.TitaniumTrident;
+                        Repeater = ItemID.TitaniumRepeater;
+                        break;
+                }
+                List<Recipe> rec = Main.recipe.ToList();
+                rec.Where(x => x.createItem.type == MeleeHelm || x.createItem.type == RangedHelm || x.createItem.type == MagicHelm || x.createItem.type == Waraxe || x.createItem.type == Glaive ||
+                x.createItem.type == Pickaxe || x.createItem.type == Drill || x.createItem.type == Chainsaw || x.createItem.type == Sword || x.createItem.type == Repeater).ToList().ForEach(s =>
+                {
+                    s.requiredItem[0].stack = 12;
+                });
+
+                rec.Where(x => x.createItem.type == Breastplate).ToList().ForEach(s =>
+                {
+                    s.requiredItem[0].stack = 24;
+                });
+
+                rec.Where(x => x.createItem.type == Leggings).ToList().ForEach(s =>
+                {
+                    s.requiredItem[0].stack = 18;
+                });
+            }
         }
 
         #region Astral Alternatives
