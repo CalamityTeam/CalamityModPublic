@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Providence
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
-			music = CalamityMod.Instance.GetMusicFromMusicMod("ProvidenceTheme") ?? MusicID.LunarBoss;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
 			npc.Calamity().VulnerableToHeat = false;
