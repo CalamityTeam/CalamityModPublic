@@ -27,8 +27,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 "A heavenly blade forged to vanquish all evil");
         }
 
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkOfTheAncients";
-
         public override void SetDefaults()
         {
             item.width = item.height = 60;
@@ -45,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
         }
 
@@ -61,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, knockBack, player.whoAmI, 0, 0);
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
                 return false;
             }
 
@@ -116,32 +114,19 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.EnchantedSword);
-            recipe.AddIngredient(ItemID.Excalibur);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemType<PurifiedGel>(), 5);
+            recipe.AddRecipeGroup("AnyCopperBar", 10);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.Arkhalis);
-            recipe.AddIngredient(ItemID.Excalibur);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemType<PurifiedGel>(), 5);
+            recipe.AddRecipeGroup("AnyCopperBar", 10);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }
