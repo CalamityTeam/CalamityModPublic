@@ -19,12 +19,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetDefaults()
         {
             projectile.friendly = true;
-            projectile.magic = true;
+            projectile.ranged = true;
+            projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.scale = 0.1f;
 
             // Hardcoded spaghetti appearss to make the scale setting above tamper with the hitbox.
-            projectile.width = projectile.height = (int)(60 / projectile.scale);
+            projectile.width = projectile.height = (int)(120 / projectile.scale);
             projectile.timeLeft = 60;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 16;
@@ -62,13 +63,14 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D texture = Main.projectileTexture[projectile.type];
             Vector2 origin = texture.Size() * 0.5f;
 
+            float scale = projectile.scale * projectile.width / texture.Width;
             Color frontAfterimageColor = projectile.GetAlpha(Color.Lerp(Color.Cyan, Color.DarkBlue, projectile.identity / 7f % 0.8f)) * 0.2f;
             frontAfterimageColor.A = 0;
             for (int i = 0; i < 12; i++)
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 12f + projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 2f;
                 Vector2 afterimageDrawPosition = projectile.Center + drawOffset - Main.screenPosition;
-                spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, projectile.rotation, origin, scale, SpriteEffects.None, 0f);
             }
             return false;
         }
