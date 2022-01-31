@@ -66,6 +66,9 @@ namespace CalamityMod.Items.Weapons.Melee
                     float angle = new Vector2(speedX, speedY).ToRotation();
                     Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
 
+                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
+                        Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+
                     Charge = 0;
                 }
 

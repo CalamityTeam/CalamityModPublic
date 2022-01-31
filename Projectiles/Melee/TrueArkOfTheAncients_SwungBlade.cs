@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 82f * projectile.scale;
+            float bladeLenght = 96f * projectile.scale;
             Vector2 holdPoint = DistanceFromPlayer.Length() * projectile.rotation.ToRotationVector2();
 
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + holdPoint, Owner.Center + holdPoint + projectile.rotation.ToRotationVector2() * bladeLenght, 24, ref collisionPoint);
@@ -150,6 +150,9 @@ namespace CalamityMod.Projectiles.Melee
 
             spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
             spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, flip, 0f);
+
+
+
 
             return false;
         }
