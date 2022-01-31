@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
                         sparkVelocity.Y -= 6f;
-                        SparkParticle spark = new SparkParticle(impactPoint, sparkVelocity, sparkLifetime, sparkScale, sparkColor);
+                        SparkParticle spark = new SparkParticle(impactPoint, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
                         GeneralParticleHandler.SpawnParticle(spark);
                     }
                 }
