@@ -19,9 +19,9 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ArkoftheAncientsParryHoldout : ModProjectile
+    public class TrueArkoftheAncientsParryHoldout : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncients";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
 
         private bool initialized = false;
         const float MaxTime = 160;
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
+            DisplayName.SetDefault("True Ark of the Ancients");
         }
         public override void SetDefaults()
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 80f * projectile.scale;
+            float bladeLenght = 100f * projectile.scale;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
 
             Owner.GiveIFrames(35);
-            ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
+            TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
             sword.Charge = 10f;
             AlreadyParried = 1f;
 
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
             if (AlreadyParried == 0)
             {
                 float collisionPoint = 0f;
-                float bladeLenght = 80f * projectile.scale;
+                float bladeLenght = 100f * projectile.scale;
 
                 for (int k = 0; k < Main.maxProjectiles; k++)
                 {
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (proj.active && proj.hostile && proj.damage > 1 && proj.velocity.Length() * (proj.extraUpdates + 1) > 1f
                         && Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
+                        TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
                         if (sword != null)
                             sword.Charge = 10;
 
@@ -128,8 +128,8 @@ namespace CalamityMod.Projectiles.Melee
                         CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
                         //Reduce the projectile's damage by 100 for half a second.
-                        if (proj.Calamity().damageReduction < 100)
-                            proj.Calamity().damageReduction = 100;
+                        if (proj.Calamity().damageReduction < 160)
+                            proj.Calamity().damageReduction = 160;
                         if (proj.Calamity().damageReductionTimer < 60)
                             proj.Calamity().damageReductionTimer = 60;
 
@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? projectile.timeLeft / 8f : 1f;
-                    Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+                    Color color = Main.hslToRgb((Main.GlobalTime * 1.2f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
 
                     spriteBatch.Draw(barBG, drawPos, color * opacity);
                     spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);
@@ -192,8 +192,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 return false;
             }
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow");
+            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients");
+            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow");
 
             float drawRotation = projectile.rotation + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
@@ -205,9 +205,9 @@ namespace CalamityMod.Projectiles.Melee
 
             if (AlreadyParried > 0)
             {
-                drawOrigin = new Vector2(0f, 36f);
-                Rectangle frame = new Rectangle(24, 0, 36, 36);
-                drawOffset = Owner.Center + projectile.velocity * (DistanceFromPlayer.Length() + 33) - Main.screenPosition;
+                drawOrigin = new Vector2(0f, 48f);
+                Rectangle frame = new Rectangle(24, 0, 48, 48);
+                drawOffset = Owner.Center + projectile.velocity * (DistanceFromPlayer.Length() + 34) - Main.screenPosition;
                 spriteBatch.Draw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTime % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
             }
 
