@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>())))
+                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>())))
                     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
                 return false;
             }
@@ -78,8 +79,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             return false;
         }
-
-
 
         public override ModItem Clone(Item item)
         {
@@ -127,6 +126,22 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Charge <= 0)
+                return;
+
+            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
+            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+
+            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
+            Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+
+            spriteBatch.Draw(barBG, drawPos, null, color , 0f, origin, scale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale, 0f, 0f);
         }
     }
 }
