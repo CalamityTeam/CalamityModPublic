@@ -45,6 +45,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 46f * projectile.scale;
+            Vector2 start = -projectile.rotation.ToRotationVector2() * 8.5f;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + start, projectile.Center + start + projectile.rotation.ToRotationVector2() * bladeLenght, 24, ref collisionPoint);
+        }
+
         public override void AI()
         {
             if (projectile.timeLeft < MaxTime - 5)
