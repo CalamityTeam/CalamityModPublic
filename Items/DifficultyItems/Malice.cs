@@ -22,7 +22,6 @@ namespace CalamityMod.Items.DifficultyItems
 
                 // Misc lines
                 "Greatly nerfs the effectiveness of life steal.\n" +
-                "Nerfs the effectiveness of the Titanium Armor set bonus, doesn't stack with Revengeance Mode.\n" +
                 "The Nurse no longer heals you while a boss is alive.\n" +
                 "Defense damage is 5% higher than Death Mode.\n" +
                 "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
@@ -65,6 +64,9 @@ namespace CalamityMod.Items.DifficultyItems
             spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
+
+		// Can only be used in Revengeance mode.
+        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
 
 		public override bool UseItem(Player player)
 		{

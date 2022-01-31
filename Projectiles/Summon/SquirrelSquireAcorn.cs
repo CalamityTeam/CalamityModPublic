@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acorn");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
