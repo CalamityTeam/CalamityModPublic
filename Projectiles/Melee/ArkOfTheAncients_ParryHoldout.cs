@@ -13,7 +13,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Particles;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheAncientsParryHoldout : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkOfTheAncients";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncients";
 
         private bool initialized = false;
         const float MaxTime = 160;
@@ -61,15 +60,19 @@ namespace CalamityMod.Projectiles.Melee
             if (AlreadyParried > 0)
                 return;
 
-            Owner.GiveIFrames(15);
+            Owner.GiveIFrames(35);
             ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
             sword.Charge = 10f;
             AlreadyParried = 1f;
 
             Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            Main.PlaySound(SoundID.Item67);
             CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
+            Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
+            GeneralParticleHandler.SpawnParticle(spark);
+
             for (int i = 0; i < 10; i++)
             {
                 Vector2 particleSpeed = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(2.6f, 4f);
@@ -117,8 +120,6 @@ namespace CalamityMod.Projectiles.Melee
                     if (proj.active && proj.hostile && proj.damage > 1 && proj.velocity.Length() * (proj.extraUpdates + 1) > 1f
                         && Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        int diff = (proj.damage * 2) - 100;
-
                         ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
                         if (sword != null)
                             sword.Charge = 10;
@@ -137,6 +138,7 @@ namespace CalamityMod.Projectiles.Melee
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 5;
 
                         Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+                        Main.PlaySound(SoundID.Item67);
                         AlreadyParried = 1f;
 
                         break;
@@ -190,8 +192,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 return false;
             }
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkOfTheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkOfTheAncientsGlow");
+            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncients");
+            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow");
 
             float drawRotation = projectile.rotation + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);

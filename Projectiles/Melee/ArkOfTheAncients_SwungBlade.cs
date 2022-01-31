@@ -14,7 +14,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Particles;
 using static CalamityMod.CalamityUtils;
 
 
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheAncientsSwungBlade : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkOfTheAncients";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncients";
 
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
@@ -125,8 +124,8 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkOfTheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkOfTheAncientsGlow");
+            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncients");
+            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow");
 
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             float extraAngle = Owner.direction < 0 ? MathHelper.PiOver2 : 0f;
