@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<SquirrelSquireMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
+            item.sentry = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -41,7 +42,8 @@ namespace CalamityMod.Items.Weapons.Summon
                 speedX = 0;
                 speedY = 0;
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 30f);
-				//projectile.ai[1] is attack cooldown.  Setting it here prevents immediate attacks
+                player.UpdateMaxTurrets();
+                //projectile.ai[1] is attack cooldown.  Setting it here prevents immediate attacks
             }
             return false;
         }
