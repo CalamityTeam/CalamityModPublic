@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Just in case the player SOMEHOW gets to swing galaxia itself. Sprite also used as the base for other attacks
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/Galaxia"; //Base sprite for stuff like item browser and shit. yeah
 
         public override void SetStaticDefaults()
         {
@@ -175,7 +175,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 108;
+            item.width = item.height = 128;
             item.damage = 99;
             item.melee = true;
             item.useAnimation = 18;
@@ -312,8 +312,22 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
-            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
-            spriteBatch.Draw(itemTexture, position, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
+            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
+            Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
+
+            int currentFrame = ((int)Math.Floor(Main.GlobalTime * 15f)) % 7;
+            Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
+
+            spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);
+
+            spriteBatch.Draw(outlineTexture, position, animFrame, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
+
+            spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+
+
+            spriteBatch.Draw(itemTexture, position, animFrame, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -322,8 +336,22 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
-            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaRed" : "CalamityMod/Items/Weapons/Melee/GalaxiaBlue");
-            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
+            Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
+
+            int currentFrame = ((int)Math.Floor(Main.GlobalTime * 15f)) % 7;
+            Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
+
+            spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);
+
+            spriteBatch.Draw(outlineTexture, item.Center - Main.screenPosition, animFrame, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+
+            spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+
+
+            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, animFrame, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }
     }
