@@ -18,8 +18,9 @@ namespace CalamityMod.Particles
         private Color Bloom;
         private Color LightColor => Bloom * opacity;
         private float BloomScale;
+        private float HueShift;
 
-        public CritSpark(Vector2 position, Vector2 velocity, Color color, Color bloom, float scale, int lifeTime, float rotationSpeed = 1f, float bloomScale = 1f)
+        public CritSpark(Vector2 position, Vector2 velocity, Color color, Color bloom, float scale, int lifeTime, float rotationSpeed = 1f, float bloomScale = 1f, float hueShift = 0f)
         {
             Position = position;
             Velocity = velocity;
@@ -30,6 +31,7 @@ namespace CalamityMod.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Spin = rotationSpeed;
             BloomScale = bloomScale;
+            HueShift = hueShift;
         }
 
         public override void Update()
@@ -37,6 +39,10 @@ namespace CalamityMod.Particles
             opacity = (float)Math.Sin(MathHelper.PiOver2 + LifetimeCompletion * MathHelper.PiOver2);
             Velocity *= 0.80f;
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f) * (LifetimeCompletion > 0.5 ? 1f : 0.5f);
+
+            Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
+            Bloom = Main.hslToRgb(Main.rgbToHsl(Bloom).X + HueShift, Main.rgbToHsl(Bloom).Y, Main.rgbToHsl(Bloom).Z);
+
 
             Lighting.AddLight(Position, LightColor.R / 255f, LightColor.G / 255f, LightColor.B / 255f);
         }
