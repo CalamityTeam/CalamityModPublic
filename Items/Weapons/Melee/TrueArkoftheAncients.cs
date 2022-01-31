@@ -109,6 +109,16 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
+            recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
+            recipe.AddIngredient(ItemID.TrueExcalibur);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
