@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AncientBeam : ModProjectile //The boring plain one
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkOfTheAncientsGlow";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow";
 
         public override void SetStaticDefaults()
         {
@@ -55,6 +55,22 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
 
             projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3));
+
+            if (Main.rand.NextBool(3))
+            {
+                int dustTrail = Dust.NewDust(projectile.Center, 14, 14, 66, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
+                Main.dust[dustTrail].noGravity = true;
+            }
+
+            if (Main.rand.NextBool(3))
+            {
+                int dustType = Main.rand.Next(3);
+                dustType = dustType == 0 ? 15 : dustType == 1 ? 57 : 58;
+
+                Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
+            }
+
+
 
             if (projectile.velocity.Length() < 1.0f)
                 projectile.Kill();
