@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ArmoredDiggerHead : ModNPC
@@ -25,9 +26,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.npcSlots = 10f;
             npc.width = 54;
             npc.height = 54;
-            npc.defense = 15;
-			npc.DR_NERD(0.15f);
-            npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
+            npc.defense = 10;
+			npc.DR_NERD(0.1f);
+            npc.lifeMax = 20000;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -46,6 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+			bool death = CalamityWorld.death;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
@@ -61,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.ai[3] = (float)npc.whoAmI;
                     npc.realLife = npc.whoAmI;
                     int num2 = npc.whoAmI;
-                    int num3 = CalamityWorld.death ? 60 : 40;
+                    int num3 = 30;
                     for (int j = 0; j <= num3; j++)
                     {
                         int num4 = ModContent.NPCType<ArmoredDiggerBody>();
@@ -151,7 +153,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.localAI[1] = 0f;
             }
-            float num17 = 16f;
+            float num17 = death ? 13.5f : 10f;
             if (Main.player[npc.target].dead || (double)Main.player[npc.target].position.Y < Main.rockLayer * 16.0)
             {
                 flag2 = false;
@@ -159,7 +161,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
                     npc.velocity.Y = npc.velocity.Y + 1f;
-                    num17 = 32f;
+                    num17 = death ? 27f : 20f;
                 }
                 if ((double)npc.position.Y > (double)((Main.maxTilesY - 200) * 16))
                 {
@@ -173,8 +175,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                 }
             }
-            float num18 = 0.1f;
-            float num19 = 0.15f;
+            float num18 = death ? 0.0675f : 0.05f;
+            float num19 = death ? 0.10125f : 0.075f;
             Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);

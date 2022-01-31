@@ -1,10 +1,10 @@
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ArmoredDiggerTail : ModNPC
@@ -19,9 +19,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.damage = 55;
             npc.width = 34;
             npc.height = 34;
-            npc.defense = 45;
-			npc.DR_NERD(0.35f);
-			npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
+            npc.defense = 30;
+			npc.DR_NERD(0.3f);
+			npc.lifeMax = 20000;
 			npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
