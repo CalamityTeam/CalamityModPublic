@@ -60,7 +60,10 @@ namespace CalamityMod.Projectiles.Melee
             if (AlreadyParried > 0)
                 return;
 
-            Owner.GiveIFrames(35);
+            //only get iframes if the enemy has contact damage :)
+            if (target.damage > 0)
+                Owner.GiveIFrames(35);
+
             TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
             sword.Charge = 10f;
             AlreadyParried = 1f;
