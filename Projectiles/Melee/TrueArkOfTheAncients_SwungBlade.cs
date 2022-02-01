@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 96f * projectile.scale;
+            float bladeLenght = 88f * projectile.scale;
             Vector2 holdPoint = DistanceFromPlayer.Length() * projectile.rotation.ToRotationVector2();
 
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + holdPoint, Owner.Center + holdPoint + projectile.rotation.ToRotationVector2() * bladeLenght, 24, ref collisionPoint);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
                 var sound = Main.PlaySound(Charge > 0 ? SoundID.DD2_PhantomPhoenixShot : SoundID.DD2_MonkStaffSwing, projectile.Center);
                 if (Charge > 0)
                     sound.Volume *= 2.5f;
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = projectile.velocity;
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 
@@ -140,7 +140,6 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int i = 0; i < projectile.oldRot.Length; ++i)
                 {
-
                     //Color color = projectile.GetAlpha(lightColor) * (1f - (i / (float)projectile.oldRot.Length));
                     Color color = Main.hslToRgb((i / (float)projectile.oldRot.Length) * 0.7f, 1, 0.6f + (Charge > 0 ? 0.3f : 0f));
                     float afterimageRotation = projectile.oldRot[i] + MathHelper.PiOver4;
@@ -151,9 +150,22 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
             spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, flip, 0f);
 
+            if (Charge > 0 && Timer / MaxTime > 0.5f)
+            {
+                Texture2D smear = GetTexture("CalamityMod/Particles/TrientCircularSmear");
 
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
+                float opacity = (float)Math.Sin(Timer / MaxTime * MathHelper.Pi);
+                float rotation = (-MathHelper.PiOver4 * 0.5f + MathHelper.PiOver4 * 0.5f * Timer / MaxTime) * SwingDirection;
+                Color smearColor = Main.hslToRgb(((Timer - MaxTime * 0.5f ) / (MaxTime * 0.5f)) * 0.7f, 1, 0.6f);
 
+                spriteBatch.Draw(smear, Owner.Center - Main.screenPosition, null, smearColor * 0.5f * opacity, projectile.velocity.ToRotation() + MathHelper.Pi + rotation, smear.Size() / 2f, projectile.scale * 1.4f, SpriteEffects.None, 0);
+
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            }
             return false;
         }
 
