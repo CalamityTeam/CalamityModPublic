@@ -20,6 +20,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -2513,6 +2514,10 @@ namespace CalamityMod.CalPlayer
 					player.gills = true;
 				}
 			}
+
+			// Cobalt armor set effects.
+			if (CobaltSet)
+				CobaltArmorSetChange.ApplyMovementSpeedBonuses(player);
 
 			if (astralInjection)
 			{

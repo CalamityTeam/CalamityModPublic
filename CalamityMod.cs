@@ -10,6 +10,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -218,6 +219,7 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             EnchantmentManager.LoadAllEnchantments();
+            VanillaArmorChangeManager.Load();
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
@@ -262,7 +264,7 @@ namespace CalamityMod
             AddEquipTexture(new FeatherCrownHair(), null, EquipType.Head, "FeatherCrownHead", "CalamityMod/Items/Accessories/FeatherCrown_Face");
             AddEquipTexture(new MoonstoneCrownHair(), null, EquipType.Head, "MoonstoneCrownHead", "CalamityMod/Items/Accessories/MoonstoneCrown_Face");
 
-			AddEquipTexture(null, EquipType.Legs, "CirrusDress_Legs", "CalamityMod/Items/Armor/CirrusDress_Legs");
+            AddEquipTexture(null, EquipType.Legs, "CirrusDress_Legs", "CalamityMod/Items/Armor/CirrusDress_Legs");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
@@ -378,6 +380,7 @@ namespace CalamityMod
 
             Attunement.Unload();
             EnchantmentManager.UnloadAllEnchantments();
+            VanillaArmorChangeManager.Unload();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
             CalamityGlobalItem.UnloadTweaks();
@@ -745,9 +748,9 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-				{ ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+                { ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
@@ -881,22 +884,22 @@ namespace CalamityMod
                                 music = GetMusicFromMusicMod("SulphurousSea") ?? MusicID.Desert;
                         }
                     }
-					if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
-					{
-						music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
-						priority = MusicPriority.BossMedium;
-					}
+                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
+                    {
+                        music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+                        priority = MusicPriority.BossMedium;
+                    }
 
-					// This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
-					// of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
-					/*
+                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
+                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
+                    /*
                     if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
                     {
                         music = BossRushEvent.MusicToPlay;
                         priority = MusicPriority.BossHigh;
                     }
                     */
-				}
+                }
             }
         }
         #endregion

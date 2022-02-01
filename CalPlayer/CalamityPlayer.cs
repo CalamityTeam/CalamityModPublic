@@ -18,6 +18,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -104,7 +105,7 @@ namespace CalamityMod.CalPlayer
         public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
-        public Vector2[] KameiOldPositions = new Vector2[4];
+        public Vector2[] OldPositions = new Vector2[4];
         public double trueMeleeDamage = 0D;
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
@@ -800,6 +801,7 @@ namespace CalamityMod.CalPlayer
         public bool chaosSpirit = false;
         public bool redDevil = false;
         public bool GemTechSet = false;
+        public bool CobaltSet = false;
         private GemTechArmorState gemTechState;
         public GemTechArmorState GemTechState
 		{
@@ -1600,6 +1602,8 @@ namespace CalamityMod.CalPlayer
             auricBoost = false;
 
             GemTechSet = false;
+
+            CobaltSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2443,6 +2447,7 @@ namespace CalamityMod.CalPlayer
             silvaCountdown = silvaReviveDuration;
             auricSet = false;
             GemTechSet = false;
+            CobaltSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
@@ -4076,7 +4081,8 @@ namespace CalamityMod.CalPlayer
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
-					(silvaSet ? 0.05f : 0f) +
+                    (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
+                    (silvaSet ? 0.05f : 0f) +
 					(blueCandle ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
@@ -4090,7 +4096,8 @@ namespace CalamityMod.CalPlayer
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-					(silvaSet ? 0.05f : 0f) +
+                    (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
+                    (silvaSet ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
 					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
