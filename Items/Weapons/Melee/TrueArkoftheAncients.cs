@@ -89,12 +89,12 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 //Only shoot the center star if theres no charge
                 if (Charge == 0)
-                    Projectile.NewProjectile(player.Center + Vector2.Normalize(new Vector2(speedX, speedY)) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(player.Center + Vector2.Normalize(new Vector2(speedX, speedY)) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
 
                 Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 30;
 
-                Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
-                Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
             }
 
 
