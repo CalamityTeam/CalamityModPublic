@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AstrumAureus;
@@ -10,7 +11,6 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
-using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
@@ -24,13 +24,10 @@ using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using static CalamityMod.World.CalamityWorld;
 
 namespace CalamityMod.World
 {
@@ -413,6 +410,8 @@ namespace CalamityMod.World
                         spawnRate *= 1.43D;
                     if (Main.peaceCandles > 0)
                         spawnRate *= 1.25D;
+					if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
+						spawnRate *= 5D;
 
                     int chance = (int)spawnRate;
                     if (Main.rand.NextBool(chance))
@@ -421,7 +420,7 @@ namespace CalamityMod.World
                         ArmoredDiggerSpawnCooldown <= 0)
                         {
                             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ArmoredDiggerHead>());
-                            ArmoredDiggerSpawnCooldown = 3600;
+                            ArmoredDiggerSpawnCooldown = 36000;
                         }
                     }
                 }
