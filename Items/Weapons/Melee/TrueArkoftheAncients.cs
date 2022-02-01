@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 160 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw stronger projectiles\n" +
-                "Using RMB after parrying will let you consume all the charge at once into a strong burst of energy\n" +
+                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy\n" +
                 "A heavenly blade forged to vanquish all evil");
         }
 
@@ -58,19 +58,19 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
-
-                else if (Charge > 0)
+                if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
 
                     Charge = 0;
                 }
+
+                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>())))
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
             }
@@ -82,8 +82,22 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge > 0)
                 damage *= 2;
             Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueArkoftheAncientsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
-
             Combo *= -1f;
+
+            //Shoot an extra star projectile every upwards swing
+            if (Combo == -1f)
+            {
+                //Only shoot the center star if theres no charge
+                if (Charge == 0)
+                    Projectile.NewProjectile(player.Center + Vector2.Normalize(new Vector2(speedX, speedY)) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI);
+
+                Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 30;
+
+                Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * 0.1f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+            }
+
+
             Charge--;
             if (Charge < 0)
                 Charge = 0;

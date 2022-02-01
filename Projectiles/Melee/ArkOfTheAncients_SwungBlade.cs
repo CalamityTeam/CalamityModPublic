@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 82f * projectile.scale;
+            float bladeLenght = 78f * projectile.scale;
             Vector2 holdPoint = DistanceFromPlayer.Length() * projectile.rotation.ToRotationVector2();
 
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + holdPoint, Owner.Center + holdPoint + projectile.rotation.ToRotationVector2() * bladeLenght, 24, ref collisionPoint);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
                 var sound = Main.PlaySound(Charge > 0 ? SoundID.DD2_PhantomPhoenixShot : SoundID.DD2_MonkStaffSwing, projectile.Center);
                 if (Charge > 0)
                     sound.Volume *= 2.5f;
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = projectile.velocity;
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 
