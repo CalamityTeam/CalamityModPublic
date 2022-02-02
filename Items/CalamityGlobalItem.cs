@@ -954,7 +954,9 @@ namespace CalamityMod.Items
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
-            return VanillaArmorChangeManager.GetSetBonusName(Main.player[head.owner]);
+            string managedArmorName = VanillaArmorChangeManager.GetSetBonusName(Main.player[head.owner]);
+            if (!string.IsNullOrEmpty(managedArmorName))
+                return managedArmorName;
 
             if (head.type == ItemID.SquireGreatHelm && body.type == ItemID.SquirePlating && legs.type == ItemID.SquireGreaves)
                 return "SquireTier2";
