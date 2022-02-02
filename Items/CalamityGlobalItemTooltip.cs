@@ -540,6 +540,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MythrilGreaves)
                 EditTooltipByNum(0, (line) => line.text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
+            // Orichalcum Breastplate.
+            if (item.type == ItemID.OrichalcumBreastplate)
+                EditTooltipByNum(0, (line) => line.text = $"{OrichalcumArmorSetChange.ChestplateCritChanceBoost + 6}% increased critical strike chance");
+
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
             if (item.type == ItemID.SquirePlating)

@@ -318,11 +318,17 @@ namespace CalamityMod.Projectiles
 
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
-				case ProjectileID.FlowerPetal:
                     projectile.localNPCHitCooldown = 10;
                     projectile.usesLocalNPCImmunity = true;
                     projectile.usesIDStaticNPCImmunity = false;
                     break;
+					
+				case ProjectileID.FlowerPetal:
+					projectile.MaxUpdates = 4;
+					projectile.localNPCHitCooldown = 10;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.usesIDStaticNPCImmunity = false;
+					break;
 
                 case ProjectileID.Spazmamini:
                     projectile.usesIDStaticNPCImmunity = true;
