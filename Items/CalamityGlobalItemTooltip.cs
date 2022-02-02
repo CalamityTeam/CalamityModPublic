@@ -516,8 +516,17 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.text = "5% increased magic damage");
 
             // Edit individual tooltips for early hardmode armor sets.
+            // Cobalt Hat.
             if (item.type == ItemID.CobaltHat)
                 EditTooltipByNum(0, (line) => line.text = $"Increases maximum mana by {CobaltArmorSetChange.MaxManaBoost + 40}");
+
+            // Palladium Breastplate.
+            if (item.type == ItemID.PalladiumBreastplate)
+                EditTooltipByNum(0, (line) => line.text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
+
+            // Palladium Leggings.
+            if (item.type == ItemID.PalladiumLeggings)
+                EditTooltipByNum(0, (line) => line.text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
 
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
