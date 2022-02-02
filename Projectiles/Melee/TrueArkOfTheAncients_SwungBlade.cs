@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Charge > 0 && Main.rand.Next(2) == 0)
             {
-                Vector2 particleOrigin = projectile.Center + projectile.rotation.ToRotationVector2() * 75 * projectile.scale;
+                Vector2 particleOrigin = projectile.Center + projectile.rotation.ToRotationVector2() * 85 * projectile.scale;
                 Vector2 particleSpeed = projectile.rotation.ToRotationVector2().RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1.2f, 2f);
                 Particle energyLeak = new CritSpark(particleOrigin, particleSpeed + Owner.velocity, Color.White, Color.Cyan, Main.rand.NextFloat(0.6f, 1.6f), 20 + Main.rand.Next(10), 0.1f, 1.5f, hueShift: 0.02f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
