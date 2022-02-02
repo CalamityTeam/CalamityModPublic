@@ -1339,6 +1339,15 @@ namespace CalamityMod.CalPlayer
 				silvaReviveCooldown--;
 			if (MythrilFlareSpawnCountdown > 0)
 				MythrilFlareSpawnCountdown--;
+			if (AdamantiteSetDecayDelay > 0)
+				AdamantiteSetDecayDelay--;
+			else if (AdamantiteSet)
+			{
+				adamantiteSetDefenseBoostInterpolant -= 1f / AdamantiteArmorSetChange.TimeUntilBoostCompletelyDecays;
+				adamantiteSetDefenseBoostInterpolant = MathHelper.Clamp(adamantiteSetDefenseBoostInterpolant, 0f, 1f);
+			}
+			else
+				adamantiteSetDefenseBoostInterpolant = 0f;
 
 			// God Slayer Armor dash debuff immunity
 			if (dashMod == 9 && player.dashDelay < 0)
@@ -2520,6 +2529,10 @@ namespace CalamityMod.CalPlayer
 			// Cobalt armor set effects.
 			if (CobaltSet)
 				CobaltArmorSetChange.ApplyMovementSpeedBonuses(player);
+
+			// Adamantite armor set effects.
+			if (AdamantiteSet)
+				player.statDefense += AdamantiteSetDefenseBoost;
 
 			if (astralInjection)
 			{

@@ -804,6 +804,20 @@ namespace CalamityMod.CalPlayer
         public bool CobaltSet = false;
         public bool MythrilSet = false;
         public int MythrilFlareSpawnCountdown = 0;
+        public bool AdamantiteSet = false;
+        public int AdamantiteSetDecayDelay = 0;
+
+        private float adamantiteSetDefenseBoostInterpolant;
+        public int AdamantiteSetDefenseBoost
+		{
+            get => (int)(MathHelper.Clamp(adamantiteSetDefenseBoostInterpolant, 0f, 1f) * AdamantiteArmorSetChange.DefenseBoostMax);
+			set
+			{
+                // Clamp the boost within a respected bound.
+                adamantiteSetDefenseBoostInterpolant = MathHelper.Clamp(value / (float)AdamantiteArmorSetChange.DefenseBoostMax, 0f, 1f);
+            }
+		}
+
         private GemTechArmorState gemTechState;
         public GemTechArmorState GemTechState
 		{
@@ -1606,8 +1620,8 @@ namespace CalamityMod.CalPlayer
             GemTechSet = false;
 
             CobaltSet = false;
-
             MythrilSet = false;
+            AdamantiteSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2453,6 +2467,9 @@ namespace CalamityMod.CalPlayer
             GemTechSet = false;
             CobaltSet = false;
             MythrilSet = false;
+            MythrilFlareSpawnCountdown = 0;
+            AdamantiteSet = false;
+            AdamantiteSetDecayDelay = 0;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
@@ -2548,7 +2565,6 @@ namespace CalamityMod.CalPlayer
             elysianAegis = false;
             elysianGuard = false;
             GemTechState.OnDeathEffects();
-            MythrilFlareSpawnCountdown = 0;
             #endregion
 
             CurrentlyViewedFactoryID = -1;
@@ -4984,6 +5000,8 @@ namespace CalamityMod.CalPlayer
 				int penetratedDefense = Math.Min(penetratableDefense, 5);
 				damage += (int)(0.5f * penetratedDefense);
 			}
+            if (AdamantiteSet)
+                damage += player.statDefense / 10;
             #endregion
 
             if (draedonsHeart)
@@ -5136,6 +5154,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if (AdamantiteSet)
+                damage += player.statDefense / 10;
+
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
@@ -10290,6 +10311,9 @@ namespace CalamityMod.CalPlayer
             int cap = player.statDefense / 4;
             if (defenseDamageTaken > cap)
                 defenseDamageTaken = cap;
+
+            // Apply defense damage to the adamantite armor set boost.
+            AdamantiteSetDefenseBoost -= defenseDamageTaken;
 
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;

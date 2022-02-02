@@ -54,6 +54,10 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public static void OnHitEffects(NPC victim, int originalDamage, Player owner)
         {
+            // Don't spawn anything if the player isn't actually wearing the set.
+            if (!owner.Calamity().MythrilSet)
+                return;
+
             // Don't spawn anything if the on-hit delay is still counting down.
             if (owner.Calamity().MythrilFlareSpawnCountdown > 0)
                 return;

@@ -29,8 +29,14 @@ namespace CalamityMod.CalPlayer
         #region On Hit Anything
         public override void OnHitAnything(float x, float y, Entity victim)
         {
-            // Currently only used for Rage combat frames.
             rageCombatFrames = RageCombatDelayTime;
+
+            if (AdamantiteSet)
+            {
+                adamantiteSetDefenseBoostInterpolant += 1.75f / AdamantiteArmorSetChange.TimeUntilBoostCompletelyDecays;
+                adamantiteSetDefenseBoostInterpolant = MathHelper.Clamp(adamantiteSetDefenseBoostInterpolant, 0f, 1f);
+                AdamantiteSetDecayDelay = AdamantiteArmorSetChange.TimeUntilDecayBeginsAfterAttacking;
+            }
         }
         #endregion
 
