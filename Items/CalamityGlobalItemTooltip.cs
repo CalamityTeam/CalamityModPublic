@@ -212,10 +212,10 @@ namespace CalamityMod.Items
 
         #region Vanilla Item Tooltip Modification
 
-        // Turns a number into a string of increased mining speed.
         public const string HeatProtectionLine = "\nProvides heat protection in Death Mode";
         public const string BothProtectionLine = "\nProvides heat and cold protection in Death Mode";
 
+        // Turns a number into a string of increased mining speed.
         public static string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
 
         private void ModifyVanillaTooltips(Item item, IList<TooltipLine> tooltips)

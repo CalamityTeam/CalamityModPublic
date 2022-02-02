@@ -6,11 +6,11 @@ namespace CalamityMod.Items.VanillaArmorChanges
 {
     public class MoltenArmorSetChange : VanillaArmorChange
     {
-        public override int? HeadPieceID => ItemID.TinHelmet;
+        public override int? HeadPieceID => ItemID.MoltenHelmet;
 
-        public override int? BodyPieceID => ItemID.TinChainmail;
+        public override int? BodyPieceID => ItemID.MoltenBreastplate;
 
-        public override int? LegPieceID => ItemID.TinGreaves;
+        public override int? LegPieceID => ItemID.MoltenGreaves;
 
         public override string ArmorSetName => "Molten";
 
