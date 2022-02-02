@@ -1337,6 +1337,8 @@ namespace CalamityMod.CalPlayer
 				auralisAuroraCooldown--;
 			if (silvaReviveCooldown > 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
 				silvaReviveCooldown--;
+			if (MythrilFlareSpawnCountdown > 0)
+				MythrilFlareSpawnCountdown--;
 
 			// God Slayer Armor dash debuff immunity
 			if (dashMod == 9 && player.dashDelay < 0)

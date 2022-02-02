@@ -528,6 +528,18 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PalladiumLeggings)
                 EditTooltipByNum(0, (line) => line.text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
 
+            // Mythril Hood.
+            if (item.type == ItemID.MythrilHood)
+                EditTooltipByNum(0, (line) => line.text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
+
+            // Mythril Chainmail.
+            if (item.type == ItemID.MythrilChainmail)
+                EditTooltipByNum(0, (line) => line.text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
+
+            // Mythril Hood.
+            if (item.type == ItemID.MythrilGreaves)
+                EditTooltipByNum(0, (line) => line.text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
+
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
             if (item.type == ItemID.SquirePlating)

@@ -802,6 +802,8 @@ namespace CalamityMod.CalPlayer
         public bool redDevil = false;
         public bool GemTechSet = false;
         public bool CobaltSet = false;
+        public bool MythrilSet = false;
+        public int MythrilFlareSpawnCountdown = 0;
         private GemTechArmorState gemTechState;
         public GemTechArmorState GemTechState
 		{
@@ -1604,6 +1606,8 @@ namespace CalamityMod.CalPlayer
             GemTechSet = false;
 
             CobaltSet = false;
+
+            MythrilSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2448,6 +2452,7 @@ namespace CalamityMod.CalPlayer
             auricSet = false;
             GemTechSet = false;
             CobaltSet = false;
+            MythrilSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
@@ -2543,6 +2548,7 @@ namespace CalamityMod.CalPlayer
             elysianAegis = false;
             elysianGuard = false;
             GemTechState.OnDeathEffects();
+            MythrilFlareSpawnCountdown = 0;
             #endregion
 
             CurrentlyViewedFactoryID = -1;
