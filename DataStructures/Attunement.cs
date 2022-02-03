@@ -707,7 +707,7 @@ namespace CalamityMod.DataStructures
         public AriesAttunement()
         {
             id = AttunementID.Aries;
-            name = "Aries's Wrath";
+            name = "Aries' Wrath";
             function_description = "Throw Galaxia to your cursor, holding it in place with constellations. Galaxia follows your cursor, rapidly spinning to shred enemies";
             function_description_extra = "Striking enemies causes nebulous explosions which spawn homing cosmic bolts";
             tooltipColor = new Color(196, 89, 201);
@@ -746,7 +746,7 @@ namespace CalamityMod.DataStructures
         public PolarisAttunement()
         {
             id = AttunementID.Polaris;
-            name = "Polaris's Gaze"; //It carries the mark of the Northern Star
+            name = "Polaris' Gaze"; //It carries the mark of the Northern Star
             function_description = "Hold the attack button to channel the Northern Star's power into a tight vortex of galactic energies, bound by concentric rings of stars. The vortex powers up over time and when hitting enemies";
             function_description_extra = "Release the attack button to fire off the charged star. Attacking again immediately thereafter dashes to the star, emitting a nova of cosmic bolts";
             tooltipColor = new Color(128, 189, 255);
