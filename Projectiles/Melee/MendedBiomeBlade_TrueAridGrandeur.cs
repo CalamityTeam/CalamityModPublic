@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Melee
                 ChargeSoundCooldown--;
             }
 
-            Shred--;
+            Shred -= 0.5f;
             PogoCooldown--;
             BounceTime--;
             if (projectile.timeLeft <= 2)

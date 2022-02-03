@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
-            Shred--;
+            Shred -= 0.5f;
             PogoCooldown--;
             if (projectile.timeLeft <= 2)
                 projectile.timeLeft = 2;
