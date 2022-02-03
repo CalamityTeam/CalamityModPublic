@@ -3997,13 +3997,15 @@ namespace CalamityMod.CalPlayer
             if (Main.myPlayer == player.whoAmI)
             {
                 mouseRight = PlayerInput.Triggers.Current.MouseRight;
+                mouseWorld = Main.MouseWorld;
+
                 if (rightClickListener && mouseRight != oldMouseRight)
                 {
                     oldMouseRight = mouseRight;
                     syncMouseControls = true;
                     rightClickListener = false;
                 }
-                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 10f)
+                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 5f)
                 {
                     oldMouseWorld = mouseWorld;
                     syncMouseControls = true;
