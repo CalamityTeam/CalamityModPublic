@@ -2061,8 +2061,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (DeathAnimationTimer == 1f)
 			{
 				var soundInstance = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), npc.Center);
-				if (soundInstance != null)
-					soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.6f, 0f, 1f);
+				CalamityUtils.SafeVolumeChange(ref soundInstance, 1.6f);
 			}
 
 			// Close the health bar, fade in, and stop doing contact damage.
@@ -2129,8 +2128,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (Main.netMode != NetmodeID.Server)
 				{
 					var soundInstance = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), npc.Center);
-					if (soundInstance != null)
-						soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.6f, 0f, 1f);
+					CalamityUtils.SafeVolumeChange(ref soundInstance, 1.6f);
 
 					for (int i = 0; i < 3; i++)
 					{
@@ -2138,7 +2136,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						if (soundInstance != null)
 						{
 							soundInstance.Pitch = -MathHelper.Lerp(0.1f, 0.4f, i / 3f);
-							soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume * 1.4f, 0f, 1f);
+							CalamityUtils.SafeVolumeChange(ref soundInstance, 1.4f);
 						}
 					}
 				}

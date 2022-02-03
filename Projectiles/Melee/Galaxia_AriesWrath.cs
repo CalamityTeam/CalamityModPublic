@@ -149,8 +149,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.Center = Owner.Center;
                 var scream = Main.PlaySound(SoundID.Item120, projectile.Center);
-                if (scream != null)
-                    scream.Volume *= 0.5f;
+                SafeVolumeChange(ref scream, 0.5f);
 
                 if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                     Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;

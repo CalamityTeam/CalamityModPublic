@@ -94,8 +94,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
 
                         var dashSound = Main.PlaySound(SoundID.Item120, projectile.Center);
-                        if (dashSound != null)
-                            dashSound.Volume *= 0.5f;
+                        CalamityUtils.SafeVolumeChange(ref dashSound, 0.5f);
                         State = 1f;
                         projectile.timeLeft = (7 + (int)((Charge / MaxCharge - 0.25f) * 20)) * 2; //Keep that even, if its an odd number itll fuck off and wont reset the players velocity on death
                         dashDuration = projectile.timeLeft;
@@ -229,8 +228,7 @@ namespace CalamityMod.Projectiles.Melee
             SideSprouts(-1, 150f, 1f * Charge / MaxCharge);
 
             SoundEffectInstance slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
-            if (slamSound != null)
-                slamSound.Volume = MathHelper.Clamp(slamSound.Volume * 1.5f, 0f, 1f);
+            CalamityUtils.SafeVolumeChange(ref slamSound, 1.5f);
         }
 
         public bool SideSprouts(float facing, float distance, float projSize)
