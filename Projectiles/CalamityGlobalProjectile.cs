@@ -68,6 +68,13 @@ namespace CalamityMod.Projectiles
 		public int pointBlankShotDuration = 0;
 		public const int basePointBlankShotDuration = 12;
 
+		// Temporary damage reduction effects.
+		public int damageReductionTimer = 0;
+		/// <summary>
+		/// The amount of damage substracted from the projectile's own damage count when hitting the player. Resets to 0 if the damageReductionTimer variable drops to 0
+		/// </summary>
+		public int damageReduction = 0;
+
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
 		/// </summary>
@@ -2308,8 +2315,15 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            // optimization to remove conversion X/Y loop for irrelevant projectiles
-            bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+			if (projectile.FinalExtraUpdate() && damageReductionTimer > 0)
+			{
+				damageReductionTimer--;
+				if (damageReductionTimer <= 0)
+					damageReduction = 0;
+			}
+
+			// optimization to remove conversion X/Y loop for irrelevant projectiles
+			bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
                 || projectile.type == ProjectileID.PureSpray
                 || projectile.type == ProjectileID.CorruptSpray
                 || projectile.type == ProjectileID.CrimsonSpray
@@ -2404,11 +2418,23 @@ namespace CalamityMod.Projectiles
 					damage = (int)(damage * 2f / 3f);
 			}
         }
-        #endregion
+		#endregion
 
-        #region CanDamage
-        public override bool CanDamage(Projectile projectile)
+		#region ModifyHitPlayer
+		public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
+		{
+			damage -= (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f));
+			if (damage < 0)
+				damage = 0;
+		}
+		#endregion
+
+		#region CanDamage
+		public override bool CanDamage(Projectile projectile)
         {
+			if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
+				return false;
+
             switch (projectile.type)
             {
                 case ProjectileID.Sharknado:
@@ -2601,9 +2627,9 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        // TODO -- this entire region needs to go to Projectile Utilities
-        #region AI Shortcuts
-        public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
+		// TODO -- this entire region needs to go to Projectile Utilities
+		#region AI Shortcuts
+		public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();

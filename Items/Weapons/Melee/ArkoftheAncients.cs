@@ -3,18 +3,29 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ArkoftheAncients : ModItem
     {
+        public float Combo = 1f;
+        public float Charge = 0f;
+        public override bool CloneNewInstances => true;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Ancients");
-            Tooltip.SetDefault("A heavenly blade forged to vanquish all evil");
+            Tooltip.SetDefault("Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
+                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
+                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out\n" +
+                "A heavenly blade forged to vanquish all evil");
         }
 
         public override void SetDefaults()
@@ -22,76 +33,79 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = item.height = 60;
             item.damage = 80;
             item.melee = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
             item.useAnimation = 22;
             item.useTime = 22;
             item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = null;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ArkoftheAncientsSwungBlade>());
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			type = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.ProjectileType<EonBeam>(),
-				ProjectileID.EnchantedBeam
-			});
-            int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
-			if (Main.projectile[beam].type == ModContent.ProjectileType<EonBeam>())
-				Main.projectile[beam].penetrate = 2;
-            float num72 = Main.rand.Next(18, 25);
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
+            if (player.altFunctionUse == 2)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-            {
-                num80 = num72 / num80;
+                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>())))
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                return false;
             }
 
-            int num107 = 2;
-            for (int num108 = 0; num108 < num107; num108++)
-            {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
-                {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.HallowStar, damage / 3, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().forceMelee = true;
-            }
+            //Failsafe
+            if (Combo != -1 && Combo != 1)
+                Combo = 1;
+
+            if (Charge > 0)
+                damage *= 2;
+            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
+
+            Combo *= -1f;
+            Charge --;
+            if (Charge < 0)
+                Charge = 0;
+
             return false;
+        }
+
+        public override ModItem Clone(Item item)
+        {
+            var clone = base.Clone(item);
+
+            (clone as ArkoftheAncients).Charge = (item.modItem as ArkoftheAncients).Charge;
+
+            return clone;
+        }
+        public override ModItem Clone()
+        {
+            var clone = base.Clone();
+
+            (clone as ArkoftheAncients).Charge = Charge;
+
+            return clone;
+        }
+
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(Charge);
+        }
+
+        public override void NetRecieve(BinaryReader reader)
+        {
+            Charge = reader.ReadInt32();
         }
 
         public override void AddRecipes()
@@ -99,55 +113,35 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.EnchantedSword);
-            recipe.AddIngredient(ItemID.Excalibur);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemType<PurifiedGel>(), 5);
+            recipe.AddRecipeGroup("AnyCopperBar", 10);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Starfury);
             recipe.AddIngredient(ItemID.Arkhalis);
-            recipe.AddIngredient(ItemID.Excalibur);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemType<PurifiedGel>(), 5);
+            recipe.AddRecipeGroup("AnyCopperBar", 10);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (Main.rand.NextBool(5))
-            {
-                int dustType = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        dustType = 15;
-                        break;
-                    case 1:
-                        dustType = 57;
-                        break;
-                    case 2:
-                        dustType = 58;
-                        break;
-                    default:
-                        break;
-                }
-                int dust = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, dustType, (float)(player.direction * 2), 0f, 150, default, 1.3f);
-                Main.dust[dust].velocity *= 0.2f;
-            }
-        }
+            if (Charge <= 0)
+                return;
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-        }
+            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
+            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
+            Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+
+            spriteBatch.Draw(barBG, drawPos, null, color , 0f, origin, scale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale, 0f, 0f);
         }
     }
 }
