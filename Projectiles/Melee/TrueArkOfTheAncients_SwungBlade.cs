@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)MaxTime;
                 var sound = Main.PlaySound(Charge > 0 ? SoundID.DD2_PhantomPhoenixShot : SoundID.DD2_MonkStaffSwing, projectile.Center);
                 if (Charge > 0)
-                    sound.Volume *= 2.5f;
+                    sound.Volume = MathHelper.Clamp(sound.Volume * 2.5f, 0f, 1f);
                 direction = projectile.velocity;
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
