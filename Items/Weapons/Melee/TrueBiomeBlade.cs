@@ -287,7 +287,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void UpdateInventory(Player player)
         {
-            if (mainAttunement != null && mainAttunement.id == AttunementID.Cold && CanUseItem(player))
+            if (mainAttunement != null && mainAttunement.id == AttunementID.TrueCold && CanUseItem(player))
                 ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
 
             if (ComboResetTimer < 0)
