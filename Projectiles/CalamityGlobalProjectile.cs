@@ -2432,7 +2432,7 @@ namespace CalamityMod.Projectiles
 		#region CanDamage
 		public override bool CanDamage(Projectile projectile)
         {
-			if (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0)
+			if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
 				return false;
 
             switch (projectile.type)
