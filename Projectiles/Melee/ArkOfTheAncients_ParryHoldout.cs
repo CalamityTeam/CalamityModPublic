@@ -105,7 +105,6 @@ namespace CalamityMod.Projectiles.Melee
 
             //Manage position and rotation
             projectile.Center = Owner.Center + DistanceFromPlayer ;
-            //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime); 
             projectile.scale = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
             if (Timer > ParryTime)
@@ -130,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
-                        //Reduce the projectile's damage by 100 for half a second.
+                        //Reduce the projectile's damage by 100 for a second.
                         if (proj.Calamity().damageReduction < 100)
                             proj.Calamity().damageReduction = 100;
                         if (proj.Calamity().damageReductionTimer < 60)
