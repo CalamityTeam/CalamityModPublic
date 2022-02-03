@@ -784,6 +784,7 @@ namespace CalamityMod.CalPlayer
         public int MythrilFlareSpawnCountdown = 0;
         public bool AdamantiteSet = false;
         public int AdamantiteSetDecayDelay = 0;
+        public int ChlorophyteHealDelay = 0;
         public bool WearingPostMLSummonerSet = false;
 
         private float adamantiteSetDefenseBoostInterpolant;
@@ -2465,6 +2466,7 @@ namespace CalamityMod.CalPlayer
             AdamantiteSet = false;
             WearingPostMLSummonerSet = false;
             AdamantiteSetDecayDelay = 0;
+            ChlorophyteHealDelay = 0;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             molluskSet = false;

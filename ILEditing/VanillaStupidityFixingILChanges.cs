@@ -150,5 +150,9 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, 200); // Change to 200.
         }
         #endregion Change Blood Moon Max HP Requirements
+
+        #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
+
+        #endregion Fix Chlorophyte Crystal Attacking Where it Shouldn't
     }
 }
