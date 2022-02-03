@@ -91,10 +91,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)MaxTime;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
 
-
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
-                //The direction to mouseworld may need to be turned into the custom synced player mouse variables . not on the branch currently tho
-                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 

@@ -47,11 +47,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
         }
+
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<TrueArkoftheAncientsSwungBlade>());
+        }
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -121,7 +127,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             return clone;
         }
-
 
         public override void NetSend(BinaryWriter writer)
         {

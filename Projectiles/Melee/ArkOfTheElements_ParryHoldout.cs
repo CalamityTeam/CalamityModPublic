@@ -19,7 +19,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueArkoftheAncientsParryHoldout : ModProjectile
+    public class ArkoftheElementsParryHoldout : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
 
-            TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
+            ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
             sword.Charge = 10f;
             AlreadyParried = 1f;
 
@@ -91,7 +91,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)MaxTime;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
 
-                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+
+                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
+                //The direction to mouseworld may need to be turned into the custom synced player mouse variables . not on the branch currently tho
+                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 
@@ -102,6 +105,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Manage position and rotation
             projectile.Center = Owner.Center + DistanceFromPlayer ;
+            //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime); 
             projectile.scale = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
             if (Timer > ParryTime)
@@ -119,14 +123,14 @@ namespace CalamityMod.Projectiles.Melee
                     if (proj.active && proj.hostile && proj.damage > 1 && proj.velocity.Length() * (proj.extraUpdates + 1) > 1f
                         && Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
+                        ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
                         if (sword != null)
                             sword.Charge = 10;
 
 
                         CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
-                        //Reduce the projectile's damage by 100 for a second.
+                        //Reduce the projectile's damage by 100 for half a second.
                         if (proj.Calamity().damageReduction < 160)
                             proj.Calamity().damageReduction = 160;
                         if (proj.Calamity().damageReductionTimer < 60)
@@ -151,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = projectile.rotation;
             if (Owner.direction != 1)
             {
-                Owner.itemRotation -= MathHelper.Pi;
+                Owner.itemRotation -= 3.14f;
             }
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
 

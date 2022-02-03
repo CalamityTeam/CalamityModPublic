@@ -3,19 +3,28 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ArkoftheElements : ModItem
     {
+        public float Combo = 0f;
+        public float Charge = 0f;
+
+        public const float ComboLenght = 4f; //How many regular swings before the long throw happens
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Elements");
-            Tooltip.SetDefault("A heavenly blade infused with the essence of Terraria");
+            Tooltip.SetDefault("A heavenly pair of blades infused with the essence of Terraria");
         }
 
         public override void SetDefaults()
@@ -23,117 +32,146 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 84;
             item.damage = 115;
             item.melee = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item60;
+            item.UseSound = null;
             item.autoReuse = true;
             item.height = 84;
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<EonBeam>();
+			item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 16f;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override void HoldItem(Player player)
+        {
+            if (CanUseItem(player) && Combo != 4)
+                item.channel = false;
+
+            if (Combo == 4)
+                item.channel = true;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ArkoftheElementsSwungBlade>());
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(4))
+            if (player.altFunctionUse == 2)
             {
-                case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
-                    break;
-                case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
-                    break;
-                case 2:
-                    type = ModContent.ProjectileType<EonBeamV3>();
-                    break;
-                case 3:
-                    type = ModContent.ProjectileType<EonBeamV4>();
-                    break;
-            }
-            int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
-            Main.projectile[projectile].timeLeft = 160;
-            Main.projectile[projectile].tileCollide = false;
-            float num72 = Main.rand.Next(22, 30);
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-            {
-                num80 = num72 / num80;
+                if (Charge > 0 && player.controlUp)
+                {
+                    float angle = new Vector2(speedX, speedY).ToRotation();
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+
+                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
+                        Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+
+                    Charge = 0;
+                }
+
+                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>())))
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+
+                return false;
             }
 
-            int num107 = 4;
-            for (int num108 = 0; num108 < num107; num108++)
+            if (Charge > 0)
+                damage *= 2;
+            float scissorState = Combo == ComboLenght ? 2 : Combo % 2;
+
+            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);
+            
+            Combo += 1;
+            if (Combo > ComboLenght)
+                Combo = 0;
+
+            //Shoot an extra star projectile every upwards swing
+            if (Combo == -1f)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)-(float)player.direction + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f;
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<ElementBall>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                //Only shoot the center star if theres no charge
+                if (Charge == 0)
+                    Projectile.NewProjectile(player.Center + Vector2.Normalize(new Vector2(speedX, speedY)) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
+
+                Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 30;
+
+                Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
             }
+
+            Charge--;
+            if (Charge < 0)
+                Charge = 0;
+
             return false;
+        }
+
+        public override ModItem Clone(Item item)
+        {
+            var clone = base.Clone(item);
+
+            (clone as ArkoftheElements).Charge = (item.modItem as ArkoftheElements).Charge;
+
+            return clone;
+        }
+        public override ModItem Clone()
+        {
+            var clone = base.Clone();
+
+            (clone as ArkoftheElements).Charge = Charge;
+
+            return clone;
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(Charge);
+        }
+
+        public override void NetRecieve(BinaryReader reader)
+        {
+            Charge = reader.ReadInt32();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TrueArkoftheAncients>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+            recipe.AddIngredient(ItemType<TrueArkoftheAncients>());
+            recipe.AddIngredient(ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ItemType<CoreofCalamity>(), 5);
+            recipe.AddIngredient(ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (Main.rand.NextBool(5))
-            {
-                int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 66, (float)(player.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
-                Main.dust[num250].velocity *= 0.2f;
-                Main.dust[num250].noGravity = true;
-            }
-        }
+            if (Charge <= 0)
+                return;
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-        }
+            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
+            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
+            Color color = Main.hslToRgb(((float)Math.Sin(Main.GlobalTime * 0.6f) * 0.5f + 0.5f) * 0.15f, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+
+            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale, 0f, 0f);
         }
     }
 }
