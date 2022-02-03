@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Microsoft.Xna.Framework.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -214,10 +215,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public void SlamDown()
         {
-            var slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
-            if (slamSound != null)
-                slamSound.Volume *= 1.5f;
-
             if (Owner.whoAmI != Main.myPlayer)
                 return;
 
@@ -228,10 +225,12 @@ namespace CalamityMod.Projectiles.Melee
             proj.scale = 3f;
             proj.timeLeft = 50;
 
-
             SideSprouts(1, 150f, 1f * Charge / MaxCharge);
             SideSprouts(-1, 150f, 1f * Charge / MaxCharge);
 
+            SoundEffectInstance slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
+            if (slamSound != null)
+                slamSound.Volume *= 1.5f;
         }
 
         public bool SideSprouts(float facing, float distance, float projSize)

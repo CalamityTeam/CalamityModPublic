@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int WhirlwindAttunement_SigilTime = 1200;
         public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
         public static float WhirlwindAttunement_BaseDamageReduction = 0.2f;
-        public static float WhirlwindAttunement_FullChargeDamageBoost = 2f;
+        public static float WhirlwindAttunement_FullChargeDamageBoost = 2.4f;
+        public static float WhirlwindAttunement_ThrowDamageBoost = 3f;
 
         public static int WhirlwindAttunement_PassiveBaseDamage = 200;
 

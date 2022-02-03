@@ -18,6 +18,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -104,7 +105,7 @@ namespace CalamityMod.CalPlayer
         public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
-        public Vector2[] KameiOldPositions = new Vector2[4];
+        public Vector2[] OldPositions = new Vector2[4];
         public double trueMeleeDamage = 0D;
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
@@ -800,6 +801,23 @@ namespace CalamityMod.CalPlayer
         public bool chaosSpirit = false;
         public bool redDevil = false;
         public bool GemTechSet = false;
+        public bool CobaltSet = false;
+        public bool MythrilSet = false;
+        public int MythrilFlareSpawnCountdown = 0;
+        public bool AdamantiteSet = false;
+        public int AdamantiteSetDecayDelay = 0;
+
+        private float adamantiteSetDefenseBoostInterpolant;
+        public int AdamantiteSetDefenseBoost
+		{
+            get => (int)(MathHelper.Clamp(adamantiteSetDefenseBoostInterpolant, 0f, 1f) * AdamantiteArmorSetChange.DefenseBoostMax);
+			set
+			{
+                // Clamp the boost within a respected bound.
+                adamantiteSetDefenseBoostInterpolant = MathHelper.Clamp(value / (float)AdamantiteArmorSetChange.DefenseBoostMax, 0f, 1f);
+            }
+		}
+
         private GemTechArmorState gemTechState;
         public GemTechArmorState GemTechState
 		{
@@ -1600,6 +1618,10 @@ namespace CalamityMod.CalPlayer
             auricBoost = false;
 
             GemTechSet = false;
+
+            CobaltSet = false;
+            MythrilSet = false;
+            AdamantiteSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2443,6 +2465,11 @@ namespace CalamityMod.CalPlayer
             silvaCountdown = silvaReviveDuration;
             auricSet = false;
             GemTechSet = false;
+            CobaltSet = false;
+            MythrilSet = false;
+            MythrilFlareSpawnCountdown = 0;
+            AdamantiteSet = false;
+            AdamantiteSetDecayDelay = 0;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
@@ -3970,13 +3997,15 @@ namespace CalamityMod.CalPlayer
             if (Main.myPlayer == player.whoAmI)
             {
                 mouseRight = PlayerInput.Triggers.Current.MouseRight;
+                mouseWorld = Main.MouseWorld;
+
                 if (rightClickListener && mouseRight != oldMouseRight)
                 {
                     oldMouseRight = mouseRight;
                     syncMouseControls = true;
                     rightClickListener = false;
                 }
-                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 10f)
+                if (mouseWorldListener && Vector2.Distance(mouseWorld, oldMouseWorld) > 5f)
                 {
                     oldMouseWorld = mouseWorld;
                     syncMouseControls = true;
@@ -4076,7 +4105,8 @@ namespace CalamityMod.CalPlayer
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
-					(silvaSet ? 0.05f : 0f) +
+                    (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
+                    (silvaSet ? 0.05f : 0f) +
 					(blueCandle ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
@@ -4090,7 +4120,8 @@ namespace CalamityMod.CalPlayer
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-					(silvaSet ? 0.05f : 0f) +
+                    (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
+                    (silvaSet ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
 					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -4971,6 +5002,8 @@ namespace CalamityMod.CalPlayer
 				int penetratedDefense = Math.Min(penetratableDefense, 5);
 				damage += (int)(0.5f * penetratedDefense);
 			}
+            if (AdamantiteSet)
+                damage += player.statDefense / 10;
             #endregion
 
             if (draedonsHeart)
@@ -5123,6 +5156,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if (AdamantiteSet)
+                damage += player.statDefense / 10;
+
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
@@ -10277,6 +10313,9 @@ namespace CalamityMod.CalPlayer
             int cap = player.statDefense / 4;
             if (defenseDamageTaken > cap)
                 defenseDamageTaken = cap;
+
+            // Apply defense damage to the adamantite armor set boost.
+            AdamantiteSetDefenseBoost -= defenseDamageTaken;
 
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;

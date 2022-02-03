@@ -35,14 +35,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float EvilAttunement_SlashDamageBoost = 3f;
         public static int EvilAttunement_SlashIFrames = 60;
 
-        public static int ColdAttunement_BaseDamage = 320;
-        public static float ColdAttunement_SecondSwingBoost = 1.8f;
-        public static float ColdAttunement_ThirdSwingBoost = 3f;
-        public static float ColdAttunement_MistDamageReduction = 0.2f;
+        public static int ColdAttunement_BaseDamage = 200;
+        public static float ColdAttunement_SecondSwingBoost = 1.2f;
+        public static float ColdAttunement_ThirdSwingBoost = 1.6f;
+        public static float ColdAttunement_MistDamageReduction = 0.04f;
 
         public static int HotAttunement_BaseDamage = 320;
         public static int HotAttunement_ShredIFrames = 8;
-        public static float HotAttunement_ShotDamageBoost = 2;
+        public static float HotAttunement_ShotDamageBoost = 3.5f;
         public static int HotAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int HotAttunement_LocalIFramesCharged = 16;
 
@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int HolyAttunement_BaseDamage = 160;
         public static float HolyAttunement_BaseDamageReduction = 0.2f;
-        public static float HolyAttunement_FullChargeDamageBoost = 2f;
+        public static float HolyAttunement_FullChargeDamageBoost = 2.4f;
+        public static float HolyAttunement_ThrowDamageBoost = 3f;
         public static int HolyAttunement_LocalIFrames = 16; //Be warned its got 1 extra update yadda yadda
 
         public static int AstralAttunement_BaseDamage = 500;
@@ -287,7 +288,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void UpdateInventory(Player player)
         {
-            if (mainAttunement != null && mainAttunement.id == AttunementID.Cold && CanUseItem(player))
+            if (mainAttunement != null && mainAttunement.id == AttunementID.TrueCold && CanUseItem(player))
                 ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
 
             if (ComboResetTimer < 0)

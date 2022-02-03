@@ -20,6 +20,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -1336,6 +1337,17 @@ namespace CalamityMod.CalPlayer
 				auralisAuroraCooldown--;
 			if (silvaReviveCooldown > 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
 				silvaReviveCooldown--;
+			if (MythrilFlareSpawnCountdown > 0)
+				MythrilFlareSpawnCountdown--;
+			if (AdamantiteSetDecayDelay > 0)
+				AdamantiteSetDecayDelay--;
+			else if (AdamantiteSet)
+			{
+				adamantiteSetDefenseBoostInterpolant -= 1f / AdamantiteArmorSetChange.TimeUntilBoostCompletelyDecays;
+				adamantiteSetDefenseBoostInterpolant = MathHelper.Clamp(adamantiteSetDefenseBoostInterpolant, 0f, 1f);
+			}
+			else
+				adamantiteSetDefenseBoostInterpolant = 0f;
 
 			// God Slayer Armor dash debuff immunity
 			if (dashMod == 9 && player.dashDelay < 0)
@@ -2513,6 +2525,14 @@ namespace CalamityMod.CalPlayer
 					player.gills = true;
 				}
 			}
+
+			// Cobalt armor set effects.
+			if (CobaltSet)
+				CobaltArmorSetChange.ApplyMovementSpeedBonuses(player);
+
+			// Adamantite armor set effects.
+			if (AdamantiteSet)
+				player.statDefense += AdamantiteSetDefenseBoost;
 
 			if (astralInjection)
 			{

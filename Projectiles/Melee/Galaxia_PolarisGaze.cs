@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Microsoft.Xna.Framework.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -169,7 +170,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
-                Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
@@ -221,8 +222,9 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (ChargeSoundCooldown <= 0)
                 {
-                    var chargeSound = Main.PlaySound(SoundID.DD2_BookStaffCast);
-                    chargeSound.Volume *= 2.5f;
+                    SoundEffectInstance chargeSound = Main.PlaySound(SoundID.DD2_BookStaffCast);
+                    if (chargeSound != null)
+                        chargeSound.Volume *= 2.5f;
                     ChargeSoundCooldown = 20;
                 }
             }

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 84 * projectile.scale;
+            float bladeLenght = 94 * projectile.scale;
             float bladeWidth = 76 * projectile.scale;
 
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (direction * bladeLenght), bladeWidth, ref collisionPoint);
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
-            Shred--;
+            Shred -= 0.5f;
             PogoCooldown--;
             if (projectile.timeLeft <= 2)
                 projectile.timeLeft = 2;

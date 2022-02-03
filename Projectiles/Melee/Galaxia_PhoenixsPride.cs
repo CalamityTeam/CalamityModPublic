@@ -269,7 +269,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (FourSeasonsGalaxia.PhoenixAttunement_BaseDamageReduction + (FourSeasonsGalaxia.PhoenixAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
+            if (CurrentState == 1f)
+                damage = (int)(damage * MathHelper.Lerp(1f, FourSeasonsGalaxia.PhoenixAttunement_ThrowDamageBoost, Empowerment / maxEmpowerment));
+            else
+                damage = (int)(damage * (FourSeasonsGalaxia.PhoenixAttunement_BaseDamageReduction + (FourSeasonsGalaxia.PhoenixAttunement_FullChargeDamageBoost * Empowerment / maxEmpowerment)));
         }
 
         public override void Kill(int timeLeft)

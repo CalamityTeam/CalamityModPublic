@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
         }
-
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
