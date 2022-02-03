@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == 0f)
             {
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 projectile.Center = Owner.Center + (direction * 70f * ChargeDisplacement());
 
@@ -230,7 +230,7 @@ namespace CalamityMod.Projectiles.Melee
 
             SoundEffectInstance slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
             if (slamSound != null)
-                slamSound.Volume *= 1.5f;
+                slamSound.Volume = MathHelper.Clamp(slamSound.Volume * 1.5f, 0f, 1f);
         }
 
         public bool SideSprouts(float facing, float distance, float projSize)

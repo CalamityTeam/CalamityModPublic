@@ -264,6 +264,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
+            player.Calamity().mouseWorldListener = true;
 
             if (CanUseItem(player))
             {

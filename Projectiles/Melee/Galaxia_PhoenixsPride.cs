@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 projectile.velocity = Vector2.Zero;
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 initialized = true;
             }
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
 
                     Main.PlaySound(SoundID.Item80, projectile.Center);
-                    direction = Owner.DirectionTo(Main.MouseWorld);
+                    direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                     //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES 
                     for (int i = 0; i <= 8; i++)
                     {

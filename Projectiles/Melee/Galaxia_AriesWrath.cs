@@ -159,8 +159,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale = 1f + ScaleEquation();
             projectile.timeLeft = 2;
 
-            projectile.Center = Vector2.Lerp(projectile.Center, Main.MouseWorld, 0.05f * ThrowDisplace());
-            projectile.Center = projectile.Center.MoveTowards(Main.MouseWorld, 40f * ThrowDisplace());
+            projectile.Center = Vector2.Lerp(projectile.Center, Owner.Calamity().mouseWorld, 0.05f * ThrowDisplace());
+            projectile.Center = projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 40f * ThrowDisplace());
 
             if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.AriesAttunement_Reach)
                 projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.AriesAttunement_Reach;

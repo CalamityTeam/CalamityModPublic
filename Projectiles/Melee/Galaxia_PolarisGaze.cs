@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred = 0;
 
             //Manage position and rotation
-            direction = Owner.DirectionTo(Main.MouseWorld);
+            direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
             direction.Normalize();
             projectile.rotation = direction.ToRotation();
             projectile.Center = Owner.Center + (direction * 60);

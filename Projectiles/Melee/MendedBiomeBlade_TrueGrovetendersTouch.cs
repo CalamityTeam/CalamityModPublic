@@ -158,8 +158,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization. create control points & shit)
             {
-                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
-                Reach = MathHelper.Clamp((Owner.Center - Main.MouseWorld).Length(), MinReach, MaxReach);
+                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                Reach = MathHelper.Clamp((Owner.Center - Owner.Calamity().mouseWorld).Length(), MinReach, MaxReach);
                 Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
                 controlPoint1 = projectile.Center;
                 controlPoint2 = projectile.Center;
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //MessWithTiles(); 
 
-            Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+            Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Owner.Calamity().mouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
         }
         public void HookToTile()
         {

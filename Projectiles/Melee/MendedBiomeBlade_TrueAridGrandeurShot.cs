@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)(30f + ShredRatio * 30f);
                 initialized = true;
 
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 

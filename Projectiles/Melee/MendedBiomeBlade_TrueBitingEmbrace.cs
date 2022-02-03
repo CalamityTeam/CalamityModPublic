@@ -129,9 +129,7 @@ namespace CalamityMod.Projectiles.Melee
                         break;
                 }
 
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
-                //The direction to mouseworld may need to be turned into the custom synced player mouse variables . not on the branch currently tho
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 
