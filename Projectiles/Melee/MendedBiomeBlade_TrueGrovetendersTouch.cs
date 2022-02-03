@@ -27,12 +27,14 @@ namespace CalamityMod.Projectiles.Melee
         public float Timer => MaxTime - projectile.timeLeft;
         public ref float HasSnapped => ref projectile.ai[0];
         public ref float SnapCoyoteTime => ref projectile.ai[1];
+        public ref float Reach => ref projectile.localAI[0];
 
         public float flipped;
 
         const float MaxTime = 90;
         const int coyoteTimeFrames = 15; //How many frames does the whip stay extended 
         const int MaxReach = 400;
+        const int MinReach = 300;
         const float SnappingPoint = 0.55f; //When does the snap occur.
         const float ReelBackStrenght = 14f;
 
@@ -157,6 +159,7 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization. create control points & shit)
             {
                 projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+                Reach = MathHelper.Clamp((Owner.Center - Main.MouseWorld).Length(), MinReach, MaxReach);
                 Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
                 controlPoint1 = projectile.Center;
                 controlPoint2 = projectile.Center;
@@ -222,7 +225,7 @@ namespace CalamityMod.Projectiles.Melee
             //Whip windup and snap part
             if (!ReelingBack)
             {
-                float distance = MaxReach * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.PiOver2), 1, 0.04f); //half arc
+                float distance = Reach * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.PiOver2), 1, 0.04f); //half arc
                 distance = Math.Max(distance, 65); //Dont be too close to player
 
                 float angleDeviation = MathHelper.Pi / 1.2f;
@@ -233,7 +236,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                float distance = MathHelper.Lerp(MaxReach, 0f, progress); //Quickly zip back to the player . No angles or minimum distance from player.
+                float distance = MathHelper.Lerp(Reach, 0f, progress); //Quickly zip back to the player . No angles or minimum distance from player.
                 return projectile.velocity * distance;
             }
         }
@@ -318,11 +321,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(initialized);
+            writer.Write(Reach);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             initialized = reader.ReadBoolean();
+            Reach = reader.ReadSingle();
         }
     }
 }
