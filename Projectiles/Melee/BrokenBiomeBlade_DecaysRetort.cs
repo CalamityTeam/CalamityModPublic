@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 CanBounce = 1f;
                 projectile.timeLeft = (int)MaxTime;
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
                 if (CanLunge == 1f)
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = direction.ToRotation();
             if (Owner.direction != 1)
             {
-                Owner.itemRotation -= 3.14f;
+                Owner.itemRotation -= MathHelper.Pi;
             }
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
         }

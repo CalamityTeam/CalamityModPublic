@@ -244,6 +244,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
+            player.Calamity().mouseWorldListener = true;
 
             if (player.velocity.Y == 0) //reset the amount of lunges on ground contact
             {

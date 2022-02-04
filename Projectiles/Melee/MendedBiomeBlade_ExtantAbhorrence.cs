@@ -95,8 +95,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
 
                         var dashSound = Main.PlaySound(SoundID.Item120, projectile.Center);
-                        if (dashSound != null)
-                            dashSound.Volume *= 0.5f;
+                        CalamityUtils.SafeVolumeChange(ref dashSound, 0.5f);
                         State = 1f;
                         projectile.timeLeft = (7 + (int)((Charge / MaxCharge - 0.25f) * 20)) * 2; //Keep that even, if its an odd number itll fuck off and wont reset the players velocity on death
                         dashDuration = projectile.timeLeft;
@@ -109,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == 0f)
             {
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 projectile.Center = Owner.Center + (direction * 70f * ChargeDisplacement());
 
@@ -187,8 +186,7 @@ namespace CalamityMod.Projectiles.Melee
         public void SlamDown()
         {
             var slamSound = Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
-            if (slamSound != null)
-                slamSound.Volume *= 1.5f;
+            CalamityUtils.SafeVolumeChange(ref slamSound, 1.5f);
 
             if (Owner.whoAmI != Main.myPlayer || Owner.velocity.Y == 0f)
                 return;

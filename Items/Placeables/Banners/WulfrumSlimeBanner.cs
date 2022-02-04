@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Slime");
+            Tooltip.SetDefault("A purely decorative banner themed after an extinct slime species");
         }
 
         public override void SetDefaults()

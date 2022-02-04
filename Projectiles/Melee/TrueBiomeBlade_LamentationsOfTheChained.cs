@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
 
-            projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+            projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
             projectile.velocity.Normalize();
             projectile.rotation = projectile.velocity.ToRotation();
             projectile.Center = Owner.Center + (projectile.velocity * 60);

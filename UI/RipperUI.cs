@@ -165,7 +165,7 @@ namespace CalamityMod.UI
             
             // Draw pearls at appropriate positions.
             for (int i = 0; i < pearls.Count; ++i)
-                spriteBatch.Draw(pearls[i], rageDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(pearls[i], rageDrawPos + shakeOffset + offsets[i] * uiScale, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
@@ -231,7 +231,7 @@ namespace CalamityMod.UI
 
             // Draw pearls at appropriate positions.
             for (int i = 0; i < pearls.Count; ++i)
-                spriteBatch.Draw(pearls[i], adrenDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(pearls[i], adrenDrawPos + shakeOffset + offsets[i] * uiScale, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)

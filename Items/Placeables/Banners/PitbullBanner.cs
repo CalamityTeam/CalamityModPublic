@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Pitbull");
+            DisplayName.SetDefault("Rotdog Banner");
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Rotdog");
         }
 
         public override void SetDefaults()
