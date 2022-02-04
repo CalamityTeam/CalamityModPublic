@@ -10,6 +10,7 @@ using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,13 +20,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
         public override bool CloneNewInstances => true;
 
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" + 
+                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
+                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out\n";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Ancients");
-            Tooltip.SetDefault("Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out\n" +
+            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "A heavenly blade forged to vanquish all evil");
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            tooltip.text = $"[ c/9999ff:" + ParryTooltip + "]";
         }
 
         public override void SetDefaults()
