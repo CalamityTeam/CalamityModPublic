@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     ++screamTimer;
 
-					int screamLimit = CalamityWorld.death ? 150 : 300;
+					int screamLimit = CalamityWorld.death ? 120 : 180;
                     if (screamTimer >= screamLimit)
                     {
                         if (screamTimer == screamLimit)
@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.Abyss
                 npc.frameCounter = 0.0;
                 npc.frame.Y = npc.frame.Y + frameHeight;
             }
-            if (screamTimer <= 300)
+            if (screamTimer <= (CalamityWorld.death ? 120 : 180))
             {
                 if (npc.frame.Y > frameHeight * 5)
                 {
