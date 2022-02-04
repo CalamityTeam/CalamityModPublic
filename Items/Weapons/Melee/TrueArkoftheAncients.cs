@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 160 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw stronger projectiles\n" +
-                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy\n";
+                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy";
 
         public override void SetStaticDefaults()
         {
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            tooltip.text = $"[ c/9999ff:" + ParryTooltip + "]";
+            tooltip.text = ParryTooltip;
+            tooltip.overrideColor = Color.CornflowerBlue;
         }
 
         public override void SetDefaults()

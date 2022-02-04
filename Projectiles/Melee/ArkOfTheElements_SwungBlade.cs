@@ -288,7 +288,7 @@ namespace CalamityMod.Projectiles.Melee
                     Texture2D thrownSword = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
                     Texture2D thrownGlowmask = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
 
-                    Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.1f, 0f, 1f));
+                    Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.2f, 0f, 1f));
                     Vector2 drawOrigin2 = new Vector2(22, 99); //Right on the hole
                     float drawRotation2 = direction.ToRotation() + MathHelper.PiOver2;
 
