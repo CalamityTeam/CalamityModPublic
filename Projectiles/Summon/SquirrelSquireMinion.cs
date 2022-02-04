@@ -17,6 +17,21 @@ namespace CalamityMod.Projectiles.Summon
             get => projectile.localAI[1] == 1f;
             set => projectile.localAI[1] = value.ToInt();
         }
+        public bool OnSolidGround
+        {
+            get
+            {
+                bool groundSolid = false;
+                for (int i = (int)projectile.Left.X / 16 - 1; i < (int)projectile.Right.X / 16 + 1; i++)
+                {
+                    bool bottomTileSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16).IsTileSolidGround();
+                    bool firstTileDownSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16 + 1).IsTileSolidGround();
+                    bool secondTileDownSolid = CalamityUtils.ParanoidTileRetrieval(i, (int)projectile.Bottom.Y / 16 + 2).IsTileSolidGround();
+                    groundSolid |= bottomTileSolid || firstTileDownSolid || secondTileDownSolid;
+                }
+                return groundSolid;
+            }
+        }
         public Player Owner => Main.player[projectile.owner];
 
         public override void SetStaticDefaults()
@@ -24,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Squirrel Squire");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 17; //About half of these frames are now unused, but I'll still keep them here incase
+            Main.projFrames[projectile.type] = 16;
         }
 
         public override void SetDefaults()
@@ -56,21 +71,36 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = trueDamage;
             }
 
-            projectile.velocity.Y = MathHelper.Clamp(projectile.velocity.Y + 0.4f, -12f, 12f);
+            projectile.velocity.Y = MathHelper.Clamp(projectile.velocity.Y + 0.004f, -12f, 12f);
             projectile.frameCounter++;
 
             Attacking = false;
             NPC potentialTarget = projectile.Center.MinionHoming(800f, Owner, false);
             if (potentialTarget is null)
             {
-                if (projectile.frameCounter > 3)
+                if (OnSolidGround)
                 {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
+                    if (projectile.frameCounter > 3)
+                    {
+                        projectile.frame++;
+                        projectile.frameCounter = 0;
+                    }
+                    if (projectile.frame > 3)
+                    {
+                        projectile.frame = 0;
+                    }
                 }
-                if (projectile.frame > 3)
+                else
                 {
-                    projectile.frame = 0;
+                    if (projectile.frameCounter > 5)
+                    {
+                        projectile.frame++;
+                        projectile.frameCounter = 0;
+                    }
+                    if (projectile.frame < 8 || projectile.frame > 11)
+                    {
+                        projectile.frame = 9;
+                    }
                 }
             }
             else
@@ -106,7 +136,13 @@ namespace CalamityMod.Projectiles.Summon
             AttackTimer++;
 
             // Pelt the target with acorns.
-            projectile.frame = 8 + (int)(AttackTimer / 6.4) % 4;
+            if (!OnSolidGround)
+                projectile.frame = 12 + (int)(AttackTimer / 6.4) % 4;
+            else
+            {
+                projectile.velocity.Y = MathHelper.Clamp(projectile.velocity.Y + 0.2f, -12f, 12f);
+                projectile.frame = 4 + (int)(AttackTimer / 6.4) % 4;
+            }
             if (Main.myPlayer == projectile.owner && AttackTimer % 30f == 27f)
             {
                 projectile.spriteDirection = (target.Center.X > projectile.Center.X).ToDirectionInt();
@@ -119,7 +155,6 @@ namespace CalamityMod.Projectiles.Summon
 
                 Projectile.NewProjectile(acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
-        projectile.velocity.Y = MathHelper.Clamp(projectile.velocity.Y + 0.4f, -12f, 12f);
         }
 
         public override bool CanDamage() => false;
