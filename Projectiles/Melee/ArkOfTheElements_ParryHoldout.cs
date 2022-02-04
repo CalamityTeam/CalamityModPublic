@@ -120,8 +120,10 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Projectile proj = Main.projectile[k];
 
-                    if (proj.active && proj.hostile && proj.damage > 1 && proj.velocity.Length() * (proj.extraUpdates + 1) > 1f
-                        && Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                    if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
+                       proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
+                       proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
+                       Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
                         ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
                         if (sword != null)
@@ -131,8 +133,8 @@ namespace CalamityMod.Projectiles.Melee
                         CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
                         //Reduce the projectile's damage by 100 for half a second.
-                        if (proj.Calamity().damageReduction < 160)
-                            proj.Calamity().damageReduction = 160;
+                        if (proj.Calamity().damageReduction < 200)
+                            proj.Calamity().damageReduction = 200;
                         if (proj.Calamity().damageReductionTimer < 60)
                             proj.Calamity().damageReductionTimer = 60;
 
