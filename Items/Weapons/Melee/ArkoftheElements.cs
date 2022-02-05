@@ -22,6 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
 
+        const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap";
+
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once\n" +
@@ -30,20 +32,26 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Elements");
-            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" + 
-                "A heavenly pair of blades infused with the essence of Terraria");
+            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "This line also gets set in ModifyTooltips\n" +
+                "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality");
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            tooltip.text = ParryTooltip;
-            tooltip.overrideColor = Color.Coral;
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            comboTooltip.text = ComboTooltip;
+            comboTooltip.overrideColor = Color.IndianRed;
+
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            parryTooltip.text = ParryTooltip;
+            parryTooltip.overrideColor = Color.Coral;
         }
 
         public override void SetDefaults()
         {
-            item.width = 84;
+            item.width = 112;
+            item.height = 172;
             item.damage = 115;
             item.melee = true;
             item.noUseGraphic = true;
@@ -55,7 +63,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8.5f;
             item.UseSound = null;
             item.autoReuse = true;
-            item.height = 84;
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
 			item.shoot = ProjectileID.PurificationPowder;
@@ -172,6 +179,29 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
 
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
+            Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
+
+            float backLayerOpacity = (Charge > 0) ? 1f : (float)Math.Sin(Main.GlobalTime * 0.9f) * 0.2f + 0.3f;
+
+            spriteBatch.Draw(backTexture, position, null, drawColor * backLayerOpacity, 0f, origin, scale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
+            spriteBatch.Draw(frontTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
+
+            return false;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
+            Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
+
+            spriteBatch.Draw(backTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(frontTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Charge <= 0)
@@ -180,12 +210,14 @@ namespace CalamityMod.Items.Weapons.Melee
             var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
             var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
 
-            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width) * scale * 0.5f;
+            float barScale = 3.5f;
+
+            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
             Color color = Main.hslToRgb(((float)Math.Sin(Main.GlobalTime * 0.6f) * 0.5f + 0.5f) * 0.15f, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
 
-            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale, 0f, 0f);
-            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale, 0f, 0f);
+            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
     }
 }

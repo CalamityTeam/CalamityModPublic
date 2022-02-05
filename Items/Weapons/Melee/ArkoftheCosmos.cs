@@ -8,17 +8,39 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ArkoftheCosmos : ModItem
     {
+
+        const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap";
+
+        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
+                "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
+                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once\n" +
+                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy";
+
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Cosmos");
-            Tooltip.SetDefault("Fires different homing projectiles based on what biome you're in\n" +
-                "Upon hitting an enemy you are granted a buff based on what biome you're in\n" +
-                "Projectiles also change based on moon events");
+            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "This line also gets set in ModifyTooltips\n" +
+                "The physical culmination of your journey, capable to rend gods asunder");
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            comboTooltip.text = ComboTooltip;
+            comboTooltip.overrideColor = Color.LightCoral;
+
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            parryTooltip.text = ParryTooltip;
+            parryTooltip.overrideColor = Color.Coral;
         }
 
         public override void SetDefaults()

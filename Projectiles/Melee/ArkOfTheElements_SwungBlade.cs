@@ -67,8 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 
         const float SnapWindowStart = 0.4f;
         const float SnapWindowEnd = 0.6f;
-        public float SnapEndTime => (MaxThrowTime - (MaxThrowTime * SnapWindowEnd)) /2f;
+        public float SnapEndTime => (MaxThrowTime - (MaxThrowTime * SnapWindowEnd));
         public float SnapEndCompletion => (SnapEndTime - projectile.timeLeft) / SnapEndTime;
+        public ref float ChanceMissed => ref projectile.localAI[1];
 
         #endregion
 
@@ -168,20 +169,37 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
+                Vector2 sparklePosition = projectile.Center + projectile.rotation.ToRotationVector2() * 90 * projectile.scale + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 20 * projectile.scale;
+                Particle sparkle = new CritSpark(sparklePosition, projectile.rotation.ToRotationVector2() * 7f, Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f, Main.rand.NextFloat(0f, 0.01f));
+                GeneralParticleHandler.SpawnParticle(sparkle);
+
+                if (Math.Abs(ThrowCompletion - SnapWindowStart) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
+                {
+                    Particle pulse = new PulseRing(projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    Main.PlaySound(SoundID.Item4);
+                }
+
                 projectile.Center = Owner.Center + direction * ThrowRatio() * ThrowReach;
                 projectile.rotation -= MathHelper.PiOver4 * 0.3f;
                 projectile.scale = 1f + ThrowScaleRatio() * 0.5f;
 
 
                 //Snip
-                if (!OwnerCanShoot && Combo == 2 && ThrowCompletion >= SnapWindowStart && ThrowCompletion < SnapWindowEnd)
+                if (!OwnerCanShoot && Combo == 2 && ThrowCompletion >= SnapWindowStart && ThrowCompletion < SnapWindowEnd && ChanceMissed == 0f)
                 {
+                    Particle snapSpark = new GenericSparkle(projectile.Center, Owner.velocity - Utils.SafeNormalize(projectile.velocity, Vector2.Zero), Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f);
+                    GeneralParticleHandler.SpawnParticle(snapSpark);
+
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
                     Combo = 3f; //Mark the end of the regular throw
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
                 }
+
+                else if (!OwnerCanShoot && Combo == 2 && ChanceMissed == 0f)
+                    ChanceMissed = 1f;
 
                 if (Combo == 3f)
                 {
@@ -194,7 +212,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     float extraRotations = (direction.ToRotation() + MathHelper.PiOver4 > projectile.velocity.ToRotation()) ? -MathHelper.TwoPi : 0f;
 
-                    projectile.rotation = MathHelper.Lerp(projectile.velocity.ToRotation(), direction.ToRotation() + MathHelper.PiOver4 * 0.4f + extraRotations, orientateProperly);
+                    projectile.rotation = MathHelper.Lerp(projectile.velocity.ToRotation(), direction.ToRotation() + MathHelper.PiOver4 * 0.2f + extraRotations, orientateProperly);
 
                 }
             }
@@ -215,12 +233,15 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Combo == 3f)
             {
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
+                    Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+
                 Main.PlaySound(SoundID.Item84, projectile.Center);
 
-                Vector2 sliceDirection = direction.RotatedBy(MathHelper.ToRadians(5)) * 140;
-                Particle SliceLine = new LineVFX(projectile.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.LightCoral * 0.7f)
+                Vector2 sliceDirection = direction * 40;
+                Particle SliceLine = new LineVFX(projectile.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.Orange * 0.7f, expansion : 250f)
                 {
-                    Lifetime = 6
+                    Lifetime = 10
                 };
                 GeneralParticleHandler.SpawnParticle(SliceLine);
 
@@ -249,7 +270,6 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (int i = 0; i < projectile.oldRot.Length; ++i)
                     {
-                        //Color color = projectile.GetAlpha(lightColor) * (1f - (i / (float)projectile.oldRot.Length));
                         Color color = Main.hslToRgb((i / (float)projectile.oldRot.Length) * 0.1f, 1, 0.6f + (Charge > 0 ? 0.3f : 0f));
                         float afterimageRotation = projectile.oldRot[i] + angleShift + extraAngle;
                         Main.spriteBatch.Draw(glowmask, drawOffset, null, color * 0.15f, afterimageRotation, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
@@ -268,7 +288,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     float opacity = (float)Math.Sin(SwingCompletion * MathHelper.Pi);
                     float rotation = (-MathHelper.PiOver4 * 0.5f + MathHelper.PiOver4 * 0.5f * SwingCompletion + (Combo == 1f ? MathHelper.PiOver4 : 0)) * SwingDirection;
-                    Color smearColor = Main.hslToRgb(((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f)) * 0.15f, 1, 0.6f);
+                    Color smearColor = Main.hslToRgb(((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f)) * 0.15f + ((Combo == 1f) ? 0.85f : 0f), 1, 0.6f);
 
                     spriteBatch.Draw(smear, Owner.Center - Main.screenPosition, null, smearColor * 0.5f * opacity, projectile.velocity.ToRotation() + MathHelper.Pi + rotation, smear.Size() / 2f, projectile.scale * 2.3f, SpriteEffects.None, 0);
 
@@ -288,8 +308,8 @@ namespace CalamityMod.Projectiles.Melee
                     Texture2D thrownSword = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
                     Texture2D thrownGlowmask = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
 
-                    Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.2f, 0f, 1f));
-                    Vector2 drawOrigin2 = new Vector2(22, 99); //Right on the hole
+                    Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
+                    Vector2 drawOrigin2 = new Vector2(22, 109); //Right on the hole
                     float drawRotation2 = direction.ToRotation() + MathHelper.PiOver2;
 
                     spriteBatch.Draw(thrownSword, drawPos2 - Main.screenPosition, null, lightColor, drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
@@ -303,6 +323,20 @@ namespace CalamityMod.Projectiles.Melee
 
                 spriteBatch.Draw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
                 spriteBatch.Draw(glowmask, drawPos - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+
+                Texture2D smear = GetTexture("CalamityMod/Particles/TrientCircularSmear");
+
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+                float opacity = Combo == 3f ? (float)Math.Sin(SnapEndCompletion * MathHelper.PiOver2 + MathHelper.PiOver2) : (float)Math.Sin(ThrowCompletion * MathHelper.Pi);
+                float rotation = drawRotation + MathHelper.PiOver2 * 1.5f;
+                Color smearColor = Main.hslToRgb(((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f)) * 0.15f, 1, 0.6f);
+
+                spriteBatch.Draw(smear, projectile.Center - Main.screenPosition, null, smearColor * 0.5f * opacity, rotation, smear.Size() / 2f, projectile.scale * 1.4f, SpriteEffects.None, 0);
+
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
 
 
@@ -313,11 +347,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             writer.Write(initialized);
             writer.WriteVector2(direction);
+            writer.Write(ChanceMissed);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             initialized = reader.ReadBoolean();
             direction = reader.ReadVector2();
+            ChanceMissed = reader.ReadSingle();
         }
     }
 }
