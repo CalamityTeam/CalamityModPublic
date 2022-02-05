@@ -328,7 +328,7 @@ namespace CalamityMod
 		{
 			string[][] _configLabels = new[]
 			{
-				new [] { "Afterimages", instance.ItemType("LaboratoryScreenItem").ToString(), "Afterimages" },
+				new [] { "Afterimages", ItemID.SteampunkGoggles.ToString(), "Afterimages" },
 				new [] { "MaxParticles", ItemID.FragmentStardust.ToString(), "Maximum particles" },
 				new [] { "ScreenshakeOff", instance.ItemType("WavePounder").ToString(), "Disable Screenshakes" },
 				new [] { "StealthInvisibility", instance.ItemType("StealthHairDye").ToString(), "Stealth Invisibility" },
@@ -336,20 +336,20 @@ namespace CalamityMod
 
 				new [] { "BossHealthBar", instance.ItemType("BloodOrange").ToString(), "Boss Health Bars" },
 				new [] { "BossHealthBarExtra", instance.ItemType("EncryptedSchematicPlanetoid").ToString(), "Boss Health Bar Extra Info" },
-				new [] { "DebuffDisplay", instance.ItemType("EncryptedSchematicPlanetoid").ToString(), "Boss and Miniboss Debuff Display" },
+				new [] { "DebuffDisplay", ItemID.FlaskofIchor.ToString(), "Boss and Miniboss Debuff Display" },
 				new [] { "MeterLock", ItemID.GemLockTopaz.ToString(), "Lock Meter Positions" },
 
 				new [] { "StealthMeter", instance.ItemType("EclipseMirror").ToString(), "Stealth Meter" },
-				new [] { "StealthMeterX", instance.ItemType("EclipseMirror").ToString(), "Stealth Meter X Position" },
-				new [] { "StealthMeterY", instance.ItemType("EclipseMirror").ToString(), "Stealth Meter Y Position" },
+				new [] { "StealthMeterX", ItemID.LaserRuler.ToString(), "Stealth Meter X Position" },
+				new [] { "StealthMeterY", ItemID.LaserRuler.ToString(), "Stealth Meter Y Position" },
 
 				new [] { "ChargeMeter", instance.ItemType("PowerCell").ToString(), "Charge Meter" },
-				new [] { "ChargeMeterX", instance.ItemType("PowerCell").ToString(), "Charge Meter X Position" },
-				new [] { "ChargeMeterY", instance.ItemType("PowerCell").ToString(), "Charge Meter Y Position" },
+				new [] { "ChargeMeterX", ItemID.LaserRuler.ToString(), "Charge Meter X Position" },
+				new [] { "ChargeMeterY", ItemID.LaserRuler.ToString(), "Charge Meter Y Position" },
 
-				new [] { "SpeedrunTimer", ItemID.GoldWatch.ToString(), "Speedrun Timer" },
-				new [] { "SpeedrunTimerX", ItemID.GoldWatch.ToString(), "Speedrun Timer X Position" },
-				new [] { "SpeedrunTimerY", ItemID.GoldWatch.ToString(), "Speedrun Timer Y Position" },
+				new [] { "SpeedrunTimer", ItemID.Stopwatch.ToString(), "Speedrun Timer" },
+				new [] { "SpeedrunTimerX", ItemID.LaserRuler.ToString(), "Speedrun Timer X Position" },
+				new [] { "SpeedrunTimerY", ItemID.LaserRuler.ToString(), "Speedrun Timer Y Position" },
 
 				new [] { "EarlyHMRework", ItemID.Pwnhammer.ToString(), "Early Hardmode Progression Rework" },
 				new [] { "LethalLava", ItemID.LavaCharm.ToString(), "Lethal Lava" },
@@ -363,17 +363,17 @@ namespace CalamityMod
 				new [] { "ChillWaterRework", ItemID.ArcticDivingGear.ToString(), "Rework Chilled Water" },
 				new [] { "ExpertSafeTowns", ItemID.Sunflower.ToString(), "Disable Expert Enemy Spawns in Towns" },
 				new [] { "RipperBarShake", instance.ItemType("Revenge").ToString(), "Rage and Adrenaline Meter Shake" },
-				new [] { "RageX", instance.ItemType("RedLightningContainer").ToString(), "Rage Meter X Position" },
-				new [] { "RageY", instance.ItemType("RedLightningContainer").ToString(), "Rage Meter Y Position" },
-				new [] { "AdrenalineX", instance.ItemType("StarlightFuelCell").ToString(), "Adrenaline Meter X Position" },
-				new [] { "AdrenalineY", instance.ItemType("StarlightFuelCell").ToString(), "Adrenaline Meter Y Position" },
+				new [] { "RageX", ItemID.LaserRuler.ToString(), "Rage Meter X Position" },
+				new [] { "RageY", ItemID.LaserRuler.ToString(), "Rage Meter Y Position" },
+				new [] { "AdrenalineX", ItemID.LaserRuler.ToString(), "Adrenaline Meter X Position" },
+				new [] { "AdrenalineY", ItemID.LaserRuler.ToString(), "Adrenaline Meter Y Position" },
 
 				new [] { "WeatherHazardDelay", ItemID.NimbusRod.ToString(), "Weather Hazard Delay Multiplier" },
 
-				new [] { "BRCurseAccessory", instance.ItemType("BossRush").ToString(), "Accessory Curse" },
-				new [] { "BRCurseHealth", instance.ItemType("BossRush").ToString(), "Health Curse" },
-				new [] { "BRCurseDash", instance.ItemType("BossRush").ToString(), "Dash Curse" },
-				new [] { "BRCurseImmunity", instance.ItemType("BossRush").ToString(), "Immunity Frame Curse" }
+				new [] { "BRCurseAccessory", ItemID.Shackle.ToString(), "Accessory Curse" },
+				new [] { "BRCurseHealth", ItemID.Shackle.ToString(), "Health Curse" },
+				new [] { "BRCurseDash", ItemID.Shackle.ToString(), "Dash Curse" },
+				new [] { "BRCurseImmunity", ItemID.Shackle.ToString(), "Immunity Frame Curse" }
 			};
 
 			foreach (string[] label in _configLabels)
