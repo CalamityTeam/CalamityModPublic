@@ -223,8 +223,8 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-
             CalamityLocalization.AddLocalizations();
+            CalamityConfig.LoadConfigLabels(ModContent.GetInstance<CalamityMod>());
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();

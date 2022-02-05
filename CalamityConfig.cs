@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace CalamityMod
@@ -24,13 +26,13 @@ namespace CalamityMod
 
 		[Header("Graphics Changes")]
 
-		[Label("Afterimages")]
+		[Label("$Mods.CalamityMod.Afterimages")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
 		public bool Afterimages { get; set; }
 
-		[Label("Maximum particles")]
+		[Label("$Mods.CalamityMod.MaxParticles")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[SliderColor(224, 165, 56, 128)]
 		[Range(0, 1000)]
@@ -38,19 +40,19 @@ namespace CalamityMod
 		[Tooltip("Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.")]
 		public int ParticleLimit { get; set; }
 
-		[Label("Disable Screenshakes")]
+		[Label("$Mods.CalamityMod.ScreenshakeOff")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
 		[Tooltip("Disables all screen-shaking effects.")]
 		public bool DisableScreenShakes { get; set; }
 
-		[Label("Stealth Invisibility")]
+		[Label("$Mods.CalamityMod.StealthInvisibility")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Enables players gradually turning invisible as their Rogue Stealth increases.\nThis effect is visually similar to Shroomite armor's stealth.")]
 		public bool StealthInvisbility { get; set; }
 
-		[Label("New Shop Inventory Alert")]
+		[Label("$Mods.CalamityMod.ShopAlert")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Adds an icon that appears over Town NPCs when they have new items in their shops.")]
@@ -318,5 +320,27 @@ namespace CalamityMod
 		public bool BossRushImmunityFrameCurse { get; set; }
 
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
+
+
+
+
+		public static void LoadConfigLabels(Mod instance)
+		{
+			string[][] _configLabels = new[]
+			{
+				new [] { "Afterimages", instance.ItemType("LaboratoryScreenItem").ToString(), "Afterimages" },
+				new [] { "MaxParticles", ItemID.FragmentStardust.ToString(), "Maximum particles" },
+				new [] { "ScreenshakeOff", instance.ItemType("WavePounder").ToString(), "Disable Screenshakes" },
+				new [] { "StealthInvisibility", instance.ItemType("StealthHairDye").ToString(), "Stealth Invisibility" },
+				new [] { "ShopAlert", ItemID.GoldChest.ToString(), "New Shop Inventory Alert" }
+			};
+
+			foreach (string[] label in _configLabels)
+            {
+				ModTranslation text = instance.CreateTranslation(label[0]);
+				text.SetDefault($"[i:" + label[1] + "]  "+ label[2]);
+				instance.AddTranslation(text);
+			}
+		}
 	}
 }
