@@ -362,7 +362,7 @@ namespace CalamityMod
 				new [] { "ExpertDebuffReduction", ItemID.AnkhCharm.ToString(), "Reduce Expert Debuff Durations" },
 				new [] { "ChillWaterRework", ItemID.ArcticDivingGear.ToString(), "Rework Chilled Water" },
 				new [] { "ExpertSafeTowns", ItemID.Sunflower.ToString(), "Disable Expert Enemy Spawns in Towns" },
-				new [] { "RipperBarShake", instance.ItemType("Revengeance").ToString(), "Rage and Adrenaline Meter Shake" },
+				new [] { "RipperBarShake", instance.ItemType("Revenge").ToString(), "Rage and Adrenaline Meter Shake" },
 				new [] { "RageX", instance.ItemType("RedLightningContainer").ToString(), "Rage Meter X Position" },
 				new [] { "RageY", instance.ItemType("RedLightningContainer").ToString(), "Rage Meter Y Position" },
 				new [] { "AdrenalineX", instance.ItemType("StarlightFuelCell").ToString(), "Adrenaline Meter X Position" },
