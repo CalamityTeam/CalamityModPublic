@@ -257,13 +257,6 @@ namespace CalamityMod
                     //
                     // Death Mode environmental syncs
                     //
-
-                    case CalamityModMessageType.DeathModeUnderworldTimeSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleDeathModeUnderworldTime(reader);
-                        break;
-                    case CalamityModMessageType.DeathModeBlizzardTimeSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
-                        break;
                     case CalamityModMessageType.DeathBossSpawnCountdownSync:
                         int countdown4 = reader.ReadInt32();
                         CalamityWorld.deathBossSpawnCooldown = countdown4;

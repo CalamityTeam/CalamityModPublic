@@ -14,8 +14,6 @@ namespace CalamityMod.CalPlayer
         {
             SyncRage(false);
             SyncAdrenaline(false);
-            SyncDeathModeUnderworldTime(false);
-            SyncDeathModeBlizzardTime(false);
             SyncMoveSpeed(false);
             SyncDefenseDamage(false);
             SyncDodgeCooldown(false);
@@ -169,24 +167,6 @@ namespace CalamityMod.CalPlayer
             player.SendPacket(packet, server);
         }
 
-        public void SyncDeathModeUnderworldTime(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DeathModeUnderworldTimeSync);
-            packet.Write(player.whoAmI);
-            packet.Write(deathModeUnderworldTime);
-            player.SendPacket(packet, server);
-        }
-
-        public void SyncDeathModeBlizzardTime(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DeathModeBlizzardTimeSync);
-            packet.Write(player.whoAmI);
-            packet.Write(deathModeBlizzardTime);
-            player.SendPacket(packet, server);
-        }
-
         public void SyncItemTypeLastReforged(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
@@ -294,20 +274,6 @@ namespace CalamityMod.CalPlayer
             deathCount = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDeathCount(true);
-        }
-
-        internal void HandleDeathModeUnderworldTime(BinaryReader reader)
-        {
-            deathModeUnderworldTime = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncDeathModeUnderworldTime(true);
-        }
-
-        internal void HandleDeathModeBlizzardTime(BinaryReader reader)
-        {
-            deathModeBlizzardTime = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncDeathModeBlizzardTime(true);
         }
 
         internal void HandleItemTypeLastReforged(BinaryReader reader)
