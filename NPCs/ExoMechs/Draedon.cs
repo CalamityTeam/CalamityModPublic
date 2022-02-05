@@ -240,9 +240,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (Main.netMode != NetmodeID.Server)
                 {
                     var sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound"), PlayerToFollow.Center);
-
-                    if (sound != null)
-                        sound.Volume = MathHelper.Clamp(sound.Volume * 1.55f, 0f, 1f);
+                    CalamityUtils.SafeVolumeChange(ref sound, 1.55f);
                 }
             }
 

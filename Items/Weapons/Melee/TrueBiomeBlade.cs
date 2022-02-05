@@ -27,7 +27,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #region stats
         public static int DefaultAttunement_BaseDamage = 160;
-        public static int DefaultAttunement_SigilTime = 600;
+        public static int DefaultAttunement_SigilTime = 1200;
+        public static int DefaultAttunement_BeamTime = 60;
+        public static float DefaultAttunement_HomingAngle = MathHelper.PiOver4;
 
         public static int EvilAttunement_BaseDamage = 320;
         public static int EvilAttunement_Lifesteal = 4;
@@ -244,6 +246,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
+            player.Calamity().mouseWorldListener = true;
 
             if (player.velocity.Y == 0) //reset the amount of lunges on ground contact
             {

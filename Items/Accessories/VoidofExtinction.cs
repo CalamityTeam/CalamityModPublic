@@ -35,21 +35,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
 
         public override void AddRecipes()

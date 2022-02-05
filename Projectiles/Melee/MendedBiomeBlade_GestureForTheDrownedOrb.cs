@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Melee
     public class GestureForTheDrownedOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned";
-        Vector2 direction = Vector2.Zero;
         public Player Owner => Main.player[projectile.owner];
         public ref float HasLanded => ref projectile.ai[0]; //Is the orb in the air or is it on the ground?
         public ref float TimeSinceLanding => ref projectile.ai[1]; //How long has it been on the ground for

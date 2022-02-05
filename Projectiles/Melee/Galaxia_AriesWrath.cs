@@ -149,8 +149,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.Center = Owner.Center;
                 var scream = Main.PlaySound(SoundID.Item120, projectile.Center);
-                if (scream != null)
-                    scream.Volume *= 0.5f;
+                SafeVolumeChange(ref scream, 0.5f);
 
                 if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                     Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -159,8 +158,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale = 1f + ScaleEquation();
             projectile.timeLeft = 2;
 
-            projectile.Center = Vector2.Lerp(projectile.Center, Main.MouseWorld, 0.05f * ThrowDisplace());
-            projectile.Center = projectile.Center.MoveTowards(Main.MouseWorld, 40f * ThrowDisplace());
+            projectile.Center = Vector2.Lerp(projectile.Center, Owner.Calamity().mouseWorld, 0.05f * ThrowDisplace());
+            projectile.Center = projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 40f * ThrowDisplace());
 
             if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.AriesAttunement_Reach)
                 projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.AriesAttunement_Reach;

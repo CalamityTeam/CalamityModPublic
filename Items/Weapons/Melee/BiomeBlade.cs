@@ -218,6 +218,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
 
             player.Calamity().rightClickListener = true;
+            player.Calamity().mouseWorldListener = true;
 
             if (player.velocity.Y == 0) //Reset the lunge ability on ground contact
                 CanLunge = 1;

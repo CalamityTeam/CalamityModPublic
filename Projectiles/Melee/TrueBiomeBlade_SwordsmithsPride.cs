@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 projectile.velocity = Vector2.Zero;
-                direction = Owner.DirectionTo(Main.MouseWorld);
+                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 direction.Normalize();
                 initialized = true;
             }
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     CurrentState = 1f;
                     Main.PlaySound(SoundID.Item80, projectile.Center);
-                    direction = Owner.DirectionTo(Main.MouseWorld);
+                    direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                     //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES 
                     for (int i = 0; i <= 8; i++)
                     {
@@ -179,13 +179,13 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (sightLine == null)
                     {
-                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Main.MouseWorld), 0.2f, Color.HotPink, false);
+                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Owner.Calamity().mouseWorld), 0.2f, Color.HotPink, false);
                         GeneralParticleHandler.SpawnParticle(sightLine);
                     }
                     else
                     {
-                        sightLine.Position = Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 40;
-                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 38f;
+                        sightLine.Position = Owner.Center + Owner.DirectionTo(Owner.Calamity().mouseWorld) * projectile.scale * 1.88f * 40;
+                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Owner.Calamity().mouseWorld) * projectile.scale * 1.88f * 38f;
                         sightLine.Scale = 0.2f;
                         sightLine.Time = 0;
                         sightLine.Color = currentColor * 0.7f;

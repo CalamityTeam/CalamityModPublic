@@ -20,8 +20,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Reaver Headgear");
             Tooltip.SetDefault("10% increased pick speed and 20% increased block/wall placement speed\n" +
-                "Temporary immunity to lava and can move freely through liquids\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava and can move freely through liquids");
         }
 
         public override void SetDefaults()
@@ -31,20 +30,6 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = ItemRarityID.Lime;
             item.defense = 7; //40
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (!CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
-					{
-						line2.text = "";
-					}
-				}
-			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

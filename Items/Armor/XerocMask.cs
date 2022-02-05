@@ -28,21 +28,6 @@ namespace CalamityMod.Items.Armor
             item.defense = 20; //71
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
-					{
-						line2.text = "Temporary immunity to lava\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<XerocPlateMail>() && legs.type == ModContent.ItemType<XerocCuisses>();

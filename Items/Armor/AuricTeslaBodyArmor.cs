@@ -30,21 +30,6 @@ namespace CalamityMod.Items.Armor
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            if (CalamityWorld.death)
-            {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
-                    {
-                        line2.text = "You will freeze enemies near you when you are struck\n" +
-                        "Provides heat and cold protection in Death Mode";
-                    }
-                }
-            }
-        }
-
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();

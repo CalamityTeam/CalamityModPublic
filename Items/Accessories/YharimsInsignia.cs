@@ -31,21 +31,6 @@ namespace CalamityMod.Items.Accessories
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
-					{
-						line2.text = "Increased melee knockback\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             aiType = ProjectileID.LightBeam;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 40;
+            projectile.timeLeft = TrueBiomeBlade.DefaultAttunement_BeamTime;
             projectile.extraUpdates = 1;
             projectile.melee = true;
             projectile.tileCollide = false;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < MathHelper.PiOver4 * 0.5f) //Home in
+            else if ((projectile.Center - target.Center).Length() >= (projectile.Center + projectile.velocity - target.Center).Length() && CalamityUtils.AngleBetween(projectile.velocity, target.Center - projectile.Center) < TrueBiomeBlade.DefaultAttunement_HomingAngle) //Home in
             {
                 projectile.timeLeft = 30; //Remain alive
                 float angularTurnSpeed = MathHelper.ToRadians(MathHelper.Lerp(12.5f, 2.5f, MathHelper.Clamp(projectile.Distance(target.Center) / 10f, 0f, 1f)));
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity = updatedDirection.ToRotationVector2() * projectile.velocity.Length();
             }
 
-            if (projectile.timeLeft < 35)
+            if (projectile.timeLeft < TrueBiomeBlade.DefaultAttunement_BeamTime - 5f)
                 projectile.tileCollide = true;
 
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 35)
+            if (projectile.timeLeft > TrueBiomeBlade.DefaultAttunement_BeamTime - 5f)
                 return false;
 
             DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);

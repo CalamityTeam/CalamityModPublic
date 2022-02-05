@@ -41,21 +41,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = ItemRarityID.Pink;
 		}
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            if (CalamityWorld.death)
-            {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-                    {
-                        line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
-						"On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding";
-                    }
-                }
-            }
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float totalMinionSlots = 0f;

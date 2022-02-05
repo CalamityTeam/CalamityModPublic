@@ -909,11 +909,6 @@ namespace CalamityMod.NPCs
 						chat = "I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?";
 					}
 
-					if (Main.rand.NextBool(7) && CalamityWorld.death)
-					{
-						chat = "The caverns have become increasingly dark as of late, so I stocked up on some special torches if you have the funds.";
-					}
-
 					break;
 
 				case NPCID.Mechanic:
@@ -1222,7 +1217,6 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
 				SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
 			}
 
 			if (type == NPCID.DyeTrader)

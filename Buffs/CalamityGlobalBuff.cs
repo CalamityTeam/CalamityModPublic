@@ -180,27 +180,10 @@ namespace CalamityMod.Buffs
 
                 case BuffID.Warmth:
                     tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
-					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
                     break;
 
                 case BuffID.Invisibility:
                     tip += ". Grants rogue bonuses while holding certain rogue weapons";
-                    break;
-
-                case BuffID.ObsidianSkin:
-					if (CalamityWorld.death)
-						tip += ". Provides heat protection in Death Mode";
-                    break;
-
-                case BuffID.Inferno:
-					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
-                    break;
-
-                case BuffID.Campfire:
-					if (CalamityWorld.death)
-						tip += ". Provides cold protection in Death Mode";
                     break;
 
                 case BuffID.Daybreak:

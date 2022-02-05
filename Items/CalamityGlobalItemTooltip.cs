@@ -212,9 +212,6 @@ namespace CalamityMod.Items
 
         #region Vanilla Item Tooltip Modification
 
-        public const string HeatProtectionLine = "\nProvides heat protection in Death Mode";
-        public const string BothProtectionLine = "\nProvides heat and cold protection in Death Mode";
-
         // Turns a number into a string of increased mining speed.
         public static string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
 
@@ -285,8 +282,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.WarmthPotion)
             {
                 string immunityLine = "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
-                if (CalamityWorld.death)
-                    immunityLine += "\nProvides cold protection in Death Mode";
                 EditTooltipByNum(0, (line) => line.text += immunityLine);
             }
 
@@ -306,8 +301,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.HandWarmer)
             {
                 string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
-                if (CalamityWorld.death)
-                    extraLine += "\nProvides cold protection in Death Mode";
                 EditTooltipByNum(0, (line) => line.text += extraLine);
             }
 
@@ -615,8 +608,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FireGauntlet)
             {
                 string extraLine = "\n10% increased true melee damage";
-                if (CalamityWorld.death)
-                    extraLine += "\nProvides heat and cold protection in Death Mode";
                 EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
             }
 
@@ -659,14 +650,8 @@ namespace CalamityMod.Items
                         + "Provides temporary immunity to lava burn damage\n"
                         + "Greatly increases the speed at which lava immunity recharges\n"
                         + "Reduces lava burn damage";
-                    if (CalamityWorld.death)
-                        lethalLavaReplacement += HeatProtectionLine;
                     EditTooltipByNum(0, (line) => line.text = lethalLavaReplacement);
                 }
-
-                // Otherwise, changes are only made on Death Mode, where heat immunity is mentioned.
-                else if (CalamityWorld.death)
-                    EditTooltipByNum(0, (line) => line.text += HeatProtectionLine);
             }
 
             if (item.type == ItemID.ObsidianRose)
@@ -675,21 +660,7 @@ namespace CalamityMod.Items
                 // If Lethal Lava is enabled, Obsidian Rose reduces the damage from the debuff.
                 if (CalamityConfig.Instance.LethalLava)
                     sb.Append("\nGreatly reduces lava burn damage");
-                if (CalamityWorld.death)
-                    sb.Append(HeatProtectionLine);
                 EditTooltipByNum(0, (line) => line.text += sb.ToString());
-            }
-
-            if (CalamityWorld.death)
-            {
-                if (item.type == ItemID.MagmaStone)
-                    EditTooltipByNum(0, (line) => line.text += BothProtectionLine);
-                if (item.type == ItemID.LavaCharm)
-                    EditTooltipByNum(0, (line) => line.text += HeatProtectionLine);
-                if (item.type == ItemID.LavaWaders)
-                    EditTooltipByNum(1, (line) => line.text += HeatProtectionLine);
-                if (item.type == ItemID.FrostHelmet || item.type == ItemID.FrostBreastplate || item.type == ItemID.FrostLeggings)
-                    EditTooltipByName("SetBonus", (line) => line.text += BothProtectionLine);
             }
             #endregion
 

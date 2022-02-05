@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     if (proj.active && proj.type == ProjectileType<SanguineFuryWheel>() && proj.owner == Owner.whoAmI)
                     {
-                        if (CalamityUtils.AngleBetween(Owner.Center - Main.MouseWorld, Owner.Center - proj.Center) > MathHelper.PiOver4)
+                        if (CalamityUtils.AngleBetween(Owner.Center - Owner.Calamity().mouseWorld, Owner.Center - proj.Center) > MathHelper.PiOver4)
                         {
                             proj.Kill();
                             break;
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, new Vector3(1f, 0.56f, 0.56f) * ShredRatio);
 
             //Manage position and rotation
-            direction = Owner.DirectionTo(Main.MouseWorld);
+            direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
             direction.Normalize();
             projectile.rotation = direction.ToRotation();
             projectile.Center = Owner.Center + (direction * 60);
@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (ChargeSoundCooldown <= 0)
                 {
                     var chargeSound = Main.PlaySound(SoundID.DD2_SonicBoomBladeSlash);
-                    chargeSound.Volume *= 2.5f;
+                    CalamityUtils.SafeVolumeChange(ref chargeSound, 2.5f);
                     ChargeSoundCooldown = 20;
                 }
             }

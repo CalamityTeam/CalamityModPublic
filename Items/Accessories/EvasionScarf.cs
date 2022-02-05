@@ -30,21 +30,6 @@ namespace CalamityMod.Items.Accessories
             item.Calamity().donorItem = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            if (CalamityWorld.death)
-            {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-                    {
-                        line2.text = "While on cooldown, Chaos State will be 50 percent longer\n" +
-                        "Provides cold protection in Death Mode";
-                    }
-                }
-            }
-        }
-
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
 
         public override void UpdateAccessory(Player player, bool hideVisual)

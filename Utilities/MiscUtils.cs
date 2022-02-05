@@ -187,7 +187,19 @@ namespace CalamityMod
 			(sfx.Volume, sfx.Pan) = CalculateSoundStats(soundPos, ambient);
 		}
 
-		public static void StartRain(bool torrentialTear = false, bool maxSeverity = false)
+        /// <summary>
+        /// Method to change the volume of a sound without having to manually do a nullcheck or having to clamp it down to between 0 and 1
+        /// </summary>
+        /// <param name="sfx">The SoundEffectInstance which is having its values updated.</param>
+        /// <param name="volumeMultiplier">How much the sound's volume should get changed</param>
+        public static void SafeVolumeChange(ref SoundEffectInstance sfx, float volumeMultiplier)
+        {
+            if (sfx is null || sfx.IsDisposed)
+                return;
+            sfx.Volume = MathHelper.Clamp(sfx.Volume * volumeMultiplier, 0f, 1f);
+        }
+
+        public static void StartRain(bool torrentialTear = false, bool maxSeverity = false)
 		{
 			int num = 86400;
 			int num2 = num / 24;

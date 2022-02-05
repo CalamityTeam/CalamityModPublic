@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred = 0;
 
             //Manage position and rotation
-            direction = Owner.DirectionTo(Main.MouseWorld);
+            direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
             direction.Normalize();
             projectile.rotation = direction.ToRotation();
             projectile.Center = Owner.Center + (direction * 60);
@@ -223,8 +223,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (ChargeSoundCooldown <= 0)
                 {
                     SoundEffectInstance chargeSound = Main.PlaySound(SoundID.DD2_BookStaffCast);
-                    if (chargeSound != null)
-                        chargeSound.Volume *= 2.5f;
+                    CalamityUtils.SafeVolumeChange(ref chargeSound, 2.5f);
                     ChargeSoundCooldown = 20;
                 }
             }
