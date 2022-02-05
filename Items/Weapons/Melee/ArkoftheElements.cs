@@ -77,6 +77,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
+            player.Calamity().mouseWorldListener = true;
+
             if (CanUseItem(player) && Combo != 4)
                 item.channel = false;
 

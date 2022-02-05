@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Color color = Main.hslToRgb((i / (float)projectile.oldRot.Length) * 0.7f, 1, 0.6f + (Charge > 0 ? 0.3f : 0f));
                     float afterimageRotation = projectile.oldRot[i] + MathHelper.PiOver4;
-                    Main.spriteBatch.Draw(glowmask, drawOffset, null, color * 0.15f, afterimageRotation + extraAngle, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
+                    spriteBatch.Draw(glowmask, drawOffset, null, color * 0.15f, afterimageRotation + extraAngle, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
                 }
             }
 
