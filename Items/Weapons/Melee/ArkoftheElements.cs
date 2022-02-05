@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
+        public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
 
         const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap";
 

@@ -234,10 +234,26 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = projectile.rotation;
             if (Owner.direction != 1)
             {
-                Owner.itemRotation -= 3.14f;
+                Owner.itemRotation -= MathHelper.Pi;
             }
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
 
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Combo == 3f)
+                damage = (int)(damage * ArkoftheElements.snapDamageMultiplier);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 particleSpeed = Utils.SafeNormalize(projectile.Center - target.Center , Vector2.One).RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
+                Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.OrangeRed, 60, 1, 1.5f, hueShift: 0.02f);
+                GeneralParticleHandler.SpawnParticle(energyLeak);
+            }
         }
 
         public override void Kill(int timeLeft)
