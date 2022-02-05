@@ -89,6 +89,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = Thrown ? 10 : (int)MaxSwingTime;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -97,7 +99,16 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Thrown)
             {
-                return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - Vector2.One * bladeLenght  / 2f, Vector2.One * bladeLenght);
+                bool mainCollision = Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - Vector2.One * bladeLenght / 2f, Vector2.One * bladeLenght);
+                if (Combo == 2f)
+                    return mainCollision;
+
+                else
+                {
+                    Vector2 thrownBladeStart = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
+                    bool thrownScissorCollision = Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), thrownBladeStart, thrownBladeStart + direction * bladeLenght);
+                    return mainCollision || thrownScissorCollision;
+                }
             }
 
             float collisionPoint = 0f;
