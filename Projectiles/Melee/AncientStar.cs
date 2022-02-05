@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.melee = true;
+			projectile.tileCollide = false;
+			projectile.melee = true;
             projectile.penetrate = 1;
             projectile.timeLeft = (int)MaxTime;
         }
@@ -47,6 +48,10 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
 
+			if (projectile.timeLeft < MaxTime - 5)
+            {
+				projectile.tileCollide = true;
+            }
 
 			if (Timer / MaxTime > 0.25f)
             {
