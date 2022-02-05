@@ -22,14 +22,13 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : string.Empty;
             setBonusText = "+2 defense\n" +
                         "5% increased rogue damage and critical strike chance\n" +
                         "Grants immunity to fire blocks and temporary immunity to lava\n" +
                         "Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
                         "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                         "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                        "The higher your rogue stealth the higher your rogue damage, crit, and movement speed" + heatImmunity;
+                        "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void ApplyHeadPieceEffect(Player player)

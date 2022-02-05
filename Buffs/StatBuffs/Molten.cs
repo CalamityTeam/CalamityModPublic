@@ -20,11 +20,5 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             player.Calamity().molten = true;
         }
-
-        public override void ModifyBuffTip(ref string tip, ref int rare)
-        {
-			if (CalamityWorld.death)
-				tip += ". Provides cold protection in Death Mode";
-		}
     }
 }

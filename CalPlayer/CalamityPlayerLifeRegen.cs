@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
@@ -16,8 +15,6 @@ namespace CalamityMod.CalPlayer
         #region Update Bad Life Regen
         public override void UpdateBadLifeRegen()
         {
-            Point point = player.Center.ToTileCoordinates();
-
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				noLifeRegen = true;
 

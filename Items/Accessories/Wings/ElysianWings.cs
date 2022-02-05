@@ -31,21 +31,6 @@ namespace CalamityMod.Items.Accessories.Wings
             item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Temporary immunity to lava and 15% increased movement speed\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

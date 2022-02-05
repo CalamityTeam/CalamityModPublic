@@ -19,8 +19,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             string extraLine = "\n20% extra true melee damage\nGrants immunity to fire blocks and temporary immunity to lava";
-            if (CalamityWorld.death)
-                extraLine += CalamityGlobalItem.BothProtectionLine;
             setBonusText += extraLine;
         }
 

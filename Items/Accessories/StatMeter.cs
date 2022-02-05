@@ -134,7 +134,7 @@ namespace CalamityMod.Items.Accessories
 			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
 			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
 			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
-			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
+			sb.Append("Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
 
 			// Abyss stats only render if the player is in the Abyss.
 			if (modPlayer.ZoneAbyss)

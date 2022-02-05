@@ -27,10 +27,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : string.Empty;
             setBonusText = "All ice-themed damage over time debuffs receive a 50% damage bonus\n" +
                 "Cold enemies will deal reduced contact damage to the player\n" +
-                "Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
+                "Provides immunity to the Frostburn and Glacial State debuffs";
         }
 
         public override void ApplyArmorSetBonus(Player player)

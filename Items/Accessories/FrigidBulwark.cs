@@ -30,21 +30,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

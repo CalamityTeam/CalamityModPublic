@@ -1531,7 +1531,6 @@ namespace CalamityMod
         #endregion
 
         #region Lighting
-        const float MaxCaveDarkness = -0.3f;
         const float MaxSignusDarkness = -0.4f;
         const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
@@ -1542,8 +1541,6 @@ namespace CalamityMod
 
             if (modPlayer.ZoneAbyss)
                 scale += MaxAbyssDarkness * darkRatio;
-            else if (CalamityWorld.death)
-                scale += MaxCaveDarkness * darkRatio;
 
             if (CalamityWorld.revenge || CalamityWorld.malice)
             {

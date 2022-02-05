@@ -30,21 +30,6 @@ namespace CalamityMod.Items.Armor
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "10% increased melee damage and critical strike chance\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<TarragonBreastplate>() && legs.type == ModContent.ItemType<TarragonLeggings>();

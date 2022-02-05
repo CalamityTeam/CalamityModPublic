@@ -36,21 +36,6 @@ namespace CalamityMod.Items.Accessories.Wings
             item.accessory = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
-					{
-						line2.text = "Icicles rain down as you fly\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;

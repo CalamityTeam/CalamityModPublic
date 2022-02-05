@@ -20,8 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
                 "Puts a shell around the owner when below 50% life that reduces damage\n" +
-                "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
-				"Provides heat and cold protection in Death Mode");
+                "The shell becomes more powerful when below 15% life and reduces damage even further");
         }
 
         public override void SetDefaults()
@@ -32,20 +31,6 @@ namespace CalamityMod.Items.Accessories
             item.defense = 18;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (!CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
-					{
-						line2.text = "";
-					}
-				}
-			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

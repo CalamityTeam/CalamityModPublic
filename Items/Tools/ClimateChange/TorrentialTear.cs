@@ -12,9 +12,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             DisplayName.SetDefault("Torrential Tear");
             Tooltip.SetDefault("Summons the rain.\n" +
                 "Rain will start some time after this item is used.\n" +
-                "If used while it's raining, the rain will stop some time afterward.\n" +
-                "In Death Mode, using this item while it's raining will reduce the amount of time the rain lingers for to one minute.\n" +
-                "However, this will cause the rain to turn violent for that time.");
+                "If used while it's raining, the rain will stop some time afterward.");
         }
 
         public override void SetDefaults()
@@ -31,7 +29,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.slimeRain && (Main.rainTime > 3600 || !CalamityWorld.death || !Main.raining || CalamityWorld.rainingAcid);
+            return !Main.slimeRain;
         }
 
         public override bool UseItem(Player player)
@@ -39,14 +37,6 @@ namespace CalamityMod.Items.Tools.ClimateChange
             if (!Main.raining)
             {
                 CalamityUtils.StartRain(true);
-            }
-            else if (CalamityWorld.death)
-            {
-                if (Main.rainTime > 3600)
-                {
-                    Main.rainTime = 3600;
-                    AdjustRainSeverity(true);
-                }
             }
             else
             {

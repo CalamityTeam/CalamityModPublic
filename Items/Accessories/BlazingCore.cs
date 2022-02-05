@@ -31,21 +31,6 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Provides a moderate amount of light in the Abyss\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

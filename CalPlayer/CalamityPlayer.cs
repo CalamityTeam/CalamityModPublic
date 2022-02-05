@@ -95,8 +95,6 @@ namespace CalamityMod.CalPlayer
         public int sCalKillCount = 0;
         public int deathCount = 0;
         public int actualMaxLife = 0;
-        public int deathModeUnderworldTime = 0;
-        public int deathModeBlizzardTime = 0;
         public static int chaosStateDuration = 360;
         public static int chaosStateDurationBoss = 600;
         public bool killSpikyBalls = false;
@@ -1325,8 +1323,6 @@ namespace CalamityMod.CalPlayer
                 { "rogueLevel", rogueLevel },
                 { "exactRogueLevel", exactRogueLevel },
                 { "deathCount", deathCount },
-                { "deathModeUnderworldTime", deathModeUnderworldTime },
-                { "deathModeBlizzardTime", deathModeBlizzardTime },
                 { "itemTypeLastReforged", itemTypeLastReforged },
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
@@ -1418,9 +1414,6 @@ namespace CalamityMod.CalPlayer
 
             _ = tag.GetInt("moneyStolenByBandit");
             _ = tag.GetInt("reforges");
-
-            deathModeUnderworldTime = tag.GetInt("deathModeUnderworldTime");
-            deathModeBlizzardTime = tag.GetInt("deathModeBlizzardTime");
 
             itemTypeLastReforged = tag.GetInt("itemTypeLastReforged");
             reforgeTierSafety = tag.GetInt("reforgeTierSafety");
@@ -2211,8 +2204,6 @@ namespace CalamityMod.CalPlayer
             defenseDamageRecoveryFrames = 0;
             totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
             defenseDamageDelayFrames = 0;
-            deathModeBlizzardTime = 0;
-            deathModeUnderworldTime = 0;
             heldGaelsLastFrame = false;
             gaelRageAttackCooldown = 0;
             gaelSwipes = 0;
@@ -4151,12 +4142,6 @@ namespace CalamityMod.CalPlayer
 				if ((player.slippy || player.slippy2) && player.iceSkate)
 				{
 					runAccMult *= 0.6f;
-				}
-				if (CalamityWorld.death && deathModeBlizzardTime > 0)
-				{
-					float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
-					runAccMult *= speedMult;
-					runSpeedMult *= speedMult;
 				}
 
 				player.runAcceleration *= runAccMult;
@@ -7637,11 +7622,6 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason("Oxygen failed to reach " + player.name + " from the depths of the Abyss.");
                 }
-            }
-            else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
-            {
-                deathModeBlizzardTime = 0;
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was chilled to the bone by the frigid environment.");
             }
             else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
             {

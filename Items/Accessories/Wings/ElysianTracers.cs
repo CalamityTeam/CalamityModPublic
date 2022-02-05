@@ -39,21 +39,6 @@ namespace CalamityMod.Items.Accessories.Wings
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            if (CalamityWorld.death)
-            {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
-                    {
-                        line2.text = "Temporary immunity to lava\n" +
-                        "Provides heat protection in Death Mode";
-                    }
-                }
-            }
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
