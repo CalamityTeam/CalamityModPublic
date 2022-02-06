@@ -2583,6 +2583,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(ZoneAstral ? 0.05 : 0D) +
 				(harpyRing ? 0.2 : 0D) +
+				(reaverSpeed ? 0.1 : 0D) +
 				(aeroStone ? 0.1 : 0D) +
 				(angelTreads ? 0.1 : 0D) +
 				(blueCandle ? 0.1 : 0D) +
@@ -2635,7 +2636,7 @@ namespace CalamityMod.CalPlayer
 			}
 			// Shattered Community gives the same wing time boost as normal Community
 			if (shatteredCommunity)
-				flightTimeMult += 0.15f;
+				flightTimeMult += 0.2f;
 
 			if (profanedCrystalBuffs && gOffense && gDefense)
 			{

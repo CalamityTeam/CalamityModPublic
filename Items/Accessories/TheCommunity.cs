@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories
                 "Starts off with weak buffs to all of your stats\n" +
                 "The stat buffs become more powerful as you progress\n" +
                 "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
-                "Boosts your maximum flight time by 15%\n" +
                 "Thank you to all of my supporters who made this mod a reality");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
         }

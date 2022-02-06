@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("MOAB");
             Tooltip.SetDefault("The mother of all balloons\n" +
                 "Counts as wings\n" +
-                "Horizontal speed: 6.5\n" +
-                "Acceleration multiplier: 1\n" +
+                "Horizontal speed: 6.50\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Good vertical speed\n" +
                 "Flight time: 75\n" +
                 "10% increased jump speed and allows constant jumping\n" +

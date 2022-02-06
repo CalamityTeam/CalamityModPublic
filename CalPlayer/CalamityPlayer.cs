@@ -4988,8 +4988,6 @@ namespace CalamityMod.CalPlayer
 				int penetratedDefense = Math.Min(penetratableDefense, 5);
 				damage += (int)(0.5f * penetratedDefense);
 			}
-            if (AdamantiteSet)
-                damage += player.statDefense / 10;
             #endregion
 
             if (draedonsHeart)
@@ -5142,8 +5140,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (AdamantiteSet)
-                damage += player.statDefense / 10;
 
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)

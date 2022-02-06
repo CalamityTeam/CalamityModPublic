@@ -678,10 +678,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			//Draw a pulsing version of the cannon above the real one.
 			if ((npc.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
 			{
-
+				//Also draw a telegraph line aha
 				Texture2D lineTex = ModContent.GetTexture("CalamityMod/Particles/BloomLine");
 				Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, npc.Calamity().newAI[2] / deathrayTelegraphDuration);
-				spriteBatch.Draw(lineTex, CoreSpritePosition - npc.rotation.ToRotationVector2() * npc.spriteDirection * 104 - Main.screenPosition, null, outlineColor, npc.rotation + MathHelper.PiOver2, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * npc.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
+				spriteBatch.Draw(lineTex, CoreSpritePosition - npc.rotation.ToRotationVector2() * npc.spriteDirection * 104 - Main.screenPosition, null, outlineColor, npc.rotation - MathHelper.PiOver2 * npc.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * npc.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
 
 				float pulseRatio = (npc.Calamity().newAI[2] % (deathrayTelegraphDuration / 5f)) / (deathrayTelegraphDuration / 5f);
 				float pulseSize = MathHelper.Lerp(0.1f, 0.6f, (float)Math.Floor(npc.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) / 4f);
