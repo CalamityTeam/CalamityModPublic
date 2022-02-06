@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (PolarStar == null)
             {
-                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f);
+                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
                 GeneralParticleHandler.SpawnParticle(PolarStar);
             }
             else

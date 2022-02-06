@@ -253,7 +253,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Combo == 3f && Charge <= 0)
             {
                 ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
-                sword.Charge += 2f;
+                if (sword != null)
+                    sword.Charge = 2f;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
             }
         }

@@ -55,22 +55,27 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
+        public void GeneralParryEffects()
+        {
+            TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
+            if (sword != null)
+                sword.Charge = 10f;
+            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            Main.PlaySound(SoundID.Item67);
+            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+            AlreadyParried = 1f;
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (AlreadyParried > 0)
                 return;
 
+            GeneralParryEffects();
+
             //only get iframes if the enemy has contact damage :)
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
-
-            TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
-            sword.Charge = 10f;
-            AlreadyParried = 1f;
-
-            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            Main.PlaySound(SoundID.Item67);
-            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
             Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
@@ -121,12 +126,7 @@ namespace CalamityMod.Projectiles.Melee
                         proj.Size.Length() < 300 && //Only parry projectiles that aren't too large 
                         Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
-                        if (sword != null)
-                            sword.Charge = 10;
-
-
-                        CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+                        GeneralParryEffects();
 
                         //Reduce the projectile's damage by 100 for a second.
                         if (proj.Calamity().damageReduction < 160)
@@ -138,9 +138,6 @@ namespace CalamityMod.Projectiles.Melee
                         if (Owner.velocity.Y != 0)
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
 
-                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-                        Main.PlaySound(SoundID.Item67);
-                        AlreadyParried = 1f;
 
                         break;
                     }

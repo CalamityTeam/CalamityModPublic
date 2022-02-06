@@ -57,23 +57,39 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 44, ref collisionPoint);
         }
 
+        public void GeneralParryEffects()
+        {
+            ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
+            if (sword != null)
+            {
+                sword.Charge = 10f;
+                sword.Combo = 0f;
+            }
+            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+
+            for (int i = 0; i < 5; i ++) //Don't loose your way
+            {
+                Vector2 particleDispalce = Main.rand.NextVector2Circular(Owner.Hitbox.Width * 2f, Owner.Hitbox.Height * 1.2f);
+                float particleScale = Main.rand.NextFloat(0.5f, 1.4f);
+                Particle shine = new FlareShine(Owner.Center + particleDispalce, particleDispalce * 0.01f, Color.White, Color.Red, 0f, new Vector2(0.6f, 1f) * particleScale, new Vector2(1.5f, 2.7f) * particleScale, 20 + Main.rand.Next(6), bloomScale: 3f, spawnDelay : Main.rand.Next(7) * 2);
+                GeneralParticleHandler.SpawnParticle(shine);
+            }
+
+            AlreadyParried = 1f;
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (AlreadyParried > 0)
                 return;
 
+            GeneralParryEffects();
+
             //only get iframes if the enemy has contact damage :)
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
-
-            ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
-            sword.Charge = 10f;
-            sword.Combo = 0f;
-            AlreadyParried = 1f;
-
-            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
-            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
             Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
@@ -126,14 +142,7 @@ namespace CalamityMod.Projectiles.Melee
                        proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
                        Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
-                        if (sword != null)
-                        {
-                            sword.Charge = 10;
-                            sword.Combo = 0f;
-                        }
-
-                        CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+                        GeneralParryEffects();
 
                         //Reduce the projectile's damage by 100 for half a second.
                         if (proj.Calamity().damageReduction < 200)
@@ -144,11 +153,6 @@ namespace CalamityMod.Projectiles.Melee
                         //Bounce off the player if they are in the air
                         if (Owner.velocity.Y != 0)
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
-
-                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
-                        AlreadyParried = 1f;
-
                         break;
                     }
                 }
@@ -195,7 +199,7 @@ namespace CalamityMod.Projectiles.Melee
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? projectile.timeLeft / 8f : 1f;
-                    Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 1.2f) * 0.1f + 0.1f, 1, 0.65f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
+                    Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 1.2f) * 0.05f + 0.08f, 1, 0.65f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
 
                     spriteBatch.Draw(barBG, drawPos, color * opacity);
                     spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);

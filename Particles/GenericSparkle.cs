@@ -12,14 +12,16 @@ namespace CalamityMod.Particles
         public override bool UseAdditiveBlend => true;
         public override bool UseCustomDraw => true;
         public override bool SetLifetime => true;
+        public override bool Important => imporant;
 
+        public bool imporant;
         private float Spin;
         private float opacity;
         private Color Bloom;
         private Color LightColor => Bloom * opacity;
         private float BloomScale;
 
-        public GenericSparkle(Vector2 position, Vector2 velocity, Color color, Color bloom, float scale, int lifeTime, float rotationSpeed = 1f, float bloomScale = 1f)
+        public GenericSparkle(Vector2 position, Vector2 velocity, Color color, Color bloom, float scale, int lifeTime, float rotationSpeed = 1f, float bloomScale = 1f, bool needed = false)
         {
             Position = position;
             Velocity = velocity;
@@ -30,6 +32,7 @@ namespace CalamityMod.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Spin = rotationSpeed;
             BloomScale = bloomScale;
+            imporant = needed;
         }
 
         public override void Update()
