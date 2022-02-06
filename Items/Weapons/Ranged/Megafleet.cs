@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Megafleet : ModItem
     {
+        private int shotType = 1;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voidragon");
@@ -44,20 +46,31 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 95)
-                return false;
-            return true;
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
-            type = Main.rand.NextBool(2) ? ModContent.ProjectileType<Voidragon>() : type;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+
+            if (shotType > 2)
+                shotType = 1;
+
+            if (shotType == 1)
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            else
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Voidragon>(), damage, knockBack, player.whoAmI, 0f, 0f);
+
+            shotType++;
+
+            //Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BrimstoneTentacle>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f); this is here so I remember to look at it tomorrow when I'm less tired
+
             return false;
+        }
+
+        public override bool ConsumeAmmo(Player player)
+        {
+            if (Main.rand.Next(0, 100) < 50 || shotType % 2 == 0)
+                return false;
+            return true;
         }
 
         public override void AddRecipes()
