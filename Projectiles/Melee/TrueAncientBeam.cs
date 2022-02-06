@@ -36,8 +36,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 32;
-            projectile.aiStyle = 27;
-            aiType = ProjectileID.LightBeam;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = (int)MaxTime;
@@ -59,6 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.timeLeft < MaxTime - 5)
                 projectile.tileCollide = true;
 
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             projectile.scale = 2.4f;
             projectile.Opacity = 0.6f;
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);

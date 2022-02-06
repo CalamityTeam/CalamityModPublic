@@ -30,12 +30,11 @@ namespace CalamityMod.Projectiles.Melee
 
         const float MaxTime = 30;
         public float Timer => MaxTime - projectile.timeLeft;
+        public ref float Empowered => ref projectile.ai[0];
 
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 32;
-            projectile.aiStyle = 27;
-            aiType = ProjectileID.LightBeam;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = (int)MaxTime;
@@ -60,6 +59,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale = 2.4f;
             projectile.Opacity = 0.6f;
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3));
 
@@ -81,12 +81,36 @@ namespace CalamityMod.Projectiles.Melee
 
             if (projectile.velocity.Length() < 1.0f)
                 projectile.Kill();
+
+            if (Empowered == 1f)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 350f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.timeLeft > 35)
                 return false;
+
+            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/SolarNeedle");
+
+            if (Empowered == 1f)
+            {
+                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Color outlineColor = Color.Lerp(Color.White, Color.OrangeRed, Timer / MaxTime);
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
+                float outlineThickness = MathHelper.Clamp(Timer / MaxTime * 4f, 0f, 3f);
+
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
+                GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
+                GameShaders.Misc["CalamityMod:BasicTint"].Apply();
+
+                for (float i = 0; i < 1; i += 0.125f)
+                {
+                    spriteBatch.Draw(texture, projectile.Center + (i * MathHelper.TwoPi + projectile.rotation).ToRotationVector2() * outlineThickness - Main.screenPosition, null, outlineColor, projectile.rotation, texture.Size() / 2f, projectile.scale, 0f, 0f);
+                }
+                CalamityUtils.ExitShaderRegion(spriteBatch);
+            }
+
 
             DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 

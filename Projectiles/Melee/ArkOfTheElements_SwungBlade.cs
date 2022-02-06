@@ -165,12 +165,6 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio()) - (Combo == 1 ? MathHelper.PiOver4 : 0f);
 
                 projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.2f;
-
-                if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
-                {
-                    Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 2f, ProjectileType<TrueAncientBeam>(), projectile.damage, 2f, Owner.whoAmI);
-                    HasFired = 1f;
-                }
             }
 
             else
