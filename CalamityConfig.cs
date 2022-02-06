@@ -21,7 +21,6 @@ namespace CalamityMod
 		{
 			BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
 			MeterShake = Utils.Clamp(MeterShake, MinMeterShake, MaxMeterShake);
-			DeathWeatherMultiplier = Utils.Clamp(DeathWeatherMultiplier, MinWeatherMultiplier, MaxWeatherMultiplier);
 		}
 
 		[Header("Graphics Changes")]
@@ -283,7 +282,7 @@ namespace CalamityMod
 		private const float MinWeatherMultiplier = 0.5f;
 		private const float MaxWeatherMultiplier = 3f;
 
-		[Label("$Mods.CalamityMod.WeatherHazardDelay")]
+		[Label("Weather Hazard Delay Multiplier")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[SliderColor(224, 165, 56, 128)]
 		[Range(MinWeatherMultiplier, MaxWeatherMultiplier)]
