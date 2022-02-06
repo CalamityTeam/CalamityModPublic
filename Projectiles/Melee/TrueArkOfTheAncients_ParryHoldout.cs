@@ -163,13 +163,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        //Animation keys
-        public CurveSegment anticipation = new CurveSegment(EasingType.SineBump, 0f, 0f, -0.15f);
-        public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.2f, 0f, 0.9f, 3);
-        public CurveSegment hold = new CurveSegment(EasingType.SineBump, 0.35f, 0.9f, 0.1f);
-        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
-        internal float ThrustDisplaceRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { anticipation, thrust, hold, retract });
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Stop drawing the sword. Draw a recharge bar instead

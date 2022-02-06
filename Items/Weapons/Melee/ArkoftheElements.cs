@@ -22,8 +22,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
+        public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
 
-        const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap";
+        const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap\n" +
+                "Snapping the scissors together increase their damage and empower your next two swings";
 
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
@@ -113,7 +115,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             if (Charge > 0)
-                damage *= 2;
+                damage = (int)(chargeDamageMultiplier * damage);
             float scissorState = Combo == ComboLenght ? 2 : Combo % 2;
 
             Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);

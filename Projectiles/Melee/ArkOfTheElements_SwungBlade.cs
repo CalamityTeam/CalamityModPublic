@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float bladeLenght = 160f * projectile.scale;
+            float bladeLenght = 142f * projectile.scale;
 
             if (Thrown)
             {
@@ -164,23 +164,13 @@ namespace CalamityMod.Projectiles.Melee
 
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio()) - (Combo == 1 ? MathHelper.PiOver4 : 0f);
 
-                projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.6f;
+                projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.2f;
 
                 if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
                 {
                     Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 2f, ProjectileType<TrueAncientBeam>(), projectile.damage, 2f, Owner.whoAmI);
                     HasFired = 1f;
                 }
-
-
-                
-                //if (Charge > 0 && Main.rand.Next(2) == 0)
-                //{
-                //    Vector2 particleOrigin = projectile.Center + projectile.rotation.ToRotationVector2() * 75 * projectile.scale;
-                //    Vector2 particleSpeed = projectile.rotation.ToRotationVector2().RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1.2f, 2f);
-                //    Particle energyLeak = new CritSpark(particleOrigin, particleSpeed + Owner.velocity, Color.White, Color.Cyan, Main.rand.NextFloat(0.6f, 1.6f), 20 + Main.rand.Next(10), 0.1f, 1.5f, hueShift: 0.02f);
-                //    GeneralParticleHandler.SpawnParticle(energyLeak);
-                //}
             }
 
             else
@@ -258,6 +248,13 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 particleSpeed = Utils.SafeNormalize(target.Center - projectile.Center , Vector2.One).RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(3.6f, 8f);
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.OrangeRed, 60, 2, 2.5f, hueShift: 0.06f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
+            }
+
+            if (Combo == 3f && Charge <= 0)
+            {
+                ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
+                sword.Charge += 2f;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
             }
         }
 
@@ -454,20 +451,6 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow");
             Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
             Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
-
-            if (Combo == 3f && false)
-            {
-                //Texture2D thrownSword = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
-                //Texture2D thrownGlowmask = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
-
-                //Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
-                //Vector2 drawOrigin2 = new Vector2(22, 109); //Right on the hole
-                //float drawRotation2 = direction.ToRotation() + MathHelper.PiOver2;
-
-                //spriteBatch.Draw(thrownSword, drawPos2 - Main.screenPosition, null, lightColor, drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
-                //spriteBatch.Draw(thrownGlowmask, drawPos2 - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
-            }
-
 
             Vector2 drawPos = projectile.Center;
             Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
