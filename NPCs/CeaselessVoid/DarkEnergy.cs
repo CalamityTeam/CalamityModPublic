@@ -119,9 +119,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Gets how enraged Ceaseless Void is
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];

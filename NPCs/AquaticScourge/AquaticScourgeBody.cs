@@ -42,7 +42,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.chaseable = false;
             npc.canGhostHeal = false;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+                npc.scale = 1.25f;
+            else if (CalamityWorld.death)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -93,7 +95,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
 				color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);

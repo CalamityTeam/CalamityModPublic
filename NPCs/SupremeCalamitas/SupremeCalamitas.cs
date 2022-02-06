@@ -352,9 +352,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			bool enraged = npc.Calamity().enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Projectile damage values
 			int bulletHellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());

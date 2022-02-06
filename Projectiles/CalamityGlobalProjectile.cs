@@ -1006,7 +1006,7 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				if (projectile.type == ProjectileID.DemonSickle)
 				{

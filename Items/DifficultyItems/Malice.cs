@@ -16,7 +16,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malice");
-            Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Revengeance Mode.\n" +
+            Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Death Mode.\n" +
 				// Overall description and warning lines
 				"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
 
@@ -65,8 +65,8 @@ namespace CalamityMod.Items.DifficultyItems
             return false;
         }
 
-		// Can only be used in Revengeance mode.
-        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
+		// Can only be used in Death Mode.
+        public override bool CanUseItem(Player player) => CalamityWorld.death || CalamityWorld.malice;
 
 		public override bool UseItem(Player player)
 		{

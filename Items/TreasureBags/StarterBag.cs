@@ -51,15 +51,13 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Torch, 25);
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
-			// Malice item
-			DropHelper.DropItem(player, ModContent.ItemType<Malice>());
-
-			// Difficulty items (Revengeance and Death don't drop in Normal)
+			// Difficulty items (Revengeance, Death and Malice don't drop in Normal)
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Revenge>(), Main.expertMode);
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Malice>(), Main.expertMode);
 
-			// The Lad
-			DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
+            // The Lad
+            DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
             // Music box (if music mod installed)
             Mod musicMod = CalamityMod.Instance.musicMod;

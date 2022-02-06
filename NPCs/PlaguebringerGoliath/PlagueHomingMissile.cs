@@ -43,9 +43,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void AI()
         {
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			Lighting.AddLight(npc.Center, 0.015f, 0.1f, 0f);
 

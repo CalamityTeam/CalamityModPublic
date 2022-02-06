@@ -180,10 +180,10 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private void RevengeanceModeMiscEffects()
 		{
-			if (CalamityWorld.revenge || CalamityWorld.malice)
+			if (CalamityWorld.revenge)
 			{
 				// Adjusts the life steal cap in rev/death
-				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
+				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 45f : 60f;
 				if (player.lifeSteal > lifeStealCap)
 					player.lifeSteal = lifeStealCap;
 

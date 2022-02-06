@@ -147,9 +147,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			// Difficulty modes
 			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || enraged;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death;
+			bool revenge = CalamityWorld.revenge;
+			bool expertMode = Main.expertMode;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

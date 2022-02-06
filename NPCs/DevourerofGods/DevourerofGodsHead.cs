@@ -264,9 +264,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool flies = npc.ai[3] == 0f;
 			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
 			// Percent life remaining
@@ -1982,7 +1982,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (teleportTimer > -1 || player.dead || !player.active)
 				return;
 
-			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+			teleportTimer = CalamityWorld.death ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int randomRange = 48;

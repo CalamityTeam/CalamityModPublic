@@ -155,9 +155,9 @@ namespace CalamityMod.NPCs.Yharon
             // Variables
             bool enraged2 = calamityGlobalNPC.enraged > 0;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged2;
-            bool expertMode = Main.expertMode || malice;
-            bool revenge = CalamityWorld.revenge || malice;
-            bool death = CalamityWorld.death || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             float pie = (float)Math.PI;
 
@@ -2941,7 +2941,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 bool doTelegraphFlightAnimation = npc.localAI[1] < fastChargeTelegraphTime * 0.5f || npc.localAI[1] > fastChargeTelegraphTime - (fastChargeTelegraphTime / 6f);
                 bool doTelegraphRoarAnimation = npc.localAI[1] > fastChargeTelegraphTime - fastChargeTelegraphTime * 0.4f && npc.localAI[1] < fastChargeTelegraphTime - fastChargeTelegraphTime * 0.2f;
-                bool phase4 = startSecondAI && lifeRatio <= ((CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 0.165f : 0.11f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
+                bool phase4 = startSecondAI && lifeRatio <= ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.165f : 0.11f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
                 if (doTelegraphFlightAnimation)
                 {
                     npc.frameCounter += phase4 ? 2D : 1D;

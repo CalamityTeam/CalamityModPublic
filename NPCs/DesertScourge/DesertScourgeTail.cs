@@ -39,8 +39,10 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 				npc.scale = 1.25f;
+			else if (CalamityWorld.death)
+				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
 			else if (Main.expertMode)

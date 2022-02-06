@@ -41,7 +41,7 @@ namespace CalamityMod.Items.SummonItems
 			else
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<DesertScourgeHead>());
 
-			if (CalamityWorld.revenge || CalamityWorld.malice)
+			if (CalamityWorld.revenge)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertNuisanceHead>());

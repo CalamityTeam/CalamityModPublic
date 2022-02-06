@@ -60,14 +60,16 @@ namespace CalamityMod.NPCs.DesertScourge
             bossBag = ModContent.ItemType<DesertScourgeBag>();
             music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
-            if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 npc.scale = 1.25f;
+            else if (CalamityWorld.death)
+                npc.scale = 1.2f;
             else if (CalamityWorld.revenge)
                 npc.scale = 1.15f;
             else if (Main.expertMode)
                 npc.scale = 1.1f;
 
-			npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToCold = true;
 			npc.Calamity().VulnerableToSickness = true;
 			npc.Calamity().VulnerableToWater = true;
 		}
@@ -94,9 +96,9 @@ namespace CalamityMod.NPCs.DesertScourge
 
             bool enraged = calamityGlobalNPC.enraged > 0;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool expertMode = Main.expertMode || malice;
-            bool revenge = CalamityWorld.revenge || malice;
-            bool death = CalamityWorld.death || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

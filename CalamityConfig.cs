@@ -19,7 +19,6 @@ namespace CalamityMod
 		{
 			BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
 			MeterShake = Utils.Clamp(MeterShake, MinMeterShake, MaxMeterShake);
-			DeathWeatherMultiplier = Utils.Clamp(DeathWeatherMultiplier, MinWeatherMultiplier, MaxWeatherMultiplier);
 		}
 
 		[Header("Graphics Changes")]
@@ -275,21 +274,6 @@ namespace CalamityMod
 		[DefaultValue(RipperUI.DefaultAdrenPosY)]
 		[Tooltip("The Y position of the Adrenaline Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float AdrenalineMeterPosY { get; set; }
-
-		[Header("Death Mode Changes")]
-
-		private const float MinWeatherMultiplier = 0.5f;
-		private const float MaxWeatherMultiplier = 3f;
-
-		[Label("Weather Hazard Delay Multiplier")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[SliderColor(224, 165, 56, 128)]
-		[Range(MinWeatherMultiplier, MaxWeatherMultiplier)]
-		[Increment(0.25f)]
-		[DrawTicks]
-		[DefaultValue(1f)]
-		[Tooltip("Adjusts the delay between Death Mode weather hazards such as lightning.\nDecreasing this value makes hazards more frequent.\nIncreasing this value makes hazards less frequent.")]
-		public float DeathWeatherMultiplier { get; set; }
 
 		[Header("Boss Rush Curses")]
 

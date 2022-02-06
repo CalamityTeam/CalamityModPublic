@@ -544,7 +544,7 @@ namespace CalamityMod.NPCs
 			// Exo Freeze, Glacial State and Temporal Sadness don't work on normal/expert Queen Bee.
 			if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
 			{
-				if (npc.type != NPCID.QueenBee || CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
+				if (npc.type != NPCID.QueenBee || CalamityWorld.revenge || BossRushEvent.BossRushActive)
 				{
 					float baseXVelocityMult = 0.9f;
 					float baseYVelocityIncrease = 0.05f;
@@ -877,7 +877,7 @@ namespace CalamityMod.NPCs
 				npc.netAlways = true;
 
             sagePoisonDamage = 0;
-			if (npc.type == NPCID.Golem && (CalamityWorld.revenge || CalamityWorld.malice))
+			if (npc.type == NPCID.Golem && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
 				npc.noGravity = true;
 
 			DeclareBossHealthUIVariables(npc);
@@ -2486,7 +2486,7 @@ namespace CalamityMod.NPCs
                 return false;
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
                 {
@@ -2528,7 +2528,7 @@ namespace CalamityMod.NPCs
             damage = ApplyDR(npc, damage, yellowCandleDamage);
 
 			// Damage reduction on spawn for certain worm bosses.
-			bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
+			bool destroyerResist = CalamityLists.DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
 			bool eaterofWorldsResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
 			if (destroyerResist || eaterofWorldsResist || CalamityLists.AstrumDeusIDs.Contains(npc.type))
 			{
@@ -2684,15 +2684,15 @@ namespace CalamityMod.NPCs
         #region Boss Head Slot
         public override void BossHeadSlot(NPC npc, ref int index)
         {
-			if (CalamityWorld.revenge || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
 			{
 				if (npc.type == NPCID.BrainofCthulhu)
 				{
-					if (npc.life / (float)npc.lifeMax < ((CalamityWorld.death || CalamityWorld.malice) ? 1f : 0.2f))
+					if (npc.life / (float)npc.lifeMax < ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 1f : 0.2f))
 						index = -1;
 				}
 
-				if (npc.type == NPCID.DukeFishron && (CalamityWorld.death || CalamityWorld.malice))
+				if (npc.type == NPCID.DukeFishron && (CalamityWorld.death || BossRushEvent.BossRushActive))
 				{
 					if (npc.life / (float)npc.lifeMax < 0.4f)
 						index = -1;
@@ -2795,7 +2795,7 @@ namespace CalamityMod.NPCs
 				npc.ai[0] = 1f;
 			}
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				switch (npc.type)
                 {
@@ -3889,7 +3889,7 @@ namespace CalamityMod.NPCs
 				RancorBurnTime--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
-			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
+			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !BossRushEvent.BossRushActive)
 				return;
 
 			if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
@@ -4849,7 +4849,7 @@ namespace CalamityMod.NPCs
         #region Drawing
         public override void FindFrame(NPC npc, int frameHeight)
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.SkeletronPrime)
                     npc.frameCounter = 0D;
@@ -5351,7 +5351,7 @@ namespace CalamityMod.NPCs
 
 			TownNPCAlertSystem(npc, mod, spriteBatch);
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.SkeletronPrime || CalamityLists.DestroyerIDs.Contains(npc.type))
                     return false;
@@ -5468,7 +5468,7 @@ namespace CalamityMod.NPCs
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				// His afterimages I can't get to work, so fuck it
 				if (npc.type == NPCID.SkeletronPrime)

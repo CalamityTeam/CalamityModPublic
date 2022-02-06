@@ -4930,7 +4930,8 @@ namespace CalamityMod.CalPlayer
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
-			if (item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>())
+            bool isTrueMelee = item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>();
+            if (isTrueMelee)
             {
                 damageMult += trueMeleeDamage;
             }
@@ -4944,7 +4945,7 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
+                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
             }
             damage = (int)(damage * damageMult);
 
@@ -5081,7 +5082,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
+                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             if (filthyGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {

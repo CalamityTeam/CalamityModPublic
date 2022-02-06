@@ -34,7 +34,7 @@ namespace CalamityMod.Items.DifficultyItems
 				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
 
 				// Boss lines
-				"Changes all boss AIs and some enemy AIs a bit more.\n" +
+				"Changes all boss AIs and most enemy AIs.\n" +
 				"Increases the damage of all bosses a bit more.");
         }
 
@@ -50,7 +50,8 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
+        // Can only be used in Revengeance Mode.
+        public override bool CanUseItem(Player player) => CalamityWorld.revenge || CalamityWorld.death;
 
         public override bool UseItem(Player player)
         {
@@ -79,6 +80,14 @@ namespace CalamityMod.Items.DifficultyItems
                 string key = "Mods.CalamityMod.DeathText2";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                if (CalamityWorld.malice)
+                {
+                    CalamityWorld.malice = false;
+                    key = "Mods.CalamityMod.MaliceText2";
+                    messageColor = Color.Crimson;
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                }
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
             CalamityNetcode.SyncWorld();

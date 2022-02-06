@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs
                 return false;
 
 			// Do not provide free hearts for certain boss NPCs in Rev+.
-			if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type))
+			if (CalamityWorld.revenge && CalamityLists.heartDropBlockList.Contains(npc.type))
 				return false;
 
             //

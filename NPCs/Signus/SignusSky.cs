@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.Signus
                 }
 
 				float maxIntensity = 0.1f;
-				if (CalamityWorld.revenge || CalamityWorld.malice)
+				if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
 				{
 					maxIntensity = 1f - (float)Main.npc[this.SignusIndex].life / (float)Main.npc[this.SignusIndex].lifeMax;
 				}

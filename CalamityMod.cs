@@ -1542,7 +1542,7 @@ namespace CalamityMod
             if (modPlayer.ZoneAbyss)
                 scale += MaxAbyssDarkness * darkRatio;
 
-            if (CalamityWorld.revenge || CalamityWorld.malice)
+            if (CalamityWorld.revenge)
             {
                 if (CalamityGlobalNPC.signus != -1)
                 {

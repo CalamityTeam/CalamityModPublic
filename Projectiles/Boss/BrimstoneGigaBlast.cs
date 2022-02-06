@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame >= 5)
                 projectile.frame = 0;
 
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 
             Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
