@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("Celestial Tracers");
             Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
                 "Counts as wings\n" +
-                "Horizontal speed: 12\n" +
-                "Acceleration multiplier: 3\n" +
+                "Horizontal speed: 12.00\n" +
+                "Acceleration multiplier: 3.0\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 250\n" +
                 "50% increased running acceleration\n" +

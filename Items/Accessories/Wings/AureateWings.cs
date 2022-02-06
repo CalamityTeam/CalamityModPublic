@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Aureate Booster");
             Tooltip.SetDefault("Mach speed with style!\n" +
-                "Horizontal speed: 8\n" +
+                "Horizontal speed: 8.00\n" +
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 80\n" +

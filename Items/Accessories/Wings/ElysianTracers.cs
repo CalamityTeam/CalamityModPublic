@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("Elysian Tracers");
             Tooltip.SetDefault("Ludicrous speed!\n" +
                 "Counts as wings\n" +
-                "Horizontal speed: 10.5\n" +
+                "Horizontal speed: 10.50\n" +
                 "Acceleration multiplier: 2.75\n" +
                 "Great vertical speed\n" +
                 "Flight time: 180\n" +

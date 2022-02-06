@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("Hadarian Wings");
             Tooltip.SetDefault("Powered by the Astral Infection\n" +
                 "Hold down to hover during flight, greatly extending flight duration\n" +
-                "Horizontal speed: 9\n" +
+                "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 1.75\n" +
                 "Good vertical speed\n" +
                 "Flight time: 120\n" +

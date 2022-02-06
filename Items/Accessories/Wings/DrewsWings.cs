@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Drew's Wings");
             Tooltip.SetDefault("Absolutely Fabulous\n" +
-                "Horizontal speed: 12\n" +
-                "Acceleration multiplier: 3\n" +
+                "Horizontal speed: 12.00\n" +
+                "Acceleration multiplier: 3.0\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 361");
         }
