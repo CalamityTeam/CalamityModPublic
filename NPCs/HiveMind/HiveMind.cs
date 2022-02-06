@@ -726,7 +726,7 @@ namespace CalamityMod.NPCs.HiveMind
                     else
                     {
                         npc.velocity.Normalize();
-                        if (Main.expertMode || malice) // Variable velocity in expert and up
+						if (expertMode) // Variable velocity in expert and up
                             npc.velocity *= driftSpeed + enrageScale + driftBoost * lifeRatio;
                         else
                             npc.velocity *= driftSpeed + enrageScale;
@@ -885,7 +885,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || malice) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
+                                        if (expertMode && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
 									}
                                     else if (!NPC.AnyNPCs(NPCID.EaterofSouls))

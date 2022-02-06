@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs
 		private const float BossZenDistance = 6400f;
 
 		// Boss contact and projectile damage multiplier in Malice Mode
-		public const double MaliceModeDamageMultiplier = 1.35;
+		public const double MaliceModeDamageMultiplier = 1.25;
 
 		// Variable used to nerf desert prehardmode enemies pre-Desert Scourge
 		private const double DesertEnemyStatMultiplier = 0.75;

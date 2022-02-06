@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -630,9 +630,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPlanterasHookAI(NPC npc, Mod mod)
         {
             // Variables
-            bool enrage = CalamityWorld.malice;
+            bool enrage = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool despawn = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)
@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)

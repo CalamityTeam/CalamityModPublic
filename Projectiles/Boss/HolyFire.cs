@@ -1,11 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyFire : ModProjectile
@@ -37,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item20, projectile.position);
             }
-            projectile.alpha -= (!Main.dayTime || CalamityWorld.malice) ? 10 : 5;
+            projectile.alpha -= (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10 : 5;
             if (projectile.alpha <= 0)
             {
                 projectile.Kill();

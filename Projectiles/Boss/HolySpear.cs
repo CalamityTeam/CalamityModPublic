@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -59,14 +60,14 @@ namespace CalamityMod.Projectiles.Boss
 					velocity = projectile.velocity;
 			}
 
-			float timeGateValue = (!Main.dayTime || CalamityWorld.malice) ? 420f : 540f;
+			float timeGateValue = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 420f : 540f;
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
 
-				float slowGateValue = (!Main.dayTime || CalamityWorld.malice) ? 60f : 90f;
+				float slowGateValue = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 60f : 90f;
 				float fastGateValue = 30f;
-				float minVelocity = (!Main.dayTime || CalamityWorld.malice) ? 4f : 3f;
+				float minVelocity = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 4f : 3f;
 				float maxVelocity = minVelocity * 4f;
 				float extremeVelocity = maxVelocity * 2f;
 				float deceleration = 0.95f;
@@ -95,8 +96,8 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else
 			{
-				float frequency = (!Main.dayTime || CalamityWorld.malice) ? 0.2f : 0.1f;
-				float amplitude = (!Main.dayTime || CalamityWorld.malice) ? 4f : 2f;
+				float frequency = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.2f : 0.1f;
+				float amplitude = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 4f : 2f;
 
 				projectile.ai[1] += frequency;
 

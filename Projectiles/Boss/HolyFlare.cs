@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -7,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyFlare : ModProjectile
@@ -49,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.velocity.Y > velocityYCap)
                 projectile.velocity.Y = velocityYCap;
 
-			float velocityX = (!Main.dayTime || CalamityWorld.malice) ? 0.025f : 0.02f;
+			float velocityX = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.025f : 0.02f;
             if (projectile.position.X + projectile.width < player.position.X)
             {
                 if (projectile.velocity.X < 0f)
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.X -= velocityX;
             }
 
-			float velocityXCap = (!Main.dayTime || CalamityWorld.malice) ? 10f : 8f;
+			float velocityXCap = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f;
             if (projectile.velocity.X > velocityXCap || projectile.velocity.X < -velocityXCap)
                 projectile.velocity.X *= 0.97f;
 

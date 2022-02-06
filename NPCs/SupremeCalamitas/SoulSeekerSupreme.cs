@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -92,7 +93,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.spriteDirection = (Target.Center.X < npc.Center.X).ToDirectionInt();
 
             timer++;
-			int shootRate = CalamityWorld.malice ? 120 : 180;
+			int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
             if (timer > shootRate)
             {
 				for (int i = 0; i < Main.maxNPCs; i++)

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // 10 seconds of resistance to prevent spawn killing
             if (calamityGlobalNPC.newAI[1] < 600f)

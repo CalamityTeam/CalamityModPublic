@@ -30,7 +30,6 @@ namespace CalamityMod.Items.DifficultyItems
 				// Misc lines
 				"Nerfs the effectiveness of life steal a bit more.\n" +
 				"The Nurse no longer heals you while a boss is alive.\n" +
-				"Defense damage is increased by 2.5%.\n" +
 				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
 
 				// Boss lines

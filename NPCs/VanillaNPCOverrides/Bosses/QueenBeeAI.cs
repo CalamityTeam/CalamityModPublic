@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             float enrageScale = death ? 0.25f : 0f;
             if ((npc.position.Y / 16f) < Main.worldSurface || malice)

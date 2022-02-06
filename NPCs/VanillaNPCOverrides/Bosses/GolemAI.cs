@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 			
             // Phases
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.5f;
             bool phase4 = lifeRatio < 0.25f;
@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedGolemFistAI(NPC npc, bool enraged, Mod mod)
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Enrage if the target isn't inside the temple
             // Turbo enrage if target isn't inside the temple and it's malice mode
@@ -656,7 +656,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Count body parts
             bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
@@ -898,7 +898,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Phases
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.4f || golemLifeRatio < 0.55f;

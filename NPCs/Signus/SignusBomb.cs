@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Signus
 				return;
 			}
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 

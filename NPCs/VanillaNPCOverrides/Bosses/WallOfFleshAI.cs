@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
             // Despawn
@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn
             if (Main.wof < 0)

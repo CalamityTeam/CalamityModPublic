@@ -1391,8 +1391,8 @@ namespace CalamityMod.NPCs.Providence
 			float aiTimer = npc.ai[3];
 
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-			float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 			bool guardianAlive = false;

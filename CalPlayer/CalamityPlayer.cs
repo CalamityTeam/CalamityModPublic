@@ -8784,7 +8784,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;

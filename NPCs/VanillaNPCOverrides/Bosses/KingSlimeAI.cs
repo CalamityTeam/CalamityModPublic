@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.aiAction = 0;
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
             // Get a target

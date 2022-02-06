@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
                 // If an old velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (OldVelocity != Vector2.Zero)
                 {
-                    projectile.velocity = OldVelocity * (CalamityWorld.malice ? 1.25f : 1f);
+                    projectile.velocity = OldVelocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
                     OldVelocity = Vector2.Zero;
                     projectile.netUpdate = true;
                 }

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (!Main.dayTime || CalamityWorld.malice)
+			if (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
 				projectile.extraUpdates = 1;
 
 			if (projectile.timeLeft < 300)

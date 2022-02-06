@@ -29,7 +29,6 @@ namespace CalamityMod.Items.DifficultyItems
 
                 // Misc lines
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
-                "Defense damage is increased by 2.5%.\n" +
 
                 // Boss lines
                 "All boss minions no longer drop hearts.\n" +

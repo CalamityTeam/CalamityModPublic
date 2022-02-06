@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 			
             // Phases
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.55f;
@@ -1061,7 +1061,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedAncientDoomAI(NPC npc, Mod mod)
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.damage = npc.defDamage = 0;
             float duration = 420f;
             float spawnAnimTime = 120f;

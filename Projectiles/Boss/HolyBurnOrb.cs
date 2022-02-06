@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.ai[0] == 0f && CalamityWorld.malice)
+			if (projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
 				projectile.velocity *= 1.25f;
 
             if (projectile.ai[0] < 240f)

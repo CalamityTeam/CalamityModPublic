@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Events;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Potions
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death || CalamityWorld.malice)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 			{
 				foreach (TooltipLine line2 in list)
 				{
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Potions
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Invincible>(), (CalamityWorld.death || CalamityWorld.malice) ? 300 : 600);
+            player.AddBuff(ModContent.BuffType<Invincible>(), (CalamityWorld.death || BossRushEvent.BossRushActive) ? 300 : 600);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 1500 : 1800);
             return true;
         }

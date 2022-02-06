@@ -1,5 +1,5 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class PhantomSpiritL : ModNPC
@@ -50,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            float speed = (CalamityWorld.death || CalamityWorld.malice) ? 16f : 12f;
+            float speed = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 16f : 12f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
             int num822 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];

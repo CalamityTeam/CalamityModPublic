@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.penetrate = -1;
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
-			projectile.timeLeft = CalamityWorld.malice ? 96 : timeLeft;
+			projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 96 : timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			int fadeInTime = 3;
-			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - ((CalamityWorld.malice ? 96 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
+			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 96 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0f, 0.6f * projectile.Opacity, 0f);
 
@@ -167,7 +168,7 @@ namespace CalamityMod.Projectiles.Boss
 				}
 
 				// Plasma bolts
-				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
+				int totalProjectiles = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 12 : 8;
 
 				// Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
 				if (projectile.ai[0] == -1f)

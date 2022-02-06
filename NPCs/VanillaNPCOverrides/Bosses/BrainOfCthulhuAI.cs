@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             NPC.crimsonBoss = npc.whoAmI;
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -562,7 +562,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -654,7 +654,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetBrainOfCthuluCreepersCountRevDeath()
         {
-            return (CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 30 : 25;
+            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 30 : 25;
         }
 
         private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)

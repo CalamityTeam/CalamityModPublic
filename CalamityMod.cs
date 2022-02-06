@@ -1576,7 +1576,7 @@ namespace CalamityMod
                             }
 
                             // Increased darkness in Death Mode
-                            if (CalamityWorld.death || CalamityWorld.malice)
+                            if (CalamityWorld.death)
                                 multiplier += (1f - multiplier) * 0.1f;
 
                             // Total darkness

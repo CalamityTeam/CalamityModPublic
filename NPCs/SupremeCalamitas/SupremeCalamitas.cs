@@ -530,7 +530,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region Enrage and DR
-            if ((spawnArena && !player.Hitbox.Intersects(safeBox) || malice))
+            if ((spawnArena && !player.Hitbox.Intersects(safeBox)) || malice)
             {
                 float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) && spawnArena ? 2f : 1.5f;
                 uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);

@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             float num1372 = death ? 14f : revenge ? 13f : 12f;
-			if (expertMode || malice)
+			if (expertMode)
 			{
 				float speedUpMult = BossRushEvent.BossRushActive ? 0.015f : CalamityWorld.malice ? 0.0125f : 0.01f;
 				num1372 += Vector2.Distance(player.Center, npc.Center) * speedUpMult;

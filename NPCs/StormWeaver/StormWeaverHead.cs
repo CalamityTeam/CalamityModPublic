@@ -97,7 +97,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.netAlways = true;
             bossBag = ModContent.ItemType<StormWeaverBag>();
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.death)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;

@@ -990,7 +990,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			acceleration *= 0.1f * enrageScale + 1f;
 			velocity *= 1f - enrageScale * 0.1f;
-			if (CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 				velocity *= 0.5f;
 			deceleration *= 1f - enrageScale * 0.1f;
 

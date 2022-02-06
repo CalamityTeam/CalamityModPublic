@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Boss
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
 				float velocity = 5f;
-				int totalProjectiles = (!Main.dayTime || CalamityWorld.malice) ? 5 : 4;
+				int totalProjectiles = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : 4;
 				int type = ModContent.ProjectileType<HolyFire2>();
 				int damage = (int)Math.Round(projectile.damage * 0.75);
 				for (int i = 0; i < totalProjectiles; i++)

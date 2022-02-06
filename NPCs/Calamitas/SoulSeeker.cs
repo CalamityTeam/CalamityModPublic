@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Calamitas
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{

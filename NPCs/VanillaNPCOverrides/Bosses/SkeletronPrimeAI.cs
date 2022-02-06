@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
             // Get a target
@@ -636,7 +636,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPrimeLaserAI(NPC npc, bool enraged, Mod mod)
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -902,7 +902,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPrimeCannonAI(NPC npc, bool enraged, Mod mod)
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1190,7 +1190,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedPrimeViceAI(NPC npc, bool enraged, Mod mod)
         {
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice || enraged;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || enraged;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 
             // Get a target
@@ -1526,7 +1526,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedPrimeSawAI(NPC npc, bool enraged, Mod mod)
         {
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice || enraged;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || enraged;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 
             // Get a target
