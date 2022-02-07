@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
+            DisplayName.SetDefault("Fractured Ark");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
-                "A heavenly blade forged to vanquish all evil");
+                "A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more");
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

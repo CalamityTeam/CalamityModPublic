@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Ark of the Ancients");
+            DisplayName.SetDefault("Ark of the Ancients");
         }
         public override void SetDefaults()
         {

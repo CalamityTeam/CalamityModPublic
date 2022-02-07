@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
+            DisplayName.SetDefault("Fractured Ark");
         }
         public override void SetDefaults()
         {

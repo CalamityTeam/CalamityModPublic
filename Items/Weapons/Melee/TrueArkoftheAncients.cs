@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Ark of the Ancients");
+            DisplayName.SetDefault("Ark of the Ancients");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "A heavenly blade forged to vanquish all evil");
         }
