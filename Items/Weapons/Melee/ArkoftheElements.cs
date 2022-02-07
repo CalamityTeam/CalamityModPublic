@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 112;
             item.height = 172;
-            item.damage = 115;
+            item.damage = 1305;
             item.melee = true;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -97,10 +97,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (Charge > 0 && player.controlUp)
+                if (Charge >= 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -132,19 +132,16 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 Vector2 throwVector = new Vector2(speedX, speedY);
                 float empoweredNeedles = Charge > 0 ? 1f : 0f;
-                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 2.2f, ProjectileType<SolarNeedle>(), (int)(damage * 0.5f), knockBack, player.whoAmI, empoweredNeedles);
+                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * 0.5f), knockBack, player.whoAmI, empoweredNeedles);
 
 
                 Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 20;
-                int projectileType = Charge > 0 ? ProjectileType<SolarNeedle>() : ProjectileType<ElementalGlassStar>();
-                Vector2 projSpeed = Charge > 0 ? throwVector * 2.4f : throwVector;
-                float shiftReduction = Charge > 0 ? 0.5f : 1f;
-                float rotation = Charge > 0 ? MathHelper.PiOver4 * 0.01f : MathHelper.PiOver4 * 0.3f;
 
-                Projectile.NewProjectile(player.Center + Shift * shiftReduction, projSpeed.RotatedBy(rotation), projectileType, (int)(damage * 0.2f), knockBack, player.whoAmI, empoweredNeedles);
+                Projectile.NewProjectile(player.Center + Shift, throwVector.RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
                 Projectile.NewProjectile(player.Center + Shift * 1.2f, throwVector.RotatedBy(MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
 
-                Projectile.NewProjectile(player.Center - Shift * shiftReduction, projSpeed.RotatedBy(-rotation), projectileType, (int)(damage * 0.2f), knockBack, player.whoAmI, empoweredNeedles);
+
+                Projectile.NewProjectile(player.Center - Shift, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
                 Projectile.NewProjectile(player.Center - Shift * 1.2f, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
             }
 

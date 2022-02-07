@@ -53,9 +53,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (projectile.timeLeft < MaxTime - 5)
-                projectile.tileCollide = true;
-
             projectile.scale = 2.4f;
             projectile.Opacity = 0.6f;
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
@@ -77,13 +74,8 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
             }
 
-
-
             if (projectile.velocity.Length() < 1.0f)
                 projectile.Kill();
-
-            if (Empowered == 1f)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 350f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

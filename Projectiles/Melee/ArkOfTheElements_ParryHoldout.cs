@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheElementsParryHoldout : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
+        public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
         private bool initialized = false;
         const float MaxTime = 160;
@@ -127,36 +127,35 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Timer > ParryTime)
                 return;
+            
+            float collisionPoint = 0f;
+            float bladeLenght = 142f * projectile.scale;
 
-            if (AlreadyParried == 0)
+            for (int k = 0; k < Main.maxProjectiles; k++)
             {
-                float collisionPoint = 0f;
-                float bladeLenght = 142f * projectile.scale;
+                Projectile proj = Main.projectile[k];
 
-                for (int k = 0; k < Main.maxProjectiles; k++)
+                if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
+                   proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
+                   proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
+                   Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                 {
-                    Projectile proj = Main.projectile[k];
-
-                    if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
-                       proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
-                       proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
-                       Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                    if (AlreadyParried == 0)
                     {
                         GeneralParryEffects();
-
-                        //Reduce the projectile's damage by 100 for half a second.
-                        if (proj.Calamity().damageReduction < 200)
-                            proj.Calamity().damageReduction = 200;
-                        if (proj.Calamity().damageReductionTimer < 60)
-                            proj.Calamity().damageReductionTimer = 60;
-
-                        //Bounce off the player if they are in the air
                         if (Owner.velocity.Y != 0)
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
-                        break;
                     }
+
+                    //Reduce the projectile's damage by 100 for half a second.
+                    if (proj.Calamity().damageReduction < 200)
+                        proj.Calamity().damageReduction = 200;
+                    if (proj.Calamity().damageReductionTimer < 60)
+                        proj.Calamity().damageReductionTimer = 60;
+                    break;
                 }
             }
+            
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = projectile.whoAmI;

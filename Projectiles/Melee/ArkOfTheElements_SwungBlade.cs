@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Melee
                 Particle sparkle = new CritSpark(sparklePosition, projectile.rotation.ToRotationVector2() * 7f, Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f, Main.rand.NextFloat(0f, 0.01f));
                 GeneralParticleHandler.SpawnParticle(sparkle);
 
-                if (Math.Abs(ThrowCompletion - SnapWindowStart) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
+                if (Math.Abs(ThrowCompletion - SnapWindowStart + 0.1f) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
                 {
                     Particle pulse = new PulseRing(projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8);
                     GeneralParticleHandler.SpawnParticle(pulse);
@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
                 //Snip
-                if (!OwnerCanShoot && Combo == 2 && ThrowCompletion >= SnapWindowStart && ThrowCompletion < SnapWindowEnd && ChanceMissed == 0f)
+                if (!OwnerCanShoot && Combo == 2 && ThrowCompletion >= (SnapWindowStart - 0.1f) && ThrowCompletion < SnapWindowEnd && ChanceMissed == 0f)
                 {
                     Particle snapSpark = new GenericSparkle(projectile.Center, Owner.velocity - Utils.SafeNormalize(projectile.velocity, Vector2.Zero), Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f);
                     GeneralParticleHandler.SpawnParticle(snapSpark);

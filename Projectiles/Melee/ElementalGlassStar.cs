@@ -103,12 +103,12 @@ namespace CalamityMod.Projectiles.Melee
 			//Ajust the bloom's texture to be the same size as the star's
 			float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
-			Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime) * 0.05f + 0.08f, 1, 0.85f);
+			Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 15f) * 0.05f + 0.08f, 1, 0.55f);
 			float rotation = Main.GlobalTime * 8f;
 			Vector2 sparkCenter = projectile.Center - Main.screenPosition;
 
-			spriteBatch.Draw(bloomTexture, sparkCenter, null, color * 0.5f, 0, bloomTexture.Size() / 2f, 4f * properBloomSize, SpriteEffects.None, 0);
-			spriteBatch.Draw(starTexture, sparkCenter, null, color * 0.5f, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 2f * 0.75f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloomTexture, sparkCenter, null, color * 0.6f, 0, bloomTexture.Size() / 2f, 4f * properBloomSize, SpriteEffects.None, 0);
+			spriteBatch.Draw(starTexture, sparkCenter, null, color, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 2f * 0.75f, SpriteEffects.None, 0);
 			spriteBatch.Draw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 2f, SpriteEffects.None, 0);
 
 			spriteBatch.End();
