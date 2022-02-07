@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once\n" +
-                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy";
+                "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process";
 
         public override void SetStaticDefaults()
         {
@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
             comboTooltip.text = ComboTooltip;
-            comboTooltip.overrideColor = Color.IndianRed;
+            comboTooltip.overrideColor = Color.HotPink;
 
             var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
             parryTooltip.text = ParryTooltip;
-            parryTooltip.overrideColor = Color.Coral;
+            parryTooltip.overrideColor = Color.Orange;
         }
 
         public override void SetDefaults()
@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Charge >= 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f) + 500000, 0, player.whoAmI, angle, 600);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;

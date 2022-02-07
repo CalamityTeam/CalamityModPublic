@@ -25,17 +25,22 @@ namespace CalamityMod.Projectiles.Melee
 
         private bool initialized = false;
 
-        const float MaxTime = 60;
+        const int maxStitches = 8;
+        public int CurrentStitches => (int)Math.Ceiling((1 - (float)Math.Sqrt(1f - (float)Math.Pow(MathHelper.Clamp(StitchProgress * 3f, 0f, 1f), 2f))) * maxStitches);
+        public float[] StitchRotations = new float[maxStitches];
+        public float[] StitchLifetimes = new float[maxStitches];
+
+        const float MaxTime = 70;
         const float SnapTime = 25f;
         const float HoldTime = 15f;
 
         public float SnapTimer => MaxTime - projectile.timeLeft;
         public float HoldTimer => MaxTime - projectile.timeLeft - SnapTime;
-        public float StitchTimer => MaxTime - projectile.timeLeft - SnapTime - HoldTime;
+        public float StitchTimer => MaxTime - projectile.timeLeft - SnapTime - (HoldTime / 2f);
 
         public float SnapProgress => MathHelper.Clamp(SnapTimer / SnapTime, 0, 1);
         public float HoldProgress => MathHelper.Clamp(HoldTimer / HoldTime, 0, 1);
-        public float StitchProgress => MathHelper.Clamp(StitchTimer / (MaxTime - (SnapTime + HoldTime)), 0, 1);
+        public float StitchProgress => MathHelper.Clamp(StitchTimer / (MaxTime - (SnapTime + (HoldTime / 2f))), 0, 1);
 
         public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
@@ -53,19 +58,25 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
+
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = (int)MaxTime + 2;
         }
 
         public override bool CanDamage()
         {
-            return false;
+            return HoldProgress > 0;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
+            if (HoldProgress == 0)
+                return false;
+
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 142f * projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (projectile.velocity * bladeLenght), 64, ref collisionPoint);
+            float bladeLenght = ThrustDisplaceRatio() * 242f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (projectile.velocity * bladeLenght), 30, ref collisionPoint);
         }
 
 
@@ -87,9 +98,19 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Manage position and rotation
-            projectile.Center -= projectile.velocity;
+            projectile.Center -= projectile.velocity; //Don't actually move xd //Yes i knowi could set the velocity to zero and then use the projectiles rotation but it saves me ToRotationVector2() clutter
             projectile.scale = 1.4f;
 
+            for (int i = 0; i < CurrentStitches; i++)
+            {
+                if (StitchRotations[i] == 0)
+                {
+                    StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
+                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
+                    SafeVolumeChange(ref sewSound, 0.5f);
+                }
+                StitchLifetimes[i]++;
+            }
         }
 
         //Animation keys
@@ -110,6 +131,7 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
+            //Draw the scissors
             if (HoldProgress <= 0.4f)
             {
                 Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
@@ -118,22 +140,65 @@ namespace CalamityMod.Projectiles.Melee
                 float snippingRotation = projectile.rotation + MathHelper.PiOver4;
                 float snippingRotationBack = projectile.rotation + MathHelper.PiOver4 * 1.75f;
 
-                float drawRotation = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio());
-                float drawRotationBack = MathHelper.Lerp(snippingRotationBack - MathHelper.PiOver4, snippingRotationBack, RotationRatio());
+                float nitpickAngleCorrection = MathHelper.ToRadians(6f); //ITS IMPORTANT MOM!
+                float drawRotation = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio()) + nitpickAngleCorrection;
+                float drawRotationBack = MathHelper.Lerp(snippingRotationBack - MathHelper.PiOver4, snippingRotationBack, RotationRatio()) + nitpickAngleCorrection;
 
                 Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
                 Vector2 drawOriginBack = new Vector2(22, 109); //Right on the hole
                 Vector2 drawPosition = projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f - Main.screenPosition;
 
-
                 float opacity = (0.4f - HoldProgress) / 0.4f;
+                Color drawColor = Color.Orange * opacity * 0.9f;
+                Color drawColorBack = Color.HotPink * opacity * 0.9f;
 
-                Color drawColor = Color.CornflowerBlue * opacity * 0.5f;
-
-                spriteBatch.Draw(backBlade, drawPosition, null, drawColor, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
-
+                spriteBatch.Draw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
                 spriteBatch.Draw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-                
+            }
+
+            //Draw the rip
+            if (HoldProgress > 0)
+            {
+                Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
+
+                Vector2 Shake = HoldProgress > 0.2f ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (1 - HoldProgress * 5f) * 0.5f;
+                float raise = (float)Math.Sin(HoldProgress * MathHelper.PiOver2);
+
+                Vector2 nitpickShiftCorrection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
+                float rot = projectile.rotation + MathHelper.PiOver2;
+                Vector2 origin = new Vector2(lineTex.Width / 2f, lineTex.Height);
+                float ripWidth = StitchProgress < 0.75f ? 0.2f : (1 - (StitchProgress - 0.75f) * 4f) * 0.2f;
+                Vector2 scale = new Vector2(ripWidth, (ThrustDisplaceRatio() * 242f) / lineTex.Height);
+                float lineOpacity = StitchProgress < 0.75f ? 1f : 1 - (StitchProgress - 0.75f) * 4f;
+
+                spriteBatch.Draw(lineTex, projectile.Center - Main.screenPosition + Shake + nitpickShiftCorrection, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
+
+
+                //Draw the stitches
+                if (StitchProgress > 0)
+                {
+                    for (int i = 0; i < CurrentStitches; i++)
+                    {
+                        float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
+                        Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + nitpickShiftCorrection;
+
+                        rot = projectile.rotation + MathHelper.PiOver2 + StitchRotations[i];
+                        origin = new Vector2(lineTex.Width / 2f, lineTex.Height / 2f);
+
+                        float stitchLenght = (float)Math.Sin(i / (float)(maxStitches - 1) * MathHelper.Pi) * 0.5f + 0.5f;
+                        float stitchScale = (1f + (float)Math.Sin(MathHelper.Clamp(StitchLifetimes[i] / 7f, 0f, 1f) * MathHelper.Pi) * 0.3f) * 0.85f;
+                        if (CurrentStitches == maxStitches)
+                        {
+                            stitchScale *= 1 - ((StitchTimer - (MaxTime - SnapTime - HoldTime * 0.5f) * 0.3f) / (MaxTime - SnapTime - HoldTime * 0.5f) * 0.7f) * 0.8f;
+                        }
+                        scale = new Vector2(0.2f, stitchLenght) * stitchScale;
+                        lineOpacity = StitchProgress < 0.5f ? 1f : 1 - (StitchProgress - 0.5f) * 2f;
+
+                        Color stitchColor = Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, (float)Math.Sin(MathHelper.Clamp(StitchLifetimes[i] / 7f, 0f, 1f) * MathHelper.PiOver2));
+
+                        spriteBatch.Draw(lineTex, stitchCenter - Main.screenPosition + Shake, null, stitchColor, rot, origin, scale, SpriteEffects.None, 0);
+                    }
+                }
             }
 
             spriteBatch.End();
