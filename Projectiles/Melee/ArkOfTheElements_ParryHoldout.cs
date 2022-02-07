@@ -66,7 +66,8 @@ namespace CalamityMod.Projectiles.Melee
                 sword.Combo = 0f;
             }
             Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            var chunder = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            SafeVolumeChange(ref chunder, 0.3f);
             CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             for (int i = 0; i < 5; i ++) //Don't loose your way
