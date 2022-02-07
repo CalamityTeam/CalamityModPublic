@@ -97,10 +97,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (Charge >= 0 && player.controlUp)
+                if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f) + 500000, 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
