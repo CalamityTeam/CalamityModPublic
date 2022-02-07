@@ -352,8 +352,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 			Player player = Main.player[npc.target];
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -375,12 +374,12 @@ namespace CalamityMod.NPCs.HiveMind
 			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (biomeEnraged && (!player.ZoneCorrupt || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
 			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
 

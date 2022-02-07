@@ -96,8 +96,7 @@ namespace CalamityMod.NPCs.Signus
 
 			CalamityGlobalNPC.signus = npc.whoAmI;
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -115,7 +114,7 @@ namespace CalamityMod.NPCs.Signus
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             npc.damage = npc.defDamage;
 

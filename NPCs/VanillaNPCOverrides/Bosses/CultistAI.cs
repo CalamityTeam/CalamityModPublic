@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // Master Mode changes
         // 1 - Use more dangerous attacks more often, 
         // 2 - Cycles between attacks faster
-        public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedCultistAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 idleTime = 30;
             }
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

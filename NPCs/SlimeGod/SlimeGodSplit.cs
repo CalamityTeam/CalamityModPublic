@@ -67,12 +67,11 @@ namespace CalamityMod.NPCs.SlimeGod
 			if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
 				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || npc.localAI[1] == 1f || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             Vector2 vector = npc.Center;
 

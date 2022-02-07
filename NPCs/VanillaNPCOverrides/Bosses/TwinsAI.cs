@@ -327,11 +327,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 2 - Spazmatism moves and charges more often and faster, cycles attacks faster, 
         // 3 - Retinazer is slightly smaller and Spazmatism is slightly larger
         #region Twins AI
-        public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedRetinazerAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
@@ -345,7 +345,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
             if (Main.dayTime || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
 
@@ -1025,11 +1025,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedSpazmatismAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedSpazmatismAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
@@ -1043,7 +1043,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
             if (Main.dayTime || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
 

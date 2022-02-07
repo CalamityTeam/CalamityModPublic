@@ -15,14 +15,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            2 - No longer spins before charging in final phase
            3 - Creepers spread out from each other
            4 - Creepers are immune to debuffs*/
-        public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedBrainofCthulhuAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
@@ -36,12 +36,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if ((npc.position.Y / 16f) < Main.worldSurface || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
             if (!Main.player[npc.target].ZoneCrimson || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;
             }
 
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedCreeperAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedCreeperAI(NPC npc, Mod mod)
         {
             // Despawn if Brain is gone
             if (NPC.crimsonBoss < 0)
@@ -561,7 +561,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 return false;
             }
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target

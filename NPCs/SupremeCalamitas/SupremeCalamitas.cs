@@ -350,8 +350,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-			bool enraged = npc.Calamity().enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -541,7 +540,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 uDieLul = MathHelper.Clamp(uDieLul * 0.99f, 1f, 2f);
                 protectionBoost = false;
             }
-            npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox) || enraged;
+            npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
 
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = npc.Calamity();

@@ -18,19 +18,19 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Malice");
             Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Death Mode.\n" +
 
-				// Overall description and warning lines
-				"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
+			// Overall description and warning lines
+			"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
 
-                // Rev Mode line
-                "All effects from Death Mode are enabled, including the following:\n" +
+            // Rev Mode line
+            "All effects from Death Mode are enabled, including the following:\n" +
 
-                // Misc lines
-                "Nerfs the effectiveness of life steal a bit more.\n" +
-
-                // Boss lines
-                "Enrages all bosses and gives them far more aggressive AI.\n" +
-                "Bosses and their projectiles deal 25% more damage.\n" +
-                "Increases the velocity of most boss projectiles by 25%.");
+            // Misc lines
+            "Nerfs the effectiveness of life steal a bit more.\n" +
+            
+            // Boss lines
+            "Enrages all bosses and gives them far more aggressive AI.\n" +
+            "Bosses and their projectiles deal 25% more damage.\n" +
+            "Increases the velocity of most boss projectiles by 25%.");
         }
 
         public override void SetDefaults()

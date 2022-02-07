@@ -107,8 +107,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 			Player player = Main.player[npc.target];
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -127,14 +126,14 @@ namespace CalamityMod.NPCs.Cryogen
 			float enrageScale = death ? 0.5f : 0f;
 			if (biomeEnraged)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
 			}
 
 			if (enrageScale > 2f)
 				enrageScale = 2f;
 
-			if (BossRushEvent.BossRushActive || enraged)
+			if (BossRushEvent.BossRushActive)
 				enrageScale = 3f;
 
 			// Percent life remaining

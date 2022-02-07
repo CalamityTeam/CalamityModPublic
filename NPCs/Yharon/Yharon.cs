@@ -153,8 +153,7 @@ namespace CalamityMod.NPCs.Yharon
             CalamityMod.StopRain();
 
             // Variables
-            bool enraged2 = calamityGlobalNPC.enraged > 0;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged2;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -339,7 +338,7 @@ namespace CalamityMod.NPCs.Yharon
             else
             {
                 enraged = !player.Hitbox.Intersects(safeBox);
-                npc.Calamity().CurrentlyEnraged = enraged || enraged2;
+                npc.Calamity().CurrentlyEnraged = enraged;
                 if (enraged)
                 {
                     phaseSwitchTimer = 15;
@@ -1605,7 +1604,6 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // Set DR based on protection boost (aka enrage)
-            bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
             bool bulletHell = npc.ai[0] == 5f;
             calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
 

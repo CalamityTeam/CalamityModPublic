@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 1 - Allow fists to travel further and faster, 
         // 2 - More projectiles, 
         // 3 - Fists can no longer be broken
-        public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedGolemAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.5f;
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice)
                 enrage = true;
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (enrage || turboEnrage)) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && (enrage || turboEnrage);
 
             bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y;
 
@@ -403,9 +403,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedGolemFistAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedGolemFistAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Enrage if the target isn't inside the temple
@@ -630,10 +630,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         }
 
 
-        public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedGolemHeadAI(NPC npc, Mod mod)
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             // Don't collide
             npc.noTileCollide = true;
 
@@ -655,7 +653,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Count body parts
@@ -872,7 +870,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedGolemHeadFreeAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -894,10 +892,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
             float golemLifeRatio = Main.npc[NPC.golemBoss].life / (float)Main.npc[NPC.golemBoss].lifeMax;
-            float combinedRatio = lifeRatio + golemLifeRatio;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;

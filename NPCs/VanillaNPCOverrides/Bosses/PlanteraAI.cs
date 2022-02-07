@@ -16,11 +16,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 2 - Spawns far more tentacles to protect herself in phase 2 and they resist piercing, 
         // 3 - Spore gas spreads out far more, 
         // 4 - Plantera is larger
-        public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPlanteraAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 acceleration = 0.15f;
             }
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
 
             // Detect active tiles around Plantera
             int radius = 20; // 20 tile radius

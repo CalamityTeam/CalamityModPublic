@@ -176,7 +176,6 @@ namespace CalamityMod.NPCs.Providence
 
 			// Night bool
 			bool malice = CalamityWorld.malice;
-			bool enraged = npc.Calamity().enraged > 0;
 			bool nightTime = !Main.dayTime || malice;
 
 			// Difficulty bools
@@ -216,7 +215,7 @@ namespace CalamityMod.NPCs.Providence
 			if (nightTime)
 				projectileDamageMult = 2;
 
-			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged || biomeEnrageTimer <= 0;
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || biomeEnrageTimer <= 0;
 
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -248,7 +247,7 @@ namespace CalamityMod.NPCs.Providence
 			float baseSpearRate = 18f;
 			float spearRate = 1f + spearRateIncrease;
 
-			if (BossRushEvent.BossRushActive || enraged)
+			if (BossRushEvent.BossRushActive)
 				spearRate += bossRushSpearRateIncrease;
 
 			// Projectile fire rate multiplier
@@ -518,7 +517,7 @@ namespace CalamityMod.NPCs.Providence
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || enraged || nightTime)
+                if (BossRushEvent.BossRushActive || nightTime)
                 {
                     acceleration = 1.5f;
                     velocity = 25f;

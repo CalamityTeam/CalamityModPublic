@@ -142,8 +142,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Variables
 			Vector2 vector = npc.Center;
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool speedBoost = false;
             bool despawnBoost = false;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -341,7 +340,7 @@ namespace CalamityMod.NPCs.Polterghast
 			if (malice)
 				tileEnrageMult = 1.75f;
 
-			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive || enraged) && tileEnrageMult >= 1.6f;
+			npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
 
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;

@@ -63,8 +63,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void AI()
         {
 			Player player = Main.player[npc.target];
-			bool enraged = npc.Calamity().enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			float burrowTimeGateValue = death ? 420f : 540f;

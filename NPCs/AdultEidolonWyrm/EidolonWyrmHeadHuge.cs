@@ -145,8 +145,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
 
 			// Difficulty modes
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || enraged;
+			bool malice = CalamityWorld.malice;
 			bool death = CalamityWorld.death;
 			bool revenge = CalamityWorld.revenge;
 			bool expertMode = Main.expertMode;

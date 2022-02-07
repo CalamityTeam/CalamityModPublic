@@ -51,9 +51,8 @@ namespace CalamityMod.NPCs.Crabulon
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.4f);
-			bool enraged = npc.Calamity().enraged > 0;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || enraged;
-			float xVelocityLimit = (CalamityWorld.malice || BossRushEvent.BossRushActive || enraged) ? 7.5f : 5f;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			float xVelocityLimit = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 7.5f : 5f;
             float yVelocityLimit = revenge ? 1.25f : 1f;
             Player player = Main.player[npc.target];
             npc.velocity.Y += 0.02f;

@@ -79,14 +79,6 @@ namespace CalamityMod.NPCs
     {
 		#region Variables
 
-		public float TimedDRScaleFactor { get; set; } = 0f;
-		private const float timedDR_Disabled = 0f;
-		private const float timedDR_Malice = 2f;
-		private const float timedDR_Worm = 3f;
-		private const float timedDR_NightProvi = 10f;
-		private const float timedDRMult_Normal = 0.67f;
-		private const float timedDRMult_Expert = 0.85f;
-
 		public float DR { get; set; } = 0f;
 
 		public int KillTime { get; set; } = 0;
@@ -900,8 +892,6 @@ namespace CalamityMod.NPCs
 
 			VulnerabilitiesAndResistances(npc);
 
-			TimedDRScaleFactors(npc);
-
 			BoundNPCSafety(mod, npc);
         }
 		#endregion
@@ -1260,149 +1250,6 @@ namespace CalamityMod.NPCs
                 npc.canGhostHeal = false;
             }
         }
-		#endregion
-
-		#region Timed DR Stats
-		private void TimedDRScaleFactors(NPC npc)
-		{
-			bool malice = CalamityWorld.malice;
-			bool bossHasBeenDowned = GetDownedBossVariable(npc.type);
-
-			// Every boss post-DoG has normal timed DR until it is downed
-			bool removePostDoGTimedDR = bossHasBeenDowned;
-
-			// Post-Provi Pre-DoG timed DR is removed when anything DoG and onward is defeated
-			bool removePostProviPreDoGTimedDR = removePostDoGTimedDR || CalamityWorld.downedAdultEidolonWyrm ||
-				CalamityWorld.downedSCal || CalamityWorld.downedExoMechs || CalamityWorld.downedYharon || CalamityWorld.downedDoG;
-
-			// Post-ML Pre-Provi timed DR is removed when anything Providence and onward is defeated
-			bool removePostMLPreProviTimedDR = removePostProviPreDoGTimedDR || CalamityWorld.downedBoomerDuke ||
-				CalamityWorld.downedPolterghast || CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 ||
-				CalamityWorld.downedSentinel3 || CalamityWorld.downedProvidence;
-
-			// Late Hardmode timed DR is removed when anything Moon Lord and onward is defeated
-			bool removeLateHardmodeTimedDR = removePostMLPreProviTimedDR || CalamityWorld.downedBumble ||
-				CalamityWorld.downedGuardians || NPC.downedMoonlord;
-
-			// Early Hardmode timed DR is removed when anything Plantera and onward is defeated
-			bool removeEarlyHardmodeTimedDR = removeLateHardmodeTimedDR || CalamityWorld.downedStarGod ||
-				NPC.downedAncientCultist || CalamityWorld.downedScavenger || NPC.downedFishron ||
-				CalamityWorld.downedPlaguebringer || NPC.downedGolemBoss || CalamityWorld.downedAstrageldon ||
-				CalamityWorld.downedLeviathan || NPC.downedPlantBoss;
-
-			// Pre Hardmode timed DR is removed when anything Wall of Flesh and onward is defeated
-			bool removePreHardmodeTimedDR = removeEarlyHardmodeTimedDR || CalamityWorld.downedCalamitas ||
-				NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3 || CalamityWorld.downedBrimstoneElemental ||
-				CalamityWorld.downedAquaticScourge || CalamityWorld.downedCryogen || Main.hardMode;
-
-			// Vanilla bosses
-			switch (npc.type)
-			{
-				// Pre Hardmode bosses
-				case NPCID.KingSlime:
-				case NPCID.EyeofCthulhu:
-				case NPCID.EaterofWorldsHead:
-				case NPCID.EaterofWorldsBody:
-				case NPCID.EaterofWorldsTail:
-				case NPCID.BrainofCthulhu:
-				case NPCID.Creeper:
-				case NPCID.QueenBee:
-				case NPCID.SkeletronHead:
-				case NPCID.WallofFlesh:
-				case NPCID.WallofFleshEye:
-
-					TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
-
-					break;
-
-				// The Destroyer
-				case NPCID.TheDestroyer:
-				case NPCID.TheDestroyerBody:
-				case NPCID.TheDestroyerTail:
-
-					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Worm : timedDR_Disabled;
-
-					break;
-
-				// Early Hardmode bosses
-				case NPCID.Spazmatism:
-				case NPCID.Retinazer:
-				case NPCID.SkeletronPrime:
-				case NPCID.Plantera:
-
-					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
-
-					break;
-
-				// Late Hardmode bosses
-				case NPCID.Golem:
-				case NPCID.GolemHead:
-				case NPCID.DukeFishron:
-				case NPCID.CultistBoss:
-				case NPCID.MoonLordCore:
-				case NPCID.MoonLordHead:
-				case NPCID.MoonLordHand:
-
-					TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
-
-					break;
-			}
-
-			// Calamity bosses
-			bool preHardmodeCalamityBosses = CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>() ||
-				npc.type == NPCType<HiveMind.HiveMind>() || npc.type == NPCType<PerforatorHive>() || npc.type == NPCType<SlimeGod.SlimeGod>() ||
-				npc.type == NPCType<SlimeGodRun>() || npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>() ||
-				npc.type == NPCType<SlimeGodCore>();
-
-			bool earlyHardmodeCalamityBosses = npc.type == NPCType<Cryogen.Cryogen>() || CalamityLists.AquaticScourgeIDs.Contains(npc.type) ||
-				npc.type == NPCType<BrimstoneElemental.BrimstoneElemental>() || npc.type == NPCType<CalamitasRun3>();
-
-			bool lateHardmodeCalamityBosses = npc.type == NPCType<Siren>() || npc.type == NPCType<Leviathan.Leviathan>() ||
-				npc.type == NPCType<AstrumAureus.AstrumAureus>() || npc.type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() ||
-				npc.type == NPCType<RavagerBody>() || CalamityLists.AstrumDeusIDs.Contains(npc.type);
-
-			bool postMLPreProviCalamityBosses = npc.type == NPCType<ProfanedGuardianBoss>() || npc.type == NPCType<Bumblefuck>() ||
-				npc.type == NPCType<Providence.Providence>();
-
-			bool postProviPreDoGCalamityBosses = npc.type == NPCType<CeaselessVoid.CeaselessVoid>() || npc.type == NPCType<DarkEnergy>() ||
-				CalamityLists.StormWeaverIDs.Contains(npc.type) || npc.type == NPCType<Signus.Signus>() || npc.type == NPCType<Polterghast.Polterghast>() ||
-				npc.type == NPCType<OldDuke.OldDuke>() || CalamityLists.DevourerOfGodsIDs.Contains(npc.type);
-
-			bool postDoGCalamityBosses = npc.type == NPCType<Yharon.Yharon>() || npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>() ||
-				CalamityLists.ThanatosIDs.Contains(npc.type) || npc.type == NPCType<Apollo>() || npc.type == NPCType<Artemis>() ||
-				CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<EidolonWyrmHeadHuge>();
-
-			if (preHardmodeCalamityBosses)
-			{
-				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.DesertScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
-			}
-			else if (earlyHardmodeCalamityBosses)
-			{
-				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
-			}
-			else if (lateHardmodeCalamityBosses)
-			{
-				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled : malice ? (CalamityLists.AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
-			}
-			else if (postMLPreProviCalamityBosses)
-			{
-				TimedDRScaleFactor = removePostMLPreProviTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
-			}
-			else if (postProviPreDoGCalamityBosses)
-			{
-				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled : malice ? (CalamityLists.StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Malice) : timedDR_Disabled;
-			}
-			else if (postDoGCalamityBosses)
-			{
-				TimedDRScaleFactor = removePostDoGTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Disabled;
-			}
-
-			// Reduce timed DR in lower difficulties
-			if (!Main.expertMode)
-				TimedDRScaleFactor *= timedDRMult_Normal;
-			else if (!CalamityWorld.revenge)
-				TimedDRScaleFactor *= timedDRMult_Expert;
-		}
 		#endregion
 
 		#region Vulnerabilities and Resistances
@@ -2578,14 +2425,12 @@ namespace CalamityMod.NPCs
 			if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
 				damage += yellowCandleDamage;
 
-			// Boss that get higher timed DR than normal in specific circumstances
-			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice);
-
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (TimedDRScaleFactor > 0f || nightProvi))
+			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice);
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && nightProvi)
 			{
 				// Set the DR scaling factor
-				float DRScalar = nightProvi ? timedDR_NightProvi : TimedDRScaleFactor;
+				float DRScalar = 10f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -2800,76 +2645,76 @@ namespace CalamityMod.NPCs
 				switch (npc.type)
                 {
                     case NPCID.KingSlime:
-                        return KingSlimeAI.BuffedKingSlimeAI(npc, enraged > 0, mod);
+                        return KingSlimeAI.BuffedKingSlimeAI(npc, mod);
 
                     case NPCID.EyeofCthulhu:
-                        return EyeOfCthulhuAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
+                        return EyeOfCthulhuAI.BuffedEyeofCthulhuAI(npc, mod);
 
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
-                        return EaterOfWorldsAI.BuffedEaterofWorldsAI(npc, enraged > 0, mod);
+                        return EaterOfWorldsAI.BuffedEaterofWorldsAI(npc, mod);
 
                     case NPCID.BrainofCthulhu:
-                        return BrainOfCthulhuAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
+                        return BrainOfCthulhuAI.BuffedBrainofCthulhuAI(npc, mod);
                     case NPCID.Creeper:
-                        return BrainOfCthulhuAI.BuffedCreeperAI(npc, enraged > 0, mod);
+                        return BrainOfCthulhuAI.BuffedCreeperAI(npc, mod);
 
                     case NPCID.QueenBee:
-                        return QueenBeeAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
+                        return QueenBeeAI.BuffedQueenBeeAI(npc, mod);
 
                     case NPCID.SkeletronHand:
-                        return SkeletronAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
+                        return SkeletronAI.BuffedSkeletronHandAI(npc, mod);
                     case NPCID.SkeletronHead:
-                        return SkeletronAI.BuffedSkeletronAI(npc, enraged > 0, mod);
+                        return SkeletronAI.BuffedSkeletronAI(npc, mod);
 
                     case NPCID.WallofFlesh:
-                        return WallOfFleshAI.BuffedWallofFleshAI(npc, enraged > 0, mod);
+                        return WallOfFleshAI.BuffedWallofFleshAI(npc, mod);
                     case NPCID.WallofFleshEye:
-                        return WallOfFleshAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod);
+                        return WallOfFleshAI.BuffedWallofFleshEyeAI(npc, mod);
 
                     case NPCID.TheDestroyer:
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
-                        return DestroyerAI.BuffedDestroyerAI(npc, enraged > 0, mod);
+                        return DestroyerAI.BuffedDestroyerAI(npc, mod);
 					case NPCID.Probe:
 						return DestroyerAI.BuffedProbeAI(npc, mod);
 
                     case NPCID.Retinazer:
-                        return TwinsAI.BuffedRetinazerAI(npc, enraged > 0, mod);
+                        return TwinsAI.BuffedRetinazerAI(npc, mod);
                     case NPCID.Spazmatism:
-                        return TwinsAI.BuffedSpazmatismAI(npc, enraged > 0, mod);
+                        return TwinsAI.BuffedSpazmatismAI(npc, mod);
 
                     case NPCID.SkeletronPrime:
-                        return SkeletronPrimeAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedSkeletronPrimeAI(npc, mod);
                     case NPCID.PrimeLaser:
-                        return SkeletronPrimeAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeLaserAI(npc, mod);
                     case NPCID.PrimeCannon:
-                        return SkeletronPrimeAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeCannonAI(npc, mod);
                     case NPCID.PrimeVice:
-                        return SkeletronPrimeAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeViceAI(npc, mod);
                     case NPCID.PrimeSaw:
-                        return SkeletronPrimeAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
+                        return SkeletronPrimeAI.BuffedPrimeSawAI(npc, mod);
 
                     case NPCID.Plantera:
-                        return PlanteraAI.BuffedPlanteraAI(npc, enraged > 0, mod);
+                        return PlanteraAI.BuffedPlanteraAI(npc, mod);
                     case NPCID.PlanterasHook:
                         return PlanteraAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
                         return PlanteraAI.BuffedPlanterasTentacleAI(npc, mod);
 
                     case NPCID.Golem:
-                        return GolemAI.BuffedGolemAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemAI(npc, mod);
 					case NPCID.GolemFistLeft:
 					case NPCID.GolemFistRight:
-						return GolemAI.BuffedGolemFistAI(npc, enraged > 0, mod);
+						return GolemAI.BuffedGolemFistAI(npc, mod);
                     case NPCID.GolemHead:
-                        return GolemAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemHeadAI(npc, mod);
                     case NPCID.GolemHeadFree:
-                        return GolemAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod);
+                        return GolemAI.BuffedGolemHeadFreeAI(npc, mod);
 
                     case NPCID.DukeFishron:
-                        return DukeFishronAI.BuffedDukeFishronAI(npc, enraged > 0, mod);
+                        return DukeFishronAI.BuffedDukeFishronAI(npc, mod);
 
                     case NPCID.Pumpking:
                         if (CalamityWorld.downedDoG)
@@ -2905,7 +2750,7 @@ namespace CalamityMod.NPCs
 
                     case NPCID.CultistBoss:
                     case NPCID.CultistBossClone:
-                        return CultistAI.BuffedCultistAI(npc, enraged > 0, mod);
+                        return CultistAI.BuffedCultistAI(npc, mod);
 					case NPCID.AncientLight:
 						return CultistAI.BuffedAncientLightAI(npc, mod);
 					case NPCID.AncientDoom:
@@ -2916,7 +2761,7 @@ namespace CalamityMod.NPCs
                     case NPCID.MoonLordHead:
 					case NPCID.MoonLordFreeEye:
 					case NPCID.MoonLordLeechBlob:
-                        return MoonLordAI.BuffedMoonLordAI(npc, enraged > 0, mod);
+                        return MoonLordAI.BuffedMoonLordAI(npc, mod);
 
 					default:
                         break;
