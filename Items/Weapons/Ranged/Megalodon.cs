@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool ConsumeAmmo(Player player)
         {
-            if (shotType > 1)
+            if (shotType == 2)
                 return false;
             return true;
         }
