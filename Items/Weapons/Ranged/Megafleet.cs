@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voidragon");
-            Tooltip.SetDefault("Fires void blasts that explode");
             Tooltip.SetDefault("75% chance to not consume ammo\n" +
                 "Fires void blasts that explode every other shot\n" +
                 "Shoots demon flame tentacles alongside every shot");
