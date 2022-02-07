@@ -101,6 +101,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center -= projectile.velocity; //Don't actually move xd //Yes i knowi could set the velocity to zero and then use the projectiles rotation but it saves me ToRotationVector2() clutter
             projectile.scale = 1.4f;
 
+            //Update stitches
             for (int i = 0; i < CurrentStitches; i++)
             {
                 if (StitchRotations[i] == 0)
@@ -108,8 +109,45 @@ namespace CalamityMod.Projectiles.Melee
                     StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
                     var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
                     SafeVolumeChange(ref sewSound, 0.5f);
+
+                    float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
+                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+
+
+                    Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
+                    GeneralParticleHandler.SpawnParticle(spark);
                 }
                 StitchLifetimes[i]++;
+            }
+
+            if (HoldTimer == 1)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    float positionAlongLine = MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, Main.rand.NextFloat(0f, 1f));
+                    Vector2 particlePosition = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+                    Color particleColor = Main.rand.NextBool() ? Color.OrangeRed : Main.rand.NextBool() ? Color.White : Color.Orange;
+                    float particleScale = Main.rand.NextFloat(0.05f, 0.4f) * (0.4f + 0.6f * (float)Math.Sin(positionAlongLine / (ThrustDisplaceRatio() * 242f) * MathHelper.Pi));
+
+                    int particleType = Main.rand.Next(3);
+                    Particle particle;
+
+                    switch (particleType)
+                    {
+                        case 0:
+                            particle = new StrongBloom(particlePosition, Vector2.UnitY * Main.rand.NextFloat(-4f, -1f), particleColor, particleScale, Main.rand.Next(20) + 10);
+                            GeneralParticleHandler.SpawnParticle(particle);
+                            break;
+                        case 1:
+                            particle = new GenericBloom(particlePosition, Vector2.UnitY * Main.rand.NextFloat(-4f, -1f), particleColor, particleScale, Main.rand.Next(20) + 10);
+                            GeneralParticleHandler.SpawnParticle(particle);
+                            break;
+                        case 2:
+                            particle = new CritSpark(particlePosition, Vector2.UnitY * Main.rand.NextFloat(-10f, -1f), Color.White, particleColor, particleScale * 7f, Main.rand.Next(20) + 10, 0.1f, 3);
+                            GeneralParticleHandler.SpawnParticle(particle);
+                            break;
+                    }
+                }
             }
         }
 
@@ -130,6 +168,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Texture2D sliceTex = GetTexture("CalamityMod/Particles/BloomLine");
+            Color sliceColor = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
+            float rot = projectile.rotation + MathHelper.PiOver2;
+            Vector2 nitpickShiftCorrection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
+            Vector2 sliceScale = new Vector2(0.2f * (1 - SnapProgress) ,ThrustDisplaceRatio() * 242f);
+            spriteBatch.Draw(sliceTex, projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
+
 
             //Draw the scissors
             if (HoldProgress <= 0.4f)
@@ -164,8 +210,6 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 Shake = HoldProgress > 0.2f ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (1 - HoldProgress * 5f) * 0.5f;
                 float raise = (float)Math.Sin(HoldProgress * MathHelper.PiOver2);
 
-                Vector2 nitpickShiftCorrection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
-                float rot = projectile.rotation + MathHelper.PiOver2;
                 Vector2 origin = new Vector2(lineTex.Width / 2f, lineTex.Height);
                 float ripWidth = StitchProgress < 0.75f ? 0.2f : (1 - (StitchProgress - 0.75f) * 4f) * 0.2f;
                 Vector2 scale = new Vector2(ripWidth, (ThrustDisplaceRatio() * 242f) / lineTex.Height);
@@ -192,7 +236,6 @@ namespace CalamityMod.Projectiles.Melee
                             stitchScale *= 1 - ((StitchTimer - (MaxTime - SnapTime - HoldTime * 0.5f) * 0.3f) / (MaxTime - SnapTime - HoldTime * 0.5f) * 0.7f) * 0.8f;
                         }
                         scale = new Vector2(0.2f, stitchLenght) * stitchScale;
-                        lineOpacity = StitchProgress < 0.5f ? 1f : 1 - (StitchProgress - 0.5f) * 2f;
 
                         Color stitchColor = Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, (float)Math.Sin(MathHelper.Clamp(StitchLifetimes[i] / 7f, 0f, 1f) * MathHelper.PiOver2));
 
