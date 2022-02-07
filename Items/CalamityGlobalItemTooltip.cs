@@ -278,7 +278,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.BottledHoney)
                 EditTooltipByName("HealLife", (line) => line.text += "\nGrants the Honey buff for 2 minutes");
 
-            // Warmth Potion provides debuff immunities and Death Mode cold protection
+            // Warmth Potion provides debuff immunities
             if (item.type == ItemID.WarmthPotion)
             {
                 string immunityLine = "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
@@ -297,7 +297,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EndurancePotion)
                 EditTooltipByNum(0, (line) => line.text = "Reduces damage taken by 5%");
 
-            // Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
+            // Hand Warmer has a side bonus with Eskimo armor
             if (item.type == ItemID.HandWarmer)
             {
                 string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
@@ -638,7 +638,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
             #endregion
 
-            // Items which provide immunity to either heat or cold in Death Mode, or interact with Lethal Lava
+            // Items which interact with Lethal Lava
             #region Lava and Death Mode Environmental Immunity Tooltips
 
             if (item.type == ItemID.ObsidianSkinPotion)

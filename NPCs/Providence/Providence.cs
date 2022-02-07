@@ -267,8 +267,8 @@ namespace CalamityMod.NPCs.Providence
 
 			// Inflict Holy Inferno if target is too far away
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-			float shorterSpearCocoonDistance = (CalamityWorld.death || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)
@@ -1389,9 +1389,13 @@ namespace CalamityMod.NPCs.Providence
 			float distanceToTarget = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 			float aiTimer = npc.ai[3];
 
+			// Night bool
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
+
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 			bool guardianAlive = false;

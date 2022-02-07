@@ -26,7 +26,6 @@ namespace CalamityMod.Buffs.StatBuffs
 				"Greatly reducing enemy spawn rates\n" +
 				"Disabling teleportation effects\n" +
 				"Increasing Nurse healing cost by 400%\n" +
-				"Disabling Death Mode weather and biome effects\n" +
 				"Disabling Target and Super Dummy hitboxes";
 		}
 	}

@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftBoost = 1f;
             }
 
-			if (CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 			{
 				lungeRots = 0.4;
 				minimumDriftTime = 40;

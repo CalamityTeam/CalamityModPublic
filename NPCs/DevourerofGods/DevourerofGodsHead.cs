@@ -1981,7 +1981,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (teleportTimer > -1 || player.dead || !player.active)
 				return;
 
-			teleportTimer = CalamityWorld.death ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+			teleportTimer = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int randomRange = 48;

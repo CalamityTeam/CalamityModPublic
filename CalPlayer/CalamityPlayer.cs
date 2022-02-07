@@ -10281,7 +10281,7 @@ namespace CalamityMod.CalPlayer
             // This floor is only applied if bosses are alive
             if (areThereAnyDamnBosses)
             {
-                int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+                int defenseDamageFloor = ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
                 if (defenseDamageTaken < defenseDamageFloor)
                     defenseDamageTaken = defenseDamageFloor;
             }

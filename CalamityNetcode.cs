@@ -255,7 +255,7 @@ namespace CalamityMod
                         break;
 
                     //
-                    // Death Mode environmental syncs
+                    // Death Mode boss spawn countdown sync
                     //
                     case CalamityModMessageType.DeathBossSpawnCountdownSync:
                         int countdown4 = reader.ReadInt32();
@@ -399,8 +399,6 @@ namespace CalamityMod
         EncounteredOldDukeSync,
 
         // Death Mode environmental syncs
-        DeathModeUnderworldTimeSync, // TODO -- Rename to heat time. This should be synced every 15 frames.
-        DeathModeBlizzardTimeSync, // TODO -- Rename to cold time. This should be synced every 15 frames.
         DeathBossSpawnCountdownSync, // TODO -- This currently syncs every frame and shouldn't. It only needs to sync once, when the countdown starts.
 
         // Reforge syncs
