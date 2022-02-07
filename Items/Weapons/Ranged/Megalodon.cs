@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
@@ -9,10 +10,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Megalodon : ModItem
     {
+        private int shotType = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Megalodon");
-            Tooltip.SetDefault("50% chance to not consume ammo");
+            Tooltip.SetDefault("50% chance to not consume ammo\n" +
+                "Fires streams of water every other shot");
         }
 
         public override void SetDefaults()
@@ -45,13 +49,23 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+
+            if (shotType > 2)
+                shotType = 1;
+
+            if (shotType == 1)
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            else 
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+
+            shotType++;
+
             return false;
         }
 
         public override bool ConsumeAmmo(Player player)
         {
-            if (Main.rand.Next(0, 100) < 50)
+            if (shotType == 2)
                 return false;
             return true;
         }
@@ -60,6 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Megashark);
+            recipe.AddIngredient(ModContent.ItemType<Archerfish>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

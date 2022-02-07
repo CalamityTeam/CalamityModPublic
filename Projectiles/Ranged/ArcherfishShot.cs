@@ -22,6 +22,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.ignoreWater = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
             projectile.penetrate = 2;
             projectile.alpha = 255;
             projectile.timeLeft = 600;
