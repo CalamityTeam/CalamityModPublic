@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (shotType % 2 == 1)
                     Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 else
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MegalodonShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 
                 shotType++;
             }

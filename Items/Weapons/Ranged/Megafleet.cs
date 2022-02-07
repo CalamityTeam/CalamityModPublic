@@ -16,6 +16,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Voidragon");
             Tooltip.SetDefault("Fires void blasts that explode");
+            Tooltip.SetDefault("75% chance to not consume ammo\n" +
+                "Fires void blasts that explode every other shot\n" +
+                "Shoots demon flame tentacles alongside every shot");
         }
 
         public override void SetDefaults()
@@ -61,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             shotType++;
 
-            //Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BrimstoneTentacle>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f); this is here so I remember to look at it tomorrow when I'm less tired
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<VoidragonTentacle>(), damage, knockBack, player.whoAmI, (Main.rand.Next(-160, 160) * 0.001f), (Main.rand.Next(-160, 160) * 0.001f));
 
             return false;
         }
