@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public float Combo = 0f;
         public float Charge = 0f;
+        public override bool CloneNewInstances => true;
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
