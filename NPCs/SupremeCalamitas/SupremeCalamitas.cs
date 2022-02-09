@@ -2931,6 +2931,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
                 intensity = 1.1f;
 
+            // Dampen the opacity and intensity slightly, to allow SCal to be more easily visible inside of the forcefield.
+            intensity *= 0.75f;
+            opacity *= 0.75f;
+
             Texture2D forcefieldTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamitasShield");
             GameShaders.Misc["CalamityMod:SupremeShield"].UseImage("Images/Misc/Perlin");
 
