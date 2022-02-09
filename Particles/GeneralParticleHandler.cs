@@ -72,10 +72,15 @@ namespace CalamityMod.Particles
         }
 
         /// <summary>
-		/// Spawns the particle instance provided into the world. If the particle limit is reached but the particle is marked as important, it will try to replace a non important particle.
-		/// </summary>
-		public static void SpawnParticle(Particle particle)
+        /// Spawns the particle instance provided into the world. If the particle limit is reached but the particle is marked as important, it will try to replace a non important particle.
+        /// </summary>
+        public static void SpawnParticle(Particle particle)
         {
+            // Don't queue particles if the game is paused.
+            // This precedent is established with how Dust instances are created.
+            if (Main.gamePaused)
+                return;
+
             if (particles.Count >= CalamityConfig.Instance.ParticleLimit && !particle.Important)
                 return;
 
