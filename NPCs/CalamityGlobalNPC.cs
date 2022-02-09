@@ -4847,7 +4847,16 @@ namespace CalamityMod.NPCs
 					BloodParticle blood = new BloodParticle(npc.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
 					GeneralParticleHandler.SpawnParticle(blood);
 				}
-            }
+				for (int i = 0; i < exactBloodCount / 3; ++i)
+				{
+					float bloodScale = Main.rand.NextFloat(0.2f, 0.33f);
+					Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.5f, 1f));
+					Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * Main.rand.NextFloat(1f, 2f);
+					bloodVelocity.Y -= 2.3f;
+					BloodParticle2 blood = new BloodParticle2(npc.Center, bloodVelocity, 20, bloodScale, bloodColor);
+					GeneralParticleHandler.SpawnParticle(blood);
+				}
+			}
 
             if (hFlames > 0 || banishingFire > 0)
             {
