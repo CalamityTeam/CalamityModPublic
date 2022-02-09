@@ -53,7 +53,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             }
 
             // If a valid player applied this debuff, then let it deal damage.
-            if (cgn.somaShredApplicator >= 0 && cgn.somaShredApplicator < Main.maxPlayers)
+            if (cgn.somaShredApplicator >= 0 && cgn.somaShredApplicator < Main.maxPlayers && Main.myPlayer == cgn.somaShredApplicator)
             {
                 Player applicator = Main.player[cgn.somaShredApplicator];
 
