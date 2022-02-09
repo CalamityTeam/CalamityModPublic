@@ -203,7 +203,14 @@ namespace CalamityMod.NPCs
         public int hFlames = 0;
         public int pFlames = 0;
         public int aCrunch = 0;
-        public int pShred = 0;
+
+		// Soma Prime Shred deals damage with DirectStrikes instead of with direct debuff damage
+		// It also stacks, scales with ranged damage, and can crit, meaning it needs to know who applied it most recently
+		public int somaShredStacks = 0;
+		public int somaShredApplicator = -1;
+		// Reduced by the number of active stacks every frame. If it hits zero, one stack disappears.
+		public int somaShredFalloff = Shred.StackFalloffFrames;
+
         public int cDepth = 0;
         public int gsInferno = 0;
         public int astralInfection = 0;
@@ -816,8 +823,8 @@ namespace CalamityMod.NPCs
 			// Debuffs that aren't affected by weaknesses or resistances.
 			if (vaporfied > 0)
 				ApplyDPSDebuff(30, 6, ref npc.lifeRegen, ref damage);
-			if (pShred > 0)
-				ApplyDPSDebuff(1500, 300, ref npc.lifeRegen, ref damage);
+			if (somaShredStacks > 0)
+				Shred.TickDebuff(npc, this);
 			if (bBlood > 0)
 				ApplyDPSDebuff(50, 10, ref npc.lifeRegen, ref damage);
 
@@ -3690,8 +3697,7 @@ namespace CalamityMod.NPCs
 				pFlames--;
 			if (aFlames > 0)
 				aFlames--;
-			if (pShred > 0)
-				pShred--;
+			// Soma Prime's Shred stacks have a unique falloff mechanic in the debuff's own file.
 			if (aCrunch > 0)
 				aCrunch--;
 			if (cDepth > 0)
@@ -3910,6 +3916,36 @@ namespace CalamityMod.NPCs
 			CalamityPlayer modPlayer = player.Calamity();
 
 			MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
+
+			// Supercrits
+			var cgp = projectile.Calamity();
+			if (cgp.canSupercrit)
+			{
+				int critOver100 = 0;
+				if (projectile.melee)
+					critOver100 = player.meleeCrit - 100;
+				else if (projectile.ranged)
+					critOver100 = player.rangedCrit - 100;
+				else if (projectile.magic)
+					critOver100 = player.magicCrit - 100;
+				else if (projectile.thrown) // Also covers rogue
+					critOver100 = player.thrownCrit - 100;
+
+				// Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
+				// For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
+				if (critOver100 > 0)
+				{
+					int supercritLayers = critOver100 / 100;
+					int lastLayerCritChance = critOver100 - supercritLayers;
+					// Roll for the remaining crit chance
+					if (Main.rand.Next(100) <= lastLayerCritChance)
+						++supercritLayers;
+
+					// Apply supercrit damage. This projectile is already guaranteed to be a crit, which will double its damage at the end.
+					// As such, only 50% damage is added per supercrit layer here.
+					damage = (int)(damage * (1f + 0.5f * supercritLayers));
+				}
+			}
 
 			int bullseyeType = ProjectileType<SpiritOriginBullseye>();
 			Projectile bullseye = null;
@@ -4781,20 +4817,36 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.025f, 0f, 0f);
             }
 
-            if (pShred > 0)
+			// Enemies suffering from Soma Prime's Shred spray blood like Violence
+			if (somaShredStacks > 0 && Main.netMode != NetmodeID.Server)
             {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 5, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.1f;
-                    Main.dust[dust].velocity.Y += 0.25f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
+				// The amount of blood particles spawned by Soma Prime's Shred scales loosely with the number of stacks.
+				float roughBloodCount = (float)Math.Sqrt(0.8f * somaShredStacks);
+				int exactBloodCount = (int)roughBloodCount;
+				// Chance for the final blood particle
+				if (Main.rand.NextFloat() < roughBloodCount - exactBloodCount)
+					++exactBloodCount;
+
+				// Velocity of the spurting blood also slightly increases with stacks.
+				float velStackMult = 1f + (float)Math.Log(somaShredStacks);
+
+				// Code copied from Violence.
+				for (int i = 0; i < exactBloodCount; ++i)
+				{
+					int bloodLifetime = Main.rand.Next(22, 36);
+					float bloodScale = Main.rand.NextFloat(0.6f, 0.8f);
+					Color bloodColor = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat());
+					bloodColor = Color.Lerp(bloodColor, new Color(51, 22, 94), Main.rand.NextFloat(0.65f));
+
+					if (Main.rand.NextBool(20))
+						bloodScale *= 2f;
+
+					float randomSpeedMultiplier = Main.rand.NextFloat(1.25f, 2.25f);
+					Vector2 bloodVelocity = Main.rand.NextVector2Unit() * velStackMult * randomSpeedMultiplier;
+					bloodVelocity.Y -= 5f;
+					BloodParticle blood = new BloodParticle(npc.Center, bloodVelocity, bloodLifetime, bloodScale, bloodColor);
+					GeneralParticleHandler.SpawnParticle(blood);
+				}
             }
 
             if (hFlames > 0 || banishingFire > 0)
@@ -5029,7 +5081,7 @@ namespace CalamityMod.NPCs
 			{
 				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityLists.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
-					List<Texture2D> buffTextureList = new List<Texture2D>();
+					IList<Texture2D> buffTextureList = new List<Texture2D>();
 
 					// Damage over time debuffs
 					if (aFlames > 0)
@@ -5054,7 +5106,7 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Plague"));
 					if (shellfishVore > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/ShellfishEating"));
-					if (pShred > 0)
+					if (somaShredStacks > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Shred"));
 					if (clamDebuff > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff"));
@@ -5160,8 +5212,8 @@ namespace CalamityMod.NPCs
 					// Max amount of buffs per row
 					int buffDisplayRowLimit = 5;
 
-					/* The maximum length of a single row in the buff display
-					 * Limited to 80 units, because every buff drawn here is half the size of a normal buff, 16 x 16, 16 * 5 = 80 units*/
+					// The maximum length of a single row in the buff display
+					// Limited to 80 units, because every buff drawn here is half the size of a normal buff, 16 x 16, 16 * 5 = 80 units
 					float drawPosX = totalLength >= 80f ? 40f : (float)(totalLength / 2);
 
 					// The height of a single frame of the npc
@@ -5189,7 +5241,10 @@ namespace CalamityMod.NPCs
 						float additionalYOffset = 14f * (float)Math.Floor(i * 0.2);
 
 						// Draw the display
-						spriteBatch.Draw(buffTextureList.ElementAt(i), drawPos - new Vector2(drawPosX, drawPosY + additionalYOffset), null, Color.White, 0f, default, 0.5f, SpriteEffects.None, 0f);
+						var tex = buffTextureList.ElementAt(i);
+						spriteBatch.Draw(tex, drawPos - new Vector2(drawPosX, drawPosY + additionalYOffset), null, Color.White, 0f, default, 0.5f, SpriteEffects.None, 0f);
+
+						// TODO -- Show number of Shred stacks (how?)
 					}
 				}
 			}

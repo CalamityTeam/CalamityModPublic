@@ -118,8 +118,6 @@ namespace CalamityMod.Items
                 nameLine.overrideColor = new Color(129, 29, 149);
             if (item.type == ModContent.ItemType<Svantechnical>())
                 nameLine.overrideColor = new Color(220, 20, 60);
-            if (item.type == ModContent.ItemType<SomaPrime>())
-                nameLine.overrideColor = new Color(254, 253, 235);
             if (item.type == ModContent.ItemType<Contagion>())
                 nameLine.overrideColor = new Color(207, 17, 117);
             if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
