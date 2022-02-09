@@ -1070,6 +1070,14 @@ namespace CalamityMod
                         ExoMechSelectionUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
+
+                // Defense damage indicator.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Defense Damage Indicator", () =>
+                {
+                    if (Main.EquipPage != 1 && Main.EquipPage != 2)
+                        DefenseDamageDisplayUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
             }
 
             // Invasion UIs.

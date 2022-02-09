@@ -2,6 +2,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Localization
 {
+    // TODO - At some point change this to use proper localization files.
     public class CalamityLocalization
     {
         private static string[][] _localizations;
@@ -199,6 +200,8 @@ namespace CalamityMod.Localization
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
                 new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
+
+                new [] { "DefenseDamage", "Defense Damage" }
             };
         }
 
