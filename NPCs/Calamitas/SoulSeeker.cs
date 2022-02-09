@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Calamitas
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void NPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

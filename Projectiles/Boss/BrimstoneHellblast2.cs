@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
 			// Cal Clone bullet hell projectiles accelerate after a certain time has passed
 			if (projectile.ai[0] == 2f && Main.expertMode && projectile.timeLeft < 1260)
 			{
-				if (projectile.velocity.Length() < (CalamityWorld.malice ? 10f : 8f))
+				if (projectile.velocity.Length() < ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f))
 					projectile.velocity *= 1.01f;
 			}
 

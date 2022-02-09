@@ -13,13 +13,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // Master Mode changes
         // 1 - Arms are immune to damage and Skeletron no longer has increased defense while the arms are alive, 
         // 2 - Moves far more aggressively
-        public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedSkeletronAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             Vector2 vectorCenter = npc.Center;
 
@@ -479,12 +479,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedSkeletronHandAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedSkeletronHandAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

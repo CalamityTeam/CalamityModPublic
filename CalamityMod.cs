@@ -223,8 +223,8 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-
             CalamityLocalization.AddLocalizations();
+            CalamityConfig.LoadConfigLabels(ModContent.GetInstance<CalamityMod>());
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();
@@ -1542,7 +1542,7 @@ namespace CalamityMod
             if (modPlayer.ZoneAbyss)
                 scale += MaxAbyssDarkness * darkRatio;
 
-            if (CalamityWorld.revenge || CalamityWorld.malice)
+            if (CalamityWorld.revenge)
             {
                 if (CalamityGlobalNPC.signus != -1)
                 {
@@ -1576,7 +1576,7 @@ namespace CalamityMod
                             }
 
                             // Increased darkness in Death Mode
-                            if (CalamityWorld.death || CalamityWorld.malice)
+                            if (CalamityWorld.death)
                                 multiplier += (1f - multiplier) * 0.1f;
 
                             // Total darkness

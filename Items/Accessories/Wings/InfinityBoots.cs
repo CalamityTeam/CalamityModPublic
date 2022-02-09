@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("Seraph Tracers");
             Tooltip.SetDefault("Ludicrous speed!\n" +
 				"Counts as wings\n" +
-                "Horizontal speed: 9\n" +
+                "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 140\n" +

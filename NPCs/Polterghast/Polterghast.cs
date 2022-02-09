@@ -81,10 +81,9 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override void BossHeadSlot(ref int index)
 		{
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			bool phase3 = npc.life / (float)npc.lifeMax < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
 			if (phase3)
@@ -143,13 +142,12 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Variables
 			Vector2 vector = npc.Center;
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool speedBoost = false;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-            bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			// Phases
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
@@ -342,7 +340,7 @@ namespace CalamityMod.NPCs.Polterghast
 			if (malice)
 				tileEnrageMult = 1.75f;
 
-			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive || enraged) && tileEnrageMult >= 1.6f;
+			npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
 
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
@@ -1096,10 +1094,9 @@ namespace CalamityMod.NPCs.Polterghast
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
 			bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);

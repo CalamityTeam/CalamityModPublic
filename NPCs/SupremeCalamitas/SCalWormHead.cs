@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -158,8 +158,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
 			float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-			float num188 = CalamityWorld.malice ? 12.5f : 10f;
-			float num189 = CalamityWorld.malice ? 0.125f : 0.1f;
+			float num188 = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 12.5f : 10f;
+			float num189 = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.125f : 0.1f;
 
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;

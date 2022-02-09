@@ -44,8 +44,13 @@ namespace CalamityMod.NPCs
                 return false;
 
 			// Do not provide free hearts for certain boss NPCs in Rev+.
-			if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type))
+			if (CalamityWorld.revenge && CalamityLists.heartDropBlockList.Contains(npc.type))
 				return false;
+
+            // Block loot from non-boss EoW segments and Creepers, their drops will drop from the Treasure Bag in Rev+.
+            // This is to prevent heart drops until the boss is dead.
+            if (CalamityWorld.revenge && (npc.type == NPCID.Creeper || (!npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail))))
+                return false;
 
             //
             // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot

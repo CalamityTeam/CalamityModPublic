@@ -88,9 +88,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			// Telegraph duration for deathray spiral
 			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
@@ -103,9 +103,9 @@ namespace CalamityMod.Projectiles.Boss
         {
             // Declare difficulty modes.
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || malice;
-            bool revenge = CalamityWorld.revenge || malice;
-            bool expertMode = Main.expertMode || malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
             float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;

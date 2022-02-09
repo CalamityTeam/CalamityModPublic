@@ -65,6 +65,12 @@ namespace CalamityMod.Projectiles.Boss
 			// Rotation
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
 
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
 			// Spawn effects
 			if (projectile.localAI[0] == 0f)
 			{
@@ -89,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
 				// Gauss sparks
 				if (Main.myPlayer == projectile.owner)
 				{
-					int totalProjectiles = CalamityWorld.malice ? 18 : 12;
+					int totalProjectiles = malice ? 18 : 12;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
 					float velocity = projectile.velocity.Length();
@@ -107,12 +113,6 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Light
 			Lighting.AddLight(projectile.Center, 0.2f, 0.25f, 0.05f);
-
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
 
 			// Get a target and calculate distance from it
 			int target = Player.FindClosest(projectile.Center, 1, 1);

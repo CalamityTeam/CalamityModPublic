@@ -87,15 +87,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -159,9 +156,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             else
 				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
-
-            if (enraged)
-                npc.Calamity().CurrentlyEnraged = true;
 
             // Take damage or not
             npc.dontTakeDamage = biomeEnrageTimer <= 0 && !malice;

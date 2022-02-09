@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += "\nDamage dealt is increased by 10% of your current defense" +
+            setBonusText += "\n10% of your defense is added to your armor penetration" +
                 "\nHalf of your current DR is added to your critical strike chance\n" +
                 $"Continuously doing damage makes you gradually gain more and more defense, up to a maximum of {DefenseBoostMax}\n" +
                 "When not doing damage, this bonus gradually decays\n" +
@@ -52,6 +51,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
                     player.rangedCrit += critBoost;
                     break;
             }
+            player.armorPenetration += player.statDefense / 10;
             player.Calamity().AdamantiteSet = true;
         }
     }

@@ -10,11 +10,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Seadragon : ModItem
     {
+        private int shotType = 1;
+        private bool rocket = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seadragon");
             Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Has a chance to fire homing rockets that explode into fire shards on death");
+                "Fires streams of water every other shot\n" +
+                "Fires a homing rocket every 18 shots, which explodes into fire shards on death");
         }
 
         public override void SetDefaults()
@@ -48,17 +52,34 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (Main.rand.NextBool(10))
+
+            if (shotType > 17)
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SeaDragonRocket>(), (int)(damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
+                shotType = 1;
+                rocket = true;
             }
+            
+            if (!rocket)
+            {
+                if (shotType % 2 == 1)
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                else
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                
+                shotType++;
+            }
+            else
+            { 
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SeaDragonRocket>(), (int)(damage * 5), knockBack, player.whoAmI, 0f, 0f);
+                rocket = false;
+            }
+
             return false;
         }
 
         public override bool ConsumeAmmo(Player player)
         {
-            if (Main.rand.Next(0, 100) < 50)
+            if (shotType % 2 == 0)
                 return false;
             return true;
         }

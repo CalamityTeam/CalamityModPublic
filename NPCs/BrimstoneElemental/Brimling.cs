@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
             npc.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= (CalamityWorld.malice ? 180f : 360f) && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 180f : 360f) && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
             {
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -250,7 +250,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
 		public override void NPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

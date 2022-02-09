@@ -113,11 +113,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.height = (int)(npc.frame.Height * (charging ? 1.5f : 1.8f));
 
 			// Mode variables
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -206,14 +205,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			float enrageScale = death ? 0.5f : 0f;
             if (biomeEnraged)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1.5f;
             }
 
 			if (enrageScale > 1.5f)
 				enrageScale = 1.5f;
 
-			if (BossRushEvent.BossRushActive || enraged)
+			if (BossRushEvent.BossRushActive)
 				enrageScale = 2f;
 
 			bool diagonalDash = (revenge && phase2) || malice;
@@ -990,7 +989,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			acceleration *= 0.1f * enrageScale + 1f;
 			velocity *= 1f - enrageScale * 0.1f;
-			if (CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 				velocity *= 0.5f;
 			deceleration *= 1f - enrageScale * 0.1f;
 

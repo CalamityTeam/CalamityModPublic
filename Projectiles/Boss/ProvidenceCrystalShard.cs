@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (!Main.dayTime || CalamityWorld.malice)
+			if (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
 				projectile.extraUpdates = 1;
 
 			if (projectile.timeLeft < 300)
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime || CalamityWorld.malice) ? 3.5f : 3f;
+                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime) ? 3.5f : 3f;
                 if (projectile.velocity.Y > fallSpeed)
                 {
                     projectile.velocity.Y = fallSpeed;

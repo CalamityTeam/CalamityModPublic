@@ -156,9 +156,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			float detachDistance = malice ? 1600f : death ? 1360f : revenge ? 1280f : expertMode ? 1200f : 960f;
 			for (int i = 0; i < Main.maxProjectiles; i++)

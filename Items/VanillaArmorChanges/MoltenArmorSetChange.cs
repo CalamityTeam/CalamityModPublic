@@ -22,7 +22,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
             setBonusText += extraLine;
         }
 
-        // TODO - The death mode immuntities are hardcoded in the misc player effects file. Perhaps make it into a generalized bool?
         public override void ApplyArmorSetBonus(Player player)
         {
             player.fireWalk = true;

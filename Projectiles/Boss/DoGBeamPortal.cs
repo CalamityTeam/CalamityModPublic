@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			Lighting.AddLight(projectile.Center, 0f, 0.95f, 1.15f);
 
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Boss
 					if (projectile.owner == Main.myPlayer)
 					{
 						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
-						float speed = (malice || death) ? 5f : revenge ? 4.5f : expertMode ? 4f : 3f;
+						float speed = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3f;
 						speed *= Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
 						int totalProjectiles = 3;
 						float radians = MathHelper.TwoPi / totalProjectiles;

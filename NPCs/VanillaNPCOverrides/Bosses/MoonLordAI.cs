@@ -13,12 +13,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     {
         // Master Mode changes
         // 1 - Moon Lord is at maximum aggression at all times
-        public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedMoonLordAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             int aggressionLevel = 4;
             if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice)
                 aggressionLevel = 5;
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             if (npc.type == NPCID.MoonLordCore)
             {

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class MoltenBlast : ModProjectile
@@ -108,7 +110,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            int blobAmt = (!Main.dayTime || CalamityWorld.malice) ? 9 : 6;
+            int blobAmt = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 9 : 6;
             if (projectile.owner == Main.myPlayer)
             {
                 for (int b = 0; b < blobAmt; b++)

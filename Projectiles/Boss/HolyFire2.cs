@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyFire2 : ModProjectile
@@ -59,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 vector11 = Main.player[num103].Center - projectile.Center;
                 vector11.Normalize();
                 vector11 *= scaleFactor2;
-				float inertia = (!Main.dayTime || CalamityWorld.malice) ? 20f : 25f;
+				float inertia = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 20f : 25f;
 				projectile.velocity = (projectile.velocity * (inertia - 1f) + vector11) / inertia;
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;

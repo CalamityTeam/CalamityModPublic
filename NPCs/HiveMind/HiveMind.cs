@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftBoost = 1f;
             }
 
-			if (CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 			{
 				lungeRots = 0.4;
 				minimumDriftTime = 40;
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         private void SpawnStuff()
         {
-			int maxSpawns = (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 5 : CalamityWorld.revenge ? 4 : Main.expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+			int maxSpawns = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 5 : CalamityWorld.revenge ? 4 : Main.expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
 			for (int i = 0; i < maxSpawns; i++)
 			{
 				int type = NPCID.EaterofSouls;
@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.HiveMind
             phase2timer = 0;
             deceleration = npc.velocity / 255f * reelbackFade;
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 state = 2;
                 Main.PlaySound(SoundID.ForceRoar, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
@@ -352,11 +352,10 @@ namespace CalamityMod.NPCs.HiveMind
 
 			Player player = Main.player[npc.target];
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -375,12 +374,12 @@ namespace CalamityMod.NPCs.HiveMind
 			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (biomeEnraged && (!player.ZoneCorrupt || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
 			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
 
@@ -660,7 +659,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                         else
                         {
-                            if ((CalamityWorld.revenge || malice) && (Main.rand.NextBool(3) || reelCount == 2))
+                            if (revenge && (Main.rand.NextBool(3) || reelCount == 2))
                             {
                                 reelCount = 0;
                                 nextState = 2;
@@ -726,7 +725,7 @@ namespace CalamityMod.NPCs.HiveMind
                     else
                     {
                         npc.velocity.Normalize();
-                        if (Main.expertMode || malice) // Variable velocity in expert and up
+						if (expertMode) // Variable velocity in expert and up
                             npc.velocity *= driftSpeed + enrageScale + driftBoost * lifeRatio;
                         else
                             npc.velocity *= driftSpeed + enrageScale;
@@ -783,7 +782,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
 
-                        if ((CalamityWorld.revenge || malice) && lifeRatio < 0.53f)
+                        if (revenge && lifeRatio < 0.53f)
                         {
 							state = nextState;
                             nextState = 0;
@@ -885,7 +884,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || malice) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
+                                        if (expertMode && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
 									}
                                     else if (!NPC.AnyNPCs(NPCID.EaterofSouls))

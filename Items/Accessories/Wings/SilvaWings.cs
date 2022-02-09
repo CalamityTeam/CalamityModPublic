@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Silva Wings");
             Tooltip.SetDefault("The purest of nature\n" +
-                "Horizontal speed: 11\n" +
+                "Horizontal speed: 11.00\n" +
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 270\n" +

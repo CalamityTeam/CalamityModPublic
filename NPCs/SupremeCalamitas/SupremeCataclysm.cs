@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -160,7 +161,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
             {
                 // Shoot fists.
-                float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+                float fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
                 PunchCounter += fireRate;
                 if (PunchCounter >= PunchCounterLimit)
                 {
@@ -178,7 +179,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // Shoot dart spreads.
-                fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+                fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
                 DartBurstCounter += fireRate;
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
@@ -252,7 +253,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void NPCLoot()
         {
-            if (!CalamityWorld.malice && !CalamityWorld.revenge)
+            if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)

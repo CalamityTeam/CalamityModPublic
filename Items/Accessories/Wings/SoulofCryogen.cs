@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
             Tooltip.SetDefault("The magic of the ancient ice castle is yours\n" +
                 "Counts as wings\n" +
                 "Horizontal speed: 6.25\n" +
-                "Acceleration multiplier: 1\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
                 "Flight time: 120\n" +
                 "7% increase to all damage\n" +

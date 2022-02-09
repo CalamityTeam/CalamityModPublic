@@ -42,8 +42,10 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 				npc.scale = 1.25f;
+			else if (CalamityWorld.death)
+				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
@@ -60,11 +62,10 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
@@ -417,7 +418,7 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override bool PreNPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

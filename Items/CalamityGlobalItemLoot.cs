@@ -54,6 +54,16 @@ namespace CalamityMod.Items
 					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
+				case ItemID.EaterOfWorldsBossBag:
+					DropHelper.DropItemCondition(player, ItemID.ShadowScale, CalamityWorld.revenge, 60, 120);
+					DropHelper.DropItemCondition(player, ItemID.DemoniteOre, CalamityWorld.revenge, 120, 240);
+					break;
+
+				case ItemID.BrainOfCthulhuBossBag:
+					DropHelper.DropItemCondition(player, ItemID.TissueSample, CalamityWorld.revenge, 60, 120);
+					DropHelper.DropItemCondition(player, ItemID.CrimtaneOre, CalamityWorld.revenge, 100, 180);
+					break;
+
 				case ItemID.QueenBeeBossBag:
 					// Drop weapons Calamity style instead of mutually exclusive.
 					int[] queenBeeWeapons = new int[]

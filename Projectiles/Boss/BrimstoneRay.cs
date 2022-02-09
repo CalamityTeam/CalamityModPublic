@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -111,7 +112,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				Vector2 velocity = projectile.velocity;
 				velocity.Normalize();
-				float distanceBetweenProjectiles = CalamityWorld.malice ? 72f : 144f;
+				float distanceBetweenProjectiles = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 72f : 144f;
 				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
 				int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
 				int type = ModContent.ProjectileType<BrimstoneBarrage>();

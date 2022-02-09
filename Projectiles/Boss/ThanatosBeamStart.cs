@@ -96,9 +96,9 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			// Difficulty modes. Used during the firing of the perpendicular lasers.
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			// Spawn dust at the end of the beam.
 			int dustType = (int)CalamityDusts.Brimstone;

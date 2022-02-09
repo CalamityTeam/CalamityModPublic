@@ -15,12 +15,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            2 - Each worm is 30 segments long and is immune to debuffs
            3 - Worm heads push away from each other
            4 - Vile Spits home in on the target slightly and no longer die when hit*/
-        public static bool BuffedEaterofWorldsAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Causes it to split far more in malice mode
             if (malice && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail))
@@ -40,12 +40,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if ((npc.position.Y / 16f) < Main.worldSurface || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
             if (!Main.player[npc.target].ZoneCorrupt || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;
             }
 
@@ -554,7 +554,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetEaterOfWorldsSegmentsCountRevDeath()
         {
-            return (CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 82 : 77;
+            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 82 : 77;
         }
     }
 }

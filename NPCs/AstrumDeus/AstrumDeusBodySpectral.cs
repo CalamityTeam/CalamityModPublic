@@ -33,11 +33,16 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.scale = 1.2f;
-            if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
-            {
+
+            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+                npc.scale = 1.5f;
+            else if (CalamityWorld.death)
+                npc.scale = 1.4f;
+            else if (CalamityWorld.revenge)
                 npc.scale = 1.35f;
-            }
+            else if (Main.expertMode)
+                npc.scale = 1.2f;
+
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;

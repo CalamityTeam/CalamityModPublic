@@ -67,12 +67,11 @@ namespace CalamityMod.NPCs.SlimeGod
 			if (CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active)
 				CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool expertMode = Main.expertMode || malice;
-            bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || npc.localAI[1] == 1f || malice;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || npc.localAI[1] == 1f || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             Vector2 vector = npc.Center;
 
@@ -532,7 +531,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void NPCLoot()
         {
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int heartAmt = Main.rand.Next(3) + 3;
 				for (int i = 0; i < heartAmt; i++)

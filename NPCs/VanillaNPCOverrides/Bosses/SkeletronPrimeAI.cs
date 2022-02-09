@@ -16,13 +16,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 1 - Charges far quicker, 
         // 2 - Arms and head accelerate extremely fast, 
         // 3 - Arms remain closer to the head and resist piercing
-        public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedSkeletronPrimeAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -633,10 +633,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedPrimeLaserAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPrimeLaserAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -899,10 +899,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedPrimeCannonAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPrimeCannonAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1188,10 +1188,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedPrimeViceAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPrimeViceAI(NPC npc, Mod mod)
         {
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice || enraged;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1524,10 +1524,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             return false;
         }
 
-        public static bool BuffedPrimeSawAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPrimeSawAI(NPC npc, Mod mod)
         {
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice || enraged;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

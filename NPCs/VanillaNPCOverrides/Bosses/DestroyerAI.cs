@@ -15,12 +15,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     {
         // Master Mode changes
         // 1 - Splits like the Eater of Worlds
-        public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedDestroyerAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // 10 seconds of resistance to prevent spawn killing
             if (calamityGlobalNPC.newAI[1] < 600f)
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (Main.dayTime || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;
             }
 

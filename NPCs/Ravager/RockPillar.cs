@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.Ravager
 						}
 
 						npc.noTileCollide = true;
-						npc.velocity.X = (CalamityWorld.malice ? 15 : 12) * npc.direction;
+						npc.velocity.X = ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 15 : 12) * npc.direction;
                         npc.velocity.Y = -28.5f;
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;

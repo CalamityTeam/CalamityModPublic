@@ -145,11 +145,10 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
 
 			// Difficulty modes
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || enraged;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death;
+			bool revenge = CalamityWorld.revenge;
+			bool expertMode = Main.expertMode;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -408,8 +407,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
 			// Velocity and turn speed values
-			float velocityScale = malice ? 4f : death ? 2.5f : revenge ? 2f : expertMode ? 1.5f : 0f;
-			float baseVelocity = targetDownDeep ? 12f : 24f;
+			float velocityScale = malice ? 3f : death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
+			float baseVelocity = (targetDownDeep ? 12f : 24f) + (targetDownDeep ? velocityScale : velocityScale * 2f);
 			float turnSpeed = baseVelocity * 0.125f;
 			float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
@@ -577,8 +576,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 								}
 
 								float predictionAmt = targetDownDeep ? 45f : 60f;
-								float lightningVelocityScale = malice ? 3f : death ? 2f : revenge ? 1.5f : expertMode ? 1f : 0f;
-								float lightningVelocity = ((targetDownDeep && !targetOnMount) ? 6f : 8f) + lightningVelocityScale;
+								float lightningVelocityScale = malice ? 1.5f : death ? 0.9f : revenge ? 0.75f : expertMode ? 0.6f : 0f;
+								float lightningVelocity = ((targetDownDeep && !targetOnMount) ? 6f : 9f) + ((targetDownDeep && !targetOnMount) ? lightningVelocityScale : lightningVelocityScale * 1.5f);
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
@@ -859,8 +858,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 							}
 
 							float predictionAmt = targetDownDeep ? 90f : 120f;
-							float iceMistVelocityScale = malice ? 3f : death ? 2f : revenge ? 1.5f : expertMode ? 1f : 0f;
-							float iceMistVelocity = (targetDownDeep ? 12f : 16f) + iceMistVelocityScale;
+							float iceMistVelocityScale = malice ? 3f : death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
+							float iceMistVelocity = (targetDownDeep ? 12f : 18f) + (targetDownDeep ? iceMistVelocityScale : iceMistVelocityScale * 1.5f);
 							for (int i = 0; i < numProjectiles; i++)
 							{
 								// Predictive mist

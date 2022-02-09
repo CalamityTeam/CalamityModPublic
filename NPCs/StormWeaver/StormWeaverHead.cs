@@ -97,7 +97,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.netAlways = true;
             bossBag = ModContent.ItemType<StormWeaverBag>();
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.death)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -141,12 +143,11 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-            bool expertMode = Main.expertMode || malice;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             if (invinceTime > 0)
             {
@@ -632,7 +633,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					Color color38 = lightColor;
 
-					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
+					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
 						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 					color38 = Color.Lerp(color38, color36, amount9);
@@ -650,7 +651,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
+			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
 				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);

@@ -4930,7 +4930,8 @@ namespace CalamityMod.CalPlayer
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
-			if (item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>())
+            bool isTrueMelee = item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>();
+            if (isTrueMelee)
             {
                 damageMult += trueMeleeDamage;
             }
@@ -4944,7 +4945,7 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
+                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
             }
             damage = (int)(damage * damageMult);
 
@@ -4987,8 +4988,6 @@ namespace CalamityMod.CalPlayer
 				int penetratedDefense = Math.Min(penetratableDefense, 5);
 				damage += (int)(0.5f * penetratedDefense);
 			}
-            if (AdamantiteSet)
-                damage += player.statDefense / 10;
             #endregion
 
             if (draedonsHeart)
@@ -5081,7 +5080,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
+                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             if (filthyGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
@@ -5141,8 +5140,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (AdamantiteSet)
-                damage += player.statDefense / 10;
 
             int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
@@ -8787,7 +8784,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;
@@ -10284,7 +10281,7 @@ namespace CalamityMod.CalPlayer
             // This floor is only applied if bosses are alive
             if (areThereAnyDamnBosses)
             {
-                int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+                int defenseDamageFloor = ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
                 if (defenseDamageTaken < defenseDamageFloor)
                     defenseDamageTaken = defenseDamageFloor;
             }

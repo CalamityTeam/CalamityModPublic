@@ -17,29 +17,29 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            2 - Charges start off slow but accelerate to insane speed after several frames, this delay becomes shorter for the second and third dashes
            3 - Fires stingers in a triple spread and they accelerate over time
            4 - All attacks inflict Venom*/
-        public static bool BuffedQueenBeeAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             float enrageScale = death ? 0.25f : 0f;
             if ((npc.position.Y / 16f) < Main.worldSurface || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 0.5f;
             }
             if (!Main.player[npc.target].ZoneJungle || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 0.5f;
             }
 
             if (enrageScale > 1f)
                 enrageScale = 1f;
 
-            if (BossRushEvent.BossRushActive || enraged)
+            if (BossRushEvent.BossRushActive)
                 enrageScale = 2f;
 
             // Percent life remaining

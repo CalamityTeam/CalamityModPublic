@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Tarragon Wings");
             Tooltip.SetDefault("Born of the jungle\n" +
-                "Horizontal speed: 9.5\n" +
+                "Horizontal speed: 9.50\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
                 "Flight time: 250\n" +

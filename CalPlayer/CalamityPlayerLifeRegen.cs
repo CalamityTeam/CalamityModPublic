@@ -18,7 +18,7 @@ namespace CalamityMod.CalPlayer
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				noLifeRegen = true;
 
-			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
 			if (reaverDefense)
 				lifeRegenMult *= 0.8;

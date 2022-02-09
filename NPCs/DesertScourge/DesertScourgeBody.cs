@@ -41,8 +41,10 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.malice || BossRushEvent.BossRushActive)
 				npc.scale = 1.25f;
+			else if (CalamityWorld.death)
+				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
@@ -61,10 +63,9 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void AI()
         {
 			Player player = Main.player[npc.target];
-			bool enraged = npc.Calamity().enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			float burrowTimeGateValue = death ? 420f : 540f;
 			bool burrow = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
 

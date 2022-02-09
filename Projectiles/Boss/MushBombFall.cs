@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -5,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class MushBombFall : ModProjectile
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.Y = CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
+            projectile.velocity.Y = BossRushEvent.BossRushActive ? 10f : CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)

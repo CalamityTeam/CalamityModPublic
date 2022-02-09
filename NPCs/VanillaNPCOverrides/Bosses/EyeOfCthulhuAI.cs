@@ -16,15 +16,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            2 - Damaging either eye causes damage to both
            3 - Horizontal dashes are far more common
            4 - The delay between dashes and horizontal dashes is reduced*/
-        public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedEyeofCthulhuAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.65f;
             bool phase4 = lifeRatio < 0.55f;
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (Main.dayTime || malice)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;
             }
 

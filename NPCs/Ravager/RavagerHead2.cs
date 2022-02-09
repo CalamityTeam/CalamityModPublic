@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Ravager
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.scavenger].target];
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1800)

@@ -43,9 +43,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			int num750 = CalamityGlobalNPC.hiveMind;
 			if (num750 < 0 || !Main.npc[num750].active)
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void NPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

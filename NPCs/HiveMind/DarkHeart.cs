@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             npc.TargetClosest();
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void NPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

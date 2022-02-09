@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -92,7 +93,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.spriteDirection = (Target.Center.X < npc.Center.X).ToDirectionInt();
 
             timer++;
-			int shootRate = CalamityWorld.malice ? 120 : 180;
+			int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
             if (timer > shootRate)
             {
 				for (int i = 0; i < Main.maxNPCs; i++)
@@ -123,7 +124,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 		public override void NPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if (!CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

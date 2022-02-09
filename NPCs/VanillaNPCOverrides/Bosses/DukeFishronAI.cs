@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 1 - Cycles between attacks faster, 
         // 2 - Moves faster, 
         // 3 - Bigger tornadoes
-        public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedDukeFishronAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			
             // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < 0.4f;
             bool phase4 = lifeRatio < 0.2f;
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 (player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400)));
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
 
             // If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
             if (!phase3AI)

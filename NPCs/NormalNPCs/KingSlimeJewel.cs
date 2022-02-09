@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 // Fire bolt every 1.5 seconds
                 npc.localAI[0] += 1f;
-                if (npc.localAI[0] >= (CalamityWorld.malice ? 45f : CalamityWorld.death ? 60f : 75f))
+                if (npc.localAI[0] >= ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 45f : CalamityWorld.death ? 60f : 75f))
                 {
                     npc.localAI[0] = 0f;
 
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                     Main.PlaySound(SoundID.Item8, npc.position);
 					int damage = npc.GetProjectileDamage(type);
-					if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+					if (CalamityWorld.death || BossRushEvent.BossRushActive)
 					{
 						int numProj = 2;
 						float rotation = MathHelper.ToRadians(9);

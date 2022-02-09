@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
 				if (Velocity != Vector2.Zero)
 				{
 					projectile.extraUpdates = 3;
-					projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
+					projectile.velocity = Velocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
 					Velocity = Vector2.Zero;
 					projectile.netUpdate = true;
 				}

@@ -132,12 +132,12 @@ namespace CalamityMod.Tiles
 			}
 		}
 
-		// This function exists only to shatter adjacent Lumenyl or Sea Prism crystals when a neighboring solid tile is destroyed.
+		// This function has two purposes:
+		// 1 - Shatters adjacent Lumenyl or Sea Prism crystals when a neighboring solid tile is destroyed
+		// 2 - Gives the player breath back when breaking blocks with Reaver set bonus
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Main.tile[i, j];
-			Player player = Main.LocalPlayer;
-
 			if (tile is null)
 				return;
 
@@ -164,6 +164,9 @@ namespace CalamityMod.Tiles
 				CheckShatterCrystal(i, j - 1);
 			}
 
+			Player player = Main.LocalPlayer;
+			if (player is null)
+				return;
 			if (player.Calamity().reaverExplore && !fail)
 			{
 				player.breath += 20;

@@ -176,7 +176,6 @@ namespace CalamityMod.NPCs.Providence
 
 			// Night bool
 			bool malice = CalamityWorld.malice;
-			bool enraged = npc.Calamity().enraged > 0;
 			bool nightTime = !Main.dayTime || malice;
 
 			// Difficulty bools
@@ -216,7 +215,7 @@ namespace CalamityMod.NPCs.Providence
 			if (nightTime)
 				projectileDamageMult = 2;
 
-			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged || biomeEnrageTimer <= 0;
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || biomeEnrageTimer <= 0;
 
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -248,7 +247,7 @@ namespace CalamityMod.NPCs.Providence
 			float baseSpearRate = 18f;
 			float spearRate = 1f + spearRateIncrease;
 
-			if (BossRushEvent.BossRushActive || enraged)
+			if (BossRushEvent.BossRushActive)
 				spearRate += bossRushSpearRateIncrease;
 
 			// Projectile fire rate multiplier
@@ -268,8 +267,8 @@ namespace CalamityMod.NPCs.Providence
 
 			// Inflict Holy Inferno if target is too far away
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-			float shorterSpearCocoonDistance = (CalamityWorld.death || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)
@@ -518,7 +517,7 @@ namespace CalamityMod.NPCs.Providence
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || enraged || nightTime)
+                if (BossRushEvent.BossRushActive || nightTime)
                 {
                     acceleration = 1.5f;
                     velocity = 25f;
@@ -1390,9 +1389,13 @@ namespace CalamityMod.NPCs.Providence
 			float distanceToTarget = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 			float aiTimer = npc.ai[3];
 
+			// Night bool
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
+
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-			float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 			bool guardianAlive = false;

@@ -16,12 +16,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         // 2 - Spawns far more tentacles to protect herself in phase 2 and they resist piercing, 
         // 3 - Spore gas spreads out far more, 
         // 4 - Plantera is larger
-        public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedPlanteraAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 acceleration = 0.15f;
             }
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || enraged;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
 
             // Detect active tiles around Plantera
             int radius = 20; // 20 tile radius
@@ -630,9 +630,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPlanterasHookAI(NPC npc, Mod mod)
         {
             // Variables
-            bool enrage = CalamityWorld.malice;
+            bool enrage = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool despawn = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)
@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)

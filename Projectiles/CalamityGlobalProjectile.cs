@@ -116,7 +116,6 @@ namespace CalamityMod.Projectiles
 		// Boss projectile velocity multiplier in Malice Mode
 		public bool affectedByMaliceModeVelocityMultiplier = false;
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
-		public const float BossRushProjectileVelocityMultiplier = 1.35f;
 
         // Enchantment variables.
         public int ExplosiveEnchantCountdown = 0;
@@ -1006,7 +1005,7 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				if (projectile.type == ProjectileID.DemonSickle)
 				{
@@ -1631,7 +1630,7 @@ namespace CalamityMod.Projectiles
 							return false;
 						}
 
-						float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
+						float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
 						if (projectile.velocity.Length() < velocityLimit)
 							projectile.velocity *= 1.01f;
 					}
@@ -1650,7 +1649,7 @@ namespace CalamityMod.Projectiles
 				// Moon Lord big eye spheres
 				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
 				{
-					float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 14f : 12f;
+					float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
 					if (projectile.velocity.Length() < velocityLimit)
 						projectile.velocity *= 1.0075f;
 
@@ -1771,7 +1770,7 @@ namespace CalamityMod.Projectiles
 				if (projectile.hostile)
 				{
 					if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
-						projectile.velocity *= BossRushEvent.BossRushActive ? BossRushProjectileVelocityMultiplier : MaliceModeProjectileVelocityMultiplier;
+						projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
 
 					// Reduce Nail damage from Nailheads because they're stupid
 					if (projectile.type == ProjectileID.Nail && Main.expertMode)

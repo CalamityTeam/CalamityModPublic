@@ -180,10 +180,10 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private void RevengeanceModeMiscEffects()
 		{
-			if (CalamityWorld.revenge || CalamityWorld.malice)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
 			{
 				// Adjusts the life steal cap in rev/death
-				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
+				float lifeStealCap = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 30f : CalamityWorld.death ? 45f : 60f;
 				if (player.lifeSteal > lifeStealCap)
 					player.lifeSteal = lifeStealCap;
 
@@ -621,7 +621,7 @@ namespace CalamityMod.CalPlayer
 			// Revengeance Mode recovery rate is 0.3/s
 			// Death Mode recovery rate is 0.25/s
 			// Malice Mode recovery rate is 0.2/s
-			float lifeStealCooldown = CalamityWorld.malice ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+			float lifeStealCooldown = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
 			player.lifeSteal -= lifeStealCooldown;
 
 			// Nebula Armor nerf
@@ -2583,6 +2583,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(ZoneAstral ? 0.05 : 0D) +
 				(harpyRing ? 0.2 : 0D) +
+				(reaverSpeed ? 0.1 : 0D) +
 				(aeroStone ? 0.1 : 0D) +
 				(angelTreads ? 0.1 : 0D) +
 				(blueCandle ? 0.1 : 0D) +
@@ -2635,7 +2636,7 @@ namespace CalamityMod.CalPlayer
 			}
 			// Shattered Community gives the same wing time boost as normal Community
 			if (shatteredCommunity)
-				flightTimeMult += 0.15f;
+				flightTimeMult += 0.2f;
 
 			if (profanedCrystalBuffs && gOffense && gDefense)
 			{

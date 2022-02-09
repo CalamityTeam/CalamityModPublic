@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Skyline Wings");
             Tooltip.SetDefault("Horizontal speed: 6.25\n" +
-                "Acceleration multiplier: 1\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
                 "Flight time: 80\n" +
 				"10% increased jump speed while wearing the Aerospec armor");

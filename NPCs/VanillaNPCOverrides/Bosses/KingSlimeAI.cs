@@ -16,19 +16,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            2 - Spawns a rainbow slime every 5% HP
            3 - Teleports ahead of his target
            4 - Can use a jump and slam like a Big Mimic*/
-        public static bool BuffedKingSlimeAI(NPC npc, bool enraged, Mod mod)
+        public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             // Variables
             float num234 = 1f;
             bool teleporting = false;
             bool flag9 = false;
             npc.aiAction = 0;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
-            bool death = CalamityWorld.death || malice;
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

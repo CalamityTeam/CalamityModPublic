@@ -57,9 +57,7 @@ namespace CalamityMod.NPCs.Ravager
             }
 
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool death = CalamityWorld.death || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;

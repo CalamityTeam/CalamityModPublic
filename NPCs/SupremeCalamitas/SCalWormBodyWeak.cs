@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
@@ -98,7 +99,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			else
 				npc.alpha = HeadSegment.alpha;
 
-			AttackTimer += CalamityWorld.malice ? 1.5f : 1f;
+			AttackTimer += (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.5f : 1f;
 			if (AttackTimer >= 900f)
 			{
 				AttackTimer = 0f;
