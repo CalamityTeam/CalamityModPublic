@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void GeneralParryEffects()
         {
-            ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
+            ArkoftheCosmos sword = (Owner.HeldItem.modItem as ArkoftheCosmos);
             if (sword != null)
             {
                 sword.Charge = 10f;

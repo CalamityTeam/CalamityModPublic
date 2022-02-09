@@ -120,7 +120,9 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge > 0)
                 damage = (int)(chargeDamageMultiplier * damage);
 
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
+            float scissorState = Combo == 4 ? 2 : Combo % 2;
+
+            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);
 
 
             //Shoot projectiles 
@@ -167,7 +169,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as ArkoftheElements).Charge = (item.modItem as ArkoftheElements).Charge;
+            (clone as ArkoftheCosmos).Charge = (item.modItem as ArkoftheCosmos).Charge;
 
             return clone;
         }
@@ -175,7 +177,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone();
 
-            (clone as ArkoftheElements).Charge = Charge;
+            (clone as ArkoftheCosmos).Charge = Charge;
 
             return clone;
         }

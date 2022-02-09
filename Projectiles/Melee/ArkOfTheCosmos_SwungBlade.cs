@@ -31,7 +31,8 @@ namespace CalamityMod.Projectiles.Melee
 
 
         #region Regular swing variables
-        const float MaxSwingTime = 35;
+
+        public float MaxSwingTime => SwirlSwing ? 55 : 35;
         public int SwingDirection
         {
             get
@@ -39,10 +40,8 @@ namespace CalamityMod.Projectiles.Melee
                 switch (Combo)
                 {
                     case 0:
-                    case 1:
                         return 1 * Math.Sign(direction.X);
-                    case 2:
-                    case 3:
+                    case 1:
                         return -1 * Math.Sign(direction.X);
                     default:
                         return 0;
@@ -50,6 +49,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
         }
+
+        public bool SwirlSwing => Combo == 1;
 
         private float SwingWidth = MathHelper.PiOver2 * 1.5f;
         public Vector2 DistanceFromPlayer => direction * 30;
@@ -125,8 +126,12 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment anticipation = new CurveSegment(EasingType.ExpOut, 0f, 0f, 0.15f);
         public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.1f, 0.15f, 0.85f, 3);
         public CurveSegment hold = new CurveSegment(EasingType.Linear, 0.5f, 1f, 0.2f);
-        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
         internal float SwingRatio() => PiecewiseAnimation(SwingCompletion, new CurveSegment[] { anticipation, thrust, hold });
+
+        //Wide swing animation keys
+        public CurveSegment startup = new CurveSegment(EasingType.SineIn, 0f, 0f, 0.15f);
+        public CurveSegment swing = new CurveSegment(EasingType.ExpOut, 0.1f, 0.15f, 0.85f);
+        internal float SwirlRatio() => PiecewiseAnimation(SwingCompletion, new CurveSegment[] { startup, swing });
 
         //Throw animation keys
         public CurveSegment shoot = new CurveSegment(EasingType.CircOut, 0f, 0f, 1f);
@@ -137,7 +142,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public CurveSegment sizeCurve = new CurveSegment(EasingType.SineBump, 0f, 0f, 1f);
         internal float ThrowScaleRatio() => PiecewiseAnimation(ThrowCompletion, new CurveSegment[] { sizeCurve });
-
 
         public override void AI()
         {
@@ -164,7 +168,18 @@ namespace CalamityMod.Projectiles.Melee
                 //Manage position and rotation
                 projectile.Center = Owner.Center + DistanceFromPlayer;
 
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio()) - (Combo == 1 ? MathHelper.PiOver4 : 0f);
+                //Baby swing 
+                if (!SwirlSwing)
+                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio());
+
+                //Chungal swing
+                else
+                {
+                    float startRot = SwingWidth/2f * SwingDirection;
+                    float endRot = (- MathHelper.TwoPi) * SwingDirection;
+
+                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(startRot, endRot, SwirlRatio());
+                }
 
                 projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.2f;
             }
@@ -246,13 +261,17 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
 
-            if (Combo == 3f && Charge <= 0)
+            if (Combo == 3f)
             {
-                ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
-                if (sword != null)
-                    sword.Charge = 2f;
                 var snapSound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScissorGuillotineSnap"), projectile.Center);
                 SafeVolumeChange(ref snapSound, 1.3f);
+
+                if (Charge <= 1)
+                {
+                    ArkoftheCosmos sword = (Owner.HeldItem.modItem as ArkoftheCosmos);
+                    if (sword != null)
+                        sword.Charge = 2f;
+                }
             }
         }
 
@@ -296,8 +315,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public void DrawSingleSwungScissorBlade(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D sword = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/RendingScissorsRight" : "CalamityMod/Projectiles/Melee/RendingScissorsLeft");
-            Texture2D glowmask = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/RendingScissorsRightGlow" : "CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
+            Texture2D sword = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
+            Texture2D glowmask = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
 
             bool flipped = Owner.direction < 0;
             SpriteEffects flip = flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -307,10 +326,10 @@ namespace CalamityMod.Projectiles.Melee
             float angleShift = Combo == 0 ? MathHelper.PiOver4 : MathHelper.PiOver2;
             float drawRotation = projectile.rotation + angleShift + extraAngle;
 
-            Vector2 drawOrigin = new Vector2(Combo == 1 ? sword.Width / 2f : flipped ? sword.Width : 0f, sword.Height);
+            Vector2 drawOrigin = new Vector2(flipped ? sword.Width : 0f, sword.Height);
             Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
 
-            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[projectile.type])
+            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[projectile.type] && Combo == 0f)
             {
                 for (int i = 0; i < projectile.oldRot.Length; ++i)
                 {

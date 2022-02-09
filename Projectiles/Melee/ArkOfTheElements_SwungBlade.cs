@@ -123,7 +123,6 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment anticipation = new CurveSegment(EasingType.ExpOut, 0f, 0f, 0.15f);
         public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.1f, 0.15f, 0.85f, 3);
         public CurveSegment hold = new CurveSegment(EasingType.Linear, 0.5f, 1f, 0.2f);
-        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
         internal float SwingRatio() => PiecewiseAnimation(SwingCompletion, new CurveSegment[] { anticipation, thrust, hold });
 
         //Throw animation keys
@@ -196,6 +195,8 @@ namespace CalamityMod.Projectiles.Melee
                     Combo = 3f; //Mark the end of the regular throw
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
+
+                    //If anyone knows how to reset local iframes , yeah, do that. To prevent edge cases where the snap happens but doesnt actually hit anything due to iframes from the throw cucking it
                 }
 
                 else if (!OwnerCanShoot && Combo == 2 && ChanceMissed == 0f)
@@ -244,13 +245,17 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
 
-            if (Combo == 3f && Charge <= 0)
+            if (Combo == 3f)
             {
-                ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
-                if (sword != null)
-                    sword.Charge = 2f;
                 var snapSound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScissorGuillotineSnap"), projectile.Center);
                 SafeVolumeChange(ref snapSound, 1.3f);
+
+                if (Charge <= 1)
+                {
+                    ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
+                    if (sword != null)
+                        sword.Charge = 2f;
+                }
             }
         }
 
