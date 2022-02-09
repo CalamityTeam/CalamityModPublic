@@ -116,10 +116,10 @@ namespace CalamityMod.Items
                 nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
             if (item.type == ModContent.ItemType<CrystylCrusher>())
                 nameLine.overrideColor = new Color(129, 29, 149);
+            if (item.type == ModContent.ItemType<SomaPrime>())
+                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 255, 255), new Color(0xD1, 0xCC, 0x6F), 4f);
             if (item.type == ModContent.ItemType<Svantechnical>())
                 nameLine.overrideColor = new Color(220, 20, 60);
-            if (item.type == ModContent.ItemType<SomaPrime>())
-                nameLine.overrideColor = new Color(254, 253, 235);
             if (item.type == ModContent.ItemType<Contagion>())
                 nameLine.overrideColor = new Color(207, 17, 117);
             if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())

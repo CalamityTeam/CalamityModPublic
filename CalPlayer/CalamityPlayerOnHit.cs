@@ -2,13 +2,16 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -19,12 +22,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.VanillaArmorChanges;
 
 namespace CalamityMod.CalPlayer
 {
-    public partial class CalamityPlayer : ModPlayer
+	public partial class CalamityPlayer : ModPlayer
     {
         #region On Hit Anything
         public override void OnHitAnything(float x, float y, Entity victim)
@@ -175,6 +176,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI != Main.myPlayer)
                 return;
+            CalamityGlobalNPC cgn = target.Calamity();
 
             // Handle on-hit melee effects for the gem tech armor set.
             if (proj.melee)
@@ -187,11 +189,9 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
-            target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll;
-
-            target.Calamity().IncreasedColdEffects = eskimoSet;
-
-            target.Calamity().IncreasedSicknessAndWaterEffects = evergreenGin;
+            cgn.IncreasedHeatEffects = fireball || cinnamonRoll;
+            cgn.IncreasedColdEffects = eskimoSet;
+            cgn.IncreasedSicknessAndWaterEffects = evergreenGin;
 
             switch (proj.type)
             {
@@ -337,6 +337,7 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
+            // TODO -- This should be removed, why is this here?
             if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
 
@@ -348,9 +349,18 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ItemType<RaidersGlory>())
                     target.AddBuff(BuffID.Midas, 300, false);
 
+                // All projectiles fired from Soma Prime are marked using CalamityGlobalProjectile
+                CalamityGlobalProjectile cgp = proj.Calamity();
+                if (cgp.appliesSomaShred)
+                {
+                    target.AddBuff(BuffType<Shred>(), 320);
+                    // This information cannot be transferred through the buff, but is necessary to calculate damage
+                    cgn.somaShredApplicator = player.whoAmI;
+                }
+
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
+                NPCDebuffs(target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), cgp.rogue, true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())

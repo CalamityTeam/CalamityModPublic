@@ -4,7 +4,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
@@ -57,6 +56,16 @@ namespace CalamityMod.Projectiles
         public float PierceResistCap = 0.8f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
+
+		// Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
+		// For every 100% critical strike chance over 100%, "supercrit" projectiles do a guaranteed +100% damage.
+		// They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
+		// For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
+		// These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
+		public bool canSupercrit = false;
+
+		// If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
+		public bool appliesSomaShred = false;
 
 		// Amount of extra updates that are set in SetDefaults.
 		public int defExtraUpdates = -1;
