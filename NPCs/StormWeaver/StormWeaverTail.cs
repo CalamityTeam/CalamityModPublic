@@ -120,8 +120,8 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.Calamity().VulnerableToCold = true;
 					npc.Calamity().VulnerableToSickness = true;
 
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail2"), 1f);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail1"), npc.scale);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail2"), npc.scale);
 
 					CalamityGlobalNPC global = npc.Calamity();
 					npc.defense = 45;
@@ -288,8 +288,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail1"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail2"), npc.scale);
 
                 npc.position.X = npc.position.X + (npc.width / 2);
                 npc.position.Y = npc.position.Y + (npc.height / 2);

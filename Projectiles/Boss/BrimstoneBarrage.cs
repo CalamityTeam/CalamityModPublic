@@ -64,6 +64,21 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 60)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 
+			if (projectile.ai[0] == 2f)
+			{
+				if (projectile.timeLeft > 600)
+				{
+					int player = Player.FindClosest(projectile.Center, 1, 1);
+					Vector2 vector = Main.player[player].Center - projectile.Center;
+					float scaleFactor = projectile.velocity.Length();
+					vector.Normalize();
+					vector *= scaleFactor;
+					projectile.velocity = (projectile.velocity * 15f + vector) / 16f;
+					projectile.velocity.Normalize();
+					projectile.velocity *= scaleFactor;
+				}
+			}
+
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;

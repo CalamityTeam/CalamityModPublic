@@ -30,8 +30,12 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.npcSlots = 5f;
             npc.width = 120;
             npc.height = 120;
-            npc.defense = 10;
-			npc.DR_NERD(0.15f);
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 0.8f;
+
+			npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 5 : 10;
+			npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
 			npc.LifeMaxNERB(9200, 11025, 80000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
@@ -159,11 +163,11 @@ namespace CalamityMod.NPCs.Calamitas
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe3"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe4"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Catastrophe5"), npc.scale);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 100;

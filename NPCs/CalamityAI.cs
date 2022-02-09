@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs
 					// Spawn segments
 					if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
 					{
-						int maxLength = death ? 50 : revenge ? 40 : expertMode ? 35 : 30;
+						int maxLength = death ? 80 : revenge ? 40 : expertMode ? 35 : 30;
 						int Previous = npc.whoAmI;
 						for (int num36 = 0; num36 < maxLength; num36++)
 						{
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.type == ModContent.NPCType<AquaticScourgeBody>())
 						{
-							if (npc.localAI[0] % divisor == 0f)
+							if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || !death))
 							{
 								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs
 						}
 						else if (npc.type == ModContent.NPCType<AquaticScourgeBodyAlt>())
 						{
-							if (npc.localAI[0] % divisor == 0f)
+							if (npc.localAI[0] % divisor == 0f && (npc.ai[0] % 3f == 0f || !death))
 							{
 								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -476,6 +476,8 @@ namespace CalamityMod.NPCs
 					num189 += 0.06f * enrageScale;
 					if (death)
 					{
+						num188 += 5f;
+						num189 -= 0.03f;
 						num188 += Vector2.Distance(player.Center, npc.Center) * 0.004f * (1f - lifeRatio);
 						num189 += Vector2.Distance(player.Center, npc.Center) * 0.00004f * (1f - lifeRatio);
 					}
@@ -801,7 +803,7 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
-					if (npc.localAI[1] >= (malice ? 60f : death ? 150f : 180f))
+					if (npc.localAI[1] >= (malice ? 5f : death ? 30f : 180f))
 					{
 						npc.TargetClosest();
 						npc.localAI[1] = 0f;
@@ -852,10 +854,10 @@ namespace CalamityMod.NPCs
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].fadeIn = 1f;
 				}
-				npc.alpha += malice ? 4 : 2;
+				npc.alpha += malice ? 4 : death ? 3 : 2;
 				if (npc.alpha >= 255)
 				{
-					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < 2 && revenge)
+					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < (death ? 1 : 2) && revenge)
 					{
 						NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<Brimling>());
 					}
@@ -907,7 +909,7 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = npc.direction;
 
 				npc.ai[1] += 1f;
-				float divisor = expertMode ? (death ? 40f : revenge ? 45f : 50f) - (float)Math.Ceiling(10f * (1f - lifeRatio)) : 50f;
+				float divisor = expertMode ? (death ? 80f : revenge ? 45f : 50f) - (float)Math.Ceiling(10f * (1f - lifeRatio)) : 50f;
 				divisor -= 5f * enrageScale;
 				float divisor2 = divisor * 2f;
 
@@ -929,8 +931,8 @@ namespace CalamityMod.NPCs
 
 						int type = ModContent.ProjectileType<BrimstoneBarrage>();
 						int damage = npc.GetProjectileDamage(type);
-						int numProj = 4;
-						int spread = 45;
+						int numProj = death ? 8 : 4;
+						int spread = death ? 90 : 45;
 						float rotation = MathHelper.ToRadians(spread);
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 						double startAngle = Math.Atan2(num743, num744) - rotation / 2;
@@ -1017,7 +1019,7 @@ namespace CalamityMod.NPCs
 						npc.velocity.X = -maxVelocityX;
 				}
 
-				if (npc.ai[1] >= divisor * 10f)
+				if (npc.ai[1] >= divisor * (death ? 5f : 10f))
 				{
 					npc.TargetClosest();
 					npc.ai[0] = -1f;
@@ -1238,7 +1240,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase3 = lifeRatio < 0.7f;
+			bool phase3 = lifeRatio < 0.7f || death;
 			bool phase4 = lifeRatio < 0.35f;
 			bool phase5 = npc.life / (float)npc.lifeMax <= 0.1f && revenge;
 
@@ -1338,7 +1340,7 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					calamityGlobalNPC.DR = 0.15f;
+					calamityGlobalNPC.DR = death ? 0.075f : 0.15f;
 					calamityGlobalNPC.unbreakableDR = false;
 				}
 			}
@@ -1621,8 +1623,31 @@ namespace CalamityMod.NPCs
 					}
 					else
 					{
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
+						if (death)
+						{
+							int AIState = Main.rand.Next(3);
+							switch (AIState)
+							{
+								case 0:
+									npc.ai[1] = 0f;
+									npc.ai[2] = 0f;
+									break;
+								case 1:
+									npc.ai[1] = 1f;
+									npc.ai[2] = 0f;
+									break;
+								case 2:
+									npc.ai[1] = 4f;
+									npc.ai[2] = -105f;
+									npc.TargetClosest();
+									break;
+							}
+						}
+						else
+						{
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
 					}
 
 					npc.netUpdate = true;
@@ -1715,7 +1740,11 @@ namespace CalamityMod.NPCs
 				float phaseTimer = 200f - (death ? 60f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
-					npc.ai[1] = 1f;
+					if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
+						npc.ai[1] = 4f;
+					else
+						npc.ai[1] = 1f;
+
 					npc.ai[2] = 0f;
 					npc.TargetClosest();
 					npc.netUpdate = true;
@@ -1877,7 +1906,11 @@ namespace CalamityMod.NPCs
 				float phaseTimer = 120f - (death ? 30f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
-					npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
+					if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
+						npc.ai[1] = 0f;
+					else
+						npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
+
 					npc.ai[2] = 0f;
 					npc.TargetClosest();
 					npc.netUpdate = true;

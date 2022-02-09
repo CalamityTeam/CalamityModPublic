@@ -107,12 +107,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
 
-			// Fire brimstone darts along the laser
-			if (Main.npc[(int)projectile.ai[1]].ai[1] == 210f && projectile.owner == Main.myPlayer)
+            // Fire brimstone darts along the laser
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            if (Main.npc[(int)projectile.ai[1]].ai[1] == 210f && projectile.owner == Main.myPlayer)
 			{
 				Vector2 velocity = projectile.velocity;
 				velocity.Normalize();
-				float distanceBetweenProjectiles = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 72f : 144f;
+				float distanceBetweenProjectiles = malice ? 72f : 144f;
 				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
 				int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
 				int type = ModContent.ProjectileType<BrimstoneBarrage>();
@@ -124,7 +126,7 @@ namespace CalamityMod.Projectiles.Boss
 					for (int j = 0; j < totalProjectiles; j++)
 					{
 						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-						int proj = Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
+						int proj = Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, death ? 2f : 1f, 0f);
 						Main.projectile[proj].tileCollide = true;
 					}
 					fireFrom += velocity * distanceBetweenProjectiles;
