@@ -23,6 +23,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Cryogen
 {
     [AutoloadBossHead]
@@ -140,19 +141,19 @@ namespace CalamityMod.NPCs.Cryogen
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < (revenge ? 0.85f : 0.8f);
-			bool phase3 = lifeRatio < (revenge ? 0.7f : 0.6f);
-			bool phase4 = lifeRatio < (revenge ? 0.55f : 0.4f);
-			bool phase5 = lifeRatio < (revenge ? 0.4f : 0.2f);
-			bool phase6 = lifeRatio < 0.25f && revenge;
-			bool phase7 = lifeRatio < 0.15f && revenge;
+			bool phase2 = lifeRatio < (revenge ? 0.85f : 0.8f) || death;
+			bool phase3 = lifeRatio < (death ? 0.8f : revenge ? 0.7f : 0.6f);
+			bool phase4 = lifeRatio < (death ? 0.6f : revenge ? 0.55f : 0.4f);
+			bool phase5 = lifeRatio < (death ? 0.5f : revenge ? 0.45f : 0.3f);
+			bool phase6 = lifeRatio < (death ? 0.35f : 0.25f) && revenge;
+			bool phase7 = lifeRatio < (death ? 0.25f : 0.15f) && revenge;
 
 			if ((int)npc.ai[0] + 1 > currentPhase)
                 HandlePhaseTransition((int)npc.ai[0] + 1);
 
-			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 3f || BossRushEvent.BossRushActive)) //spawn shield for phase 0 1 2, not 3 4 5
+			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 3f || BossRushEvent.BossRushActive || (death && npc.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
-                int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<CryogenIce>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<CryogenIce>(), npc.whoAmI);
                 npc.ai[2] = num6 + 1;
                 npc.localAI[1] = -1f;
                 npc.netUpdate = true;
@@ -171,7 +172,7 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.ai[2] = 0f;
 
                 if (npc.localAI[1] == -1f)
-                    npc.localAI[1] = expertMode ? 720f : 1080f;
+                    npc.localAI[1] = death ? 540f : expertMode ? 720f : 1080f;
                 if (npc.localAI[1] > 0f)
                     npc.localAI[1] -= 1f;
             }
@@ -206,7 +207,10 @@ namespace CalamityMod.NPCs.Cryogen
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !phase6))
+			float chargeGateValue = malice ? 240f : 360f;
+			bool charging = npc.ai[1] >= chargeGateValue;
+
+			if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !phase6) && !charging)
             {
                 time++;
                 if (time >= (malice ? 480 : 600))
@@ -229,8 +233,6 @@ namespace CalamityMod.NPCs.Cryogen
 					}
                 }
             }
-
-			float chargeGateValue = malice ? 240f : 360f;
 
 			if (npc.ai[0] == 0f)
             {

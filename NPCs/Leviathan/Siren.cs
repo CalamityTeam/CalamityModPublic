@@ -10,6 +10,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]

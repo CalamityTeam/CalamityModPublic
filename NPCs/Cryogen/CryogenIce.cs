@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -25,8 +26,9 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.GetNPCDamage();
 			npc.width = 216;
             npc.height = 216;
+            npc.scale = 0.8f;
 			npc.DR_NERD(0.4f);
-            npc.lifeMax = 1400;
+            npc.lifeMax = CalamityWorld.death ? 700 : 1400;
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 10000;
@@ -83,7 +85,7 @@ namespace CalamityMod.NPCs.Cryogen
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 100f && npc.alpha == 0;
+			return minDist <= 100f * npc.scale && npc.alpha == 0;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -129,7 +131,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int totalProjectiles = 4;
+					int totalProjectiles = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 6 : 4;
 					double radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
