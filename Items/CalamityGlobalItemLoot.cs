@@ -113,7 +113,6 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItemChance(player, ModContent.ItemType<SHPC>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.TwinsBossBag:

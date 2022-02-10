@@ -721,7 +721,6 @@ namespace CalamityMod
 
 			// The Destroyer
 			AddLoot(bossChecklist, "TheDestroyer",
-				new List<int>() { ItemType<SHPC>() },
 				new List<int>() { ItemType<KnowledgeDestroyer>(), ItemType<KnowledgeMechs>() }
 			);
 
