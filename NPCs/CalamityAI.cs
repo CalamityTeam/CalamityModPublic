@@ -3378,6 +3378,7 @@ namespace CalamityMod.NPCs
 			// Split into two worms
 			if (head)
 			{
+				float splitAnimationTime = 180f;
 				bool oneWormAlive = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHeadSpectral>()) < 2;
 				bool deathModeFinalWormEnrage = death && doubleWormPhase && oneWormAlive && calamityGlobalNPC.newAI[1] >= resistanceTime;
 				if (deathModeFinalWormEnrage)
@@ -3385,9 +3386,14 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.newAI[0] = 3f;
 					npc.defense = 0;
 					calamityGlobalNPC.DR = 0f;
+
+					calamityGlobalNPC.newAI[2] += 10f;
+					if (calamityGlobalNPC.newAI[2] > 162f)
+						calamityGlobalNPC.newAI[2] = 162f;
+
+					npc.Opacity = MathHelper.Clamp(1f - (calamityGlobalNPC.newAI[2] / splitAnimationTime), 0f, 1f);
 				}
 
-				float splitAnimationTime = 180f;
 				bool despawnRemainingWorm = doubleWormPhase && oneWormAlive && !death;
 				if ((halfHealth && calamityGlobalNPC.newAI[0] == 0f) || despawnRemainingWorm)
 				{

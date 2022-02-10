@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				texture2D15 = drawCyan ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow2") : texture2D15;
 			}
-			Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * npc.Opacity;
+			Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : npc.Opacity);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
