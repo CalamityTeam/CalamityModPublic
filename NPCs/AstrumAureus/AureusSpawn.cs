@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -87,7 +89,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
                 bool flag121 = tileSafely.nactive() && Main.tileSolid[tileSafely.type] && !Main.tileSolidTop[tileSafely.type] && !TileID.Sets.Platforms[tileSafely.type];
-				if (npc.ai[1] > 300f)
+				if (npc.ai[1] > ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 600f : 300f))
 				{
 					npc.Calamity().newAI[0] += 1f;
 					npc.scale = MathHelper.Lerp(1f, 2f, npc.Calamity().newAI[0] / 45f);
@@ -109,6 +111,33 @@ namespace CalamityMod.NPCs.AstrumAureus
                 num1374 *= num1376;
                 npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
+
+                if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				{
+                    float pushVelocity = 0.5f;
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        if (Main.npc[i].active)
+                        {
+                            if (i != npc.whoAmI && Main.npc[i].type == npc.type)
+                            {
+                                if (Vector2.Distance(npc.Center, Main.npc[i].Center) < 320f)
+                                {
+                                    if (npc.position.X < Main.npc[i].position.X)
+                                        npc.velocity.X = npc.velocity.X - pushVelocity;
+                                    else
+                                        npc.velocity.X = npc.velocity.X + pushVelocity;
+
+                                    if (npc.position.Y < Main.npc[i].position.Y)
+                                        npc.velocity.Y = npc.velocity.Y - pushVelocity;
+                                    else
+                                        npc.velocity.Y = npc.velocity.Y + pushVelocity;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 return;
             }
 
@@ -120,6 +149,29 @@ namespace CalamityMod.NPCs.AstrumAureus
                 if (Main.rand.NextBool(4))
                 {
                     npc.ai[0] = num1447;
+                }
+            }
+
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+            {
+                npc.localAI[0] += 1f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
+                {
+                    npc.localAI[0] = 0f;
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    {
+                        float speed = 5f;
+                        Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+                        float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
+                        float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
+                        float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+                        num8 = speed / num8;
+                        num6 *= num8;
+                        num7 *= num8;
+                        int type = ModContent.ProjectileType<AstralFlame>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
+                    }
                 }
             }
 

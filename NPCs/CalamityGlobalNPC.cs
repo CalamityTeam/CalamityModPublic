@@ -2598,8 +2598,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				bool DoGSentinelPhase = CalamityLists.DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
-				if (npc.type != NPCType<Draedon>() && !DoGSentinelPhase)
+				if (npc.type != NPCType<Draedon>())
 				{
 					if (AITimer < KillTime)
 						AITimer++;

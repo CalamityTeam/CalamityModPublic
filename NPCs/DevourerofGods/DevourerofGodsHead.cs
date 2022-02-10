@@ -363,9 +363,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 				{
 					Phase2Started = true;
 
-					// Timed DR
-					calamityGlobalNPC.AITimer = CalamityGlobalNPC.DoGPhase1KillTime;
-
 					// Reset important shit
 					npc.ai[3] = 0f;
 					calamityGlobalNPC.newAI[1] = 0f;

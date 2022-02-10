@@ -90,14 +90,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 			bool altBodyTextures = npc.localAI[3] == 1f;
 			bool drawCyan = npc.Calamity().newAI[3] >= 600f;
-			bool doubleWormPhase = npc.Calamity().newAI[0] != 0f;
+            bool deathModeEnragePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 3f;
+            bool doubleWormPhase = npc.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
 			Texture2D texture2D15 = altBodyTextures ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltSpectral") : Main.npcTexture[npc.type];
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow2");
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
-			int num153 = 5;
+			int num153 = deathModeEnragePhase ? 10 : 5;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -151,13 +152,13 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 
-			int timesToDraw = drawCyan ? 1 : 2;
+			int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
 			for (int i = 0; i < timesToDraw; i++)
 				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (!altBodyTextures)
 			{
-				timesToDraw = drawCyan ? 2 : 1;
+				timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
 				for (int i = 0; i < timesToDraw; i++)
 					spriteBatch.Draw(texture2D16, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}

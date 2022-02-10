@@ -19,7 +19,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
@@ -104,14 +103,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			bool drawCyan = npc.Calamity().newAI[3] >= 600f;
-			bool doubleWormPhase = npc.Calamity().newAI[0] != 0f;
+            bool deathModeEnragePhase = npc.Calamity().newAI[0] == 3f;
+            bool doubleWormPhase = npc.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2");
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
-			int num153 = 5;
+			int num153 = deathModeEnragePhase ? 10 : 5;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -162,11 +162,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 
-			int timesToDraw = drawCyan ? 1 : 2;
+			int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
 			for (int i = 0; i < timesToDraw; i++)
 				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			timesToDraw = drawCyan ? 2 : 1;
+			timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
 			for (int i = 0; i < timesToDraw; i++)
 				spriteBatch.Draw(texture2D16, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool SpecialNPCLoot()
         {
-			if (npc.Calamity().newAI[0] == 0f)
+			if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
 				return false;
 
 			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override bool PreNPCLoot()
         {
 			// Unsplit Deus does not drop anything when killed/despawned.
-			if (npc.Calamity().newAI[0] == 0f)
+			if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
 				return false;
 
             // Killing ANY split Deus makes all other Deus heads die immediately.

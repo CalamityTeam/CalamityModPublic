@@ -104,28 +104,24 @@ namespace CalamityMod.NPCs.Perforator
 					int whoAmI = npc.whoAmI;
 					float num25 = npc.life / (float)npc.lifeMax;
 					float num26 = npc.ai[0];
-					int aiTimer = npc.Calamity().AITimer;
 					npc.SetDefaultsKeepPlayerInteraction(npc.type);
 					npc.life = (int)(npc.lifeMax * num25);
 					npc.ai[0] = num26;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
 					npc.whoAmI = whoAmI;
-					npc.Calamity().AITimer = aiTimer;
 				}
 				if (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].aiStyle != npc.aiStyle)
 				{
 					int whoAmI2 = npc.whoAmI;
 					float num27 = npc.life / (float)npc.lifeMax;
 					float num28 = npc.ai[1];
-					int aiTimer = npc.Calamity().AITimer;
 					npc.SetDefaultsKeepPlayerInteraction(npc.type);
 					npc.life = (int)(npc.lifeMax * num27);
 					npc.ai[1] = num28;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
 					npc.whoAmI = whoAmI2;
-					npc.Calamity().AITimer = aiTimer;
 				}
 
 				if (!npc.active && Main.netMode == NetmodeID.Server)

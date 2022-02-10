@@ -114,8 +114,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 {
                     float speed = 5f;
                     Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-10, 11);
-                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-10, 11);
+                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
+                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
                     float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
                     num8 = speed / num8;
                     num6 *= num8;

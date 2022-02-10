@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs
 										{
 											Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 											vector15.Normalize();
-											vector15 *= Main.rand.Next(50, 401) * 0.01f;
+											vector15 *= Main.rand.Next(death ? 200 : 50, 401) * 0.01f;
 
 											float maximumVelocityMult = death ? 0.35f : 0.25f;
 											if (expertMode)
@@ -2698,7 +2698,7 @@ namespace CalamityMod.NPCs
 							npc.localAI[0] = 0f;
 							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
 
-							float velocity = death ? 8f : 7f;
+							float velocity = death ? (8f + npc.localAI[2] * 0.025f) : 7f;
 							int type = ModContent.ProjectileType<AstralFlame>();
 							int damage = npc.GetProjectileDamage(type);
 							if (postMoonLordBuff)
@@ -3112,8 +3112,15 @@ namespace CalamityMod.NPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
-                    if (phase3)
-                        npc.localAI[1] += 1f;
+					if (death)
+						npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+					
+					if (phase3)
+					{
+						npc.localAI[1] += 1f;
+						if (death)
+							npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+					}
 
                     if (npc.localAI[1] >= ((malice ? 120f : 240f) - (death ? 60f * (1f - lifeRatio) : 0f)))
                     {
@@ -3121,8 +3128,22 @@ namespace CalamityMod.NPCs
                         bool spawnFlag = revenge;
                         if (NPC.CountNPCS(ModContent.NPCType<AureusSpawn>()) > 1)
                             spawnFlag = false;
-                        if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+
+						if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+
+							if (death)
+							{
+								int damageAmt = npc.lifeMax / 100;
+								npc.life -= damageAmt;
+								if (npc.life < 1)
+									npc.life = 1;
+
+								npc.HealEffect(-damageAmt, true);
+								npc.netUpdate = true;
+							}
+						}
 
 						// Reset localAI and find a teleport destination
 						npc.TargetClosest();
@@ -3164,8 +3185,17 @@ namespace CalamityMod.NPCs
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-                // Turn invisible
-                npc.alpha += 10;
+				if (death)
+					npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+
+				if (phase3)
+				{
+					if (death)
+						npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+				}
+
+				// Turn invisible
+				npc.alpha += 10;
                 if (npc.alpha >= 255)
                 {
                     // Set position to teleport destination
@@ -3175,6 +3205,7 @@ namespace CalamityMod.NPCs
                     // Reset alpha and set AI to next phase (End of teleport)
                     npc.alpha = 255;
                     npc.ai[0] = 7f;
+					npc.localAI[2] = 0f;
                     npc.netUpdate = true;
                 }
 
@@ -3205,8 +3236,22 @@ namespace CalamityMod.NPCs
                     bool spawnFlag = phase3;
                     if (NPC.CountNPCS(ModContent.NPCType<AureusSpawn>()) > 1)
                         spawnFlag = false;
-                    if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+
+					if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+
+						if (death)
+						{
+							int damageAmt = npc.lifeMax / 100;
+							npc.life -= damageAmt;
+							if (npc.life < 1)
+								npc.life = 1;
+
+							npc.HealEffect(-damageAmt, true);
+							npc.netUpdate = true;
+						}
+					}
 
                     // Become vulnerable
                     npc.chaseable = true;
@@ -3308,18 +3353,13 @@ namespace CalamityMod.NPCs
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
 			bool doubleLasersAndSplittingMines = lifeRatio < 0.7f;
 			bool movingMines = lifeRatio < 0.3f && doubleWormPhase && expertMode;
+			bool deathModeEnragePhase_Head = calamityGlobalNPC.newAI[0] == 3f;
+			bool deathModeEnragePhase_BodyAndTail = false;
 
 			// 5 seconds of resistance in phase 2, 10 seconds in phase 1, to prevent spawn killing
 			float resistanceTime = doubleWormPhase ? 300f : 600f;
 			if (calamityGlobalNPC.newAI[1] < resistanceTime)
 				calamityGlobalNPC.newAI[1] += 1f;
-
-			// Set timed DR
-			if (!doubleWormPhase)
-			{
-				if (calamityGlobalNPC.AITimer < 3600)
-					calamityGlobalNPC.AITimer = 3600;
-			}
 
 			// Flight timer
 			float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
@@ -3338,8 +3378,17 @@ namespace CalamityMod.NPCs
 			// Split into two worms
 			if (head)
 			{
+				bool oneWormAlive = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHeadSpectral>()) < 2;
+				bool deathModeFinalWormEnrage = death && doubleWormPhase && oneWormAlive && calamityGlobalNPC.newAI[1] >= resistanceTime;
+				if (deathModeFinalWormEnrage)
+				{
+					calamityGlobalNPC.newAI[0] = 3f;
+					npc.defense = 0;
+					calamityGlobalNPC.DR = 0f;
+				}
+
 				float splitAnimationTime = 180f;
-				bool despawnRemainingWorm = doubleWormPhase && NPC.CountNPCS(ModContent.NPCType<AstrumDeusHeadSpectral>()) < 2;
+				bool despawnRemainingWorm = doubleWormPhase && oneWormAlive && !death;
 				if ((halfHealth && calamityGlobalNPC.newAI[0] == 0f) || despawnRemainingWorm)
 				{
 					npc.dontTakeDamage = true;
@@ -3434,11 +3483,18 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			// Copy dontTakeDamage and Opacity from previous segment
+			// Copy dontTakeDamage and Opacity from head
 			else
 			{
 				npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
 				npc.Opacity = Main.npc[(int)npc.ai[2]].Opacity;
+				deathModeEnragePhase_BodyAndTail = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 3f;
+
+				if (deathModeEnragePhase_BodyAndTail)
+				{
+					npc.defense = 0;
+					calamityGlobalNPC.DR = 0f;
+				}
 			}
 
 			// Set worm variable
@@ -3621,7 +3677,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 
 				// Despawn
-				float fallSpeed = death ? 17.5f : 16f;
+				float fallSpeed = deathModeEnragePhase_Head ? 22f : death ? 17.5f : 16f;
 				if (player.dead)
 				{
 					flag2 = false;
@@ -3629,7 +3685,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= velocity;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
-						fallSpeed = 32f;
+						fallSpeed = deathModeEnragePhase_Head ? 44f : death ? 35f : 32f;
 						npc.velocity.Y -= velocity;
 					}
 
@@ -3656,14 +3712,14 @@ namespace CalamityMod.NPCs
 				// Speed and movement
 				float speedBoost = death ? (0.1f * (1f - lifeRatio)) : (0.13f * (1f - lifeRatio));
 				float turnSpeedBoost = death ? (0.18f * (1f - lifeRatio)) : (0.2f * (1f - lifeRatio));
-				float speed = (death ? 0.18f : 0.13f) + speedBoost;
-				float turnSpeed = (death ? 0.25f : 0.2f) + turnSpeedBoost;
+				float speed = (deathModeEnragePhase_Head ? 0.23f : death ? 0.18f : 0.13f) + speedBoost;
+				float turnSpeed = (deathModeEnragePhase_Head ? 0.3f : death ? 0.25f : 0.2f) + turnSpeedBoost;
 				speed += 0.05f * enrageScale;
 				turnSpeed += 0.08f * enrageScale;
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = doubleWormPhase ? (phase3 ? 1.25f : phase2 ? 1.2f : 1.15f) : 1f;
+					float speedMultiplier = deathModeEnragePhase_Head ? 1.25f : doubleWormPhase ? (phase3 ? 1.25f : phase2 ? 1.2f : 1.15f) : 1f;
 					speed *= speedMultiplier;
 				}
 
@@ -3862,14 +3918,31 @@ namespace CalamityMod.NPCs
 					float shootProjectile = 400 / shootTime;
 					float timer = npc.ai[0] + 15f;
 					float divisor = timer + shootProjectile;
-					if (!flyAtTarget)
+					if (!flyAtTarget || deathModeEnragePhase_BodyAndTail)
 					{
 						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
 							npc.TargetClosest();
+
+							if (deathModeEnragePhase_BodyAndTail)
+							{
+								Vector2 velocity = Vector2.Zero;
+								if (movingMines)
+								{
+									Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+									vector15.Normalize();
+									vector15 *= Main.rand.Next(90, 121) * 0.01f;
+									velocity = vector15;
+								}
+								int type = ModContent.ProjectileType<DeusMine>();
+								int damage = npc.GetProjectileDamage(type);
+								float split = (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f) ? 1f : 0f;
+								Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
+							}
+
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
-								Main.PlaySound(phase2 ? SoundID.Item91 : SoundID.Item12, npc.Center);
+								Main.PlaySound((phase2 || deathModeEnragePhase_BodyAndTail) ? SoundID.Item91 : SoundID.Item12, npc.Center);
 								float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
 								Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 								float num942 = player.position.X + player.width * 0.5f - vector104.X;
@@ -3882,9 +3955,9 @@ namespace CalamityMod.NPCs
 								vector104.Y += num943 * 5f;
 								Vector2 shootDirection = new Vector2(num942, num943).SafeNormalize(Vector2.UnitY);
 								Vector2 laserVelocity = shootDirection * num941;
-								int type = phase2 ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
+								int type = (phase2 || deathModeEnragePhase_BodyAndTail) ? ModContent.ProjectileType<AstralGodRay>() : ModContent.ProjectileType<AstralShot2>();
 								int damage = npc.GetProjectileDamage(type);
-								if (phase2)
+								if (phase2 || deathModeEnragePhase_BodyAndTail)
 								{
 									// Waving beams need to start offset so they cross each other neatly.
 									float waveSideOffset = Main.rand.NextFloat(9f, 14f);
@@ -3923,7 +3996,7 @@ namespace CalamityMod.NPCs
 							int type = ModContent.ProjectileType<DeusMine>();
 							int damage = npc.GetProjectileDamage(type);
 							float split = (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f) ? 1f : 0f;
-							int proj = Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
+							Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 						}
 					}
 				}

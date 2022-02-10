@@ -73,7 +73,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
             writer.Write(npc.alpha);
-			for (int i = 0; i < 4; i++)
+            writer.Write(npc.localAI[2]);
+            for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
 
@@ -83,7 +84,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
             npc.alpha = reader.ReadInt32();
-			for (int i = 0; i < 4; i++)
+            npc.localAI[2] = reader.ReadSingle();
+            for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 

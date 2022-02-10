@@ -186,7 +186,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int whoAmI = npc.whoAmI;
                     float ai0Holdover = npc.ai[0];
                     float newAI1Holdover = calamityGlobalNPC.newAI[1];
-                    int aiTimer = calamityGlobalNPC.AITimer;
                     int slowingDebuffResistTimer = calamityGlobalNPC.debuffResistanceTimer;
 
                     // Actually transform the body segment into a head segment.
@@ -197,7 +196,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Heads spawned mid fight by splitting do not get reset spawn invincibility.
                     CalamityGlobalNPC newCGN = npc.Calamity();
                     newCGN.newAI[1] = newAI1Holdover;
-                    newCGN.AITimer = aiTimer;
                     newCGN.debuffResistanceTimer = slowingDebuffResistTimer;
                     npc.TargetClosest();
                     npc.netUpdate = true;
@@ -211,7 +209,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float segmentLifeRatio = npc.life / (float)npc.lifeMax;
                     int whoAmI = npc.whoAmI;
                     float ai1Holdover = npc.ai[1];
-                    int aiTimer = calamityGlobalNPC.AITimer;
                     int slowingDebuffResistTimer = calamityGlobalNPC.debuffResistanceTimer;
 
                     // Actually transform the body segment into a tail segment.
@@ -219,7 +216,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.life = (int)(npc.lifeMax * segmentLifeRatio);
                     npc.whoAmI = whoAmI;
                     npc.ai[1] = ai1Holdover;
-                    npc.Calamity().AITimer = aiTimer;
                     npc.Calamity().debuffResistanceTimer = slowingDebuffResistTimer;
                     npc.TargetClosest();
                     npc.netUpdate = true;
