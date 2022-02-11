@@ -160,6 +160,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     npc.localAI[0] = 0f;
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
+                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                         float speed = 5f;
                         Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
                         float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
