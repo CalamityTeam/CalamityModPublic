@@ -1418,36 +1418,36 @@ namespace CalamityMod.NPCs
 				rotationVector = Vector2.Normalize(npcCenter - lookAt) * chargeVelocity;
 			}
 
-			float num803 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
-			if (num803 < 0f)
-				num803 += MathHelper.TwoPi;
-			else if (num803 > MathHelper.TwoPi)
-				num803 -= MathHelper.TwoPi;
+			float rotation = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
+			if (rotation < 0f)
+				rotation += MathHelper.TwoPi;
+			else if (rotation > MathHelper.TwoPi)
+				rotation -= MathHelper.TwoPi;
 
-			float num804 = 0.1f;
-			if (npc.rotation < num803)
+			float rotationAmt = 0.1f;
+			if (npc.rotation < rotation)
 			{
-				if ((num803 - npc.rotation) > MathHelper.Pi)
-					npc.rotation -= num804;
+				if ((rotation - npc.rotation) > MathHelper.Pi)
+					npc.rotation -= rotationAmt;
 				else
-					npc.rotation += num804;
+					npc.rotation += rotationAmt;
 			}
-			else if (npc.rotation > num803)
+			else if (npc.rotation > rotation)
 			{
-				if ((npc.rotation - num803) > MathHelper.Pi)
-					npc.rotation += num804;
+				if ((npc.rotation - rotation) > MathHelper.Pi)
+					npc.rotation += rotationAmt;
 				else
-					npc.rotation -= num804;
+					npc.rotation -= rotationAmt;
 			}
 
-			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-				npc.rotation = num803;
+			if (npc.rotation > rotation - rotationAmt && npc.rotation < rotation + rotationAmt)
+				npc.rotation = rotation;
 			if (npc.rotation < 0f)
 				npc.rotation += MathHelper.TwoPi;
 			else if (npc.rotation > MathHelper.TwoPi)
 				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-				npc.rotation = num803;
+			if (npc.rotation > rotation - rotationAmt && npc.rotation < rotation + rotationAmt)
+				npc.rotation = rotation;
 
 			// Despawn
 			if (!player.active || player.dead)
@@ -1484,58 +1484,74 @@ namespace CalamityMod.NPCs
 			// Reset damage from bullet hell phases
 			npc.damage = npc.defDamage;
 
+			// Distance from destination where Cal Clone stops moving
+			float movementDistanceGateValue = 100f;
+
+			// How fast Cal Clone moves to the destination
+			float baseVelocity = (expertMode ? 10f : 8.5f) * (npc.ai[1] == 4f ? 1.4f : 1f);
+			baseVelocity += 4f * enrageScale;
+			if (death)
+				baseVelocity += 2f * (1f - lifeRatio);
+			if (provy)
+				baseVelocity *= 1.25f;
+
+			// Reduce acceleration if target is holding a true melee weapon
+			Item targetSelectedItem = player.inventory[player.selectedItem];
+			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+				baseVelocity *= 0.75f;
+
+			// What side Cal Clone should be on, relative to the target
+			int xPos = 1;
+			if (npc.Center.X < player.Center.X)
+				xPos = -1;
+
+			// How far Cal Clone should be from the target
+			float averageDistance = 500f;
+			float chargeDistance = phase5 ? 300f : 400f;
+
+			// This is where Cal Clone should be
+			Vector2 destination = (calamityGlobalNPC.newAI[2] > 0f || npc.ai[1] == 0f) ? new Vector2(player.Center.X, player.Center.Y - averageDistance) :
+				npc.ai[1] == 1f ? new Vector2(player.Center.X + averageDistance * xPos, player.Center.Y) :
+				new Vector2(player.Center.X + chargeDistance * xPos, player.Center.Y);
+
+			// Add some random distance to the destination after certain attacks
+			if (npc.localAI[0] == 1f)
+			{
+				npc.localAI[0] = 0f;
+				npc.localAI[2] = Main.rand.Next(-50, 51);
+				npc.localAI[3] = Main.rand.Next(-300, 301);
+				npc.netUpdate = true;
+			}
+
+			// Add a bit of randomness to the destination
+			if (death)
+			{
+				destination.X += npc.ai[1] == 0f ? npc.localAI[3] : npc.localAI[2];
+				destination.Y += npc.ai[1] == 0f ? npc.localAI[2] : npc.localAI[3];
+			}
+
+			// How far Cal Clone is from where she's supposed to be
+			Vector2 distanceFromDestination = destination - npc.Center;
+
 			// Bullet hell phase
 			if (calamityGlobalNPC.newAI[2] > 0f)
 			{
-				float num823 = expertMode ? 10f : 8.5f;
-				float num824 = expertMode ? 0.18f : 0.155f;
-				num823 += 4f * enrageScale;
-				num824 += 0.1f * enrageScale;
+				// Inverse lerp returns the percentage of progress between A and B
+				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-				if (death)
-				{
-					num823 += 2f * (1f - lifeRatio);
-					num824 += 0.04f * (1f - lifeRatio);
-				}
+				// Min velocity
+				float minVelocity = distanceFromDestination.Length();
+				float minVelocityCap = baseVelocity;
+				if (minVelocity > minVelocityCap)
+					minVelocity = minVelocityCap;
 
-				if (provy)
-				{
-					num823 *= 1.25f;
-					num824 *= 1.25f;
-				}
+				// Max velocity
+				Vector2 maxVelocity = distanceFromDestination / 24f;
+				float maxVelocityCap = minVelocityCap * 3f;
+				if (maxVelocity.Length() > maxVelocityCap)
+					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-				float num825 = player.position.X + (player.width / 2) - vector82.X;
-				float num826 = player.position.Y + (player.height / 2) - 360f - vector82.Y;
-				float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-				num827 = num823 / num827;
-				num825 *= num827;
-				num826 *= num827;
-
-				if (npc.velocity.X < num825)
-				{
-					npc.velocity.X += num824;
-					if (npc.velocity.X < 0f && num825 > 0f)
-						npc.velocity.X += num824;
-				}
-				else if (npc.velocity.X > num825)
-				{
-					npc.velocity.X -= num824;
-					if (npc.velocity.X > 0f && num825 < 0f)
-						npc.velocity.X -= num824;
-				}
-				if (npc.velocity.Y < num826)
-				{
-					npc.velocity.Y += num824;
-					if (npc.velocity.Y < 0f && num826 > 0f)
-						npc.velocity.Y += num824;
-				}
-				else if (npc.velocity.Y > num826)
-				{
-					npc.velocity.Y -= num824;
-					if (npc.velocity.Y > 0f && num826 < 0f)
-						npc.velocity.Y -= num824;
-				}
+				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 				if (calamityGlobalNPC.newAI[3] < 900f)
 				{
@@ -1544,9 +1560,9 @@ namespace CalamityMod.NPCs
 					npc.chaseable = false;
 					npc.dontTakeDamage = true;
 
-					float num740 = player.Center.X - npc.Center.X;
-					float num741 = player.Center.Y - npc.Center.Y;
-					npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
+					float rotX = player.Center.X - npc.Center.X;
+					float rotY = player.Center.Y - npc.Center.Y;
+					npc.rotation = (float)Math.Atan2(rotY, rotX) - MathHelper.PiOver2;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -1648,6 +1664,9 @@ namespace CalamityMod.NPCs
 							npc.ai[1] = 0f;
 							npc.ai[2] = 0f;
 						}
+
+						if (death)
+							npc.localAI[0] = 1f;
 					}
 
 					npc.netUpdate = true;
@@ -1679,65 +1698,25 @@ namespace CalamityMod.NPCs
 			// Float above target and fire lasers or fireballs
 			if (npc.ai[1] == 0f)
 			{
-				float num823 = expertMode ? 10f : 8.5f;
-				float num824 = expertMode ? 0.18f : 0.155f;
-				num823 += 4f * enrageScale;
-				num824 += 0.1f * enrageScale;
+				// Inverse lerp returns the percentage of progress between A and B
+				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-				if (death)
-				{
-					num823 += 2f * (1f - lifeRatio);
-					num824 += 0.04f * (1f - lifeRatio);
-				}
+				// Min velocity
+				float minVelocity = distanceFromDestination.Length();
+				float minVelocityCap = baseVelocity;
+				if (minVelocity > minVelocityCap)
+					minVelocity = minVelocityCap;
 
-				// Reduce acceleration if target is holding a true melee weapon
-				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-				{
-					num824 *= 0.5f;
-				}
+				// Max velocity
+				Vector2 maxVelocity = distanceFromDestination / 24f;
+				float maxVelocityCap = minVelocityCap * 3f;
+				if (maxVelocity.Length() > maxVelocityCap)
+					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				if (provy)
-				{
-					num823 *= 1.25f;
-					num824 *= 1.25f;
-				}
-
-				Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-				float num825 = player.position.X + (player.width / 2) - vector82.X;
-				float num826 = player.position.Y + (player.height / 2) - 360f - vector82.Y;
-				float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-				num827 = num823 / num827;
-				num825 *= num827;
-				num826 *= num827;
-
-				if (npc.velocity.X < num825)
-				{
-					npc.velocity.X += num824;
-					if (npc.velocity.X < 0f && num825 > 0f)
-						npc.velocity.X += num824;
-				}
-				else if (npc.velocity.X > num825)
-				{
-					npc.velocity.X -= num824;
-					if (npc.velocity.X > 0f && num825 < 0f)
-						npc.velocity.X -= num824;
-				}
-				if (npc.velocity.Y < num826)
-				{
-					npc.velocity.Y += num824;
-					if (npc.velocity.Y < 0f && num826 > 0f)
-						npc.velocity.Y += num824;
-				}
-				else if (npc.velocity.Y > num826)
-				{
-					npc.velocity.Y -= num824;
-					if (npc.velocity.Y > 0f && num826 < 0f)
-						npc.velocity.Y -= num824;
-				}
+				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 				npc.ai[2] += 1f;
-				float phaseTimer = 200f - (death ? 60f * (1f - lifeRatio) : 0f);
+				float phaseTimer = 400f - (death ? 120f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
 					if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
@@ -1746,12 +1725,12 @@ namespace CalamityMod.NPCs
 						npc.ai[1] = 1f;
 
 					npc.ai[2] = 0f;
+					if (death)
+						npc.localAI[0] = 1f;
+
 					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
-
-				num825 = player.Center.X - vector82.X;
-				num826 = player.Center.Y - vector82.Y;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1764,30 +1743,24 @@ namespace CalamityMod.NPCs
 							npc.localAI[1] += 0.5f;
 					}
 
-					if (npc.localAI[1] >= 180f)
+					if (npc.localAI[1] >= (brotherAlive ? 180f : 120f))
 					{
 						npc.localAI[1] = 0f;
 
-						float num828 = expertMode ? 14f : 12.5f;
-						num828 += 3f * enrageScale;
-
+						float projectileVelocity = expertMode ? 14f : 12.5f;
+						projectileVelocity += 3f * enrageScale;
 						int type = ModContent.ProjectileType<BrimstoneHellfireball>();
 						int damage = npc.GetProjectileDamage(type);
-
-						num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-						num827 = num828 / num827;
-						num825 *= num827;
-						num826 *= num827;
-						vector82.X += num825 * 8f;
-						vector82.Y += num826 * 8f;
+						Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
+						Vector2 offset = Vector2.Normalize(fireballVelocity) * 30f;
 
 						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
-							int proj = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+							int proj = Projectile.NewProjectile(npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 							Main.projectile[proj].tileCollide = false;
 						}
 						else
-							Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
+							Projectile.NewProjectile(npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
 					}
 				}
 			}
@@ -1795,69 +1768,22 @@ namespace CalamityMod.NPCs
 			// Float to the side of the target and fire
 			else if (npc.ai[1] == 1f)
 			{
-				int num831 = 1;
-				if (npc.Center.X < player.Center.X)
-					num831 = -1;
+				// Inverse lerp returns the percentage of progress between A and B
+				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-				float num832 = expertMode ? 10f : 8.5f;
-				float num833 = expertMode ? 0.255f : 0.205f;
-				num832 += 4f * enrageScale;
-				num833 += 0.1f * enrageScale;
+				// Min velocity
+				float minVelocity = distanceFromDestination.Length();
+				float minVelocityCap = baseVelocity;
+				if (minVelocity > minVelocityCap)
+					minVelocity = minVelocityCap;
 
-				if (death)
-				{
-					num832 += 2f * (1f - lifeRatio);
-					num833 += 0.04f * (1f - lifeRatio);
-				}
+				// Max velocity
+				Vector2 maxVelocity = distanceFromDestination / 24f;
+				float maxVelocityCap = minVelocityCap * 3f;
+				if (maxVelocity.Length() > maxVelocityCap)
+					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				// Reduce acceleration if target is holding a true melee weapon
-				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-				{
-					num833 *= 0.5f;
-				}
-
-				if (provy)
-				{
-					num832 *= 1.25f;
-					num833 *= 1.25f;
-				}
-
-				Vector2 vector83 = npc.Center;
-				float num834 = player.position.X + (player.width / 2) + (num831 * 360) - vector83.X;
-				float num835 = player.position.Y + (player.height / 2) - vector83.Y;
-				float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-				num836 = num832 / num836;
-				num834 *= num836;
-				num835 *= num836;
-
-				if (npc.velocity.X < num834)
-				{
-					npc.velocity.X += num833;
-					if (npc.velocity.X < 0f && num834 > 0f)
-						npc.velocity.X += num833;
-				}
-				else if (npc.velocity.X > num834)
-				{
-					npc.velocity.X -= num833;
-					if (npc.velocity.X > 0f && num834 < 0f)
-						npc.velocity.X -= num833;
-				}
-				if (npc.velocity.Y < num835)
-				{
-					npc.velocity.Y += num833;
-					if (npc.velocity.Y < 0f && num835 > 0f)
-						npc.velocity.Y += num833;
-				}
-				else if (npc.velocity.Y > num835)
-				{
-					npc.velocity.Y -= num833;
-					if (npc.velocity.Y > 0f && num835 < 0f)
-						npc.velocity.Y -= num833;
-				}
-
-				num834 = player.Center.X - vector83.X;
-				num835 = player.Center.Y - vector83.Y;
+				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1870,40 +1796,34 @@ namespace CalamityMod.NPCs
 							npc.localAI[1] += 0.5f;
 					}
 
-					if (npc.localAI[1] >= 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+					if (npc.localAI[1] >= (brotherAlive ? 75f : 50f) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
 						npc.localAI[1] = 0f;
 
-						float num837 = expertMode ? 12.5f : 11f;
-						num837 += 3f * enrageScale;
-
+						float projectileVelocity = expertMode ? 12.5f : 11f;
+						projectileVelocity += 3f * enrageScale;
 						int type = brotherAlive ? ModContent.ProjectileType<BrimstoneHellfireball>() : ModContent.ProjectileType<BrimstoneHellblast>();
 						int damage = npc.GetProjectileDamage(type);
-
-						num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-						num836 = num837 / num836;
-						num834 *= num836;
-						num835 *= num836;
-						vector83.X += num834 * 8f;
-						vector83.Y += num835 * 8f;
+						Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
+						Vector2 offset = Vector2.Normalize(fireballVelocity) * 30f;
 
 						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
 							type = ModContent.ProjectileType<BrimstoneHellfireball>();
 							damage = npc.GetProjectileDamage(type);
-							int proj = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+							int proj = Projectile.NewProjectile(npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 							Main.projectile[proj].tileCollide = false;
 						}
 						else
 						{
 							float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : 0f;
-							Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, ai0, 0f);
+							Projectile.NewProjectile(npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, ai0, 0f);
 						}
 					}
 				}
 
 				npc.ai[2] += 1f;
-				float phaseTimer = 120f - (death ? 30f * (1f - lifeRatio) : 0f);
+				float phaseTimer = 240f - (death ? 60f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
 					if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
@@ -1912,13 +1832,16 @@ namespace CalamityMod.NPCs
 						npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
 
 					npc.ai[2] = 0f;
+					if (death)
+						npc.localAI[0] = 1f;
+
 					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[1] == 2f)
 			{
-				npc.rotation = num803;
+				npc.rotation = rotation;
 
 				float chargeVelocity = phase5 ? 30f : (25f + (death ? 4f * (1f - lifeRatio) : 0f));
 				chargeVelocity += 5f * enrageScale;
@@ -1955,7 +1878,7 @@ namespace CalamityMod.NPCs
 
 					npc.ai[2] = 0f;
 
-					npc.rotation = num803;
+					npc.rotation = rotation;
 					npc.TargetClosest();
 					npc.netUpdate = true;
 
@@ -1971,66 +1894,33 @@ namespace CalamityMod.NPCs
 			}
 			else
 			{
-				int num62 = phase5 ? 300 : 400;
-				float num63 = 14f;
-				float num64 = 0.35f;
+				// Inverse lerp returns the percentage of progress between A and B
+				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-				if (death)
-				{
-					num63 += 4f * (1f - lifeRatio);
-					num64 += 0.1f * (1f - lifeRatio);
-				}
+				// Min velocity
+				float minVelocity = distanceFromDestination.Length();
+				float minVelocityCap = baseVelocity;
+				if (minVelocity > minVelocityCap)
+					minVelocity = minVelocityCap;
 
-				if (provy)
-				{
-					num63 *= 1.25f;
-					num64 *= 1.25f;
-				}
+				// Max velocity
+				Vector2 maxVelocity = distanceFromDestination / 24f;
+				float maxVelocityCap = minVelocityCap * 3f;
+				if (maxVelocity.Length() > maxVelocityCap)
+					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				int num408 = 1;
-				if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
-					num408 = -1;
-
-				Vector2 vector11 = npc.Center;
-				float num65 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + (num62 * num408) - vector11.X;
-				float num66 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector11.Y;
-				float num67 = (float)Math.Sqrt(num65 * num65 + num66 * num66);
-
-				num67 = num63 / num67;
-				num65 *= num67;
-				num66 *= num67;
-
-				if (npc.velocity.X < num65)
-				{
-					npc.velocity.X += num64;
-					if (npc.velocity.X < 0f && num65 > 0f)
-						npc.velocity.X += num64;
-				}
-				else if (npc.velocity.X > num65)
-				{
-					npc.velocity.X -= num64;
-					if (npc.velocity.X > 0f && num65 < 0f)
-						npc.velocity.X -= num64;
-				}
-				if (npc.velocity.Y < num66)
-				{
-					npc.velocity.Y += num64;
-					if (npc.velocity.Y < 0f && num66 > 0f)
-						npc.velocity.Y += num64;
-				}
-				else if (npc.velocity.Y > num66)
-				{
-					npc.velocity.Y -= num64;
-					if (npc.velocity.Y > 0f && num66 < 0f)
-						npc.velocity.Y -= num64;
-				}
+				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (phase5 ? 15f : 30f))
 				{
 					npc.TargetClosest();
+
 					npc.ai[1] = 2f;
 					npc.ai[2] = 0f;
+					if (death)
+						npc.localAI[0] = 1f;
+
 					npc.netUpdate = true;
 				}
 			}

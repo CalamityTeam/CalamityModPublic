@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Distance where Apollo stops moving
 			float movementDistanceGateValue = 100f;
-			float chargeLocationDistanceGateValue = 20f;
+			float chargeLocationDistanceGateValue = 40f;
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
@@ -550,9 +550,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			// And have them go away afterwards
 			else
 				ChargeComboFlash = MathHelper.Clamp(ChargeComboFlash - 0.1f, 0f, 1f);
-
-			// Velocity
-			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
