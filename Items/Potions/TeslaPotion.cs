@@ -39,10 +39,11 @@ namespace CalamityMod.Items.Potions
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BottledWater);
-			recipe.AddIngredient(ModContent.ItemType<SeaPrism>());
 			recipe.AddIngredient(ModContent.ItemType<AerialiteOre>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
 			recipe.AddTile(TileID.Bottles);
-			recipe.SetResult(this);
+			recipe.SetResult(this, 5);
 			recipe.AddRecipe();
 			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BottledWater);
