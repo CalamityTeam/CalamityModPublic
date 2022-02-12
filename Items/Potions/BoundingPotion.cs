@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ItemID.Frog);
             recipe.AddIngredient(ItemID.Vine);
             recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 3);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);

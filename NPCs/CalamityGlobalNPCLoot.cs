@@ -1145,14 +1145,6 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<TrapperBulb>(), Main.expertMode ? 2 : 3);
                     break;
 
-                case NPCID.MotherSlime:
-                case NPCID.CorruptSlime:
-                case NPCID.Crimslime:
-                case NPCID.BigCrimslime:
-                case NPCID.LittleCrimslime:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 2 : 3);
-                    break;
-
                 case NPCID.Derpling:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<BeetleJuice>(), Main.expertMode ? 3 : 4);
                     break;

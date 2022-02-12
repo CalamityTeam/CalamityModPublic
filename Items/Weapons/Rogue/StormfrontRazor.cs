@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddRecipeGroup("AnyMythrilBar", 6);
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ItemID.Feather, 8);
+            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

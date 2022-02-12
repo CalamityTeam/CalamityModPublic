@@ -37,8 +37,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<MurkySludge>());
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 4);
             recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);

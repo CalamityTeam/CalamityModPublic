@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<WulfrumBattery>());
             recipe.AddIngredient(ModContent.ItemType<VoltaicJelly>());
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

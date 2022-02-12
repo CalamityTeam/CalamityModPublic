@@ -46,6 +46,7 @@ namespace CalamityMod
             EditPhasesaberRecipes();
             EditOpticStaffRecipe();
             AstralAlternatives();
+            EditShroomiteBarRecipe();
             EditTier3HardmodeOreRecipes();
             EditHardmodeOreSetRecipes();
 
@@ -459,6 +460,16 @@ namespace CalamityMod
 
                 s.createItem.SetDefaults(ItemID.OpticStaff, false);
                 s.createItem.stack = 1;
+            });
+        }
+
+        // Change Shroomite Bar's recipe to require 5 Glowing Mushrooms instead
+        private static void EditShroomiteBarRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.ShroomiteBar).ToList().ForEach(s =>
+            {
+                s.requiredItem[1].stack = 5;
             });
         }
 
@@ -1353,6 +1364,13 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             r.SetResult(ItemID.TurtleShell);
+            r.AddRecipe();
+
+            // Pulse Bow
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.ShroomiteBar, 16);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.PulseBow);
             r.AddRecipe();
         }
         #endregion
