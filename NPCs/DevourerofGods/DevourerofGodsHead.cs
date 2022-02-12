@@ -896,11 +896,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 							num189 = homingTurnSpeed;
 						}
 
-						if (expertMode)
-						{
-							num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
-							num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
-						}
+						num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f;
+						num189 += Vector2.Distance(player.Center, npc.Center) * 0.00025f;
 
 						float num48 = num188 * 1.3f;
 						float num49 = num188 * 0.7f;
@@ -1032,27 +1029,22 @@ namespace CalamityMod.NPCs.DevourerofGods
 						float turnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
 
 						if (expertMode)
-						{
 							turnSpeed += 0.1f * (1f - lifeRatio);
-							turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
-						}
+
+						turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.0002f;
 
 						// Enrage
 						if (increaseSpeedMore)
 						{
 							if (laserWallPhase == (int)LaserWallPhase.SetUp && calamityGlobalNPC.newAI[3] <= alphaGateValue)
-								SpawnTeleportLocation(player);
-							else
 							{
-								fallSpeed *= 3f;
-								turnSpeed *= 6f;
+								SpawnTeleportLocation(player);
 							}
+							else
+								turnSpeed *= 4f;
 						}
 						else if (increaseSpeed)
-						{
-							fallSpeed *= 1.5f;
-							turnSpeed *= 3f;
-						}
+							turnSpeed *= 2f;
 
 						if (!flies)
 						{
@@ -1734,15 +1726,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Enrage
 					if (increaseSpeedMore)
 					{
-						fallSpeed *= 3f;
 						speed *= 4f;
-						turnSpeed *= 6f;
+						turnSpeed *= 4f;
 					}
 					else if (increaseSpeed)
 					{
-						fallSpeed *= 1.5f;
 						speed *= 2f;
-						turnSpeed *= 3f;
+						turnSpeed *= 2f;
 					}
 
 					if (!flies)

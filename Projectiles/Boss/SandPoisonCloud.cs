@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -11,6 +13,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -19,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.width = 52;
             projectile.height = 48;
             projectile.hostile = true;
-            projectile.alpha = 255;
+            projectile.Opacity = 0f;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -44,32 +48,41 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.timeLeft < 180)
             {
-				projectile.damage = 0;
-                if (projectile.alpha < 255)
+                projectile.damage = 0;
+                if (projectile.Opacity > 0f)
                 {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
+                    projectile.Opacity -= 0.02f;
+                    if (projectile.Opacity <= 0f)
                     {
-                        projectile.alpha = 255;
+                        projectile.Opacity = 0f;
                         projectile.Kill();
                     }
                 }
             }
-            else if (projectile.alpha > 30)
+            else if (projectile.Opacity < 0.9f)
             {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 30)
-                    projectile.alpha = 30;
+                projectile.Opacity += 0.12f;
+                if (projectile.Opacity > 0.9f)
+                    projectile.Opacity = 0.9f;
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            lightColor.R = (byte)(255 * projectile.Opacity);
+            lightColor.G = (byte)(255 * projectile.Opacity);
+            lightColor.B = (byte)(255 * projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 20f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.alpha == 30;
+		public override bool CanHitPlayer(Player target) => projectile.Opacity == 0.9f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.alpha == 30)
+			if (projectile.Opacity == 0.9f)
 				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
 		}
     }

@@ -41,20 +41,21 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
+
 			Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
+
 			if (projectile.timeLeft < 51)
-			{
 				projectile.Opacity -= 0.02f;
-			}
+
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
+
             projectile.velocity *= 1.03f;
+
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;

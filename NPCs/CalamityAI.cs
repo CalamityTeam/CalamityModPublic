@@ -478,8 +478,8 @@ namespace CalamityMod.NPCs
 					{
 						num188 += 5f;
 						num189 -= 0.03f;
-						num188 += Vector2.Distance(player.Center, npc.Center) * 0.004f * (1f - lifeRatio);
-						num189 += Vector2.Distance(player.Center, npc.Center) * 0.00004f * (1f - lifeRatio);
+						num188 += Vector2.Distance(player.Center, npc.Center) * 0.0015f;
+						num189 += Vector2.Distance(player.Center, npc.Center) * 0.00003f;
 					}
 				}
 
@@ -1489,16 +1489,24 @@ namespace CalamityMod.NPCs
 
 			// How fast Cal Clone moves to the destination
 			float baseVelocity = (expertMode ? 10f : 8.5f) * (npc.ai[1] == 4f ? 1.4f : 1f);
+			float baseAcceleration = (expertMode ? 0.18f : 0.155f) * (npc.ai[1] == 4f ? 1.4f : 1f);
 			baseVelocity += 4f * enrageScale;
+			baseAcceleration += 0.1f * enrageScale;
 			if (death)
+			{
 				baseVelocity += 2f * (1f - lifeRatio);
+				baseAcceleration += 0.04f * (1f - lifeRatio);
+			}
 			if (provy)
+			{
 				baseVelocity *= 1.25f;
+				baseAcceleration *= 1.25f;
+			}
 
 			// Reduce acceleration if target is holding a true melee weapon
 			Item targetSelectedItem = player.inventory[player.selectedItem];
 			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-				baseVelocity *= 0.75f;
+				baseAcceleration *= 0.5f;
 
 			// What side Cal Clone should be on, relative to the target
 			int xPos = 1;
@@ -1533,8 +1541,8 @@ namespace CalamityMod.NPCs
 			// How far Cal Clone is from where she's supposed to be
 			Vector2 distanceFromDestination = destination - npc.Center;
 
-			// Bullet hell phase
-			if (calamityGlobalNPC.newAI[2] > 0f)
+			// Movement
+			if (npc.ai[1] == 0f || npc.ai[1] == 1f || npc.ai[1] == 4f || calamityGlobalNPC.newAI[2] > 0f)
 			{
 				// Inverse lerp returns the percentage of progress between A and B
 				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
@@ -1551,8 +1559,13 @@ namespace CalamityMod.NPCs
 				if (maxVelocity.Length() > maxVelocityCap)
 					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+				Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+			}
 
+			// Bullet hell phase
+			if (calamityGlobalNPC.newAI[2] > 0f)
+			{
 				if (calamityGlobalNPC.newAI[3] < 900f)
 				{
 					calamityGlobalNPC.newAI[3] += 1f;
@@ -1698,23 +1711,6 @@ namespace CalamityMod.NPCs
 			// Float above target and fire lasers or fireballs
 			if (npc.ai[1] == 0f)
 			{
-				// Inverse lerp returns the percentage of progress between A and B
-				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-				// Min velocity
-				float minVelocity = distanceFromDestination.Length();
-				float minVelocityCap = baseVelocity;
-				if (minVelocity > minVelocityCap)
-					minVelocity = minVelocityCap;
-
-				// Max velocity
-				Vector2 maxVelocity = distanceFromDestination / 24f;
-				float maxVelocityCap = minVelocityCap * 3f;
-				if (maxVelocity.Length() > maxVelocityCap)
-					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-
 				npc.ai[2] += 1f;
 				float phaseTimer = 400f - (death ? 120f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
@@ -1752,7 +1748,7 @@ namespace CalamityMod.NPCs
 						int type = ModContent.ProjectileType<BrimstoneHellfireball>();
 						int damage = npc.GetProjectileDamage(type);
 						Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
-						Vector2 offset = Vector2.Normalize(fireballVelocity) * 30f;
+						Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
 
 						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
@@ -1768,23 +1764,6 @@ namespace CalamityMod.NPCs
 			// Float to the side of the target and fire
 			else if (npc.ai[1] == 1f)
 			{
-				// Inverse lerp returns the percentage of progress between A and B
-				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-				// Min velocity
-				float minVelocity = distanceFromDestination.Length();
-				float minVelocityCap = baseVelocity;
-				if (minVelocity > minVelocityCap)
-					minVelocity = minVelocityCap;
-
-				// Max velocity
-				Vector2 maxVelocity = distanceFromDestination / 24f;
-				float maxVelocityCap = minVelocityCap * 3f;
-				if (maxVelocity.Length() > maxVelocityCap)
-					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
@@ -1805,7 +1784,7 @@ namespace CalamityMod.NPCs
 						int type = brotherAlive ? ModContent.ProjectileType<BrimstoneHellfireball>() : ModContent.ProjectileType<BrimstoneHellblast>();
 						int damage = npc.GetProjectileDamage(type);
 						Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
-						Vector2 offset = Vector2.Normalize(fireballVelocity) * 30f;
+						Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
 
 						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
@@ -1869,7 +1848,18 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y = 0f;
 				}
 				else
+				{
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
+
+					// Leave behind slow hellblasts in Death Mode
+					if (Main.netMode != NetmodeID.MultiplayerClient && death && phase4 && npc.ai[2] % (phase5 ? 6f : 10f) == 0f)
+					{
+						int type = ModContent.ProjectileType<BrimstoneHellblast>();
+						int damage = npc.GetProjectileDamage(type);
+						Vector2 fireballVelocity = npc.velocity * 0.01f;
+						Projectile.NewProjectile(npc.Center, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+					}
+				}
 
 				if (npc.ai[2] >= chargeTime + 10f)
 				{
@@ -1894,23 +1884,6 @@ namespace CalamityMod.NPCs
 			}
 			else
 			{
-				// Inverse lerp returns the percentage of progress between A and B
-				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-				// Min velocity
-				float minVelocity = distanceFromDestination.Length();
-				float minVelocityCap = baseVelocity;
-				if (minVelocity > minVelocityCap)
-					minVelocity = minVelocityCap;
-
-				// Max velocity
-				Vector2 maxVelocity = distanceFromDestination / 24f;
-				float maxVelocityCap = minVelocityCap * 3f;
-				if (maxVelocity.Length() > maxVelocityCap)
-					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (phase5 ? 15f : 30f))
 				{
@@ -2530,8 +2503,10 @@ namespace CalamityMod.NPCs
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.75f;
-			bool phase3 = lifeRatio < 0.5f;
+			bool phase2 = lifeRatio < 0.85f;
+			bool phase3 = lifeRatio < 0.7f;
+			bool phase4 = lifeRatio < 0.5f && expertMode;
+			bool phase5 = lifeRatio < 0.3f && revenge;
 			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
 			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
@@ -2579,7 +2554,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.localAI[0] += npc.ai[0] == 2f ? 4f : shootTimer;
 
-					float astralFlameGateValue = phase3 ? 30f : 60f;
+					float astralFlameGateValue = phase4 ? 30f : 60f;
 					if (npc.localAI[0] >= astralFlameGateValue)
 					{
 						// Fire astral flames while teleporting
@@ -2594,7 +2569,7 @@ namespace CalamityMod.NPCs
 							if (postMoonLordBuff)
 								damage *= 2;
 
-							float spreadLimit = (phase3 ? 100f : 50f) + enrageScale * 50f;
+							float spreadLimit = (phase4 ? 100f : 50f) + enrageScale * 50f;
 							float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
 							Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
 							Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
@@ -2836,14 +2811,14 @@ namespace CalamityMod.NPCs
 						if (expertMode)
 						{
 							if (player.position.Y < npc.Bottom.Y)
-								npc.velocity.Y = -14.5f;
+								npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -1f : -14.5f;
 							else
 								npc.velocity.Y = 1f;
 
 							npc.noTileCollide = true;
 						}
 						else
-							npc.velocity.Y = -14.5f;
+							npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -1f : -14.5f;
 
 						if (calamityGlobalNPC.newAI[0] > 1f)
 							npc.velocity.Y *= calamityGlobalNPC.newAI[0];
@@ -2869,7 +2844,7 @@ namespace CalamityMod.NPCs
 					// Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
 					npc.TargetClosest();
 					npc.ai[2] += 1f;
-					float maxStompAmt = death ? 2f : 3f;
+					float maxStompAmt = phase5 ? 5f : 3f;
 					if (npc.ai[2] >= maxStompAmt)
 					{
 						npc.ai[0] = phase2 ? 5f : 1f;
@@ -2904,6 +2879,12 @@ namespace CalamityMod.NPCs
 						float num179 = death ? 20f : 18.5f;
 						int maxProjectiles = malice ? 12 : death ? 6 : 4;
 						int spread = malice ? 120 : death ? 60 : 45;
+						if (phase5)
+						{
+							maxProjectiles = (int)(maxProjectiles * 1.5);
+							spread = (int)Math.Round(spread * 1.5);
+						}
+
 						Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num180 = player.position.X + player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -3123,7 +3104,7 @@ namespace CalamityMod.NPCs
                 if (npc.alpha <= 0)
                 {
                     // Spawn slimes
-                    bool spawnFlag = phase3;
+                    bool spawnFlag = phase4;
                     if (NPC.CountNPCS(ModContent.NPCType<AureusSpawn>()) > 1)
                         spawnFlag = false;
 
