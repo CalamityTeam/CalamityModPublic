@@ -255,7 +255,6 @@ namespace CalamityMod.Items
 				case ItemID.CrimsonFishingCrate:
 					BlockCrateDrops();
 					DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 0.15f, 5, 8);
-					DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 0.15f, 1, 3);
 					break;
 
 				case ItemID.HallowedFishingCrate:
