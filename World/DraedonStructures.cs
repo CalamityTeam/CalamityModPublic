@@ -96,7 +96,7 @@ namespace CalamityMod.World
             };
 
             //Add suspicious scrap into the chest rarely. Chance depends on the world size
-            int probability = Main.maxTilesX == 4200f ? 0 : Main.maxTilesX == 8400f ? 2 : 1;
+            int probability = Main.maxTilesX <= 4200f ? 0 : Main.maxTilesX >= 8400f ? 2 : 1;
             if (Main.rand.Next(probability) == 0f)
                 contents.Insert(2, new ChestItem(ModContent.ItemType<SuspiciousScrap>(), 1));
 
