@@ -17,7 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanoblack Reaper");
-            Tooltip.SetDefault("Unleashes a storm of nanoblack energy blades\nBlades target bosses whenever possible\n'She smothered them in Her hatred'");
+            Tooltip.SetDefault("Unleashes a storm of nanoblack energy blades\n" +
+                "Blades target bosses whenever possible\n" +
+                "Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades\n" +
+                "'She smothered them in Her hatred'");
         }
 
         public override void SafeSetDefaults()
@@ -46,10 +49,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            if (proj.WithinBounds(Main.maxProjectiles))
-                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-            return false;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                damage = (int)(damage * 1.5);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()

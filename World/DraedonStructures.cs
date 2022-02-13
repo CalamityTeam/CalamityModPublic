@@ -94,6 +94,12 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+            //Add suspicious scrap into the chest rarely. Chance depends on the world size
+            int probability = Main.maxTilesX <= 4200f ? 0 : Main.maxTilesX >= 8400f ? 2 : 1;
+            if (Main.rand.Next(probability) == 0f)
+                contents.Insert(2, new ChestItem(ModContent.ItemType<SuspiciousScrap>(), 1));
+
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);
@@ -153,12 +159,14 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(10, 15 + 1)),
+                new ChestItem(ModContent.ItemType<SuspiciousScrap>(), 1),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(20, 40 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 16 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(7, 10 + 1)),
                 new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
             };
+
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);
@@ -551,7 +559,9 @@ namespace CalamityMod.World
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogPlanetoid>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicPlanetoid>(), 1));
+                contents.Insert(2, new ChestItem(ModContent.ItemType<PlasmaDriveCore>(), 1));
             }
+
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);

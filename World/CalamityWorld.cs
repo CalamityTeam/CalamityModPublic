@@ -36,6 +36,7 @@ namespace CalamityMod.World
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
         public static bool IsWorldAfterDraedonUpdate = false;
+        public static ushort[] OreTypes = new ushort[4];
 
         // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
@@ -506,6 +507,11 @@ namespace CalamityMod.World
                 downed.Add("HasGeneratedLuminitePlanetoids");
             downed.AddWithCondition("IsWorldAfterDraedonUpdate", IsWorldAfterDraedonUpdate);
 
+            downed.AddWithCondition("TinOreWorld", OreTypes[0] == TileID.Tin);
+            downed.AddWithCondition("LeadOreWorld", OreTypes[1] == TileID.Lead);
+            downed.AddWithCondition("TungstenOreWorld", OreTypes[2] == TileID.Tungsten);
+            downed.AddWithCondition("PlatinumOreWorld", OreTypes[3] == TileID.Platinum);
+
             RecipeUnlockHandler.Save(downed);
 
             return new TagCompound
@@ -614,6 +620,11 @@ namespace CalamityMod.World
             encounteredOldDuke = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
             IsWorldAfterDraedonUpdate = downed.Contains("IsWorldAfterDraedonUpdate");
+
+            OreTypes[0] = downed.Contains("TinOreWorld") ? TileID.Tin : TileID.Copper;
+            OreTypes[1] = downed.Contains("LeadOreWorld") ? TileID.Lead : TileID.Iron;
+            OreTypes[2] = downed.Contains("TungstenOreWorld") ? TileID.Tungsten : TileID.Silver;
+            OreTypes[3] = downed.Contains("PlatinumOreWorld") ? TileID.Platinum : TileID.Gold;
 
             RecipeUnlockHandler.Load(downed);
 
@@ -1295,6 +1306,12 @@ namespace CalamityMod.World
                     }
                 }
             }
+
+            // Save the set of ores that got generated
+            OreTypes[0] = WorldGen.CopperTierOre;
+            OreTypes[1] = WorldGen.IronTierOre;
+            OreTypes[2] = WorldGen.SilverTierOre;
+            OreTypes[3] = WorldGen.GoldTierOre;
         }
         #endregion
     }

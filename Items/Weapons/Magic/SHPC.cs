@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -93,6 +94,17 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 return false;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<PlasmaDriveCore>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SuspiciousScrap>(), 4);
+            recipe.AddRecipeGroup("AnyMythrilBar", 10);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
