@@ -3253,9 +3253,29 @@ namespace CalamityMod.NPCs
 				bool deathModeFinalWormEnrage = death && doubleWormPhase && oneWormAlive && calamityGlobalNPC.newAI[1] >= resistanceTime;
 				if (deathModeFinalWormEnrage)
 				{
-					calamityGlobalNPC.newAI[0] = 3f;
-					npc.defense = 0;
-					calamityGlobalNPC.DR = 0f;
+					if (calamityGlobalNPC.newAI[0] != 3f)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+						calamityGlobalNPC.newAI[0] = 3f;
+						npc.defense = 0;
+						calamityGlobalNPC.DR = 0f;
+
+						// Despawns the other deus worm segments
+						int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
+						int tailID = ModContent.NPCType<AstrumDeusTailSpectral>();
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							NPC wormseg = Main.npc[i];
+							if (!wormseg.active)
+								continue;
+
+							if ((wormseg.type == bodyID || wormseg.type == tailID) && Main.npc[(int)wormseg.ai[2]].Calamity().newAI[0] != 3f)
+							{
+								wormseg.life = 0;
+								wormseg.active = false;
+							}
+						}
+					}
 
 					calamityGlobalNPC.newAI[2] += 10f;
 					if (calamityGlobalNPC.newAI[2] > 162f)
@@ -3383,17 +3403,6 @@ namespace CalamityMod.NPCs
 			// Dust and alpha effects
 			if ((head || Main.npc[(int)npc.ai[1]].alpha < 128) && !npc.dontTakeDamage)
 			{
-				// Spawn dust
-				if (npc.alpha != 0)
-				{
-					for (int num934 = 0; num934 < 2; num934++)
-					{
-						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-						Main.dust[num935].noGravity = true;
-						Main.dust[num935].noLight = true;
-					}
-				}
-
 				// Alpha changes
 				npc.alpha -= 42;
 				if (npc.alpha < 0)
@@ -3887,7 +3896,6 @@ namespace CalamityMod.NPCs
 				vector18.Y = (int)(vector18.Y / 16f) * 16;
 				num191 -= vector18.X;
 				num192 -= vector18.Y;
-				float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 
 				if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
 				{
@@ -3902,7 +3910,7 @@ namespace CalamityMod.NPCs
 					}
 
 					npc.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-					num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
+					float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 					int num194 = npc.width;
 					num193 = (num193 - num194) / num193;
 					num191 *= num193;

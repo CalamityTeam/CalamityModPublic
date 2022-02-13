@@ -216,10 +216,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                 ModContent.NPCType<AstrumDeusBodySpectral>(),
                 ModContent.NPCType<AstrumDeusTailSpectral>());
             npc.position = Main.npc[closestSegmentID].position;
+
             return false;
         }
 
-        public override bool PreNPCLoot()
+		public override bool PreNPCLoot()
         {
 			// Unsplit Deus does not drop anything when killed/despawned.
 			if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
@@ -238,6 +239,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.netUpdate = true;
                 }
 			}
+
             return true;
         }
 
