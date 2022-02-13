@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Charge = 0;
                 }
 
-                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>())))
+                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
                     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
@@ -226,7 +226,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             float barScale = 3.5f;
 
-            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 10) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
             Color color = Main.hslToRgb(((float)Math.Sin(Main.GlobalTime * 0.6f) * 0.5f + 0.5f) * 0.15f, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
 

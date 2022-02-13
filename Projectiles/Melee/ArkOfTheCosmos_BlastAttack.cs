@@ -24,6 +24,20 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
         private bool initialized = false;
+        public ref float Charge => ref projectile.ai[0];
+
+        public bool Dashing
+        {
+            get
+            {
+                return projectile.ai[1] == 1;
+            }
+
+            set
+            {
+                projectile.ai[1] = value ? 1f : 0f;
+            }
+         }
 
         const int maxStitches = 8;
         public int CurrentStitches => (int)Math.Ceiling((1 - (float)Math.Sqrt(1f - (float)Math.Pow(MathHelper.Clamp(StitchProgress * 3f, 0f, 1f), 2f))) * maxStitches);
@@ -44,11 +58,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
+        public Vector2 scissorPosition => projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f;
+
         public Player Owner => Main.player[projectile.owner];
+
+        public Particle PolarStar;
+
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rending Scissors");
+            DisplayName.SetDefault("Sundering Scissors");
         }
         public override void SetDefaults()
         {
@@ -91,7 +110,6 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 
-
                 initialized = true;
                 projectile.netUpdate = true;
                 projectile.netSpam = 0;
@@ -100,6 +118,18 @@ namespace CalamityMod.Projectiles.Melee
             //Manage position and rotation
             projectile.Center -= projectile.velocity; //Don't actually move xd //Yes i knowi could set the velocity to zero and then use the projectiles rotation but it saves me ToRotationVector2() clutter
             projectile.scale = 1.4f;
+
+            if (PolarStar == null)
+            {
+                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
+                GeneralParticleHandler.SpawnParticle(PolarStar);
+            }
+            else if (HoldProgress <= 0.4f)
+            {
+                PolarStar.Time = 0;
+                PolarStar.Position = scissorPosition;
+                PolarStar.Scale = projectile.scale * 2f;
+            }
 
             //Update stitches
             for (int i = 0; i < CurrentStitches; i++)
@@ -111,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
                     SafeVolumeChange(ref sewSound, 0.5f);
 
                     float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
 
 
                     Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
@@ -120,12 +150,21 @@ namespace CalamityMod.Projectiles.Melee
                 StitchLifetimes[i]++;
             }
 
+            //Spawn particles when the line appears
             if (HoldTimer == 1)
             {
+                //Check for the up arrow once more so if the player has good reflexes they can avoid the dash. Gives them more control
+                if (Owner.controlUp && Charge >= 5)
+                {
+                    Owner.GiveIFrames(ArkoftheCosmos.DashIframes);
+                    Dashing = true;
+
+                }
+
                 for (int i = 0; i < 20; i++)
                 {
                     float positionAlongLine = MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, Main.rand.NextFloat(0f, 1f));
-                    Vector2 particlePosition = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+                    Vector2 particlePosition = projectile.Center + projectile.velocity * positionAlongLine;
                     Color particleColor = Main.rand.NextBool() ? Color.OrangeRed : Main.rand.NextBool() ? Color.White : Color.Orange;
                     float particleScale = Main.rand.NextFloat(0.05f, 0.4f) * (0.4f + 0.6f * (float)Math.Sin(positionAlongLine / (ThrustDisplaceRatio() * 242f) * MathHelper.Pi));
 
@@ -149,6 +188,34 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
+
+
+            Owner.Calamity().LungingDown = false;
+
+            if (Dashing)
+            {
+                Owner.Calamity().LungingDown = true;
+                Owner.fallStart = (int)(Owner.position.Y / 16f);
+                Owner.velocity = Owner.DirectionTo(scissorPosition) * 60f;
+
+                if (Owner.Distance(scissorPosition) < 60f)
+                {
+                    Dashing = false;
+                    Owner.velocity *= 0.1f; //Abrupt stop
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MeatySlash"), projectile.Center);
+
+                    if (Owner.whoAmI == Main.myPlayer)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                            {
+                                blast.timeLeft = 100;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -163,6 +230,16 @@ namespace CalamityMod.Projectiles.Melee
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Red, 60, 1, 1.5f, hueShift: 0.002f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (Dashing)
+            {
+                Owner.velocity *= 0.1f; //Abrupt stop if the player was still dashing
+            }
+
+            Owner.Calamity().LungingDown = false;
         }
 
         //Animation keys
@@ -184,27 +261,23 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D sliceTex = GetTexture("CalamityMod/Particles/BloomLine");
             Color sliceColor = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
             float rot = projectile.rotation + MathHelper.PiOver2;
-            Vector2 nitpickShiftCorrection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
             Vector2 sliceScale = new Vector2(0.2f * (1 - SnapProgress) ,ThrustDisplaceRatio() * 242f);
-            spriteBatch.Draw(sliceTex, projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
+            spriteBatch.Draw(sliceTex, projectile.Center - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
 
 
             //Draw the scissors
             if (HoldProgress <= 0.4f)
             {
-                Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
-                Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
+                Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
+                Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRight");
 
                 float snippingRotation = projectile.rotation + MathHelper.PiOver4;
-                float snippingRotationBack = projectile.rotation + MathHelper.PiOver4 * 1.75f;
+                float drawRotation = MathHelper.Lerp(snippingRotation - MathHelper.PiOver4, snippingRotation, RotationRatio());
+                float drawRotationBack = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio());
 
-                float nitpickAngleCorrection = MathHelper.ToRadians(6f); //ITS IMPORTANT MOM!
-                float drawRotation = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio()) + nitpickAngleCorrection;
-                float drawRotationBack = MathHelper.Lerp(snippingRotationBack - MathHelper.PiOver4, snippingRotationBack, RotationRatio()) + nitpickAngleCorrection;
-
-                Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
-                Vector2 drawOriginBack = new Vector2(22, 109); //Right on the hole
-                Vector2 drawPosition = projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f - Main.screenPosition;
+                Vector2 drawOrigin = new Vector2(33, 86); //Right on the hole
+                Vector2 drawOriginBack = new Vector2(44f, 86); //Right on the hole
+                Vector2 drawPosition = scissorPosition - Main.screenPosition;
 
                 float opacity = (0.4f - HoldProgress) / 0.4f;
                 Color drawColor = Color.Orange * opacity * 0.9f;
@@ -227,7 +300,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 scale = new Vector2(ripWidth, (ThrustDisplaceRatio() * 242f) / lineTex.Height);
                 float lineOpacity = StitchProgress < 0.75f ? 1f : 1 - (StitchProgress - 0.75f) * 4f;
 
-                spriteBatch.Draw(lineTex, projectile.Center - Main.screenPosition + Shake + nitpickShiftCorrection, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(lineTex, projectile.Center - Main.screenPosition + Shake, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
 
 
                 //Draw the stitches
@@ -236,7 +309,7 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < CurrentStitches; i++)
                     {
                         float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                        Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + nitpickShiftCorrection;
+                        Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
 
                         rot = projectile.rotation + MathHelper.PiOver2 + StitchRotations[i];
                         origin = new Vector2(lineTex.Width / 2f, lineTex.Height / 2f);

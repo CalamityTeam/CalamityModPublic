@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
+        public static int DashIframes = 18;
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 136;
-            item.damage = 140;
+            item.damage = 1705;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -67,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 9.5f;
-            item.UseSound = SoundID.Item60;
+            item.UseSound = null;
             item.autoReuse = true;
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Purple;
@@ -103,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, angle, 600);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, Charge);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -111,8 +112,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     Charge = 0;
                 }
 
-                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
+                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
             }
@@ -190,6 +191,37 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void NetRecieve(BinaryReader reader)
         {
             Charge = reader.ReadInt32();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D handleTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosHandle");
+            Texture2D bladeTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosGlow");
+
+            float bladeOpacity = (Charge > 0) ? 1f : MathHelper.Clamp((float)Math.Sin(Main.GlobalTime % MathHelper.Pi) * 2f, 0, 1) * 0.7f + 0.3f;
+
+            spriteBatch.Draw(handleTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
+            spriteBatch.Draw(bladeTexture, position, null, drawColor * bladeOpacity, 0f, origin, scale, SpriteEffects.None, 0f);
+
+            return false;
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Charge <= 0)
+                return;
+
+            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
+            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+
+            float barScale = 3f;
+
+            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 8) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
+            Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.75f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+
+            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
     }
 }

@@ -113,7 +113,6 @@ namespace CalamityMod.Projectiles.Melee
                 var sound = Main.PlaySound(SoundID.Item84, projectile.Center);
                 CalamityUtils.SafeVolumeChange(ref sound, 0.3f);
 
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
                 projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();

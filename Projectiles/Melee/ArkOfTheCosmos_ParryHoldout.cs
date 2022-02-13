@@ -113,7 +113,6 @@ namespace CalamityMod.Projectiles.Melee
                 var sound = Main.PlaySound(SoundID.Item84, projectile.Center);
                 CalamityUtils.SafeVolumeChange(ref sound, 0.3f);
 
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
                 projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
@@ -149,9 +148,9 @@ namespace CalamityMod.Projectiles.Melee
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
                     }
 
-                    //Reduce the projectile's damage by 100 for half a second.
-                    if (proj.Calamity().damageReduction < 200)
-                        proj.Calamity().damageReduction = 200;
+                    //Reduce the projectile's damage by 300 for half a second.
+                    if (proj.Calamity().damageReduction < 320)
+                        proj.Calamity().damageReduction = 320;
                     if (proj.Calamity().damageReductionTimer < 60)
                         proj.Calamity().damageReductionTimer = 60;
                     break;
@@ -208,19 +207,18 @@ namespace CalamityMod.Projectiles.Melee
                 return false;
             }
 
-            Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
-            Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow");
-            Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
-            Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
+            Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
+            Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
+            Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRight");
+            Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow");
 
             float snippingRotation = projectile.rotation + MathHelper.PiOver4;
-            float snippingRotationBack = projectile.rotation + MathHelper.PiOver4 * 1.75f;
 
-            float drawRotation = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio());
-            float drawRotationBack = MathHelper.Lerp(snippingRotationBack - MathHelper.PiOver4, snippingRotationBack, RotationRatio());
+            float drawRotation = MathHelper.Lerp(snippingRotation - MathHelper.PiOver4, snippingRotation, RotationRatio());
+            float drawRotationBack = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio());
 
-            Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
-            Vector2 drawOriginBack = new Vector2(22, 109); //Right on the hole
+            Vector2 drawOrigin = new Vector2(33, 86); //Right on the hole
+            Vector2 drawOriginBack = new Vector2(44f, 86); //Right on the hole
             Vector2 drawPosition = Owner.Center + projectile.velocity * 15 + projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
 
             spriteBatch.Draw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);

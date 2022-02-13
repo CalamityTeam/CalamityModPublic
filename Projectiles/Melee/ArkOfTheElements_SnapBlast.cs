@@ -120,6 +120,7 @@ namespace CalamityMod.Projectiles.Melee
                 StitchLifetimes[i]++;
             }
 
+            //Spawn particles when the line appears
             if (HoldTimer == 1)
             {
                 for (int i = 0; i < 20; i++)
