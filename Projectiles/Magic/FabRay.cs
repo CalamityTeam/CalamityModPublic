@@ -82,12 +82,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TrailDrawer is null)
-            {
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"])
-                {
-                    DegreeOfBezierCurveCornerSmoothening = 4
-                };
-            }
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
             TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 32);
