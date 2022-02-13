@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Charge => ref projectile.ai[1];
         public Player Owner => Main.player[projectile.owner];
 
+        Particle smear;
 
         #region Regular swing variables
 
@@ -61,17 +62,17 @@ namespace CalamityMod.Projectiles.Melee
 
         #region Throw variables
         //Only used for the long range throw
-        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed && Owner.HeldItem.type == ItemType<ArkoftheElements>();
+        private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed && Owner.HeldItem.type == ItemType<ArkoftheCosmos>();
         public bool Thrown => Combo == 2 || Combo == 3;
-        const float MaxThrowTime = 80;
+        const float MaxThrowTime = 140;
         const float ThrowReachMax = 500;
         const float ThrowReachMin = 200;
         public float ThrowReach;
         public float ThrowTimer => MaxThrowTime - projectile.timeLeft;
         public float ThrowCompletion => ThrowTimer / MaxThrowTime;
 
-        const float SnapWindowStart = 0.4f;
-        const float SnapWindowEnd = 0.6f;
+        const float SnapWindowStart = 0.2f;
+        const float SnapWindowEnd = 0.75f;
         public float SnapEndTime => (MaxThrowTime - (MaxThrowTime * SnapWindowEnd));
         public float SnapEndCompletion => (SnapEndTime - projectile.timeLeft) / SnapEndTime;
         public ref float ChanceMissed => ref projectile.localAI[1];
@@ -95,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = Thrown ? 10 : (int)MaxSwingTime;
+            projectile.localNPCHitCooldown = Thrown ? 10 : (int)(MaxSwingTime);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -129,15 +130,15 @@ namespace CalamityMod.Projectiles.Melee
         internal float SwingRatio() => PiecewiseAnimation(SwingCompletion, new CurveSegment[] { anticipation, thrust, hold });
 
         //Wide swing animation keys
-        public CurveSegment startup = new CurveSegment(EasingType.SineIn, 0f, 0f, 0.15f);
-        public CurveSegment swing = new CurveSegment(EasingType.ExpOut, 0.1f, 0.15f, 0.85f);
+        public CurveSegment startup = new CurveSegment(EasingType.SineIn, 0f, 0f, 0.25f);
+        public CurveSegment swing = new CurveSegment(EasingType.SineOut, 0.1f, 0.25f, 0.75f);
         internal float SwirlRatio() => PiecewiseAnimation(SwingCompletion, new CurveSegment[] { startup, swing });
 
-        //Throw animation keys
-        public CurveSegment shoot = new CurveSegment(EasingType.CircOut, 0f, 0f, 1f);
-        public CurveSegment remain = new CurveSegment(EasingType.Linear, SnapWindowStart, 1f, 0f);
-        public CurveSegment goback = new CurveSegment(EasingType.CircIn, SnapWindowEnd, 1f, -1f);
-        internal float ThrowRatio() => PiecewiseAnimation(ThrowCompletion, new CurveSegment[] { shoot, remain, goback });
+        //Throw animation keys. This one is on the esoteric side, since the first 2 anim segments get used to determine the strenght of the cursor homing of the scissor blade, while the retract part is actually used for the retraction
+        public CurveSegment shoot = new CurveSegment(EasingType.PolyIn, 0f, 1f, -0.2f, 3);
+        public CurveSegment remain = new CurveSegment(EasingType.Linear, SnapWindowStart, 0.8f, 0f);
+        public CurveSegment retract = new CurveSegment(EasingType.SineIn, SnapWindowEnd, 1f, -1f);
+        internal float ThrowRatio() => PiecewiseAnimation(ThrowCompletion, new CurveSegment[] { shoot, remain, retract });
 
 
         public CurveSegment sizeCurve = new CurveSegment(EasingType.SineBump, 0f, 0f, 1f);
@@ -153,10 +154,11 @@ namespace CalamityMod.Projectiles.Melee
                     SafeVolumeChange(ref sound, 2.5f);
                 direction = projectile.velocity;
                 direction.Normalize();
+                projectile.velocity = direction;
                 projectile.rotation = direction.ToRotation();
 
-                if (Thrown)
-                    ThrowReach = MathHelper.Clamp((Owner.Center - Owner.Calamity().mouseWorld).Length(), ThrowReachMin, ThrowReachMax);
+                if (SwirlSwing)
+                    projectile.localNPCHitCooldown = (int)(projectile.localNPCHitCooldown / 4f);
 
                 initialized = true;
                 projectile.netUpdate = true;
@@ -170,15 +172,17 @@ namespace CalamityMod.Projectiles.Melee
 
                 //Baby swing 
                 if (!SwirlSwing)
+                {
                     projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio());
+                }
 
                 //Chungal swing
                 else
                 {
-                    float startRot = SwingWidth/2f * SwingDirection;
-                    float endRot = (- MathHelper.TwoPi) * SwingDirection;
-
+                    float startRot = (MathHelper.Pi - MathHelper.PiOver4) * SwingDirection;
+                    float endRot = -(MathHelper.TwoPi + MathHelper.PiOver4 * 1.5f) * SwingDirection;
                     projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(startRot, endRot, SwirlRatio());
+                    DoParticleEffects(true);
                 }
 
                 projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.2f;
@@ -186,20 +190,38 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
-                Vector2 sparklePosition = projectile.Center + projectile.rotation.ToRotationVector2() * 90 * projectile.scale + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 20 * projectile.scale;
-                Particle sparkle = new CritSpark(sparklePosition, projectile.rotation.ToRotationVector2() * 7f, Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f, Main.rand.NextFloat(0f, 0.01f));
-                GeneralParticleHandler.SpawnParticle(sparkle);
-
+                //Telegraph the start of the snap window with a bit of leeway
                 if (Math.Abs(ThrowCompletion - SnapWindowStart + 0.1f) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
                 {
                     Particle pulse = new PulseRing(projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8);
                     GeneralParticleHandler.SpawnParticle(pulse);
                     Main.PlaySound(SoundID.Item4);
+
+                    //Spawn a constellation link
+
+                    Projectile chain = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(projectile.damage * ArkoftheCosmos.chainDamageMultiplier), 0, Owner.whoAmI);
+                    if (chain.modProjectile is AriesWrathConstellation constellation)
+                    {
+                        constellation.SizeVector = projectile.Center - Owner.Center;
+                    }
                 }
 
-                projectile.Center = Owner.Center + direction * ThrowRatio() * ThrowReach;
+                //Rotate the blade towards the cursor
+                projectile.Center = Vector2.Lerp(projectile.Center, Owner.Calamity().mouseWorld, 0.025f * ThrowRatio());
+                projectile.Center = projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 20f * ThrowRatio());
+
+                if ((projectile.Center - Owner.Center).Length() > ThrowReachMax)
+                    projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * ThrowReachMax;
+
                 projectile.rotation -= MathHelper.PiOver4 * 0.3f;
                 projectile.scale = 1f + ThrowScaleRatio() * 0.5f;
+
+                //Come back
+                if (Math.Abs(ThrowCompletion - SnapWindowEnd) <= 0.005f)
+                    direction = projectile.Center - Owner.Center;
+
+                if (ThrowCompletion > SnapWindowEnd)
+                    projectile.Center = Owner.Center + direction * ThrowRatio();
 
 
                 //Snip
@@ -211,9 +233,11 @@ namespace CalamityMod.Projectiles.Melee
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
                     Combo = 3f; //Mark the end of the regular throw
+                    direction = projectile.Center - Owner.Center; //At this point direction becomes also a marker for the last position it was in before snapping
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
                 }
+
 
                 else if (!OwnerCanShoot && Combo == 2 && ChanceMissed == 0f)
                     ChanceMissed = 1f;
@@ -222,16 +246,18 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     //Slow down the projectile's retraction
                     float curveDownGently = MathHelper.Lerp(1f, 0.8f, 1f - (float)Math.Sqrt(1f - (float)Math.Pow(SnapEndCompletion , 2f)));
-                    projectile.Center = Owner.Center + direction * ThrowReach * curveDownGently;
+                    projectile.Center = Owner.Center + direction * curveDownGently;
                     projectile.scale = 1.5f;
 
                     float orientateProperly = (float)Math.Sqrt(1f - (float)Math.Pow(MathHelper.Clamp(SnapEndCompletion + 0.2f, 0f, 1f) - 1f, 2f));
 
                     float extraRotations = (direction.ToRotation() + MathHelper.PiOver4 > projectile.velocity.ToRotation()) ? -MathHelper.TwoPi : 0f;
 
-                    projectile.rotation = MathHelper.Lerp(projectile.velocity.ToRotation(), direction.ToRotation() + MathHelper.PiOver4 * 0.2f + extraRotations, orientateProperly);
-
+                    projectile.rotation = MathHelper.Lerp(projectile.velocity.ToRotation(), direction.ToRotation()  + extraRotations, orientateProperly);
                 }
+
+                //Sharticles
+                DoParticleEffects(false);
             }
 
             //Make the owner look like theyre holding the sword bla bla
@@ -244,6 +270,122 @@ namespace CalamityMod.Projectiles.Melee
             }
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
 
+        }
+
+        public void DoParticleEffects(bool swirlSwing)
+        {
+            if (swirlSwing)
+            {
+                //This specific scale setting isn't actually used for the blade itself at all since it gets set to something else further down. This is just to use for the particles
+                projectile.scale = 1.6f + ((float)Math.Sin(SwirlRatio() * MathHelper.Pi) * 1f) + (Charge / 10f) * 0.05f;
+
+
+                Color currentColor = Color.Chocolate * (MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathHelper.Pi), 0f, 1f) * 0.8f);
+
+                if (smear == null)
+                {
+                    smear = new CircularSmearSmokeyVFX(Owner.Center, currentColor, projectile.rotation, projectile.scale * 2.4f);
+                    GeneralParticleHandler.SpawnParticle(smear);
+                }
+                //Update the variables of the smear
+                else
+                {
+                    smear.Rotation = projectile.rotation + MathHelper.PiOver4 + (Owner.direction < 0 ? MathHelper.PiOver4 * 4f : 0f);
+                    smear.Time = 0;
+                    smear.Position = Owner.Center;
+                    smear.Scale = MathHelper.Lerp(2.6f, 3.5f, (projectile.scale - 1.6f) / 1f);
+                    smear.Color = currentColor;
+                }
+
+                if (Main.rand.NextBool())
+                {
+                    float maxDistance = projectile.scale * 78f;
+                    Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
+                    Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2 * Owner.direction)) * 2 * (1f + distance.Length() / 15f);
+                    Particle glitter = new CritSpark(Owner.Center + distance, Owner.velocity + angularVelocity, Main.rand.Next(3) == 0 ? Color.Turquoise : Color.Coral, currentColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
+                    GeneralParticleHandler.SpawnParticle(glitter);
+                }
+
+
+                float Opacity = MathHelper.Clamp(MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathHelper.Pi), 0f, 1f) * 2f, 0, 1) * 0.25f;
+                float scaleFactor = MathHelper.Clamp(MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathHelper.Pi), 0f, 1f), 0, 1);
+
+                if (Main.rand.NextBool())
+                {
+                    for (float i = 0f; i <= 1; i += 0.5f)
+                    {
+                        Vector2 smokepos = Owner.Center + (projectile.rotation.ToRotationVector2() * (30 + 50 * i) * projectile.scale) + projectile.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * 30f * scaleFactor * Main.rand.NextFloat();
+                        Vector2 smokespeed = projectile.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2 * Owner.direction) * 20f * scaleFactor + Owner.velocity;
+
+                        Particle smoke = new HeavySmokeParticle(smokepos, smokespeed, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, i), 10 + Main.rand.Next(5), scaleFactor * Main.rand.NextFloat(2.8f, 3.1f), Opacity + Main.rand.NextFloat(0f, 0.2f), 0f, false, 0, true);
+                        GeneralParticleHandler.SpawnParticle(smoke);
+
+                        if (Main.rand.Next(3) == 0)
+                        {
+                            Particle smokeGlow = new HeavySmokeParticle(smokepos, smokespeed, Main.rand.Next(5) == 0 ? Color.Gold : Color.Chocolate, 7, scaleFactor * Main.rand.NextFloat(2f, 2.4f), Opacity * 2.5f, 0f, true, 0.004f, true);
+                            GeneralParticleHandler.SpawnParticle(smokeGlow);
+                        }
+                    }
+                }
+            }
+
+            else
+            {
+                //Wait why is this using **swing timers** for something in the throw? What? Well it looks good anyways so let's call this intentional :)
+                Color smearColor = Main.hslToRgb(((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f)) * 0.15f, 1, 0.8f);
+                float opacity = (Combo == 3f ? (float)Math.Sin(SnapEndCompletion * MathHelper.PiOver2 + MathHelper.PiOver2) : (float)Math.Sin(ThrowCompletion * MathHelper.Pi)) * 0.5f;
+
+                if (smear == null)
+                {
+                    smear = new TrientCircularSmear(projectile.Center, smearColor * opacity, projectile.rotation, projectile.scale * 1.7f);
+                    GeneralParticleHandler.SpawnParticle(smear);
+                }
+                //Update the variables of the smear
+                else
+                {
+                    smear.Rotation = projectile.rotation - 3.5f * MathHelper.PiOver4;
+                    smear.Time = 0;
+                    smear.Position = projectile.Center;
+                    smear.Scale = projectile.scale * 1.65f;
+                    smear.Color = smearColor * opacity;
+                }
+
+
+                if (Combo == 2f)
+                {
+                    if (Main.rand.NextBool())
+                    {
+                        float maxDistance = projectile.scale * 78f;
+                        Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
+                        Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(-MathHelper.PiOver2)) * 2 * (1f + distance.Length() / 15f);
+                        Color glitterColor = Main.hslToRgb(Main.rand.NextFloat(), 1, 0.5f);
+                        Particle glitter = new CritSpark(projectile.Center + distance, Owner.velocity + angularVelocity, Color.White , glitterColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
+                        GeneralParticleHandler.SpawnParticle(glitter);
+                    }
+
+
+                    opacity = 0.25f;
+                    float scaleFactor = 0.7f;
+
+                    if (Main.rand.NextBool())
+                    {
+                        for (float i = 0.5f; i <= 1; i += 0.5f)
+                        {
+                            Vector2 smokepos = projectile.Center + (projectile.rotation.ToRotationVector2() * (60 * i) * projectile.scale) + projectile.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * 30f * scaleFactor * Main.rand.NextFloat();
+                            Vector2 smokespeed = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * 20f * scaleFactor + Owner.velocity;
+
+                            Particle smoke = new HeavySmokeParticle(smokepos, smokespeed, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, i), 10 + Main.rand.Next(5), scaleFactor * Main.rand.NextFloat(2.8f, 3.1f), opacity + Main.rand.NextFloat(0f, 0.2f), 0f, false, 0, true);
+                            GeneralParticleHandler.SpawnParticle(smoke);
+
+                            if (Main.rand.Next(3) == 0)
+                            {
+                                Particle smokeGlow = new HeavySmokeParticle(smokepos, smokespeed, Main.rand.Next(5) == 0 ? Color.Gold : Color.Chocolate, 7, scaleFactor * Main.rand.NextFloat(2f, 2.4f), opacity * 2.5f, 0f, true, 0.004f, true);
+                                GeneralParticleHandler.SpawnParticle(smokeGlow);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -284,7 +426,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Main.PlaySound(SoundID.Item84, projectile.Center);
 
-                Vector2 sliceDirection = direction * 40;
+                Vector2 sliceDirection = Vector2.Normalize(direction) * 40;
                 Particle SliceLine = new LineVFX(projectile.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.Orange * 0.7f, expansion : 250f)
                 {
                     Lifetime = 10
@@ -296,6 +438,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            //Note to self: remember to check back on all the hole alignments when the sprite is done
+
             if (!Thrown)
             {
                 if (Charge > 0)
@@ -316,14 +460,14 @@ namespace CalamityMod.Projectiles.Melee
         public void DrawSingleSwungScissorBlade(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D sword = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
-            Texture2D glowmask = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
+            Texture2D glowmask = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
 
             bool flipped = Owner.direction < 0;
             SpriteEffects flip = flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             float extraAngle = Owner.direction < 0 ? MathHelper.PiOver2 : 0f;
 
             float drawAngle = projectile.rotation;
-            float angleShift = Combo == 0 ? MathHelper.PiOver4 : MathHelper.PiOver2;
+            float angleShift = MathHelper.PiOver4;
             float drawRotation = projectile.rotation + angleShift + extraAngle;
 
             Vector2 drawOrigin = new Vector2(flipped ? sword.Width : 0f, sword.Height);
@@ -342,7 +486,7 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
             spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, flip, 0f);
 
-            if (SwingCompletion > 0.5f)
+            if (SwingCompletion > 0.5f && Combo == 0f)
             {
                 Texture2D smear = GetTexture("CalamityMod/Particles/TrientCircularSmear");
 
@@ -362,8 +506,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public void DrawSwungScissors(SpriteBatch spriteBatch, Color lightColor)
         {
+            //Note to self: left scissor blade is the front one here
             Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
             Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow");
+
             Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
             Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
 
@@ -422,44 +568,30 @@ namespace CalamityMod.Projectiles.Melee
 
         public void DrawSingleThrownScissorBlade(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D sword = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
-            Texture2D glowmask = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow");
+            Texture2D sword = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
+            Texture2D glowmask = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
 
 
             if (Combo == 3f)
             {
-                Texture2D thrownSword = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
-                Texture2D thrownGlowmask = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
+                Texture2D thrownSword = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRight");
+                Texture2D thrownGlowmask = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow");
 
                 Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
-                Vector2 drawOrigin2 = new Vector2(22, 109); //Right on the hole
-                float drawRotation2 = direction.ToRotation() + MathHelper.PiOver2;
+                float drawRotation2 = direction.ToRotation() + MathHelper.PiOver4;
+                Vector2 drawOrigin2 = new Vector2(44, 86); 
 
                 spriteBatch.Draw(thrownSword, drawPos2 - Main.screenPosition, null, lightColor, drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
                 spriteBatch.Draw(thrownGlowmask, drawPos2 - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
             }
 
-
             Vector2 drawPos = projectile.Center;
-            Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
             float drawRotation = projectile.rotation + MathHelper.PiOver4;
+
+            Vector2 drawOrigin = new Vector2(32, 86); //Right on the hole. Well tbh here its not the hole theres a gem on it but you get me.
 
             spriteBatch.Draw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
             spriteBatch.Draw(glowmask, drawPos - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-
-            Texture2D smear = GetTexture("CalamityMod/Particles/TrientCircularSmear");
-
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            float opacity = Combo == 3f ? (float)Math.Sin(SnapEndCompletion * MathHelper.PiOver2 + MathHelper.PiOver2) : (float)Math.Sin(ThrowCompletion * MathHelper.Pi);
-            float rotation = drawRotation + MathHelper.PiOver2 * 1.5f;
-            Color smearColor = Main.hslToRgb(((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f)) * 0.15f, 1, 0.6f);
-
-            spriteBatch.Draw(smear, projectile.Center - Main.screenPosition, null, smearColor * 0.5f * opacity, rotation, smear.Size() / 2f, projectile.scale * 1.4f, SpriteEffects.None, 0);
-
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public void DrawThrownScissors(SpriteBatch spriteBatch, Color lightColor)

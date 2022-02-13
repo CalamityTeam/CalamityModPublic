@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
-
+        public static float chainDamageMultiplier = 0.1f;
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +

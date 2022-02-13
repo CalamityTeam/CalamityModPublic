@@ -172,6 +172,8 @@ namespace CalamityMod.Projectiles.Melee
                 Particle sparkle = new CritSpark(sparklePosition, projectile.rotation.ToRotationVector2() * 7f, Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f, Main.rand.NextFloat(0f, 0.01f));
                 GeneralParticleHandler.SpawnParticle(sparkle);
 
+
+                //Telegraph the start of the snap window with a bit of leeway
                 if (Math.Abs(ThrowCompletion - SnapWindowStart + 0.1f) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
                 {
                     Particle pulse = new PulseRing(projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8);
