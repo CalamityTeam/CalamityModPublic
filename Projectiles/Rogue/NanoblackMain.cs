@@ -16,7 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
 		private const int Lifetime = 240;
 		private const float ReboundTime = 50f;
 		private const int MinBladeTimer = 13;
-		private const int MaxBladeTimer = 18;
+        private const int MaxBladeTimer = 18;
+
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 			// Initialize the frame counter and random blade delay on the very first frame.
 			if (projectile.timeLeft == Lifetime)
-				projectile.ai[1] = GetBladeDelay();
+				projectile.ai[1] = projectile.Calamity().stealthStrike ? 4f : GetBladeDelay();
 
 			// Produces electricity and green firework sparks constantly while in flight.
 			if (Main.rand.NextBool(3))
@@ -121,11 +122,19 @@ namespace CalamityMod.Projectiles.Rogue
 						projectile.Kill();
 			}
 
-			// Create nanoblack energy blades at a somewhat-random rate while in flight.
+			// Create nanoblack energy blades at a somewhat-random rate while in flight. (or full-sized scythes afterimages if stealth strike)
 			if (projectile.ai[1] <= 0f)
 			{
-				SpawnEnergyBlade();
-				projectile.ai[1] = GetBladeDelay();
+				if (projectile.Calamity().stealthStrike)
+				{
+					SpawnScytheAfterimage();
+					projectile.ai[1] = 4f;
+				}
+				else
+				{
+					SpawnEnergyBlade();
+					projectile.ai[1] = GetBladeDelay();
+				}
 			}
 
 			// Rotate the scythe as it flies.
@@ -157,6 +166,18 @@ namespace CalamityMod.Projectiles.Rogue
 			Vector2 pos = projectile.Center + directOffset + velocityOffset;
 			if (projectile.owner == Main.myPlayer)
 				Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+		}
+
+		private void SpawnScytheAfterimage()
+		{
+			int bladeID = ModContent.ProjectileType<NanoblackStealthSplit>();
+			int bladeDamage = projectile.damage / 2;
+			float bladeKB = 4f;
+			float spin = projectile.direction <= 0 ? -1f : 1f;
+			float d = 16f;
+			float velocityMult = 0.9f;
+			if (projectile.owner == Main.myPlayer)
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
 		}
 	}
 }
