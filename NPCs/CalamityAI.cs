@@ -2503,15 +2503,14 @@ namespace CalamityMod.NPCs
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.85f;
-			bool phase3 = lifeRatio < 0.7f;
-			bool phase4 = lifeRatio < 0.5f && expertMode;
+			bool phase2 = lifeRatio < (revenge ? 0.85f : expertMode ? 0.8f : 0.75f);
+			bool phase3 = lifeRatio < (revenge ? 0.7f : expertMode ? 0.6f : 0.5f);
+			bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
 			bool phase5 = lifeRatio < 0.3f && revenge;
 			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
-			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
-
 			// Despawn
+			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 			if (!player.active || player.dead || despawnDistance)
             {
                 npc.TargetClosest(false);
