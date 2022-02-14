@@ -128,10 +128,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("AnyWoodenSword");
+            recipe.AddIngredient(ItemType<AerialiteBar>(), 5);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.AddIngredient(ItemID.DirtBlock, 50);
             recipe.AddIngredient(ItemID.StoneBlock, 50);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddIngredient(ItemType<VictoryShard>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

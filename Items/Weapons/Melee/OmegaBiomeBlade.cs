@@ -216,7 +216,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemType<CoreofCalamity>());
             recipe.AddIngredient(ItemType<AstralBar>(), 3);
             recipe.AddIngredient(ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ItemType<ExodiumClusterOre>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
