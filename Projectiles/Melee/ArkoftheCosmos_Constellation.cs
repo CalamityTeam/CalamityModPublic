@@ -76,7 +76,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Particles.Clear();
 
-                Color constellationColor = Main.hslToRgb(Main.rand.NextFloat(), 1, 0.6f);
+                float constellationColorHue = Main.rand.NextFloat();
+                Color constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
                 Vector2 previousStar = AnchorStart;
                 Vector2 offset;
                 Particle Line;
@@ -85,6 +86,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 for (float i = 0 + Main.rand.NextFloat(0.2f, 0.5f); i < 1; i += Main.rand.NextFloat(0.2f, 0.5f))
                 {
+                    constellationColorHue = (constellationColorHue + 0.16f) % 1;
+                    constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
+
                     offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
                     Star = new GenericSparkle(AnchorStart + SizeVector * i + offset, Vector2.Zero, Color.White, constellationColor, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                     BootlegSpawnParticle(Star);
@@ -94,6 +98,9 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (Main.rand.Next(3) == 0)
                     {
+                        constellationColorHue = (constellationColorHue + 0.16f) % 1;
+                        constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
+
                         offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
                         Star = new GenericSparkle(AnchorStart + SizeVector * i + offset, Vector2.Zero, Color.White, constellationColor, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                         BootlegSpawnParticle(Star);
@@ -104,6 +111,9 @@ namespace CalamityMod.Projectiles.Melee
 
                     previousStar = AnchorStart + SizeVector * i + offset;
                 }
+
+                constellationColorHue = (constellationColorHue + 0.16f) % 1;
+                constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
 
                 Star = new GenericSparkle(AnchorStart + SizeVector, Vector2.Zero, Color.White, constellationColor, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                 BootlegSpawnParticle(Star);

@@ -21,10 +21,12 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RendingNeedle : ModProjectile 
     {
+
+        internal PrimitiveTrail TrailDrawer;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rending Needle");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -35,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = projectile.height = 32;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 3;
             projectile.timeLeft = (int)MaxTime;
             projectile.melee = true;
             projectile.tileCollide = false;
@@ -75,6 +77,22 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
         }
 
+        internal Color ColorFunction(float completionRatio)
+        {
+            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTime * 3f) * 0.5f + 0.5f);
+            float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * projectile.Opacity;
+
+            Color endColor = Color.Lerp(Color.Cyan, Color.Crimson, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTime * 4f) * 0.5f + 0.5f);
+            return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
+        }
+
+        internal float WidthFunction(float completionRatio)
+        {
+            float expansionCompletion = (float)Math.Pow(1 - completionRatio, 2);
+            return MathHelper.Lerp(0f, 14f * projectile.scale, expansionCompletion);
+        }
+
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.timeLeft > 35)
@@ -82,8 +100,13 @@ namespace CalamityMod.Projectiles.Melee
 
             Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/RendingNeedle");
 
+            if (TrailDrawer is null)
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * 30.5f - Main.screenPosition, 30);
+
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), projectile.rotation, texture.Size() / 2f, projectile.scale, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

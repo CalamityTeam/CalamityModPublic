@@ -183,9 +183,13 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(startRot, endRot, SwirlRatio());
                     DoParticleEffects(true);
 
-                    if (Owner.whoAmI == Main.myPlayer && projectile.timeLeft % Math.Ceiling(MaxSwingTime / ArkoftheCosmos.SwirlBoltAmount) == 0f)
+                    //Really important to use projectile.timeLeft -1 instead of simply projectile.timeLeft because if it spawns a bolt on its last frame of existence the primitive drawer will break and shit itself or something idk
+                    if (Owner.whoAmI == Main.myPlayer && (projectile.timeLeft - 1) % Math.Ceiling(MaxSwingTime / ArkoftheCosmos.SwirlBoltAmount) == 0f)
                     {
-                         Projectile blast = Projectile.NewProjectileDirect(Owner.Center + projectile.rotation.ToRotationVector2() * 10f, projectile.rotation.ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
+                        //Slightly shift the blasts up so the final close shots don't go BELOW the cursor and instead go right on it. 
+                        float adjustedBlastRotation = projectile.rotation - MathHelper.PiOver4 * 1.15f * Owner.direction;
+
+                         Projectile blast = Projectile.NewProjectileDirect(Owner.Center + adjustedBlastRotation.ToRotationVector2() * 10f, adjustedBlastRotation.ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
                          {
                             blast.timeLeft = 100;
                          }

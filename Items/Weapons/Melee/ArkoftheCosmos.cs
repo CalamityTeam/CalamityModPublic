@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float SlashBoltsDamageMultiplier = 0.2f;
         public static float SnapBoltsDamageMultiplier = 0.1f;
 
-        public static float SwirlBoltAmount = 8f;
-        public static float SwirlBoltDamageMultiplier = 0.3f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
+        public static float SwirlBoltAmount = 7f;
+        public static float SwirlBoltDamageMultiplier = 0.8f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
