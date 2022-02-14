@@ -117,13 +117,14 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				bool isWet = Collision.WetCollision(npc.position, npc.width, npc.height);
+				bool doNotSpiral = !Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height);
 				float ai3 = 660f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
 				{
 					// Barf
+					npc.localAI[3] = 90f;
 					float barfDivisor = malice ? 30f : expertMode ? 40f : 60f;
 					if (calamityGlobalNPC.newAI[3] % barfDivisor == 0f)
 					{
@@ -193,8 +194,7 @@ namespace CalamityMod.NPCs
 					// Reset and charge at target
 					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
 					{
-						// Add 2 seconds to timer so that spinning happens more often if Scourge isn't wet when spin ends
-						calamityGlobalNPC.newAI[3] = isWet ? 0f : 120f;
+						calamityGlobalNPC.newAI[3] = 0f;
 						float chargeVelocity = (death ? 16f : 12f) + 3f * enrageScale;
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
 						npc.TargetClosest();
@@ -202,8 +202,11 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					if (isWet && calamityGlobalNPC.newAI[3] > 0f)
+					if (doNotSpiral && calamityGlobalNPC.newAI[3] > 0f)
 						calamityGlobalNPC.newAI[3] -= 2f;
+
+					if (npc.localAI[3] > 0f)
+						npc.localAI[3] -= 1f;
 
 					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 				}
