@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float SlashBoltsDamageMultiplier = 0.2f;
         public static float SnapBoltsDamageMultiplier = 0.1f;
 
-        public static float SwirlBoltAmount = 10f;
+        public static float SwirlBoltAmount = 8f;
         public static float SwirlBoltDamageMultiplier = 0.3f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
@@ -144,8 +144,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (scissorState != 2)
             {
                 Vector2 throwVector = new Vector2(speedX, speedY);
-                float empoweredNeedles = Charge > 0 ? 1f : 0f;
-                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<SolarNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI, empoweredNeedles);
+                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI);
             }
 
             Combo += 1;
