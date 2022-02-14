@@ -16,6 +16,7 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class Mauler : ModNPC
     {
+        // TODO - Potentially add another attack in higher difficulty modes at some point?
         public enum MaulerAttackState
         {
             BubbleBursts,

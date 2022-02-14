@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.MaxUpdates = 3;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = projectile.MaxUpdates * 10;
+            projectile.localNPCHitCooldown = projectile.MaxUpdates * 12;
         }
 
         public override void AI()
