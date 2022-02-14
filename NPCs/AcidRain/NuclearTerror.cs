@@ -83,9 +83,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 138;
             npc.aiStyle = aiType = -1;
 
-            npc.lifeMax = 198230;
+            npc.lifeMax = 90000;
             npc.defense = 50;
-
             npc.damage = 135;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 20, 0, 0);
