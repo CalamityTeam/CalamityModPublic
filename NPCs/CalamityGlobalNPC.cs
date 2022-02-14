@@ -378,30 +378,6 @@ namespace CalamityMod.NPCs
         #region Life Regen
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
-            int genLimit = Main.maxTilesX / 2;
-            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
-            bool abyssPosX = false;
-
-            if (CalamityWorld.abyssSide)
-            {
-                if ((double)(npc.position.X / 16f) < abyssChasmX + 80)
-                    abyssPosX = true;
-            }
-            else
-            {
-                if ((double)(npc.position.X / 16f) > abyssChasmX - 80)
-                    abyssPosX = true;
-            }
-
-            bool inAbyss = (npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX;
-            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[BuffType<CrushDepth>()] && !CalamityLists.enemyImmunityList.Contains(npc.type);
-            if (hurtByAbyss)
-            {
-                npc.AddBuff(BuffType<CrushDepth>(), 2);
-                npc.DeathSound = null;
-                npc.HitSound = null;
-            }
-
             if (npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && CalamityWorld.sulphurTiles > 30 &&
                 !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[BuffType<CrushDepth>()])
             {
@@ -815,7 +791,7 @@ namespace CalamityMod.NPCs
 			// Crush Depth
 			if (cDepth > 0)
 			{
-				int baseCrushDepthDoTValue = (int)(((hurtByAbyss ? 300 : Main.hardMode ? 36 : 12) - npc.defense) * 5 * waterDamageMult);
+				int baseCrushDepthDoTValue = (int)(((Main.hardMode ? 36 : 12) - npc.defense) * 5 * waterDamageMult);
 				if (baseCrushDepthDoTValue > 0)
 					ApplyDPSDebuff(baseCrushDepthDoTValue, baseCrushDepthDoTValue / 5, ref npc.lifeRegen, ref damage);
 			}
