@@ -464,8 +464,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //Note to self: remember to check back on all the hole alignments when the sprite is done
-
             if (!Thrown)
             {
                 if (Charge > 0)

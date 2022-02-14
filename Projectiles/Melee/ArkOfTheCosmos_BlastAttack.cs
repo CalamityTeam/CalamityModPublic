@@ -280,8 +280,8 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawPosition = scissorPosition - Main.screenPosition;
 
                 float opacity = (0.4f - HoldProgress) / 0.4f;
-                Color drawColor = Color.Orange * opacity * 0.9f;
-                Color drawColorBack = Color.HotPink * opacity * 0.9f;
+                Color drawColor = Color.Tomato * opacity * 0.9f;
+                Color drawColorBack = Color.DeepSkyBlue * opacity * 0.9f;
 
                 spriteBatch.Draw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
                 spriteBatch.Draw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
