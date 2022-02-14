@@ -235,10 +235,15 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					Color color38 = lightColor;
 
-					if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
-						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                    {
+                        if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f)
+                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+                        else if (Main.npc[(int)npc.ai[2]].localAI[3] > 0f)
+                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(Main.npc[(int)npc.ai[2]].localAI[3] / 60f, 0f, 1f));
+                    }
 
-					color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
@@ -253,10 +258,15 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
-				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            {
+                if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f)
+                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+                else if (Main.npc[(int)npc.ai[2]].localAI[3] > 0f)
+                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(Main.npc[(int)npc.ai[2]].localAI[3] / 60f, 0f, 1f));
+            }
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (!shedArmor)
 			{

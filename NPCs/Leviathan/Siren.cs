@@ -98,8 +98,6 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             // whoAmI variable
             CalamityGlobalNPC.siren = npc.whoAmI;
 

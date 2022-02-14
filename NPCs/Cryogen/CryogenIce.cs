@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.GetNPCDamage();
 			npc.width = 216;
             npc.height = 216;
-            npc.scale = 0.8f;
+            npc.scale = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.8f : 1f;
 			npc.DR_NERD(0.4f);
             npc.lifeMax = CalamityWorld.death ? 700 : 1400;
             if (BossRushEvent.BossRushActive)
@@ -58,7 +58,6 @@ namespace CalamityMod.NPCs.Cryogen
                     npc.position = Main.npc[num989].Center;
                     npc.position.X = npc.position.X - (npc.width / 2);
                     npc.position.Y = npc.position.Y - (npc.height / 2);
-                    npc.gfxOffY = Main.npc[num989].gfxOffY + 14;
                     return;
                 }
                 npc.life = 0;

@@ -62,8 +62,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
 			if (CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active)
 				CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
 

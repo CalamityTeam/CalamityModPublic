@@ -117,13 +117,14 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				bool isWet = Collision.WetCollision(npc.position, npc.width, npc.height);
+				bool doNotSpiral = !Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height);
 				float ai3 = 660f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
 				{
 					// Barf
+					npc.localAI[3] = 90f;
 					float barfDivisor = malice ? 30f : expertMode ? 40f : 60f;
 					if (calamityGlobalNPC.newAI[3] % barfDivisor == 0f)
 					{
@@ -193,8 +194,7 @@ namespace CalamityMod.NPCs
 					// Reset and charge at target
 					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
 					{
-						// Add 2 seconds to timer so that spinning happens more often if Scourge isn't wet when spin ends
-						calamityGlobalNPC.newAI[3] = isWet ? 0f : 120f;
+						calamityGlobalNPC.newAI[3] = 0f;
 						float chargeVelocity = (death ? 16f : 12f) + 3f * enrageScale;
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
 						npc.TargetClosest();
@@ -202,8 +202,11 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					if (isWet && calamityGlobalNPC.newAI[3] > 0f)
+					if (doNotSpiral && calamityGlobalNPC.newAI[3] > 0f)
 						calamityGlobalNPC.newAI[3] -= 2f;
+
+					if (npc.localAI[3] > 0f)
+						npc.localAI[3] -= 1f;
 
 					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 				}
@@ -2503,15 +2506,14 @@ namespace CalamityMod.NPCs
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.85f;
-			bool phase3 = lifeRatio < 0.7f;
-			bool phase4 = lifeRatio < 0.5f && expertMode;
+			bool phase2 = lifeRatio < (revenge ? 0.85f : expertMode ? 0.8f : 0.75f);
+			bool phase3 = lifeRatio < (revenge ? 0.7f : expertMode ? 0.6f : 0.5f);
+			bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
 			bool phase5 = lifeRatio < 0.3f && revenge;
 			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
-			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
-
 			// Despawn
+			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 			if (!player.active || player.dead || despawnDistance)
             {
                 npc.TargetClosest(false);
@@ -3254,9 +3256,29 @@ namespace CalamityMod.NPCs
 				bool deathModeFinalWormEnrage = death && doubleWormPhase && oneWormAlive && calamityGlobalNPC.newAI[1] >= resistanceTime;
 				if (deathModeFinalWormEnrage)
 				{
-					calamityGlobalNPC.newAI[0] = 3f;
-					npc.defense = 0;
-					calamityGlobalNPC.DR = 0f;
+					if (calamityGlobalNPC.newAI[0] != 3f)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+						calamityGlobalNPC.newAI[0] = 3f;
+						npc.defense = 0;
+						calamityGlobalNPC.DR = 0f;
+
+						// Despawns the other deus worm segments
+						int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
+						int tailID = ModContent.NPCType<AstrumDeusTailSpectral>();
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							NPC wormseg = Main.npc[i];
+							if (!wormseg.active)
+								continue;
+
+							if ((wormseg.type == bodyID || wormseg.type == tailID) && Main.npc[(int)wormseg.ai[2]].Calamity().newAI[0] != 3f)
+							{
+								wormseg.life = 0;
+								wormseg.active = false;
+							}
+						}
+					}
 
 					calamityGlobalNPC.newAI[2] += 10f;
 					if (calamityGlobalNPC.newAI[2] > 162f)
@@ -3384,17 +3406,6 @@ namespace CalamityMod.NPCs
 			// Dust and alpha effects
 			if ((head || Main.npc[(int)npc.ai[1]].alpha < 128) && !npc.dontTakeDamage)
 			{
-				// Spawn dust
-				if (npc.alpha != 0)
-				{
-					for (int num934 = 0; num934 < 2; num934++)
-					{
-						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-						Main.dust[num935].noGravity = true;
-						Main.dust[num935].noLight = true;
-					}
-				}
-
 				// Alpha changes
 				npc.alpha -= 42;
 				if (npc.alpha < 0)
@@ -3610,7 +3621,6 @@ namespace CalamityMod.NPCs
 
 				speed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
 				turnSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
-				fallSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
 
 				Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 				float num20 = player.position.X + (player.width / 2);
@@ -3621,7 +3631,6 @@ namespace CalamityMod.NPCs
 				vector3.Y = (int)(vector3.Y / 16f) * 16;
 				num20 -= vector3.X;
 				num21 -= vector3.Y;
-				float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 
 				if (!flag2)
 				{
@@ -3653,7 +3662,7 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
+					float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 					float num25 = Math.Abs(num20);
 					float num26 = Math.Abs(num21);
 					float num27 = fallSpeed / num22;
@@ -3888,7 +3897,6 @@ namespace CalamityMod.NPCs
 				vector18.Y = (int)(vector18.Y / 16f) * 16;
 				num191 -= vector18.X;
 				num192 -= vector18.Y;
-				float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 
 				if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
 				{
@@ -3903,7 +3911,7 @@ namespace CalamityMod.NPCs
 					}
 
 					npc.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-					num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
+					float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 					int num194 = npc.width;
 					num193 = (num193 - num194) / num193;
 					num191 *= num193;

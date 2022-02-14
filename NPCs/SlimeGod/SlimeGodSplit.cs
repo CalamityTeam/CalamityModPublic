@@ -62,8 +62,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
 			if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
 				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
 

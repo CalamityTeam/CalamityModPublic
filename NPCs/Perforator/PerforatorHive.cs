@@ -88,8 +88,6 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			CalamityGlobalNPC.perfHive = npc.whoAmI;
 
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();

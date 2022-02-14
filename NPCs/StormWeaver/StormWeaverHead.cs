@@ -124,6 +124,7 @@ namespace CalamityMod.NPCs.StormWeaver
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -135,6 +136,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -352,6 +354,8 @@ namespace CalamityMod.NPCs.StormWeaver
 				calamityGlobalNPC.newAI[0] += 1f;
 				if (calamityGlobalNPC.newAI[0] >= 400f)
 				{
+					npc.localAI[3] = 60f;
+
 					if (npc.localAI[1] == 0f)
 						npc.localAI[1] = 1f;
 
@@ -405,7 +409,12 @@ namespace CalamityMod.NPCs.StormWeaver
 					}
 				}
 				else if (revenge)
+				{
 					calamityGlobalNPC.newAI[0] += malice ? 4f : death ? 2f : 2f * (0.7f - lifeRatio);
+
+					if (npc.localAI[3] > 0f)
+						npc.localAI[3] -= 1f;
+				}
 			}
 
             float num48 = num188 * 1.3f;
@@ -633,8 +642,13 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					Color color38 = lightColor;
 
-					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
-						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+					if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+					{
+						if (npc.Calamity().newAI[0] > 280f)
+							color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+						else if (npc.localAI[3] > 0f)
+							color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(npc.localAI[3] / 60f, 0f, 1f));
+					}
 
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
@@ -651,8 +665,13 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
-				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			{
+				if (npc.Calamity().newAI[0] > 280f)
+					color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+				else if (npc.localAI[3] > 0f)
+					color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(npc.localAI[3] / 60f, 0f, 1f));
+			}
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 

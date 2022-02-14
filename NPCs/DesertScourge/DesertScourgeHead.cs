@@ -91,8 +91,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -333,7 +331,7 @@ namespace CalamityMod.NPCs.DesertScourge
             // Quickly fall and reset variables once at target's Y position
             if (quickFall)
             {
-                npc.velocity.Y += 1f;
+                npc.velocity.Y += 0.5f;
                 if (npc.Center.Y >= player.Center.Y)
                 {
                     npc.Calamity().newAI[0] = 0f;

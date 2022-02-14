@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
 					time = 0;
 					Main.PlaySound(SoundID.Item28, npc.Center);
-					int totalProjectiles = 4;
+					int totalProjectiles = 3;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBomb>();
 					int damage = npc.GetProjectileDamage(type);
@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.Cryogen
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, npc.ai[0]);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, npc.ai[0] * 0.5f);
 					}
                 }
             }
@@ -881,7 +881,7 @@ namespace CalamityMod.NPCs.Cryogen
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, npc.ai[0]);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 1f);
 					}
 				}
 

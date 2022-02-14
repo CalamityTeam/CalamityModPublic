@@ -75,7 +75,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 			writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
-			for (int i = 0; i < 4; i++)
+            writer.Write(npc.localAI[3]);
+            for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
 
@@ -84,7 +85,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.chaseable = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
-			for (int i = 0; i < 4; i++)
+            npc.localAI[3] = reader.ReadSingle();
+            for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
@@ -110,10 +112,15 @@ namespace CalamityMod.NPCs.AquaticScourge
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
-				color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((npc.Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            {
+                if (npc.Calamity().newAI[3] > 480f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((npc.Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
+                else if (npc.localAI[3] > 0f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(npc.localAI[3] / 90f, 0f, 1f));
+            }
+            
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

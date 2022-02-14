@@ -91,7 +91,8 @@ namespace CalamityMod.Events
         public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new Dictionary<int, AcidRainSpawnData>()
         {
             { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(4, 0.08f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<NuclearTerror>(), new AcidRainSpawnData(8, 0.05f, AcidRainSpawnRequirement.Anywhere) }
+            { ModContent.NPCType<Mauler>(), new AcidRainSpawnData(4, 0.07f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<NuclearTerror>(), new AcidRainSpawnData(8, 0.045f, AcidRainSpawnRequirement.Anywhere) }
         };
 
         public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Key).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Key)).Distinct().ToList();
