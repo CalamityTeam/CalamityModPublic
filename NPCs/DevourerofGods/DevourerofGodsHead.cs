@@ -1115,7 +1115,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 						vector18.Y = (int)(vector18.Y / 16f) * 16;
 						num191 -= vector18.X;
 						num192 -= vector18.Y;
-						float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 
 						if (!flies)
 						{
@@ -1150,24 +1149,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 							double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
 							double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
 
-							if (increaseSpeedMore)
-							{
-								maximumSpeed1 *= 4;
-								maximumSpeed2 *= 4;
-							}
-							if (increaseSpeed)
-							{
-								maximumSpeed1 *= 2;
-								maximumSpeed2 *= 2;
-							}
-
 							if (expertMode)
 							{
 								maximumSpeed1 += 0.1f * (1f - lifeRatio);
 								maximumSpeed2 += 0.2f * (1f - lifeRatio);
 							}
 
-							num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
+							float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
 							float num25 = Math.Abs(num191);
 							float num26 = Math.Abs(num192);
 							float num27 = fallSpeed / num193;
@@ -1798,7 +1786,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					vector3.Y = (int)(vector3.Y / 16f) * 16;
 					num20 -= vector3.X;
 					num21 -= vector3.Y;
-					float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 
 					if (!flies)
 					{
@@ -1834,24 +1821,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 						double maximumSpeed1 = malice ? 0.48 : death ? 0.44 : 0.4;
 						double maximumSpeed2 = malice ? 1.16 : death ? 1.08 : 1D;
 
-						if (increaseSpeedMore)
-						{
-							maximumSpeed1 *= 4;
-							maximumSpeed2 *= 4;
-						}
-						if (increaseSpeed)
-						{
-							maximumSpeed1 *= 2;
-							maximumSpeed2 *= 2;
-						}
-
 						if (expertMode)
 						{
 							maximumSpeed1 += 0.08f * (1f - lifeRatio);
 							maximumSpeed2 += 0.16f * (1f - lifeRatio);
 						}
 
-						num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
+						float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 						float num25 = Math.Abs(num20);
 						float num26 = Math.Abs(num21);
 						float num27 = fallSpeed / num22;

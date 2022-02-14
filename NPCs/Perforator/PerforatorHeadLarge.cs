@@ -75,8 +75,6 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;

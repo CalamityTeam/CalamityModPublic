@@ -338,7 +338,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             speed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
             turnSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
-            fallSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
 
             Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num20 = player.position.X + (player.width / 2);

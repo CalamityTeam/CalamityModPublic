@@ -3618,7 +3618,6 @@ namespace CalamityMod.NPCs
 
 				speed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
 				turnSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
-				fallSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
 
 				Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 				float num20 = player.position.X + (player.width / 2);
@@ -3629,7 +3628,6 @@ namespace CalamityMod.NPCs
 				vector3.Y = (int)(vector3.Y / 16f) * 16;
 				num20 -= vector3.X;
 				num21 -= vector3.Y;
-				float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 
 				if (!flag2)
 				{
@@ -3661,7 +3659,7 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
+					float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 					float num25 = Math.Abs(num20);
 					float num26 = Math.Abs(num21);
 					float num27 = fallSpeed / num22;

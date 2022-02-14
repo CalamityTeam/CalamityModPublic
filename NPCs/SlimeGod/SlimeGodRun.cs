@@ -62,8 +62,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
-			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
