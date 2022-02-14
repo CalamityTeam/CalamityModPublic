@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphuric Acid Cannon");
-            Tooltip.SetDefault("Fires an acidic bubble that sticks to enemies and emits sulphuric gas");
+            Tooltip.SetDefault("Fires an acidic shot that sticks to enemies and dissolves them");
         }
 
         public override void SetDefaults()
@@ -26,17 +25,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 6f;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item95;
-            item.shoot = ModContent.ProjectileType<SulphuricAcidBubble2>();
+            item.shoot = ModContent.ProjectileType<SulphuricBlast>();
             item.shootSpeed = 16f;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, 0);
-        }
+        public override Vector2? HoldoutOffset() => Vector2.UnitX * -15f;
     }
 }

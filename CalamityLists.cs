@@ -2018,7 +2018,7 @@ namespace CalamityMod
                 ProjectileType<UrchinBallSpike>(),
                 ProjectileType<EmesisGore>(),
                 ProjectileType<ExoFlareCluster>(),
-                ProjectileType<SulphuricAcidBubble2>(),
+                ProjectileType<SulphuricBlast>(),
                 ProjectileType<EclipsesStealth>(),
                 ProjectileType<EradicatorProjectile>(),
                 ProjectileType<FantasyTalismanProj>(),

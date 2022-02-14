@@ -76,7 +76,6 @@ namespace CalamityMod.NPCs.AcidRain
             // Reset things every frame. They may be changed in the attack states below.
             npc.noTileCollide = false;
             npc.noGravity = InWater;
-            TelegraphCompletionInterpolant = 0f;
 
             switch (CurrentAttack)
             {
@@ -310,10 +309,6 @@ namespace CalamityMod.NPCs.AcidRain
             if (CurrentFrame < 4 && npc.WithinRange(Target.Center, 200f) && AttackTimer > chargeDelay)
                 CurrentFrame = 4;
 
-            // Create the telegraph.
-            TelegraphCompletionInterpolant = Utils.InverseLerp(chargeDelay - telegraphTime, chargeDelay, AttackTimer, true);
-            TelegraphCompletionInterpolant *= Utils.InverseLerp(chargeDelay + 16f, chargeDelay, AttackTimer, true);
-
             // Rotate towards the target at first.
             int previousSpriteDirection = npc.spriteDirection;
             float idealRotation = npc.AngleTo(Target.Center);
@@ -341,7 +336,6 @@ namespace CalamityMod.NPCs.AcidRain
             }
             else
             {
-                TelegraphCompletionInterpolant = 0f;
                 npc.noGravity = npc.noTileCollide = true;
                 npc.rotation = npc.velocity.ToRotation();
                 if (previousSpriteDirection == 1)
