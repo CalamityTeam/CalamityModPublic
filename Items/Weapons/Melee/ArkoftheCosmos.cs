@@ -22,10 +22,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
         public override bool CloneNewInstances => true;
 
+        public static float NeedleDamageMultiplier = 0.5f;
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
+
         public static int DashIframes = 18;
+        public static float SlashBoltsDamageMultiplier = 0.2f;
+        public static float SnapBoltsDamageMultiplier = 0.1f;
+
+        public static float SwirlBoltAmount = 10f;
+        public static float SwirlBoltDamageMultiplier = 0.3f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
@@ -33,14 +40,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once\n" +
-                "Using RMB and pressing up while the Ark is charged will release all the charges in a powerful burst of energy";
+                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
+
+        const string BlastTooltip = "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process\n" +
+                "If you had more than half your charges remaining and the up key remains pressed when the rip occurs, you will quickly dash towards the scissor blades";
 
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Cosmos");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "The physical culmination of your journey, capable to rend gods asunder");
         }
@@ -49,11 +59,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
             comboTooltip.text = ComboTooltip;
-            comboTooltip.overrideColor = Color.Lerp(Color.Gold, Color.HotPink, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+            comboTooltip.overrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
 
             var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
             parryTooltip.text = ParryTooltip;
-            parryTooltip.overrideColor = Color.Lerp(Color.HotPink, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+            parryTooltip.overrideColor = Color.Lerp(Color.Cyan, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.75f);
+
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
+            blastTooltip.text = BlastTooltip;
+            blastTooltip.overrideColor = Color.Lerp(Color.HotPink, Color.Crimson, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.625f);
         }
 
         public override void SetDefaults()
@@ -127,21 +141,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             //Shoot projectiles 
-            if (true && false)
+            if (scissorState != 2)
             {
                 Vector2 throwVector = new Vector2(speedX, speedY);
                 float empoweredNeedles = Charge > 0 ? 1f : 0f;
-                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * 0.5f), knockBack, player.whoAmI, empoweredNeedles);
-
-
-                Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 20;
-
-                Projectile.NewProjectile(player.Center + Shift, throwVector.RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center + Shift * 1.2f, throwVector.RotatedBy(MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
-
-
-                Projectile.NewProjectile(player.Center - Shift, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center - Shift * 1.2f, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<SolarNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI, empoweredNeedles);
             }
 
             Combo += 1;

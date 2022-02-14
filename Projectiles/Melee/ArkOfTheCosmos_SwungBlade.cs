@@ -182,6 +182,14 @@ namespace CalamityMod.Projectiles.Melee
                     float endRot = -(MathHelper.TwoPi + MathHelper.PiOver4 * 1.5f) * SwingDirection;
                     projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(startRot, endRot, SwirlRatio());
                     DoParticleEffects(true);
+
+                    if (Owner.whoAmI == Main.myPlayer && projectile.timeLeft % Math.Ceiling(MaxSwingTime / ArkoftheCosmos.SwirlBoltAmount) == 0f)
+                    {
+                         Projectile blast = Projectile.NewProjectileDirect(Owner.Center + projectile.rotation.ToRotationVector2() * 10f, projectile.rotation.ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
+                         {
+                            blast.timeLeft = 100;
+                         }
+                    }
                 }
 
                 projectile.scale = 1.2f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.2f;
@@ -228,10 +236,25 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+
+                    if (Owner.whoAmI == Main.myPlayer)
+                    {
+                        float rotationOffset = MathHelper.TwoPi * Main.rand.NextFloat();
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Projectile blast = Projectile.NewProjectileDirect(projectile.Center + (MathHelper.TwoPi * (i / 3f) + rotationOffset).ToRotationVector2() * 30f, (MathHelper.TwoPi * (i / 3f) + rotationOffset).ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SnapBoltsDamageMultiplier * projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
+                            {
+                                blast.timeLeft = 100;
+                            }
+                        }
+                    }
+
                     Combo = 3f; //Mark the end of the regular throw
                     direction = projectile.Center - Owner.Center; //At this point direction becomes also a marker for the last position it was in before snapping
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
+
                 }
 
 

@@ -30,13 +30,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once\n" +
-                "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process";
+                "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
+
+        const string BlastTooltip = "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Elements");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality");
         }
@@ -45,11 +47,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
             comboTooltip.text = ComboTooltip;
-            comboTooltip.overrideColor = Color.HotPink;
+            comboTooltip.overrideColor = Color.Crimson;
 
             var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
             parryTooltip.text = ParryTooltip;
             parryTooltip.overrideColor = Color.Orange;
+
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
+            blastTooltip.text = BlastTooltip;
+            blastTooltip.overrideColor = Color.Gold;
         }
 
         public override void SetDefaults()

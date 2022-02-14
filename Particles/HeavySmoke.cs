@@ -51,7 +51,7 @@ namespace CalamityMod.Particles
             else
                 Scale *= 0.975f;
 
-            Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
+            Color = Main.hslToRgb((Main.rgbToHsl(Color).X + HueShift) % 1, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
             Opacity *= 0.98f;
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
             Velocity *= 0.85f;
