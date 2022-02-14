@@ -85,9 +85,6 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.lifeMax = 90000;
             npc.defense = 50;
-	    
-	    npc.damage = 130;
-
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 20, 0, 0);
 			npc.DR_NERD(0.3f);
