@@ -340,12 +340,12 @@ namespace CalamityMod.Projectiles.Melee
                         Vector2 smokepos = Owner.Center + (projectile.rotation.ToRotationVector2() * (30 + 50 * i) * projectile.scale) + projectile.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * 30f * scaleFactor * Main.rand.NextFloat();
                         Vector2 smokespeed = projectile.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2 * Owner.direction) * 20f * scaleFactor + Owner.velocity;
 
-                        Particle smoke = new HeavySmokeParticle(smokepos, smokespeed, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, i), 10 + Main.rand.Next(5), scaleFactor * Main.rand.NextFloat(2.8f, 3.1f), Opacity + Main.rand.NextFloat(0f, 0.2f), 0f, false, 0, true);
+                        Particle smoke = new HeavySmokeParticle(smokepos, smokespeed, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, i), 6 + Main.rand.Next(5), scaleFactor * Main.rand.NextFloat(2.8f, 3.1f), Opacity + Main.rand.NextFloat(0f, 0.2f), 0f, false, 0, true);
                         GeneralParticleHandler.SpawnParticle(smoke);
 
                         if (Main.rand.Next(3) == 0)
                         {
-                            Particle smokeGlow = new HeavySmokeParticle(smokepos, smokespeed, Main.rand.Next(5) == 0 ? Color.Gold : Color.Chocolate, 7, scaleFactor * Main.rand.NextFloat(2f, 2.4f), Opacity * 2.5f, 0f, true, 0.004f, true);
+                            Particle smokeGlow = new HeavySmokeParticle(smokepos, smokespeed, Main.rand.Next(5) == 0 ? Color.Gold : Color.Chocolate, 5, scaleFactor * Main.rand.NextFloat(2f, 2.4f), Opacity * 2.5f, 0f, true, 0.004f, true);
                             GeneralParticleHandler.SpawnParticle(smokeGlow);
                         }
                     }
