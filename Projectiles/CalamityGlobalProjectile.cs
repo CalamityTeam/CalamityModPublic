@@ -331,6 +331,14 @@ namespace CalamityMod.Projectiles
 					projectile.penetrate = 2;
 					break;
 
+				case ProjectileID.CrystalVileShardHead:
+				case ProjectileID.CrystalVileShardShaft:
+				case ProjectileID.PoisonFang:
+				case ProjectileID.VenomFang:
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
                     projectile.localNPCHitCooldown = 10;

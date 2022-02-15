@@ -112,9 +112,9 @@ namespace CalamityMod.NPCs.Leviathan
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.7f && expertMode;
-			bool phase3 = lifeRatio < 0.4f;
-			bool phase4 = lifeRatio < 0.2f;
+			bool phase2 = (lifeRatio < 0.7f || death) && expertMode;
+			bool phase3 = lifeRatio < (death ? 0.7f : 0.4f);
+			bool phase4 = lifeRatio < (death ? 0.4f : 0.2f);
 
             bool sirenAlive = false;
             if (CalamityGlobalNPC.siren != -1)
@@ -125,9 +125,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Main.npc[CalamityGlobalNPC.siren].active)
 				{
 					if (Main.npc[CalamityGlobalNPC.siren].damage == 0)
-					{
 						sirenAlive = false;
-					}
 				}
 			}
 
@@ -328,7 +326,7 @@ namespace CalamityMod.NPCs.Leviathan
                         {
                             npc.ai[2] = 0f;
                             vector40 = new Vector2(vector.X, vector.Y + 20f);
-                            num415 = player.Center.X - vector40.X;
+                            num415 = vector40.X + 1000f * npc.direction - vector40.X;
                             num416 = player.Center.Y - vector40.Y;
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -351,7 +349,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
 								if (soundDelay <= 0)
 								{
 									soundDelay = 120;
@@ -397,22 +395,15 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
                     {
-                        float num1063 = (sirenAlive && !phase4) ? 7f : 8f;
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
-						num1063 += 2f * enrageScale;
 						num1064 += 0.04f * enrageScale;
 
 						if (expertMode && (!sirenAlive || phase4))
-						{
-							num1063 += death ? 7f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 							num1064 += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
-						}
 
                         vector120 = vector119;
                         num1058 = player.Center.X - vector120.X;
                         num1059 = player.Center.Y - vector120.Y;
-                        num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
-                        num1060 = num1063 / num1060;
 
                         if (npc.velocity.X < num1058)
                         {
@@ -448,7 +439,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (npc.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
                     {
-                        npc.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4) ? 2f : 0f;
+                        npc.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4 || death) ? 2f : 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
 						npc.TargetClosest();
@@ -458,7 +449,7 @@ namespace CalamityMod.NPCs.Leviathan
                 else if (npc.ai[0] == 2f)
                 {
                     Vector2 distFromPlayer = player.Center - vector;
-					float chargeAmt = death ? 2f : 1f;
+					float chargeAmt = death ? (phase4 ? 3f : phase3 ? 2f : 1f) : 1f;
                     if (npc.ai[1] >= chargeAmt * 2f || distFromPlayer.Length() > 2400f)
                     {
                         npc.ai[0] = 0f;

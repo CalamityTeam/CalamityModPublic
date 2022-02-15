@@ -1245,7 +1245,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase3 = lifeRatio < 0.7f || death;
 			bool phase4 = lifeRatio < 0.35f;
-			bool phase5 = npc.life / (float)npc.lifeMax <= 0.1f && revenge;
+			bool phase5 = lifeRatio <= 0.1f && revenge;
 
 			// Don't take damage during bullet hells
 			npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1325,16 +1325,12 @@ namespace CalamityMod.NPCs
 				if (CalamityGlobalNPC.cataclysm != -1)
 				{
 					if (Main.npc[CalamityGlobalNPC.cataclysm].active)
-					{
 						brotherAlive = true;
-					}
 				}
 				if (CalamityGlobalNPC.catastrophe != -1)
 				{
 					if (Main.npc[CalamityGlobalNPC.catastrophe].active)
-					{
 						brotherAlive = true;
-					}
 				}
 				if (brotherAlive)
 				{
@@ -3219,7 +3215,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases based on life percentage
-			bool halfHealth = npc.life / (float)npc.lifeMax < 0.5f;
+			bool halfHealth = lifeRatio < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;

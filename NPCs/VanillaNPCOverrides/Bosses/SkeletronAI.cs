@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool respawnHands = npc.life / (float)npc.lifeMax < 0.33f;
+            bool respawnHands = lifeRatio < 0.33f;
             bool phase2 = respawnHands || death;
 
             // Set defense

@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase3 = lifeRatio < 0.33f;
 
             // Kill all arms if Prime Head enters phase 2
-            if (npc.life / (float)npc.lifeMax < 0.66f && !allArmsDead)
+            if (phase2 && !allArmsDead)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {

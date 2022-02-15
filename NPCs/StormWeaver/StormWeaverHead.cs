@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Shed armor
-			bool shedArmor = npc.life / (float)npc.lifeMax < 0.9f;
+			bool shedArmor = lifeRatio < 0.9f;
 
 			// Start charging at the target
 			bool phase2 = lifeRatio < 0.7f;
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			bool phase3 = lifeRatio < 0.4f;
 
 			// Become weak and cancel the storm
-			bool phase4 = npc.life / (float)npc.lifeMax < 0.05f;
+			bool phase4 = lifeRatio < 0.05f;
 
 			// Update armored settings to naked settings
 			if (shedArmor)

@@ -382,7 +382,7 @@ namespace CalamityMod.NPCs.HiveMind
 			}
 
 			// When Hive Mind starts flying around
-			bool phase2 = npc.life / (float)npc.lifeMax < 0.8f;
+			bool phase2 = lifeRatio < 0.8f;
 
 			// Phase 2 settings
 			if (phase2)

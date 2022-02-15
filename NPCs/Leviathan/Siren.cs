@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             get
             {
-				if (Main.npc.IndexInRange(CalamityGlobalNPC.leviathan) && Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax >= 0.4f)
+				if (Main.npc.IndexInRange(CalamityGlobalNPC.leviathan) && Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax >= ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.7f : 0.4f))
 					return true;
 
 				return CalamityUtils.FindFirstProjectile(ModContent.ProjectileType<LeviathanSpawner>()) != -1;
@@ -160,10 +160,10 @@ namespace CalamityMod.NPCs.Leviathan
 			// Phases
 			bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < 0.4f;
-			bool phase4 = lifeRatio < 0.2f;
+			bool phase4 = lifeRatio < (death ? 0.4f : 0.2f);
 
 			// Spawn Leviathan and change music
-			if (npc.life / (float)npc.lifeMax < 0.4f)
+			if (phase3 || death)
 			{
 				if (!HasBegunSummoningLeviathan)
 				{
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 
 			// Hover near the target, invisible if the Leviathan is present and not sufficiently injured.
-			if (npc.life / (float)npc.lifeMax < 0.4f && WaitingForLeviathan)
+			if ((phase3 || death) && WaitingForLeviathan)
 			{
 				ChargeRotation(player, vector);
 				ChargeLocation(player, vector, false, true);
@@ -363,7 +363,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Phase switch
             if (npc.ai[0] == -1f)
             {
-                int random = ((phase2 && expertMode && !leviAlive) || phase4) ? 4 : 3;
+                int random = ((phase2 && expertMode && !leviAlive) || phase4 || death) ? 4 : 3;
 				int num618;
 				do num618 = Main.rand.Next(random);
 				while (num618 == npc.ai[1] || num618 == 1);
@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            // Fly near target and summon bullet hells
+            // Fly near target and summon projectiles
             else if (npc.ai[0] == 2f)
             {
                 npc.rotation = npc.velocity.X * 0.02f;

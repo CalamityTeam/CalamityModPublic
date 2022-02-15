@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Phase 1 phases
 			bool phase2 = lifeRatio < 0.9f;
 			bool phase3 = lifeRatio < 0.68f;
-			bool summonSentinels = npc.life / (float)npc.lifeMax < 0.6f;
+			bool summonSentinels = lifeRatio < 0.6f;
 
 			// Phase 2 phases
 			bool phase4 = lifeRatio < 0.48f;
