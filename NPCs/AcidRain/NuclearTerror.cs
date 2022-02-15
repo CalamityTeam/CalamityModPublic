@@ -83,9 +83,9 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 138;
             npc.aiStyle = aiType = -1;
 
-            npc.lifeMax = 198230;
+            npc.lifeMax = 90000;
             npc.defense = 50;
-
+            npc.damage = 135;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 20, 0, 0);
 			npc.DR_NERD(0.3f);
@@ -461,13 +461,13 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, null, true);
             if (npc.velocity.Length() > 0f)
             {
                 Color endColor = Color.DarkOliveGreen;
                 endColor.A = Color.Transparent.A;
                 CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, endColor, directioning: true, invertedDirection: true);
             }
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, null, true);
             return false;
         }
 

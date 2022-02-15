@@ -160,7 +160,8 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
             //Chunger
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            var Sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             Particle thunder = new ThunderBoltVFX(projectile.Center + Vector2.UnitY * 20f, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 0f, 1.5f, Vector2.One, 1f, 15f, projectile, 20f);
             GeneralParticleHandler.SpawnParticle(thunder);
 

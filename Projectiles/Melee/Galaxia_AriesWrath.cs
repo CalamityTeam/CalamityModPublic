@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
 
+            //On initialization basically
             if (ChainSwapTimer == 0f)
             {
                 projectile.Center = Owner.Center;

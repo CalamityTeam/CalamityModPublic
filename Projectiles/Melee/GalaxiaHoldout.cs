@@ -183,7 +183,8 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Chunger
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            var Sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;
             item.mainAttunement = attunement;

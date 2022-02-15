@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
+            DisplayName.SetDefault("Fractured Ark");
         }
         public override void SetDefaults()
         {
@@ -55,22 +55,27 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
+        public void GeneralParryEffects()
+        {
+            ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
+            if (sword != null)
+                sword.Charge = 10f;
+
+            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            Main.PlaySound(SoundID.Item67);
+            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+            AlreadyParried = 1f;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (AlreadyParried > 0)
                 return;
 
+            GeneralParryEffects();
+
             //only get iframes if the enemy has contact damage :)
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
-
-            ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
-            sword.Charge = 10f;
-            AlreadyParried = 1f;
-
-            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            Main.PlaySound(SoundID.Item67);
-            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
             Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
@@ -91,10 +96,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)MaxTime;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
 
-
-                //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
-                //The direction to mouseworld may need to be turned into the custom synced player mouse variables . not on the branch currently tho
-                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 
@@ -119,15 +121,12 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Projectile proj = Main.projectile[k];
 
-                    if (proj.active && proj.hostile && proj.damage > 1 && proj.velocity.Length() * (proj.extraUpdates + 1) > 1f
-                        && Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                    if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
+                        proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
+                        proj.Size.Length() < 300 && //Only parry projectiles that aren't too large 
+                        Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
-                        ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
-                        if (sword != null)
-                            sword.Charge = 10;
-
-
-                        CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+                        GeneralParryEffects();
 
                         //Reduce the projectile's damage by 100 for a second.
                         if (proj.Calamity().damageReduction < 100)
@@ -138,11 +137,6 @@ namespace CalamityMod.Projectiles.Melee
                         //Bounce off the player if they are in the air
                         if (Owner.velocity.Y != 0)
                             Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
-
-                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-                        Main.PlaySound(SoundID.Item67);
-                        AlreadyParried = 1f;
-
                         break;
                     }
                 }
@@ -163,13 +157,6 @@ namespace CalamityMod.Projectiles.Melee
                 AlreadyParried++;
             }
         }
-
-        //Animation keys
-        public CurveSegment anticipation = new CurveSegment(EasingType.SineBump, 0f, 0f, -0.15f);
-        public CurveSegment thrust = new CurveSegment(EasingType.PolyInOut, 0.2f, 0f, 0.9f, 3);
-        public CurveSegment hold = new CurveSegment(EasingType.SineBump, 0.35f, 0.9f, 0.1f);
-        public CurveSegment retract = new CurveSegment(EasingType.PolyInOut, 0.7f, 0.9f, -0.9f, 3);
-        internal float ThrustDisplaceRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { anticipation, thrust, hold, retract });
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

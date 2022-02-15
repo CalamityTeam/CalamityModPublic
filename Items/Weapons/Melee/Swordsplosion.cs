@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 90;
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<EonBeam>();
+			item.shoot = ModContent.ProjectileType<SwordsplosionBlue>();
             item.shootSpeed = 16f;
 		}
 

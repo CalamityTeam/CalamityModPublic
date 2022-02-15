@@ -19,8 +19,6 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (75f +
-                        (CalamityWorld.downedDoG ? 75f : 0f) +
-                        (CalamityWorld.downedYharon ? 75f : 0f) +
                         (modPlayer.profanedCrystalBuffs ? 420f : 0f));
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
