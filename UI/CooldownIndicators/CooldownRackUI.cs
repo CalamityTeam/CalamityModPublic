@@ -53,7 +53,7 @@ namespace CalamityMod.UI.CooldownIndicators
 
 			CooldownIndicator testCD = new NebulousCoreCooldown(30)
 			{
-				TimeLeft = 5
+				TimeLeft = 14
 			};
 			cooldownsToDraw.Add(testCD);
 			
@@ -115,16 +115,16 @@ namespace CalamityMod.UI.CooldownIndicators
 			{
 				Texture2D bar = ModContent.GetTexture("CalamityMod/UI/CooldownIndicators/MiniBar");
 				Rectangle emptyCrop = new Rectangle(0, 0, 2, 22);
-				Rectangle fullCrop = new Rectangle(6, 0, 2, 22);
-				Rectangle capCrop = new Rectangle(12, 0, 2, 22);
+				Rectangle fullCrop = new Rectangle(4, 0, 2, 22);
 				Vector2 origin = new Vector2(1, 22);
-				bool cappedBar = false;
+				Vector2 originAlt = new Vector2(1, 0);
 
 				for (float i = 0; i < MathHelper.TwoPi; i += RingSmoothness)
 				{
-					Rectangle crop = i / MathHelper.TwoPi > cooldown.Completion ? (cappedBar ? fullCrop : capCrop) : emptyCrop;
+					Rectangle crop = i / MathHelper.TwoPi > cooldown.Completion ? fullCrop  : emptyCrop;
 					spriteBatch.Draw(bar, position, crop, cooldown.CooldownColor(i / MathHelper.TwoPi) * opacity, i, origin, scale, SpriteEffects.None, 0f);
-					cappedBar = true;
+
+					spriteBatch.Draw(bar, position - ((i + (RingSmoothness / 2f)) + MathHelper.PiOver2).ToRotationVector2() * 22 * scale, crop, cooldown.CooldownColor(i / MathHelper.TwoPi) * opacity, i, originAlt, scale, SpriteEffects.None, 0f);
 				}
 			}
 
