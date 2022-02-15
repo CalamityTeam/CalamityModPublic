@@ -77,6 +77,16 @@ namespace CalamityMod
 		[Tooltip("Adds an array of debuff icons above all bosses and minibosses.")]
 		public bool DebuffDisplay { get; set; }
 
+		[Label("$Mods.CalamityMod.CooldownDisplay")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0f,2f)]
+		[DefaultValue(2f)]
+		[Increment(1f)]
+		[DrawTicks]
+		[Tooltip("Displays all the important cooldowns on your UI under your buffs and debuffs. Set this to 1 to have it display in a more compact way, and to 0 to entirely disable the UI")]
+		public float CooldownDisplay { get; set; }
+
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("$Mods.CalamityMod.MeterLock")]
 		[DefaultValue(true)]
@@ -321,6 +331,7 @@ namespace CalamityMod
 				new [] { "BossHealthBar", instance.ItemType("BloodOrange").ToString(), "Boss Health Bars" },
 				new [] { "BossHealthBarExtra", instance.ItemType("EncryptedSchematicPlanetoid").ToString(), "Boss Health Bar Extra Info" },
 				new [] { "DebuffDisplay", ItemID.FlaskofIchor.ToString(), "Boss and Miniboss Debuff Display" },
+				new [] { "CooldownDisplay", instance.ItemType("NebulousCore").ToString(), "Cooldown Display" },
 				new [] { "MeterLock", ItemID.GemLockTopaz.ToString(), "Lock Meter Positions" },
 
 				new [] { "StealthMeter", instance.ItemType("EclipseMirror").ToString(), "Stealth Meter" },

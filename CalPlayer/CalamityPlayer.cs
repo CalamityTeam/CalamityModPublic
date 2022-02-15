@@ -60,6 +60,7 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
+using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -280,6 +281,8 @@ namespace CalamityMod.CalPlayer
         private const int DashDisableCooldown = 12;
         public int dodgeCooldownTimer = 0;
         public bool disableAllDodges = false;
+
+        public List<CooldownIndicator> Cooldowns = new List<CooldownIndicator>();
 
         public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;

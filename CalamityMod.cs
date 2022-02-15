@@ -52,6 +52,7 @@ using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -990,6 +991,12 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()
                 {
                     ModeIndicatorUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.UI));
+
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Cooldown Rack UI", delegate ()
+                {
+                    CooldownRackUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.UI));
 
