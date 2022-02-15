@@ -109,7 +109,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Func<Player, int>>((Player p) =>
             {
                 CalamityPlayer mp = p.Calamity();
-                return mp.disableAllDodges ? 1 : mp.dodgeCooldownTimer;
+                return mp.disableAllDodges ? 1 : p.Calamity().Cooldowns.ContainsType(typeof(GlobalDodgeCooldown)) ? p.Calamity().Cooldowns.Find(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)).TimeLeft : 0;
             });
 
             // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
