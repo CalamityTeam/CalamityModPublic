@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Scorpio");
             Tooltip.SetDefault("BOOM\n" +
-                "Right click to fire a nuke");
+                "Right click to fire a nuke\n" +
+				"Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()

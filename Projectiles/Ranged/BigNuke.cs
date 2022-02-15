@@ -1,12 +1,15 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BigNuke : ModProjectile
     {
+        public static Item FalseLauncher = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Big Nuke");
@@ -20,6 +23,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 95;
             projectile.ranged = true;
+        }
+
+        private static void DefineFalseLauncher()
+        {
+            int rocketID = ItemID.RocketLauncher;
+            FalseLauncher = new Item();
+            FalseLauncher.SetDefaults(rocketID, true);
         }
 
         public override void AI()
@@ -102,6 +112,24 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num624].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 9);
+
+			// Construct a fake item to use with vanilla code for the sake of picking ammo.
+			if (FalseLauncher is null)
+				DefineFalseLauncher();
+			Player player = Main.player[projectile.owner];
+			int projID = ProjectileID.RocketI;
+			float shootSpeed = 0f;
+			bool canShoot = true;
+			int damage = 0;
+			float kb = 0f;
+			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 16);
+
+			if (projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV))
+			{
+				CalamityUtils.ExplodeandDestroyTiles(projectile, 23, true, new List<int>() { }, new List<int>() { });
+			}
         }
     }
 }

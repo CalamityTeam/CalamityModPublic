@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blissful Bombardier");
-            Tooltip.SetDefault("Fires flare rockets");
+            Tooltip.SetDefault("Fires flare rockets\n" +
+				"Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Nuke>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Nuke>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }
