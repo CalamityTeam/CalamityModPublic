@@ -954,10 +954,17 @@ namespace CalamityMod.CalPlayer
 				if (cd.CanTickDown(player))
 					cd.TimeLeft--;
 
-				if (cd.TimeLeft > 0)
+				if (cd.TimeLeft < 0)
+				{
 					Main.PlaySound(cd.EndSound());
+					if (cd.SyncID != "" && Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                    {
+						player.Calamity().SyncCooldown(false, cd.SyncID);
+					}
+				}
             }
-			Cooldowns.RemoveAll(cooldown => cooldown.TimeLeft > 0);
+
+			Cooldowns.RemoveAll(cooldown => cooldown.TimeLeft < 0);
 
 			if (spiritOriginBullseyeShootCountdown > 0)
 				spiritOriginBullseyeShootCountdown--;
@@ -965,8 +972,6 @@ namespace CalamityMod.CalPlayer
 				phantomicHeartRegen--;
 			if (phantomicBulwarkCooldown > 0)
 				phantomicBulwarkCooldown--;
-			if (dodgeCooldownTimer > 0)
-				dodgeCooldownTimer--;
 			if (KameiBladeUseDelay > 0)
 				KameiBladeUseDelay--;
 			if (galileoCooldown > 0)
@@ -1001,8 +1006,6 @@ namespace CalamityMod.CalPlayer
 				jetPackDash--;
 			if (theBeeCooldown > 0)
 				theBeeCooldown--;
-			if (nCoreCooldown > 0)
-				nCoreCooldown--;
 			if (jellyDmg > 0f)
 				jellyDmg -= 1f;
 			if (ataxiaDmg > 0f)

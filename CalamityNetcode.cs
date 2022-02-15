@@ -74,8 +74,8 @@ namespace CalamityMod
                     case CalamityModMessageType.AdrenalineSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
                         break;
-                    case CalamityModMessageType.DodgeCooldown:
-                        Main.player[reader.ReadInt32()].Calamity().HandleDodgeCooldown(reader);
+                    case CalamityModMessageType.CooldownSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleCooldowns(reader);
                         break;
                     case CalamityModMessageType.DeathCountSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
@@ -352,7 +352,7 @@ namespace CalamityMod
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
         AdrenalineSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
-        DodgeCooldown,
+        CooldownSync,
         DeathCountSync, // TODO -- this is synced in numerous incorrect places, Armageddon deaths count twice, and it supposedly counts every time you log in
 
         // Syncs for specific bosses or entities

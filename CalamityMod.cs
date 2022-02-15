@@ -217,6 +217,7 @@ namespace CalamityMod
                 GeneralParticleHandler.Load();
             }
 
+            CooldownIndicator.Load();
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
@@ -396,6 +397,7 @@ namespace CalamityMod
             CustomLavaManagement.Unload();
             BossHealthBarManager.Unload();
             DraedonStructures.Unload();
+            CooldownIndicator.Unload();
 
             TileFraming.Unload();
 

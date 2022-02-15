@@ -12,29 +12,13 @@ namespace CalamityMod.UI.CooldownIndicators
 	public class CooldownRackUI
 	{
 		public static int MaxLargeIcons = 10;
-		public static bool CompactIcons
-		{
-			get
-			{
-				return Main.LocalPlayer.Calamity().Cooldowns.Count > MaxLargeIcons || CalamityConfig.Instance.CooldownDisplay == 1;
-			}
-		}
 
-		public static Vector2 Spacing
-		{
-			get
-			{ 
-				return CompactIcons ? Vector2.UnitX * Main.UIScale * 28f : Vector2.UnitX * Main.UIScale * 54f;
-			}
-		}
+		public static bool CompactIcons => Main.LocalPlayer.Calamity().Cooldowns.FindAll(cooldown => cooldown.DisplayMe).Count > MaxLargeIcons || CalamityConfig.Instance.CooldownDisplay == 1;
 
-		public static Vector2 BaseDrawPosition
-        {
-			get
-			{
-				return new Vector2(32, 100) * Main.UIScale + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero);
-			}
-        }
+		public static Vector2 Spacing => CompactIcons ? Vector2.UnitX * Main.UIScale * 28f : Vector2.UnitX * Main.UIScale * 46f;
+
+		public static Vector2 BaseDrawPosition =>  new Vector2(32, 100) * Main.UIScale + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero);
+
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
@@ -46,12 +30,12 @@ namespace CalamityMod.UI.CooldownIndicators
 			cooldownsToDraw.RemoveAll(cooldown => !cooldown.DisplayMe);
 
 			//DEbug
-			cooldownsToDraw = new List<CooldownIndicator>();
-			CooldownIndicator testCD = new NebulousCoreCooldown(30)
-			{
-				TimeLeft = 30
-			};
-			cooldownsToDraw.Add(testCD);
+			//cooldownsToDraw = new List<CooldownIndicator>();
+			//CooldownIndicator testCD = new GlobalDodgeCooldown(130)
+			//{
+			//	TimeLeft = (int)(130 * (1 - (Main.GlobalTime * 0.1f % 1)))
+			//};
+			//cooldownsToDraw.Add(testCD);
 			
 			if (cooldownsToDraw.Count == 0)
 				return;
@@ -131,7 +115,7 @@ namespace CalamityMod.UI.CooldownIndicators
 
 				int lostHeight = (int)Math.Ceiling(overlay.Height * (1 - cooldown.Completion));
 				Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
-				spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, cooldown.OutlineColor * opacity * 0.7f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, cooldown.OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 			}
 		}
 	}

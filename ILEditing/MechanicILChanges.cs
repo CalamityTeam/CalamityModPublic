@@ -6,6 +6,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
+using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -130,9 +131,10 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action<Player>>((Player p) =>
             {
                 CalamityPlayer calPlayer = p.Calamity();
-                calPlayer.dodgeCooldownTimer = CalamityPlayer.BeltDodgeCooldown;
+                calPlayer.Cooldowns.Add(new GlobalDodgeCooldown(CalamityPlayer.BeltDodgeCooldown, p));
+
                 if (Main.netMode == NetmodeID.MultiplayerClient)
-                    calPlayer.SyncDodgeCooldown(false);
+                    calPlayer.SyncCooldown(false, "GlobalDodge");
             });
         }
         #endregion Removal of Black Belt Dodge RNG

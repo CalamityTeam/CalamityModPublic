@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using CalamityMod.UI.CooldownIndicators;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +18,7 @@ namespace CalamityMod.CalPlayer
             SyncAdrenaline(false);
             SyncMoveSpeed(false);
             SyncDefenseDamage(false);
-            SyncDodgeCooldown(false);
+            SyncCooldown(false);
         }
 
         private void EnterWorldSync()
@@ -149,13 +151,37 @@ namespace CalamityMod.CalPlayer
             player.SendPacket(packet, server);
         }
 
-        internal void SyncDodgeCooldown(bool server)
+        internal void SyncCooldown(bool server, string cooldownID = "")
         {
-            ModPacket packet = mod.GetPacket();
-            packet.Write((byte)CalamityModMessageType.DodgeCooldown);
-            packet.Write(player.whoAmI);
-            packet.Write(dodgeCooldownTimer);
-            player.SendPacket(packet, server);
+            //If no specific sync id is provided, sync all of the player's cooldowns. Ideally this doesn't happen though. Ideally.
+            if (cooldownID == "")
+            {
+                foreach (string key in CooldownIndicator.IDtoType.Keys)
+                {
+                    ModPacket packet = mod.GetPacket();
+                    packet.Write((byte)CalamityModMessageType.CooldownSync);
+                    packet.Write(player.whoAmI);
+                    packet.Write(key);
+                    int timer = 0;
+                    if (Cooldowns.ContainsType(CooldownIndicator.IDtoType[key]))
+                        timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[key]).TimeLeft;
+                    packet.Write(timer);
+                    player.SendPacket(packet, server);
+                }
+            }
+
+            else
+            {
+                ModPacket packet = mod.GetPacket();
+                packet.Write((byte)CalamityModMessageType.CooldownSync);
+                packet.Write(player.whoAmI);
+                packet.Write(cooldownID);
+                int timer = 0;
+                if (Cooldowns.ContainsType(CooldownIndicator.IDtoType[cooldownID]))
+                    timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[cooldownID]).TimeLeft;
+                packet.Write(timer);
+                player.SendPacket(packet, server);
+            }
         }
 
         private void SyncDeathCount(bool server)
@@ -307,11 +333,20 @@ namespace CalamityMod.CalPlayer
                 SyncDefenseDamage(true);
         }
 
-        internal void HandleDodgeCooldown(BinaryReader reader)
+        internal void HandleCooldowns(BinaryReader reader)
         {
-            dodgeCooldownTimer = reader.ReadInt32();
+            string syncID = reader.ReadString();
+            int timer = reader.ReadInt32();
+            Type cooldownType = CooldownIndicator.IDtoType[syncID];
+
+            if (Cooldowns.ContainsType(cooldownType))
+                Cooldowns.Find(cooldown => cooldown.GetType() == cooldownType).TimeLeft = timer;
+
+            else if (timer > 0)
+                Cooldowns.Add((CooldownIndicator)Activator.CreateInstance(cooldownType, timer, player));
+
             if (Main.netMode == NetmodeID.Server)
-                SyncDodgeCooldown(true);
+                SyncCooldown(true);
         }
 
         internal void HandleRightClick(BinaryReader reader)

@@ -15,6 +15,11 @@ float2 uImageSize1;
 
 float4 MainPS(float2 coords : TEXCOORD0) : COLOR
 {
+    //Don't draw under the texture : gave up on this due to not knowing how to properly get the sampler coords for the image of a different size
+    //float2 samplecoords = coords * (20 / 44) + float2(12, 12);
+    //if (tex2D(uImage1, samplecoords).a > 0)
+    //    return float4(0, 0, 0, 0);
+    
     //this is the center of the sprite, coords work from 0 - 1
     float2 center = float2(0.5, 0.5);
     //get the vector between them
@@ -36,10 +41,8 @@ float4 MainPS(float2 coords : TEXCOORD0) : COLOR
     if (newLength > 0.46)
         brightness = 0.3;
     
-    //get the new angle that we want it to be at, as otherwise it works from the left
-    float angle = atan2(between.y, between.x) - 1.57079633;
-    //shift angle to between 0 and 2 pi
-    angle += 3.14159265;
+ 
+    float angle = atan2(between.x, between.y) + 3.1415926;
     //get the progress of the angle
     float anglePercent = angle / 6.28318531;
 

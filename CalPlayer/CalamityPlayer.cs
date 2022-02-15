@@ -279,7 +279,6 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginConvertedCrit = 0;
 
         private const int DashDisableCooldown = 12;
-        public int dodgeCooldownTimer = 0;
         public bool disableAllDodges = false;
 
         public List<CooldownIndicator> Cooldowns = new List<CooldownIndicator>();
@@ -506,7 +505,6 @@ namespace CalamityMod.CalPlayer
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
-		public int nCoreCooldown = 0;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
         public bool abyssalDivingSuitCooldown = false;
@@ -2201,8 +2199,10 @@ namespace CalamityMod.CalPlayer
         #region UpdateDead
         public override void UpdateDead()
         {
-			#region Debuffs
-			dodgeCooldownTimer = 0;
+            //Clear all the cooldowns
+            Cooldowns.RemoveAll(cooldown => cooldown.ResetOnDeath);
+
+            #region Debuffs
 			totalDefenseDamage = 0;
             defenseDamageRecoveryFrames = 0;
             totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
@@ -2247,7 +2247,6 @@ namespace CalamityMod.CalPlayer
             jetPackDirection = 0;
             andromedaCripple = 0;
             theBeeCooldown = 0;
-			nCoreCooldown = 0;
             killSpikyBalls = false;
             rogueCrownCooldown = 0;
             fleshTotemCooldown = false;
@@ -4201,7 +4200,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Neither mirror can be used if either is on cooldown
-            if (dodgeCooldownTimer == 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+            if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)) && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
             {
                 if (eclipseMirror)
                 {
@@ -4298,8 +4297,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
             {
-                dodgeCooldownTimer = MirrorDodgeCooldown;
-				player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), dodgeCooldownTimer);
+                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player));
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
@@ -4322,10 +4320,6 @@ namespace CalamityMod.CalPlayer
                 {
                     NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
                 }
-
-                // Send a Calamity dodge cooldown packet.
-                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                    SyncDodgeCooldown(false);
             }
         }
 
@@ -4333,8 +4327,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
             {
-                dodgeCooldownTimer = MirrorDodgeCooldown;
-				player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), dodgeCooldownTimer);
+                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player));
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
@@ -4352,10 +4345,6 @@ namespace CalamityMod.CalPlayer
                 {
                     NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
                 }
-
-                // Send a Calamity dodge cooldown packet.
-                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                    SyncDodgeCooldown(false);
             }
         }
         #endregion
@@ -4451,7 +4440,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (nCore && nCoreCooldown <= 0)
+            if (nCore && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(NebulousCoreCooldown)))
             {
 				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
 
@@ -4474,7 +4463,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife > player.statLifeMax2)
 					player.statLife = player.statLifeMax2;
 
-				nCoreCooldown = CalamityUtils.SecondsToFrames(90f);
+                Cooldowns.Add(new NebulousCoreCooldown(CalamityUtils.SecondsToFrames(90f), player));
 
 				return false;
 			}
@@ -5600,7 +5589,7 @@ namespace CalamityMod.CalPlayer
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
 				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
-                if (dodgeCooldownTimer == 0 && !disableAllDodges)
+                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)) && !disableAllDodges)
 				{
 					// The Evolution
                     if (projRefRare)
@@ -5616,10 +5605,10 @@ namespace CalamityMod.CalPlayer
 						projRefRareLifeRegenCounter = 300;
 						projTypeJustHitBy = proj.type;
 
-                        dodgeCooldownTimer = EvolutionReflectCooldown;
+                        Cooldowns.Add(new GlobalDodgeCooldown(EvolutionReflectCooldown, player));
                         // Send a Calamity dodge cooldown packet.
                         if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                            SyncDodgeCooldown(false);
+                            SyncCooldown(false);
                         return;
 					}
 				}
@@ -5770,7 +5759,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
-                if (dodgeCooldownTimer == 0 && !disableAllDodges && daedalusReflect && !projRefRare)
+                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)) && !disableAllDodges && daedalusReflect && !projRefRare)
 				{
 					projectileDamageReduction += 0.5;
 				}
@@ -6519,7 +6508,7 @@ namespace CalamityMod.CalPlayer
 				}
 
 				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
-                if (dodgeCooldownTimer == 0 && !disableAllDodges)
+                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)) && !disableAllDodges)
 				{
 					if (daedalusReflect && !projRefRare)
 					{
@@ -6531,10 +6520,7 @@ namespace CalamityMod.CalPlayer
 
                         damage /= 2;
 
-						dodgeCooldownTimer = DaedalusReflectCooldown;
-                        // Send a Calamity dodge cooldown packet.
-                        if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                            SyncDodgeCooldown(false);
+                        Cooldowns.Add(new GlobalDodgeCooldown(DaedalusReflectCooldown, player));
 
                         // No return because the projectile hit isn't canceled -- it only does half damage.
                     }

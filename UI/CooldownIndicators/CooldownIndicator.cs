@@ -7,20 +7,53 @@ using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using CalamityMod.CalPlayer;
+using Terraria.ModLoader;
+using System.Runtime.Serialization;
 
 namespace CalamityMod.UI.CooldownIndicators
 {
     public class CooldownIndicator
     {
+        public static Dictionary<string, Type> IDtoType;
+
+        public static void Load()
+        {
+            Type baseCooldownType = typeof(CooldownIndicator);
+            CalamityMod calamity = ModContent.GetInstance<CalamityMod>();
+
+            foreach (Type type in calamity.Code.GetTypes())
+            {
+                if (type.IsSubclassOf(baseCooldownType) && !type.IsAbstract && type != baseCooldownType)
+                {
+                    CooldownIndicator instance = (CooldownIndicator)FormatterServices.GetUninitializedObject(type);
+                    if (instance.SyncID != "")
+                        IDtoType[instance.SyncID] = type;
+                }
+            }
+        }
+
+        public static void Unload()
+        {
+            IDtoType = null;
+        }
+
+
+        /// <summary>
+        /// The player that the cooldown is applying to
+        /// </summary>
+        public Player AfflictedPlayer;
+
+        /// <summary>
+        /// The ID of the cooldown for multiplayer syncing. Leave this string empty if you don't need multiplayer syncing
+        /// </summary>
+        public virtual string SyncID => "";
+
         /// <summary>
 		/// Should the cooldown be displayed in the cooldown rack.
 		/// </summary>
 		public virtual bool DisplayMe => false;
-
-        /// <summary>
-        /// Does the cooldown need multiplayer syncing
-        /// </summary>
-        public virtual bool NeedsSyncing => false;
 
         /// <summary>
 		/// The name of the cooldown, appears when the player hovers over the indicator
@@ -99,6 +132,24 @@ namespace CalamityMod.UI.CooldownIndicators
         /// <summary>
         /// The sound played when the cooldown time is over
         /// </summary>
-        public virtual LegacySoundStyle EndSound() => null; 
+        public virtual LegacySoundStyle EndSound() => null;
+
+        /// <summary>
+        /// Wether or not the cooldown should get reset when the player dies
+        /// </summary>
+        public virtual bool ResetOnDeath => true;
+
+        public CooldownIndicator(int duration, Player player)
+        {
+            TimeLeft = duration;
+            Duration = duration;
+            AfflictedPlayer = player; 
+
+            //Sync the cooldown if needed
+            if (SyncID != "" && Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+            {
+                player.Calamity().SyncCooldown(false, SyncID);
+            }
+        }
     }
 }

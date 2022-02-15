@@ -18,25 +18,22 @@ namespace CalamityMod.UI.CooldownIndicators
         public override Color CooldownColorStart => new Color(148, 62, 216);
         public override Color CooldownColorEnd => new Color(255, 187, 207);
 
-        public NebulousCoreCooldown(int duration)
+        public NebulousCoreCooldown(int duration, Player player) : base(duration, player)
         {
-            Duration = duration;
-            TimeLeft = duration;
         }
     }
 
     public class GlobalDodgeCooldown : CooldownIndicator
     {
+        public override string SyncID => "GlobalDodge";
         public override bool DisplayMe => true;
         public override string Name => "Dodge Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/GlobalDodge";
-        public override Color CooldownColorStart => Color.LightCyan;
+        public override Color CooldownColorStart => Color.CornflowerBlue;
 
 
-        public GlobalDodgeCooldown(int duration)
+        public GlobalDodgeCooldown(int duration, Player player) : base(duration, player)
         {
-            Duration = duration;
-            TimeLeft = duration;
         }
     }
 }
