@@ -200,6 +200,32 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 npc.velocity *= 0.98f;
             }
+
+            if (death)
+            {
+                float pushVelocity = 0.5f;
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].active)
+                    {
+                        if (i != npc.whoAmI && Main.npc[i].type == npc.type)
+                        {
+                            if (Vector2.Distance(npc.Center, Main.npc[i].Center) < 320f)
+                            {
+                                if (npc.position.X < Main.npc[i].position.X)
+                                    npc.velocity.X = npc.velocity.X - pushVelocity;
+                                else
+                                    npc.velocity.X = npc.velocity.X + pushVelocity;
+
+                                if (npc.position.Y < Main.npc[i].position.Y)
+                                    npc.velocity.Y = npc.velocity.Y - pushVelocity;
+                                else
+                                    npc.velocity.Y = npc.velocity.Y + pushVelocity;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 		public override bool PreNPCLoot()
