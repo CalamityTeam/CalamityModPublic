@@ -19,25 +19,25 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueAncientBeam : ModProjectile //The boring plain one
+    public class RendingNeedle : ModProjectile 
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow";
 
+        internal PrimitiveTrail TrailDrawer;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Ancient Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            DisplayName.SetDefault("Rending Needle");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
-        const float MaxTime = 40;
+        const float MaxTime = 30;
         public float Timer => MaxTime - projectile.timeLeft;
 
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 32;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 3;
             projectile.timeLeft = (int)MaxTime;
             projectile.melee = true;
             projectile.tileCollide = false;
@@ -54,42 +54,59 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (projectile.timeLeft < MaxTime - 5)
-                projectile.tileCollide = true;
-
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             projectile.scale = 2.4f;
             projectile.Opacity = 0.6f;
             Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3));
+            projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3) * 0.3f);
 
-            if (Main.rand.NextBool(3))
+            if (Main.rand.Next(2) == 0)
             {
-                int dustTrail = Dust.NewDust(projectile.Center, 14, 14, 66, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
-                Main.dust[dustTrail].noGravity = true;
+                Particle smoke = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * projectile.scale * 0.6f, 0.28f, 0, false, 0, true);
+                GeneralParticleHandler.SpawnParticle(smoke);
+
+                if (Main.rand.Next(3) == 0)
+                {
+                    Particle smokeGlow = new HeavySmokeParticle(projectile.Center, projectile.velocity * 0.5f, Main.hslToRgb(Main.rand.NextFloat(), 1, 0.7f), 20, Main.rand.NextFloat(0.4f, 0.7f) * projectile.scale * 0.6f, 0.8f, 0, true, 0.05f, true);
+                    GeneralParticleHandler.SpawnParticle(smokeGlow);
+                }
             }
-
-            if (Main.rand.NextBool(3))
-            {
-                int dustType = Main.rand.Next(3);
-                dustType = dustType == 0 ? 15 : dustType == 1 ? 57 : 58;
-
-                Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
-            }
-
-
 
             if (projectile.velocity.Length() < 1.0f)
                 projectile.Kill();
         }
+
+        internal Color ColorFunction(float completionRatio)
+        {
+            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTime * 3f) * 0.5f + 0.5f);
+            float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * projectile.Opacity;
+
+            Color endColor = Color.Lerp(Color.Cyan, Color.Crimson, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTime * 4f) * 0.5f + 0.5f);
+            return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
+        }
+
+        internal float WidthFunction(float completionRatio)
+        {
+            float expansionCompletion = (float)Math.Pow(1 - completionRatio, 2);
+            return MathHelper.Lerp(0f, 14f * projectile.scale, expansionCompletion);
+        }
+
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.timeLeft > 35)
                 return false;
 
-            DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/RendingNeedle");
+
+            if (TrailDrawer is null)
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
+
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * 30.5f - Main.screenPosition, 30);
+
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), projectile.rotation, texture.Size() / 2f, projectile.scale, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
+            DisplayName.SetDefault("Fractured Ark");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
@@ -51,6 +51,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = (int)MaxTime;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -97,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
             {
-                Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 1f, ProjectileType<AncientBeam>(), projectile.damage, 2f, Owner.whoAmI) ;
+                Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 1f, ProjectileType<AncientBeam>(), (int)(projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
                 HasFired = 1f;
             }
 
@@ -142,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Color color = Main.hslToRgb((i / (float)projectile.oldRot.Length) * 0.7f, 1, 0.6f + (Charge > 0 ? 0.3f : 0f));
                     float afterimageRotation = projectile.oldRot[i] + MathHelper.PiOver4;
-                    Main.spriteBatch.Draw(glowmask, drawOffset, null, color * 0.15f, afterimageRotation + extraAngle, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
+                    spriteBatch.Draw(glowmask, drawOffset, null, color * 0.15f, afterimageRotation + extraAngle, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
                 }
             }
 

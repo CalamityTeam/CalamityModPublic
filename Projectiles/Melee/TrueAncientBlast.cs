@@ -19,7 +19,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueAncientBlast : ModProjectile //The boring plain one
+    public class TrueAncientBlast : ModProjectile 
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

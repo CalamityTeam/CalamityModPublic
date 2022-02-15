@@ -10,6 +10,7 @@ using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,15 +18,27 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public float Combo = 1f;
         public float Charge = 0f;
+        public static float chargeDamageMultiplier = 1.75f; //Extra damage from charge
+        public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
+
         public override bool CloneNewInstances => true;
+
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" + 
+                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
+                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Ancients");
-            Tooltip.SetDefault("Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
-                "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
-                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out\n" +
-                "A heavenly blade forged to vanquish all evil");
+            DisplayName.SetDefault("Fractured Ark");
+            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more");
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            tooltip.text = ParryTooltip;
+            tooltip.overrideColor = Color.CornflowerBlue;
         }
 
         public override void SetDefaults()
@@ -47,6 +60,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
         }
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
+        }
 
         public override bool AltFunctionUse(Player player) => true;
 
@@ -59,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>())))
+                if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
                     Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
                 return false;
             }
@@ -69,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Combo = 1;
 
             if (Charge > 0)
-                damage *= 2;
+                damage = (int)(chargeDamageMultiplier * damage);
             Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
 
             Combo *= -1f;
@@ -133,15 +150,17 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge <= 0)
                 return;
 
+            float barScale = 1.3f;
+
             var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
             var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
 
-            Vector2 drawPos = position + Vector2.UnitY * frame.Height * scale + Vector2.UnitX * (frame.Width - barBG.Width) * scale * 0.5f;
+            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
             Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
 
-            spriteBatch.Draw(barBG, drawPos, null, color , 0f, origin, scale, 0f, 0f);
-            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale, 0f, 0f);
+            spriteBatch.Draw(barBG, drawPos, null, color , 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
     }
 }

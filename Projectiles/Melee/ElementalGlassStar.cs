@@ -8,16 +8,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AncientStar : ModProjectile
+    public class ElementalGlassStar : ModProjectile
     {
 		const float MaxTime = 120;
 		public float Timer => MaxTime - projectile.timeLeft;
 
-		public ref float Shine => ref projectile.ai[0];
-
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Star");
+            DisplayName.SetDefault("Glass Star");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -31,16 +29,17 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.melee = true;
             projectile.penetrate = 1;
             projectile.timeLeft = (int)MaxTime;
+			projectile.scale = 1.5f;
         }
 
         public override void AI()
         {
 			if (Timer == 0)
             {
-				Particle spark = new CritSpark(projectile.Center, Vector2.Zero, Color.White, Color.Cyan, Main.rand.NextFloat(2.3f, 2.6f), 20, 0.1f, 1.5f, hueShift: 0.02f);
+				Particle spark = new FlareShine(projectile.Center, Vector2.Zero, Color.White, Color.OrangeRed, 0f,new Vector2(0.5f, 1f), new Vector2(1.5f, 3f), 20, 0f, hueShift: 0.01f);
 				GeneralParticleHandler.SpawnParticle(spark);
 
-				for (int i = 0; i < 4; i++)
+				for (int i = 0; i < 2; i++)
 				{
 					Vector2 particleSpeed = projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.8f) * 0.1f;
 					Particle energyLeak = new SquishyLightParticle(projectile.Center, particleSpeed, Main.rand.NextFloat(0.8f, 1.4f), Color.Cyan, 60, 0.3f, 1.5f, hueShift: 0.02f);
@@ -58,9 +57,12 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity *= 0.95f;
             }
 
-			int dustType = Main.rand.Next(3);
-			dustType = dustType == 0 ? 15 : dustType == 1 ? 57 : 58;
-			Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
+			if (Main.rand.Next(3) == 0)
+			{
+				int dustType = Main.rand.Next(3);
+				dustType = dustType == 0 ? 15 : dustType == 1 ? 57 : 58;
+				Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
+			}
 
 			if (projectile.soundDelay == 0)
 			{
@@ -78,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
 				Main.gore[starGore].velocity += projectile.velocity * 0.3f;
 			}
 
-			if (projectile.velocity.Length() < 2f) 
+			if (projectile.velocity.Length() < 2f && projectile.timeLeft < (int)(MaxTime / 2f)) 
 			{
 				projectile.Kill();
 				return;
@@ -86,34 +88,32 @@ namespace CalamityMod.Projectiles.Melee
 				
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 350f, 12f, 20f);
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 
-			if (Shine == 1f)
-            {
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-				Texture2D starTexture = ModContent.GetTexture("CalamityMod/Particles/Sparkle");
-				Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
-				//Ajust the bloom's texture to be the same size as the star's
-				float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
+			Texture2D starTexture = ModContent.GetTexture("CalamityMod/Particles/Sparkle");
+			Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+			//Ajust the bloom's texture to be the same size as the star's
+			float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
-				Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f);
-				float rotation = Main.GlobalTime * 8f;
-				Vector2 sparkCenter = projectile.Center - Main.screenPosition;
+			Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 15f) * 0.05f + 0.08f, 1, 0.55f);
+			float rotation = Main.GlobalTime * 8f;
+			Vector2 sparkCenter = projectile.Center - Main.screenPosition;
 
-				spriteBatch.Draw(bloomTexture, sparkCenter, null, color * 0.5f, 0, bloomTexture.Size() / 2f, 2 * properBloomSize, SpriteEffects.None, 0);
-				spriteBatch.Draw(starTexture, sparkCenter, null, color * 0.5f, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 1 * 0.75f, SpriteEffects.None, 0);
-				spriteBatch.Draw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 1, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloomTexture, sparkCenter, null, color * 0.6f, 0, bloomTexture.Size() / 2f, 4f * properBloomSize, SpriteEffects.None, 0);
+			spriteBatch.Draw(starTexture, sparkCenter, null, color, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 2f * 0.75f, SpriteEffects.None, 0);
+			spriteBatch.Draw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 2f, SpriteEffects.None, 0);
 
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-			}
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
 
 			return false;
 		}
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (breakSound != null)
 				breakSound.Volume *= 0.5f;
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				Vector2 particleSpeed = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(5.2f, 4.3f);
 				Particle spark = new CritSpark(projectile.Center, particleSpeed, Color.White, Color.Cyan, Main.rand.NextFloat(1.3f, 1.6f), 40, 0.1f, 3.5f, hueShift: 0.02f);

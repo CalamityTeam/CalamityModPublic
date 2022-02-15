@@ -17,8 +17,8 @@ namespace CalamityMod.Particles
         //List containing the particles to delete
         private static List<Particle> particlesToKill;
         //Static list for details concerning every particle type
-        private static Dictionary<Type, int> particleTypes;
-        private static Dictionary<int, Texture2D> particleTextures;
+        internal static Dictionary<Type, int> particleTypes;
+        internal static Dictionary<int, Texture2D> particleTextures;
         private static List<Particle> particleInstances;
         //Lists used when drawing particles batched
         private static List<Particle> batchedAlphaBlendParticles;
