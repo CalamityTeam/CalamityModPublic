@@ -60,5 +60,12 @@ namespace CalamityMod.UI.CooldownIndicators
         /// Method used to determine the color of the bar around the icon when in advanced mode
         /// </summary>
         public virtual Color CooldownColor(float completionRatio) => Color.White;
+
+        /// <summary>
+        /// Determines if the cooldown can tick down. Useful for cooldowns that don't tick down when bosses are alive for example
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public virtual bool CanTickDown() => true;
     }
 }
