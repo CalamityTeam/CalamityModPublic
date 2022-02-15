@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
-			if (projectile.scale == 1.75f && CalamityWorld.downedYharon)
+			if (projectile.scale == 1.75f)
 				projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound((int)SoundType.NPCKilled, (int)projectile.Center.X, (int)projectile.Center.Y, 52, 0.4f);
