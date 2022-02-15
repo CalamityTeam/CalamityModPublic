@@ -20,11 +20,6 @@ namespace CalamityMod.UI.CooldownIndicators
 			}
 		}
 
-		/// <summary>
-		/// How many segments are displayed in a ring around the icon when compact mode is is off
-		/// </summary>
-		static float RingSmoothness = MathHelper.TwoPi / 60f;
-
 		public static Vector2 Spacing
 		{
 			get
@@ -48,17 +43,16 @@ namespace CalamityMod.UI.CooldownIndicators
 				return;
 
 			List<CooldownIndicator> cooldownsToDraw = Main.LocalPlayer.Calamity().Cooldowns;
+			cooldownsToDraw.RemoveAll(cooldown => !cooldown.DisplayMe);
 
+			//DEbug
 			cooldownsToDraw = new List<CooldownIndicator>();
-
 			CooldownIndicator testCD = new NebulousCoreCooldown(30)
 			{
-				TimeLeft = 14
+				TimeLeft = 30
 			};
 			cooldownsToDraw.Add(testCD);
 			
-
-
 			if (cooldownsToDraw.Count == 0)
 				return;
 
@@ -109,27 +103,23 @@ namespace CalamityMod.UI.CooldownIndicators
 		{
 			Texture2D sprite = ModContent.GetTexture(cooldown.Texture);
 			Texture2D outline = ModContent.GetTexture(cooldown.TextureOutline);
+			Texture2D barBase = ModContent.GetTexture("CalamityMod/UI/CooldownIndicators/BarBase");
 
 			//Draw the ring
 			if (!CompactIcons)
 			{
-				Texture2D bar = ModContent.GetTexture("CalamityMod/UI/CooldownIndicators/MiniBar");
-				Rectangle emptyCrop = new Rectangle(0, 0, 2, 22);
-				Rectangle fullCrop = new Rectangle(4, 0, 2, 22);
-				Vector2 origin = new Vector2(1, 22);
-				Vector2 originAlt = new Vector2(1, 0);
+				spriteBatch.End();
+				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
+				cooldown.ApplyBarShaders(opacity);
 
-				for (float i = 0; i < MathHelper.TwoPi; i += RingSmoothness)
-				{
-					Rectangle crop = i / MathHelper.TwoPi > cooldown.Completion ? fullCrop  : emptyCrop;
-					spriteBatch.Draw(bar, position, crop, cooldown.CooldownColor(i / MathHelper.TwoPi) * opacity, i, origin, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(barBase, position, null, Color.White * opacity, 0, barBase.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
-					spriteBatch.Draw(bar, position - ((i + (RingSmoothness / 2f)) + MathHelper.PiOver2).ToRotationVector2() * 22 * scale, crop, cooldown.CooldownColor(i / MathHelper.TwoPi) * opacity, i, originAlt, scale, SpriteEffects.None, 0f);
-				}
+				spriteBatch.End();
+				spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
 			}
 
 			//Draw the outline
-			spriteBatch.Draw(outline, position, null, cooldown.OutlineColor() * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(outline, position, null, cooldown.OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
 			//Draw the icon
 			spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
@@ -141,7 +131,7 @@ namespace CalamityMod.UI.CooldownIndicators
 
 				int lostHeight = (int)Math.Ceiling(overlay.Height * (1 - cooldown.Completion));
 				Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
-				spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, cooldown.OutlineColor() * opacity * 0.7f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, cooldown.OutlineColor * opacity * 0.7f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 			}
 		}
 	}

@@ -41,6 +41,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -946,6 +947,18 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+
+
+			foreach (CooldownIndicator cd in Cooldowns)
+            {
+				if (cd.CanTickDown(player))
+					cd.TimeLeft--;
+
+				if (cd.TimeLeft > 0)
+					Main.PlaySound(cd.EndSound());
+            }
+			Cooldowns.RemoveAll(cooldown => cooldown.TimeLeft > 0);
+
 			if (spiritOriginBullseyeShootCountdown > 0)
 				spiritOriginBullseyeShootCountdown--;
 			if (phantomicHeartRegen > 0 && phantomicHeartRegen < 1000)

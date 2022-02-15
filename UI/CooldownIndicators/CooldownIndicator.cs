@@ -5,12 +5,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.UI.CooldownIndicators
 {
     public class CooldownIndicator
     {
+        /// <summary>
+		/// Should the cooldown be displayed in the cooldown rack.
+		/// </summary>
+		public virtual bool DisplayMe => false;
+
+        /// <summary>
+        /// Does the cooldown need multiplayer syncing
+        /// </summary>
+        public virtual bool NeedsSyncing => false;
+
         /// <summary>
 		/// The name of the cooldown, appears when the player hovers over the indicator
 		/// </summary>
@@ -55,17 +66,39 @@ namespace CalamityMod.UI.CooldownIndicators
         /// <summary>
         /// Method used to determine the color of the outline around the icon, and the overlay that goes above the icon in compact mode
         /// </summary>
-        public virtual Color OutlineColor() => Color.White;
+        public virtual Color OutlineColor => Color.White;
         /// <summary>
-        /// Method used to determine the color of the bar around the icon when in advanced mode
+        /// The color of the bar as it starts going around the icon
         /// </summary>
-        public virtual Color CooldownColor(float completionRatio) => Color.White;
+        public virtual Color CooldownColorStart => Color.Gray;
+
+        /// <summary>
+        /// The color of the bar as it finishes going around the icon
+        /// </summary>
+        public virtual Color CooldownColorEnd => Color.White;
+
+        /// <summary>
+        /// Apply the shader that creates the bar. Only called if UseCustomDraw is set to false. By default just creates a flat ring with colors going from the start to the end color.
+        /// </summary>
+        public virtual void ApplyBarShaders(float opacity)
+        {
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(1 - Completion);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownColorStart);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownColorEnd);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+
+        }
 
         /// <summary>
         /// Determines if the cooldown can tick down. Useful for cooldowns that don't tick down when bosses are alive for example
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public virtual bool CanTickDown() => true;
+        /// <returns>Wether or not the cooldown should tick down</returns>
+        public virtual bool CanTickDown(Player player) => true;
+
+        /// <summary>
+        /// The sound played when the cooldown time is over
+        /// </summary>
+        public virtual LegacySoundStyle EndSound() => null; 
     }
 }
