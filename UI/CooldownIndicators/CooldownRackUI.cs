@@ -87,7 +87,7 @@ namespace CalamityMod.UI.CooldownIndicators
 		{
 			Texture2D sprite = ModContent.GetTexture(cooldown.Texture);
 			Texture2D outline = ModContent.GetTexture(cooldown.TextureOutline);
-			Texture2D barBase = ModContent.GetTexture("CalamityMod/UI/CooldownIndicators/BarBase");
+			Texture2D barBase = ModContent.GetTexture(cooldown.ChargeBarTexture);
 
 			//Draw the ring
 			if (!CompactIcons)

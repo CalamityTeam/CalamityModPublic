@@ -97,16 +97,28 @@ namespace CalamityMod.UI.CooldownIndicators
         public virtual void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale) { }
 
         /// <summary>
+		/// The texture of the charge bar. If set to a different texture path than the bar base, and if UseCustomDraw is set to false , it will be used as the ring around the cooldown icon 
+        /// Please keep this sprite 44x44 (In 2x2)
+		/// </summary>
+		public virtual string ChargeBarTexture => "CalamityMod/UI/CooldownIndicators/BarBase";
+
+        /// <summary>
+		/// The texture under the charge bar. Will be used if ChargeBarTexture is set to an actual texture. Leave this as is to have nothing below the charge bar texture
+        /// Please keep this sprite 44x44 (In 2x2)
+		/// </summary>
+		public virtual string ChargeBarBackTexture => "CalamityMod/UI/CooldownIndicators/BarBase";
+
+        /// <summary>
         /// Method used to determine the color of the outline around the icon, and the overlay that goes above the icon in compact mode
         /// </summary>
         public virtual Color OutlineColor => Color.White;
         /// <summary>
-        /// The color of the bar as it starts going around the icon
+        /// The color of the bar as it starts going around the icon. Only used if no charge bar texture is provided
         /// </summary>
         public virtual Color CooldownColorStart => Color.Gray;
 
         /// <summary>
-        /// The color of the bar as it finishes going around the icon
+        /// The color of the bar as it finishes going around the icon. Only used if no charge bar texture is provided
         /// </summary>
         public virtual Color CooldownColorEnd => Color.White;
 
@@ -115,12 +127,22 @@ namespace CalamityMod.UI.CooldownIndicators
         /// </summary>
         public virtual void ApplyBarShaders(float opacity)
         {
-            GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
-            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(1 - Completion);
-            GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownColorStart);
-            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownColorEnd);
-            GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+            if (ChargeBarTexture == "CalamityMod/UI/CooldownIndicators/BarBase")
+            {
+                GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
+                GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(1 - Completion);
+                GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownColorStart);
+                GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownColorEnd);
+                GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+            }
 
+            else
+            {
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.GetTexture(ChargeBarBackTexture));
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseOpacity(opacity);
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseSaturation(1 - Completion);
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].Apply();
+            }
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace CalamityMod.Effects
         public static Effect RancorMagicCircleShader;
         public static Effect BasicTintShader;
         public static Effect CircularBarShader;
+        public static Effect CircularBarSpriteShader;
         public static Effect DoGDisintegrationShader;
         public static Effect ArtAttackTrailShader;
         public static Effect CircularAoETelegraph;
@@ -58,6 +59,7 @@ namespace CalamityMod.Effects
             RancorMagicCircleShader = CalamityMod.Instance.GetEffect("Effects/RancorMagicCircle");
             BasicTintShader = CalamityMod.Instance.GetEffect("Effects/BasicTint");
             CircularBarShader = CalamityMod.Instance.GetEffect("Effects/CircularBarShader");
+            CircularBarSpriteShader = CalamityMod.Instance.GetEffect("Effects/CircularBarSpriteShader");
             DoGDisintegrationShader = CalamityMod.Instance.GetEffect("Effects/DoGDisintegration");
             ArtAttackTrailShader = CalamityMod.Instance.GetEffect("Effects/ArtAttackTrail");
             CircularAoETelegraph = CalamityMod.Instance.GetEffect("Effects/CircularAoETelegraph");
@@ -88,6 +90,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:RancorMagicCircle"] = new MiscShaderData(new Ref<Effect>(RancorMagicCircleShader), "ShieldPass");
             GameShaders.Misc["CalamityMod:BasicTint"] = new MiscShaderData(new Ref<Effect>(BasicTintShader), "TintPass");
             GameShaders.Misc["CalamityMod:CircularBarShader"] = new MiscShaderData(new Ref<Effect>(CircularBarShader), "Pass0");
+            GameShaders.Misc["CalamityMod:CircularBarSpriteShader"] = new MiscShaderData(new Ref<Effect>(CircularBarSpriteShader), "Pass0");
             GameShaders.Misc["CalamityMod:DoGDisintegration"] = new MiscShaderData(new Ref<Effect>(DoGDisintegrationShader), "DisintegrationPass");
             GameShaders.Misc["CalamityMod:ArtAttack"] = new MiscShaderData(new Ref<Effect>(ArtAttackTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"] = new MiscShaderData(new Ref<Effect>(CircularAoETelegraph), "TelegraphPass");
