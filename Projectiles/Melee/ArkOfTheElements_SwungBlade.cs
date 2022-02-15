@@ -194,11 +194,18 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
+
+                    if (Owner.whoAmI == Main.myPlayer)
+                    {
+                        //Reset local immunity so that the snap can do damage
+                        for (int i = 0; i < Main.maxNPCs; ++i)
+                            projectile.localNPCImmunity[i] = 0;
+                    }
+
                     Combo = 3f; //Mark the end of the regular throw
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
-
-                    //If anyone knows how to reset local iframes , yeah, do that. To prevent edge cases where the snap happens but doesnt actually hit anything due to iframes from the throw cucking it
+                    projectile.localNPCHitCooldown = (int)SnapEndTime; //Only snap the enemies ONCE
                 }
 
                 else if (!OwnerCanShoot && Combo == 2 && ChanceMissed == 0f)

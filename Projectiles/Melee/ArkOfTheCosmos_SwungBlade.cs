@@ -252,13 +252,17 @@ namespace CalamityMod.Projectiles.Melee
                                 blast.timeLeft = 100;
                             }
                         }
+
+                        //Reset local immunity so that the snap can do damage
+                        for (int i = 0; i < Main.maxNPCs; ++i)
+                            projectile.localNPCImmunity[i] = 0;
                     }
 
                     Combo = 3f; //Mark the end of the regular throw
                     direction = projectile.Center - Owner.Center; //At this point direction becomes also a marker for the last position it was in before snapping
                     projectile.velocity = projectile.rotation.ToRotationVector2();
                     projectile.timeLeft = (int)SnapEndTime;
-
+                    projectile.localNPCHitCooldown = (int)SnapEndTime; //Only snap the enemies ONCE
                 }
 
 

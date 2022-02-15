@@ -79,6 +79,7 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (projectile.velocity * bladeLenght), 30, ref collisionPoint);
         }
 
+        public override bool ShouldUpdatePosition() => false;
 
         public override void AI()
         {
@@ -98,7 +99,6 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Manage position and rotation
-            projectile.Center -= projectile.velocity; //Don't actually move xd //Yes i knowi could set the velocity to zero and then use the projectiles rotation but it saves me ToRotationVector2() clutter
             projectile.scale = 1.4f;
 
             //Update stitches
