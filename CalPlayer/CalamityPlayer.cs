@@ -553,7 +553,6 @@ namespace CalamityMod.CalPlayer
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
-        public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
         public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
@@ -1690,7 +1689,6 @@ namespace CalamityMod.CalPlayer
             stressPills = false;
             laudanum = false;
             fleshTotem = false;
-            fleshTotemCooldown = false;
             bloodPact = false;
             bloodflareCore = false;
             coreOfTheBloodGod = false;
@@ -2232,7 +2230,6 @@ namespace CalamityMod.CalPlayer
             theBeeCooldown = 0;
             killSpikyBalls = false;
             rogueCrownCooldown = 0;
-            fleshTotemCooldown = false;
             sandCloakCooldown = false;
 			icicleCooldown = 0;
 			statisTimer = 0;
@@ -5442,9 +5439,9 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction += 0.5;
             }
 
-            if (fleshTotem && !fleshTotemCooldown)
+            if (fleshTotem && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(FleshTotemCooldown)))
             {
-                player.AddBuff(ModContent.BuffType<FleshTotemCooldown>(), 1200, false); //20 seconds
+                Cooldowns.Add(new FleshTotemCooldown(1200, player, coreOfTheBloodGod ? "bloodgod" : "default")); //20 seconds
                 contactDamageReduction += 0.5;
             }
 
