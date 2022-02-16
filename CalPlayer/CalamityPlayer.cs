@@ -774,7 +774,6 @@ namespace CalamityMod.CalPlayer
         public bool hasSilvaEffect = false;
         public static int silvaReviveDuration = 480;
         public int silvaCountdown = silvaReviveDuration;
-        public int silvaReviveCooldown = 0;
         public bool auricSet = false;
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
