@@ -87,6 +87,12 @@ namespace CalamityMod
 		[Tooltip("Displays all the important cooldowns on your UI under your buffs and debuffs. Set this to 1 to have it display in a more compact way, and to 0 to entirely disable the UI")]
 		public float CooldownDisplay { get; set; }
 
+		[Label("$Mods.CalamityMod.VanillaCooldownDisplay")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Adds custom cooldown displays for Chaos State and Potion Sickness.\nThis doesn't remove them from your buff list, but can help with visibility nontheless")]
+		public bool VanillaCooldownDisplay { get; set; }
+
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("$Mods.CalamityMod.MeterLock")]
 		[DefaultValue(true)]
@@ -332,6 +338,7 @@ namespace CalamityMod
 				new [] { "BossHealthBarExtra", instance.ItemType("EncryptedSchematicPlanetoid").ToString(), "Boss Health Bar Extra Info" },
 				new [] { "DebuffDisplay", ItemID.FlaskofIchor.ToString(), "Boss and Miniboss Debuff Display" },
 				new [] { "CooldownDisplay", instance.ItemType("NebulousCore").ToString(), "Cooldown Display" },
+				new [] { "VanillaCooldownDisplay", ItemID.HealingPotion.ToString(), "Vanilla Cooldowns Display" },
 				new [] { "MeterLock", ItemID.GemLockTopaz.ToString(), "Lock Meter Positions" },
 
 				new [] { "StealthMeter", instance.ItemType("EclipseMirror").ToString(), "Stealth Meter" },

@@ -4531,9 +4531,10 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
-            if (permafrostsConcoction && player.FindBuffIndex(ModContent.BuffType<ConcoctionCooldown>()) == -1)
+            if (permafrostsConcoction && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PermafrostConcoctionCooldown)))
             {
-                player.AddBuff(ModContent.BuffType<ConcoctionCooldown>(), CalamityUtils.SecondsToFrames(180f));
+                Cooldowns.Add(new PermafrostConcoctionCooldown(CalamityUtils.SecondsToFrames(180f), player));
+
                 player.AddBuff(ModContent.BuffType<Encased>(), CalamityUtils.SecondsToFrames(3f));
 
                 player.statLife = player.statLifeMax2 * 3 / 10;
