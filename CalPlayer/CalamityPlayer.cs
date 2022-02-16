@@ -626,7 +626,6 @@ namespace CalamityMod.CalPlayer
         public bool bloodyGlove = false;
         public bool filthyGlove = false;
         public bool sandCloak = false;
-        public bool sandCloakCooldown = false;
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
         public bool hasJetpack = false;
@@ -1861,7 +1860,6 @@ namespace CalamityMod.CalPlayer
             bloodyGlove = false;
             filthyGlove = false;
             sandCloak = false;
-            sandCloakCooldown = false;
             spectralVeil = false;
             hasJetpack = false;
             plaguedFuelPack = false;
@@ -2228,7 +2226,6 @@ namespace CalamityMod.CalPlayer
             theBeeCooldown = 0;
             killSpikyBalls = false;
             rogueCrownCooldown = 0;
-            sandCloakCooldown = false;
 			icicleCooldown = 0;
 			statisTimer = 0;
 			hallowedRuneCooldown = 0;
@@ -2892,9 +2889,9 @@ namespace CalamityMod.CalPlayer
 				}
             }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-                wearingRogueArmor && rogueStealthMax > 0 && !sandCloakCooldown)
+                wearingRogueArmor && rogueStealthMax > 0 && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(SandCloakCooldown)))
             {
-                player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 1800, false); //30 seconds
+                Cooldowns.Add(new SandCloakCooldown(CalamityUtils.SecondsToFrames(30f), player));
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI);
                 Main.PlaySound(SoundID.Item, player.position, 45);

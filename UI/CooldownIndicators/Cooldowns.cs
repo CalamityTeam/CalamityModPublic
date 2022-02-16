@@ -147,6 +147,7 @@ namespace CalamityMod.UI.CooldownIndicators
         {
         }
     }
+
     public class GodslayerDashCooldown : CooldownIndicator
     {
         public override string SyncID => "GodslayerDash";
@@ -159,6 +160,22 @@ namespace CalamityMod.UI.CooldownIndicators
 
 
         public GodslayerDashCooldown(int duration, Player player) : base(duration, player)
+        {
+        }
+    }
+
+    public class SandCloakCooldown : CooldownIndicator
+    {
+        public override string SyncID => "SandCloak";
+        public override bool DisplayMe => true;
+        public override string Name => "Sand Cloak Cooldown";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/SandCloak";
+        public override Color OutlineColor => new Color(209, 176, 114);
+        public override Color CooldownColorStart => new Color(100, 64, 44);
+        public override Color CooldownColorEnd => new Color(132, 95, 54);
+
+
+        public SandCloakCooldown(int duration, Player player) : base(duration, player)
         {
         }
     }
