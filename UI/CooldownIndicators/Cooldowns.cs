@@ -98,4 +98,42 @@ namespace CalamityMod.UI.CooldownIndicators
         {
         }
     }
+
+    public class DivingBrokenPlatesCooldown : CooldownIndicator
+    {
+        public override string SyncID => "AbyssalDivingBrokenPlates";
+        public override bool DisplayMe => true;
+        public override string Name => "Abyssal Diving Suit Broken Plates";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/BrokenPlates";
+        public override Color OutlineColor => new Color(194, 173, 146);
+        public override Color CooldownColorStart => Color.Lerp(new Color(91, 121, 150), new Color(30, 50, 77), Completion);
+        public override Color CooldownColorEnd => Color.Lerp(new Color(91, 121, 150), new Color(30, 50, 77), Completion);
+
+
+        public DivingBrokenPlatesCooldown(int duration, Player player) : base(duration, player)
+        {
+        }
+
+        public override void OnCooldownEnd()
+        {
+            AfflictedPlayer.Calamity().abyssalDivingSuitPlateHits = 0;
+        }
+    }
+
+    public class DivingPlatesBreaking : CooldownIndicator
+    {
+        public override bool DisplayMe => true;
+        public override string Name => "Abyssal Diving Suit Plates Durability";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/BreakingPlates";
+        public override string TextureOutline => "CalamityMod/UI/CooldownIndicators/BrokenPlatesOutline";
+        public override string TextureOverlay => "CalamityMod/UI/CooldownIndicators/BrokenPlatesOverlay";
+        public override Color OutlineColor => TimeLeft == 0 ? new Color(147, 218, 183) : TimeLeft == 1 ? new Color(233, 190, 134) : new Color(220, 111, 94);
+        public override Color CooldownColorStart => Color.Lerp(new Color(160, 174, 174), new Color(192, 11, 107), Completion);
+        public override Color CooldownColorEnd => Color.Lerp(new Color(160, 174, 174), new Color(192, 11, 107), Completion);
+        public override bool CanTickDown(Player player) => false;
+
+        public DivingPlatesBreaking(int duration, Player player) : base(duration, player)
+        {
+        }
+    }
 }

@@ -175,5 +175,10 @@ namespace CalamityMod.UI.CooldownIndicators
                 player.Calamity().SyncCooldown(false, SyncID);
             }
         }
+
+        /// <summary>
+        /// What happens when the cooldown ends. Isn't called if the cooldown is removed by the player dying
+        /// </summary>
+        public virtual void OnCooldownEnd() { }
     }
 }

@@ -956,6 +956,8 @@ namespace CalamityMod.CalPlayer
 				if (cd.TimeLeft < 0)
 				{
 					Main.PlaySound(cd.EndSound());
+					cd.OnCooldownEnd();
+
 					if (cd.SyncID != "" && Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
                     {
 						player.Calamity().SyncCooldown(false, cd.SyncID);

@@ -507,7 +507,6 @@ namespace CalamityMod.CalPlayer
         public bool nCore = false;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
-        public bool abyssalDivingSuitCooldown = false;
         public int abyssalDivingSuitPlateHits = 0;
         public bool sirenWaterBuff = false;
         public bool sirenIce = false;
@@ -1568,7 +1567,6 @@ namespace CalamityMod.CalPlayer
             miniOldDuke = false;
 
             abyssalDivingSuitPlates = false;
-            abyssalDivingSuitCooldown = false;
 
             sirenWaterBuff = false;
             sirenIce = false;
@@ -2282,7 +2280,6 @@ namespace CalamityMod.CalPlayer
             scarfCooldown = false;
             eScarfCooldown = false;
             godSlayerCooldown = false;
-            abyssalDivingSuitCooldown = false;
             abyssalDivingSuitPlateHits = 0;
             sulphurPoison = false;
             nightwither = false;
@@ -3898,25 +3895,25 @@ namespace CalamityMod.CalPlayer
             if (abyssalDivingSuit)
             {
                 player.AddBuff(ModContent.BuffType<AbyssalDivingSuitBuff>(), 60, true);
-                if (player.whoAmI == Main.myPlayer)
+                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingBrokenPlatesCooldown)))
                 {
-                    if (abyssalDivingSuitCooldown)
+                    player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlates>(), 2);
+                }
+
+                if (player.whoAmI == Main.myPlayer && player.active && abyssalDivingSuitPlateHits < 3)
+                {
+                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking)))
                     {
-                        for (int l = 0; l < Player.MaxBuffs; l++)
-                        {
-                            int hasBuff = player.buffType[l];
-                            if (player.buffTime[l] < 30 && hasBuff == ModContent.BuffType<AbyssalDivingSuitPlatesBroken>())
-                            {
-                                abyssalDivingSuitPlateHits = 0;
-                                player.DelBuff(l);
-                                l = -1;
-                            }
-                        }
+                        CooldownIndicator durability = new DivingPlatesBreaking(3, player);
+                        durability.TimeLeft = abyssalDivingSuitPlateHits;
+                        Cooldowns.Add(durability);
                     }
                     else
                     {
-                        player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlates>(), 2);
+                        CooldownIndicator durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
+                        durability.TimeLeft = abyssalDivingSuitPlateHits;
                     }
+
                 }
             }
             if (sirenBoobs)
@@ -7026,10 +7023,14 @@ namespace CalamityMod.CalPlayer
                     if (abyssalDivingSuitPlateHits < 3)
                         abyssalDivingSuitPlateHits++;
 
+                    CooldownIndicator durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
+                    durability.TimeLeft = abyssalDivingSuitPlateHits;
+
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
                         Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 14);
-                        player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlatesBroken>(), 10830);
+                        Cooldowns.Remove(durability);
+                        Cooldowns.Add(new DivingBrokenPlatesCooldown(10830, player));
                         for (int d = 0; d < 20; d++)
                         {
                             int dust = Dust.NewDust(player.position, player.width, player.height, 31, 0f, 0f, 100, default, 2f);
