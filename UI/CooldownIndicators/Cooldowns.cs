@@ -7,6 +7,8 @@ using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using static Terraria.ModLoader.ModContent;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.UI.CooldownIndicators
 {
@@ -45,7 +47,7 @@ namespace CalamityMod.UI.CooldownIndicators
         public override string SyncID => "ConcoctionCooldown";
         public override bool DisplayMe => true;
         public override string Name => "Permafrost's Concoction Cooldown";
-        public override string Texture => "CalamityMod/UI/CooldownIndicators/PermafrostConcoctionCooldown";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/PermafrostConcoction";
         public override Color OutlineColor => new Color(0, 218, 255);
         public override Color CooldownColorStart => new Color(144, 184, 205);
         public override Color CooldownColorEnd => new Color(232, 246, 254);
@@ -131,6 +133,22 @@ namespace CalamityMod.UI.CooldownIndicators
         }
     }
 
+    public class LionsHeartShieldCooldown : CooldownIndicator
+    {
+        public override string SyncID => "LionsHeartShield";
+        public override bool DisplayMe => true;
+        public override string Name => "Energy Shell Cooldown";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/LionHeartShield";
+        public override Color OutlineColor => new Color(205, 182, 137);
+        public override Color CooldownColorStart => Color.Lerp(new Color(177, 147, 89), new Color(105, 103, 126), Completion);
+        public override Color CooldownColorEnd => Color.Lerp(new Color(177, 147, 89), new Color(105, 103, 126), Completion);
+
+
+        public LionsHeartShieldCooldown(int duration, Player player) : base(duration, player)
+        {
+        }
+    }
+
     public class DivingBrokenPlatesCooldown : CooldownIndicator
     {
         public override string SyncID => "AbyssalDivingBrokenPlates";
@@ -162,14 +180,29 @@ namespace CalamityMod.UI.CooldownIndicators
         public override Color OutlineColor => TimeLeft == 0 ? new Color(147, 218, 183) : TimeLeft == 1 ? new Color(233, 190, 134) : new Color(220, 111, 94);
         public override Color CooldownColorStart => Color.Lerp(new Color(160, 174, 174), new Color(192, 11, 107), Completion);
         public override Color CooldownColorEnd => Color.Lerp(new Color(160, 174, 174), new Color(192, 11, 107), Completion);
-        public override bool CanTickDown(Player player) => !AfflictedPlayer.Calamity().abyssalDivingSuit;
+        public override bool CanTickDown => !AfflictedPlayer.Calamity().abyssalDivingSuit;
 
         public DivingPlatesBreaking(int duration, Player player) : base(duration, player)
         {
         }
+
+        public override bool UseCustomDrawCompact => true;
+
+        public override void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            Texture2D sprite = GetTexture(Texture);
+            Texture2D outline = GetTexture(TextureOutline);
+
+            //Draw the outline
+            spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+            //Draw the icon
+            spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            DrawBorderStringEightWay(spriteBatch, Main.fontMouseText, (3 - TimeLeft).ToString(), position + new Vector2(-3, -3) * scale, CooldownColorStart, Color.Black, scale);
+        }
     }
 
-    //Currently always displays and switches between an "active" mode and a recharge mode. If we want, we can make it be hidden when active and start the circle at the start of the recharge
+
     public class OmegaBlueCooldown : CooldownIndicator
     {
         public override string SyncID => "OmegaBlue";
@@ -179,9 +212,8 @@ namespace CalamityMod.UI.CooldownIndicators
         public override string TextureOutline => "CalamityMod/UI/CooldownIndicators/AbyssalMadnessOutline";
         public override string TextureOverlay => "CalamityMod/UI/CooldownIndicators/AbyssalMadnessOverlay";
         public override Color OutlineColor => TimeLeft > 1500 ? new Color(231, 164, 1) : new Color(72, 135, 205);
-        public override Color CooldownColorStart => TimeLeft > 1500 ?  Color.Lerp(new Color(98, 110, 179), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(98, 110, 179);
-        public override Color CooldownColorEnd => TimeLeft > 1500 ?  Color.Lerp(new Color(179, 132, 98), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(179, 132, 98);
-
+        public override Color CooldownColorStart => TimeLeft > 1500 ? Color.Lerp(new Color(98, 110, 179), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(98, 110, 179);
+        public override Color CooldownColorEnd => TimeLeft > 1500 ? Color.Lerp(new Color(179, 132, 98), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(179, 132, 98);
         public override LegacySoundStyle EndSound => AfflictedPlayer.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge");
 
         public OmegaBlueCooldown(int duration, Player player) : base(duration, player)
@@ -198,6 +230,39 @@ namespace CalamityMod.UI.CooldownIndicators
                 Main.dust[d].fadeIn = 1f;
                 Main.dust[d].velocity *= 6.6f;
             }
+        }
+
+        //Charge down at first, and then charge back up
+        private float AdjustedCompletion => TimeLeft > 1500 ? (TimeLeft - 1500) / 300f : 1 - TimeLeft / 1500f;
+
+        public override void ApplyBarShaders(float opacity)
+        {
+            //Use the adjusted completion
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(AdjustedCompletion);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownColorStart);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownColorEnd);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+        }
+
+        public override bool UseCustomDrawCompact => true;
+
+        public override void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            Texture2D sprite = GetTexture(Texture);
+            Texture2D outline = GetTexture(TextureOutline);
+            Texture2D overlay = GetTexture(TextureOverlay);
+
+            //Draw the outline
+            spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the icon
+            spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the small overlay
+            int lostHeight = (int)Math.Ceiling(overlay.Height * AdjustedCompletion);
+            Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
+            spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
     }
 }

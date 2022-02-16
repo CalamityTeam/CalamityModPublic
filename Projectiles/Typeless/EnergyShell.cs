@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.UI.CooldownIndicators;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Player player = Main.player[projectile.owner];
             Main.PlaySound(SoundID.Item94, (int)projectile.position.X, (int)projectile.position.Y);
-            player.AddBuff(ModContent.BuffType<EnergyShellCooldown>(), CalamityUtils.SecondsToFrames(45f));
+            player.Calamity().Cooldowns.Add(new LionsHeartShieldCooldown(CalamityUtils.SecondsToFrames(45), player));
 		}
 
         public override bool CanDamage() => false;

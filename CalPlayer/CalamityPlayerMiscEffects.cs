@@ -950,7 +950,7 @@ namespace CalamityMod.CalPlayer
 
 			foreach (CooldownIndicator cd in Cooldowns)
             {
-				if (cd.CanTickDown(player))
+				if (cd.CanTickDown)
 					cd.TimeLeft--;
 
 				if (cd.TimeLeft < 0)

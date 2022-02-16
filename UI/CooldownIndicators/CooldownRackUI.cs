@@ -61,13 +61,14 @@ namespace CalamityMod.UI.CooldownIndicators
 					iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTime % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
 				}
 
-				if (cd.UseCustomDraw)
+				if ((cd.UseCustomDraw && !CompactIcons) || (cd.UseCustomDrawCompact && CompactIcons))
 				{
 					if (CompactIcons)
 						cd.CustomDrawCompact(spriteBatch, displayPosition, iconOpacity, uiScale);
 					else
 						cd.CustomDraw(spriteBatch, displayPosition, iconOpacity, uiScale);
 				}
+
 				else
 					DrawIndividualIcon(cd, spriteBatch, displayPosition, iconOpacity, uiScale);
 

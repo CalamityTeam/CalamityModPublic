@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                if (!player.Calamity().energyShellCooldown && player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] <= 0)
+                if (!player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(LionsHeartShieldCooldown)) && player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] <= 0)
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EnergyShell>(), 0, 0f, player.whoAmI);
             }
             return false;

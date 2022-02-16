@@ -85,7 +85,7 @@ namespace CalamityMod.UI.CooldownIndicators
         public float Completion => Duration != 0 ? TimeLeft / (float)Duration : 0;
 
         /// <summary>
-        /// Set this to true to disable default drawing, thus calling CustomDraw()/CustomDrawCompact() instead.
+        /// Set this to true to disable default drawing, thus calling CustomDraw() instead. This only applies to the expanded mode of display
         /// </summary>
         public virtual bool UseCustomDraw => false;
         /// <summary>
@@ -94,7 +94,11 @@ namespace CalamityMod.UI.CooldownIndicators
         public virtual void CustomDraw(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale) { }
 
         /// <summary>
-        /// Use this method if you want to handle the drawing yourself. Only called if UseCustomDraw is set to true.
+        /// Set this to true to disable default drawing, thus calling CustomDraw()/CustomDrawCompact() instead. This only applies to the compact mode of display
+        /// </summary>
+        public virtual bool UseCustomDrawCompact => false;
+        /// <summary>
+        /// Use this method if you want to handle the drawing yourself. Only called if UseCustomDrawCompact is set to true.
         /// </summary>
         public virtual void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale) { }
 
@@ -151,7 +155,7 @@ namespace CalamityMod.UI.CooldownIndicators
         /// Determines if the cooldown can tick down. Useful for cooldowns that don't tick down when bosses are alive for example
         /// </summary>
         /// <returns>Wether or not the cooldown should tick down</returns>
-        public virtual bool CanTickDown(Player player) => true;
+        public virtual bool CanTickDown => true;
 
         /// <summary>
         /// The sound played when the cooldown time is over
