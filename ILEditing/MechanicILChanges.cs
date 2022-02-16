@@ -104,12 +104,17 @@ namespace CalamityMod.ILEditing
             // Load the player itself onto the stack so that it becomes an argument for the following delegate.
             cursor.Emit(OpCodes.Ldarg_0);
 
-            // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
-            // If your dodges are universally disabled by Armageddon, then they simply "never come off cooldown" and always have 1 frame left.
+            // Emit a delegate which places the player's dodge availability onto the stack.
+            // This is typically the Calamity dodge cooldown -- zero lets you dodge, anything else doesn't.
             cursor.EmitDelegate<Func<Player, int>>((Player p) =>
             {
                 CalamityPlayer mp = p.Calamity();
-                return mp.disableAllDodges ? 1 : p.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == (typeof(GlobalDodgeCooldown))) ? p.Calamity().Cooldowns.Find(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)).TimeLeft : 0;
+                // If your dodges are universally disabled, then they simply "never come off cooldown" and always have 1 frame left.
+                if (mp.disableAllDodges)
+                    return 1;
+
+                bool dodgeCooldownActive = mp.Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown));
+                return dodgeCooldownActive ? 1 : 0;
             });
 
             // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.

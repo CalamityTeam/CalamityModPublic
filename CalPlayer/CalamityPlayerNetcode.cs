@@ -340,9 +340,11 @@ namespace CalamityMod.CalPlayer
             int timer = reader.ReadInt32();
             Type cooldownType = CooldownIndicator.IDtoType[syncID];
 
+            // If this cooldown is present, edit the existing cooldown's timer.
             if (Cooldowns.Exists(cooldown => cooldown.GetType() == cooldownType))
                 Cooldowns.Find(cooldown => cooldown.GetType() == cooldownType).TimeLeft = timer;
 
+            // Otherwise create a new cooldown with this timer.
             else if (timer > 0)
                 Cooldowns.Add((CooldownIndicator)Activator.CreateInstance(cooldownType, timer, player));
 
