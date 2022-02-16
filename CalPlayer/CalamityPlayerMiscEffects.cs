@@ -955,7 +955,7 @@ namespace CalamityMod.CalPlayer
 
 				if (cd.TimeLeft < 0)
 				{
-					Main.PlaySound(cd.EndSound());
+					Main.PlaySound(cd.EndSound);
 					cd.OnCooldownEnd();
 
 					if (cd.SyncID != "" && Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
@@ -1049,8 +1049,6 @@ namespace CalamityMod.CalPlayer
 				dogTextCooldown--;
 			if (titanCooldown > 0)
 				titanCooldown--;
-			if (omegaBlueCooldown > 0)
-				omegaBlueCooldown--;
 			if (plagueReaperCooldown > 0)
 				plagueReaperCooldown--;
 			if (brimflameFrenzyTimer > 0)
@@ -1633,11 +1631,10 @@ namespace CalamityMod.CalPlayer
 				player.ClearBuff(ModContent.BuffType<TarragonImmunity>());
 				player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 600, false);
 			}
-			if (!omegaBlueSet && omegaBlueCooldown > 1500)
+			if (!omegaBlueSet && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
 			{
-				omegaBlueCooldown = 1500;
+				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown)).TimeLeft = 1500;
 				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
-				player.AddBuff(ModContent.BuffType<AbyssalMadnessCooldown>(), 1500, false);
 			}
 			if (!plagueReaper && plagueReaperCooldown > 1500)
 			{

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.UI.CooldownIndicators;
 
 namespace CalamityMod.Items.Armor
 {
@@ -66,24 +67,7 @@ namespace CalamityMod.Items.Armor
 			//raise rev caps
 			player.Calamity().omegaBlueSet = true;
 
-			if (player.Calamity().omegaBlueCooldown == 1) //dust when ready to use again
-			{
-				for (int i = 0; i < 66; i++)
-				{
-					int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
-					Main.dust[d].noGravity = true;
-					Main.dust[d].noLight = true;
-					Main.dust[d].fadeIn = 1f;
-					Main.dust[d].velocity *= 6.6f;
-				}
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge"), player.Center);
-			}
-            if (player.Calamity().omegaBlueCooldown == 1500)
-            {
-				player.AddBuff(ModContent.BuffType<AbyssalMadnessCooldown>(), 1500, false);
-			}
-
-            if (player.Calamity().omegaBlueCooldown > 1500)
+            if (player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
             {
                 int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 1.6f);
                 Main.dust[d].noGravity = true;

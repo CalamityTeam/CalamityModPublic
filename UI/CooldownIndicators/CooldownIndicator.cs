@@ -156,7 +156,7 @@ namespace CalamityMod.UI.CooldownIndicators
         /// <summary>
         /// The sound played when the cooldown time is over
         /// </summary>
-        public virtual LegacySoundStyle EndSound() => null;
+        public virtual LegacySoundStyle EndSound => null;
 
         /// <summary>
         /// Wether or not the cooldown should get reset when the player dies

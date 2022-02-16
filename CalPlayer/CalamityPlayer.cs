@@ -784,7 +784,6 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
         public bool omegaBlueHentai = false;
-        public int omegaBlueCooldown = 0;
         public bool urchin = false;
         public bool valkyrie = false;
         public bool slimeGod = false;
@@ -2450,7 +2449,6 @@ namespace CalamityMod.CalPlayer
             AdamantiteSetDecayDelay = 0;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
-            omegaBlueCooldown = 0;
             molluskSet = false;
             fearmongerSet = false;
             daedalusReflect = false;
@@ -3069,13 +3067,15 @@ namespace CalamityMod.CalPlayer
 						}
                     }
                 }
-                if (omegaBlueSet && omegaBlueCooldown <= 0)
+                if (omegaBlueSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown)))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
                         player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
-                    omegaBlueCooldown = 1800;
+
+                    Cooldowns.Add(new OmegaBlueCooldown(1800, player));
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueAbility"), player.Center);
                     for (int i = 0; i < 66; i++)
                     {
@@ -3916,6 +3916,7 @@ namespace CalamityMod.CalPlayer
 
                 }
             }
+
             if (sirenBoobs)
             {
                 player.AddBuff(ModContent.BuffType<SirenBobs>(), 60, true);
@@ -6701,7 +6702,7 @@ namespace CalamityMod.CalPlayer
                 player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
                 player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
             }
-            else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && omegaBlueCooldown > 1500)
+            else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
             {
                 player.head = mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
             }
