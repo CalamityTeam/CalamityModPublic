@@ -492,8 +492,6 @@ namespace CalamityMod.CalPlayer
 		public float warBannerBonus = 0f;
 		private const float maxWarBannerBonus = 0.2f;
 		private const float maxWarBannerDistance = 480f;
-		public bool scarfCooldown = false;
-        public bool eScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
@@ -858,7 +856,6 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
-        public bool energyShellCooldown = false;
         public bool prismaticCooldown = false;
         public bool waterLeechBleeding = false;
 		public bool divineBlessCooldown = false;
@@ -1583,8 +1580,6 @@ namespace CalamityMod.CalPlayer
 
             dodgeScarf = false;
             evasionScarf = false;
-            scarfCooldown = false;
-            eScarfCooldown = false;
 
             elysianAegis = false;
 
@@ -1912,7 +1907,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            energyShellCooldown = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
@@ -2276,8 +2270,6 @@ namespace CalamityMod.CalPlayer
             bOut = false;
             clamity = false;
             snowmanNoseless = false;
-            scarfCooldown = false;
-            eScarfCooldown = false;
             godSlayerCooldown = false;
             abyssalDivingSuitPlateHits = 0;
             sulphurPoison = false;
@@ -2288,7 +2280,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            energyShellCooldown = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
@@ -2870,9 +2861,9 @@ namespace CalamityMod.CalPlayer
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
                                 duration = (int)(chaosStateDurationBoss * 1.5);
-                            if (eScarfCooldown)
+                            if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(EvasionScarfCooldown)))
                                 duration = (int)(duration * 1.5);
-                            else if (scarfCooldown)
+                            else if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown)))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
                         }
@@ -2945,9 +2936,9 @@ namespace CalamityMod.CalPlayer
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
                                 duration = chaosStateDurationBoss;
-                            if (eScarfCooldown)
+                            if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(EvasionScarfCooldown)))
                                 duration = (int)(duration * 1.5);
-                            else if (scarfCooldown)
+                            else if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown)))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
 
@@ -4197,7 +4188,7 @@ namespace CalamityMod.CalPlayer
 				return true;
 			}
             // Neither scarf can be used if either is on cooldown
-            if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
+            if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown) || cooldown.GetType() == typeof(EvasionScarfCooldown)))
             {
                 CounterScarfDodge();
                 return true;
@@ -4272,9 +4263,9 @@ namespace CalamityMod.CalPlayer
         private void CounterScarfDodge()
         {
             if (evasionScarf)
-                player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
+                Cooldowns.Add(new EvasionScarfCooldown(player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f), player));
             else
-                player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
+                Cooldowns.Add(new CounterScarfCooldown(player.chaosState ? 1800 : 900, player));
 
             player.GiveIFrames(player.longInvince ? 100 : 60, true);
 

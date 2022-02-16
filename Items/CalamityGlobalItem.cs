@@ -20,6 +20,7 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -885,9 +886,9 @@ namespace CalamityMod.Items
                         int duration = CalamityPlayer.chaosStateDuration;
                         if (CalamityPlayer.areThereAnyDamnBosses || CalamityPlayer.areThereAnyDamnEvents)
                             duration = CalamityPlayer.chaosStateDurationBoss;
-                        if (modPlayer.eScarfCooldown)
+                        if (modPlayer.Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(EvasionScarfCooldown)))
                             duration = (int)(duration * 1.5);
-                        else if (modPlayer.scarfCooldown)
+                        else if (modPlayer.Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown)))
                             duration *= 2;
                         player.AddBuff(BuffID.ChaosState, duration, true);
                     }
