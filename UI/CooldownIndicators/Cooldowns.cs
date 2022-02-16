@@ -147,6 +147,21 @@ namespace CalamityMod.UI.CooldownIndicators
         {
         }
     }
+    public class GodslayerDashCooldown : CooldownIndicator
+    {
+        public override string SyncID => "GodslayerDash";
+        public override bool DisplayMe => true;
+        public override string Name => "Godslayer Dash Cooldown";
+        public override string Texture => "CalamityMod/UI/CooldownIndicators/GodslayerDash";
+        public override Color OutlineColor => Color.Lerp(new Color(173, 66, 203), new Color(252, 109, 202), Completion);
+        public override Color CooldownColorStart => new Color(252, 109, 202);
+        public override Color CooldownColorEnd => new Color(119, 254, 254);
+
+
+        public GodslayerDashCooldown(int duration, Player player) : base(duration, player)
+        {
+        }
+    }
 
     //We may want an "alt skin" for when its trigged by cotbg
     public class FleshTotemCooldown : CooldownIndicator

@@ -713,7 +713,6 @@ namespace CalamityMod.CalPlayer
         public bool godSlayerDamage = false;
         public bool godSlayerRanged = false;
         public bool godSlayerThrowing = false;
-        public bool godSlayerCooldown = false;
 		public bool godSlayerDashHotKeyPressed = false;
         public bool ataxiaBolt = false;
         public bool ataxiaFire = false;
@@ -1588,7 +1587,6 @@ namespace CalamityMod.CalPlayer
             godSlayerDamage = false;
             godSlayerRanged = false;
             godSlayerThrowing = false;
-            godSlayerCooldown = false;
 
             silvaSet = false;
             silvaMage = false;
@@ -2267,7 +2265,6 @@ namespace CalamityMod.CalPlayer
             bOut = false;
             clamity = false;
             snowmanNoseless = false;
-            godSlayerCooldown = false;
             abyssalDivingSuitPlateHits = 0;
             sulphurPoison = false;
             nightwither = false;
@@ -3177,7 +3174,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !godSlayerCooldown && player.dashDelay == 0)
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GodslayerDashCooldown)) && player.dashDelay == 0)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -8135,7 +8132,7 @@ namespace CalamityMod.CalPlayer
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
 					{
-						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(35f));
+                        Cooldowns.Add(new GodslayerDashCooldown(CalamityUtils.SecondsToFrames(35f), player));
 						godSlayerDashHotKeyPressed = false;
 					}
 
