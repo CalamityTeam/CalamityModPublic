@@ -4052,7 +4052,25 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region PostUpdateBuffs
-        public override void PostUpdateBuffs() => ForceVariousEffects();
+        public override void PostUpdateBuffs()
+        {
+            if (player.whoAmI == Main.myPlayer && player.potionDelay > 0)
+            {
+                //Add a cooldown display for potion sickness
+                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PotionSicknessDisplay)))
+                {
+                     Cooldowns.Add(new PotionSicknessDisplay(player.potionDelay, player));
+                }
+
+                else
+                {
+                    CooldownIndicator display = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PotionSicknessDisplay));
+                    display.TimeLeft = player.potionDelay;
+                }
+            }
+
+            ForceVariousEffects();
+        }
         #endregion
 
         #region PostUpdateEquips
