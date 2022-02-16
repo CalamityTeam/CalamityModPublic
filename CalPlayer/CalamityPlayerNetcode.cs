@@ -153,7 +153,8 @@ namespace CalamityMod.CalPlayer
 
         internal void SyncCooldown(bool server, string cooldownID = "")
         {
-            //If no specific sync id is provided, sync all of the player's cooldowns. Ideally this doesn't happen though. Ideally.
+            //If no specific sync id is provided, sync all of the player's cooldowns. Ideally this doesn't happen though. Ideally. Do we even need it frankly? Like i guess we could call it on death but idk if it needs to be synced every frames since its 
+            //Already being synced when it gets created and then when it expires
             if (cooldownID == "")
             {
                 foreach (string key in CooldownIndicator.IDtoType.Keys)

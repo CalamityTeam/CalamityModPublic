@@ -4197,7 +4197,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Neither mirror can be used if either is on cooldown
-            if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)) && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+            if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown)))
             {
                 if (eclipseMirror)
                 {
@@ -4294,7 +4294,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
             {
-                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player));
+                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player, "abyssmirror"));
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
@@ -4324,7 +4324,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
             {
-                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player));
+                Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player, "eclipsemirror"));
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
