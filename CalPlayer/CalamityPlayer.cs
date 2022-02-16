@@ -614,11 +614,8 @@ namespace CalamityMod.CalPlayer
         public bool howlsHeartVanity = false;
         public bool darkGodSheath = false;
         public bool inkBomb = false;
-        public bool inkBombCooldown = false;
         public bool abyssalMirror = false;
-        public bool abyssalMirrorCooldown = false;
         public bool eclipseMirror = false;
-        public bool eclipseMirrorCooldown = false;
         public bool featherCrown = false;
         public bool featherCrownDraw = false;
         public bool moonCrown = false;
@@ -1860,12 +1857,9 @@ namespace CalamityMod.CalPlayer
             weakPetrification = false;
 
             inkBomb = false;
-            inkBombCooldown = false;
             darkGodSheath = false;
             abyssalMirror = false;
-            abyssalMirrorCooldown = false;
             eclipseMirror = false;
-            eclipseMirrorCooldown = false;
             featherCrown = false;
 			featherCrownDraw = false;
             moonCrown = false;
@@ -2290,9 +2284,6 @@ namespace CalamityMod.CalPlayer
             godSlayerCooldown = false;
             abyssalDivingSuitCooldown = false;
             abyssalDivingSuitPlateHits = 0;
-            inkBombCooldown = false;
-            abyssalMirrorCooldown = false;
-            eclipseMirrorCooldown = false;
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
@@ -4292,7 +4283,7 @@ namespace CalamityMod.CalPlayer
 
         public void AbyssMirrorEvade()
         {
-            if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
+            if (player.whoAmI == Main.myPlayer && abyssalMirror && !eclipseMirror)
             {
                 Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player, "abyssmirror"));
 
@@ -4322,7 +4313,7 @@ namespace CalamityMod.CalPlayer
 
         public void EclipseMirrorEvade()
         {
-            if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
+            if (player.whoAmI == Main.myPlayer && eclipseMirror)
             {
                 Cooldowns.Add(new GlobalDodgeCooldown(MirrorDodgeCooldown, player, "eclipsemirror"));
 
@@ -7380,9 +7371,9 @@ namespace CalamityMod.CalPlayer
                 }
                 if (inkBomb && !abyssalMirror && !eclipseMirror)
                 {
-                    if (player.whoAmI == Main.myPlayer && !inkBombCooldown)
+                    if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(InkBombCooldown)))
                     {
-                        player.AddBuff(ModContent.BuffType<InkBombCooldown>(), 1200);
+                        Cooldowns.Add(new InkBombCooldown(1200, player));
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 5; i++)
                         {
