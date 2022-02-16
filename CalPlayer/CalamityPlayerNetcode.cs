@@ -163,7 +163,7 @@ namespace CalamityMod.CalPlayer
                     packet.Write(player.whoAmI);
                     packet.Write(key);
                     int timer = 0;
-                    if (Cooldowns.ContainsType(CooldownIndicator.IDtoType[key]))
+                    if (Cooldowns.Exists(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[key]))
                         timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[key]).TimeLeft;
                     packet.Write(timer);
                     player.SendPacket(packet, server);
@@ -177,7 +177,7 @@ namespace CalamityMod.CalPlayer
                 packet.Write(player.whoAmI);
                 packet.Write(cooldownID);
                 int timer = 0;
-                if (Cooldowns.ContainsType(CooldownIndicator.IDtoType[cooldownID]))
+                if (Cooldowns.Exists(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[cooldownID]))
                     timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[cooldownID]).TimeLeft;
                 packet.Write(timer);
                 player.SendPacket(packet, server);
@@ -339,7 +339,7 @@ namespace CalamityMod.CalPlayer
             int timer = reader.ReadInt32();
             Type cooldownType = CooldownIndicator.IDtoType[syncID];
 
-            if (Cooldowns.ContainsType(cooldownType))
+            if (Cooldowns.Exists(cooldown => cooldown.GetType() == cooldownType))
                 Cooldowns.Find(cooldown => cooldown.GetType() == cooldownType).TimeLeft = timer;
 
             else if (timer > 0)

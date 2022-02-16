@@ -23,6 +23,8 @@ namespace CalamityMod.UI.CooldownIndicators
             Type baseCooldownType = typeof(CooldownIndicator);
             CalamityMod calamity = ModContent.GetInstance<CalamityMod>();
 
+            IDtoType = new Dictionary<string, Type>();
+
             foreach (Type type in calamity.Code.GetTypes())
             {
                 if (type.IsSubclassOf(baseCooldownType) && !type.IsAbstract && type != baseCooldownType)

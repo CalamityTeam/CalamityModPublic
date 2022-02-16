@@ -511,7 +511,6 @@ namespace CalamityMod.CalPlayer
         public int abyssalDivingSuitPlateHits = 0;
         public bool sirenWaterBuff = false;
         public bool sirenIce = false;
-        public bool sirenIceCooldown = false;
         public bool aSpark = false;
         public bool aSparkRare = false;
         public bool aBulwarkRare = false;
@@ -1576,7 +1575,6 @@ namespace CalamityMod.CalPlayer
 
             sirenWaterBuff = false;
             sirenIce = false;
-            sirenIceCooldown = false;
 
             draedonsHeart = false;
 
@@ -2292,7 +2290,6 @@ namespace CalamityMod.CalPlayer
             godSlayerCooldown = false;
             abyssalDivingSuitCooldown = false;
             abyssalDivingSuitPlateHits = 0;
-            sirenIceCooldown = false;
             inkBombCooldown = false;
             abyssalMirrorCooldown = false;
             eclipseMirrorCooldown = false;
@@ -3937,7 +3934,7 @@ namespace CalamityMod.CalPlayer
             }
             if (sirenBoobs && NPC.downedBoss3)
             {
-                if (player.whoAmI == Main.myPlayer && !sirenIceCooldown)
+                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(IceShieldCooldown)))
                 {
                     player.AddBuff(ModContent.BuffType<IceShieldBuff>(), 2);
                 }
@@ -7067,7 +7064,8 @@ namespace CalamityMod.CalPlayer
                 if (sirenIce)
                 {
                     Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
-                    player.AddBuff(ModContent.BuffType<IceShieldBrokenBuff>(), 1800);
+                    Cooldowns.Add(new IceShieldCooldown(1800, player));
+
                     for (int d = 0; d < 10; d++)
                     {
                         int ice = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 2f);
