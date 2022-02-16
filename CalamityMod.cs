@@ -945,6 +945,16 @@ namespace CalamityMod
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            int buffDisplayIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Resource Bars");
+            if (buffDisplayIndex != -1)
+            {
+                layers.Insert(buffDisplayIndex, new LegacyGameInterfaceLayer("Cooldown Rack UI", delegate ()
+                {
+                    CooldownRackUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.UI));
+            }
+
             int mouseIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
             if (mouseIndex != -1)
             {
@@ -993,12 +1003,6 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()
                 {
                     ModeIndicatorUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.UI));
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Cooldown Rack UI", delegate ()
-                {
-                    CooldownRackUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.UI));
 
