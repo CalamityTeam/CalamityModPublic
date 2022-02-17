@@ -2856,6 +2856,8 @@ namespace CalamityMod.CalPlayer
                             else if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown)))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
+                            //Add a cooldown here so it can have the custom NR icon
+                            Cooldowns.Add(new ChaosStateDisplay(duration, player, "normalityrelocator"));
                         }
                     }
                 }
@@ -2931,6 +2933,8 @@ namespace CalamityMod.CalPlayer
                             else if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(CounterScarfCooldown)))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
+
+                            Cooldowns.Add(new ChaosStateDisplay(duration, player, "spectralveil"));
 
                             int numDust = 40;
                             Vector2 step = teleportOffset / numDust;
@@ -4036,18 +4040,27 @@ namespace CalamityMod.CalPlayer
         #region PostUpdateBuffs
         public override void PostUpdateBuffs()
         {
-            if (player.whoAmI == Main.myPlayer && player.potionDelay > 0)
+            if (player.whoAmI == Main.myPlayer && CalamityConfig.Instance.VanillaCooldownDisplay)
             {
                 //Add a cooldown display for potion sickness
-                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PotionSicknessDisplay)))
+                if (player.potionDelay > 0)
                 {
-                     Cooldowns.Add(new PotionSicknessDisplay(player.potionDelay, player));
+                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PotionSicknessDisplay)))
+                    {
+                        Cooldowns.Add(new PotionSicknessDisplay(player.potionDelay, player));
+                    }
                 }
 
-                else
+                if (player.chaosState)
                 {
-                    CooldownIndicator display = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PotionSicknessDisplay));
-                    display.TimeLeft = player.potionDelay;
+                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(ChaosStateDisplay)))
+                    {
+                        for (int l = 0; l < Player.MaxBuffs; l++)
+                        {
+                            if (player.buffType[l] == BuffID.ChaosState)
+                                Cooldowns.Add(new ChaosStateDisplay(player.buffTime[l], player));
+                        }
+                    }
                 }
             }
 
