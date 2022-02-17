@@ -26,8 +26,7 @@ namespace CalamityMod.UI.CooldownIndicators
 			if (Main.playerInventory || CalamityConfig.Instance.CooldownDisplay < 1)
 				return;
 
-			List<CooldownIndicator> cooldownsToDraw = CooldownIndicator.DeepCopy(Main.LocalPlayer.Calamity().Cooldowns);
-			cooldownsToDraw.RemoveAll(cooldown => !cooldown.DisplayMe);
+			List<CooldownIndicator> cooldownsToDraw = Main.LocalPlayer.Calamity().Cooldowns.FindAll(cooldown => cooldown.DisplayMe);
 
 			//DEbug
 			//cooldownsToDraw = new List<CooldownIndicator>();

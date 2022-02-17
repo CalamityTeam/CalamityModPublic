@@ -3484,13 +3484,14 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
+				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
+					angelicActivate = -1;
+
 				if (angelicActivate == 1)
 				{
 					int seconds = CalamityUtils.SecondsToFrames(60f);
 					Cooldowns.Add(new DivineBlessCooldown(seconds, player));
 				}
-				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
-					angelicActivate = -1;
 			}
 
 			if (theBee)
