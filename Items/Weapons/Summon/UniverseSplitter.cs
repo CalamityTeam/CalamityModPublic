@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -55,9 +56,9 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                if (!player.HasBuff(ModContent.BuffType<UniverseSplitterCooldown>()))
+                if (!player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(UniverseSplitterCooldown)))
                 {
-                    player.AddBuff(ModContent.BuffType<UniverseSplitterCooldown>(), 45 * 60);
+                    player.Calamity().Cooldowns.Add(new UniverseSplitterCooldown(45 * 60, player));
                     Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                     for (int i = 0; i < 36; i++)
                     {
