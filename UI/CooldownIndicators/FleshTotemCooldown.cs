@@ -35,7 +35,7 @@ namespace CalamityMod.UI.CooldownIndicators
             {
                 case "bloodgod":
                     skinTexture = "BloodGodTotem";
-                    outlineColor = new Color(255, 162, 205);
+                    outlineColor = new Color(255, 162, 205); 
                     cooldownColorStart = new Color(193, 205, 255);
                     cooldownColorEnd = new Color(255, 193, 219);
                     break;

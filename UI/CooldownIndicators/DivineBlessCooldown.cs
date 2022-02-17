@@ -10,6 +10,7 @@ using Terraria.Graphics.Shaders;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.UI.CooldownIndicators
 {
@@ -26,6 +27,12 @@ namespace CalamityMod.UI.CooldownIndicators
 
         public DivineBlessCooldown(int duration, Player player) : base(duration, player)
         {
+        }
+
+        public override void OnCooldownEnd()
+        {
+            if (AfflictedPlayer.whoAmI == Main.myPlayer)
+                Projectile.NewProjectile(AfflictedPlayer.Center, Vector2.Zero, ProjectileType<AllianceTriangle>(), 0, 0f, AfflictedPlayer.whoAmI);
         }
     }
 }

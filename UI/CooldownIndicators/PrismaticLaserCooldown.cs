@@ -17,13 +17,13 @@ namespace CalamityMod.UI.CooldownIndicators
     {
         public override string SyncID => "PrismaticLaser";
         public override bool DisplayMe => true;
-        public override string Name => "Prismatic Laser Attack Cooldown";
+        public override string Name => "Prismatic Laser Barrage Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/PrismaticLaser";
         public override Color OutlineColor => rainbowMode;
         public override Color CooldownColorStart => rainbowMode;
         public override Color CooldownColorEnd => rainbowMode;
 
-        internal Color rainbowMode => MulticolorLerp(Main.GlobalTime % 1, new Color[] { new Color(103, 244, 251), new Color(255, 167, 236), new Color(255, 225, 136);
+        internal Color rainbowMode => MulticolorLerp(Main.GlobalTime * 0.3f % 1, new Color[] { new Color(103, 244, 251), new Color(255, 167, 236), new Color(255, 225, 136) });
 
         public PrismaticLaserCooldown(int duration, Player player) : base(duration, player)
         {

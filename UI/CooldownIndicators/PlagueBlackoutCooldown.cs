@@ -16,7 +16,7 @@ namespace CalamityMod.UI.CooldownIndicators
     public class PlagueBlackoutCooldown : CooldownIndicator
     {
         public override string SyncID => "PlagueBlackout";
-        public override bool DisplayMe => Duration <= 1500;
+        public override bool DisplayMe => TimeLeft <= 1500;
         public override string Name => "Plague Blackout Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/PlagueBlackout";
         public override Color OutlineColor => new Color(174, 237, 122);

@@ -3482,12 +3482,8 @@ namespace CalamityMod.CalPlayer
 					{
 						angelicActivate = player.buffTime[l];
 					}
-					if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivineBlessCooldown)))
-					{
-						if (player.buffTime[l] == 1)
-							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
-					}
 				}
+
 				if (angelicActivate == 1)
 				{
 					int seconds = CalamityUtils.SecondsToFrames(60f);

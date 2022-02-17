@@ -11,6 +11,8 @@ using Terraria.ID;
 using CalamityMod.CalPlayer;
 using Terraria.ModLoader;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace CalamityMod.UI.CooldownIndicators
 {
@@ -184,5 +186,17 @@ namespace CalamityMod.UI.CooldownIndicators
         /// What happens when the cooldown ends. Isn't called if the cooldown is removed by the player dying
         /// </summary>
         public virtual void OnCooldownEnd() { }
+
+
+        public static T DeepCopy<T>(T item)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
+            formatter.Serialize(stream, item);
+            stream.Seek(0, SeekOrigin.Begin);
+            T result = (T)formatter.Deserialize(stream);
+            stream.Close();
+            return result;
+        }
     }
 }
