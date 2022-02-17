@@ -1047,8 +1047,6 @@ namespace CalamityMod.CalPlayer
 				dogTextCooldown--;
 			if (titanCooldown > 0)
 				titanCooldown--;
-			if (brimflameFrenzyTimer > 0)
-				brimflameFrenzyTimer--;
 			if (fungalSymbioteTimer > 0)
 				fungalSymbioteTimer--;
 			if (aBulwarkRareTimer > 0)
@@ -1602,8 +1600,7 @@ namespace CalamityMod.CalPlayer
 			{
 				brimflameFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
-				player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), BrimflameScowl.CooldownLength, true);
-				brimflameFrenzyTimer = BrimflameScowl.CooldownLength;
+				Cooldowns.Add(new BrimflameFrenzyCooldown(BrimflameScowl.CooldownLength, player));
 			}
 			if (!bloodflareMelee && bloodflareFrenzy)
 			{

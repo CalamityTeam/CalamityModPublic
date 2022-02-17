@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.UI.CooldownIndicators;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,14 +45,9 @@ namespace CalamityMod.Items.Armor
                 if (!modPlayer.brimflameFrenzy)
                 {
                     frenzy = false;
-                    player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), CooldownLength, true);
-					modPlayer.brimflameFrenzyTimer = CooldownLength;
+                    modPlayer.Cooldowns.Add(new BrimflameFrenzyCooldown(CooldownLength, player));
                 }
             }
-			if (modPlayer.brimflameFrenzyTimer == 1) //sound when ready to use again
-			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameRecharge"), player.Center);
-			}
         }
 
         public override void UpdateEquip(Player player)

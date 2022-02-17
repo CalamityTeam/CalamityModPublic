@@ -718,8 +718,6 @@ namespace CalamityMod.CalPlayer
         public bool daedalusShard = false;
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
-        public bool brimflameFrenzyCooldown = false;
-        public int brimflameFrenzyTimer = 0;
         public bool flamethrowerBoost = false;
         public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
@@ -1746,7 +1744,6 @@ namespace CalamityMod.CalPlayer
 
             brimflameSet = false;
             brimflameFrenzy = false;
-            brimflameFrenzyCooldown = false;
 
             rangedAmmoCost = 1f;
 
@@ -2418,8 +2415,6 @@ namespace CalamityMod.CalPlayer
             daedalusShard = false;
             brimflameSet = false;
             brimflameFrenzy = false;
-            brimflameFrenzyCooldown = false;
-            brimflameFrenzyTimer = 0;
             reaverSpeed = false;
             reaverRegen = false;
             reaverRegenCooldown = 0;
@@ -2940,7 +2935,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
-                if (brimflameSet && !brimflameFrenzyCooldown)
+                if (brimflameSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BrimflameFrenzyCooldown)))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {

@@ -93,7 +93,28 @@ namespace CalamityMod.UI.CooldownIndicators
         /// <summary>
         /// Use this method if you want to handle the drawing yourself. Only called if UseCustomDraw is set to true.
         /// </summary>
-        public virtual void CustomDraw(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale) { }
+        public virtual void CustomDraw(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            Texture2D sprite = ModContent.GetTexture(Texture);
+            Texture2D outline = ModContent.GetTexture(TextureOutline);
+            Texture2D barBase = ModContent.GetTexture(ChargeBarTexture);
+
+            //Draw the ring
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
+            ApplyBarShaders(opacity);
+
+            spriteBatch.Draw(barBase, position, null, Color.White * opacity, 0, barBase.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+
+            //Draw the outline
+            spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the icon
+            spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+        }
 
         /// <summary>
         /// Set this to true to disable default drawing, thus calling CustomDraw()/CustomDrawCompact() instead. This only applies to the compact mode of display
@@ -102,7 +123,23 @@ namespace CalamityMod.UI.CooldownIndicators
         /// <summary>
         /// Use this method if you want to handle the drawing yourself. Only called if UseCustomDrawCompact is set to true.
         /// </summary>
-        public virtual void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale) { }
+        public virtual void CustomDrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            Texture2D sprite = ModContent.GetTexture(Texture);
+            Texture2D outline = ModContent.GetTexture(TextureOutline);
+            Texture2D overlay = ModContent.GetTexture(TextureOverlay);
+
+            //Draw the outline
+            spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the icon
+            spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the small overlay
+            int lostHeight = (int)Math.Ceiling(overlay.Height * (1 - Completion));
+            Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
+            spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+        }
 
         /// <summary>
 		/// The texture of the charge bar. If set to a different texture path than the bar base, and if UseCustomDraw is set to false , it will be used as the ring around the cooldown icon 
