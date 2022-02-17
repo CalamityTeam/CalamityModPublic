@@ -3877,7 +3877,7 @@ namespace CalamityMod.CalPlayer
             if (abyssalDivingSuit)
             {
                 player.AddBuff(ModContent.BuffType<AbyssalDivingSuitBuff>(), 60, true);
-                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingBrokenPlatesCooldown)))
+                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingPlatesBroken)))
                 {
                     player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlates>(), 2);
                 }
@@ -3905,7 +3905,7 @@ namespace CalamityMod.CalPlayer
             }
             if (sirenBoobs && NPC.downedBoss3)
             {
-                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(IceShieldCooldown)))
+                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(SirenIceShieldCooldown)))
                 {
                     player.AddBuff(ModContent.BuffType<IceShieldBuff>(), 2);
                 }
@@ -7041,7 +7041,7 @@ namespace CalamityMod.CalPlayer
                     {
                         Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 14);
                         Cooldowns.Remove(durability);
-                        Cooldowns.Add(new DivingBrokenPlatesCooldown(10830, player));
+                        Cooldowns.Add(new DivingPlatesBroken(10830, player));
                         for (int d = 0; d < 20; d++)
                         {
                             int dust = Dust.NewDust(player.position, player.width, player.height, 31, 0f, 0f, 100, default, 2f);
@@ -7067,7 +7067,7 @@ namespace CalamityMod.CalPlayer
                 if (sirenIce)
                 {
                     Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
-                    Cooldowns.Add(new IceShieldCooldown(1800, player));
+                    Cooldowns.Add(new SirenIceShieldCooldown(1800, player));
 
                     for (int d = 0; d < 10; d++)
                     {
