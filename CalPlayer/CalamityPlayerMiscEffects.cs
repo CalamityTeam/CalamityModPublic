@@ -1001,8 +1001,6 @@ namespace CalamityMod.CalPlayer
 				rogueCrownCooldown--;
 			if (spectralVeilImmunity > 0)
 				spectralVeilImmunity--;
-			if (jetPackCooldown > 0)
-				jetPackCooldown--;
 			if (jetPackDash > 0)
 				jetPackDash--;
 			if (theBeeCooldown > 0)

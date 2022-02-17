@@ -629,7 +629,6 @@ namespace CalamityMod.CalPlayer
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
         public bool hasJetpack = false;
-        public int jetPackCooldown = 0;
         public bool plaguedFuelPack = false;
         public bool blunderBooster = false;
         public int jetPackDash = 0;
@@ -2209,7 +2208,6 @@ namespace CalamityMod.CalPlayer
             polarisBoostCounter = 0;
             dragonRageHits = 0;
             spectralVeilImmunity = 0;
-            jetPackCooldown = 0;
             jetPackDash = 0;
             jetPackDirection = 0;
             andromedaCripple = 0;
@@ -2939,11 +2937,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
             if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-                wearingRogueArmor && rogueStealthMax > 0 && jetPackCooldown == 0 && !player.mount.Active)
+                wearingRogueArmor && rogueStealthMax > 0 && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(JetpackCooldown)) && !player.mount.Active)
             {
                 jetPackDash = blunderBooster ? 15 : 10;
                 jetPackDirection = player.direction;
-                jetPackCooldown = 60;
+                Cooldowns.Add(new JetpackCooldown(60, player, blunderBooster ? "birb" : "default"));
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Main.PlaySound(SoundID.Item66, player.Center);
                 Main.PlaySound(SoundID.Item34, player.Center);
