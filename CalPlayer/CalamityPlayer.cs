@@ -697,11 +697,8 @@ namespace CalamityMod.CalPlayer
         public bool bloodflareSet = false;
         public bool bloodflareMelee = false;
         public bool bloodflareFrenzy = false;
-        public bool bloodFrenzyCooldown = false;
         public int bloodflareMeleeHits = 0;
         public bool bloodflareRanged = false;
-        public bool bloodflareSoulCooldown = false;
-        public int bloodflareSoulTimer = 0;
         public bool bloodflareThrowing = false;
         public bool bloodflareMage = false;
         public int bloodflareMageCooldown = 0;
@@ -1825,9 +1822,7 @@ namespace CalamityMod.CalPlayer
             bloodflareSet = false;
             bloodflareMelee = false;
             bloodflareFrenzy = false;
-            bloodFrenzyCooldown = false;
             bloodflareRanged = false;
-            bloodflareSoulCooldown = false;
             bloodflareThrowing = false;
             bloodflareMage = false;
             bloodflareSummon = false;
@@ -2489,11 +2484,8 @@ namespace CalamityMod.CalPlayer
             bloodflareSet = false;
             bloodflareMelee = false;
             bloodflareFrenzy = false;
-            bloodFrenzyCooldown = false;
             bloodflareMeleeHits = 0;
             bloodflareRanged = false;
-            bloodflareSoulCooldown = false;
-            bloodflareSoulTimer = 0;
             bloodflareThrowing = false;
             bloodflareMage = false;
             bloodflareSummon = false;
@@ -2989,12 +2981,11 @@ namespace CalamityMod.CalPlayer
                         player.AddBuff(ModContent.BuffType<TarragonCloak>(), 602, false);
                     }
                 }
-                if (bloodflareRanged && !bloodflareSoulCooldown)
+                if (bloodflareRanged && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareSoulCooldown)))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        player.AddBuff(ModContent.BuffType<BloodflareSoulCooldown>(), 1800, false);
-                        bloodflareSoulTimer = 1800;
+                        Cooldowns.Add(new BloodflareSoulCooldown(1800, player));
                     }
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerActivation"), player.Center);
                     for (int d = 0; d < 64; d++)
@@ -5438,7 +5429,7 @@ namespace CalamityMod.CalPlayer
             if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
                 contactDamageReduction += 0.5;
 
-            if (bloodflareMelee && bloodflareFrenzy && !bloodFrenzyCooldown)
+            if (bloodflareMelee && bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))
                 contactDamageReduction += 0.5;
 
             if (npc.Calamity().tSad > 0)

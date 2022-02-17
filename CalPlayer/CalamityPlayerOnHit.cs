@@ -16,6 +16,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -664,7 +665,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (bloodflareMelee && item.melee)
                     {
-                        if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
+                        if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))
                         {
                             bloodflareMeleeHits++;
                         }
@@ -776,7 +777,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (bloodflareMelee && modProj.trueMelee)
                 {
-                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
+                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))
                     {
                         bloodflareMeleeHits++;
                     }

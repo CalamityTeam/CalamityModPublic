@@ -1049,8 +1049,6 @@ namespace CalamityMod.CalPlayer
 				titanCooldown--;
 			if (brimflameFrenzyTimer > 0)
 				brimflameFrenzyTimer--;
-			if (bloodflareSoulTimer > 0)
-				bloodflareSoulTimer--;
 			if (fungalSymbioteTimer > 0)
 				fungalSymbioteTimer--;
 			if (aBulwarkRareTimer > 0)
@@ -1249,7 +1247,7 @@ namespace CalamityMod.CalPlayer
 						if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
 						{
 							if (player.whoAmI == Main.myPlayer)
-								player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzyCooldown>(), 1800, false);
+								Cooldowns.Add(new BloodflareFrenzyCooldown(1800, player));
 						}
 					}
 
@@ -1611,7 +1609,7 @@ namespace CalamityMod.CalPlayer
 			{
 				bloodflareFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BloodflareBloodFrenzy>());
-				player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzyCooldown>(), 1800, false);
+				Cooldowns.Add(new BloodflareFrenzyCooldown(1800, player));
 			}
 			if (!tarraMelee && tarragonCloak)
 			{

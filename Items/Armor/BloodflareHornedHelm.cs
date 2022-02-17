@@ -51,11 +51,6 @@ namespace CalamityMod.Items.Armor
                 "This effect has a 30 second cooldown\n" +
                 "Ranged weapons fire bloodsplosion orbs every 2.5 seconds";
             player.crimsonRegen = true;
-
-			if (modPlayer.bloodflareSoulTimer == 1) //sound when ready to use again
-			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerRecharge"), player.Center);
-			}
         }
 
         public override void UpdateEquip(Player player)
