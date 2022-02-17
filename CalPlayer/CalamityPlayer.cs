@@ -841,7 +841,6 @@ namespace CalamityMod.CalPlayer
         public bool warped = false;
         public bool cDepth = false;
         public bool fishAlert = false;
-        public bool bOut = false;
         public bool clamity = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
@@ -1884,7 +1883,6 @@ namespace CalamityMod.CalPlayer
             warped = false;
             cDepth = false;
             fishAlert = false;
-            bOut = false;
             clamity = false;
             enraged = false;
             snowmanNoseless = false;
@@ -2251,7 +2249,6 @@ namespace CalamityMod.CalPlayer
             warped = false;
             cDepth = false;
             fishAlert = false;
-            bOut = false;
             clamity = false;
             snowmanNoseless = false;
             abyssalDivingSuitPlateHits = 0;
@@ -7193,7 +7190,7 @@ namespace CalamityMod.CalPlayer
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             if (!profanedCrystal && pArtifact)
-                player.AddBuff(ModContent.BuffType<BurntOut>(), 300, true);
+                Cooldowns.Add(new ProfanedSoulArtifactCooldown(300, player));
 
             // Bloodflare Core defense shattering
             if (bloodflareCore)

@@ -873,7 +873,7 @@ namespace CalamityMod.CalPlayer
 			bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && CalamityWorld.downedSCal && CalamityWorld.downedExoMechs);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
-			if (!bOut && canProvideBuffs)
+			if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(ProfanedSoulArtifactCooldown)) && canProvideBuffs)
 			{
 				bool healer = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] > 0;
 				bool defend = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] > 0;

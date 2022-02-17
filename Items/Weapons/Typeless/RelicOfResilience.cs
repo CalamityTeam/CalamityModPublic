@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.UI.CooldownIndicators;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -40,11 +41,11 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
             item.shootSpeed = 0f;
         }
-        public override bool CanUseItem(Player player) => !player.HasBuff(ModContent.BuffType<ResilienceCooldown>());
+        public override bool CanUseItem(Player player) => !player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(RelicOfResilienceCooldown));
         public override bool UseItem(Player player) => true;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.AddBuff(ModContent.BuffType<ResilienceCooldown>(), CooldownSeconds * 60);
+            player.Calamity().Cooldowns.Add(new RelicOfResilienceCooldown(CooldownSeconds * 60, player));
             int[] shardTypes = new int[]
             {
                 ModContent.ProjectileType<ArtifactOfResilienceShard1>(),
