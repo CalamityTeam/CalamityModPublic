@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Player player = Main.player[projectile.owner];
             Main.PlaySound(SoundID.Item94, (int)projectile.position.X, (int)projectile.position.Y);
-            player.Calamity().Cooldowns.Add(new LionsHeartShieldCooldown(CalamityUtils.SecondsToFrames(45), player));
+            player.Calamity().Cooldowns.Add(new LionHeartShieldCooldown(CalamityUtils.SecondsToFrames(45), player));
 		}
 
         public override bool CanDamage() => false;
