@@ -47,10 +47,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[0] >= 180f)
             {
-                Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<DormantBrimseekerBab>(), projectile.damage, projectile.knockBack,
-                    projectile.owner);
                 projectile.Kill();
             }
+		}
+
+        public override void Kill(int timeLeft)
+        {
+			Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<DormantBrimseekerBab>(), projectile.damage, projectile.knockBack, projectile.owner);
 		}
     }
 }
