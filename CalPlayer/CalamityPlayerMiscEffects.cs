@@ -1642,7 +1642,7 @@ namespace CalamityMod.CalPlayer
 			if (!prismaticSet && prismaticLasers > 1800)
 			{
 				prismaticLasers = 1800;
-				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
+				Cooldowns.Add(new PrismaticLaserCooldown(CalamityUtils.SecondsToFrames(30f), player));
 			}
 			if (!angelicAlliance && divineBless)
 			{
@@ -2610,7 +2610,7 @@ namespace CalamityMod.CalPlayer
 			if (blueCandle)
 				player.moveSpeed += 0.1f;
 
-			if (draconicSurgeCooldown) // Weird mod conflicts with like Luiafk
+			if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DraconicElixirCooldown))) // Weird mod conflicts with like Luiafk
 			{
 				draconicSurge = false;
 				if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
@@ -3442,7 +3442,7 @@ namespace CalamityMod.CalPlayer
 			if (prismaticLasers == 1800)
 			{
 				//Set the cooldown
-				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
+				Cooldowns.Add(new PrismaticLaserCooldown(CalamityUtils.SecondsToFrames(30f), player));
 			}
 			if (prismaticLasers == 1)
 			{

@@ -852,7 +852,6 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
-        public bool prismaticCooldown = false;
         public bool waterLeechBleeding = false;
 		public bool banishingFire = false;
 		public bool wither = false;
@@ -907,7 +906,6 @@ namespace CalamityMod.CalPlayer
         public bool holyWrath = false;
         public bool profanedRage = false;
         public bool draconicSurge = false;
-        public bool draconicSurgeCooldown = false;
         public bool tesla = false;
         public bool teslaFreeze = false;
         public bool sulphurskin = false;
@@ -1899,7 +1897,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            prismaticCooldown = false;
             waterLeechBleeding = false;
 			banishingFire = false;
 			wither = false;
@@ -1937,7 +1934,6 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             draconicSurge = false;
-            draconicSurgeCooldown = false;
             tesla = false;
             teslaFreeze = false;
             sulphurskin = false;
@@ -2268,7 +2264,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            prismaticCooldown = false;
             waterLeechBleeding = false;
 			banishingFire = false;
 			wither = false;
@@ -2344,7 +2339,6 @@ namespace CalamityMod.CalPlayer
             sulphurskin = false;
             baguette = false;
             draconicSurge = false;
-            draconicSurgeCooldown = false;
             yPower = false;
             aWeapon = false;
             tScale = false;
@@ -3140,7 +3134,7 @@ namespace CalamityMod.CalPlayer
 						}
                     }
                 }
-                if (prismaticSet && !prismaticCooldown && prismaticLasers <= 0)
+                if (prismaticSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PrismaticLaserCooldown)) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
             if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
@@ -4479,7 +4473,7 @@ namespace CalamityMod.CalPlayer
 
                     player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
-                    if (draconicSurge && !draconicSurgeCooldown)
+                    if (draconicSurge && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DraconicElixirCooldown)))
                     {
                         player.statLife += player.statLifeMax2 / 2;
                         player.HealEffect(player.statLifeMax2 / 2);
@@ -4490,7 +4484,7 @@ namespace CalamityMod.CalPlayer
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
+                            Cooldowns.Add(new DraconicElixirCooldown(CalamityUtils.SecondsToFrames(60f), player));
 
                             // Additional potion sickness time
                             int additionalTime = 0;

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Potions
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
-        public override bool CanUseItem(Player player) => !player.Calamity().draconicSurgeCooldown;
+        public override bool CanUseItem(Player player) => !player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DraconicElixirCooldown));
 
 		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
