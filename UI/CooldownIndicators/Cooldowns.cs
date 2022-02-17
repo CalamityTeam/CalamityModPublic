@@ -192,6 +192,9 @@ namespace CalamityMod.UI.CooldownIndicators
         }
     }
 
+
+
+
     public class GodslayerDashCooldown : CooldownIndicator
     {
         public override string SyncID => "GodslayerDash";

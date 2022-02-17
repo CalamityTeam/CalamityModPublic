@@ -1649,7 +1649,7 @@ namespace CalamityMod.CalPlayer
 				divineBless = false;
 				player.ClearBuff(ModContent.BuffType<DivineBless>());
 				int seconds = CalamityUtils.SecondsToFrames(60f);
-				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
+				Cooldowns.Add(new DivineBlessCooldown(seconds, player));
 			}
 
 			// Armageddon's Dodge Disable feature puts Shadow Dodge/Holy Protection on permanent cooldown
@@ -3484,7 +3484,7 @@ namespace CalamityMod.CalPlayer
 					{
 						angelicActivate = player.buffTime[l];
 					}
-					if (hasBuff == ModContent.BuffType<DivineBlessCooldown>())
+					if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivineBlessCooldown)))
 					{
 						if (player.buffTime[l] == 1)
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
@@ -3493,7 +3493,7 @@ namespace CalamityMod.CalPlayer
 				if (angelicActivate == 1)
 				{
 					int seconds = CalamityUtils.SecondsToFrames(60f);
-					player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
+					Cooldowns.Add(new DivineBlessCooldown(seconds, player));
 				}
 				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
 					angelicActivate = -1;

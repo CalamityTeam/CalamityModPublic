@@ -854,7 +854,6 @@ namespace CalamityMod.CalPlayer
         public bool vaporfied = false;
         public bool prismaticCooldown = false;
         public bool waterLeechBleeding = false;
-		public bool divineBlessCooldown = false;
 		public bool banishingFire = false;
 		public bool wither = false;
         public bool ManaBurn = false;
@@ -1902,7 +1901,6 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
-			divineBlessCooldown = false;
 			banishingFire = false;
 			wither = false;
             ManaBurn = false;
@@ -2272,7 +2270,6 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
-			divineBlessCooldown = false;
 			banishingFire = false;
 			wither = false;
             #endregion
@@ -2862,7 +2859,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !divineBlessCooldown)
+            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivineBlessCooldown)))
             {
 				int seconds = CalamityUtils.SecondsToFrames(15f);
                 player.AddBuff(ModContent.BuffType<DivineBless>(), seconds, false);
