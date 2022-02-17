@@ -682,7 +682,6 @@ namespace CalamityMod.CalPlayer
         public bool tarraSet = false;
         public bool tarraMelee = false;
         public bool tarragonCloak = false;
-        public bool tarragonCloakCooldown = false;
         public int tarraDefenseTime = 600;
         public bool tarraMage = false;
         public int tarraMageHealCooldown = 0;
@@ -690,7 +689,6 @@ namespace CalamityMod.CalPlayer
         public bool tarraRanged = false;
 		public int tarraRangedCooldown = 0;
 		public bool tarraThrowing = false;
-        public bool tarragonImmunityCooldown = false;
         public bool tarragonImmunity = false;
         public int tarraThrowingCrits = 0;
         public bool tarraSummon = false;
@@ -1808,12 +1806,10 @@ namespace CalamityMod.CalPlayer
             tarraSet = false;
             tarraMelee = false;
             tarragonCloak = false;
-            tarragonCloakCooldown = false;
             tarraMage = false;
             tarraRanged = false;
             tarraThrowing = false;
             tarragonImmunity = false;
-            tarragonImmunityCooldown = false;
             tarraSummon = false;
 
             bloodflareSet = false;
@@ -2467,13 +2463,11 @@ namespace CalamityMod.CalPlayer
             tarraSet = false;
             tarraMelee = false;
             tarragonCloak = false;
-            tarragonCloakCooldown = false;
             tarraDefenseTime = 600;
             tarraMage = false;
             tarraRanged = false;
             tarraThrowing = false;
             tarragonImmunity = false;
-            tarragonImmunityCooldown = false;
             tarraThrowingCrits = 0;
             tarraSummon = false;
             bloodflareSet = false;
@@ -2969,7 +2963,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (tarraMelee && !tarragonCloakCooldown && !tarragonCloak)
+                if (tarraMelee && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(TarragonCloakCooldown)) && !tarragonCloak)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -5421,7 +5415,7 @@ namespace CalamityMod.CalPlayer
                 contactDamageReduction += 0.5;
             }
 
-            if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
+            if (tarragonCloak && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(TarragonCloakCooldown)) && tarraMelee)
                 contactDamageReduction += 0.5;
 
             if (bloodflareMelee && bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))

@@ -15,7 +15,6 @@ namespace CalamityMod.UI.CooldownIndicators
 {
     public class UniverseSplitterCooldown : CooldownIndicator
     {
-        public override string SyncID => "UniverseSplitter";
         public override bool DisplayMe => true;
         public override string Name => "Universe Splitter Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/UniverseSplitter";

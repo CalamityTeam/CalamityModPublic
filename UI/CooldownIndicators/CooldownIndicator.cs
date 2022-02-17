@@ -220,6 +220,11 @@ namespace CalamityMod.UI.CooldownIndicators
         }
 
         /// <summary>
+        /// What happens when the cooldown is active
+        /// </summary>
+        public virtual void CooldownEffects() { }
+
+        /// <summary>
         /// What happens when the cooldown ends. Isn't called if the cooldown is removed by the player dying
         /// </summary>
         public virtual void OnCooldownEnd() { }

@@ -1048,7 +1048,7 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectileIndex].localNPCHitCooldown = 10;
                 }
             }
-            if (tarraThrowing && !tarragonImmunity && !tarragonImmunityCooldown && tarraThrowingCrits < 25 && crit)
+            if (tarraThrowing && !tarragonImmunity && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(TarragonImmunityCooldown)) && tarraThrowingCrits < 25 && crit)
             {
                 tarraThrowingCrits++;
             }

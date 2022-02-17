@@ -953,6 +953,8 @@ namespace CalamityMod.CalPlayer
 				if (cd.CanTickDown)
 					cd.TimeLeft--;
 
+				cd.CooldownEffects();
+
 				if (cd.TimeLeft < 0)
 				{
 					Main.PlaySound(cd.EndSound);
@@ -1172,7 +1174,7 @@ namespace CalamityMod.CalPlayer
 				{
 					tarraDefenseTime = 600;
 					if (player.whoAmI == Main.myPlayer)
-						player.AddBuff(ModContent.BuffType<TarragonCloakCooldown>(), 1800, false);
+						Cooldowns.Add(new TarragonCloakCooldown(1800, player));
 				}
 
 				for (int j = 0; j < 2; j++)
@@ -1211,7 +1213,7 @@ namespace CalamityMod.CalPlayer
 					if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<TarragonImmunity>())
 					{
 						if (player.whoAmI == Main.myPlayer)
-							player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 1500, false);
+							Cooldowns.Add(new TarragonImmunityCooldown(1500, player));
 					}
 
 					bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
@@ -1612,13 +1614,13 @@ namespace CalamityMod.CalPlayer
 			{
 				tarragonCloak = false;
 				player.ClearBuff(ModContent.BuffType<TarragonCloak>());
-				player.AddBuff(ModContent.BuffType<TarragonCloakCooldown>(), 600, false);
+				Cooldowns.Add(new TarragonCloakCooldown(1800, player));
 			}
 			if (!tarraThrowing && tarragonImmunity)
 			{
 				tarragonImmunity = false;
 				player.ClearBuff(ModContent.BuffType<TarragonImmunity>());
-				player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 600, false);
+				Cooldowns.Add(new TarragonCloakCooldown(1500, player));
 			}
 			if (!omegaBlueSet && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
 			{
