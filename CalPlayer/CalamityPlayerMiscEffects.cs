@@ -1210,7 +1210,7 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
-					if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<TarragonImmunity>())
+					if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<TarragonImmunity>())
 					{
 						if (player.whoAmI == Main.myPlayer)
 							Cooldowns.Add(new TarragonImmunityCooldown(1500, player));
@@ -1244,7 +1244,7 @@ namespace CalamityMod.CalPlayer
 					for (int l = 0; l < Player.MaxBuffs; l++)
 					{
 						int hasBuff = player.buffType[l];
-						if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
+						if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
 						{
 							if (player.whoAmI == Main.myPlayer)
 								Cooldowns.Add(new BloodflareFrenzyCooldown(1800, player));
