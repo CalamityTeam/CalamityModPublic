@@ -1049,8 +1049,6 @@ namespace CalamityMod.CalPlayer
 				dogTextCooldown--;
 			if (titanCooldown > 0)
 				titanCooldown--;
-			if (plagueReaperCooldown > 0)
-				plagueReaperCooldown--;
 			if (brimflameFrenzyTimer > 0)
 				brimflameFrenzyTimer--;
 			if (bloodflareSoulTimer > 0)
@@ -1634,10 +1632,10 @@ namespace CalamityMod.CalPlayer
 				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown)).TimeLeft = 1500;
 				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
 			}
-			if (!plagueReaper && plagueReaperCooldown > 1500)
+			if (!plagueReaper && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown) && cooldown.TimeLeft > 1500))
 			{
-				plagueReaperCooldown = 1500;
-				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
+				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown)).TimeLeft = 1500;
+
 			}
 			if (!prismaticSet && prismaticLasers > 1800)
 			{

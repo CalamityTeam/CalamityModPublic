@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -50,27 +51,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;
 
-			if (modPlayer.plagueReaperCooldown > 1500)
+			if (player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown) && cooldown.TimeLeft > 1500))
 			{
 				player.blind = true;
 				player.headcovered = true;
 				player.blackout = true;
 				player.rangedDamage += 0.6f; //60% ranged dmg and 20% crit
 				player.rangedCrit += 20;
-			}
-			if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
-			{
-				for (int i = 0; i < 66; i++)
-				{
-					int d = Dust.NewDust(player.position, player.width, player.height, 89, 0, 0, 100, default, 1.5f);
-					Main.dust[d].noGravity = true;
-					Main.dust[d].velocity *= 6.6f;
-				}
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperRecharge"), player.Center);
-			}
-            if (modPlayer.plagueReaperCooldown == 1500)
-            {
-				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
 			}
 
             if (player.whoAmI == Main.myPlayer)

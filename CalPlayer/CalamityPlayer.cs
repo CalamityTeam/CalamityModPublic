@@ -752,7 +752,6 @@ namespace CalamityMod.CalPlayer
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
         public bool plagueReaper = false;
-        public int plagueReaperCooldown = 0;
         public bool plaguebringerPatronSet = false;
         public bool plaguebringerCarapace = false;
         public bool plaguebringerPistons = false;
@@ -2454,7 +2453,6 @@ namespace CalamityMod.CalPlayer
             prismaticGreaves = false;
             astralStarRain = false;
             plagueReaper = false;
-            plagueReaperCooldown = 0;
             plaguebringerPatronSet = false;
             plaguebringerCarapace = false;
             plaguebringerPistons = false;
@@ -3098,10 +3096,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (plagueReaper && plagueReaperCooldown <= 0)
+                if (plagueReaper && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown)))
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperAbility"), player.Center);
-                    plagueReaperCooldown = 1800;
+                    Cooldowns.Add(new PlagueBlackoutCooldown(1800, player));
                 }
                 if (forbiddenCirclet && forbiddenCooldown <= 0)
                 {
