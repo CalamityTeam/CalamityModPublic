@@ -748,12 +748,12 @@ namespace CalamityMod.NPCs
 			float movementDistanceGateValue = 100f;
 
 			// How fast Brimmy moves to the destination
-			float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.1f : npc.ai[0] == 3f ? 1.5f : 1f);
+			float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.05f : npc.ai[0] == 3f ? 1.5f : 1f);
 			if (expertMode)
 				baseVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 			baseVelocity += 5f * enrageScale;
 
-			float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.1f : npc.ai[0] == 3f ? 1.5f : 1f);
+			float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.5f : npc.ai[0] == 3f ? 1.5f : 1f);
 			baseAcceleration += 0.1f * enrageScale;
 			if (expertMode)
 			{
