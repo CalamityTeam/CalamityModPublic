@@ -238,9 +238,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 					chargeVelocityScalar = 0f;
 					rotationDirection = 0;
 
-					npc.velocity.Y += 2f;
+					npc.velocity.Y += 3f;
 					if (npc.position.Y > Main.worldSurface * 16.0)
-						npc.velocity.Y += 2f;
+						npc.velocity.Y += 3f;
 
 					if (npc.position.Y > Main.rockLayer * 16.0)
 					{

@@ -134,27 +134,78 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                // Spawn segments from head
-                if (npc.ai[0] == 0f && npc.type == NPCID.TheDestroyer)
+                if (npc.type == NPCID.TheDestroyer)
                 {
-                    npc.ai[3] = npc.whoAmI;
-                    npc.realLife = npc.whoAmI;
-                    int index = npc.whoAmI;
-
-                    int totalSegments = death ? 120 : 80;
-                    for (int j = 0; j <= totalSegments; j++)
+                    // Spawn segments from head
+                    if (npc.ai[0] == 0f)
                     {
-                        int type = NPCID.TheDestroyerBody;
-                        if (j == totalSegments)
-                            type = NPCID.TheDestroyerTail;
+                        npc.ai[3] = npc.whoAmI;
+                        npc.realLife = npc.whoAmI;
+                        int index = npc.whoAmI;
 
-                        int segment = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI);
-                        Main.npc[segment].ai[3] = npc.whoAmI;
-                        Main.npc[segment].realLife = npc.whoAmI;
-                        Main.npc[segment].ai[1] = index;
-                        Main.npc[index].ai[0] = segment;
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0, 0, 0);
-                        index = segment;
+                        int totalSegments = death ? 60 : 80;
+                        for (int j = 0; j <= totalSegments; j++)
+                        {
+                            int type = NPCID.TheDestroyerBody;
+                            if (j == totalSegments)
+                                type = NPCID.TheDestroyerTail;
+
+                            int segment = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI);
+                            Main.npc[segment].ai[3] = npc.whoAmI;
+                            Main.npc[segment].realLife = npc.whoAmI;
+                            Main.npc[segment].ai[1] = index;
+                            Main.npc[index].ai[0] = segment;
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0, 0, 0);
+                            index = segment;
+                        }
+                    }
+
+                    // Laser breath in Death Mode
+                    if (death)
+                    {
+                        if (calamityGlobalNPC.newAI[0] < 600f)
+                            calamityGlobalNPC.newAI[0] += 1f;
+
+                        if (npc.SafeDirectionTo(player.Center).AngleBetween((npc.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
+                            calamityGlobalNPC.newAI[0] >= 600f && Vector2.Distance(npc.Center, player.Center) > 480f &&
+                            Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                        {
+                            if (calamityGlobalNPC.newAI[0] % 30f == 0f)
+							{
+                                Vector2 vectorCenter = npc.Center;
+                                float num742 = npc.velocity.Length() * 0.33f + 1f;
+                                float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
+                                float num744 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
+                                float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+                                num745 = num742 / num745;
+                                num743 *= num745;
+                                num744 *= num745;
+                                vectorCenter.X += num743 * 5f;
+                                vectorCenter.Y += num744 * 5f;
+
+                                int type = ProjectileID.DeathLaser;
+                                int damage = npc.GetProjectileDamage(type);
+                                int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 3 : 2;
+                                int spread = 18;
+                                float rotation = MathHelper.ToRadians(spread);
+                                float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+                                double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+                                double deltaAngle = rotation / numProj;
+                                double offsetAngle;
+
+                                for (int i = 0; i < numProj; i++)
+                                {
+                                    offsetAngle = startAngle + deltaAngle * i;
+                                    int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                    Main.projectile[proj].timeLeft = 900;
+                                }
+                            }
+
+                            calamityGlobalNPC.newAI[0] += 1f;
+                            if (calamityGlobalNPC.newAI[0] > 660f)
+                                calamityGlobalNPC.newAI[0] = 0f;
+                        }
                     }
                 }
 
@@ -162,9 +213,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.type == NPCID.TheDestroyerBody)
                 {
                     // Laser rate of fire
-                    int shootTime = 1;
                     calamityGlobalNPC.newAI[0] += 1f;
-                    float shootProjectile = 600 / shootTime;
+                    float shootProjectile = death ? 300 : 600;
                     float timer = npc.ai[0] + 15f;
                     float divisor = timer + shootProjectile;
 
@@ -300,11 +350,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (player.dead)
             {
                 flag2 = false;
-                npc.velocity.Y += 1f;
+                npc.velocity.Y += 2f;
 
                 if (npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y += 1f;
+                    npc.velocity.Y += 2f;
                     fallSpeed = 32f;
                 }
 
@@ -669,7 +719,24 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     int type = ProjectileID.PinkLaser;
                     int damage = npc.GetProjectileDamage(type);
-                    Projectile.NewProjectile(vector.X, vector.Y, num4, num5, type, damage, 0f, Main.myPlayer);
+                    int totalProjectiles = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 3 : 1;
+                    for (int i = 0; i < totalProjectiles; i++)
+                    {
+                        float velocityMultiplier = 1f;
+						switch (i)
+						{
+                            case 0:
+                                break;
+                            case 1:
+                                velocityMultiplier = 0.9f;
+                                break;
+                            case 2:
+                                velocityMultiplier = 0.8f;
+                                break;
+                        }
+						Projectile.NewProjectile(vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
+                    }
+
                     npc.netUpdate = true;
                 }
             }

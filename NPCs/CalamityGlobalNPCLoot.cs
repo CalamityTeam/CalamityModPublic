@@ -720,11 +720,11 @@ namespace CalamityMod.NPCs
         {
             // LATER -- keeping bosses alive lets draedon mayhem continue even after killing mechs
             // Reset Draedon Mayhem to false if no bosses are alive
-            if (CalamityGlobalNPC.DraedonMayhem)
+            if (DraedonMayhem)
             {
                 if (!CalamityPlayer.areThereAnyDamnBosses)
                 {
-                    CalamityGlobalNPC.DraedonMayhem = false;
+                    DraedonMayhem = false;
                     CalamityNetcode.SyncWorld();
                 }
             }

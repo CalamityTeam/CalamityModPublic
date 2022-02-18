@@ -288,9 +288,9 @@ namespace CalamityMod.NPCs.StormWeaver
 				calamityGlobalNPC.newAI[0] = 0f;
 				npc.TargetClosest(false);
 
-                npc.velocity.Y -= 1f;
+                npc.velocity.Y -= 3f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
-                    npc.velocity.Y -= 1f;
+                    npc.velocity.Y -= 3f;
 
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {

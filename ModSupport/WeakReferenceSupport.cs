@@ -328,7 +328,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Cryogen", out float order);
 				int type = NPCType<Cryogen>();
 				int summon = ItemType<CryoKey>();
-				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<CryogenTrophy>(), ItemType<CryogenMask>(), ItemType<KnowledgeCryogen>() };
 				string instructions = $"Use a [i:{summon}] in the Snow Biome";
 				string despawn = CalamityUtils.ColorMessage("Cryogen drifts away, carried on a freezing wind.", new Color(0x00, 0xFF, 0xFF));

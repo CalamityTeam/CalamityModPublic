@@ -307,9 +307,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			{
 				flies = true;
 
-				npc.velocity.Y -= 1f;
+				npc.velocity.Y -= 3f;
 				if ((double)npc.position.Y < Main.topWorld + 16f)
-					npc.velocity.Y -= 1f;
+					npc.velocity.Y -= 3f;
 
 				int bodyType = ModContent.NPCType<DevourerofGodsBody>();
 				int tailType = ModContent.NPCType<DevourerofGodsTail>();

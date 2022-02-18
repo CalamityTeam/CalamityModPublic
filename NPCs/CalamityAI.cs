@@ -744,18 +744,56 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			// Speed while moving in phase 1
-			float speed = death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f;
+			// Distance from destination where Brimmy stops moving
+			float movementDistanceGateValue = 100f;
+
+			// How fast Brimmy moves to the destination
+			float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.1f : npc.ai[0] == 3f ? 1.5f : 1f);
 			if (expertMode)
-				speed += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-			speed += 5f * enrageScale;
+				baseVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
+			baseVelocity += 5f * enrageScale;
 
-			// Variables for target location relative to npc location
-			float xDistance = player.Center.X - vectorCenter.X;
-			float yDistance = player.Center.Y - vectorCenter.Y;
-			float totalDistance = (float)Math.Sqrt(xDistance * xDistance + yDistance * yDistance);
+			float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.1f : npc.ai[0] == 3f ? 1.5f : 1f);
+			baseAcceleration += 0.1f * enrageScale;
+			if (expertMode)
+			{
+				baseAcceleration += 0.03f * (1f - lifeRatio);
+			}
+			if (provy)
+			{
+				baseVelocity *= 1.25f;
+				baseAcceleration *= 1.25f;
+			}
 
-			// Static movement towards target
+			// This is where Brimmy should be
+			Vector2 destination = npc.ai[0] != 3f ? player.Center : new Vector2(player.Center.X, player.Center.Y - 300f);
+
+			// How far Brimmy is from where she's supposed to be
+			Vector2 distanceFromDestination = destination - npc.Center;
+
+			// Movement
+			if (npc.ai[0] != 4f)
+			{
+				// Inverse lerp returns the percentage of progress between A and B
+				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+				// Min velocity
+				float minVelocity = distanceFromDestination.Length();
+				float minVelocityCap = baseVelocity;
+				if (minVelocity > minVelocityCap)
+					minVelocity = minVelocityCap;
+
+				// Max velocity
+				Vector2 maxVelocity = distanceFromDestination / 24f;
+				float maxVelocityCap = minVelocityCap * 3f;
+				if (maxVelocity.Length() > maxVelocityCap)
+					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+				Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+			}
+
+			// Rotation and direction
 			if (npc.ai[0] <= 2f || npc.ai[0] == 5f)
 			{
 				npc.rotation = npc.velocity.X * 0.04f;
@@ -764,11 +802,6 @@ namespace CalamityMod.NPCs
 					float playerLocation = vectorCenter.X - player.Center.X;
 					npc.direction = playerLocation < 0f ? 1 : -1;
 					npc.spriteDirection = npc.direction;
-					totalDistance = (npc.ai[0] == 5f ? speed * 0.15f : speed) / totalDistance;
-					xDistance *= totalDistance;
-					yDistance *= totalDistance;
-					npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
-					npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
 				}
 			}
 
@@ -973,53 +1006,6 @@ namespace CalamityMod.NPCs
 						int projectileShot = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, relativeSpeedX, relativeSpeedY, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[projectileShot].timeLeft = 240;
 					}
-				}
-
-				float maxVelocityY = death ? 2.5f : 3f;
-				float maxVelocityX = death ? 7f : 8f;
-				maxVelocityY -= 0.5f * enrageScale;
-				maxVelocityX -= 1.5f * enrageScale;
-
-				if (npc.position.Y > player.position.Y - 150f)
-				{
-					if (npc.velocity.Y > 0f)
-						npc.velocity.Y *= 0.98f;
-
-					npc.velocity.Y -= death ? 0.12f : 0.1f;
-
-					if (npc.velocity.Y > maxVelocityY)
-						npc.velocity.Y = maxVelocityY;
-				}
-				else if (npc.position.Y < player.position.Y - 350f)
-				{
-					if (npc.velocity.Y < 0f)
-						npc.velocity.Y *= 0.98f;
-
-					npc.velocity.Y += death ? 0.12f : 0.1f;
-
-					if (npc.velocity.Y < -maxVelocityY)
-						npc.velocity.Y = -maxVelocityY;
-				}
-
-				if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 150f)
-				{
-					if (npc.velocity.X > 0f)
-						npc.velocity.X *= 0.985f;
-
-					npc.velocity.X -= death ? 0.12f : 0.1f;
-
-					if (npc.velocity.X > maxVelocityX)
-						npc.velocity.X = maxVelocityX;
-				}
-				if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 150f)
-				{
-					if (npc.velocity.X < 0f)
-						npc.velocity.X *= 0.985f;
-
-					npc.velocity.X += death ? 0.12f : 0.1f;
-
-					if (npc.velocity.X < -maxVelocityX)
-						npc.velocity.X = -maxVelocityX;
 				}
 
 				if (npc.ai[1] >= divisor * (death ? 5f : 10f))

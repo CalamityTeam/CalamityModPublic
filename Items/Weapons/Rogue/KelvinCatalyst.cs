@@ -55,7 +55,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<IceStar>(), 200);
             recipe.AddIngredient(ModContent.ItemType<Avalanche>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<BittercoldStaff>(), 2);
             recipe.AddIngredient(ModContent.ItemType<EffluviumBow>(), 2);
             recipe.AddIngredient(ModContent.ItemType<GlacialCrusher>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Icebreaker>(), 2);

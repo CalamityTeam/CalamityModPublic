@@ -274,10 +274,10 @@ namespace CalamityMod.NPCs.DesertScourge
             if (player.dead)
             {
                 flag2 = false;
-                npc.velocity.Y = npc.velocity.Y + 1f;
+                npc.velocity.Y += 1f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 1f;
+                    npc.velocity.Y += 1f;
                     num17 = 32f;
                 }
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)

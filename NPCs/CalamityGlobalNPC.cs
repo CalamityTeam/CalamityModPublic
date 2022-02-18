@@ -856,6 +856,7 @@ namespace CalamityMod.NPCs
 				npc.noGravity = true;
 
 			DeclareBossHealthUIVariables(npc);
+
 			DebuffImmunities(npc);
 
 			BaseVanillaBossHPAdjustments(npc);
@@ -1050,13 +1051,13 @@ namespace CalamityMod.NPCs
                 case NPCID.TheDestroyerBody:
                 case NPCID.TheDestroyerTail:
                     npc.lifeMax = (int)(npc.lifeMax * 1.8);
-                    npc.scale = 1.5f;
+                    npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
                     npc.npcSlots = 10f;
                     break;
 
                 case NPCID.Probe:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.6);
-                    npc.scale *= 1.2f;
+                    npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.death ? 3.2 : 1.6));
+                    npc.scale = CalamityWorld.death ? 2f : 1.2f;
                     break;
 
                 case NPCID.SkeletronPrime:
@@ -1209,9 +1210,16 @@ namespace CalamityMod.NPCs
                 if (CalamityLists.DestroyerIDs.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                    npc.scale = 1.5f;
+                    npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
                     npc.npcSlots = 10f;
                 }
+				else if (npc.type == NPCID.Probe)
+				{
+					if (CalamityWorld.death)
+						npc.lifeMax = (int)(npc.lifeMax * 2.0);
+					
+					npc.scale = CalamityWorld.death ? 2f : 1.2f;
+				}
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
 					npc.lifeMax = (int)(npc.lifeMax * 1.2);

@@ -54,7 +54,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Avalanche>(w),
                 DropHelper.WeightStack<GlacialCrusher>(w),
                 DropHelper.WeightStack<EffluviumBow>(w),
-                DropHelper.WeightStack<BittercoldStaff>(w),
                 DropHelper.WeightStack<SnowstormStaff>(w),
                 DropHelper.WeightStack<Icebreaker>(w),
 				DropHelper.WeightStack<CryoStone>(w),
