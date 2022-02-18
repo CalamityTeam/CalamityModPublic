@@ -7367,9 +7367,9 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int sDamage = hardMode ? 36 : 6;
+                        int sDamage = 6;
                         if (aSparkRare)
-                            sDamage += hardMode ? 12 : 2;
+                            sDamage += 42;
                         if (player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)

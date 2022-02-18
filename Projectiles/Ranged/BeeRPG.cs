@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -9,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BeeRPG : ModProjectile
     {
+        public static Item FalseLauncher = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bee RPG");
@@ -22,6 +25,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 95;
             projectile.ranged = true;
+        }
+
+        private static void DefineFalseLauncher()
+        {
+            int rocketID = ItemID.RocketLauncher;
+            FalseLauncher = new Item();
+            FalseLauncher.SetDefaults(rocketID, true);
         }
 
         public override void AI()
@@ -63,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num252].noGravity = true;
                 Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -126,6 +136,29 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num624].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
+
+			// Construct a fake item to use with vanilla code for the sake of picking ammo.
+			if (FalseLauncher is null)
+				DefineFalseLauncher();
+			Player player = Main.player[projectile.owner];
+			int projID = ProjectileID.RocketI;
+			float shootSpeed = 0f;
+			bool canShoot = true;
+			int damage = 0;
+			float kb = 0f;
+			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+			int blastRadius = 0;
+			if (projID == ProjectileID.RocketII)
+				blastRadius = 3;
+			else if (projID == ProjectileID.RocketIV)
+				blastRadius = 6;
+
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+
+			if (projectile.owner == Main.myPlayer && blastRadius > 0)
+			{
+				CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

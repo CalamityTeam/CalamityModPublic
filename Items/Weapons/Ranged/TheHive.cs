@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive");
-            Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death");
+            Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death\n" +
+				"Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()
@@ -34,31 +35,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Rocket;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(4))
+            int rocket = Utils.SelectRandom(Main.rand, new int[]
             {
-                case 0:
-                    type = ModContent.ProjectileType<GoliathRocket>();
-                    break;
-                case 1:
-                    type = ModContent.ProjectileType<HiveMissile>();
-                    break;
-                case 2:
-                    type = ModContent.ProjectileType<HiveBomb>();
-                    break;
-                case 3:
-                    type = ModContent.ProjectileType<BeeRPG>();
-                    break;
-                default:
-                    break;
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                ModContent.ProjectileType<GoliathRocket>(),
+                ModContent.ProjectileType<HiveMissile>(),
+                ModContent.ProjectileType<HiveBomb>(),
+                ModContent.ProjectileType<BeeRPG>()
+            });
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, rocket, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

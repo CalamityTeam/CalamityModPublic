@@ -547,9 +547,9 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
 			if (!WorldGen.crimson)
-                contents.Add(new ChestItem(ItemID.CorruptPlanterBox, WorldGen.genRand.Next(5, 9 + 1)));
+                contents.Insert(8, new ChestItem(ItemID.CorruptPlanterBox, WorldGen.genRand.Next(5, 9 + 1)));
 			else
-                contents.Add(new ChestItem(ItemID.CrimsonPlanterBox, WorldGen.genRand.Next(5, 9 + 1)));
+                contents.Insert(8, new ChestItem(ItemID.CrimsonPlanterBox, WorldGen.genRand.Next(5, 9 + 1)));
 
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)

@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Transformer");
             Tooltip.SetDefault("Taking damage releases a blast of sparks\n" +
-                                "Sparks do extra damage in Hardmode\n" +
                                 "Immunity to Electrified and you resist all electrical projectile and enemy damage\n" +
                                 "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 16));

@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class GoliathRocket : ModProjectile
     {
+        public static Item FalseLauncher = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rocket");
@@ -24,62 +27,53 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
         }
 
+        private static void DefineFalseLauncher()
+        {
+            int rocketID = ItemID.RocketLauncher;
+            FalseLauncher = new Item();
+            FalseLauncher.SetDefaults(rocketID, true);
+        }
+
         public override void AI()
         {
-            if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
-            {
-                projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
-                projectile.alpha = 255;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 200;
-                projectile.height = 200;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.knockBack = 10f;
-            }
-            else
-            {
-                if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-                {
-                    for (int num246 = 0; num246 < 2; num246++)
-                    {
-                        float num247 = 0f;
-                        float num248 = 0f;
-                        if (num246 == 1)
-                        {
-                            num247 = projectile.velocity.X * 0.5f;
-                            num248 = projectile.velocity.Y * 0.5f;
-                        }
-                        int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-                        Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                        Main.dust[num249].velocity *= 0.2f;
-                        Main.dust[num249].noGravity = true;
-                        num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-                        Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                        Main.dust[num249].velocity *= 0.05f;
-                    }
-                }
-                if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
-                {
-                    projectile.velocity *= 1.1f;
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    int num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1f);
-                    Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
-                    Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
-                    Main.dust[num252].noGravity = true;
-                    Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-                    Main.rand.Next(2);
-                    num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
-                    Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
-                    Main.dust[num252].noGravity = true;
-                    Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-                }
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
+			{
+				for (int num246 = 0; num246 < 2; num246++)
+				{
+					float num247 = 0f;
+					float num248 = 0f;
+					if (num246 == 1)
+					{
+						num247 = projectile.velocity.X * 0.5f;
+						num248 = projectile.velocity.Y * 0.5f;
+					}
+					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
+					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+					Main.dust[num249].velocity *= 0.2f;
+					Main.dust[num249].noGravity = true;
+					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
+					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+					Main.dust[num249].velocity *= 0.05f;
+				}
+			}
+			if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
+			{
+				projectile.velocity *= 1.1f;
+			}
+			else if (Main.rand.NextBool(2))
+			{
+				int num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1f);
+				Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
+				Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
+				Main.dust[num252].noGravity = true;
+				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+				Main.rand.Next(2);
+				num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
+				Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
+				Main.dust[num252].noGravity = true;
+				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+			}
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -142,6 +136,29 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num624].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
+
+			// Construct a fake item to use with vanilla code for the sake of picking ammo.
+			if (FalseLauncher is null)
+				DefineFalseLauncher();
+			Player player = Main.player[projectile.owner];
+			int projID = ProjectileID.RocketI;
+			float shootSpeed = 0f;
+			bool canShoot = true;
+			int damage = 0;
+			float kb = 0f;
+			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+			int blastRadius = 0;
+			if (projID == ProjectileID.RocketII)
+				blastRadius = 6;
+			else if (projID == ProjectileID.RocketIV)
+				blastRadius = 9;
+
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+
+			if (projectile.owner == Main.myPlayer && blastRadius > 0)
+			{
+				CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
