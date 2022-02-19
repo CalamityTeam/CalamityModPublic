@@ -73,12 +73,12 @@ namespace CalamityMod.NPCs.Perforator
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speed = 8f;
+			float speed = 0.08f;
 			float turnSpeed = 0.06f;
 
 			if (expertMode)
 			{
-				float velocityScale = (death ? 8f : 7f) * enrageScale;
+				float velocityScale = (death ? 0.08f : 0.07f) * enrageScale;
 				speed += velocityScale * (1f - lifeRatio);
 				float accelerationScale = (death ? 0.08f : 0.07f) * enrageScale;
 				turnSpeed += accelerationScale * (1f - lifeRatio);
