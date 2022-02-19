@@ -49,8 +49,21 @@ namespace CalamityMod.NPCs
 
             // Block loot from non-boss EoW segments and Creepers, their drops will drop from the Treasure Bag in Rev+.
             // This is to prevent heart drops until the boss is dead.
-            if (CalamityWorld.revenge && (npc.type == NPCID.Creeper || (!npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail))))
-                return false;
+            if (CalamityWorld.revenge)
+            {
+                if (npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail))
+				{
+                    int[] EoWDrops = new int[]
+                    {
+                        ItemID.DemoniteOre,
+                        ItemID.ShadowScale
+                    };
+                    DropHelper.BlockDrops(EoWDrops);
+                }
+
+                if (npc.type == NPCID.Creeper || (!npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)))
+                    return false;
+            }
 
             //
             // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot
