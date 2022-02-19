@@ -472,11 +472,11 @@ namespace CalamityMod.NPCs.Perforator
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
-                // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30, 5);
-                DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
-                DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
-                if (Main.hardMode)
+				// Materials
+				DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 35, 45, 5);
+				DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 12, 15);
+				DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 12, 15);
+				if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20, 2);
                 DropHelper.DropItem(npc, ItemID.CrimsonSeeds, 10, 15);
 

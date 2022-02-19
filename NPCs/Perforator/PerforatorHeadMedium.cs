@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
@@ -195,6 +194,7 @@ namespace CalamityMod.NPCs.Perforator
 					flag2 = true;
 			}
 
+			float fallSpeed = 16f;
 			if (player.dead || CalamityGlobalNPC.perfHive < 0 || !Main.npc[CalamityGlobalNPC.perfHive].active)
 			{
 				npc.TargetClosest(false);
@@ -203,6 +203,7 @@ namespace CalamityMod.NPCs.Perforator
 				if (npc.position.Y > Main.worldSurface * 16.0)
 				{
 					npc.velocity.Y += 1f;
+					fallSpeed = 32f;
 				}
 				if (npc.position.Y > Main.rockLayer * 16.0)
 				{
@@ -244,17 +245,17 @@ namespace CalamityMod.NPCs.Perforator
 			if (!flag2)
 			{
 				npc.velocity.Y += 0.11f;
-				if (npc.velocity.Y > num37)
-					npc.velocity.Y = num37;
+				if (npc.velocity.Y > fallSpeed)
+					npc.velocity.Y = fallSpeed;
 
-				if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num37 * 0.4)
+				if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 0.4)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X -= num38 * 1.1f;
 					else
 						npc.velocity.X += num38 * 1.1f;
 				}
-				else if (npc.velocity.Y == num37)
+				else if (npc.velocity.Y == fallSpeed)
 				{
 					if (npc.velocity.X < num39)
 						npc.velocity.X += num38;
@@ -287,7 +288,7 @@ namespace CalamityMod.NPCs.Perforator
 				num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
 				float num55 = Math.Abs(num39);
 				float num56 = Math.Abs(num40);
-				float num57 = num37 / num52;
+				float num57 = fallSpeed / num52;
 				num39 *= num57;
 				num40 *= num57;
 
@@ -302,7 +303,7 @@ namespace CalamityMod.NPCs.Perforator
 					else if (npc.velocity.Y > num40)
 						npc.velocity.Y -= num38;
 
-					if (Math.Abs(num40) < num37 * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
+					if (Math.Abs(num40) < fallSpeed * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y += num38 * 2f;
@@ -310,7 +311,7 @@ namespace CalamityMod.NPCs.Perforator
 							npc.velocity.Y -= num38 * 2f;
 					}
 
-					if (Math.Abs(num39) < num37 * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
+					if (Math.Abs(num39) < fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X += num38 * 2f;
@@ -325,7 +326,7 @@ namespace CalamityMod.NPCs.Perforator
 					else if (npc.velocity.X > num39)
 						npc.velocity.X -= num38 * 1.1f;
 
-					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num37 * 0.5)
+					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 0.5)
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y += num38;
@@ -340,7 +341,7 @@ namespace CalamityMod.NPCs.Perforator
 					else if (npc.velocity.Y > num40)
 						npc.velocity.Y -= num38 * 1.1f;
 
-					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num37 * 0.5)
+					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 0.5)
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X += num38;
@@ -446,13 +447,6 @@ namespace CalamityMod.NPCs.Perforator
                 ModContent.NPCType<PerforatorTailMedium>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
-        }
-
-        public override void NPCLoot()
-        {
-			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 3, 7);
-			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 2, 4);
-			DropHelper.DropItem(npc, ItemID.Vertebrae, 2, 3);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

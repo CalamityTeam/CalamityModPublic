@@ -42,9 +42,9 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<BloodSample>(), 30, 40);
-            DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);
-            DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
+            DropHelper.DropItem(player, ModContent.ItemType<BloodSample>(), 45, 60);
+            DropHelper.DropItem(player, ItemID.CrimtaneBar, 15, 20);
+            DropHelper.DropItem(player, ItemID.Vertebrae, 15, 20);
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
 			DropHelper.DropItem(player, ItemID.CrimsonSeeds, 10, 15);
 
