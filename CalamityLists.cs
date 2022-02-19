@@ -1754,7 +1754,7 @@ namespace CalamityMod
                 ItemType<KnowledgeOldDuke>(),
                 ItemType<VictoryShard>(),
                 ItemType<AeroStone>(),
-				ItemType<TheCommunity>(),
+                ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
                 ItemType<SulphurousSand>(),
                 ItemType<MagnumRounds>(),
@@ -2071,443 +2071,443 @@ namespace CalamityMod
                 ProjectileType<ViolenceThrownProjectile>(),
             };
 
-			// Lists of enemies that resist piercing to some extent (mostly worms).
-			// Could prove useful for other things as well.
+            // Lists of enemies that resist piercing to some extent (mostly worms).
+            // Could prove useful for other things as well.
 
-			AstrumDeusIDs = new List<int>
-			{
-				NPCType<AstrumDeusHeadSpectral>(),
-				NPCType<AstrumDeusBodySpectral>(),
-				NPCType<AstrumDeusTailSpectral>()
-			};
+            AstrumDeusIDs = new List<int>
+            {
+                NPCType<AstrumDeusHeadSpectral>(),
+                NPCType<AstrumDeusBodySpectral>(),
+                NPCType<AstrumDeusTailSpectral>()
+            };
 
-			DevourerOfGodsIDs = new List<int>
-			{
-				NPCType<DevourerofGodsHead>(),
-				NPCType<DevourerofGodsBody>(),
-				NPCType<DevourerofGodsTail>()
-			};
+            DevourerOfGodsIDs = new List<int>
+            {
+                NPCType<DevourerofGodsHead>(),
+                NPCType<DevourerofGodsBody>(),
+                NPCType<DevourerofGodsTail>()
+            };
 
-			CosmicGuardianIDs = new List<int>
-			{
-				NPCType<DevourerofGodsHead2>(),
-				NPCType<DevourerofGodsBody2>(),
-				NPCType<DevourerofGodsTail2>()
-			};
+            CosmicGuardianIDs = new List<int>
+            {
+                NPCType<DevourerofGodsHead2>(),
+                NPCType<DevourerofGodsBody2>(),
+                NPCType<DevourerofGodsTail2>()
+            };
 
-			AquaticScourgeIDs = new List<int>
-			{
-				NPCType<AquaticScourgeHead>(),
-				NPCType<AquaticScourgeBody>(),
-				NPCType<AquaticScourgeBodyAlt>(),
-				NPCType<AquaticScourgeTail>()
-			};
+            AquaticScourgeIDs = new List<int>
+            {
+                NPCType<AquaticScourgeHead>(),
+                NPCType<AquaticScourgeBody>(),
+                NPCType<AquaticScourgeBodyAlt>(),
+                NPCType<AquaticScourgeTail>()
+            };
 
-			PerforatorIDs = new List<int>
-			{
-				NPCType<PerforatorHeadLarge>(),
-				NPCType<PerforatorBodyLarge>(),
-				NPCType<PerforatorTailLarge>(),
-				NPCType<PerforatorHeadMedium>(),
-				NPCType<PerforatorBodyMedium>(),
-				NPCType<PerforatorTailMedium>(),
-				NPCType<PerforatorHeadSmall>(),
-				NPCType<PerforatorBodySmall>(),
-				NPCType<PerforatorTailSmall>()
-			};
+            PerforatorIDs = new List<int>
+            {
+                NPCType<PerforatorHeadLarge>(),
+                NPCType<PerforatorBodyLarge>(),
+                NPCType<PerforatorTailLarge>(),
+                NPCType<PerforatorHeadMedium>(),
+                NPCType<PerforatorBodyMedium>(),
+                NPCType<PerforatorTailMedium>(),
+                NPCType<PerforatorHeadSmall>(),
+                NPCType<PerforatorBodySmall>(),
+                NPCType<PerforatorTailSmall>()
+            };
 
-			DesertScourgeIDs = new List<int>
-			{
-				NPCType<DesertScourgeHead>(),
-				NPCType<DesertScourgeBody>(),
-				NPCType<DesertScourgeTail>()
-			};
+            DesertScourgeIDs = new List<int>
+            {
+                NPCType<DesertScourgeHead>(),
+                NPCType<DesertScourgeBody>(),
+                NPCType<DesertScourgeTail>()
+            };
 
-			EaterofWorldsIDs = new List<int>
-			{
-				NPCID.EaterofWorldsHead,
-				NPCID.EaterofWorldsBody,
-				NPCID.EaterofWorldsTail
-			};
+            EaterofWorldsIDs = new List<int>
+            {
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail
+            };
 
-			DeathModeSplittingWormIDs = new List<int>
-			{
-				NPCID.DuneSplicerHead,
-				NPCID.DuneSplicerBody,
-				NPCID.DuneSplicerTail,
-				NPCID.DiggerHead,
-				NPCID.DiggerBody,
-				NPCID.DiggerTail,
-				NPCID.SeekerHead,
-				NPCID.SeekerBody,
-				NPCID.SeekerTail
-			};
+            DeathModeSplittingWormIDs = new List<int>
+            {
+                NPCID.DuneSplicerHead,
+                NPCID.DuneSplicerBody,
+                NPCID.DuneSplicerTail,
+                NPCID.DiggerHead,
+                NPCID.DiggerBody,
+                NPCID.DiggerTail,
+                NPCID.SeekerHead,
+                NPCID.SeekerBody,
+                NPCID.SeekerTail
+            };
 
-			DestroyerIDs = new List<int>
-			{
-				NPCID.TheDestroyer,
-				NPCID.TheDestroyerBody,
-				NPCID.TheDestroyerTail
-			};
+            DestroyerIDs = new List<int>
+            {
+                NPCID.TheDestroyer,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail
+            };
 
-			ThanatosIDs = new List<int>
-			{
-				NPCType<ThanatosHead>(),
-				NPCType<ThanatosBody1>(),
-				NPCType<ThanatosBody2>(),
-				NPCType<ThanatosTail>()
-			};
+            ThanatosIDs = new List<int>
+            {
+                NPCType<ThanatosHead>(),
+                NPCType<ThanatosBody1>(),
+                NPCType<ThanatosBody2>(),
+                NPCType<ThanatosTail>()
+            };
 
-			AresIDs = new List<int>
-			{
-				NPCType<AresBody>(),
-				NPCType<AresGaussNuke>(),
-				NPCType<AresLaserCannon>(),
-				NPCType<AresPlasmaFlamethrower>(),
-				NPCType<AresTeslaCannon>()
-			};
+            AresIDs = new List<int>
+            {
+                NPCType<AresBody>(),
+                NPCType<AresGaussNuke>(),
+                NPCType<AresLaserCannon>(),
+                NPCType<AresPlasmaFlamethrower>(),
+                NPCType<AresTeslaCannon>()
+            };
 
-			SkeletronPrimeIDs = new List<int>
-			{
-				NPCID.SkeletronPrime,
-				NPCID.PrimeCannon,
-				NPCID.PrimeLaser,
-				NPCID.PrimeSaw,
-				NPCID.PrimeVice
-			};
+            SkeletronPrimeIDs = new List<int>
+            {
+                NPCID.SkeletronPrime,
+                NPCID.PrimeCannon,
+                NPCID.PrimeLaser,
+                NPCID.PrimeSaw,
+                NPCID.PrimeVice
+            };
 
-			StormWeaverIDs = new List<int>
-			{
-				NPCType<StormWeaverHead>(),
-				NPCType<StormWeaverBody>(),
-				NPCType<StormWeaverTail>()
-			};
+            StormWeaverIDs = new List<int>
+            {
+                NPCType<StormWeaverHead>(),
+                NPCType<StormWeaverBody>(),
+                NPCType<StormWeaverTail>()
+            };
 
-			GrenadeResistIDs = new List<int>
-			{
-				ProjectileID.Grenade,
-				ProjectileID.StickyGrenade,
-				ProjectileID.BouncyGrenade,
-				ProjectileID.Bomb,
-				ProjectileID.StickyBomb,
-				ProjectileID.BouncyBomb,
-				ProjectileID.Dynamite,
-				ProjectileID.StickyDynamite,
-				ProjectileID.BouncyDynamite,
-				ProjectileID.Explosives,
-				ProjectileID.ExplosiveBunny,
-				ProjectileID.PartyGirlGrenade,
-				ProjectileID.BombFish,
-				ProjectileID.Beenade,
-				ProjectileID.Bee,
-				ProjectileID.GiantBee,
-				ProjectileType<AeroExplosive>()
-				//ProjectileID.ScarabBomb
-			};
+            GrenadeResistIDs = new List<int>
+            {
+                ProjectileID.Grenade,
+                ProjectileID.StickyGrenade,
+                ProjectileID.BouncyGrenade,
+                ProjectileID.Bomb,
+                ProjectileID.StickyBomb,
+                ProjectileID.BouncyBomb,
+                ProjectileID.Dynamite,
+                ProjectileID.StickyDynamite,
+                ProjectileID.BouncyDynamite,
+                ProjectileID.Explosives,
+                ProjectileID.ExplosiveBunny,
+                ProjectileID.PartyGirlGrenade,
+                ProjectileID.BombFish,
+                ProjectileID.Beenade,
+                ProjectileID.Bee,
+                ProjectileID.GiantBee,
+                ProjectileType<AeroExplosive>()
+                //ProjectileID.ScarabBomb
+            };
 
-			ZeroContactDamageNPCList = new List<int>
-			{
-				NPCID.DarkCaster,
-				NPCID.FireImp,
-				NPCID.Tim,
-				NPCID.CultistArcherBlue,
-				NPCID.DesertDjinn,
-				NPCID.DiabolistRed,
-				NPCID.DiabolistWhite,
-				NPCID.Gastropod,
-				NPCID.IceElemental,
-				NPCID.IchorSticker,
-				NPCID.Necromancer,
-				NPCID.NecromancerArmored,
-				NPCID.RaggedCaster,
-				NPCID.RaggedCasterOpenCoat,
-				NPCID.RuneWizard,
-				NPCID.SkeletonArcher,
-				NPCID.SkeletonCommando,
-				NPCID.SkeletonSniper,
-				NPCID.TacticalSkeleton,
-				NPCID.Clown,
-				NPCID.GoblinArcher,
-				NPCID.GoblinSorcerer,
-				NPCID.GoblinSummoner,
-				NPCID.PirateCrossbower,
-				NPCID.PirateDeadeye,
-				NPCID.PirateCaptain,
-				NPCID.SnowmanGangsta,
-				NPCID.SnowBalla,
-				NPCID.DrManFly,
-				NPCID.Eyezor,
-				NPCID.Nailhead,
-				NPCID.MartianWalker,
-				NPCID.MartianTurret,
-				NPCID.ElfCopter,
-				NPCID.ElfArcher,
-				NPCID.NebulaBrain,
-				NPCID.StardustJellyfishBig,
-				NPCID.PirateShipCannon,
-				NPCID.MartianSaucer,
-				NPCID.MartianSaucerCannon,
-				NPCID.MartianSaucerCore,
-				NPCID.MartianSaucerTurret,
-				NPCID.Probe,
-				NPCID.CultistBoss,
-				NPCID.GolemHeadFree,
-				NPCID.MoonLordFreeEye,
-				//NPCID.BloodSquid,
-				NPCID.PlanterasHook
-			};
+            ZeroContactDamageNPCList = new List<int>
+            {
+                NPCID.DarkCaster,
+                NPCID.FireImp,
+                NPCID.Tim,
+                NPCID.CultistArcherBlue,
+                NPCID.DesertDjinn,
+                NPCID.DiabolistRed,
+                NPCID.DiabolistWhite,
+                NPCID.Gastropod,
+                NPCID.IceElemental,
+                NPCID.IchorSticker,
+                NPCID.Necromancer,
+                NPCID.NecromancerArmored,
+                NPCID.RaggedCaster,
+                NPCID.RaggedCasterOpenCoat,
+                NPCID.RuneWizard,
+                NPCID.SkeletonArcher,
+                NPCID.SkeletonCommando,
+                NPCID.SkeletonSniper,
+                NPCID.TacticalSkeleton,
+                NPCID.Clown,
+                NPCID.GoblinArcher,
+                NPCID.GoblinSorcerer,
+                NPCID.GoblinSummoner,
+                NPCID.PirateCrossbower,
+                NPCID.PirateDeadeye,
+                NPCID.PirateCaptain,
+                NPCID.SnowmanGangsta,
+                NPCID.SnowBalla,
+                NPCID.DrManFly,
+                NPCID.Eyezor,
+                NPCID.Nailhead,
+                NPCID.MartianWalker,
+                NPCID.MartianTurret,
+                NPCID.ElfCopter,
+                NPCID.ElfArcher,
+                NPCID.NebulaBrain,
+                NPCID.StardustJellyfishBig,
+                NPCID.PirateShipCannon,
+                NPCID.MartianSaucer,
+                NPCID.MartianSaucerCannon,
+                NPCID.MartianSaucerCore,
+                NPCID.MartianSaucerTurret,
+                NPCID.Probe,
+                NPCID.CultistBoss,
+                NPCID.GolemHeadFree,
+                NPCID.MoonLordFreeEye,
+                //NPCID.BloodSquid,
+                NPCID.PlanterasHook
+            };
 
-			// Reduce contact damage by 25%
-			HardmodeNPCNerfList = new List<int>
-			{
-				NPCID.AnglerFish,
-				NPCID.AngryTrapper,
-				NPCID.Arapaima,
-				NPCID.BlackRecluse,
-				NPCID.BlackRecluseWall,
-				NPCID.BloodJelly,
-				NPCID.FungoFish,
-				NPCID.GreenJellyfish,
-				NPCID.Clinger,
-				NPCID.ArmoredSkeleton,
-				NPCID.ArmoredViking,
-				NPCID.Mummy,
-				NPCID.DarkMummy,
-				NPCID.LightMummy,
-				NPCID.BloodFeeder,
-				NPCID.DesertBeast,
-				NPCID.ChaosElemental,
-				//NPCID.BloodMummy,
-				NPCID.CorruptSlime,
-				NPCID.Slimeling,
-				NPCID.Corruptor,
-				NPCID.Crimslime,
-				NPCID.BigCrimslime,
-				NPCID.LittleCrimslime,
-				NPCID.CrimsonAxe,
-				NPCID.CursedHammer,
-				NPCID.Derpling,
-				NPCID.Herpling,
-				NPCID.DiggerHead,
-				NPCID.DiggerBody,
-				NPCID.DiggerTail,
-				NPCID.DesertGhoul,
-				NPCID.DesertGhoulCorruption,
-				NPCID.DesertGhoulCrimson,
-				NPCID.DesertGhoulHallow,
-				NPCID.DuneSplicerHead,
-				NPCID.DuneSplicerBody,
-				NPCID.DuneSplicerTail,
-				NPCID.EnchantedSword,
-				NPCID.FloatyGross,
-				NPCID.GiantBat,
-				NPCID.GiantFlyingFox,
-				NPCID.GiantFungiBulb,
-				NPCID.FungiSpore,
-				NPCID.GiantTortoise,
-				NPCID.IceTortoise,
-				NPCID.HoppinJack,
-				NPCID.Mimic,
-				NPCID.IchorSticker,
-				NPCID.IcyMerman,
-				NPCID.IlluminantBat,
-				NPCID.IlluminantSlime,
-				NPCID.JungleCreeper,
-				NPCID.JungleCreeperWall,
-				NPCID.DesertLamiaDark,
-				NPCID.DesertLamiaLight,
-				NPCID.BigMossHornet,
-				NPCID.GiantMossHornet,
-				NPCID.LittleMossHornet,
-				NPCID.MossHornet,
-				NPCID.TinyMossHornet,
-				NPCID.Moth,
-				NPCID.PigronCorruption,
-				NPCID.PigronCrimson,
-				NPCID.PigronHallow,
-				NPCID.Pixie,
-				NPCID.PossessedArmor,
-				//NPCID.RockGolem,
-				NPCID.DesertScorpionWalk,
-				NPCID.DesertScorpionWall,
-				NPCID.Slimer,
-				NPCID.Slimer2,
-				NPCID.ToxicSludge,
-				NPCID.Unicorn,
-				NPCID.WanderingEye,
-				NPCID.Werewolf,
-				NPCID.Wolf,
-				NPCID.SeekerHead,
-				NPCID.SeekerBody,
-				NPCID.SeekerTail,
-				NPCID.Wraith,
-				NPCID.ChatteringTeethBomb,
-				NPCID.Clown,
-				NPCID.AngryNimbus,
-				NPCID.IceGolem,
-				NPCID.RainbowSlime,
-				NPCID.SandShark,
-				NPCID.SandsharkCorrupt,
-				NPCID.SandsharkCrimson,
-				NPCID.SandsharkHallow,
-				NPCID.ShadowFlameApparition,
-				NPCID.Parrot,
-				NPCID.PirateCorsair,
-				NPCID.PirateDeckhand,
-				//NPCID.PiratesCurse,
-				NPCID.BlueArmoredBonesMace,
-				NPCID.BlueArmoredBonesSword,
-				NPCID.BoneLee,
-				NPCID.DungeonSpirit,
-				NPCID.FlyingSnake,
-				NPCID.HellArmoredBones,
-				NPCID.HellArmoredBonesSpikeShield,
-				NPCID.HellArmoredBonesSword,
-				NPCID.MisterStabby,
-				NPCID.SnowBalla,
-				NPCID.SnowmanGangsta,
-				NPCID.Butcher,
-				NPCID.CreatureFromTheDeep,
-				NPCID.DeadlySphere,
-				NPCID.Frankenstein,
-				NPCID.Fritz,
-				NPCID.Psycho,
-				NPCID.Reaper,
-				NPCID.SwampThing,
-				NPCID.ThePossessed,
-				NPCID.Vampire,
-				NPCID.VampireBat,
-				NPCID.HeadlessHorseman,
-				NPCID.Hellhound,
-				NPCID.Poltergeist,
-				NPCID.Scarecrow1,
-				NPCID.Scarecrow2,
-				NPCID.Scarecrow3,
-				NPCID.Scarecrow4,
-				NPCID.Scarecrow5,
-				NPCID.Scarecrow6,
-				NPCID.Scarecrow7,
-				NPCID.Scarecrow8,
-				NPCID.Scarecrow9,
-				NPCID.Scarecrow10,
-				NPCID.Splinterling,
-				NPCID.Flocko,
-				NPCID.GingerbreadMan,
-				NPCID.Krampus,
-				NPCID.Nutcracker,
-				NPCID.NutcrackerSpinning,
-				NPCID.PresentMimic,
-				NPCID.Yeti,
-				NPCID.ZombieElf,
-				NPCID.ZombieElfBeard,
-				NPCID.ZombieElfGirl
-				//NPCID.BloodEelHead,
-				//NPCID.BloodEelBody,
-				//NPCID.BloodEelTail,
-				//NPCID.HemogoblinShark,
-				//NPCID.WanderingEyeFish,
-				//NPCID.ZombieMerman,
-			};
+            // Reduce contact damage by 25%
+            HardmodeNPCNerfList = new List<int>
+            {
+                NPCID.AnglerFish,
+                NPCID.AngryTrapper,
+                NPCID.Arapaima,
+                NPCID.BlackRecluse,
+                NPCID.BlackRecluseWall,
+                NPCID.BloodJelly,
+                NPCID.FungoFish,
+                NPCID.GreenJellyfish,
+                NPCID.Clinger,
+                NPCID.ArmoredSkeleton,
+                NPCID.ArmoredViking,
+                NPCID.Mummy,
+                NPCID.DarkMummy,
+                NPCID.LightMummy,
+                NPCID.BloodFeeder,
+                NPCID.DesertBeast,
+                NPCID.ChaosElemental,
+                //NPCID.BloodMummy,
+                NPCID.CorruptSlime,
+                NPCID.Slimeling,
+                NPCID.Corruptor,
+                NPCID.Crimslime,
+                NPCID.BigCrimslime,
+                NPCID.LittleCrimslime,
+                NPCID.CrimsonAxe,
+                NPCID.CursedHammer,
+                NPCID.Derpling,
+                NPCID.Herpling,
+                NPCID.DiggerHead,
+                NPCID.DiggerBody,
+                NPCID.DiggerTail,
+                NPCID.DesertGhoul,
+                NPCID.DesertGhoulCorruption,
+                NPCID.DesertGhoulCrimson,
+                NPCID.DesertGhoulHallow,
+                NPCID.DuneSplicerHead,
+                NPCID.DuneSplicerBody,
+                NPCID.DuneSplicerTail,
+                NPCID.EnchantedSword,
+                NPCID.FloatyGross,
+                NPCID.GiantBat,
+                NPCID.GiantFlyingFox,
+                NPCID.GiantFungiBulb,
+                NPCID.FungiSpore,
+                NPCID.GiantTortoise,
+                NPCID.IceTortoise,
+                NPCID.HoppinJack,
+                NPCID.Mimic,
+                NPCID.IchorSticker,
+                NPCID.IcyMerman,
+                NPCID.IlluminantBat,
+                NPCID.IlluminantSlime,
+                NPCID.JungleCreeper,
+                NPCID.JungleCreeperWall,
+                NPCID.DesertLamiaDark,
+                NPCID.DesertLamiaLight,
+                NPCID.BigMossHornet,
+                NPCID.GiantMossHornet,
+                NPCID.LittleMossHornet,
+                NPCID.MossHornet,
+                NPCID.TinyMossHornet,
+                NPCID.Moth,
+                NPCID.PigronCorruption,
+                NPCID.PigronCrimson,
+                NPCID.PigronHallow,
+                NPCID.Pixie,
+                NPCID.PossessedArmor,
+                //NPCID.RockGolem,
+                NPCID.DesertScorpionWalk,
+                NPCID.DesertScorpionWall,
+                NPCID.Slimer,
+                NPCID.Slimer2,
+                NPCID.ToxicSludge,
+                NPCID.Unicorn,
+                NPCID.WanderingEye,
+                NPCID.Werewolf,
+                NPCID.Wolf,
+                NPCID.SeekerHead,
+                NPCID.SeekerBody,
+                NPCID.SeekerTail,
+                NPCID.Wraith,
+                NPCID.ChatteringTeethBomb,
+                NPCID.Clown,
+                NPCID.AngryNimbus,
+                NPCID.IceGolem,
+                NPCID.RainbowSlime,
+                NPCID.SandShark,
+                NPCID.SandsharkCorrupt,
+                NPCID.SandsharkCrimson,
+                NPCID.SandsharkHallow,
+                NPCID.ShadowFlameApparition,
+                NPCID.Parrot,
+                NPCID.PirateCorsair,
+                NPCID.PirateDeckhand,
+                //NPCID.PiratesCurse,
+                NPCID.BlueArmoredBonesMace,
+                NPCID.BlueArmoredBonesSword,
+                NPCID.BoneLee,
+                NPCID.DungeonSpirit,
+                NPCID.FlyingSnake,
+                NPCID.HellArmoredBones,
+                NPCID.HellArmoredBonesSpikeShield,
+                NPCID.HellArmoredBonesSword,
+                NPCID.MisterStabby,
+                NPCID.SnowBalla,
+                NPCID.SnowmanGangsta,
+                NPCID.Butcher,
+                NPCID.CreatureFromTheDeep,
+                NPCID.DeadlySphere,
+                NPCID.Frankenstein,
+                NPCID.Fritz,
+                NPCID.Psycho,
+                NPCID.Reaper,
+                NPCID.SwampThing,
+                NPCID.ThePossessed,
+                NPCID.Vampire,
+                NPCID.VampireBat,
+                NPCID.HeadlessHorseman,
+                NPCID.Hellhound,
+                NPCID.Poltergeist,
+                NPCID.Scarecrow1,
+                NPCID.Scarecrow2,
+                NPCID.Scarecrow3,
+                NPCID.Scarecrow4,
+                NPCID.Scarecrow5,
+                NPCID.Scarecrow6,
+                NPCID.Scarecrow7,
+                NPCID.Scarecrow8,
+                NPCID.Scarecrow9,
+                NPCID.Scarecrow10,
+                NPCID.Splinterling,
+                NPCID.Flocko,
+                NPCID.GingerbreadMan,
+                NPCID.Krampus,
+                NPCID.Nutcracker,
+                NPCID.NutcrackerSpinning,
+                NPCID.PresentMimic,
+                NPCID.Yeti,
+                NPCID.ZombieElf,
+                NPCID.ZombieElfBeard,
+                NPCID.ZombieElfGirl
+                //NPCID.BloodEelHead,
+                //NPCID.BloodEelBody,
+                //NPCID.BloodEelTail,
+                //NPCID.HemogoblinShark,
+                //NPCID.WanderingEyeFish,
+                //NPCID.ZombieMerman,
+            };
 
-			BoundNPCIDs = new List<int>
-			{
-				NPCID.BoundGoblin,
-				NPCID.BoundWizard,
-				NPCID.BoundMechanic,
-				NPCID.SleepingAngler,
-				NPCID.BartenderUnconscious,
-				NPCID.WebbedStylist,
-				//NPCID.GolferRescue
-			};
+            BoundNPCIDs = new List<int>
+            {
+                NPCID.BoundGoblin,
+                NPCID.BoundWizard,
+                NPCID.BoundMechanic,
+                NPCID.SleepingAngler,
+                NPCID.BartenderUnconscious,
+                NPCID.WebbedStylist,
+                //NPCID.GolferRescue
+            };
 
-			// Collections
-			// NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
-			BossRushHPChanges = new SortedDictionary<int, int>
-			{
-				// Tier 1
-				{ NPCID.QueenBee, 315000 }, // 30 seconds
+            // Collections
+            // NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
+            BossRushHPChanges = new SortedDictionary<int, int>
+            {
+                // Tier 1
+                { NPCID.QueenBee, 315000 }, // 30 seconds
 
-				{ NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
-				{ NPCID.Creeper, 10000 },
+                { NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
+                { NPCID.Creeper, 10000 },
 
-				{ NPCID.KingSlime, 300000 }, // 30 seconds
-				{ NPCID.BlueSlime, 3600 },
-				{ NPCID.SlimeSpiked, 7200 },
-				{ NPCID.GreenSlime, 2700 },
-				{ NPCID.RedSlime, 5400 },
-				{ NPCID.PurpleSlime, 7200 },
-				{ NPCID.YellowSlime, 6300 },
-				{ NPCID.IceSlime, 4500 },
-				{ NPCID.UmbrellaSlime, 5400 },
-				{ NPCID.RainbowSlime, 30000 },
-				{ NPCID.Pinky, 15000 },
+                { NPCID.KingSlime, 300000 }, // 30 seconds
+                { NPCID.BlueSlime, 3600 },
+                { NPCID.SlimeSpiked, 7200 },
+                { NPCID.GreenSlime, 2700 },
+                { NPCID.RedSlime, 5400 },
+                { NPCID.PurpleSlime, 7200 },
+                { NPCID.YellowSlime, 6300 },
+                { NPCID.IceSlime, 4500 },
+                { NPCID.UmbrellaSlime, 5400 },
+                { NPCID.RainbowSlime, 30000 },
+                { NPCID.Pinky, 15000 },
 
-				{ NPCID.EyeofCthulhu, 450000 }, // 30 seconds
-				{ NPCID.ServantofCthulhu, 6000 },
+                { NPCID.EyeofCthulhu, 450000 }, // 30 seconds
+                { NPCID.ServantofCthulhu, 6000 },
 
-				{ NPCID.SkeletronPrime, 110000 }, // 30 seconds
-				{ NPCID.PrimeVice, 54000 },
-				{ NPCID.PrimeCannon, 45000 },
-				{ NPCID.PrimeSaw, 45000 },
-				{ NPCID.PrimeLaser, 38000 },
+                { NPCID.SkeletronPrime, 110000 }, // 30 seconds
+                { NPCID.PrimeVice, 54000 },
+                { NPCID.PrimeCannon, 45000 },
+                { NPCID.PrimeSaw, 45000 },
+                { NPCID.PrimeLaser, 38000 },
 
-				{ NPCID.Golem, 50000 }, // 30 seconds
-				{ NPCID.GolemHead, 30000 },
-				{ NPCID.GolemHeadFree, 30000 },
-				{ NPCID.GolemFistLeft, 25000 },
-				{ NPCID.GolemFistRight, 25000 },
+                { NPCID.Golem, 50000 }, // 30 seconds
+                { NPCID.GolemHead, 30000 },
+                { NPCID.GolemHeadFree, 30000 },
+                { NPCID.GolemFistLeft, 25000 },
+                { NPCID.GolemFistRight, 25000 },
 
-				{ NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
-				{ NPCID.EaterofWorldsBody, 10000 },
-				{ NPCID.EaterofWorldsTail, 10000 },
+                { NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
+                { NPCID.EaterofWorldsBody, 10000 },
+                { NPCID.EaterofWorldsTail, 10000 },
 
-				// Tier 2
-				{ NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
-				{ NPCID.TheDestroyerBody, 250000 },
-				{ NPCID.TheDestroyerTail, 250000 },
-				{ NPCID.Probe, 10000 },
+                // Tier 2
+                { NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
+                { NPCID.TheDestroyerBody, 250000 },
+                { NPCID.TheDestroyerTail, 250000 },
+                { NPCID.Probe, 10000 },
 
-				{ NPCID.Spazmatism, 150000 }, // 30 seconds
-				{ NPCID.Retinazer, 125000 },
+                { NPCID.Spazmatism, 150000 }, // 30 seconds
+                { NPCID.Retinazer, 125000 },
 
-				{ NPCID.WallofFlesh, 450000 }, // 30 seconds
-				{ NPCID.WallofFleshEye, 450000 },
+                { NPCID.WallofFlesh, 450000 }, // 30 seconds
+                { NPCID.WallofFleshEye, 450000 },
 
-				{ NPCID.SkeletronHead, 160000 }, // 30 seconds
-				{ NPCID.SkeletronHand, 60000 },
+                { NPCID.SkeletronHead, 160000 }, // 30 seconds
+                { NPCID.SkeletronHand, 60000 },
 
-				// Tier 3
-				{ NPCID.CultistBoss, 220000 }, // 30 seconds
-				{ NPCID.CultistDragonHead, 60000 },
-				{ NPCID.CultistDragonBody1, 60000 },
-				{ NPCID.CultistDragonBody2, 60000 },
-				{ NPCID.CultistDragonBody3, 60000 },
-				{ NPCID.CultistDragonBody4, 60000 },
-				{ NPCID.CultistDragonTail, 60000 },
-				{ NPCID.AncientCultistSquidhead, 50000 },
+                // Tier 3
+                { NPCID.CultistBoss, 220000 }, // 30 seconds
+                { NPCID.CultistDragonHead, 60000 },
+                { NPCID.CultistDragonBody1, 60000 },
+                { NPCID.CultistDragonBody2, 60000 },
+                { NPCID.CultistDragonBody3, 60000 },
+                { NPCID.CultistDragonBody4, 60000 },
+                { NPCID.CultistDragonTail, 60000 },
+                { NPCID.AncientCultistSquidhead, 50000 },
 
-				{ NPCID.Plantera, 160000 }, // 30 seconds
-				{ NPCID.PlanterasTentacle, 40000 },
+                { NPCID.Plantera, 160000 }, // 30 seconds
+                { NPCID.PlanterasTentacle, 40000 },
 
-				// Tier 4
-				{ NPCID.DukeFishron, 290000 }, // 30 seconds
+                // Tier 4
+                { NPCID.DukeFishron, 290000 }, // 30 seconds
 
-				{ NPCID.MoonLordCore, 160000 }, // 1 minute
-				{ NPCID.MoonLordHand, 45000 },
-				{ NPCID.MoonLordHead, 60000 },
-				{ NPCID.MoonLordLeechBlob, 800 }
+                { NPCID.MoonLordCore, 160000 }, // 1 minute
+                { NPCID.MoonLordHand, 45000 },
+                { NPCID.MoonLordHead, 60000 },
+                { NPCID.MoonLordLeechBlob, 800 }
 
-				// 8 minutes in total for vanilla Boss Rush bosses
-			};
+                // 8 minutes in total for vanilla Boss Rush bosses
+            };
 
-			BossValues = new SortedDictionary<int, int>
-			{
-				{ NPCID.QueenBee, Item.buyPrice(0, 5)},
-				{ NPCID.SkeletronHead, Item.buyPrice(0, 7) },
-				{ NPCID.DukeFishron, Item.buyPrice(0, 25) },
-				{ NPCID.CultistBoss, Item.buyPrice(0, 25) },
-				{ NPCID.MoonLordCore, Item.buyPrice(0, 30) }
-			};
+            BossValues = new SortedDictionary<int, int>
+            {
+                { NPCID.QueenBee, Item.buyPrice(0, 5)},
+                { NPCID.SkeletronHead, Item.buyPrice(0, 7) },
+                { NPCID.DukeFishron, Item.buyPrice(0, 25) },
+                { NPCID.CultistBoss, Item.buyPrice(0, 25) },
+                { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
+            };
 
             bossTypes = new SortedDictionary<int, int>()
             {
@@ -2566,7 +2566,7 @@ namespace CalamityMod
 
             bossMinionList = new List<int>()
             {
-				NPCType<DesertNuisanceHead>(),
+                NPCType<DesertNuisanceHead>(),
                 NPCType<DesertNuisanceBody>(),
                 NPCType<DesertNuisanceTail>(),
                 NPCID.SlimeSpiked,
@@ -2768,7 +2768,7 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
-			heartDropBlockList = null;
+            heartDropBlockList = null;
             pierceResistList = null;
             pierceResistExceptionList = null;
 
@@ -2780,13 +2780,13 @@ namespace CalamityMod
             DesertScourgeIDs = null;
             EaterofWorldsIDs = null;
             DeathModeSplittingWormIDs = null;
-			DestroyerIDs = null;
+            DestroyerIDs = null;
             ThanatosIDs = null;
             AresIDs = null;
-			SkeletronPrimeIDs = null;
+            SkeletronPrimeIDs = null;
             StormWeaverIDs = null;
             BoundNPCIDs = null;
-			GrenadeResistIDs = null;
+            GrenadeResistIDs = null;
             ZeroContactDamageNPCList = null;
             HardmodeNPCNerfList = null;
 
