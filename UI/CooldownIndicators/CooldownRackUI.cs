@@ -27,14 +27,6 @@ namespace CalamityMod.UI.CooldownIndicators
 				return;
 
 			List<CooldownIndicator> cooldownsToDraw = Main.LocalPlayer.Calamity().Cooldowns.FindAll(cooldown => cooldown.DisplayMe);
-
-			//DEbug
-			//cooldownsToDraw = new List<CooldownIndicator>();
-			//CooldownIndicator testCD = new GlobalDodgeCooldown(130)
-			//{
-			//	TimeLeft = (int)(130 * (1 - (Main.GlobalTime * 0.1f % 1)))
-			//};
-			//cooldownsToDraw.Add(testCD);
 			
 			if (cooldownsToDraw.Count == 0)
 				return;
@@ -48,7 +40,7 @@ namespace CalamityMod.UI.CooldownIndicators
 			string mouseHover = "";
 
 			foreach (CooldownIndicator cd in cooldownsToDraw)
-            {
+			{
 				float iconOpacity = (float)Math.Sin(Main.GlobalTime) * 0.1f + 0.6f;
 
 				//Icons get brighter if the mouse gets closer
@@ -76,7 +68,7 @@ namespace CalamityMod.UI.CooldownIndicators
 			}
 
 			if (mouseHover != "")
-            {
+			{
 				Main.LocalPlayer.mouseInterface = true;
 				Main.instance.MouseText(mouseHover);
 			}
