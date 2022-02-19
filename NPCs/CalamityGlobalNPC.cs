@@ -4077,6 +4077,10 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
+				// 35% resist to Seraphim lasers.
+				else if (projectile.type == ProjectileType<SeraphimBeamLarge>())
+					damage = (int)(damage * 0.65);
+
 				// 30% resist to Sirius.
 				else if (projectile.type == ProjectileType<SiriusExplosion>())
 					damage = (int)(damage * 0.7);
@@ -4123,6 +4127,10 @@ namespace CalamityMod.NPCs
 				// 20% resist to Executioner's Blade stealth strikes.
 				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
+
+				// 15% resist to Seraphim lasers.
+				else if (projectile.type == ProjectileType<SeraphimBeamLarge>())
+					damage = (int)(damage * 0.85);
 			}
 			else if (CalamityLists.DevourerOfGodsIDs.Contains(npc.type))
 			{
