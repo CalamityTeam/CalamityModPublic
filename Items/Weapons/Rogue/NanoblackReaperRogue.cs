@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class NanoblackReaperRogue : RogueWeapon
     {
-        public static int BaseDamage = 100;
+        public static int BaseDamage = 130;
         public static float Knockback = 9f;
         public static float Speed = 16f;
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                damage = (int)(damage * 1.5);
+                damage = (int)(damage * 1.2);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

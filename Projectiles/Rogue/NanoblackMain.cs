@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Rogue
 		private void SpawnEnergyBlade()
 		{
 			int bladeID = ModContent.ProjectileType<NanoblackSplit>();
-			int bladeDamage = projectile.damage / 5;
+			int bladeDamage = projectile.damage / 3;
 			float bladeKB = 3f;
 			float spin = projectile.direction <= 0 ? -1f : 1f;
 			float d = 16f;
