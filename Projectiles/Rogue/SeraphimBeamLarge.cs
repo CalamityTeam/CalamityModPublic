@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
             set => projectile.ai[1] = value;
         }
         public override float MaxScale => 1f;
-        public override float MaxLaserLength => 1600f;
+        public override float MaxLaserLength => 1000f;
         public override float Lifetime => 50;
         public override Color LaserOverlayColor
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return color;
             }
         }
-        public override Color LightCastColor => Color.White;
+        public override Color LightCastColor => Color.Transparent;
         public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SeraphimBeamLarge");
         public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeMiddle");
         public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeEnd");

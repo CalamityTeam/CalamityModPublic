@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             // Release a puff of golden light dust.
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 15; i++)
             {
                 Dust light = Dust.NewDustPerfect(projectile.Center, 267);
                 light.color = Color.Lerp(Color.Gold, Color.White, Main.rand.NextFloat(0.5f, 1f));

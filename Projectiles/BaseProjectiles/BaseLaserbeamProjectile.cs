@@ -55,8 +55,11 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             float idealLaserLength = DetermineLaserLength();
             LaserLength = MathHelper.Lerp(LaserLength, idealLaserLength, 0.9f); // Very quickly approach the ideal laser length.
 
-            DelegateMethods.v3_1 = LightCastColor.ToVector3();
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            if (LightCastColor != Color.Transparent)
+            {
+                DelegateMethods.v3_1 = LightCastColor.ToVector3();
+                Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, DelegateMethods.CastLight);
+            }
         }
 
         /// <summary>
@@ -204,10 +207,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         }
 
         public override bool ShouldUpdatePosition() => false;
-		#endregion
+        #endregion
 
-		#region Overridable Properties
-		public abstract float Lifetime { get; }
+        #region Overridable Properties
+        public abstract float Lifetime { get; }
         public abstract float MaxScale { get; }
         public abstract float MaxLaserLength { get; } // Be careful with this. Going too high will cause lag.
         public abstract Texture2D LaserBeginTexture { get; }
