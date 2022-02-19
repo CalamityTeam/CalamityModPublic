@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.ai[1] = 1;
             }
-            float sparkFreq = 80 / projectile.ai[1];
+            float sparkFreq = 125f / projectile.ai[1];
             if (projectile.ai[0] >= sparkFreq)
             {
                 Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
