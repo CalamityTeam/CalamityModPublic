@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (!flag2)
 			{
-				npc.velocity.Y += 0.11f;
+				npc.velocity.Y += 0.15f;
 				if (npc.velocity.Y > fallSpeed)
 					npc.velocity.Y = fallSpeed;
 
@@ -292,61 +292,75 @@ namespace CalamityMod.NPCs.Perforator
 				num39 *= num57;
 				num40 *= num57;
 
-				if ((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f) || (npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f))
+				if (((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f)) && ((npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f)))
 				{
 					if (npc.velocity.X < num39)
 						npc.velocity.X += num38;
 					else if (npc.velocity.X > num39)
 						npc.velocity.X -= num38;
+
 					if (npc.velocity.Y < num40)
 						npc.velocity.Y += num38;
 					else if (npc.velocity.Y > num40)
 						npc.velocity.Y -= num38;
+				}
+
+				if ((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f) || (npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f))
+				{
+					if (npc.velocity.X < num39)
+						npc.velocity.X += num37;
+					else if (npc.velocity.X > num39)
+						npc.velocity.X -= num37;
+
+					if (npc.velocity.Y < num40)
+						npc.velocity.Y += num37;
+					else if (npc.velocity.Y > num40)
+						npc.velocity.Y -= num37;
 
 					if (Math.Abs(num40) < fallSpeed * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y += num38 * 2f;
+							npc.velocity.Y += num37 * 2f;
 						else
-							npc.velocity.Y -= num38 * 2f;
+							npc.velocity.Y -= num37 * 2f;
 					}
 
 					if (Math.Abs(num39) < fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X += num38 * 2f;
+							npc.velocity.X += num37 * 2f;
 						else
-							npc.velocity.X -= num38 * 2f;
+							npc.velocity.X -= num37 * 2f;
 					}
 				}
 				else if (num55 > num56)
 				{
 					if (npc.velocity.X < num39)
-						npc.velocity.X += num38 * 1.1f;
+						npc.velocity.X += num37 * 1.1f;
 					else if (npc.velocity.X > num39)
-						npc.velocity.X -= num38 * 1.1f;
+						npc.velocity.X -= num37 * 1.1f;
 
 					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 0.5)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y += num38;
+							npc.velocity.Y += num37;
 						else
-							npc.velocity.Y -= num38;
+							npc.velocity.Y -= num37;
 					}
 				}
 				else
 				{
 					if (npc.velocity.Y < num40)
-						npc.velocity.Y += num38 * 1.1f;
+						npc.velocity.Y += num37 * 1.1f;
 					else if (npc.velocity.Y > num40)
-						npc.velocity.Y -= num38 * 1.1f;
+						npc.velocity.Y -= num37 * 1.1f;
 
 					if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 0.5)
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X += num38;
+							npc.velocity.X += num37;
 						else
-							npc.velocity.X -= num38;
+							npc.velocity.X -= num37;
 					}
 				}
 			}
