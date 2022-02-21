@@ -25,6 +25,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
 
+        public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets 
+        public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
+
+
         const string ComboTooltip = "Performs a combo of swings, throwing the blade out every 5 swings. Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap\n" +
                 "Snapping the scissors together increase their damage and empower your next two swings";
 
@@ -107,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;

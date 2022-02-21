@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheCosmosBlast : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
+        public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight"; //Umm actually the rending scissors are for aote mr programmer what the hel.. it gets changed in predraw anywyas
 
         private bool initialized = false;
         public ref float Charge => ref projectile.ai[0];
@@ -59,6 +59,8 @@ namespace CalamityMod.Projectiles.Melee
         public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
         public Vector2 scissorPosition => projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f;
+
+        public ref float HitCounter => ref projectile.localAI[0];
 
         public Player Owner => Main.player[projectile.owner];
 
@@ -230,6 +232,13 @@ namespace CalamityMod.Projectiles.Melee
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Red, 60, 1, 1.5f, hueShift: 0.002f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Add some damage falloff
+            damage = (int)(damage * Math.Pow((1 - ArkoftheCosmos.blastFalloffStrenght), HitCounter * ArkoftheCosmos.blastFalloffSpeed));
+            HitCounter++;
         }
 
         public override void Kill(int timeLeft)

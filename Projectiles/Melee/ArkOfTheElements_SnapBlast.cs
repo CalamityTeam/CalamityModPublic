@@ -44,6 +44,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
+        public ref float HitCounter => ref projectile.ai[0];
+
         public Player Owner => Main.player[projectile.owner];
 
         public override void SetStaticDefaults()
@@ -164,6 +166,12 @@ namespace CalamityMod.Projectiles.Melee
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Red, 60, 1, 1.5f, hueShift: 0.002f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
+        }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Add some damage falloff
+            damage = (int)(damage * Math.Pow((1 - ArkoftheElements.blastFalloffStrenght), HitCounter * ArkoftheElements.blastFalloffSpeed));
+            HitCounter++;
         }
 
         //Animation keys

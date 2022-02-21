@@ -22,6 +22,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
         public static float glassStarDamageMultiplier = 0.2f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
 
+        public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets 
+        public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
+
+
         public override bool CloneNewInstances => true;
 
         const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
@@ -80,8 +85,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (Charge > 0 && player.controlUp)
                 {
-                    float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, Vector2.Zero, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * 0.8f), 0, player.whoAmI, angle, 600);
+                    float angle = player.DirectionTo(Main.MouseWorld).ToRotation();
+                    Vector2 laserVector = player.DirectionTo(Main.MouseWorld) * 600;
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, laserVector, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
