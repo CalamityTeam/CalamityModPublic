@@ -327,7 +327,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     float maxDistance = projectile.scale * 78f;
                     Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
-                    Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2 * Owner.direction)) * 2 * (1f + distance.Length() / 15f);
+                    Vector2 angularVelocity = Utils.SafeNormalize(distance.RotatedBy(MathHelper.PiOver2 * Owner.direction), Vector2.Zero) * 2 * (1f + distance.Length() / 15f);
                     Particle glitter = new CritSpark(Owner.Center + distance, Owner.velocity + angularVelocity, Main.rand.Next(3) == 0 ? Color.Turquoise : Color.Coral, currentColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
                     GeneralParticleHandler.SpawnParticle(glitter);
                 }
@@ -386,7 +386,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         float maxDistance = projectile.scale * 78f;
                         Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
-                        Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(-MathHelper.PiOver2)) * 2 * (1f + distance.Length() / 15f);
+                        Vector2 angularVelocity = Utils.SafeNormalize(distance.RotatedBy(-MathHelper.PiOver2), Vector2.Zero) * 2 * (1f + distance.Length() / 15f);
                         Color glitterColor = Main.hslToRgb(Main.rand.NextFloat(), 1, 0.5f);
                         Particle glitter = new CritSpark(projectile.Center + distance, Owner.velocity + angularVelocity, Color.White , glitterColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
                         GeneralParticleHandler.SpawnParticle(glitter);
@@ -455,7 +455,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Main.PlaySound(SoundID.Item84, projectile.Center);
 
-                Vector2 sliceDirection = Vector2.Normalize(direction) * 40;
+                Vector2 sliceDirection = Utils.SafeNormalize(direction, Vector2.One) * 40;
                 Particle SliceLine = new LineVFX(projectile.Center - sliceDirection, sliceDirection * 2f, 0.2f, Color.Orange * 0.7f, expansion : 250f)
                 {
                     Lifetime = 10

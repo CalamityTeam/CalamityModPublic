@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 0; i < 10; i++)
             {
-                Vector2 particleSpeed = Vector2.Normalize(projectile.velocity).RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
+                Vector2 particleSpeed = Utils.SafeNormalize(projectile.velocity, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Cyan, 60, 1, 1.5f, hueShift: 0.02f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }

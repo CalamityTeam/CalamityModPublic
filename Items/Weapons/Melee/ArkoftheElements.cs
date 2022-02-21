@@ -144,10 +144,10 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 Vector2 throwVector = new Vector2(speedX, speedY);
                 float empoweredNeedles = Charge > 0 ? 1f : 0f;
-                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * 0.5f), knockBack, player.whoAmI, empoweredNeedles);
+                Projectile.NewProjectile(player.Center + Utils.SafeNormalize(throwVector, Vector2.Zero) * 20, new Vector2(speedX, speedY) * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * 0.5f), knockBack, player.whoAmI, empoweredNeedles);
 
 
-                Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 20;
+                Vector2 Shift = Utils.SafeNormalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 20;
 
                 Projectile.NewProjectile(player.Center + Shift, throwVector.RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);
                 Projectile.NewProjectile(player.Center + Shift * 1.2f, throwVector.RotatedBy(MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * 0.2f), knockBack, player.whoAmI);

@@ -85,8 +85,8 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 if (Charge > 0 && player.controlUp)
                 {
-                    float angle = player.DirectionTo(Main.MouseWorld).ToRotation();
-                    Vector2 laserVector = player.DirectionTo(Main.MouseWorld) * 600;
+                    float angle = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).ToRotation();
+                    Vector2 laserVector = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 600;
                     Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, laserVector, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
@@ -115,9 +115,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 //Only shoot the center star if theres no charge
                 if (Charge == 0)
-                    Projectile.NewProjectile(player.Center + Vector2.Normalize(new Vector2(speedX, speedY)) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(player.Center + Utils.SafeNormalize(new Vector2(speedX, speedY), Vector2.Zero) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
 
-                Vector2 Shift = Vector2.Normalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2)) * 30;
+                Vector2 Shift = Utils.SafeNormalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 30;
 
                 Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
                 Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);

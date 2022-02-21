@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.timeLeft = (int)MaxTime;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
 
-                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         //Bounce off the player if they are in the air
                         if (Owner.velocity.Y != 0)
-                            Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
+                            Owner.velocity += Utils.SafeNormalize(Owner.Center - proj.Center, Vector2.Zero) * 2;
                         break;
                     }
                 }

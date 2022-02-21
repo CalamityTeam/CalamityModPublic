@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
                 return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Bottom, projectile.Bottom - (Vector2.UnitY * scaleY * 110), scaleX * 40, ref collisionPoint);
 
             float halfLenght = 66f * projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * halfLenght, projectile.Center - Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * halfLenght, 40f, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + Utils.SafeNormalize(projectile.velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * halfLenght, projectile.Center - Utils.SafeNormalize(projectile.velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * halfLenght, 40f, ref collisionPoint);
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)

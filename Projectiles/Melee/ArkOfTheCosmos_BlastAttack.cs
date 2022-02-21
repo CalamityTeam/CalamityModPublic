@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Owner.Calamity().LungingDown = true;
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
-                Owner.velocity = Owner.DirectionTo(scissorPosition) * 60f;
+                Owner.velocity = Owner.SafeDirectionTo(scissorPosition, Vector2.Zero) * 60f;
 
                 if (Owner.Distance(scissorPosition) < 60f)
                 {

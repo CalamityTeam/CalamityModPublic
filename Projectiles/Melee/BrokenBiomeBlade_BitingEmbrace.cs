@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 //Take the direction the sword is swung. FUCK not controlling the swing direction more than just left/right :|
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 

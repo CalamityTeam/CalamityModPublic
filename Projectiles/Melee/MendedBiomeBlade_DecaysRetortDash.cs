@@ -67,12 +67,10 @@ namespace CalamityMod.Projectiles.Melee
 
             Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
 
-            Vector2 lineDirection = Vector2.Normalize(DashEnd - DashStart);
             int dist = (int)Vector2.Distance(DashEnd, DashStart) / 16;
             Vector2[] Nodes = new Vector2[dist + 1];
             Nodes[0] = DashStart;
             Nodes[dist] = DashEnd;
-
 
             for (int i = 1; i < dist + 1; i++)
             {

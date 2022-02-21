@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.timeLeft == MaxTwirlTime)
                 {
-                    projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                    projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                     Main.PlaySound(SoundID.Item71, projectile.Center);
                     for (int i = 0; i < 4; i++)
                     {
