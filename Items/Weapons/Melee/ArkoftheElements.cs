@@ -206,13 +206,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
+            float extraScale = 0.3f;
             Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
             Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
 
+            float tweakedScale = scale * (1 + extraScale); //Make the scale bigger to avoid crunching of the item
+            Vector2 offset = (frontTexture.Size() * extraScale / 2f) * scale;
+
             float backLayerOpacity = (Charge > 0) ? 1f : (float)Math.Sin(Main.GlobalTime * 0.9f) * 0.2f + 0.3f;
 
-            spriteBatch.Draw(backTexture, position, null, drawColor * backLayerOpacity, 0f, origin, scale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
-            spriteBatch.Draw(frontTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(backTexture, position - offset, null, drawColor * backLayerOpacity, 0f, origin, tweakedScale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
+            spriteBatch.Draw(frontTexture, position - offset, null, drawColor, 0f, origin, tweakedScale, SpriteEffects.None, 0f);
 
             return false;
         }
