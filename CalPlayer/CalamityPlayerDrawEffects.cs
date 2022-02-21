@@ -114,7 +114,7 @@ namespace CalamityMod.CalPlayer
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.Cyan, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
                 Main.playerDrawData.Add(data);
             }
             if (modPlayer.amidiasBlessing)
