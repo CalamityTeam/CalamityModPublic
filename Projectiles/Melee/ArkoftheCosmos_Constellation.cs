@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         Vector2 AnchorStart => Owner.Center;
         Vector2 AnchorEnd => Owner.Calamity().mouseWorld;
-        public Vector2 SizeVector => Utils.SafeNormalize(AnchorEnd - AnchorStart, Vector2.Zero) * MathHelper.Clamp((AnchorEnd - AnchorStart).Length(), 0, ArkoftheCosmosSwungBlade.ThrowReachMax);
+        public Vector2 SizeVector => Utils.SafeNormalize(AnchorEnd - AnchorStart, Vector2.Zero) * MathHelper.Clamp((AnchorEnd - AnchorStart).Length(), 0, ArkoftheCosmos.MaxThrowReach);
 
         public override void SetStaticDefaults()
         {

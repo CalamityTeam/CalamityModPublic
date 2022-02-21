@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.ai[1] = value ? 1f : 0f;
             }
-         }
+        }
 
         const int maxStitches = 8;
         public int CurrentStitches => (int)Math.Ceiling((1 - (float)Math.Sqrt(1f - (float)Math.Pow(MathHelper.Clamp(StitchProgress * 3f, 0f, 1f), 2f))) * maxStitches);
@@ -121,36 +121,7 @@ namespace CalamityMod.Projectiles.Melee
             //Manage position and rotation
             projectile.scale = 1.4f;
 
-            if (PolarStar == null)
-            {
-                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
-                GeneralParticleHandler.SpawnParticle(PolarStar);
-            }
-            else if (HoldProgress <= 0.4f)
-            {
-                PolarStar.Time = 0;
-                PolarStar.Position = scissorPosition;
-                PolarStar.Scale = projectile.scale * 2f;
-            }
-
-            //Update stitches
-            for (int i = 0; i < CurrentStitches; i++)
-            {
-                if (StitchRotations[i] == 0)
-                {
-                    StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
-                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
-                    SafeVolumeChange(ref sewSound, 0.5f);
-
-                    float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
-
-
-                    Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
-                    GeneralParticleHandler.SpawnParticle(spark);
-                }
-                StitchLifetimes[i]++;
-            }
+            HandleParticles();
 
             //Spawn particles when the line appears
             if (HoldTimer == 1)
@@ -217,6 +188,40 @@ namespace CalamityMod.Projectiles.Melee
                         }
                     }
                 }
+            }
+        }
+
+        public void HandleParticles()
+        {
+            if (PolarStar == null)
+            {
+                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
+                GeneralParticleHandler.SpawnParticle(PolarStar);
+            }
+            else if (HoldProgress <= 0.4f)
+            {
+                PolarStar.Time = 0;
+                PolarStar.Position = scissorPosition;
+                PolarStar.Scale = projectile.scale * 2f;
+            }
+
+            //Update stitches
+            for (int i = 0; i < CurrentStitches; i++)
+            {
+                if (StitchRotations[i] == 0)
+                {
+                    StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
+                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
+                    SafeVolumeChange(ref sewSound, 0.5f);
+
+                    float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
+                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
+
+
+                    Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+                StitchLifetimes[i]++;
             }
         }
 

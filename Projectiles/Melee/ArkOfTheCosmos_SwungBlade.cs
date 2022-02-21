@@ -65,7 +65,6 @@ namespace CalamityMod.Projectiles.Melee
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed && Owner.HeldItem.type == ItemType<ArkoftheCosmos>();
         public bool Thrown => Combo == 2 || Combo == 3;
         public const float MaxThrowTime = 140;
-        public const float ThrowReachMax = 500;
         public float ThrowReach;
         public float ThrowTimer => MaxThrowTime - projectile.timeLeft;
         public float ThrowCompletion => ThrowTimer / MaxThrowTime;
@@ -218,8 +217,8 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Center = Vector2.Lerp(projectile.Center, Owner.Calamity().mouseWorld, 0.025f * ThrowRatio());
                 projectile.Center = projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 20f * ThrowRatio());
 
-                if ((projectile.Center - Owner.Center).Length() > ThrowReachMax)
-                    projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * ThrowReachMax;
+                if ((projectile.Center - Owner.Center).Length() > ArkoftheCosmos.MaxThrowReach)
+                    projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * ArkoftheCosmos.MaxThrowReach;
 
                 projectile.rotation -= MathHelper.PiOver4 * 0.3f;
                 projectile.scale = 1f + ThrowScaleRatio() * 0.5f;

@@ -23,12 +23,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CloneNewInstances => true;
 
         public static float NeedleDamageMultiplier = 0.5f;
+        public static float MaxThrowReach = 620;
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
 
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
 
-        public static int DashIframes = 18;
+        public static int DashIframes = 10;
         public static float SlashBoltsDamageMultiplier = 0.2f;
         public static float SnapBoltsDamageMultiplier = 0.1f;
 
@@ -78,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 136;
-            item.damage = 1705;
+            item.damage = 2022;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
