@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
 
-            projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+            projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
             projectile.velocity.Normalize();
             projectile.rotation = projectile.velocity.ToRotation();
             projectile.Center = Owner.Center + (projectile.velocity * 60);
@@ -326,7 +326,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 directionFromHead = direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(0, 160f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi)))) * MathHelper.Lerp(130f, 200f, MathHelper.Clamp((float)Math.Sin(randomNumber * MathHelper.Pi) - 0.5f, 0f, 1f) * 2f);
             control2 = control3 + directionFromHead;
 
-            Vector2 directionFromSecondToLastPoint = Vector2.Normalize(directionFromHead.RotatedBy(MathHelper.Pi - MathHelper.ToRadians(MathHelper.Lerp(80f * flip, 110f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi))))) * MathHelper.Lerp(120f, 280f, (float)Math.Sin(randomNumber * MathHelper.Pi));
+            Vector2 directionFromSecondToLastPoint = Utils.SafeNormalize(directionFromHead.RotatedBy(MathHelper.Pi - MathHelper.ToRadians(MathHelper.Lerp(80f * flip, 110f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi)))), Vector2.Zero) * MathHelper.Lerp(120f, 280f, (float)Math.Sin(randomNumber * MathHelper.Pi));
             control1 = control2 + directionFromSecondToLastPoint;
 
             control3 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed1) * seed3 * 30f;

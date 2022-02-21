@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 CanBounce = 1f;
                 projectile.timeLeft = (int)MaxTime;
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
                 if (CanLunge == 1f)

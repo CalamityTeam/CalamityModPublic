@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, new Vector3(1f, 0.56f, 0.56f) * ShredRatio);
 
             //Manage position and rotation
-            direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+            direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
             direction.Normalize();
             projectile.rotation = direction.ToRotation();
             projectile.Center = Owner.Center + (direction * 60);

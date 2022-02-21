@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 projectile.velocity = Vector2.Zero;
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 initialized = true;
             }
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     CurrentState = 1f;
                     Main.PlaySound(SoundID.Item80, projectile.Center);
-                    direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                    direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                     //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES 
                     for (int i = 0; i <= 8; i++)
                     {
@@ -179,33 +179,33 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (sightLine == null)
                     {
-                        sightLine = new LineVFX(Owner.Center, Owner.DirectionTo(Owner.Calamity().mouseWorld), 0.2f, Color.HotPink, false);
+                        sightLine = new LineVFX(Owner.Center, Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One), 0.2f, Color.HotPink, false);
                         GeneralParticleHandler.SpawnParticle(sightLine);
                     }
                     else
                     {
-                        sightLine.Position = Owner.Center + Owner.DirectionTo(Owner.Calamity().mouseWorld) * projectile.scale * 1.88f * 40;
-                        (sightLine as LineVFX).LineVector = Owner.DirectionTo(Owner.Calamity().mouseWorld) * projectile.scale * 1.88f * 38f;
+                        sightLine.Position = Owner.Center + Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One) * projectile.scale * 1.88f * 40;
+                        (sightLine as LineVFX).LineVector = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One) * projectile.scale * 1.88f * 38f;
                         sightLine.Scale = 0.2f;
                         sightLine.Time = 0;
                         sightLine.Color = currentColor * 0.7f;
                     }
 
                     float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
-                    float mouseAngleAdjusted = MathHelper.WrapAngle(Owner.DirectionTo(Main.MouseWorld).ToRotation()) + MathHelper.Pi;
+                    float mouseAngleAdjusted = MathHelper.WrapAngle(Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One).ToRotation()) + MathHelper.Pi;
                     float deltaAngleShoot = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - mouseAngleAdjusted));
 
                     if (CanDirectFire && deltaAngleShoot < 0.1f)
                     {
-                        Particle Blink = new GenericSparkle(Owner.Center + Owner.DirectionTo(Main.MouseWorld) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 1.5f, 10, 0.1f, 3f);
+                        Particle Blink = new GenericSparkle(Owner.Center + Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * projectile.scale * 1.88f * 78f, Owner.velocity, Color.White, currentColor, 1.5f, 10, 0.1f, 3f);
                         GeneralParticleHandler.SpawnParticle(Blink);
 
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                            Projectile.NewProjectile(Owner.Center, Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
                         }
                         CanDirectFire = false;
-                        AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
+                        AngleReset = Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One).ToRotation();
                     }
 
 
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         float maxDistance = projectile.scale * 1.9f * 78f;
                         Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
-                        Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2)) * 2f * (1f + distance.Length() / 15f);
+                        Vector2 angularVelocity = Utils.SafeNormalize(distance.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 2f * (1f + distance.Length() / 15f);
                         Particle glitter = new CritSpark(Owner.Center + distance, Owner.velocity + angularVelocity, Color.White, currentColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
                         GeneralParticleHandler.SpawnParticle(glitter);
                     }

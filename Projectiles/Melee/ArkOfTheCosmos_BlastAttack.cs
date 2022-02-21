@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheCosmosBlast : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
+        public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight"; //Umm actually the rending scissors are for aote mr programmer what the hel.. it gets changed in predraw anywyas
 
         private bool initialized = false;
         public ref float Charge => ref projectile.ai[0];
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.ai[1] = value ? 1f : 0f;
             }
-         }
+        }
 
         const int maxStitches = 8;
         public int CurrentStitches => (int)Math.Ceiling((1 - (float)Math.Sqrt(1f - (float)Math.Pow(MathHelper.Clamp(StitchProgress * 3f, 0f, 1f), 2f))) * maxStitches);
@@ -59,6 +59,8 @@ namespace CalamityMod.Projectiles.Melee
         public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
         public Vector2 scissorPosition => projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f;
+
+        public ref float HitCounter => ref projectile.localAI[0];
 
         public Player Owner => Main.player[projectile.owner];
 
@@ -119,36 +121,7 @@ namespace CalamityMod.Projectiles.Melee
             //Manage position and rotation
             projectile.scale = 1.4f;
 
-            if (PolarStar == null)
-            {
-                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
-                GeneralParticleHandler.SpawnParticle(PolarStar);
-            }
-            else if (HoldProgress <= 0.4f)
-            {
-                PolarStar.Time = 0;
-                PolarStar.Position = scissorPosition;
-                PolarStar.Scale = projectile.scale * 2f;
-            }
-
-            //Update stitches
-            for (int i = 0; i < CurrentStitches; i++)
-            {
-                if (StitchRotations[i] == 0)
-                {
-                    StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
-                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
-                    SafeVolumeChange(ref sewSound, 0.5f);
-
-                    float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
-
-
-                    Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
-                    GeneralParticleHandler.SpawnParticle(spark);
-                }
-                StitchLifetimes[i]++;
-            }
+            HandleParticles();
 
             //Spawn particles when the line appears
             if (HoldTimer == 1)
@@ -196,7 +169,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Owner.Calamity().LungingDown = true;
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
-                Owner.velocity = Owner.DirectionTo(scissorPosition) * 60f;
+                Owner.velocity = Owner.SafeDirectionTo(scissorPosition, Vector2.Zero) * 60f;
 
                 if (Owner.Distance(scissorPosition) < 60f)
                 {
@@ -218,6 +191,40 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
+        public void HandleParticles()
+        {
+            if (PolarStar == null)
+            {
+                PolarStar = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.CornflowerBlue, projectile.scale * 2f, 2, 0.1f, 5f, true);
+                GeneralParticleHandler.SpawnParticle(PolarStar);
+            }
+            else if (HoldProgress <= 0.4f)
+            {
+                PolarStar.Time = 0;
+                PolarStar.Position = scissorPosition;
+                PolarStar.Scale = projectile.scale * 2f;
+            }
+
+            //Update stitches
+            for (int i = 0; i < CurrentStitches; i++)
+            {
+                if (StitchRotations[i] == 0)
+                {
+                    StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
+                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
+                    SafeVolumeChange(ref sewSound, 0.5f);
+
+                    float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
+                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine;
+
+
+                    Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
+                StitchLifetimes[i]++;
+            }
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Color pulseColor = Main.rand.NextBool() ? (Main.rand.NextBool() ? Color.Orange : Color.Coral) : (Main.rand.NextBool() ? Color.OrangeRed : Color.Gold);
@@ -230,6 +237,13 @@ namespace CalamityMod.Projectiles.Melee
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Red, 60, 1, 1.5f, hueShift: 0.002f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Add some damage falloff
+            damage = (int)(damage * Math.Pow((1 - ArkoftheCosmos.blastFalloffStrenght), HitCounter * ArkoftheCosmos.blastFalloffSpeed));
+            HitCounter++;
         }
 
         public override void Kill(int timeLeft)

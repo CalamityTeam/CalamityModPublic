@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 for (float i = 0 + Main.rand.NextFloat(0.2f, 0.5f); i < 1; i += Main.rand.NextFloat(0.2f, 0.5f))
                 {
-                    offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                    offset = Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(SizeVector.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
                     Star = new GenericSparkle(projectile.Center + SizeVector * i + offset, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                     GeneralParticleHandler.SpawnParticle(Star);
 
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (Main.rand.Next(3) == 0)
                     {
-                        offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                        offset = Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(SizeVector.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
                         Star = new GenericSparkle(projectile.Center + SizeVector * i + offset, Vector2.Zero, Color.White, Color.Plum, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                         GeneralParticleHandler.SpawnParticle(Star);
 

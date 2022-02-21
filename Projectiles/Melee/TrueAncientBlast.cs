@@ -33,12 +33,9 @@ namespace CalamityMod.Projectiles.Melee
         const float MaxTime = 20;
         public float Timer => MaxTime - projectile.timeLeft;
 
-        public ref float angle => ref projectile.ai[0];
-        public ref float lenght => ref projectile.ai[1];
+        public ref float HitCounter => ref projectile.ai[0];
 
         public Player Owner => Main.player[projectile.owner];
-
-        public Vector2 lineVector => angle.ToRotationVector2() * lenght;
 
         public override void SetDefaults()
         {
@@ -55,8 +52,10 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + lineVector, 20f, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, 20f, ref collisionPoint);
         }
+
+        public override bool ShouldUpdatePosition() => false;
 
         public override void AI()
         {
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
                 Particle Star = new GenericSparkle(projectile.Center, Vector2.Zero, Color.White, Color.HotPink, Main.rand.NextFloat(2f, 2.5f), 20, 0.1f, 3f);
                 GeneralParticleHandler.SpawnParticle(Star);
 
-                Star = new GenericSparkle(projectile.Center + lineVector, Vector2.Zero, Color.White, Color.PaleGoldenrod, Main.rand.NextFloat(2f, 2.5f), 20, 0.1f, 3f);
+                Star = new GenericSparkle(projectile.Center + projectile.velocity, Vector2.Zero, Color.White, Color.PaleGoldenrod, Main.rand.NextFloat(2f, 2.5f), 20, 0.1f, 3f);
                 GeneralParticleHandler.SpawnParticle(Star);
 
                 Main.PlaySound(SoundID.Item84, projectile.Center);
@@ -80,10 +79,17 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 0; i < 10; i++)
             {
-                Vector2 particleSpeed = angle.ToRotationVector2().RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
+                Vector2 particleSpeed = Utils.SafeNormalize(projectile.velocity, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Cyan, 60, 1, 1.5f, hueShift: 0.02f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Add some damage falloff
+            damage = (int)(damage * Math.Pow((1 - TrueArkoftheAncients.blastFalloffStrenght), HitCounter * TrueArkoftheAncients.blastFalloffSpeed));
+            HitCounter++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -92,6 +98,8 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow");
 
             float displace = 10 * (1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.8f));
+
+            float angle = projectile.velocity.ToRotation();
 
             float drawRotation = angle + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
@@ -111,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 origin = new Vector2(tex.Width / 2f, tex.Height);
             float size = Timer / MaxTime > 0.5f ? (float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.2f + 0.8f : (float)Math.Sin(Timer / MaxTime * MathHelper.Pi);
             size *= 3;
-            Vector2 scale = new Vector2(size, lenght / tex.Height);
+            Vector2 scale = new Vector2(size, projectile.velocity.Length() / tex.Height);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
 
             //Cap the lines
@@ -119,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
             scale = new Vector2(size, size);
             origin = new Vector2(cap.Width / 2f, cap.Height);
             spriteBatch.Draw(cap, projectile.Center - Main.screenPosition, null, Color.LightPink, rot + MathHelper.Pi, origin, scale, SpriteEffects.None, 0);
-            spriteBatch.Draw(cap, projectile.Center + lineVector - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(cap, projectile.Center + projectile.velocity - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
 
 
             spriteBatch.End();

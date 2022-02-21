@@ -23,15 +23,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CloneNewInstances => true;
 
         public static float NeedleDamageMultiplier = 0.5f;
+        public static float MaxThrowReach = 620;
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
+
         public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
 
-        public static int DashIframes = 18;
+        public static int DashIframes = 10;
         public static float SlashBoltsDamageMultiplier = 0.2f;
         public static float SnapBoltsDamageMultiplier = 0.1f;
 
-        public static float SwirlBoltAmount = 7f;
+        public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets 
+        public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
+
+        public static float SwirlBoltAmount = 7f; //The amount of cosmic bolts produced during hte swirl attack
         public static float SwirlBoltDamageMultiplier = 0.8f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
@@ -73,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 136;
-            item.damage = 1705;
+            item.damage = 2022;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -118,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Charge > 0 && player.controlUp)
                 {
                     float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * 1.8f), 0, player.whoAmI, Charge);
+                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI, Charge);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -144,7 +150,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (scissorState != 2)
             {
                 Vector2 throwVector = new Vector2(speedX, speedY);
-                Projectile.NewProjectile(player.Center + Vector2.Normalize(throwVector) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center + Utils.SafeNormalize(throwVector, Vector2.Zero) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI);
             }
 
             Combo += 1;

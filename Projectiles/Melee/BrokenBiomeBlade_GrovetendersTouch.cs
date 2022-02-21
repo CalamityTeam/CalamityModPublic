@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization. create control points & shit)
             {
-                projectile.velocity = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 Reach = MathHelper.Clamp((Owner.Center - Owner.Calamity().mouseWorld).Length(), MinReach, MaxReach);
                 Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
                 controlPoint1 = projectile.Center;
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
                 //Shmoove the player if a tile is hit. This movement always happens if the owner isnt on the ground, but will only happen if the projectile is above the player if they are standing on the ground)
                 if (Collision.SolidCollision(projectile.position, 32, 32) && (Owner.velocity.Y != 0 || projectile.position.Y < Owner.position.Y))
                 {
-                    Owner.velocity = Owner.DirectionTo(projectile.Center) * ReelBackStrenght;
+                    Owner.velocity = Owner.SafeDirectionTo(projectile.Center, Vector2.Zero) * ReelBackStrenght;
                     SnapCoyoteTime = 0f;
                 }
                 Main.PlaySound(SoundID.Item65, projectile.position);
