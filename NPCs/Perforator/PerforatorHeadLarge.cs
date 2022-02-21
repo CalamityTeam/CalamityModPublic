@@ -575,10 +575,6 @@ namespace CalamityMod.NPCs.Perforator
 				for (int i = 0; i < heartAmt; i++)
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
 			}
-
-			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 4, 8);
-			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 3, 5);
-			DropHelper.DropItem(npc, ItemID.Vertebrae, 2, 4);
 		}
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
