@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
 
         private bool initialized = false;
-        const float MaxTime = 160;
+        const float MaxTime = 340;
         static float ParryTime = 15;
         public Vector2 DistanceFromPlayer => projectile.velocity * 10 * (1f + ((float)Math.Sin(Timer / ParryTime * MathHelper.Pi) * 0.8f));
         public float Timer => MaxTime - projectile.timeLeft;
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Manage position and rotation
             projectile.Center = Owner.Center + DistanceFromPlayer ;
-            projectile.scale = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
+            projectile.scale = 1.4f + ((float)Math.Sin(Timer / 160 * MathHelper.Pi) * 0.6f); //SWAGGER
 
             if (Timer > ParryTime)
                 return;
