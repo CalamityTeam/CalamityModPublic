@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.soundDelay <= 0 && canShoot)
             {
                 projectile.soundDelay = (int)fireRate;
-				Main.PlaySound(SoundID.Item61, projectile.position);
+                Main.PlaySound(SoundID.Item61, projectile.position);
             }
 
             if (Main.myPlayer == projectile.owner)
@@ -62,10 +62,6 @@ namespace CalamityMod.Projectiles.Ranged
                 float kBack = player.ActiveItem().knockBack;
                 if (canShoot)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, false);
-					projType = ModContent.ProjectileType<ChickenRocket>();
-                    kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);
-                    float shootSpeed = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
                     Vector2 direction = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - source;
                     if (player.gravDir == -1f)
@@ -73,6 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
                         direction.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - source.Y;
                     }
                     Vector2 speedMult = Vector2.Normalize(direction);
+                    float shootSpeed = player.ActiveItem().shootSpeed * projectile.scale;
                     if (float.IsNaN(speedMult.X) || float.IsNaN(speedMult.Y))
                     {
                         speedMult = -Vector2.UnitY;
@@ -84,15 +81,21 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     projectile.velocity = speedMult * 0.55f;
 
-					Vector2 velocity = Vector2.Normalize(projectile.velocity) * speedMult2;
-					if (float.IsNaN(velocity.X) || float.IsNaN(velocity.Y))
-					{
-						velocity = -Vector2.UnitY;
-					}
-					if (shouldShoot)
-						Projectile.NewProjectile(source, velocity, projType, dmg, kBack, projectile.owner);
+                    if (shouldShoot)
+                    {
+                        player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, true);
+                        projType = ModContent.ProjectileType<ChickenRocket>();
+                        kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);
+
+                        Vector2 velocity = Vector2.Normalize(projectile.velocity) * speedMult2;
+                        if (float.IsNaN(velocity.X) || float.IsNaN(velocity.Y))
+                        {
+                            velocity = -Vector2.UnitY;
+                        }
+                        Projectile.NewProjectile(source, velocity, projType, dmg, kBack, projectile.owner);
+                    }
                 }
-                else
+                else if (!canShoot)
                 {
                     projectile.Kill();
                 }
@@ -104,7 +107,10 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
-            player.itemTime = player.itemAnimation = 2;
+            if (player.itemTime < 2)
+                player.itemTime = 2;
+            if (player.itemAnimation < 2)
+                player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
 
