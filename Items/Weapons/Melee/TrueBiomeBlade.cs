@@ -26,6 +26,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public int PowerLungeCounter = 0;
 
         #region stats
+        public static int BaseDamage = 160;
+
         public static int DefaultAttunement_BaseDamage = 160;
         public static int DefaultAttunement_SigilTime = 1200;
         public static int DefaultAttunement_BeamTime = 60;
@@ -152,7 +154,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 68;
-            item.damage = 160;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 21;
             item.useTime = 21;
@@ -242,6 +244,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
@@ -256,7 +266,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == null)
             {
-                item.damage = 160;
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.noMelee = false;

@@ -32,6 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool OnHitProc = false;
 
         #region stats
+        public static int BaseDamage = 800;
+
         public static int PhoenixAttunement_BaseDamage = 800;
         public static int PhoenixAttunement_LocalIFrames = 20; //Remember its got one extra update
         public static float PhoenixAttunement_BoltDamageReduction = 0.5f;
@@ -177,7 +179,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 128;
-            item.damage = 99;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 18;
             item.useTime = 18;
@@ -259,6 +261,14 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 return false;
             return true;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
         }
 
         public override void HoldItem(Player player)

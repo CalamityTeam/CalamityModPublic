@@ -25,6 +25,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public int CanLunge = 1;
 
         #region stats
+        public static int BaseDamage = 50;
+
         public static int DefaultAttunement_BaseDamage = 55;
 
         public static int EvilAttunement_BaseDamage = 102;
@@ -110,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 36;
-            item.damage = 55;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -214,6 +216,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
+        }
+
         public override void HoldItem(Player player)
         {
 
@@ -227,7 +237,6 @@ namespace CalamityMod.Items.Weapons.Melee
             //Change the swords function based on its attunement
             if (mainAttunement == null)
             {
-                item.damage = 55;
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.noMelee = false;
