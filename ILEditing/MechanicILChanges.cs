@@ -496,7 +496,7 @@ namespace CalamityMod.ILEditing
         private static void DrawGeneralParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             FusableParticleManager.RenderAllFusableParticles();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, default, null, null, Main.GameViewMatrix.TransformationMatrix);
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             Main.spriteBatch.End();
             DeathAshParticle.DrawAll();

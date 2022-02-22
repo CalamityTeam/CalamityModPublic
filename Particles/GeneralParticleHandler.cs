@@ -138,7 +138,7 @@ namespace CalamityMod.Particles
             if (batchedNonPremultipliedParticles.Count > 0)
             {
                 sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedNonPremultipliedParticles)
                 {
@@ -155,7 +155,7 @@ namespace CalamityMod.Particles
             if (batchedAdditiveBlendParticles.Count > 0)
             {
                 sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedAdditiveBlendParticles)
                 {
