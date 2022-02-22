@@ -31,8 +31,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 15;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = projectile.MaxUpdates * 15;
         }
 
         public override void AI()
