@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
 						float lightVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
-						Vector2 velocity = Vector2.Normalize(destination) * lightVelocity;
+						Vector2 velocity = destination.SafeNormalize(Vector2.UnitX * npc.spriteDirection) * lightVelocity;
 						int type = NPCID.AncientLight;
 						float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
 						int light = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);

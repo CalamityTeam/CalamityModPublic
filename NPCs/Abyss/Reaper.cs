@@ -487,12 +487,12 @@ namespace CalamityMod.NPCs.Abyss
                         int num20 = 36;
                         for (int i = 0; i < num20; i++)
                         {
-                            Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
+                            Vector2 expr_80F = (npc.velocity.SafeNormalize(Vector2.Zero) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
                             Vector2 vector2 = expr_80F - npc.Center;
                             int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
                             Main.dust[num21].noGravity = true;
                             Main.dust[num21].noLight = true;
-                            Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
+                            Main.dust[num21].velocity = vector2.SafeNormalize(Vector2.Zero) * 3f;
                         }
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperEnragedRoar"), (int)npc.position.X, (int)npc.position.Y);
                     }
@@ -514,7 +514,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
                     }
-                    Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+                    Vector2 vector3 = (player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity).SafeNormalize(Vector2.Zero) * scaleFactor;
                     if (npc.velocity.X < vector3.X)
                     {
                         npc.velocity.X = npc.velocity.X + num3;
@@ -567,7 +567,7 @@ namespace CalamityMod.NPCs.Abyss
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
-                        npc.velocity = Vector2.Normalize(player.Center - vector) * num5;
+                        npc.velocity = (player.Center - vector).SafeNormalize(Vector2.UnitX * npc.direction) * num5;
                         npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
                         if (num22 != 0)
                         {
@@ -587,7 +587,7 @@ namespace CalamityMod.NPCs.Abyss
                     int num24 = 7;
                     for (int j = 0; j < num24; j++)
                     {
-                        Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)(float)num24, default) + vector;
+                        Vector2 arg_E1C_0 = (npc.velocity.SafeNormalize(Vector2.Zero) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)(float)num24, default) + vector;
                         Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                         int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
                         Main.dust[num25].noGravity = true;

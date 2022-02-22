@@ -167,11 +167,7 @@ namespace CalamityMod.NPCs.Abyss
                         }
                         else if (random == 1)
                         {
-                            Vector2 vec = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            if (vec.HasNaNs())
-                            {
-                                vec = new Vector2(npc.direction, 0f);
-                            }
+                            Vector2 vec = (Main.player[npc.target].Center - npc.Center).SafeNormalize(Vector2.UnitX * npc.direction);
                             Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
                             Projectile.NewProjectile(vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
@@ -298,12 +294,12 @@ namespace CalamityMod.NPCs.Abyss
             {
                 if (num50 > num48)
                 {
-                    npc.velocity.Normalize();
+                    npc.velocity.SafeNormalize(Vector2.UnitX * npc.direction);
                     npc.velocity *= num48;
                 }
                 else if (num50 < num49)
                 {
-                    npc.velocity.Normalize();
+                    npc.velocity.SafeNormalize(Vector2.UnitX * npc.direction);
                     npc.velocity *= num49;
                 }
             }

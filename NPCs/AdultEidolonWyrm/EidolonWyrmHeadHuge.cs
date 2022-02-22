@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.velocity = (chargeDestination - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
 								npc.netUpdate = true;
 								npc.netSpam -= 5;
 							}
@@ -583,7 +583,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									// Predictive bolt
 									Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
 									float ai = Main.rand.Next(100);
-									Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									Vector2 projectileVelocity = projectileDestination.RotatedByRandom(MathHelper.PiOver4).SafeNormalize(Vector2.UnitX * npc.spriteDirection) * lightningVelocity;
 									int type = ProjectileID.CultistBossLightningOrbArc;
 									int damage = npc.GetProjectileDamage(type);
 									int proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
@@ -592,14 +592,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									// Opposite bolt
 									projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
 									ai = Main.rand.Next(100);
-									projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									projectileVelocity = projectileDestination.RotatedByRandom(MathHelper.PiOver4).SafeNormalize(Vector2.UnitX * npc.spriteDirection) * lightningVelocity;
 									proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
 									Main.projectile[proj].tileCollide = false;
 
 									// Normal bolt
 									projectileDestination = targetCenterArray[i] - npc.Center;
 									ai = Main.rand.Next(100);
-									projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									projectileVelocity = projectileDestination.RotatedByRandom(MathHelper.PiOver4).SafeNormalize(Vector2.UnitX * npc.spriteDirection) * lightningVelocity;
 									proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
 									Main.projectile[proj].tileCollide = false;
 								}
@@ -614,7 +614,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 						Vector2 dustPosition = new Vector2(-npc.width * 0.2f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
 						int dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 226, (0f - npc.velocity.X) / 3f, (0f - npc.velocity.Y) / 3f, 150, Color.Transparent, 0.7f);
 						Main.dust[dust].position = npc.Center + dustPosition;
-						Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - npc.Center) * 2f;
+						Main.dust[dust].velocity = (Main.dust[dust].position - npc.Center).SafeNormalize(Vector2.Zero) * 2f;
 						Main.dust[dust].noGravity = true;
 
 						rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
@@ -662,7 +662,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.velocity = (chargeDestination - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
 								npc.netUpdate = true;
 								npc.netSpam -= 5;
 							}
@@ -770,7 +770,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.velocity = (chargeDestination - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
 								npc.netUpdate = true;
 								npc.netSpam -= 5;
 							}
@@ -864,19 +864,19 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 							{
 								// Predictive mist
 								Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-								Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
+								Vector2 projectileVelocity = projectileDestination.SafeNormalize(Vector2.UnitX * npc.spriteDirection) * iceMistVelocity;
 								int type = ProjectileID.CultistBossIceMist;
 								int damage = npc.GetProjectileDamage(type);
 								Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
 								// Opposite mist
 								projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-								projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
+								projectileVelocity = projectileDestination.SafeNormalize(Vector2.UnitX * npc.spriteDirection) * iceMistVelocity;
 								Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
 								// Normal bolt
 								projectileDestination = targetCenterArray[i] - npc.Center;
-								projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
+								projectileVelocity = projectileDestination.SafeNormalize(Vector2.UnitX * npc.spriteDirection) * iceMistVelocity;
 								Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 							}
 						}
@@ -889,7 +889,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 						Vector2 dustPosition = new Vector2(-npc.width * 0.2f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
 						int dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 197, 0f, 0f, 100, Color.Transparent);
 						Main.dust[dust].position = npc.Center + dustPosition;
-						Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - npc.Center) * 2f;
+						Main.dust[dust].velocity = (Main.dust[dust].position - npc.Center).SafeNormalize(Vector2.Zero) * 2f;
 						Main.dust[dust].noGravity = true;
 
 						rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
@@ -1044,7 +1044,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + lightningChargeVectorFlipped + player.velocity * chargePredictionAmt;
-								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.velocity = (chargeDestination - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
 								npc.netUpdate = true;
 								npc.netSpam -= 5;
 							}

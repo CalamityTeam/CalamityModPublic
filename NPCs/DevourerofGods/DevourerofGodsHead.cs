@@ -63,10 +63,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 		}
 
 		// Laser spread variables
-		private const int shotSpacingMax = 750;
+		private const int shotSpacingMax = 1050;
 		private int shotSpacing = shotSpacingMax;
-		private const int spacingVar = 250;
-		private const int totalShots = 6;
+		private const int totalShots = 10;
+		private const int spacingVar = shotSpacingMax / totalShots * 2;
 		private int laserWallType = 0;
 		private const float laserWallSpacingOffset = 16f;
 
@@ -100,8 +100,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 		{
 			Normal = 0,
 			Offset = 1,
-			MultiLayered = 2,
-			DiagonalHorizontal = 3,
+			DiagonalHorizontal = 2,
+			MultiLayered = 3,
 			DiagonalVertical = 4
 		}
 
@@ -109,9 +109,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private const int shotSpacingMax_Phase2 = 1050;
 		private int[] shotSpacing_Phase2 = new int[4] { shotSpacingMax_Phase2, shotSpacingMax_Phase2, shotSpacingMax_Phase2, shotSpacingMax_Phase2 };
 		private const int spacingVar_Phase2 = 105;
-		private const int diagonalSpacingVar = 350;
 		private const int totalShots_Phase2 = 20;
 		private const int totalDiagonalShots = 6;
+		private const int diagonalSpacingVar = shotSpacingMax_Phase2 / totalDiagonalShots * 2;
 		private int laserWallType_Phase2 = 0;
 		public int laserWallPhase = 0;
 
@@ -657,7 +657,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 										}
 
-										laserWallType_Phase2 = (int)LaserWallType_Phase2.Offset;
 										break;
 
 									case (int)LaserWallType_Phase2.Offset:
@@ -676,7 +675,27 @@ namespace CalamityMod.NPCs.DevourerofGods
 											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 										}
 
-										laserWallType_Phase2 = revenge ? (int)LaserWallType_Phase2.MultiLayered : expertMode ? (int)LaserWallType_Phase2.DiagonalHorizontal : (int)LaserWallType_Phase2.Normal;
+										break;
+
+									case (int)LaserWallType_Phase2.DiagonalHorizontal:
+
+										for (int x = 0; x < totalDiagonalShots + 1; x++)
+										{
+											start = new Vector2(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0]);
+											aim.Y += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
+											velocity = Vector2.Normalize(aim - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+
+											start = new Vector2(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0]);
+											velocity = Vector2.Normalize(aim - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+
+											shotSpacing_Phase2[0] -= diagonalSpacingVar;
+										}
+
+										Projectile.NewProjectile(player.Center.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.Center.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
+
 										break;
 
 									case (int)LaserWallType_Phase2.MultiLayered:
@@ -699,29 +718,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
 										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 
-										laserWallType_Phase2 = (int)LaserWallType_Phase2.DiagonalHorizontal;
-										break;
-
-									case (int)LaserWallType_Phase2.DiagonalHorizontal:
-
-										for (int x = 0; x < totalDiagonalShots + 1; x++)
-										{
-											start = new Vector2(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0]);
-											aim.Y += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
-											velocity = Vector2.Normalize(aim - start) * speed;
-											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
-
-											start = new Vector2(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0]);
-											velocity = Vector2.Normalize(aim - start) * speed;
-											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
-
-											shotSpacing_Phase2[0] -= diagonalSpacingVar;
-										}
-
-										Projectile.NewProjectile(player.Center.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.Center.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
-
-										laserWallType_Phase2 = revenge ? (int)LaserWallType_Phase2.DiagonalVertical : (int)LaserWallType_Phase2.Normal;
 										break;
 
 									case (int)LaserWallType_Phase2.DiagonalVertical:
@@ -743,9 +739,20 @@ namespace CalamityMod.NPCs.DevourerofGods
 										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
 										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 
-										laserWallType_Phase2 = (int)LaserWallType_Phase2.Normal;
 										break;
 								}
+
+								// Pick a random laser wall phase in expert+
+								if (expertMode)
+								{
+									int laserWallPhase;
+									int choices = revenge ? 5 : 3;
+									do laserWallPhase = Main.rand.Next(choices);
+									while (laserWallPhase == laserWallType_Phase2);
+									laserWallType_Phase2 = laserWallPhase;
+								}
+								else
+									laserWallType_Phase2 = laserWallType_Phase2 == (int)LaserWallType_Phase2.Normal ? (int)LaserWallType_Phase2.Offset : (int)LaserWallType_Phase2.Normal;
 
 								// Lower wall
 								for (int x = 0; x < totalShots_Phase2; x++)
@@ -1384,7 +1391,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 									if (expertMode)
 										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
 
-									laserWallType = (int)LaserWallType.DiagonalLeft;
 									break;
 
 								case (int)LaserWallType.DiagonalLeft:
@@ -1402,7 +1408,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 									if (expertMode)
 										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 
-									laserWallType = expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.DiagonalRight;
 									break;
 
 								case (int)LaserWallType.DiagonalHorizontal:
@@ -1427,7 +1432,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 									}
 
-									laserWallType = revenge ? (int)LaserWallType.DiagonalCross : (int)LaserWallType.DiagonalRight;
 									break;
 
 								case (int)LaserWallType.DiagonalCross:
@@ -1461,9 +1465,21 @@ namespace CalamityMod.NPCs.DevourerofGods
 										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 									}
 
-									laserWallType = (int)LaserWallType.DiagonalRight;
 									break;
 							}
+
+							// Pick a random laser wall phase in expert+
+							if (expertMode)
+							{
+								int laserWallPhase;
+								int choices = revenge ? 4 : 3;
+								do laserWallPhase = Main.rand.Next(choices);
+								while (laserWallPhase == laserWallType);
+								laserWallType = laserWallPhase;
+							}
+							else
+								laserWallType = laserWallType == (int)LaserWallType.DiagonalRight ? (int)LaserWallType.DiagonalLeft : (int)LaserWallType.DiagonalRight;
+
 							shotSpacing = shotSpacingMax;
 						}
 
