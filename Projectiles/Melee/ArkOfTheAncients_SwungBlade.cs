@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
             {
-                Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 1f, ProjectileType<AncientBeam>(), (int)(projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
+                Projectile.NewProjectile(Owner.Center + direction * 30f, projectile.velocity * 1.25f, ProjectileType<AncientBeam>(), (int)(projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
                 HasFired = 1f;
             }
 

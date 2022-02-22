@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 initialized = true;
 
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 projectile.rotation = direction.ToRotation();
 

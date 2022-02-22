@@ -541,7 +541,7 @@ namespace CalamityMod.DataStructures
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
                 Main.PlaySound(SoundID.Item78);
-                Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
             }

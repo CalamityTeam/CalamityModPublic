@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
             float opacity = projectile.timeLeft > 10 ? 1 : projectile.timeLeft / 10f;
             Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
 
-            Vector2 lineDirection = Vector2.Normalize(Target.Center - NPCfrom.Center);
+            Vector2 lineDirection = Utils.SafeNormalize(Target.Center - NPCfrom.Center, Vector2.Zero);
             int dist = (int)Vector2.Distance(Target.Center, NPCfrom.Center) / 16;
             Vector2[] Nodes = new Vector2[dist + 1];
             Nodes[0] = NPCfrom.Center;

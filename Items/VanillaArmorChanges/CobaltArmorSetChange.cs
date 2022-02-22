@@ -16,9 +16,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Cobalt";
 
-        public const int SpeedBoostSetBonusPercentage = 15;
+        public const int SpeedBoostSetBonusPercentage = 10;
         public const int MaxManaBoost = 20;
-        public const int MovementSpeedBoostPercentageMax = 15;
+        public const int MovementSpeedBoostPercentageMax = 10;
         public const int MovementSpeedBoostMphThreshold = 60;
 
         public override void ApplyHeadPieceEffect(Player player)

@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == 0f)
             {
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 projectile.Center = Owner.Center + (direction * 70f * ChargeDisplacement());
 

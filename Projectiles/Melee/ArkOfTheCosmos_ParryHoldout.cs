@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
         private bool initialized = false;
-        const float MaxTime = 160;
+        const float MaxTime = 340;
         static float ParryTime = 15;
         public Vector2 DistanceFromPlayer => projectile.velocity * 10 + projectile.velocity * 10 * ThrustDisplaceRatio();
         public float Timer => MaxTime - projectile.timeLeft;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
                 var sound = Main.PlaySound(SoundID.Item84, projectile.Center);
                 CalamityUtils.SafeVolumeChange(ref sound, 0.3f);
 
-                projectile.velocity = Owner.DirectionTo(Main.MouseWorld);
+                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 projectile.velocity.Normalize();
                 projectile.rotation = projectile.velocity.ToRotation();
 
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         GeneralParryEffects();
                         if (Owner.velocity.Y != 0)
-                            Owner.velocity += Vector2.Normalize(Owner.Center - proj.Center) * 2;
+                            Owner.velocity += Utils.SafeNormalize(Owner.Center - proj.Center, Vector2.Zero) * 2;
                     }
 
                     //Reduce the projectile's damage by 300 for a second.

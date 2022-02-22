@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
                 NPC potentialTarget = TargetNext(target.Center, i);
                 if (potentialTarget == null)
                     break;
-                Projectile proj = Projectile.NewProjectileDirect(target.Center, target.DirectionTo(potentialTarget.Center) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
+                Projectile proj = Projectile.NewProjectileDirect(target.Center, target.SafeDirectionTo(potentialTarget.Center, Vector2.Zero) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
                 proj.scale = 2f;
             }
             Array.Clear(excludedTargets, 0, 3);
@@ -135,9 +135,9 @@ namespace CalamityMod.Projectiles.Melee
                         projectile.velocity *= 10f;
                     }
                     if (projectile.velocity.AngleBetween(Owner.Center - projectile.Center) > MathHelper.PiOver4)
-                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Owner.Center).ToRotation(), MathHelper.Pi / 20f)).ToRotationVector2() * projectile.velocity.Length() * 0.98f;
+                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.SafeDirectionTo(Owner.Center, Vector2.Zero).ToRotation(), MathHelper.Pi / 20f)).ToRotationVector2() * projectile.velocity.Length() * 0.98f;
                     else
-                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Owner.Center).ToRotation(), MathHelper.Pi)).ToRotationVector2() * projectile.velocity.Length() * 1.05f;
+                        projectile.velocity = (projectile.velocity.ToRotation().AngleTowards(projectile.SafeDirectionTo(Owner.Center, Vector2.Zero).ToRotation(), MathHelper.Pi)).ToRotationVector2() * projectile.velocity.Length() * 1.05f;
                     projectile.rotation = Main.GlobalTime * 25f;
                     projectile.scale = MathHelper.Clamp((Owner.Center - projectile.Center).Length() / (FourSeasonsGalaxia.AriesAttunement_Reach * 0.5f), 0.3f, 2f);
                     projectile.timeLeft = 4;
@@ -163,12 +163,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 40f * ThrowDisplace());
 
             if ((projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.AriesAttunement_Reach)
-                projectile.Center = Owner.Center + Owner.DirectionTo(projectile.Center) * FourSeasonsGalaxia.AriesAttunement_Reach;
+                projectile.Center = Owner.Center + Owner.SafeDirectionTo(projectile.Center, Vector2.Zero) * FourSeasonsGalaxia.AriesAttunement_Reach;
 
             projectile.rotation = Main.GlobalTime * 25f;
             //Make the owner look like theyre "holding" the sword bla bla
             Owner.heldProj = projectile.whoAmI;
-            projectile.velocity = Owner.DirectionTo(projectile.Center);
+            projectile.velocity = Owner.SafeDirectionTo(projectile.Center, Vector2.Zero);
             Owner.direction = Math.Sign(projectile.velocity.X);
             Owner.itemRotation = projectile.velocity.ToRotation();
             if (Owner.direction != 1)
@@ -197,14 +197,14 @@ namespace CalamityMod.Projectiles.Melee
             {
                 float maxDistance = projectile.scale * 82f;
                 Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
-                Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2)) * 2f * (1f + distance.Length() / 15f);
+                Vector2 angularVelocity = Utils.SafeNormalize(distance.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 2f * (1f + distance.Length() / 15f);
                 Particle glitter = new CritSpark(projectile.Center + distance, angularVelocity, Main.rand.Next(3) == 0 ? Color.HotPink : Color.Plum, Color.DarkOrchid, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
                 GeneralParticleHandler.SpawnParticle(glitter);
             }
 
             float smokeDistance = projectile.scale * 62f;
             Vector2 smokePos = Main.rand.NextVector2Circular(smokeDistance, smokeDistance);
-            Vector2 smokeSpeed = Vector2.Normalize(smokePos.RotatedBy(MathHelper.PiOver2)) * 0.1f * (1f + smokePos.Length() / 15f);
+            Vector2 smokeSpeed = Utils.SafeNormalize(smokePos.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 0.1f * (1f + smokePos.Length() / 15f);
             Particle smoke = new HeavySmokeParticle(projectile.Center + smokePos, smokeSpeed, Color.Lerp(Color.Navy, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.4f, 1f) * projectile.scale, 0.8f, 0, false, 0, true);
             GeneralParticleHandler.SpawnParticle(smoke);
 

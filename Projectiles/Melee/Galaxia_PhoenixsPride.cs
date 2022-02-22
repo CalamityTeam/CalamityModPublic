@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 projectile.velocity = Vector2.Zero;
-                direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
                 initialized = true;
             }
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
 
                     Main.PlaySound(SoundID.Item80, projectile.Center);
-                    direction = Owner.DirectionTo(Owner.Calamity().mouseWorld);
+                    direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                     //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES 
                     for (int i = 0; i <= 8; i++)
                     {
@@ -207,17 +207,17 @@ namespace CalamityMod.Projectiles.Melee
                     }
 
                     float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
-                    float mouseAngleAdjusted = MathHelper.WrapAngle(Owner.DirectionTo(Main.MouseWorld).ToRotation()) + MathHelper.Pi;
+                    float mouseAngleAdjusted = MathHelper.WrapAngle(Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One).ToRotation()) + MathHelper.Pi;
                     float deltaAngleShoot = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - mouseAngleAdjusted));
 
                     if (CanDirectFire && deltaAngleShoot < 0.1f)
                     {
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Owner.Center, Owner.DirectionTo(Main.MouseWorld) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                            Projectile.NewProjectile(Owner.Center, Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One) * 15f, ProjectileType<GalaxiaBolt>(), (int)(projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                         }
                         CanDirectFire = false;
-                        AngleReset = Owner.DirectionTo(Main.MouseWorld).ToRotation();
+                        AngleReset = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One).ToRotation();
                     }
 
 
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         float maxDistance = projectile.scale * 1.9f * 78f;
                         Vector2 distance = Main.rand.NextVector2Circular(maxDistance, maxDistance);
-                        Vector2 angularVelocity = Vector2.Normalize(distance.RotatedBy(MathHelper.PiOver2)) * 2f * (1f + distance.Length() / 15f);
+                        Vector2 angularVelocity = Utils.SafeNormalize(distance.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 2f * (1f + distance.Length() / 15f);
                         Particle glitter = new CritSpark(Owner.Center + distance, Owner.velocity + angularVelocity, Main.rand.Next(3) == 0 ? Color.Turquoise : Color.Coral, currentColor, 1f + 1 * (distance.Length() / maxDistance), 10, 0.05f, 3f);
                         GeneralParticleHandler.SpawnParticle(glitter);
                     }

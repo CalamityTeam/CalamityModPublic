@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         Vector2 AnchorStart => Owner.Center;
         Vector2 AnchorEnd => Owner.Calamity().mouseWorld;
-        public Vector2 SizeVector => Utils.SafeNormalize(AnchorEnd - AnchorStart, Vector2.Zero) * MathHelper.Clamp((AnchorEnd - AnchorStart).Length(), 0, ArkoftheCosmosSwungBlade.ThrowReachMax);
+        public Vector2 SizeVector => Utils.SafeNormalize(AnchorEnd - AnchorStart, Vector2.Zero) * MathHelper.Clamp((AnchorEnd - AnchorStart).Length(), 0, ArkoftheCosmos.MaxThrowReach);
 
         public override void SetStaticDefaults()
         {
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
                     constellationColorHue = (constellationColorHue + 0.16f) % 1;
                     constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
 
-                    offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                    offset = Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(SizeVector.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
                     Star = new GenericSparkle(AnchorStart + SizeVector * i + offset, Vector2.Zero, Color.White, constellationColor, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                     BootlegSpawnParticle(Star);
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Melee
                         constellationColorHue = (constellationColorHue + 0.16f) % 1;
                         constellationColor = Main.hslToRgb(constellationColorHue, 1, 0.8f);
 
-                        offset = Main.rand.NextFloat(-50f, 50f) * Vector2.Normalize(SizeVector.RotatedBy(MathHelper.PiOver2));
+                        offset = Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(SizeVector.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
                         Star = new GenericSparkle(AnchorStart + SizeVector * i + offset, Vector2.Zero, Color.White, constellationColor, Main.rand.NextFloat(1f, 1.5f), 20, 0f, 3f);
                         BootlegSpawnParticle(Star);
 
