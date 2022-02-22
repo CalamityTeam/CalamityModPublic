@@ -572,10 +572,10 @@ namespace CalamityMod
             return shader;
         }
 
-        public static void EnterShaderRegion(this SpriteBatch spriteBatch)
+        public static void EnterShaderRegion(this SpriteBatch spriteBatch, BlendState newBlendState = null)
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, newBlendState ?? BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public static void ExitShaderRegion(this SpriteBatch spriteBatch)
