@@ -126,6 +126,12 @@ namespace CalamityMod.Projectiles.Magic
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + beamVector * projectile.ai[0], BeamHitboxCollisionWidth * projectile.scale, ref _);
         }
 
+        // Ensure that the hit direction is correct when hitting enemies.
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            hitDirection = (projectile.Center.X < target.Center.X).ToDirectionInt();
+        }
+
         private Color GetBeamColor()
         {
             Color c = ValkyrieRay.LightColor;
