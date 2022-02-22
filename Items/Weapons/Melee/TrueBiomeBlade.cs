@@ -256,11 +256,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == null)
             {
+                item.damage = 160;
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noMelee = false;
+                item.channel = false;
                 item.shoot = ProjectileID.PurificationPowder;
                 item.shootSpeed = 12f;
                 item.UseSound = SoundID.Item1;
+                Combo = 0;
 
                 Combo = 0;
                 PowerLungeCounter = 0;

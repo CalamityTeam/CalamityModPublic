@@ -224,12 +224,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 CanLunge = 1;
 
 
-
             //Change the swords function based on its attunement
             if (mainAttunement == null)
             {
+                item.damage = 55;
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noMelee = false;
+                item.channel = false;
                 item.shoot = ProjectileID.PurificationPowder;
                 item.shootSpeed = 12f;
                 item.UseSound = SoundID.Item1;
