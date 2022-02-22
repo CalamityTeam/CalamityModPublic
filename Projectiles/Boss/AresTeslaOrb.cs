@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 					deathrayPhase = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays;
 			}
 
-			if (projectile.velocity.Length() < (deathrayPhase ? 12f : 24f))
+			if (projectile.velocity.Length() < (deathrayPhase ? 10.4f : 20.8f))
 				projectile.velocity *= 1.01f;
 
 			int fadeOutTime = 15;
@@ -105,7 +105,6 @@ namespace CalamityMod.Projectiles.Boss
 
 					Dust dust = Main.dust[num54];
 					dust.velocity *= 3f;
-					dust = Main.dust[num54];
 
 					num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 1.5f * scale);
 					Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * projectile.width / 2f;
@@ -116,8 +115,6 @@ namespace CalamityMod.Projectiles.Boss
 					Main.dust[num54].noGravity = true;
 					Main.dust[num54].fadeIn = 1f;
 					Main.dust[num54].color = Color.Cyan * 0.5f;
-
-					dust = Main.dust[num54];
 				}
 				for (int num55 = 0; num55 < 20; num55++)
 				{
@@ -134,7 +131,6 @@ namespace CalamityMod.Projectiles.Boss
 
 					Dust dust = Main.dust[num56];
 					dust.velocity *= 0.5f;
-					dust = Main.dust[num56];
 				}
 			}
 		}
