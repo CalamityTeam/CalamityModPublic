@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 82;
             item.height = 82;
-            item.damage = 350;
+            item.damage = 332;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -61,11 +61,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Have stealth strikes release bursts of light that explode.
             if (player.Calamity().StealthStrikeAvailable())
             {
+                int stealthDamage = (int)(damage * 1.4);
                 for (int i = 0; i < StealthStrikeLightCount; i++)
                 {
                     float offsetAngle = MathHelper.Lerp(-0.97f, 0.97f, i / (float)(StealthStrikeLightCount - 1f));
                     Vector2 lightShootVelocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 23f;
-                    Projectile.NewProjectile(position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), damage, knife, player.whoAmI, 1f);
+                    Projectile.NewProjectile(position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), stealthDamage, knife, player.whoAmI, 1f);
                 }
             }
             return false;

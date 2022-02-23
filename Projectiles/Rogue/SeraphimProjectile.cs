@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.Opacity = (float)Math.Pow(1f - Time / SlowdownTime, 2D);
                 projectile.velocity *= SlowdownFactor;
 
-                int lightDustCount = (int)MathHelper.Lerp(10f, 1f, projectile.Opacity);
+                int lightDustCount = (int)MathHelper.Lerp(8f, 1f, projectile.Opacity);
                 for (int i = 0; i < lightDustCount; i++)
                 {
                     Vector2 dustSpawnPosition = projectile.Center + Main.rand.NextVector2Unit() * (1f - projectile.Opacity) * 45f;

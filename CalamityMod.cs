@@ -1,3 +1,4 @@
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -228,6 +229,7 @@ namespace CalamityMod
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();
+            BalancingChangesManager.Load();
         }
 
         private void LoadClient()
@@ -378,6 +380,7 @@ namespace CalamityMod
             bossVelocityDamageScaleValues?.Clear();
             bossVelocityDamageScaleValues = null;
 
+            BalancingChangesManager.Unload();
             Attunement.Unload();
             EnchantmentManager.UnloadAllEnchantments();
             VanillaArmorChangeManager.Unload();
