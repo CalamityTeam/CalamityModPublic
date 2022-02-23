@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                         if (Main.rand.NextBool(360))
                             dust.scale = 1.5f;
                     }
-                    for (int i = 0; i < Main.projectile.Length; i++)
+                    for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<DormantBrimseekerBab>() && 
                             Main.projectile[i].owner == projectile.owner && Main.projectile[i].localAI[1] == 0f)
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                                 for (int j = 0; j < 30; j++)
                                 {
                                     Dust dust = Dust.NewDustPerfect(Main.projectile[i].Center, (int)CalamityDusts.Brimstone);
-                                    dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 7f;
+                                    dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 7f;
                                 }
                                 Main.projectile[i].localAI[1] = 1f;
                                 Main.PlaySound(SoundID.Item45, Main.projectile[i].Center);
@@ -89,12 +89,12 @@ namespace CalamityMod.Projectiles.Summon
 
                     if (Main.rand.NextBool(50))
                     {
-                        int idx = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), projectile.damage, 3f, projectile.owner, projectile.whoAmI);
+                        int idx = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), projectile.damage, 3f, projectile.owner, projectile.identity);
                         Main.projectile[idx].timeLeft = projectile.timeLeft;
                     }
                 }
             }
-		}
+        }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < Main.projectile.Length; i++)
