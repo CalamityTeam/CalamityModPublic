@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         if (i != npc.whoAmI && Main.npc[i].type == npc.type)
                         {
-                            if (Vector2.Distance(npc.Center, Main.npc[i].Center) < 320f)
+                            if (Vector2.Distance(npc.Center, Main.npc[i].Center) < 80f)
                             {
                                 if (npc.position.X < Main.npc[i].position.X)
                                     npc.velocity.X = npc.velocity.X - pushVelocity;

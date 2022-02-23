@@ -279,19 +279,15 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			// Movement velocities, increased while enraged
-			float velocityXEnrageIncrease = 0.8f * enrageScale;
-			float velocityYEnrageIncrease = 0.2f * enrageScale;
+			float velocityEnrageIncrease = enrageScale;
 
 			// When firing blobs, float above the target and don't call any other projectile firing or movement code
 			if (floatAboveToFireBlobs)
 			{
 				if (revenge)
-				{
-					Movement(player, 9f - velocityXEnrageIncrease, 3f - velocityYEnrageIncrease, 0.3f, 160f, 400f, 500f, false);
-					npc.ai[0] = 0f;
-				}
+					Movement(player, 6f + velocityEnrageIncrease, 0.3f, 450f);
 				else
-					Movement(player, 7.5f - velocityXEnrageIncrease, 1.5f - velocityYEnrageIncrease, 0.2f, 160f, 400f, 500f, false);
+					Movement(player, 5f + velocityEnrageIncrease, 0.2f, 450f);
 
 				return;
 			}
@@ -345,75 +341,52 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (wormsAlive == 1)
 				{
-					Movement(player, 4f - velocityXEnrageIncrease, 1f - velocityYEnrageIncrease, 0.15f, 160f, 300f, 400f, false);
-					npc.ai[0] = 0f;
+					Movement(player, 4f + velocityEnrageIncrease, 0.1f, 350f);
 				}
 				else
 				{
-					if (npc.ai[0] == 1f)
-					{
-						if (large || death)
-							Movement(player, 3.5f - velocityXEnrageIncrease, 1f - velocityYEnrageIncrease, death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
-						else if (medium)
-							Movement(player, 4.5f - velocityXEnrageIncrease, 1.5f - velocityYEnrageIncrease, death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
-						else if (small)
-							Movement(player, 5.5f - velocityXEnrageIncrease, 2f - velocityYEnrageIncrease, death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
-						else
-							Movement(player, 6.5f - velocityXEnrageIncrease, 2.5f - velocityYEnrageIncrease, death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
-					}
+					if (large || death)
+						Movement(player, 5.5f + velocityEnrageIncrease, death ? 0.075f : 0.065f, 20f);
+					else if (medium)
+						Movement(player, 5f + velocityEnrageIncrease, death ? 0.07f : 0.06f, 30f);
+					else if (small)
+						Movement(player, 4.5f + velocityEnrageIncrease, death ? 0.065f : 0.055f, 40f);
 					else
-					{
-						npc.velocity.X += npc.Center.X <= player.Center.X ? -0.1f : 0.1f;
-						if (npc.Center.X > player.Center.X + 320f || npc.Center.X < player.Center.X - 320f)
-							npc.ai[0] = 1f;
-					}
+						Movement(player, 4f + velocityEnrageIncrease, death ? 0.06f : 0.05f, 50f);
 				}
 			}
 			else
-				Movement(player, 7f - velocityXEnrageIncrease, 3f - velocityYEnrageIncrease, 0.1f, 160f, 300f, 400f, false);
+				Movement(player, 4f + velocityEnrageIncrease, 0.05f, 350f);
 		}
 
-		private void Movement(Player target, float velocityX, float velocityY, float acceleration, float x, float y, float y2, bool charging)
+		private void Movement(Player target, float velocity, float acceleration, float y)
 		{
-			if (npc.position.Y > target.position.Y - y)
-			{
-				if (npc.velocity.Y > 0f)
-					npc.velocity.Y *= 0.98f;
-				npc.velocity.Y -= acceleration;
-				if (npc.velocity.Y > velocityY)
-					npc.velocity.Y = velocityY;
-			}
-			else if (npc.position.Y < target.position.Y - y2)
-			{
-				if (npc.velocity.Y < 0f)
-					npc.velocity.Y *= 0.98f;
-				npc.velocity.Y += acceleration;
-				if (npc.velocity.Y < -velocityY)
-					npc.velocity.Y = -velocityY;
-			}
+			// Distance from destination where Perf Hive stops moving
+			float movementDistanceGateValue = 100f;
 
-			if (npc.Center.X > target.Center.X + x)
-			{
-				if (npc.velocity.X > 0f)
-					npc.velocity.X *= 0.98f;
-				npc.velocity.X -= acceleration;
-				if (npc.velocity.X > velocityX)
-					npc.velocity.X = velocityX;
-			}
-			else if (npc.Center.X < target.Center.X - x)
-			{
-				if (npc.velocity.X < 0f)
-					npc.velocity.X *= 0.98f;
-				npc.velocity.X += acceleration;
-				if (npc.velocity.X < -velocityX)
-					npc.velocity.X = -velocityX;
-			}
+			// This is where Perf Hive should be
+			Vector2 destination = new Vector2(target.Center.X, target.Center.Y - y);
 
-			if (charging)
-			{
-				if (npc.Center.X <= target.Center.X + x && npc.Center.X >= target.Center.X - x)
-					npc.velocity.X += (npc.Center.X <= target.Center.X ? acceleration : -acceleration) * 0.25f;
-			}
+			// How far Perf Hive is from where it's supposed to be
+			Vector2 distanceFromDestination = destination - npc.Center;
+
+			// Inverse lerp returns the percentage of progress between A and B
+			float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+			// Min velocity
+			float minVelocity = distanceFromDestination.Length();
+			float minVelocityCap = velocity;
+			if (minVelocity > minVelocityCap)
+				minVelocity = minVelocityCap;
+
+			// Max velocity
+			Vector2 maxVelocity = distanceFromDestination / 24f;
+			float maxVelocityCap = minVelocityCap * 3f;
+			if (maxVelocity.Length() > maxVelocityCap)
+				maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+			Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+			npc.SimpleFlyMovement(desiredVelocity, acceleration);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

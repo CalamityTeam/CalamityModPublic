@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.Calamitas
             npc.height = 120;
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)
-				npc.scale = 0.8f;
+				npc.scale = 1.2f;
 
-			npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 5 : 10;
-			npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
+			npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 15 : 10;
+			npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.225f : 0.15f);
 			npc.LifeMaxNERB(9200, 11025, 80000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {

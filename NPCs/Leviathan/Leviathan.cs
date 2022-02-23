@@ -385,7 +385,7 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-					int spawnLimit = (sirenAlive && !phase4) ? 2 : 4;
+					int spawnLimit = (sirenAlive && !phase4) ? 2 : (death ? 3 : 4);
 					if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
