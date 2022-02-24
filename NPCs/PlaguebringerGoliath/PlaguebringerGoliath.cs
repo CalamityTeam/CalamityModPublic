@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.npcSlots = 64f;
             npc.width = 198;
             npc.height = 198;
-            npc.defense = 40;
+            npc.defense = 50;
 			npc.DR_NERD(0.3f);
 			npc.LifeMaxNERB(88750, 106500, 370000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -173,10 +173,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (Main.player[num1039].active && !Main.player[num1039].dead && (vectorCenter - Main.player[num1039].Center).Length() < 1000f)
                     num1038++;
             }
-
-            // Defense gain
-            if (expertMode)
-                npc.defense = npc.defDefense + (int)(20f * (1f - lifeRatio));
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

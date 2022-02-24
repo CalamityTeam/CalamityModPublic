@@ -2629,9 +2629,6 @@ namespace CalamityMod.NPCs
             // Idle
             else if (npc.ai[0] == 1f)
             {
-				// Decrease defense
-				npc.defense = 0;
-
                 // Slow down
                 npc.velocity.X *= 0.9f;
 
@@ -2639,10 +2636,6 @@ namespace CalamityMod.NPCs
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 120f || malice)
                 {
-                    // Increase defense and damage
-                    npc.defense = npc.defDefense;
-					npc.damage = npc.defDamage;
-
 					// Stop colliding with tiles
 					npc.noTileCollide = true;
 

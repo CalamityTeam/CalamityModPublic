@@ -51,10 +51,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase4 = lifeRatio < 0.25f;
             bool phase5 = lifeRatio < 0.1f;
 
-            // Boost defense as health decreases
-            int statBoost = (int)(10f * (1f - lifeRatio));
-            npc.defense = npc.defDefense + statBoost;
-
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();

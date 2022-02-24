@@ -1164,6 +1164,8 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.QueenBee)
             {
+				npc.defense = 14;
+				npc.defDefense = npc.defense;
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 14f;
             }
