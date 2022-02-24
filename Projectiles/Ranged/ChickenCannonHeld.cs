@@ -8,6 +8,11 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ChickenCannonHeld : ModProjectile
     {
+        static float FireRate = 33f;
+        //The first shot from the holdout doesnt consume ammo, this is because the ammo is already consumed by the fact the player needs to consume ammo to shoot it
+        public ref float FreeShotLoaded => ref projectile.ai[0]; 
+        public ref float FramesTillNextShot => ref projectile.ai[1];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chicken Cannon");
@@ -39,18 +44,18 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frame = 0;
             }
 
-            float fireRate = 33f;
-            projectile.ai[1] -= 1f;
+
+            FramesTillNextShot--;
             bool shouldShoot = false;
-            if (projectile.ai[1] <= 0f)
+            if (FramesTillNextShot <= 0f)
             {
-                projectile.ai[1] = fireRate;
+                FramesTillNextShot = FireRate;
                 shouldShoot = true;
             }
-            bool canShoot = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canShoot = player.channel && (player.HasAmmo(player.ActiveItem(), true) || FreeShotLoaded > 0) && !player.noItems && !player.CCed;
             if (projectile.soundDelay <= 0 && canShoot)
             {
-                projectile.soundDelay = (int)fireRate;
+                projectile.soundDelay = (int)FireRate;
                 Main.PlaySound(SoundID.Item61, projectile.position);
             }
 
@@ -83,7 +88,11 @@ namespace CalamityMod.Projectiles.Ranged
 
                     if (shouldShoot)
                     {
-                        player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, true);
+                        if (FreeShotLoaded > 0)
+                            FreeShotLoaded--;
+                        else
+                            player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, false);
+
                         projType = ModContent.ProjectileType<ChickenRocket>();
                         kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);
 
