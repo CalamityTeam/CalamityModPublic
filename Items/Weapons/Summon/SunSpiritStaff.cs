@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1.15f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item44;
             item.shoot = ModContent.ProjectileType<SolarPixie>();
             item.summon = true;
