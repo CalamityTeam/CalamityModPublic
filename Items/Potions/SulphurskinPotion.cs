@@ -22,7 +22,8 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.buffType = ModContent.BuffType<SulphurskinBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(150f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
