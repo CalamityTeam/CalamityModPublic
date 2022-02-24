@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         private Player Owner => Main.player[projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
-        public bool OwnerMayChannel => OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead;
+        public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead;
         public ref float ChanneledState => ref projectile.ai[0];
         public ref float ChannelTimer => ref projectile.ai[1];
         public ref float Initialized => ref projectile.localAI[0];

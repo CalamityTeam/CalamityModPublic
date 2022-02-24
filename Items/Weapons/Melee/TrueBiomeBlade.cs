@@ -313,12 +313,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueBitingEmbrace>() || 
+            (n.type == ProjectileType<TrueBitingEmbrace>() ||
              n.type == ProjectileType<TrueGrovetendersTouch>() ||
              n.type == ProjectileType<TrueAridGrandeur>() ||
              n.type == ProjectileType<HeavensMight>() ||
              n.type == ProjectileType<ExtantAbhorrence>() ||
-             n.type == ProjectileType<GestureForTheDrowned>()));  
+             n.type == ProjectileType<GestureForTheDrowned>()));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

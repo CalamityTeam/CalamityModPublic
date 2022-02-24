@@ -363,8 +363,7 @@ namespace CalamityMod.Items.Weapons.Melee
             (n.type == ProjectileType<SwordsmithsPride>() ||
              n.type == ProjectileType<MercurialTides>() ||
              n.type == ProjectileType<SanguineFury>() ||
-             n.type == ProjectileType<LamentationsOfTheChained>()
-            ));
+             n.type == ProjectileType<LamentationsOfTheChained>()));
         }
 
         //No need for any wacky zany hijinx in the shoot method for once??? damn
