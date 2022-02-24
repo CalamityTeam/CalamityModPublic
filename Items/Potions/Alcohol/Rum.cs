@@ -21,7 +21,7 @@ Reduces defense by 5%");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
