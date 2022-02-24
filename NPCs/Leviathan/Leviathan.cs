@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.Leviathan
                         {
                             npc.ai[2] += 1f;
                             if (!sirenAlive || phase4)
-                                npc.ai[2] += 2f;
+                                npc.ai[2] += 1f;
                         }
 
                         if (npc.ai[2] >= 75f)

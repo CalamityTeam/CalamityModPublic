@@ -1522,15 +1522,6 @@ namespace CalamityMod.Items
             if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
                 player.armorPenetration += 1;
             */
-
-            if (item.prefix == PrefixID.Brisk)
-                player.moveSpeed += 0.005f;
-            if (item.prefix == PrefixID.Fleeting)
-                player.moveSpeed += 0.01f;
-            if (item.prefix == PrefixID.Hasty2)
-                player.moveSpeed += 0.015f;
-            if (item.prefix == PrefixID.Quick2)
-                player.moveSpeed += 0.02f;
         }
         #endregion
 

@@ -915,18 +915,6 @@ namespace CalamityMod.Items
 
             switch (item.prefix)
             {
-                case PrefixID.Brisk:
-                    EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "1.5%"));
-                    return;
-                case PrefixID.Fleeting:
-                    EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "3%"));
-                    return;
-                case PrefixID.Hasty2: // Hasty2 is the "Hasty" for accessories
-                    EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "4.5%"));
-                    return;
-                case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
-                    EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "6%"));
-                    return;
                 case PrefixID.Hard:
                     EditTooltipByName("PrefixAccDefense",
                         (line) => line.text = line.text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
