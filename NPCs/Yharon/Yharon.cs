@@ -2279,8 +2279,6 @@ namespace CalamityMod.NPCs.Yharon
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
                             DoFireRing(expertMode ? 300 : 180, npc.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), npc.target, 1f);
-
-                            Vector2 vector7 = vectorCenter + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
                         }
                     }
 

@@ -5404,12 +5404,12 @@ namespace CalamityMod.NPCs
 			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense;
 			if (phase3AI)
 			{
-				npc.damage = (int)(npc.defDamage * 1.3f);
+				npc.damage = (int)(npc.defDamage * 1.2f);
 				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 40;
 			}
 			else if (phase2AI)
 			{
-				npc.damage = (int)(npc.defDamage * 1.2f);
+				npc.damage = (int)(npc.defDamage * 1.1f);
 				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 20;
 			}
 			else

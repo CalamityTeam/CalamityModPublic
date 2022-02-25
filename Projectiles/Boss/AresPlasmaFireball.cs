@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Boss
 				for (int k = 0; k < totalProjectiles; k++)
 				{
 					Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-					Projectile.NewProjectile(projectile.Center, velocity2, type, (int)(projectile.damage * 0.8), 0f, Main.myPlayer);
+					Projectile.NewProjectile(projectile.Center, velocity2, type, (int)Math.Round(projectile.damage * 0.8), 0f, Main.myPlayer);
 				}
 			}
 
