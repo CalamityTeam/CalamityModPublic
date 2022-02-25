@@ -161,8 +161,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
         }

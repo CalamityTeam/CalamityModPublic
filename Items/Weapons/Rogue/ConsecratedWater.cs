@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
-            item.rare = ItemRarityID.LightPurple;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
             item.shoot = ModContent.ProjectileType<ConsecratedWaterProjectile>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
