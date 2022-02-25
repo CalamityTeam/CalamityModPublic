@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Tools
             item.height = 54;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

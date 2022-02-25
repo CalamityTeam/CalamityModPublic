@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Pets
             item.buffType = ModContent.BuffType<ThirdSageBuff>();
 
             item.value = Item.buyPrice(gold: 5);
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.LightRed;
             item.Calamity().devItem = true;
         }
 
