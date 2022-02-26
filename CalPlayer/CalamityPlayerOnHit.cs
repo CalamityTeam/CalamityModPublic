@@ -1636,7 +1636,7 @@ namespace CalamityMod.CalPlayer
 
                 if (vampiricTalisman && modProj.rogue && crit)
                 {
-                    float heal = MathHelper.Clamp(damage * 0.015f, 0f, 6f);
+                    float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
                 }
