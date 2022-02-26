@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-		}
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+        }
 
         public override bool AltFunctionUse(Player player)
         {

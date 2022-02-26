@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.knockBack = 10f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
+			item.value = CalamityGlobalItem.Rarity10BuyPrice;
+			item.rare = ItemRarityID.Red;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.channel = true;
