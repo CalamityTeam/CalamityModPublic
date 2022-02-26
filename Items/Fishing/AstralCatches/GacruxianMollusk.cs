@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.rare = ItemRarityID.Pink;
             item.knockBack = Knockback;
             item.autoReuse = true;
             item.useTime = 26;
@@ -36,7 +35,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.noUseGraphic = true;
             item.shoot = ModContent.ProjectileType<GacruxianProj>();
             item.shootSpeed = Speed;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.Calamity().rogue = true;
         }
 

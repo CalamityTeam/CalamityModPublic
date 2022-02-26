@@ -22,7 +22,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             item.width = 28;
             item.height = 18;
             item.maxStack = 1;
-            item.rare = ItemRarityID.Blue;
+            item.rare = ItemRarityID.Green;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.25f;
             item.value = 250;
-            item.rare = ItemRarityID.Blue;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<AccelerationBulletProj>();
             item.shootSpeed = 1f;
             item.ammo = AmmoID.Bullet;

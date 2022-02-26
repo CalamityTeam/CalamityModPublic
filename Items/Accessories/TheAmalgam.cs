@@ -26,9 +26,10 @@ namespace CalamityMod.Items.Accessories
 		{
 			item.width = 34;
 			item.height = 34;
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Cyan;
 			item.accessory = true;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.rare = ItemRarityID.Purple;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

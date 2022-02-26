@@ -24,9 +24,10 @@ namespace CalamityMod.Items.Accessories
 			item.defense = 12;
             item.width = 26;
             item.height = 26;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.rare = ItemRarityID.Purple;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AstralArcanumUIHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
                 {
                     line2.text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
                 }

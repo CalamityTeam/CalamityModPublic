@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 2;
             item.shoot = ModContent.ProjectileType<EutrophicScimitarProj>();
             item.shootSpeed = 17;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = true;

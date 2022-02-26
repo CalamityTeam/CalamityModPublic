@@ -23,8 +23,8 @@ Pull Velocity: {SerpentsBiteHook.PullSpeed}");
 			item.CloneDefaults(ItemID.AmethystHook);
 			item.shootSpeed = SerpentsBiteHook.LaunchSpeed; // how quickly the hook is shot.
 			item.shoot = ProjectileType<SerpentsBiteHook>();
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+			item.value = CalamityGlobalItem.Rarity4BuyPrice;
+			item.rare = ItemRarityID.LightRed;
 			item.width = 30;
 			item.height = 32;
 		}

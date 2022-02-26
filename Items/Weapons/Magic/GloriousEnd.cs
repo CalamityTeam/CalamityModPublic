@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item9;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+			item.value = CalamityGlobalItem.Rarity4BuyPrice;
+			item.rare = ItemRarityID.LightRed;
 			item.Calamity().donorItem = true;
 		}
 

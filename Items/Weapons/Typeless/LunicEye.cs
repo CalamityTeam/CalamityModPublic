@@ -21,7 +21,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             item.width = 80;
             item.damage = 9;
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 15;
             item.useTime = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.autoReuse = true;
             item.noMelee = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 36, 0, 0);
             item.shoot = ModContent.ProjectileType<LunicBeam>();
             item.shootSpeed = 12f;
         }

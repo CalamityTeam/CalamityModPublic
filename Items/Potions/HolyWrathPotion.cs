@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Potions
             item.height = 36;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
+            item.rare = ItemRarityID.Purple;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
