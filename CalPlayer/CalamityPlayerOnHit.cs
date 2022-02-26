@@ -1189,7 +1189,7 @@ namespace CalamityMod.CalPlayer
                         if (type != -1)
                         {
                             float speed = Main.rand.NextFloat(5f, 11f);
-                            int cloud = Projectile.NewProjectile(position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, (int)(35 * player.RogueDamage()), proj.knockBack, player.whoAmI);
+                            int cloud = Projectile.NewProjectile(position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, (int)(30 * player.RogueDamage()), proj.knockBack, player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[cloud].Calamity().forceTypeless = true;
                         }
