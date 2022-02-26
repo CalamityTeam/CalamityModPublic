@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Blue;
             item.useAnimation = 17;
             item.useTime = 17;

@@ -21,11 +21,10 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.LightRed;
             item.consumable = true;
             item.buffType = ModContent.BuffType<PhotosynthesisBuff>();
