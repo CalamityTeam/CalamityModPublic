@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
             recipe.AddIngredient(ItemID.SoulofFlight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

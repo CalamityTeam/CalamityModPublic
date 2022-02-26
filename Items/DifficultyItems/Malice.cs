@@ -35,6 +35,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
+            item.expert = true;
             item.rare = ItemRarityID.Purple;
             item.width = 82;
             item.height = 66;

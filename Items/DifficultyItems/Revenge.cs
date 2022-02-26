@@ -43,6 +43,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
+            item.expert = true;
             item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item119;
             item.consumable = false;
