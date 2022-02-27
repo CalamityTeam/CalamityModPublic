@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item28;
             item.autoReuse = true;
             item.noUseGraphic = true;

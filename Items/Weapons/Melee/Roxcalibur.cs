@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<Rox1>();
             item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.Calamity().donorItem = true;
         }
 

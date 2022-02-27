@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 54;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            item.rare = ItemRarityID.Blue;
             item.shootSpeed = 5f;
         }
 

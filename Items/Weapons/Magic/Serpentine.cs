@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item20;
-            item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SerpentineHead>();
             item.shootSpeed = 10f;

@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
             item.shootSpeed = 0.1f;
         }

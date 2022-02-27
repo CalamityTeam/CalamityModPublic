@@ -19,7 +19,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.width = 20;
             item.height = 20;
             item.useAnimation = 30;
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.LightRed;
             item.useTime = 30;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item29;

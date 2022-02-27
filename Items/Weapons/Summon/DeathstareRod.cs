@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.NPCHit8;
             item.shoot = ModContent.ProjectileType<DeathstareEyeball>();
             item.shootSpeed = 10f;

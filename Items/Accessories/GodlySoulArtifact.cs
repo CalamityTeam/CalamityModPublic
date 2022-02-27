@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Godly Soul Artifact");
             Tooltip.SetDefault("Loyalty\n" +
-                "For each Son of Yharon you have summoned, you gain 1 minion slot");
+                "For each Fiery Draconid you have summoned, you gain 1 minion slot");
         }
 
         public override void SetDefaults()

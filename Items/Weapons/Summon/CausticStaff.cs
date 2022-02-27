@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.Item77;
             item.useAnimation = item.useTime = 25;
 
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.Calamity().donorItem = true;
 
             item.noMelee = true;

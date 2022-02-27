@@ -30,14 +30,14 @@ namespace CalamityMod.Items.Potions
 			item.maxStack = 30;
 			item.useAnimation = 17;
 			item.useTime = 17;
-			item.rare = ItemRarityID.Orange;
+			item.value = Item.buyPrice(0, 2, 0, 0);
+			item.rare = ItemRarityID.Green;
 			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
 			item.potion = true;
 			item.healLife = 120;
 			item.healMana = 150;
-			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
         public override void ModifyTooltips(List<TooltipLine> list)

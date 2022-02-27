@@ -21,9 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 38;
             item.height = 44;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.accessory = true;
-            item.rare = ItemRarityID.Red;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.rare = ItemRarityID.Purple;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

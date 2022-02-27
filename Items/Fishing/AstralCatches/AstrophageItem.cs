@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<Astrophage>();
             item.buffType = ModContent.BuffType<AstrophageBuff>();
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.LightRed;
         }
 
         public override void UseStyle(Player player)
