@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.alpha = 255;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            projectile.Opacity = 0f;
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
@@ -61,9 +61,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-            projectile.alpha -= 50;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            projectile.Opacity += 0.2f;
+            if (projectile.Opacity > 1f)
+                projectile.Opacity = 1f;
 
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 0.8f);
             Main.dust[num469].noGravity = true;
@@ -97,6 +97,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            lightColor.R = (byte)(255 * projectile.Opacity);
+            lightColor.G = (byte)(255 * projectile.Opacity);
+            lightColor.B = (byte)(255 * projectile.Opacity);
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
