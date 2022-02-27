@@ -1272,8 +1272,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 				{
 					float targetAngle = npc.AngleTo(destination);
 					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-					Vector2 desiredVelocity = f.ToRotationVector2() * baseVelocity;
-					npc.SimpleFlyMovement(desiredVelocity, turnSpeed);
+					npc.velocity = f.ToRotationVector2() * baseVelocity;
 				}
 			}
 
