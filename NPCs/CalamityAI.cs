@@ -3235,8 +3235,8 @@ namespace CalamityMod.NPCs
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
 						calamityGlobalNPC.newAI[0] = 3f;
-						npc.defense = 0;
-						calamityGlobalNPC.DR = 0f;
+						npc.defense = 12;
+						calamityGlobalNPC.DR = 0.075f;
 
 						// Despawns the other deus worm segments
 						int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
@@ -3366,8 +3366,8 @@ namespace CalamityMod.NPCs
 
 				if (deathModeEnragePhase_BodyAndTail)
 				{
-					npc.defense = 0;
-					calamityGlobalNPC.DR = 0f;
+					npc.defense = 25;
+					calamityGlobalNPC.DR = 0.15f;
 				}
 			}
 
@@ -3797,7 +3797,7 @@ namespace CalamityMod.NPCs
 								}
 								int type = ModContent.ProjectileType<DeusMine>();
 								int damage = npc.GetProjectileDamage(type);
-								float split = (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f) ? 1f : 0f;
+								float split = (doubleLasersAndSplittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
 								Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 							}
 
@@ -3827,7 +3827,7 @@ namespace CalamityMod.NPCs
 									for (int i = -1; i <= 1; i += 2)
 									{
 										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 1.25f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
 										// Tell this Phased God Ray exactly which way it should be waving.
 										godRay.localAI[1] = i * 0.5f;
@@ -3856,7 +3856,7 @@ namespace CalamityMod.NPCs
 							}
 							int type = ModContent.ProjectileType<DeusMine>();
 							int damage = npc.GetProjectileDamage(type);
-							float split = (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f) ? 1f : 0f;
+							float split = (doubleLasersAndSplittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
 							Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 						}
 					}

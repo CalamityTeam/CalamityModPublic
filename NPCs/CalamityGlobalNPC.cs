@@ -807,7 +807,7 @@ namespace CalamityMod.NPCs
 
 			// Reduce DoT on worm bosses by 50%.
 			if (wormBoss && npc.lifeRegen < 0)
-				npc.lifeRegen /= 2;
+				npc.lifeRegen /= 4;
 		}
 
 		public void ApplyDPSDebuff(int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
