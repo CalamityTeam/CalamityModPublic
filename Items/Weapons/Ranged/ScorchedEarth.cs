@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			item.damage = 123;
+			item.damage = 500;
 			item.ranged = true;
 			item.useTime = 8;
 			item.useAnimation = 32; // 4 shots in just over half a second
