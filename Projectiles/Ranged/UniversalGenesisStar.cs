@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.alpha = 50;
 			projectile.tileCollide = false;
 			projectile.penetrate = 5;
+			projectile.timeLeft = 180;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
 		}
