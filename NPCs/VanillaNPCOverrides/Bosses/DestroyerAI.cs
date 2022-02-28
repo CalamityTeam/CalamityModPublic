@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;
             bool startFlightPhase = lifeRatio < 0.5f;
-            bool phase4 = lifeRatio < 0.25f;
-            bool phase5 = lifeRatio < 0.1f;
+            bool phase4 = lifeRatio < (death ? 0.4f : 0.25f);
+            bool phase5 = lifeRatio < (death ? 0.2f : 0.1f);
 
             // Flight timer
             float newAISet = phase5 ? 900f : phase4 ? 450f : 0f;
@@ -186,8 +186,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 int type = ProjectileID.DeathLaser;
                                 int damage = npc.GetProjectileDamage(type);
-                                int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 3 : 2;
-                                int spread = 18;
+                                int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 9 : 6;
+                                int spread = 54;
                                 float rotation = MathHelper.ToRadians(spread);
                                 float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
                                 double startAngle = Math.Atan2(num743, num744) - rotation / 2;
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (!flag2)
             {
-                npc.velocity.Y += death ? 0.2f : 0.15f;
+                npc.velocity.Y += 0.15f;
                 if (npc.velocity.Y > fallSpeed)
                     npc.velocity.Y = fallSpeed;
 
@@ -443,7 +443,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.velocity.X > num20)
                         npc.velocity.X -= speed;
                 }
-                else if (npc.velocity.Y > (death ? 6f : 4f))
+                else if (npc.velocity.Y > 4f)
                 {
                     if (npc.velocity.X < 0f)
                         npc.velocity.X += speed * 0.9f;

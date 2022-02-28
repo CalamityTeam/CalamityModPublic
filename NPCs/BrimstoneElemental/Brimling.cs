@@ -107,23 +107,20 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
             npc.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 180f : 360f) && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 180f : 360f) && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
             {
                 npc.localAI[0] = 0f;
-                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                {
-                    float speed = 5f;
-                    Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
-                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
-                    float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                    num8 = speed / num8;
-                    num6 *= num8;
-                    num7 *= num8;
-					int type = ModContent.ProjectileType<BrimstoneHellfireball>();
-					int damage = npc.GetProjectileDamage(type);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-                }
+                float speed = 5f;
+                Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+                float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
+                float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
+                float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+                num8 = speed / num8;
+                num6 *= num8;
+                num7 *= num8;
+                int type = ModContent.ProjectileType<BrimstoneHellfireball>();
+                int damage = npc.GetProjectileDamage(type);
+                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y);
             }
             if (vector251.Length() > 400f || !flag104)
             {

@@ -54,7 +54,8 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
 
-            projectile.velocity *= 1.03f;
+            if (projectile.velocity.Length() < 18f)
+                projectile.velocity *= 1.03f;
 
             if (projectile.velocity.X < 0f)
             {

@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+            projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
@@ -68,7 +69,8 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90f) * projectile.direction;
 
-            projectile.velocity *= 1.01f;
+            if (projectile.velocity.Length() < 16f)
+                projectile.velocity *= 1.01f;
 
             Lighting.AddLight(projectile.Center, 0.5f, 0f, 0f);
 

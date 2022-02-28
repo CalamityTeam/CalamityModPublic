@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (projectile.ai[0] == 2f)
 			{
-				if (projectile.timeLeft > 600)
+				if (projectile.timeLeft > 570)
 				{
 					int player = Player.FindClosest(projectile.Center, 1, 1);
 					Vector2 vector = Main.player[player].Center - projectile.Center;
