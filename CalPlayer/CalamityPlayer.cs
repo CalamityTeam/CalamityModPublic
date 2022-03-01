@@ -4131,8 +4131,8 @@ namespace CalamityMod.CalPlayer
 				}
 				if (ursaSergeant)
 				{
-					runAccMult *= 0.65f;
-					runSpeedMult *= 0.65f;
+					runAccMult *= 0.85f;
+					runSpeedMult *= 0.85f;
 				}
 				if (elysianGuard)
 				{
