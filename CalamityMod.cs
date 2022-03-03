@@ -2,6 +2,7 @@ using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Effects;
 using CalamityMod.Events;
@@ -74,7 +75,7 @@ using Terraria.UI;
 
 namespace CalamityMod
 {
-    public class CalamityMod : Mod
+	public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
@@ -217,7 +218,7 @@ namespace CalamityMod
                 GeneralParticleHandler.Load();
             }
 
-            CooldownIndicator.Load();
+            Cooldown.Load();
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
@@ -397,7 +398,7 @@ namespace CalamityMod
             CustomLavaManagement.Unload();
             BossHealthBarManager.Unload();
             DraedonStructures.Unload();
-            CooldownIndicator.Unload();
+            Cooldown.Unload();
 
             TileFraming.Unload();
 

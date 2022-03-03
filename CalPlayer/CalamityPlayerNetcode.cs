@@ -1,4 +1,4 @@
-﻿using CalamityMod.UI.CooldownIndicators;
+﻿using CalamityMod.Cooldowns;
 using System;
 using System.IO;
 using Terraria;
@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public partial class CalamityPlayer : ModPlayer
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Standard Syncs
         internal const int GlobalSyncPacketTimer = 15;
@@ -157,15 +157,15 @@ namespace CalamityMod.CalPlayer
             //Already being synced when it gets created and then when it expires
             if (cooldownID == "")
             {
-                foreach (string key in CooldownIndicator.IDtoType.Keys)
+                foreach (string key in Cooldown.IDtoType.Keys)
                 {
                     ModPacket packet = mod.GetPacket();
                     packet.Write((byte)CalamityModMessageType.CooldownSync);
                     packet.Write(player.whoAmI);
                     packet.Write(key);
                     int timer = 0;
-                    if (Cooldowns.Exists(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[key]))
-                        timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[key]).TimeLeft;
+                    if (Cooldowns.Exists(cooldown => cooldown.GetType() == Cooldown.IDtoType[key]))
+                        timer = Cooldowns.Find(cooldown => cooldown.GetType() == Cooldown.IDtoType[key]).TimeLeft;
                     packet.Write(timer);
                     player.SendPacket(packet, server);
                 }
@@ -178,8 +178,8 @@ namespace CalamityMod.CalPlayer
                 packet.Write(player.whoAmI);
                 packet.Write(cooldownID);
                 int timer = 0;
-                if (Cooldowns.Exists(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[cooldownID]))
-                    timer = Cooldowns.Find(cooldown => cooldown.GetType() == CooldownIndicator.IDtoType[cooldownID]).TimeLeft;
+                if (Cooldowns.Exists(cooldown => cooldown.GetType() == Cooldown.IDtoType[cooldownID]))
+                    timer = Cooldowns.Find(cooldown => cooldown.GetType() == Cooldown.IDtoType[cooldownID]).TimeLeft;
                 packet.Write(timer);
                 player.SendPacket(packet, server);
             }
@@ -338,7 +338,7 @@ namespace CalamityMod.CalPlayer
         {
             string syncID = reader.ReadString();
             int timer = reader.ReadInt32();
-            Type cooldownType = CooldownIndicator.IDtoType[syncID];
+            Type cooldownType = Cooldown.IDtoType[syncID];
 
             // If this cooldown is present, edit the existing cooldown's timer.
             if (Cooldowns.Exists(cooldown => cooldown.GetType() == cooldownType))
@@ -346,7 +346,7 @@ namespace CalamityMod.CalPlayer
 
             // Otherwise create a new cooldown with this timer.
             else if (timer > 0)
-                Cooldowns.Add((CooldownIndicator)Activator.CreateInstance(cooldownType, timer, player));
+                Cooldowns.Add((Cooldown)Activator.CreateInstance(cooldownType, timer, player));
 
             if (Main.netMode == NetmodeID.Server)
                 SyncCooldown(true);

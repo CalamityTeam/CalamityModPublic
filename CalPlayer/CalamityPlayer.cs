@@ -6,13 +6,13 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
@@ -60,7 +60,6 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
-using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -281,7 +280,7 @@ namespace CalamityMod.CalPlayer
         private const int DashDisableCooldown = 12;
         public bool disableAllDodges = false;
 
-        public List<CooldownIndicator> Cooldowns = new List<CooldownIndicator>();
+        public Dictionary<string, CooldownInstance> Cooldowns = new Dictionary<string, CooldownInstance>(16);
 
         public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;
@@ -2153,8 +2152,13 @@ namespace CalamityMod.CalPlayer
         #region UpdateDead
         public override void UpdateDead()
         {
-            //Clear all the cooldowns
-            Cooldowns.RemoveAll(cooldown => cooldown.ResetOnDeath);
+            // Remove all cooldowns which do not persist through death.
+            if (Cooldowns.Count > 0)
+            {
+                var cooldownEntriesToRemove = Cooldowns.Where((kv) => !kv.Value.source.PersistsThroughDeath);
+                foreach (var kv in cooldownEntriesToRemove)
+                    Cooldowns.Remove(kv.Key);
+            }
 
             #region Debuffs
 			totalDefenseDamage = 0;
@@ -3853,13 +3857,13 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking)))
                     {
-                        CooldownIndicator durability = new DivingPlatesBreaking(3, player);
+                        Cooldown durability = new DivingPlatesBreaking(3, player);
                         durability.TimeLeft = abyssalDivingSuitPlateHits;
                         Cooldowns.Add(durability);
                     }
                     else
                     {
-                        CooldownIndicator durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
+                        Cooldown durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
                         durability.TimeLeft = abyssalDivingSuitPlateHits;
                     }
 
@@ -7001,7 +7005,7 @@ namespace CalamityMod.CalPlayer
                     if (abyssalDivingSuitPlateHits < 3)
                         abyssalDivingSuitPlateHits++;
 
-                    CooldownIndicator durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
+                    Cooldown durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
                     durability.TimeLeft = abyssalDivingSuitPlateHits;
 
                     if (abyssalDivingSuitPlateHits >= 3)

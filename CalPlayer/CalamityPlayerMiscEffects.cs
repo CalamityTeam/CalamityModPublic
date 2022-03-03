@@ -1,10 +1,10 @@
 using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
@@ -24,7 +24,6 @@ using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
@@ -33,15 +32,12 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
-using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +47,6 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
-using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,7 +57,7 @@ namespace CalamityMod.CalPlayer
 	public partial class CalamityPlayer : ModPlayer
 	{
 		#region Post Update Misc Effects
-        public override void PostUpdateMiscEffects()
+		public override void PostUpdateMiscEffects()
 		{
 			// No category
 
@@ -166,15 +161,15 @@ namespace CalamityMod.CalPlayer
 				player.rangedCrit = 4;
 			}
 
-            if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
-                heldGaelsLastFrame = true;
+			if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
+				heldGaelsLastFrame = true;
 
-            // De-equipping Gael's Greatsword deletes all rage.
-            else if (heldGaelsLastFrame)
-            {
-                heldGaelsLastFrame = false;
-                rage = 0f;
-            }
+			// De-equipping Gael's Greatsword deletes all rage.
+			else if (heldGaelsLastFrame)
+			{
+				heldGaelsLastFrame = false;
+				rage = 0f;
+			}
 		}
 		#endregion
 
@@ -505,11 +500,11 @@ namespace CalamityMod.CalPlayer
 				{
 					if (DoGCartSegments[i] is null)
 					{
-                        DoGCartSegments[i] = new DoGCartSegment
-                        {
-                            Center = player.Center - idealRotation.ToRotationVector2() * i * 20f
-                        };
-                    }
+						DoGCartSegments[i] = new DoGCartSegment
+						{
+							Center = player.Center - idealRotation.ToRotationVector2() * i * 20f
+						};
+					}
 				}
 
 				Vector2 startingStickPosition = player.Center + stickOffset + new Vector2(direction * (float)Math.Cos(SmoothenedMinecartRotation * 2f) * -34f, 12f);
@@ -581,7 +576,7 @@ namespace CalamityMod.CalPlayer
 
 			// Summon bullseyes on nearby targets.
 			if (spiritOrigin)
-            {
+			{
 				int bullseyeType = ModContent.ProjectileType<SpiritOriginBullseye>();
 				List<int> alreadyTargetedNPCs = new List<int>();
 				for (int i = 0; i < Main.maxProjectiles; i++)
@@ -946,28 +941,38 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Cooldowns and timers
+			// Tick all cooldowns.
+			// Depending on the code for each individual cooldown, this isn't guaranteed to do anything.
+			// It may not tick down the timer or not do anything at all.
+			IList<string> expiredCooldowns = new List<string>(16);
+			var cdIterator = Cooldowns.Values.GetEnumerator();
+			while(cdIterator.MoveNext())
+			{
+				CooldownInstance instance = cdIterator.Current;
+				Cooldown cd = instance.source;
 
-			foreach (CooldownIndicator cd in Cooldowns)
-            {
+				// If applicable, tick down this cooldown instance's timer.
 				if (cd.CanTickDown)
-					cd.TimeLeft--;
+					--instance.timeLeft;
 
-				cd.CooldownEffects();
+				// Tick always runs, even if the timer does not decrement.
+				cd.Tick(instance);
 
-				if (cd.TimeLeft < 0)
+				// Run on-completion code, play sounds and remove finished cooldowns.
+				if (instance.timeLeft < 0)
 				{
+					cd.OnCompleted(instance);
 					Main.PlaySound(cd.EndSound);
-					cd.OnCooldownEnd();
+					expiredCooldowns.Add(cd.ID);
 
-					if (cd.SyncID != "" && Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                    {
-						player.Calamity().SyncCooldown(false, cd.SyncID);
-					}
+					// TODO -- netcode for when cooldowns disappear
 				}
-            }
+			}
+			cdIterator.Dispose();
 
-			Cooldowns.RemoveAll(cooldown => cooldown.TimeLeft < 0);
+			// Remove all expired cooldowns.
+			foreach (string cdID in expiredCooldowns)
+				Cooldowns.Remove(cdID);
 
 			if (spiritOriginBullseyeShootCountdown > 0)
 				spiritOriginBullseyeShootCountdown--;
@@ -1057,8 +1062,8 @@ namespace CalamityMod.CalPlayer
 				hellbornBoost--;
 			if (persecutedEnchantSummonTimer < 1800)
 				persecutedEnchantSummonTimer++;
-            else
-            {
+			else
+			{
 				persecutedEnchantSummonTimer = 0;
 				if (Main.myPlayer == player.whoAmI && persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
 				{
@@ -3367,8 +3372,8 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
 					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(player.AverageDamage() * 70), 0f, player.whoAmI);
-            }
-            else if (player.whoAmI == Main.myPlayer)
+			}
+			else if (player.whoAmI == Main.myPlayer)
 			{
 				int shieldType = ModContent.ProjectileType<CryonicShield>();
 				for (int i = 0; i < Main.maxProjectiles; i++)
