@@ -25,23 +25,10 @@ namespace CalamityMod.Particles
         private static List<Particle> batchedNonPremultipliedParticles;
         private static List<Particle> batchedAdditiveBlendParticles;
 
-
-        internal static void Load()
+        public static void LoadModParticleInstances(Mod mod)
         {
-            particles = new List<Particle>();
-            particlesToKill = new List<Particle>();
-            particleTypes = new Dictionary<Type, int>();
-            particleTextures = new Dictionary<int, Texture2D>();
-            particleInstances = new List<Particle>();
-
-            batchedAlphaBlendParticles = new List<Particle>();
-            batchedNonPremultipliedParticles = new List<Particle>();
-            batchedAdditiveBlendParticles = new List<Particle>();
-
             Type baseParticleType = typeof(Particle);
-            CalamityMod calamity = ModContent.GetInstance<CalamityMod>();
-
-            foreach (Type type in calamity.Code.GetTypes())
+            foreach (Type type in mod.Code.GetTypes())
             {
                 if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType)
                 {
@@ -57,6 +44,21 @@ namespace CalamityMod.Particles
                     particleTextures[ID] = ModContent.GetTexture(texturePath);
                 }
             }
+        }
+
+        internal static void Load()
+        {
+            particles = new List<Particle>();
+            particlesToKill = new List<Particle>();
+            particleTypes = new Dictionary<Type, int>();
+            particleTextures = new Dictionary<int, Texture2D>();
+            particleInstances = new List<Particle>();
+
+            batchedAlphaBlendParticles = new List<Particle>();
+            batchedNonPremultipliedParticles = new List<Particle>();
+            batchedAdditiveBlendParticles = new List<Particle>();
+
+            LoadModParticleInstances(CalamityMod.Instance);
         }
 
         internal static void Unload()
