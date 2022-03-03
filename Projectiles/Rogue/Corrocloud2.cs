@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Corrocloud2 : ModProjectile
+    public class Corrocloud2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,9 +20,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 4;
             projectile.timeLeft = 600;
-			projectile.Calamity().rogue = true;
-			projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()

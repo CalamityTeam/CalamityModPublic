@@ -29,8 +29,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += "\n10% of your defense is added to your armor penetration" +
-                "\nHalf of your current DR is added to your critical strike chance\n" +
+            setBonusText += "\nHalf of your current DR is added to your critical strike chance\n" +
                 $"Continuously doing damage makes you gradually gain more and more defense, up to a maximum of {DefenseBoostMax}\n" +
                 "When not doing damage, this bonus gradually decays\n" +
                 "This added defense can be broken by defense damage";
@@ -51,7 +50,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
                     player.rangedCrit += critBoost;
                     break;
             }
-            player.armorPenetration += player.statDefense / 10;
             player.Calamity().AdamantiteSet = true;
         }
     }

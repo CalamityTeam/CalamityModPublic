@@ -1189,7 +1189,7 @@ namespace CalamityMod.CalPlayer
                         if (type != -1)
                         {
                             float speed = Main.rand.NextFloat(5f, 11f);
-                            int cloud = Projectile.NewProjectile(position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, (int)(35 * player.RogueDamage()), proj.knockBack, player.whoAmI);
+                            int cloud = Projectile.NewProjectile(position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, (int)(30 * player.RogueDamage()), proj.knockBack, player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[cloud].Calamity().forceTypeless = true;
                         }
@@ -1636,7 +1636,7 @@ namespace CalamityMod.CalPlayer
 
                 if (vampiricTalisman && modProj.rogue && crit)
                 {
-                    float heal = MathHelper.Clamp(damage * 0.015f, 0f, 6f);
+                    float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
                 }

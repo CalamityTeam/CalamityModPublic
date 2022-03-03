@@ -29,6 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool OnHitProc = false;
 
         #region stats
+        public static int BaseDamage = 400;
+
         public static int WhirlwindAttunement_BaseDamage = 400;
         public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
         public static int WhirlwindAttunement_SigilTime = 1200;
@@ -194,7 +196,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 92;
-            item.damage = 130;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 18;
             item.useTime = 18;
@@ -282,6 +284,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
@@ -302,10 +312,13 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noMelee = false;
+                item.channel = false;
                 item.shoot = ProjectileID.PurificationPowder;
                 item.shootSpeed = 12f;
                 item.UseSound = SoundID.Item1;
             }
+
             else
             {
                 if (mainAttunement.id < AttunementID.Whirlwind || mainAttunement.id > AttunementID.Shockwave)
@@ -350,8 +363,7 @@ namespace CalamityMod.Items.Weapons.Melee
             (n.type == ProjectileType<SwordsmithsPride>() ||
              n.type == ProjectileType<MercurialTides>() ||
              n.type == ProjectileType<SanguineFury>() ||
-             n.type == ProjectileType<LamentationsOfTheChained>()
-            ));
+             n.type == ProjectileType<LamentationsOfTheChained>()));
         }
 
         //No need for any wacky zany hijinx in the shoot method for once??? damn

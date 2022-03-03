@@ -6,10 +6,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class BrimseekerAuraBall : ModProjectile
+    public class BrimseekerAuraBall : ModProjectile
     {
         public bool Initialized = false;
-        public Projectile ParentProjectile => Main.projectile[(int)projectile.ai[0]];
+        public Projectile ParentProjectile => CalamityUtils.FindProjectileByIdentity((int)projectile.ai[0], projectile.owner);
         public float Outwardness
         {
             get => projectile.localAI[0];
@@ -49,9 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                 Initialized = true;
             }
 
-            Projectile ParentProjectile = Main.projectile[(int)projectile.ai[0]];
-
-            if (!ParentProjectile.active)
+            if (ParentProjectile is null)
             {
                 projectile.Kill();
                 return;

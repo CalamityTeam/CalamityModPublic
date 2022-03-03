@@ -23,10 +23,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
         public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
         public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ultima Ray");
         }
+
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 22;
@@ -38,6 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 10;
             projectile.usesLocalNPCImmunity = true;
         }
+
         public override bool PreAI()
         {
             // Initialization. Using the AI hook would override the base laser's code, and we don't want that.
@@ -48,6 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return true;
         }
+
         public override bool ShouldUpdatePosition() => false;
     }
 }

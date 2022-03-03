@@ -26,6 +26,22 @@ namespace CalamityMod
 			return projectile.modProjectile as T;
 		}
 
+		public static Projectile FindProjectileByIdentity(int identity, int ownerIndex)
+		{
+			// If in singleplayer, simply return the projectile at the designated index, as singleplayer will never have mismatching indices.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return Main.projectile[identity];
+
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				if (Main.projectile[i].identity != identity || Main.projectile[i].owner != ownerIndex || !Main.projectile[i].active)
+					continue;
+
+				return Main.projectile[i];
+			}
+			return null;
+		}
+
 		public static void KillAllHostileProjectiles()
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)

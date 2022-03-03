@@ -36,11 +36,11 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-				npc.DR_NERD(0.05f);
+                npc.DR_NERD(0.05f);
                 npc.damage = 100;
                 npc.lifeMax = 3300;
                 npc.defense = 20;
-				npc.knockBackResist = 0.7f;
+                npc.knockBackResist = 0.7f;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
@@ -57,11 +57,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AcidEelBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
 
             // Rebound on impending collision or when near the world edge.
-            bool nearWorldEdge = npc.Center.X < (Main.offLimitBorderTiles + 10f) * 16f || npc.Center.X > (Main.maxTilesX - Main.offLimitBorderTiles - 10f) * 16f;
+            bool nearWorldEdge = npc.Center.X < (Main.offLimitBorderTiles + 2f) * 16f || npc.Center.X > (Main.maxTilesX - Main.offLimitBorderTiles - 2f) * 16f;
             if ((CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * npc.direction, 20) ?? 20f) < 5f || nearWorldEdge)
             {
                 npc.direction *= -1;

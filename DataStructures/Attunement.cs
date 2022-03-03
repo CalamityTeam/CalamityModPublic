@@ -63,6 +63,8 @@ namespace CalamityMod.DataStructures
         {
         }
 
+        public virtual float DamageMultiplier => 1f;
+
         /// <summary>
         /// What does the sword do when trying to shoot and having the current attunement. Return false to stop the sword from shooting its default projectile
         /// </summary>
@@ -99,9 +101,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
+        public override float DamageMultiplier => BiomeBlade.DefaultAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = BiomeBlade.DefaultAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = false;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -124,9 +127,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
+        public override float DamageMultiplier => BiomeBlade.HotAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = BiomeBlade.HotAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -149,9 +153,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
+        public override float DamageMultiplier => BiomeBlade.ColdAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = BiomeBlade.ColdAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -197,9 +202,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
+        public override float DamageMultiplier => BiomeBlade.TropicalAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = BiomeBlade.TropicalAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -223,9 +229,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
+        public override float DamageMultiplier => BiomeBlade.EvilAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = BiomeBlade.EvilAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.Stabbing;
@@ -259,9 +266,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.DefaultAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.DefaultAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = false;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -285,9 +293,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.HotAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.HotAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -311,9 +320,9 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.ColdAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.ColdAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -360,9 +369,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.TropicalAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.TropicalAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -398,9 +408,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.EvilAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.EvilAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.Stabbing;
@@ -442,9 +453,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(255, 143, 255);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.HolyAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.HolyAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -469,9 +481,9 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(153, 120, 255);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.AstralAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.AstralAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.Stabbing;
@@ -496,9 +508,10 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(27, 112643, 255);
         }
 
+        public override float DamageMultiplier => TrueBiomeBlade.MarineAttunement_BaseDamage / (float)TrueBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = TrueBiomeBlade.MarineAttunement_BaseDamage;
             item.channel = false;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.Stabbing;
@@ -523,6 +536,8 @@ namespace CalamityMod.DataStructures
             tooltipColor = new Color(220, 105, 197);
             tooltipColor2 = new Color(171, 239, 113);
         }
+
+        public override float DamageMultiplier => OmegaBiomeBlade.WhirlwindAttunement_BaseDamage / (float)OmegaBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -561,9 +576,9 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(169, 207, 255);
         }
 
+        public override float DamageMultiplier => OmegaBiomeBlade.FlailBladeAttunement_BaseDamage / (float)OmegaBiomeBlade.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.FlailBladeAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -600,9 +615,9 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(216, 131, 22);
         }
 
+        public override float DamageMultiplier => OmegaBiomeBlade.SuperPogoAttunement_BaseDamage / (float)OmegaBiomeBlade.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -637,9 +652,10 @@ namespace CalamityMod.DataStructures
             tooltipColor2 = new Color(122, 213, 233);
         }
 
+        public override float DamageMultiplier => OmegaBiomeBlade.ShockwaveAttunement_BaseDamage / (float)OmegaBiomeBlade.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.ShockwaveAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -679,9 +695,10 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(76, 137, 237);
         }
 
+        public override float DamageMultiplier => FourSeasonsGalaxia.PhoenixAttunement_BaseDamage / (float)FourSeasonsGalaxia.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = FourSeasonsGalaxia.PhoenixAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -718,9 +735,9 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(76, 137, 237);
         }
 
+        public override float DamageMultiplier => FourSeasonsGalaxia.AriesAttunement_BaseDamage / (float)FourSeasonsGalaxia.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = FourSeasonsGalaxia.AriesAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -757,9 +774,9 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(203, 25, 119);
         }
 
+        public override float DamageMultiplier => FourSeasonsGalaxia.PolarisAttunement_BaseDamage / (float)FourSeasonsGalaxia.BaseDamage;
         public override void ApplyStats(Item item)
         {
-            item.damage = FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -796,9 +813,10 @@ namespace CalamityMod.DataStructures
             tooltipPassiveColor = new Color(203, 25, 119);
         }
 
+        public override float DamageMultiplier => FourSeasonsGalaxia.AndromedaAttunement_BaseDamage / (float)FourSeasonsGalaxia.BaseDamage;
+
         public override void ApplyStats(Item item)
         {
-            item.damage = FourSeasonsGalaxia.AndromedaAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;

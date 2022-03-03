@@ -25,23 +25,10 @@ namespace CalamityMod.Particles
         private static List<Particle> batchedNonPremultipliedParticles;
         private static List<Particle> batchedAdditiveBlendParticles;
 
-
-        internal static void Load()
+        public static void LoadModParticleInstances(Mod mod)
         {
-            particles = new List<Particle>();
-            particlesToKill = new List<Particle>();
-            particleTypes = new Dictionary<Type, int>();
-            particleTextures = new Dictionary<int, Texture2D>();
-            particleInstances = new List<Particle>();
-
-            batchedAlphaBlendParticles = new List<Particle>();
-            batchedNonPremultipliedParticles = new List<Particle>();
-            batchedAdditiveBlendParticles = new List<Particle>();
-
             Type baseParticleType = typeof(Particle);
-            CalamityMod calamity = ModContent.GetInstance<CalamityMod>();
-
-            foreach (Type type in calamity.Code.GetTypes())
+            foreach (Type type in mod.Code.GetTypes())
             {
                 if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType)
                 {
@@ -57,6 +44,21 @@ namespace CalamityMod.Particles
                     particleTextures[ID] = ModContent.GetTexture(texturePath);
                 }
             }
+        }
+
+        internal static void Load()
+        {
+            particles = new List<Particle>();
+            particlesToKill = new List<Particle>();
+            particleTypes = new Dictionary<Type, int>();
+            particleTextures = new Dictionary<int, Texture2D>();
+            particleInstances = new List<Particle>();
+
+            batchedAlphaBlendParticles = new List<Particle>();
+            batchedNonPremultipliedParticles = new List<Particle>();
+            batchedAdditiveBlendParticles = new List<Particle>();
+
+            LoadModParticleInstances(CalamityMod.Instance);
         }
 
         internal static void Unload()
@@ -124,21 +126,27 @@ namespace CalamityMod.Particles
                     batchedAlphaBlendParticles.Add(particle);
             }
 
-            foreach (Particle particle in batchedAlphaBlendParticles)
+            if (batchedAlphaBlendParticles.Count > 0)
             {
-                if (particle.UseCustomDraw)
-                    particle.CustomDraw(sb);
-                else
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+                foreach (Particle particle in batchedAlphaBlendParticles)
                 {
-                    Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
-                    sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                    if (particle.UseCustomDraw)
+                        particle.CustomDraw(sb);
+                    else
+                    {
+                        Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
+                        sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
+                    }
                 }
+                sb.End();
             }
+
 
             if (batchedNonPremultipliedParticles.Count > 0)
             {
-                sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedNonPremultipliedParticles)
                 {
@@ -150,12 +158,12 @@ namespace CalamityMod.Particles
                         sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
                     }
                 }
+                sb.End();
             }
 
             if (batchedAdditiveBlendParticles.Count > 0)
             {
-                sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedAdditiveBlendParticles)
                 {
@@ -167,13 +175,7 @@ namespace CalamityMod.Particles
                         sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
                     }
                 }
-            }
-
-            //Return to normal if we swapped the blend state before
-            if (batchedAdditiveBlendParticles.Count > 0 || batchedNonPremultipliedParticles.Count > 0)
-            { 
                 sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             }
 
             batchedAlphaBlendParticles.Clear();

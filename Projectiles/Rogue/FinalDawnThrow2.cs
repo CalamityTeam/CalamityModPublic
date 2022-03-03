@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
 			projectile.tileCollide = true; // We don't want people getting stuck in walls right
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = projectile.MaxUpdates * 13;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.heldProj = projectile.whoAmI;
             player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
-            player.immuneTime = 6;
+            player.immuneTime = 4;
             for (int k = 0; k < player.hurtCooldowns.Length; k++)
                 player.hurtCooldowns[k] = player.immuneTime;
 
