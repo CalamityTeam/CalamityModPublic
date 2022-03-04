@@ -603,6 +603,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeBody>(), ModContent.ProjectileType<SandTooth>()), new int[] { 66, 112, 128, 140, 192 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AquaticScourgeBodyAlt>(), ModContent.ProjectileType<SandBlast>()), new int[] { 60, 100, 120, 132, 180 } },
 
+				{ new Tuple<int, int>(NPCID.TheDestroyer, ProjectileID.DeathLaser), new int[] { 0, 0, 0, 152, 210 } },
 				{ new Tuple<int, int>(NPCID.TheDestroyerBody, ProjectileID.DeathLaser), new int[] { 44, 72, 116, 128, 174 } }, // 108 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.TheDestroyerBody, ModContent.ProjectileType<DestroyerCursedLaser>()), new int[] { 46, 76, 128, 140, 186 } },
 				{ new Tuple<int, int>(NPCID.TheDestroyerBody, ModContent.ProjectileType<DestroyerElectricLaser>()), new int[] { 48, 80, 136, 152, 210 } },
