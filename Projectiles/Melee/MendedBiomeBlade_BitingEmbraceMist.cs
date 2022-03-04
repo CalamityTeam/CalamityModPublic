@@ -80,17 +80,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+            spriteBatch.EnterShaderRegion(BlendState.Additive);
 
             var tex = GetTexture("CalamityMod/Particles/MediumMist");
             Rectangle frame = tex.Frame(1, 3, 0, variant);
             spriteBatch.Draw(tex, projectile.position - Main.screenPosition, frame, mistColor * 0.5f * ((255f - projectile.alpha) / 255f), projectile.rotation, frame.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
 
-            //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
+            spriteBatch.ExitShaderRegion();
             return false;
         }
 

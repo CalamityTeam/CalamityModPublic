@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 18;
             item.magic = true;
             item.mana = 20;
-            item.width = 90;
-            item.height = 42;
+            item.width = 124;
+            item.height = 52;
             item.useTime = item.useAnimation = 7;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-25, 0);
+            return new Vector2(-35, -10);
         }
 
         public override bool AltFunctionUse(Player player)

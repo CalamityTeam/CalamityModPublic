@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
-			item.height = 58;
-			item.scale = 1.5f;
+            item.width = 72;
+			item.height = 72;
+			item.scale = 1.2f;
 			item.damage = 108;
             item.melee = true;
             item.useAnimation = item.useTime = 15;

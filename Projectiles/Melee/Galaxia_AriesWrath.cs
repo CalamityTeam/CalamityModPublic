@@ -214,16 +214,9 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(smokeGlow);
             }
 
-            if (ChainSwapTimer % (20 - Math.Ceiling(14 * MathHelper.Clamp((projectile.position - projectile.oldPosition).Length() / 30f, 0, 1))) == 1 && Owner.whoAmI == Main.myPlayer)
+            if ((lastConstellation == null || !lastConstellation.active) && Owner.whoAmI == Main.myPlayer && ChainSwapTimer > 20)
             {
-                if (lastConstellation != null && lastConstellation.active)
-                    lastConstellation.Kill();
-
                 lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
-                if (lastConstellation.modProjectile is AriesWrathConstellation constellation)
-                {
-                    constellation.SizeVector = projectile.Center - Owner.Center;
-                }
             }
 
             ChainSwapTimer++;

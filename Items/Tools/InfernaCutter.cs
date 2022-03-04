@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Tools
             item.tileBoost += 1;
 
             item.melee = true;
-            item.width = 62;
-            item.height = 46;
+            item.width = 80;
+            item.height = 66;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.value = Item.buyPrice(0, 36, 0, 0);

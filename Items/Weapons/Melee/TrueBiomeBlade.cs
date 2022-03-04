@@ -26,6 +26,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public int PowerLungeCounter = 0;
 
         #region stats
+        public static int BaseDamage = 160;
+
         public static int DefaultAttunement_BaseDamage = 160;
         public static int DefaultAttunement_SigilTime = 1200;
         public static int DefaultAttunement_BeamTime = 60;
@@ -152,7 +154,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 68;
-            item.damage = 160;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 21;
             item.useTime = 21;
@@ -242,6 +244,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
@@ -258,9 +268,12 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noMelee = false;
+                item.channel = false;
                 item.shoot = ProjectileID.PurificationPowder;
                 item.shootSpeed = 12f;
                 item.UseSound = SoundID.Item1;
+                Combo = 0;
 
                 Combo = 0;
                 PowerLungeCounter = 0;
@@ -300,12 +313,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<TrueBitingEmbrace>() || 
+            (n.type == ProjectileType<TrueBitingEmbrace>() ||
              n.type == ProjectileType<TrueGrovetendersTouch>() ||
              n.type == ProjectileType<TrueAridGrandeur>() ||
              n.type == ProjectileType<HeavensMight>() ||
              n.type == ProjectileType<ExtantAbhorrence>() ||
-             n.type == ProjectileType<GestureForTheDrowned>()));  
+             n.type == ProjectileType<GestureForTheDrowned>()));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

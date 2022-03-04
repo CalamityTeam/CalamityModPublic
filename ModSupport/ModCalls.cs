@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod
 {
@@ -1989,6 +1991,13 @@ namespace CalamityMod
 						return new ArgumentException("ERROR: The first argument to \"CreateCustomDeathEffectForBossRush\" must be an Action<NPC>.");
 
 					BossRushEvent.BossDeathEffects[npcType5] = deathEffect;
+					return null;
+
+				case "LoadParticleInstances":
+					if (args.Length != 2 || !(args[1] is Mod))
+						return new ArgumentNullException("ERROR: Must specify a Mod instance to load particles from.");
+
+					GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
 					return null;
 
 				default:

@@ -411,7 +411,6 @@ namespace CalamityMod.CalPlayer
                     else if (currentlyHeldItem.type == ModContent.ItemType<Excelsus>() ||
                              currentlyHeldItem.type == ModContent.ItemType<EssenceFlayer>() ||
                              currentlyHeldItem.type == ModContent.ItemType<TheEnforcer>() ||
-                             currentlyHeldItem.type == ModContent.ItemType<ElementalExcalibur>() ||
                              currentlyHeldItem.type == ModContent.ItemType<TerrorBlade>() ||
                              currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>() || 
                              (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.SwingThrow))
@@ -421,8 +420,6 @@ namespace CalamityMod.CalPlayer
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<TheEnforcer>())
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
-                        else if (currentlyHeldItem.type == ModContent.ItemType<ElementalExcalibur>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<TerrorBlade>())
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>())

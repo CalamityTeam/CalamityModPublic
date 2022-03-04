@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Owner.Calamity().LungingDown = true;
                 Owner.fallStart = (int)(Owner.position.Y / 16f);
-                Owner.velocity = Owner.DirectionTo(Wheel.Center) * 60f;
+                Owner.velocity = Owner.SafeDirectionTo(Wheel.Center, Vector2.Zero) * 60f;
 
                 if (Owner.Distance(Wheel.Center) < 60f)
                     Wheel.active = false;

@@ -25,6 +25,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public int CanLunge = 1;
 
         #region stats
+        public static int BaseDamage = 50;
+
         public static int DefaultAttunement_BaseDamage = 55;
 
         public static int EvilAttunement_BaseDamage = 102;
@@ -110,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 36;
-            item.damage = 55;
+            item.damage = BaseDamage;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -214,6 +216,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (mainAttunement == null)
+                return;
+
+            mult += mainAttunement.DamageMultiplier - 1;
+        }
+
         public override void HoldItem(Player player)
         {
 
@@ -224,12 +234,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 CanLunge = 1;
 
 
-
             //Change the swords function based on its attunement
             if (mainAttunement == null)
             {
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noMelee = false;
+                item.channel = false;
                 item.shoot = ProjectileID.PurificationPowder;
                 item.shootSpeed = 12f;
                 item.UseSound = SoundID.Item1;
@@ -272,7 +283,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<BitingEmbrace>() || n.type == ProjectileType<GrovetendersTouch>() || n.type == ProjectileType<AridGrandeur>()));
+            (n.type == ProjectileType<BitingEmbrace>() || 
+             n.type == ProjectileType<GrovetendersTouch>() || 
+             n.type == ProjectileType<AridGrandeur>()));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

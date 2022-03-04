@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
         
-        // Right click doesn't use ammo because it's a detonation signal.
+        // Right click doesn't use ammo because it's a detonation signal. 
         public override bool ConsumeAmmo(Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ChickenCannonHeld>()] <= 0 || player.altFunctionUse == 2;
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
 
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI);
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI, 1);
             // Otherwise just play a grenade launcher sound and fire a rocket.
             //Main.PlaySound(SoundID.Item61, position);
             //Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
