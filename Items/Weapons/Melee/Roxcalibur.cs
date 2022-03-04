@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.NPCHit42;
-            item.width = 80;
-            item.height = 80;
+            item.width = 100;
+            item.height = 100;
             item.autoReuse = true;
             item.useAnimation = 45;
             item.useTime = 45;
