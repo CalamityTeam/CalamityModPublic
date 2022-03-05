@@ -76,8 +76,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				damage /= 3;
 			else if (projectile.penetrate == -1)
 				projectile.penetrate = 1;
-
-			damage += target.defense / 3;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

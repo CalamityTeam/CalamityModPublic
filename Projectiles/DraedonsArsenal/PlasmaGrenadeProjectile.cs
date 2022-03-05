@@ -51,11 +51,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Time++;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            damage += target.defense / 4;
-        }
-
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaGrenadeExplosion"), (int)projectile.position.X, (int)projectile.position.Y);

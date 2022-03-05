@@ -70,11 +70,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				LaserBurst(1.8f, 3f);
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage -= target.defense / 5;
-		}
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.OnFire, 90);

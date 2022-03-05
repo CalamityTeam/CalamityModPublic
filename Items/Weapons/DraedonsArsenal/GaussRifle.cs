@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Rifle");
-			Tooltip.SetDefault("A large and slow weapon, the concussive force of its projectiles do well in clearing large groups.\n" +
+			Tooltip.SetDefault("A large and slow weapon, the concussive force of its projectiles do well in clearing large groups\n" +
 			"Fires a devastating high velocity blast with absurd knockback");
 		}
 
