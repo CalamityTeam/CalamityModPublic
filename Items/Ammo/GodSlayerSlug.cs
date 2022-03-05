@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(silver: 4);
+            item.value = Item.sellPrice(copper: 28);
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();

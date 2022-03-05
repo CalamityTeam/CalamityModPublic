@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 1.25f;
-            item.value = 250;
+            item.value = Item.sellPrice(copper: 2);
             item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<AccelerationBulletProj>();
             item.shootSpeed = 1f;
