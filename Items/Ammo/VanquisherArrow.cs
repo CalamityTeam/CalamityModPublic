@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 3.5f;
-            item.value = 2250;
+            item.value = Item.sellPrice(copper: 28);
             item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
             item.shootSpeed = 10f;
             item.ammo = AmmoID.Arrow;

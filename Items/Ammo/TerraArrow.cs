@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 1.5f;
-            item.value = Item.sellPrice(0, 0, 0, 40);
+            item.value = Item.sellPrice(copper: 20);
             item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<TerraArrowMain>();
             item.shootSpeed = 15f;
