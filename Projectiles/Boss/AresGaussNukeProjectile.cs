@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Boss
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
 						// Make the max explosion radius decrease over time, creating a ring effect.
-						explosion.ai[1] = 800f + i * 90f;
+						explosion.ai[1] = 560f + i * 90f;
 						explosion.localAI[1] = 0.25f;
 						explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
 						explosion.netUpdate = true;
