@@ -79,6 +79,19 @@ namespace CalamityMod
 			return CalculatePredictiveAimToTarget(startingPosition, target.Center, target.velocity, shootSpeed, iterations);
 		}
 
+		/// <summary>
+		/// Makes a projectile home in such a way that it attempts to fractionally move towards a target's expected future position.
+		/// This is based on the results of the <see cref="CalculatePredictiveAimToTarget"/> method.
+		/// </summary>
+		/// <param name="projectile">The projectile that should home.</param>
+		/// <param name="target">The target.</param>
+		/// <param name="inertia">The inertia of the movement change.</param>
+		public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia)
+		{
+			Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed);
+			return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
+		}
+
 		public static void KillAllHostileProjectiles()
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)
