@@ -42,11 +42,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.NewProjectile(projectile.Center + offset, projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f, ModContent.ProjectileType<GaussEnergy>(), (int)(projectile.damage * 0.4), 0f, projectile.owner);
         };
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += target.defense / 3;
-		}
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;

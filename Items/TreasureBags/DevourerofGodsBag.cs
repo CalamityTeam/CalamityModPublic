@@ -74,12 +74,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
-            if (Main.rand.NextBool(5))
-            {
-                DropHelper.DropItem(player, ModContent.ItemType<SilvaHelm>());
-                DropHelper.DropItem(player, ModContent.ItemType<SilvaHornedHelm>());
-                DropHelper.DropItem(player, ModContent.ItemType<SilvaMask>());
-            }
+
             DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
         }
     }

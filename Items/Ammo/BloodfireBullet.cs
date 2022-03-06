@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Ammo
 			item.maxStack = 999;
 			item.consumable = true;
 			item.knockBack = 4.5f;
-			item.value = Item.sellPrice(copper: 80);
+			item.value = Item.sellPrice(copper: 24);
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.shoot = ModContent.ProjectileType<BloodfireBulletProj>();

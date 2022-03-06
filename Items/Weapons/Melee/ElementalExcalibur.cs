@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.width = 92;
-            item.height = 92;
+            item.width = 112;
+            item.height = 112;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = ItemRarityID.Purple;
             item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
@@ -47,11 +47,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
-
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow"));
-        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -38,11 +38,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.idStaticNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 2;
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += target.defense / 4;
-		}
-
 		public override void AI()
 		{
 			projectile.frameCounter++;

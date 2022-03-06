@@ -128,11 +128,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            damage -= target.defense / 4;
-        }
-
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             ReturningToPlayer = true;

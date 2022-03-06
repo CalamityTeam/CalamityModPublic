@@ -92,11 +92,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				PlasmaBurst(1f, 1.6f);
 		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += target.defense / 3;
-		}
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.OnFire, 180);

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Plasma Caster");
 			Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
-				"Deals more damage against enemies with high defenses\n" +
 				"Right click for turbo mode");
 		}
 

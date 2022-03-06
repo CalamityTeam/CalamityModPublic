@@ -7,6 +7,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
 	public class StellarContemptMelee : ModItem
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
+
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 
@@ -18,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.height = 64;
+            item.width = 74;
+            item.height = 74;
             item.melee = true;
             item.damage = BaseDamage;
             item.knockBack = 9f;

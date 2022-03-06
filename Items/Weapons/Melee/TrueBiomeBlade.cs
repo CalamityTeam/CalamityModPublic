@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Biome Blade");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
                                "FUNCTION_EXTRA\n" +
-                               "Use RMB while standing still on the ground to attune the weapon to the powers of the surrounding biome\n" +
+                               "Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome\n" +
                                "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
                                "Main attunement : None\n" +
                                "Secondary attunement: None\n"); //Theres potential for flavor text as well but im not a writer

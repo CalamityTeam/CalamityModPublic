@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 1.5f;
-            item.value = Item.sellPrice(0, 0, 0, 24);
-            item.rare = ItemRarityID.Orange;
+            item.value = Item.sellPrice(copper: 12);
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<ArcticArrowProj>();
             item.shootSpeed = 13f;
             item.ammo = AmmoID.Arrow;

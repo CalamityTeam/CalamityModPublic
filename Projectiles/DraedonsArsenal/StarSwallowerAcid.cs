@@ -62,11 +62,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             return true;
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += target.defense / 2;
-		}
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
