@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 
@@ -11,7 +12,20 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool UsesScreenshake => true;
 		public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 16f;
 		public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Yellow * 1.6f, Color.White, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
-		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public override float Fadeout(float completion)
+        {
+			float opacity;
+			//Opacity is high for most of the blast
+			if (completion < 0.8f)
+				opacity = 1f;
+
+			//It only fades out near the end
+			else
+				opacity = (float)Math.Cos(((completion - 0.8f) / 0.2f * MathHelper.Pi) / 2f); ;
+			
+			return opacity * 0.85f;
+		}
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Gauss Explosion");
 
