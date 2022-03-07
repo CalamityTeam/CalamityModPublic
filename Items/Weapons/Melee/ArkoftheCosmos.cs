@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
         public override bool CloneNewInstances => true;
 
-        public static float NeedleDamageMultiplier = 0.5f;
+        public static float NeedleDamageMultiplier = 0.5f; //Damage on the non-homing needle projectile
         public static float MaxThrowReach = 620;
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
 
@@ -44,12 +44,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
                 "Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap and explode into stars";
 
-        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
+        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you.n" +
+                "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
 
         const string BlastTooltip = "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process\n" +
-                "If you had more than half your charges remaining and the up key remains pressed when the rip occurs, you will quickly dash towards the scissor blades";
+                "If more than half the charges were used up, you can dash across the rip by keeping the up key pressed down";
 
 
         public override void SetStaticDefaults()
