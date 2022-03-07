@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             item.width = 26;
             item.height = 24;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = Item.buyPrice(0, 8, 0, 0);
             item.vanity = true;
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.DarkBlue;
