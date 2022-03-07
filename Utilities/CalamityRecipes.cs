@@ -47,8 +47,9 @@ namespace CalamityMod
             EditOpticStaffRecipe();
             AstralAlternatives();
             EditShroomiteBarRecipe();
-            EditTier3HardmodeOreRecipes();
-            EditHardmodeOreSetRecipes();
+            EditChlorophyteBarRecipe(); // Don't remove this in 1.4 since it has 1 less ore required than that version
+            EditTier3HardmodeBarRecipes(); // Remove this when we get 1.4 port
+            EditHardmodeOreSetRecipes(); 
 
             AddPotionRecipes();
             AddCookedFood();
@@ -473,8 +474,18 @@ namespace CalamityMod
             });
         }
 
-        //Change the recipes to be like 1.4
-        private static void EditTier3HardmodeOreRecipes()
+        // Change the recipes to be like 1.4 but even less demanding
+        private static void EditChlorophyteBarRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.ChlorophyteBar).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 4;
+            });
+        }
+
+        // Change the recipes to be like 1.4
+        private static void EditTier3HardmodeBarRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.AdamantiteBar || x.createItem.type == ItemID.TitaniumBar).ToList().ForEach(s =>
@@ -484,7 +495,7 @@ namespace CalamityMod
         }
 
 
-        //Change the recipes to be consistent on each tier and less cost for pickaxe. (I'm aware some recipes already have the proper recipe amounts but consider this futureproofing and laziness)
+        // Change the recipes to be consistent on each tier and less cost for pickaxe. (I'm aware some recipes already have the proper recipe amounts but consider this futureproofing and laziness)
         private static void EditHardmodeOreSetRecipes()
         {
             short MeleeHelm;

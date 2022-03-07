@@ -42,6 +42,56 @@ namespace CalamityMod
 			return null;
 		}
 
+		// NOTE - Do not under any circumstance use these predictive methods for enemies or bosses. It is intended for minions and player-created projectiles.
+		// Due to its extremely precise nature, it will have little openings that allow players to react without dashing through the enemy.
+		// The results will be neither fun nor fair.
+
+		/// <summary>
+		/// Calculates a velocity that approximately predicts where some target will be in the future based on Euler's Method.
+		/// </summary>
+		/// <param name="startingPosition">The starting position from where the movement is calculated.</param>
+		/// <param name="targetPosition">The position of the target to hit.</param>
+		/// <param name="targetVelocity">The velocity of the target to hit.</param>
+		/// <param name="shootSpeed">The speed of the predictive velocity.</param>
+		/// <param name="iterations">The number of iterations to perform. The more iterations, the more precise the results are.</param>
+		public static Vector2 CalculatePredictiveAimToTarget(Vector2 startingPosition, Vector2 targetPosition, Vector2 targetVelocity, float shootSpeed, int iterations = 4)
+		{
+			float previousTimeToReachDestination = 0f;
+			Vector2 currentTargetPosition = targetPosition;
+			for (int i = 0; i < iterations; i++)
+			{
+				float timeToReachDestination = Vector2.Distance(startingPosition, currentTargetPosition) / shootSpeed;
+				currentTargetPosition += targetVelocity * (timeToReachDestination - previousTimeToReachDestination);
+				previousTimeToReachDestination = timeToReachDestination;
+			}
+			return (currentTargetPosition - startingPosition).SafeNormalize(Vector2.UnitY) * shootSpeed;
+		}
+
+		/// <summary>
+		/// Calculates a velocity that approximately predicts where some target will be in the future based on Euler's Method.
+		/// </summary>
+		/// <param name="startingPosition">The starting position from where the movement is calculated.</param>
+		/// <param name="target">The target to hit.</param>
+		/// <param name="shootSpeed">The speed of the predictive velocity.</param>
+		/// <param name="iterations">The number of iterations to perform. The more iterations, the more precise the results are.</param>
+		public static Vector2 CalculatePredictiveAimToTarget(Vector2 startingPosition, Entity target, float shootSpeed, int iterations = 4)
+		{
+			return CalculatePredictiveAimToTarget(startingPosition, target.Center, target.velocity, shootSpeed, iterations);
+		}
+
+		/// <summary>
+		/// Makes a projectile home in such a way that it attempts to fractionally move towards a target's expected future position.
+		/// This is based on the results of the <see cref="CalculatePredictiveAimToTarget"/> method.
+		/// </summary>
+		/// <param name="projectile">The projectile that should home.</param>
+		/// <param name="target">The target.</param>
+		/// <param name="inertia">The inertia of the movement change.</param>
+		public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia)
+		{
+			Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed);
+			return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
+		}
+
 		public static void KillAllHostileProjectiles()
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)
