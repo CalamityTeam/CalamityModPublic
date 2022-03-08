@@ -1,14 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
-using Terraria.Audio;
-using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CalamityMod.Cooldowns
 {
-	public abstract class Cooldown
+	public class Cooldown
 	{
 		// Do not ever change this value. It is set when a cooldown is registered.
 		internal ushort netID;
@@ -16,176 +11,76 @@ namespace CalamityMod.Cooldowns
 		/// <summary>
 		/// Unique string ID of the cooldown. You can set this to whatever you want.
 		/// </summary>
-		public virtual string ID => "";
+		public string ID = "";
 
-		/// <summary>
-		/// This method runs once every frame while the cooldown is active.
-		/// </summary>
-		public virtual void Tick(CooldownInstance instance) { }
+		// Cooldowns are nothing other than identifiers. They serve as a minimal identification interface that is netcode compatible.
+		// Everything else is handled by one of the following two types:
+		// - CooldownInstance (if a player has a cooldown, this is what they have)
+		// - CooldownHandler (every CooldownInstance has one: it handles the behavior of that cooldown instance)
+		//
+		// Individual "types" of cooldowns from a content sense are registered with a Handler.
+		// Every cooldown MUST define a Handler to be registered and functional.
+		// The differences between all the cooldowns are implemented as various subclasses of CooldownHandler.
+		public CooldownHandler handler;
 
-		/// <summary>
-		/// This method runs when the cooldown ends naturally. It is not called if the cooldown is deleted because the player died.
-		/// </summary>
-		public virtual void OnCompleted(CooldownInstance instance) { }
-
-		/// <summary>
-		/// Determines whether the cooldown can currently tick down.<br/>
-		/// For example, this is useful for cooldowns that don't tick down if there are any bosses alive.<br/>
-		/// You can also use it so that cooldowns which persist through death do not tick down while the player is dead.
-		/// </summary>
-		public virtual bool CanTickDown(CooldownInstance instance) => true;
-
-		/// <summary>
-		/// Set this to true to make this cooldown remain even when the player dies.<br/>
-		/// All cooldowns with PersistsThroughDeath set to false disappear immediately when the player dies.
-		/// </summary>
-		public virtual bool PersistsThroughDeath => false;
-
-		/// <summary>
-		/// When the cooldown ends, this sound is played. Leave at <b>null</b> for no sound.
-		/// </summary>
-		public virtual LegacySoundStyle EndSound => null;
-
-		/// <summary>
-		/// Whether or not this cooldown should appear in the cooldown rack UI.
-		/// </summary>
-		public virtual bool ShouldDisplay(CooldownInstance instance) => true;
-
-		/// <summary>
-		/// The name of the cooldown, appears when the player hovers over the indicator
-		/// </summary>
-		public virtual string DisplayName(CooldownInstance instance) => "";
-
-		/// <summary>
-		/// The texture of the cooldown indicator.<br/>
-		/// <b>These must be 20x20 pixels when at 2x2 scale.</b>
-		/// </summary>
-		public virtual string Texture => "";
-		/// <summary>
-		/// This texture is overlaid atop the cooldown when the cooldown rack is rendering in compact mode.
-		/// </summary>
-		public virtual string OverlayTexture => $"{Texture}Overlay";
-		/// <summary>
-		/// This outline texture is rendered around the base icon texture.
-		/// </summary>
-		public virtual string OutlineTexture => $"{Texture}Outline";
-
-		internal static string DefaultChargeBarTexture = "CalamityMod/Cooldowns/BarBase";
-		/// <summary>
-		/// The texture of this cooldown's "charge bar", or the circle rendered by shaders.<br/>
-		/// This is only used when the cooldown rack is rendering in expanded mode and when UseCustomExpandedDraw is set to false.<br/>
-		/// <b>These must be 44x44 pixels when at 2x2 scale.</b>
-		/// </summary>
-		public virtual string ChargeBarTexture => DefaultChargeBarTexture;
-		/// <summary>
-		/// The background texture of this cooldown's "charge bar", or the circle rendered by shaders.<br/>
-		/// This is only used when the cooldown rack is rendering in expanded mode and when UseCustomExpandedDraw is set to false.<br/>
-		/// Leave it as the default to have nothing render underneath the charge bar itself.<br/>
-		/// <b>These must be 44x44 pixels when at 2x2 scale.</b>
-		/// </summary>
-		public virtual string ChargeBarBackTexture => DefaultChargeBarTexture;
-
-		/// <summary>
-		/// The color used for the icon outline when rendering in expanded mode.<br/>
-		/// In compact mode, this color is used for the overlay that goes above the icon.
-		/// </summary>
-		public virtual Color GetOutlineColor(CooldownInstance instance) => Color.White;
-		/// <summary>
-		/// The color used for the start of the circular cooldown timer rendered by shaders.<br/>
-		/// This color is only used when drawing in expanded mode and is ignored if a charge bar texture is provided.
-		/// </summary>
-		public virtual Color GetCooldownStartColor(CooldownInstance instance) => Color.Gray;
-
-		/// <summary>
-		/// The color used for the end of the circular cooldown timer rendered by shaders.<br/>
-		/// This color is only used when drawing in expanded mode and is ignored if a charge bar texture is provided.
-		/// </summary>
-		public virtual Color GetCooldownEndColor(CooldownInstance instance) => Color.White;
-
-		/// <summary>
-		/// Set this to true to disable default drawing and instead call the function DrawExpanded.<br/>
-		/// This only applies when the cooldown rack is rendering in expanded mode.
-		/// </summary>
-		public virtual bool UseCustomExpandedDraw => false;
-
-		/// <summary>
-		/// This method is called to render the cooldown when the cooldown rack is in expanded mode and UseCustomExpandedDraw is set to true.
-		/// </summary>
-		public virtual void DrawExpanded(CooldownInstance instance, SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+		internal Cooldown(string id, CooldownHandler h)
 		{
-			Texture2D sprite = ModContent.GetTexture(Texture);
-			Texture2D outline = ModContent.GetTexture(OutlineTexture);
-			Texture2D barBase = ModContent.GetTexture(ChargeBarTexture);
-			Color outlineColor = GetOutlineColor(instance);
+			ID = id;
+			handler = h;
+		}
 
-			//Draw the ring
-			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
-			ApplyBarShaders(instance, opacity);
+		#region Cooldown Registry
+		// Indexed by ushort netID. Contains every registered cooldown.
+		// Cooldowns are given netIDs when they are registered.
+		// Cooldowns are useless until they are registered.
+		public static Cooldown[] registry;
+		private const ushort defaultSize = 256;
+		private static ushort nextCDNetID = 0;
 
-			spriteBatch.Draw(barBase, position, null, Color.White * opacity, 0, barBase.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+		private static Dictionary<string, ushort> nameToNetID = null;
 
-			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+		public static void Load()
+		{
+			registry = new Cooldown[defaultSize];
+			nameToNetID = new Dictionary<string, ushort>(defaultSize);
+		}
 
-			//Draw the outline
-			spriteBatch.Draw(outline, position, null, outlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-
-			//Draw the icon
-			spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+		public static void Unload()
+		{
+			registry = null;
+			nameToNetID?.Clear();
+			nameToNetID = null;
 		}
 
 		/// <summary>
-		/// Set this to true to disable default drawing and instead call the function DrawCompact.<br/>
-		/// This only applies when the cooldown rack is rendering in compact mode.
+		/// Registers a cooldown for use in netcode. Cooldowns are useless until this has been done.
 		/// </summary>
-		public virtual bool UseCustomCompactDraw => false;
-
-		/// <summary>
-		/// This method is called to render the cooldown when the cooldown rack is in compact mode and UseCustomCompactDraw is set to true.
-		/// </summary>
-		public virtual void DrawCompact(CooldownInstance instance, SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+		/// <returns></returns>
+		public static bool Register(string id, CooldownHandler h)
 		{
-			Texture2D sprite = ModContent.GetTexture(Texture);
-			Texture2D outline = ModContent.GetTexture(OutlineTexture);
-			Texture2D overlay = ModContent.GetTexture(OverlayTexture);
-			Color outlineColor = GetOutlineColor(instance);
+			int currentMaxID = registry.Length;
 
-			//Draw the outline
-			spriteBatch.Draw(outline, position, null, outlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+			// This case only happens when you cap out at 65,536 cooldown registrations (which should never occur).
+			// It just stops you from registering more cooldowns.
+			if (nextCDNetID == currentMaxID)
+				return false;
 
-			//Draw the icon
-			spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+			Cooldown cd = new Cooldown(id, h);
+			cd.netID = nextCDNetID;
+			nameToNetID[cd.ID] = cd.netID;
+			++nextCDNetID;
 
-			//Draw the small overlay
-			int lostHeight = (int)Math.Ceiling(overlay.Height * (1 - instance.Completion));
-			Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
-			spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, outlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-		}
-
-		/// <summary>
-		/// Renders the circular cooldown timer with a radial shader. This method is only called if UseCustomDraw is set to false.<br/>
-		/// If the charge bar texture is defined, it is used. Otherwise it renders a flat ring which slides from the start color to the end color.
-		/// </summary>
-		public virtual void ApplyBarShaders(CooldownInstance instance, float opacity)
-		{
-			if (ChargeBarTexture == DefaultChargeBarTexture)
+			// If the end of the array is reached, double its size.
+			if (nextCDNetID == currentMaxID && currentMaxID < ushort.MaxValue)
 			{
-				Color startColor = GetCooldownStartColor(instance);
-				Color endColor = GetCooldownEndColor(instance);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(1 - instance.Completion);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(startColor);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(endColor);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+				Cooldown[] largerArray = new Cooldown[currentMaxID * 2];
+				for (int i = 0; i < currentMaxID; ++i)
+					largerArray[i] = registry[i];
+
+				registry = largerArray;
 			}
-			else
-			{
-				GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.GetTexture(ChargeBarBackTexture));
-				GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseOpacity(opacity);
-				GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseSaturation(1 - instance.Completion);
-				GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].Apply();
-			}
+			return true;
 		}
+		#endregion
 	}
 }

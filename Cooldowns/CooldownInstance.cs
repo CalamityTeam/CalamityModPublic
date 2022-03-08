@@ -31,6 +31,10 @@ namespace CalamityMod.Cooldowns
 		/// </summary>
 		public float Completion => duration != 0 ? timeLeft / (float)duration : 0;
 
+		/// <summary>
+		/// Serializes this cooldown instance into binary data for netcode.
+		/// </summary>
+		/// <param name="writer">Writer for an unspecified binary stream.</param>
 		internal void Write(BinaryWriter writer)
 		{
 			writer.Write(netID);
@@ -40,6 +44,10 @@ namespace CalamityMod.Cooldowns
 			writer.Write(timeLeft);
 		}
 
+		/// <summary>
+		/// Defines this cooldown instance from serialized binary data, used in netcode.
+		/// </summary>
+		/// <param name="reader">Reader of the binary stream.</param>
 		internal void Read(BinaryReader reader)
 		{
 			netID = reader.ReadUInt16();
