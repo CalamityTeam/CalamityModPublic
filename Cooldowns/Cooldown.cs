@@ -43,6 +43,9 @@ namespace CalamityMod.Cooldowns
 		{
 			registry = new Cooldown[defaultSize];
 			nameToNetID = new Dictionary<string, ushort>(defaultSize);
+
+			Register("AbyssalDivingSuitBreakingPlates", new DivingPlatesBreaking(null));
+			Register("AbyssalDivingSuitBrokenPlates", new DivingPlatesBroken(null));
 		}
 
 		public static void Unload()
