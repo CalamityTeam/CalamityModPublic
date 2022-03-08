@@ -44,8 +44,40 @@ namespace CalamityMod.Cooldowns
 			registry = new Cooldown[defaultSize];
 			nameToNetID = new Dictionary<string, ushort>(defaultSize);
 
-			Register("AbyssalDivingSuitBreakingPlates", new DivingPlatesBreaking(null));
-			Register("AbyssalDivingSuitBrokenPlates", new DivingPlatesBroken(null));
+			// TODO -- CooldownHandlers should be ILoadable in 1.4
+
+			// Vanilla cooldowns represented by the interface
+			Cooldown potionSickness = Register("PotionSickness", new PotionSickness(null));
+			Cooldown chaosState = Register("ChaosState", new ChaosState(null));
+			Cooldown globalDodge = Register("GlobalDodge", new GlobalDodge(null));
+
+			// Calamity cooldowns
+			Cooldown aquaticHeartIceShield = Register("AquaticHeartIceShield", new AquaticHeartIceShield(null));
+			Cooldown bloodflareFrenzy = Register("BloodflareFrenzy", new BloodflareFrenzy(null));
+			Cooldown bloodflareRanged = Register("BloodflareRangedSet", new BloodflareRangedSet(null));
+			Cooldown brimflameFrenzy = Register("BrimflameFrenzy", new BrimflameFrenzy(null));
+			Cooldown counterScarf = Register("CounterScarf", new CounterScarf(null));
+			Cooldown divineBless = Register("DivineBless", new DivineBless(null));
+			Cooldown divingPlatesBreaking = Register("DivingPlatesBreaking", new DivingPlatesBreaking(null));
+			Cooldown divingPlatesBroken = Register("DivingPlatesBroken", new DivingPlatesBroken(null));
+			Cooldown draconicElixir = Register("DraconicElixir", new DraconicElixir(null));
+			Cooldown evasionScarf = Register("EvasionScarf", new EvasionScarf(null));
+			Cooldown fleshTotem = Register("FleshTotem", new FleshTotem(null));
+			Cooldown godSlayerDash = Register("GodSlayerDash", new GodSlayerDash(null));
+			Cooldown inkBomb = Register("InkBomb", new InkBomb(null));
+			Cooldown lionHeartShield = Register("LionHeartShield", new LionHeartShield(null));
+			Cooldown nebulousCore = Register("NebulousCore", new NebulousCore(null));
+			Cooldown omegaBlue = Register("OmegaBlue", new OmegaBlue(null));
+			Cooldown permafrostConcoction = Register("PermafrostConcoction", new PermafrostConcoction(null));
+			Cooldown plagueBlackout = Register("PlagueBlackout", new PlagueBlackout(null));
+			Cooldown prismaticLaser = Register("PrismaticLaser", new PrismaticLaser(null));
+			Cooldown profanedSoulArtifact = Register("ProfanedSoulArtifact", new ProfanedSoulArtifact(null));
+			Cooldown relicOfResilience = Register("RelicOfResilience", new RelicOfResilience(null));
+			Cooldown rogueBooster = Register("RogueBooster", new RogueBooster(null));
+			Cooldown sandCloak = Register("SandCloak", new SandCloak(null));
+			Cooldown silvaRevive = Register("SilvaRevive", new SilvaRevive(null));
+			Cooldown tarragonCloak = Register("TarragonCloak", new TarragonCloak(null));
+			Cooldown universeSplitter = Register("UniverseSplitter", new UniverseSplitter(null));
 		}
 
 		public static void Unload()
@@ -56,17 +88,17 @@ namespace CalamityMod.Cooldowns
 		}
 
 		/// <summary>
-		/// Registers a cooldown for use in netcode. Cooldowns are useless until this has been done.
+		/// Registers a CooldownHandler for use in netcode, assigning it a Cooldown and thus a netID. Cooldowns are useless until this has been done.
 		/// </summary>
-		/// <returns></returns>
-		public static bool Register(string id, CooldownHandler h)
+		/// <returns>The registered Cooldown.</returns>
+		public static Cooldown Register(string id, CooldownHandler h)
 		{
 			int currentMaxID = registry.Length;
 
 			// This case only happens when you cap out at 65,536 cooldown registrations (which should never occur).
 			// It just stops you from registering more cooldowns.
 			if (nextCDNetID == currentMaxID)
-				return false;
+				return null;
 
 			Cooldown cd = new Cooldown(id, h);
 			cd.netID = nextCDNetID;
@@ -82,7 +114,7 @@ namespace CalamityMod.Cooldowns
 
 				registry = largerArray;
 			}
-			return true;
+			return cd;
 		}
 		#endregion
 	}

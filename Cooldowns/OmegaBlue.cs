@@ -1,5 +1,4 @@
-﻿using CalamityMod.Cooldowns;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -9,28 +8,25 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
 {
-    public class OmegaBlueCooldown : Cooldown
+    public class OmegaBlue : CooldownHandler
     {
-        public override string ID => "OmegaBlue";
-        public override bool ShouldDisplay(CooldownInstance instance) => true;
-        public override string DisplayName(CooldownInstance instance) => instance.timeLeft > 1500 ? "Abyssal Madness" : "Abyssal Madness Cooldown";
-        public override string Texture => TimeLeft > 1500 ? "CalamityMod/UI/CooldownIndicators/AbyssalMadnessActive" : "CalamityMod/UI/CooldownIndicators/AbyssalMadness";
-        public override string OutlineTexture => "CalamityMod/UI/CooldownIndicators/AbyssalMadnessOutline";
-        public override string OverlayTexture => "CalamityMod/UI/CooldownIndicators/AbyssalMadnessOverlay";
-        public override Color OutlineColor => TimeLeft > 1500 ? new Color(231, 164, 1) : new Color(72, 135, 205);
-        public override Color CooldownStartColor => TimeLeft > 1500 ? Color.Lerp(new Color(98, 110, 179), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(98, 110, 179);
-        public override Color CooldownEndColor => TimeLeft > 1500 ? Color.Lerp(new Color(179, 132, 98), new Color(216, 176, 80), (TimeLeft - 1500) / 300f) : new Color(179, 132, 98);
-        public override LegacySoundStyle EndSound => AfflictedPlayer.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge");
+        public OmegaBlue(CooldownInstance? c) : base(c) { }
 
-        public OmegaBlueCooldown(int duration, Player player) : base(duration, player)
-        {
-        }
+        public override bool ShouldDisplay => true;
+        public override string DisplayName => instance.timeLeft > 1500 ? "Abyssal Madness" : "Abyssal Madness Cooldown";
+        public override string Texture => instance.timeLeft > 1500 ? "CalamityMod/Cooldowns/OmegaBlueActive" : "CalamityMod/Cooldowns/OmegaBlue";
+        public override string OutlineTexture => "CalamityMod/Cooldowns/OmegaBlueOutline";
+        public override string OverlayTexture => "CalamityMod/Cooldowns/OmegaBlueOverlay";
+        public override Color OutlineColor => instance.timeLeft > 1500 ? new Color(231, 164, 1) : new Color(72, 135, 205);
+        public override Color CooldownStartColor => instance.timeLeft > 1500 ? Color.Lerp(new Color(98, 110, 179), new Color(216, 176, 80), (instance.timeLeft - 1500) / 300f) : new Color(98, 110, 179);
+        public override Color CooldownEndColor => instance.timeLeft > 1500 ? Color.Lerp(new Color(179, 132, 98), new Color(216, 176, 80), (instance.timeLeft - 1500) / 300f) : new Color(179, 132, 98);
+        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge");
 
         public override void OnCompleted()
         {
             for (int i = 0; i < 66; i++)
             {
-                int d = Dust.NewDust(AfflictedPlayer.position, AfflictedPlayer.width, AfflictedPlayer.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
+                int d = Dust.NewDust(instance.player.position, instance.player.width, instance.player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
                 Main.dust[d].noGravity = true;
                 Main.dust[d].noLight = true;
                 Main.dust[d].fadeIn = 1f;
@@ -39,7 +35,7 @@ namespace CalamityMod.Cooldowns
         }
 
         //Charge down at first, and then charge back up
-        private float AdjustedCompletion => TimeLeft > 1500 ? (TimeLeft - 1500) / 300f : 1 - TimeLeft / 1500f;
+        private float AdjustedCompletion => instance.timeLeft > 1500 ? (instance.timeLeft - 1500) / 300f : 1 - instance.timeLeft / 1500f;
 
         public override void ApplyBarShaders(float opacity)
         {

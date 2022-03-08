@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria;
 
 namespace CalamityMod.Cooldowns
 {
-    public class GlobalDodgeCooldown : Cooldown
+    public class GlobalDodge : CooldownHandler
     {
-        public override string SyncID => "GlobalDodge";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Dodge Cooldown";
-        public override string Texture => "CalamityMod/UI/CooldownIndicators/" + skinTexture;
+        public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;
         public override Color OutlineColor => outlineColor;
         public override Color CooldownStartColor => cooldownColorStart;
         public override Color CooldownEndColor => cooldownColorEnd;
@@ -19,7 +17,7 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public GlobalDodgeCooldown(int duration, Player player, string skin = "default") : base(duration, player)
+        public GlobalDodge(CooldownInstance? c, string skin = "") : base(c)
         {
             switch (skin)
             {

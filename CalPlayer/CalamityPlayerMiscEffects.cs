@@ -868,7 +868,7 @@ namespace CalamityMod.CalPlayer
 			bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && CalamityWorld.downedSCal && CalamityWorld.downedExoMechs);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
-			if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(ProfanedSoulArtifactCooldown)) && canProvideBuffs)
+			if (!Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.ProfanedSoulArtifact)) && canProvideBuffs)
 			{
 				bool healer = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] > 0;
 				bool defend = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] > 0;
@@ -1165,7 +1165,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 				}
 			}
-			if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(SilvaReviveCooldown)) && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+			if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(SilvaRevive)) && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
 			{
 				silvaCountdown = 480;
 				hasSilvaEffect = false;
@@ -1179,7 +1179,7 @@ namespace CalamityMod.CalPlayer
 				{
 					tarraDefenseTime = 600;
 					if (player.whoAmI == Main.myPlayer)
-						Cooldowns.Add(new TarragonCloakCooldown(1800, player));
+						Cooldowns.Add(new Cooldowns.TarragonCloak(1800, player));
 				}
 
 				for (int j = 0; j < 2; j++)
@@ -1209,16 +1209,16 @@ namespace CalamityMod.CalPlayer
 				{
 					tarraThrowingCrits = 0;
 					if (player.whoAmI == Main.myPlayer && !disableAllDodges)
-						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 180, false);
+						player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>(), 180, false);
 				}
 
 				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
-					if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<TarragonImmunity>())
+					if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>())
 					{
 						if (player.whoAmI == Main.myPlayer)
-							Cooldowns.Add(new TarragonImmunityCooldown(1500, player));
+							Cooldowns.Add(new Cooldowns.TarragonImmunityCooldown(1500, player));
 					}
 
 					bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
@@ -1607,7 +1607,7 @@ namespace CalamityMod.CalPlayer
 			{
 				brimflameFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
-				Cooldowns.Add(new BrimflameFrenzyCooldown(BrimflameScowl.CooldownLength, player));
+				Cooldowns.Add(new BrimflameFrenzy(BrimflameScowl.CooldownLength, player));
 			}
 			if (!bloodflareMelee && bloodflareFrenzy)
 			{
@@ -1618,23 +1618,23 @@ namespace CalamityMod.CalPlayer
 			if (!tarraMelee && tarragonCloak)
 			{
 				tarragonCloak = false;
-				player.ClearBuff(ModContent.BuffType<TarragonCloak>());
-				Cooldowns.Add(new TarragonCloakCooldown(1800, player));
+				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonCloak>());
+				Cooldowns.Add(new Cooldowns.TarragonCloak(1800, player));
 			}
 			if (!tarraThrowing && tarragonImmunity)
 			{
 				tarragonImmunity = false;
-				player.ClearBuff(ModContent.BuffType<TarragonImmunity>());
-				Cooldowns.Add(new TarragonCloakCooldown(1500, player));
+				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>());
+				Cooldowns.Add(new Cooldowns.TarragonCloak(1500, player));
 			}
-			if (!omegaBlueSet && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
+			if (!omegaBlueSet && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlue) && cooldown.TimeLeft > 1500))
 			{
-				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown)).TimeLeft = 1500;
+				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(OmegaBlue)).TimeLeft = 1500;
 				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
 			}
-			if (!plagueReaper && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown) && cooldown.TimeLeft > 1500))
+			if (!plagueReaper && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackout) && cooldown.TimeLeft > 1500))
 			{
-				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown)).TimeLeft = 1500;
+				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PlagueBlackout)).TimeLeft = 1500;
 
 			}
 			if (!prismaticSet && prismaticLasers > 1800)
@@ -1645,9 +1645,9 @@ namespace CalamityMod.CalPlayer
 			if (!angelicAlliance && divineBless)
 			{
 				divineBless = false;
-				player.ClearBuff(ModContent.BuffType<DivineBless>());
+				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>());
 				int seconds = CalamityUtils.SecondsToFrames(60f);
-				Cooldowns.Add(new DivineBlessCooldown(seconds, player));
+				Cooldowns.Add(new Cooldowns.DivineBless(seconds, player));
 			}
 
 			// Armageddon's Dodge Disable feature puts Shadow Dodge/Holy Protection on permanent cooldown
@@ -2608,7 +2608,7 @@ namespace CalamityMod.CalPlayer
 			if (blueCandle)
 				player.moveSpeed += 0.1f;
 
-			if (Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DraconicElixirCooldown))) // Weird mod conflicts with like Luiafk
+			if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.DraconicElixir))) // Weird mod conflicts with like Luiafk
 			{
 				draconicSurge = false;
 				if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
@@ -3478,19 +3478,19 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
-					if (hasBuff == ModContent.BuffType<DivineBless>())
+					if (hasBuff == ModContent.BuffType<Buffs.StatBuffs.DivineBless>())
 					{
 						angelicActivate = player.buffTime[l];
 					}
 				}
 
-				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
+				if (player.FindBuffIndex(ModContent.BuffType<Buffs.StatBuffs.DivineBless>()) == -1)
 					angelicActivate = -1;
 
 				if (angelicActivate == 1)
 				{
 					int seconds = CalamityUtils.SecondsToFrames(60f);
-					Cooldowns.Add(new DivineBlessCooldown(seconds, player));
+					Cooldowns.Add(new Cooldowns.DivineBless(seconds, player));
 				}
 			}
 

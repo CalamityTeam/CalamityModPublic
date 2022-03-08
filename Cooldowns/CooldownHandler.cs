@@ -10,7 +10,7 @@ namespace CalamityMod.Cooldowns
 {
 	public class CooldownHandler
 	{
-		public readonly CooldownInstance instance;
+		public CooldownInstance instance;
 
 		public CooldownHandler(CooldownInstance? c)
 		{
@@ -35,7 +35,7 @@ namespace CalamityMod.Cooldowns
 		/// For example, this is useful for cooldowns that don't tick down if there are any bosses alive.<br/>
 		/// You can also use it so that cooldowns which persist through death do not tick down while the player is dead.
 		/// </summary>
-		public virtual bool CanTickDown() => true;
+		public virtual bool CanTickDown => true;
 
 		/// <summary>
 		/// Set this to true to make this cooldown remain even when the player dies.<br/>
@@ -53,12 +53,12 @@ namespace CalamityMod.Cooldowns
 		/// <summary>
 		/// The name of the cooldown instance, appears when the player hovers over the indicator
 		/// </summary>
-		public virtual string DisplayName() => "";
+		public virtual string DisplayName => "";
 
 		/// <summary>
 		/// Whether or not this cooldown instance should appear in the cooldown rack UI.
 		/// </summary>
-		public virtual bool ShouldDisplay() => true;
+		public virtual bool ShouldDisplay => true;
 
 		/// <summary>
 		/// The texture of the cooldown indicator.<br/>
@@ -93,17 +93,17 @@ namespace CalamityMod.Cooldowns
 		/// The color used for the icon outline when rendering in expanded mode.<br/>
 		/// In compact mode, this color is used for the overlay that goes above the icon.
 		/// </summary>
-		public virtual Color GetOutlineColor() => Color.White;
+		public virtual Color OutlineColor => Color.White;
 		/// <summary>
 		/// The color used for the start of the circular cooldown timer rendered by shaders.<br/>
 		/// This color is only used when drawing in expanded mode and is ignored if a charge bar texture is provided.
 		/// </summary>
-		public virtual Color GetCooldownStartColor() => Color.Gray;
+		public virtual Color CooldownStartColor => Color.Gray;
 		/// <summary>
 		/// The color used for the end of the circular cooldown timer rendered by shaders.<br/>
 		/// This color is only used when drawing in expanded mode and is ignored if a charge bar texture is provided.
 		/// </summary>
-		public virtual Color GetCooldownEndColor() => Color.White;
+		public virtual Color CooldownEndColor => Color.White;
 
 		/// <summary>
 		/// Set this to true to disable default drawing and instead call the function DrawExpanded.<br/>
@@ -114,12 +114,11 @@ namespace CalamityMod.Cooldowns
 		/// <summary>
 		/// This method is called to render the cooldown when the cooldown rack is in expanded mode and UseCustomExpandedDraw is set to true.
 		/// </summary>
-		public virtual void DrawExpanded(CooldownInstance instance, SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+		public virtual void DrawExpanded(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
 		{
 			Texture2D sprite = ModContent.GetTexture(Texture);
 			Texture2D outline = ModContent.GetTexture(OutlineTexture);
 			Texture2D barBase = ModContent.GetTexture(ChargeBarTexture);
-			Color outlineColor = GetOutlineColor();
 
 			//Draw the ring
 			spriteBatch.End();
@@ -132,7 +131,7 @@ namespace CalamityMod.Cooldowns
 			spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
 
 			//Draw the outline
-			spriteBatch.Draw(outline, position, null, outlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
 			//Draw the icon
 			spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
@@ -152,7 +151,7 @@ namespace CalamityMod.Cooldowns
 			Texture2D sprite = ModContent.GetTexture(Texture);
 			Texture2D outline = ModContent.GetTexture(OutlineTexture);
 			Texture2D overlay = ModContent.GetTexture(OverlayTexture);
-			Color outlineColor = GetOutlineColor();
+			Color outlineColor = OutlineColor;
 
 			//Draw the outline
 			spriteBatch.Draw(outline, position, null, outlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
@@ -174,12 +173,10 @@ namespace CalamityMod.Cooldowns
 		{
 			if (ChargeBarTexture == DefaultChargeBarTexture)
 			{
-				Color startColor = GetCooldownStartColor();
-				Color endColor = GetCooldownEndColor();
 				GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
 				GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(1 - instance.Completion);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(startColor);
-				GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(endColor);
+				GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownStartColor);
+				GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownEndColor);
 				GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
 			}
 			else
