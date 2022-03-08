@@ -6,6 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class UniverseSplitter : CooldownHandler
     {
+        public static string ID => "UniverseSplitter";
         public UniverseSplitter(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

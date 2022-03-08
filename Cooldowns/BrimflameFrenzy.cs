@@ -8,6 +8,7 @@ namespace CalamityMod.Cooldowns
 {
     public class BrimflameFrenzy : CooldownHandler
     {
+        public static string ID => "BrimflameFrenzy";
         public BrimflameFrenzy(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -10,6 +10,7 @@ namespace CalamityMod.Cooldowns
 {
     public class OmegaBlue : CooldownHandler
     {
+        public static string ID => "OmegaBlue";
         public OmegaBlue(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

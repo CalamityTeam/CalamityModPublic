@@ -4,6 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class BloodflareFrenzy : CooldownHandler
     {
+        public static string ID => "BloodflareFrenzy";
         public BloodflareFrenzy(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-	public partial class CalamityPlayer : ModPlayer
+    public partial class CalamityPlayer : ModPlayer
     {
         #region Standard Syncs
         internal const int GlobalSyncPacketTimer = 15;
@@ -18,7 +18,6 @@ namespace CalamityMod.CalPlayer
             SyncAdrenaline(false);
             SyncMoveSpeed(false);
             SyncDefenseDamage(false);
-            SyncCooldown(false);
         }
 
         private void EnterWorldSync()
@@ -149,40 +148,6 @@ namespace CalamityMod.CalPlayer
             packet.Write(player.whoAmI);
             packet.Write(adrenaline);
             player.SendPacket(packet, server);
-        }
-
-        internal void SyncCooldown(bool server, string cooldownID = "")
-        {
-            //If no specific sync id is provided, sync all of the player's cooldowns. Ideally this doesn't happen though. Ideally. Do we even need it frankly? Like i guess we could call it on death but idk if it needs to be synced every frames since its 
-            //Already being synced when it gets created and then when it expires
-            if (cooldownID == "")
-            {
-                foreach (string key in Cooldown.IDtoType.Keys)
-                {
-                    ModPacket packet = mod.GetPacket();
-                    packet.Write((byte)CalamityModMessageType.CooldownSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(key);
-                    int timer = 0;
-                    if (Cooldowns.Exists(cooldown => cooldown.GetType() == Cooldown.IDtoType[key]))
-                        timer = Cooldowns.Find(cooldown => cooldown.GetType() == Cooldown.IDtoType[key]).TimeLeft;
-                    packet.Write(timer);
-                    player.SendPacket(packet, server);
-                }
-            }
-
-            else
-            {
-                ModPacket packet = mod.GetPacket();
-                packet.Write((byte)CalamityModMessageType.CooldownSync);
-                packet.Write(player.whoAmI);
-                packet.Write(cooldownID);
-                int timer = 0;
-                if (Cooldowns.Exists(cooldown => cooldown.GetType() == Cooldown.IDtoType[cooldownID]))
-                    timer = Cooldowns.Find(cooldown => cooldown.GetType() == Cooldown.IDtoType[cooldownID]).TimeLeft;
-                packet.Write(timer);
-                player.SendPacket(packet, server);
-            }
         }
 
         private void SyncDeathCount(bool server)
@@ -332,24 +297,6 @@ namespace CalamityMod.CalPlayer
             defenseDamageDelayFrames = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDefenseDamage(true);
-        }
-
-        internal void HandleCooldowns(BinaryReader reader)
-        {
-            string syncID = reader.ReadString();
-            int timer = reader.ReadInt32();
-            Type cooldownType = Cooldown.IDtoType[syncID];
-
-            // If this cooldown is present, edit the existing cooldown's timer.
-            if (Cooldowns.Exists(cooldown => cooldown.GetType() == cooldownType))
-                Cooldowns.Find(cooldown => cooldown.GetType() == cooldownType).TimeLeft = timer;
-
-            // Otherwise create a new cooldown with this timer.
-            else if (timer > 0)
-                Cooldowns.Add((Cooldown)Activator.CreateInstance(cooldownType, timer, player));
-
-            if (Main.netMode == NetmodeID.Server)
-                SyncCooldown(true);
         }
 
         internal void HandleRightClick(BinaryReader reader)

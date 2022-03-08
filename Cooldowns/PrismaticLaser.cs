@@ -6,6 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class PrismaticLaser : CooldownHandler
     {
+        public static string ID => "PrismaticLaser";
         public PrismaticLaser(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

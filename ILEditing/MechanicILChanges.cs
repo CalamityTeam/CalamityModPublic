@@ -137,9 +137,6 @@ namespace CalamityMod.ILEditing
             {
                 CalamityPlayer calPlayer = p.Calamity();
                 calPlayer.Cooldowns.Add(new GlobalDodgeCooldown(CalamityPlayer.BeltDodgeCooldown, p));
-
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    calPlayer.SyncCooldown(false, "GlobalDodge");
             });
         }
         #endregion Removal of Black Belt Dodge RNG

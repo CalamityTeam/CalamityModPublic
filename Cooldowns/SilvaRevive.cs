@@ -5,6 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class SilvaRevive : CooldownHandler
     {
+        public static string ID => "SilvaRevive";
         public SilvaRevive(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

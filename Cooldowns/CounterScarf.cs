@@ -6,6 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class CounterScarf : CooldownHandler
     {
+        public static string ID => "CounterScarf";
         public CounterScarf(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

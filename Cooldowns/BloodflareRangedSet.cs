@@ -5,6 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class BloodflareRangedSet : CooldownHandler
     {
+        public static string ID => "BloodflareRangedSet";
         public BloodflareRangedSet(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -3866,7 +3866,6 @@ namespace CalamityMod.CalPlayer
                         Cooldown durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
                         durability.TimeLeft = abyssalDivingSuitPlateHits;
                     }
-
                 }
             }
 
@@ -5573,9 +5572,6 @@ namespace CalamityMod.CalPlayer
 						projTypeJustHitBy = proj.type;
 
                         Cooldowns.Add(new GlobalDodge(EvolutionReflectCooldown, player));
-                        // Send a Calamity dodge cooldown packet.
-                        if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                            SyncCooldown(false);
                         return;
 					}
 				}

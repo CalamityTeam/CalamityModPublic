@@ -5,6 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class RelicOfResilience : CooldownHandler
     {
+        public static string ID => "RelicOfResilience";
         public RelicOfResilience(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -4,6 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class GodSlayerDash : CooldownHandler
     {
+        public static string ID => "GodSlayerDash";
         public GodSlayerDash(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

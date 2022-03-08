@@ -4,6 +4,8 @@ namespace CalamityMod.Cooldowns
 {
     public class RogueBooster : CooldownHandler
     {
+        public static string ID => "RogueBooster";
+
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Rogue Booster Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;

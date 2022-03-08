@@ -4,6 +4,8 @@ namespace CalamityMod.Cooldowns
 {
     public class FleshTotem : CooldownHandler
     {
+        public static string ID => "FleshTotem";
+
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Contact Damage Halving Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;

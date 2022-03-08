@@ -4,6 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class TarragonImmunity : CooldownHandler
     {
+        public static string ID => "TarragonImmunity";
         public TarragonImmunity(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

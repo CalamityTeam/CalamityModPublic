@@ -4,6 +4,8 @@ namespace CalamityMod.Cooldowns
 {
     public class GlobalDodge : CooldownHandler
     {
+        public static string ID => "GlobalDodge";
+
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Dodge Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/" + skinTexture;

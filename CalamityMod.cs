@@ -15,7 +15,6 @@ using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -53,7 +52,6 @@ using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
-using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -75,7 +73,7 @@ using Terraria.UI;
 
 namespace CalamityMod
 {
-	public class CalamityMod : Mod
+    public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.

@@ -4,6 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class InkBomb : CooldownHandler
     {
+        public static string ID => "InkBomb";
         public InkBomb(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

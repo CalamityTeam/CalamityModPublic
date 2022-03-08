@@ -6,6 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class AquaticHeartIceShield : CooldownHandler
     {
+        public static string ID => "AquaticHeartIceShield";
         public AquaticHeartIceShield(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

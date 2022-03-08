@@ -10,6 +10,7 @@ namespace CalamityMod.Cooldowns
 {
 	public class CooldownHandler
 	{
+		public static string ID => null;
 		public CooldownInstance instance;
 
 		public CooldownHandler(CooldownInstance? c)

@@ -7,6 +7,7 @@ namespace CalamityMod.Cooldowns
     // TODO -- Why do the two scarves not use the same cooldown? They're both called "Scarf Cooldown".
     public class EvasionScarf : CooldownHandler
     {
+        public static string ID => "EvasionScarf";
         public EvasionScarf(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -14,6 +14,7 @@ namespace CalamityMod.Cooldowns
         private static Color ringColorLerpStart = new Color(160, 174, 174);
         private static Color ringColorLerpEnd = new Color(192, 11, 107);
 
+        public static string ID => "DivingPlatesBreaking";
         public DivingPlatesBreaking(CooldownInstance? c) : base(c) { }
 
         public override bool CanTickDown => !instance.player.Calamity().abyssalDivingSuit;
@@ -57,6 +58,7 @@ namespace CalamityMod.Cooldowns
         private static Color ringColorLerpStart = new Color(91, 121, 150);
         private static Color ringColorLerpEnd = new Color(30, 50, 77);
 
+        public static string ID => "DivingPlatesBroken";
         public DivingPlatesBroken(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

@@ -4,6 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class LionHeartShield : CooldownHandler
     {
+        public static string ID => "LionHeartShield";
         public LionHeartShield(CooldownInstance? c) : base(c) { }
 
         public override bool ShouldDisplay => true;

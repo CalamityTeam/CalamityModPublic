@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CalamityMod.Cooldowns
 {
@@ -47,37 +46,38 @@ namespace CalamityMod.Cooldowns
 			// TODO -- CooldownHandlers should be ILoadable in 1.4
 
 			// Vanilla cooldowns represented by the interface
-			Cooldown potionSickness = Register("PotionSickness", new PotionSickness(null));
-			Cooldown chaosState = Register("ChaosState", new ChaosState(null));
-			Cooldown globalDodge = Register("GlobalDodge", new GlobalDodge(null));
+			Cooldown potionSickness = Register(PotionSickness.ID, new PotionSickness(null));
+			Cooldown chaosState = Register(ChaosState.ID, new ChaosState(null));
+			Cooldown globalDodge = Register(GlobalDodge.ID, new GlobalDodge(null));
 
 			// Calamity cooldowns
-			Cooldown aquaticHeartIceShield = Register("AquaticHeartIceShield", new AquaticHeartIceShield(null));
-			Cooldown bloodflareFrenzy = Register("BloodflareFrenzy", new BloodflareFrenzy(null));
-			Cooldown bloodflareRanged = Register("BloodflareRangedSet", new BloodflareRangedSet(null));
-			Cooldown brimflameFrenzy = Register("BrimflameFrenzy", new BrimflameFrenzy(null));
-			Cooldown counterScarf = Register("CounterScarf", new CounterScarf(null));
-			Cooldown divineBless = Register("DivineBless", new DivineBless(null));
-			Cooldown divingPlatesBreaking = Register("DivingPlatesBreaking", new DivingPlatesBreaking(null));
-			Cooldown divingPlatesBroken = Register("DivingPlatesBroken", new DivingPlatesBroken(null));
-			Cooldown draconicElixir = Register("DraconicElixir", new DraconicElixir(null));
-			Cooldown evasionScarf = Register("EvasionScarf", new EvasionScarf(null));
-			Cooldown fleshTotem = Register("FleshTotem", new FleshTotem(null));
-			Cooldown godSlayerDash = Register("GodSlayerDash", new GodSlayerDash(null));
-			Cooldown inkBomb = Register("InkBomb", new InkBomb(null));
-			Cooldown lionHeartShield = Register("LionHeartShield", new LionHeartShield(null));
-			Cooldown nebulousCore = Register("NebulousCore", new NebulousCore(null));
-			Cooldown omegaBlue = Register("OmegaBlue", new OmegaBlue(null));
-			Cooldown permafrostConcoction = Register("PermafrostConcoction", new PermafrostConcoction(null));
-			Cooldown plagueBlackout = Register("PlagueBlackout", new PlagueBlackout(null));
-			Cooldown prismaticLaser = Register("PrismaticLaser", new PrismaticLaser(null));
-			Cooldown profanedSoulArtifact = Register("ProfanedSoulArtifact", new ProfanedSoulArtifact(null));
-			Cooldown relicOfResilience = Register("RelicOfResilience", new RelicOfResilience(null));
-			Cooldown rogueBooster = Register("RogueBooster", new RogueBooster(null));
-			Cooldown sandCloak = Register("SandCloak", new SandCloak(null));
-			Cooldown silvaRevive = Register("SilvaRevive", new SilvaRevive(null));
-			Cooldown tarragonCloak = Register("TarragonCloak", new TarragonCloak(null));
-			Cooldown universeSplitter = Register("UniverseSplitter", new UniverseSplitter(null));
+			Cooldown aquaticHeartIceShield = Register(AquaticHeartIceShield.ID, new AquaticHeartIceShield(null));
+			Cooldown bloodflareFrenzy = Register(BloodflareFrenzy.ID, new BloodflareFrenzy(null));
+			Cooldown bloodflareRanged = Register(BloodflareRangedSet.ID, new BloodflareRangedSet(null));
+			Cooldown brimflameFrenzy = Register(BrimflameFrenzy.ID, new BrimflameFrenzy(null));
+			Cooldown counterScarf = Register(CounterScarf.ID, new CounterScarf(null));
+			Cooldown divineBless = Register(DivineBless.ID, new DivineBless(null));
+			Cooldown divingPlatesBreaking = Register(DivingPlatesBreaking.ID, new DivingPlatesBreaking(null));
+			Cooldown divingPlatesBroken = Register(DivingPlatesBroken.ID, new DivingPlatesBroken(null));
+			Cooldown draconicElixir = Register(DraconicElixir.ID, new DraconicElixir(null));
+			Cooldown evasionScarf = Register(EvasionScarf.ID, new EvasionScarf(null));
+			Cooldown fleshTotem = Register(FleshTotem.ID, new FleshTotem(null));
+			Cooldown godSlayerDash = Register(GodSlayerDash.ID, new GodSlayerDash(null));
+			Cooldown inkBomb = Register(InkBomb.ID, new InkBomb(null));
+			Cooldown lionHeartShield = Register(LionHeartShield.ID, new LionHeartShield(null));
+			Cooldown nebulousCore = Register(NebulousCore.ID, new NebulousCore(null));
+			Cooldown omegaBlue = Register(OmegaBlue.ID, new OmegaBlue(null));
+			Cooldown permafrostConcoction = Register(PermafrostConcoction.ID, new PermafrostConcoction(null));
+			Cooldown plagueBlackout = Register(PlagueBlackout.ID, new PlagueBlackout(null));
+			Cooldown prismaticLaser = Register(PrismaticLaser.ID, new PrismaticLaser(null));
+			Cooldown profanedSoulArtifact = Register(ProfanedSoulArtifact.ID, new ProfanedSoulArtifact(null));
+			Cooldown relicOfResilience = Register(RelicOfResilience.ID, new RelicOfResilience(null));
+			Cooldown rogueBooster = Register(RogueBooster.ID, new RogueBooster(null));
+			Cooldown sandCloak = Register(SandCloak.ID, new SandCloak(null));
+			Cooldown silvaRevive = Register(SilvaRevive.ID, new SilvaRevive(null));
+			Cooldown tarragonCloak = Register(TarragonCloak.ID, new TarragonCloak(null));
+			Cooldown tarragonImmunity = Register(TarragonImmunity.ID, new TarragonImmunity(null));
+			Cooldown universeSplitter = Register(UniverseSplitter.ID, new UniverseSplitter(null));
 		}
 
 		public static void Unload()

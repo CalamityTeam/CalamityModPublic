@@ -4,6 +4,8 @@ namespace CalamityMod.Cooldowns
 {
 	public class ChaosState : CooldownHandler
 	{
+		public static string ID => "ChaosState";
+
 		public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.chaosState;
 		public override string DisplayName => "Teleportation Cooldown";
 		public override string Texture => "CalamityMod/Cooldowns/ChaosState" + skinTexture;

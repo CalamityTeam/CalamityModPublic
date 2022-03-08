@@ -13,6 +13,7 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		#region Damage
 		// These functions factor in TML 0.11 allDamage to get the player's total damage boost which affects the specified class.
 		public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
 		public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;
@@ -21,9 +22,12 @@ namespace CalamityMod
 		public static float ThrownDamage(this Player player) => player.allDamage + player.thrownDamage - 1f;
 		public static float RogueDamage(this Player player) => player.allDamage + player.thrownDamage + player.Calamity().throwingDamage - 2f;
 		public static float AverageDamage(this Player player) => player.allDamage + (player.meleeDamage + player.rangedDamage + player.magicDamage + player.minionDamage + player.Calamity().throwingDamage - 5f) / 5f;
+		#endregion
 
-		public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 		public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;
+
+		#region Location & Biomes
+		public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 		public static bool InSpace(this Player player)
 		{
 			float x = Main.maxTilesX / 4200f;
@@ -72,6 +76,8 @@ namespace CalamityMod
 					return player.Calamity().ZoneAbyss;
 			}
 		}
+		#endregion
+
 		public static bool InventoryHas(this Player player, params int[] items)
 		{
 			return player.inventory.Any(item => items.Contains(item.type));
@@ -88,6 +94,7 @@ namespace CalamityMod
 			return hasItem;
 		}
 
+		#region Immunity Frames
 		/// <summary>
 		/// Gives the player the specified number of immunity frames (or "iframes" for short).<br />If the player already has more iframes than you want to give them, this function does nothing.
 		/// </summary>
@@ -117,6 +124,10 @@ namespace CalamityMod
 			return true;
 		}
 
+		/// <summary>
+		/// Removes all immunity frames (or "iframes" for short) from the specified player immediately.
+		/// </summary>
+		/// <param name="player">The player whose iframes should be removed.</param>
 		public static void RemoveAllIFrames(this Player player)
 		{
 			player.immune = false;
@@ -125,8 +136,9 @@ namespace CalamityMod
 			for (int i = 0; i < player.hurtCooldowns.Length; ++i)
 				player.hurtCooldowns[i] = 0;
 		}
+		#endregion
 
-
+		#region Rage and Adrenaline
 		/// <summary>
 		/// Returns the damage multiplier Adrenaline Mode provides for the given player.
 		/// </summary>
@@ -161,6 +173,19 @@ namespace CalamityMod
 			if (mp.adrenalineModeActive)
 				damageMult += trueMelee ? mp.GetAdrenalineDamage() * rageAndAdrenalineTrueMeleeDamageMult : mp.GetAdrenalineDamage();
 		}
+		#endregion
+
+		#region Cooldowns
+		public static bool HasCooldown(this Player p, string id)
+		{
+			if (p is null)
+				return false;
+			CalamityPlayer modPlayer = p.Calamity();
+			if (modPlayer is null)
+				return false;
+
+			return modPlayer.Cooldowns.ContainsKey(id);
+		}
 
 		public static IList<CooldownInstance> GetDisplayedCooldowns(this Player p)
 		{
@@ -173,7 +198,9 @@ namespace CalamityMod
 					ret.Add(instance);
 			return ret;
 		}
+		#endregion
 
+		#region Debuffs
 		public static void Inflict246DebuffsPvp(Player target, int buff, float timeBase = 2f)
 		{
 			if (Main.rand.NextBool(4))
@@ -203,6 +230,7 @@ namespace CalamityMod
 			target.AddBuff(BuffID.Frostburn, (int)(150 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
 		}
+		#endregion
 
 		/// <summary>
 		/// Checks if the player is ontop of solid ground. May also check for solid ground for X tiles in front of them
