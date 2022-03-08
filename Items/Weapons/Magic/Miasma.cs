@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.NimbusRod);
             recipe.AddIngredient(ModContent.ItemType<AquamarineStaff>());
             recipe.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
