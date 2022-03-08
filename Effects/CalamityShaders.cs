@@ -27,6 +27,7 @@ namespace CalamityMod.Effects
         public static Effect BasicTintShader;
         public static Effect DoGDisintegrationShader;
         public static Effect ArtAttackTrailShader;
+        public static Effect CircularAoETelegraph;
 
         public static Effect BaseFusableParticleEdgeShader;
         public static Effect AdditiveFusableParticleEdgeShader;
@@ -57,6 +58,7 @@ namespace CalamityMod.Effects
             BasicTintShader = CalamityMod.Instance.GetEffect("Effects/BasicTint");
             DoGDisintegrationShader = CalamityMod.Instance.GetEffect("Effects/DoGDisintegration");
             ArtAttackTrailShader = CalamityMod.Instance.GetEffect("Effects/ArtAttackTrail");
+            CircularAoETelegraph = CalamityMod.Instance.GetEffect("Effects/CircularAoETelegraph");
 
             BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader");
@@ -85,6 +87,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:BasicTint"] = new MiscShaderData(new Ref<Effect>(BasicTintShader), "TintPass");
             GameShaders.Misc["CalamityMod:DoGDisintegration"] = new MiscShaderData(new Ref<Effect>(DoGDisintegrationShader), "DisintegrationPass");
             GameShaders.Misc["CalamityMod:ArtAttack"] = new MiscShaderData(new Ref<Effect>(ArtAttackTrailShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"] = new MiscShaderData(new Ref<Effect>(CircularAoETelegraph), "TelegraphPass");
 
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");

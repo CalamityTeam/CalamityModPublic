@@ -52,8 +52,6 @@ namespace CalamityMod.Items.TreasureBags
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
-				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerHornedHelm>());
-				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerVisage>());
 			}
 
             // Light Pet

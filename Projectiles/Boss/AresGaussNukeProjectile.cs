@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -142,6 +143,21 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			spriteBatch.EnterShaderRegion();
+			Texture2D telegraphBase = ModContent.GetTexture("CalamityMod/Projectiles/InvisibleProj");
+
+			GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
+			GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTime), 3)));
+			GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.Lerp(Color.Yellow, Color.White, 0.5f));
+			GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - projectile.timeLeft / (float)timeLeft);
+
+			GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
+
+			Vector2 drawPosition = projectile.Center - Main.screenPosition;
+			spriteBatch.Draw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
+			spriteBatch.ExitShaderRegion();
+
+
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
         }
@@ -182,7 +198,7 @@ namespace CalamityMod.Projectiles.Boss
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
 						// Make the max explosion radius decrease over time, creating a ring effect.
-						explosion.ai[1] = 800f + i * 90f;
+						explosion.ai[1] = 560f + i * 90f;
 						explosion.localAI[1] = 0.25f;
 						explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
 						explosion.netUpdate = true;

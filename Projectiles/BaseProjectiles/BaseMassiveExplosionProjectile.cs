@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public ref float MaxRadius => ref projectile.ai[1];
         public virtual bool UsesScreenshake { get; } = false;
         public virtual float GetScreenshakePower(float pulseCompletionRatio) => 0f;
-
+        public virtual float Fadeout(float completion) => (1f - (float)Math.Sqrt(completion)) * 0.7f;
         public abstract int Lifetime { get; }
         public abstract Color GetCurrentExplosionColor(float pulseCompletionRatio);
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Vector2 scale = new Vector2(1.5f, 1f);
             Vector2 drawPosition = projectile.Center - Main.screenPosition + projectile.Size * scale * 0.5f;
             Rectangle drawArea = new Rectangle(0, 0, projectile.width, projectile.height);
-            Color fadeoutColor = new Color(new Vector4(1f - (float)Math.Sqrt(pulseCompletionRatio))) * projectile.Opacity * 0.7f;
+            Color fadeoutColor = new Color(new Vector4(Fadeout(pulseCompletionRatio)) * projectile.Opacity);
             DrawData drawData = new DrawData(ModContent.GetTexture("Terraria/Misc/Perlin"), drawPosition, drawArea, fadeoutColor, projectile.rotation, projectile.Size, scale, SpriteEffects.None, 0);
 
             GameShaders.Misc["ForceField"].UseColor(GetCurrentExplosionColor(pulseCompletionRatio));
