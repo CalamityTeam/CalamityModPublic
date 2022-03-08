@@ -3203,7 +3203,7 @@ namespace CalamityMod.NPCs
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
-			bool doubleLasersAndSplittingMines = lifeRatio < 0.7f;
+			bool splittingMines = lifeRatio < 0.7f;
 			bool movingMines = lifeRatio < 0.3f && doubleWormPhase && expertMode;
 			bool deathModeEnragePhase_Head = calamityGlobalNPC.newAI[0] == 3f;
 			bool deathModeEnragePhase_BodyAndTail = false;
@@ -3544,7 +3544,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 
 				// Despawn
-				float fallSpeed = deathModeEnragePhase_Head ? 22f : death ? 17.5f : 16f;
+				float fallSpeed = deathModeEnragePhase_Head ? 19f : death ? 17.5f : 16f;
 				if (player.dead)
 				{
 					flag2 = false;
@@ -3552,7 +3552,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= velocity;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
-						fallSpeed = deathModeEnragePhase_Head ? 44f : death ? 35f : 32f;
+						fallSpeed = deathModeEnragePhase_Head ? 38f : death ? 35f : 32f;
 						npc.velocity.Y -= velocity;
 					}
 
@@ -3579,8 +3579,8 @@ namespace CalamityMod.NPCs
 				// Speed and movement
 				float speedBoost = death ? (0.1f * (1f - lifeRatio)) : (0.13f * (1f - lifeRatio));
 				float turnSpeedBoost = death ? (0.18f * (1f - lifeRatio)) : (0.2f * (1f - lifeRatio));
-				float speed = (deathModeEnragePhase_Head ? 0.23f : death ? 0.18f : 0.13f) + speedBoost;
-				float turnSpeed = (deathModeEnragePhase_Head ? 0.3f : death ? 0.25f : 0.2f) + turnSpeedBoost;
+				float speed = (deathModeEnragePhase_Head ? 0.2f : death ? 0.18f : 0.13f) + speedBoost;
+				float turnSpeed = (deathModeEnragePhase_Head ? 0.27f : death ? 0.25f : 0.2f) + turnSpeedBoost;
 				speed += 0.05f * enrageScale;
 				turnSpeed += 0.08f * enrageScale;
 
@@ -3801,7 +3801,7 @@ namespace CalamityMod.NPCs
 								}
 								int type = ModContent.ProjectileType<DeusMine>();
 								int damage = npc.GetProjectileDamage(type);
-								float split = (doubleLasersAndSplittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
+								float split = (splittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
 								Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 							}
 
@@ -3831,18 +3831,14 @@ namespace CalamityMod.NPCs
 									for (int i = -1; i <= 1; i += 2)
 									{
 										Vector2 laserStartPos = vector104 + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
-										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 1.25f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+										Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, laserVelocity * 1.1f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 
 										// Tell this Phased God Ray exactly which way it should be waving.
 										godRay.localAI[1] = i * 0.5f;
 									}
 								}
 								else
-								{
 									Projectile.NewProjectile(vector104, laserVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
-									if (doubleLasersAndSplittingMines && npc.ai[0] % 4f == 0f)
-										Projectile.NewProjectile(vector104, laserVelocity * 0.9f, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
-								}
 							}
 						}
 					}
@@ -3860,7 +3856,7 @@ namespace CalamityMod.NPCs
 							}
 							int type = ModContent.ProjectileType<DeusMine>();
 							int damage = npc.GetProjectileDamage(type);
-							float split = (doubleLasersAndSplittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
+							float split = (splittingMines && npc.ai[0] % 3f == 0f) ? 1f : 0f;
 							Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer, split, 0f);
 						}
 					}
