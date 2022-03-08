@@ -15,7 +15,10 @@ namespace CalamityMod.Cooldowns
 		public CooldownHandler(CooldownInstance? c)
 		{
 			if (c.HasValue)
+			{
 				instance = c.Value;
+				instance.handler = this;
+			}
 		}
 
 		#region Gameplay Behavior

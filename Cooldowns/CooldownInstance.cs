@@ -32,6 +32,11 @@ namespace CalamityMod.Cooldowns
 		public float Completion => duration != 0 ? timeLeft / (float)duration : 0;
 
 		/// <summary>
+		/// The handler which implements the behavior of this cooldown instance.
+		/// </summary>
+		public CooldownHandler handler;
+
+		/// <summary>
 		/// Serializes this cooldown instance into binary data for netcode.
 		/// </summary>
 		/// <param name="writer">Writer for an unspecified binary stream.</param>

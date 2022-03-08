@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -158,6 +160,18 @@ namespace CalamityMod
 				damageMult += trueMelee ? mp.RageDamageBoost * rageAndAdrenalineTrueMeleeDamageMult : mp.RageDamageBoost;
 			if (mp.adrenalineModeActive)
 				damageMult += trueMelee ? mp.GetAdrenalineDamage() * rageAndAdrenalineTrueMeleeDamageMult : mp.GetAdrenalineDamage();
+		}
+
+		public static IList<CooldownInstance> GetDisplayedCooldowns(this Player p)
+		{
+			List<CooldownInstance> ret = new List<CooldownInstance>(16);
+			if (p is null || p.Calamity() is null)
+				return ret;
+
+			foreach (CooldownInstance instance in p.Calamity().Cooldowns.Values)
+				if (instance.handler.ShouldDisplay)
+					ret.Add(instance);
+			return ret;
 		}
 
 		public static void Inflict246DebuffsPvp(Player target, int buff, float timeBase = 2f)
