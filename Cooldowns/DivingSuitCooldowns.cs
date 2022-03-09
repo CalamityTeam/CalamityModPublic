@@ -35,8 +35,6 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(ringColorLerpStart, ringColorLerpEnd, instance.Completion);
 
-        public override bool UseCustomCompactDraw => true;
-
         public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
             Texture2D sprite = GetTexture(Texture);

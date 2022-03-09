@@ -46,8 +46,6 @@ namespace CalamityMod.Cooldowns
             GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
         }
 
-        public override bool UseCustomCompactDraw => true;
-
         public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
             Texture2D sprite = GetTexture(Texture);

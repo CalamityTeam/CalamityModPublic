@@ -78,13 +78,14 @@ namespace CalamityMod.Cooldowns
 		internal static string DefaultChargeBarTexture = "CalamityMod/Cooldowns/BarBase";
 		/// <summary>
 		/// The texture of this cooldown's "charge bar", or the circle rendered by shaders.<br/>
-		/// This is only used when the cooldown rack is rendering in expanded mode and when UseCustomExpandedDraw is set to false.<br/>
+		/// By default, this is only used when the cooldown rack is rendering in expanded mode .<br/>
+		/// Leave it as the default to have the charge bar be displayed as a shader-rendered circle.<br/>
 		/// <b>These must be 44x44 pixels when at 2x2 scale.</b>
 		/// </summary>
 		public virtual string ChargeBarTexture => DefaultChargeBarTexture;
 		/// <summary>
 		/// The background texture of this cooldown's "charge bar", or the circle rendered by shaders.<br/>
-		/// This is only used when the cooldown rack is rendering in expanded mode and when UseCustomExpandedDraw is set to false.<br/>
+		/// By default, this is only used when the cooldown rack is rendering in expanded mode.<br/>
 		/// Leave it as the default to have nothing render underneath the charge bar itself.<br/>
 		/// <b>These must be 44x44 pixels when at 2x2 scale.</b>
 		/// </summary>
@@ -107,13 +108,7 @@ namespace CalamityMod.Cooldowns
 		public virtual Color CooldownEndColor => Color.White;
 
 		/// <summary>
-		/// Set this to true to disable default drawing and instead call the function DrawExpanded.<br/>
-		/// This only applies when the cooldown rack is rendering in expanded mode.
-		/// </summary>
-		public virtual bool UseCustomExpandedDraw => false;
-
-		/// <summary>
-		/// This method is called to render the cooldown when the cooldown rack is in expanded mode and UseCustomExpandedDraw is set to true.
+		/// This method is called to render the cooldown when the cooldown rack is in expanded mode.
 		/// </summary>
 		public virtual void DrawExpanded(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
 		{
@@ -139,13 +134,7 @@ namespace CalamityMod.Cooldowns
 		}
 
 		/// <summary>
-		/// Set this to true to disable default drawing and instead call the function DrawCompact.<br/>
-		/// This only applies when the cooldown rack is rendering in compact mode.
-		/// </summary>
-		public virtual bool UseCustomCompactDraw => false;
-
-		/// <summary>
-		/// This method is called to render the cooldown when the cooldown rack is in compact mode and UseCustomCompactDraw is set to true.
+		/// This method is called to render the cooldown when the cooldown rack is in compact mode.
 		/// </summary>
 		public virtual void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
 		{
@@ -167,7 +156,7 @@ namespace CalamityMod.Cooldowns
 		}
 
 		/// <summary>
-		/// Renders the circular cooldown timer with a radial shader. This method is only called if UseCustomDraw is set to false.<br/>
+		/// Renders the circular cooldown timer with a radial shader.<br/>
 		/// If the charge bar texture is defined, it is used. Otherwise it renders a flat ring which slides from the start color to the end color.
 		/// </summary>
 		public virtual void ApplyBarShaders(float opacity)

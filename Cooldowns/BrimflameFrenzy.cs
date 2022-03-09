@@ -18,7 +18,6 @@ namespace CalamityMod.Cooldowns
 
         public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/BrimflameRecharge");
 
-        public override bool UseCustomExpandedDraw => true;
 
         //Add red eyes to the icon
         public override void DrawExpanded(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)

@@ -67,16 +67,10 @@ namespace CalamityMod.UI
 					iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTime % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
 				}
 
-				if (handler.UseCustomExpandedDraw && !CompactIcons || handler.UseCustomCompactDraw && CompactIcons)
-				{
-					if (CompactIcons)
-						handler.DrawCompact(spriteBatch, displayPosition, iconOpacity, uiScale);
-					else
-						handler.DrawExpanded(spriteBatch, displayPosition, iconOpacity, uiScale);
-				}
-
+				if (CompactIcons)
+					handler.DrawCompact(spriteBatch, displayPosition, iconOpacity, uiScale);
 				else
-					DrawIndividualIcon(instance, spriteBatch, displayPosition, iconOpacity, uiScale);
+					handler.DrawExpanded(spriteBatch, displayPosition, iconOpacity, uiScale);
 
 				displayPosition += Spacing;
 				iconRectangle.X += (int)Spacing.X;
@@ -88,43 +82,6 @@ namespace CalamityMod.UI
 				Main.instance.MouseText(mouseHover);
 			}
 
-		}
-
-		public static void DrawIndividualIcon(CooldownInstance instance, SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
-		{
-			CooldownHandler handler = instance.handler;
-			Texture2D sprite = ModContent.GetTexture(handler.Texture);
-			Texture2D outline = ModContent.GetTexture(handler.OutlineTexture);
-			Texture2D barBase = ModContent.GetTexture(handler.ChargeBarTexture);
-
-			//Draw the ring
-			if (!CompactIcons)
-			{
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
-				handler.ApplyBarShaders(opacity);
-
-				spriteBatch.Draw(barBase, position, null, Color.White * opacity, 0, barBase.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
-			}
-
-			//Draw the outline
-			spriteBatch.Draw(outline, position, null, handler.OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-
-			//Draw the icon
-			spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-
-			//Draw the small overlay
-			if (CompactIcons)
-			{
-				Texture2D overlay = ModContent.GetTexture(handler.OverlayTexture);
-
-				int lostHeight = (int)Math.Ceiling(overlay.Height * (1 - instance.Completion));
-				Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
-				spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, handler.OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-			}
 		}
 	}
 }
