@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.aiStyle = 45;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
             projectile.scale = 1.1f;
