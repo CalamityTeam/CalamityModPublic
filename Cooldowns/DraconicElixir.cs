@@ -6,9 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class DraconicElixir : CooldownHandler
     {
-        public static string ID => "DraconicElixir";
-        public DraconicElixir(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "DraconicElixir";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Draconic Surge Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/DraconicElixir";

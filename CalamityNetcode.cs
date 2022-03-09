@@ -59,7 +59,7 @@ namespace CalamityMod
                         break;
 
                     //
-                    // Core stat syncs
+                    // Player mechanic syncs
                     //
 
                     case CalamityModMessageType.MoveSpeedStatSync:
@@ -74,8 +74,14 @@ namespace CalamityMod
                     case CalamityModMessageType.AdrenalineSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
                         break;
-                    case CalamityModMessageType.CooldownSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleCooldowns(reader);
+                    case CalamityModMessageType.CooldownAddition:
+                        Main.player[reader.ReadInt32()].Calamity().HandleCooldownAddition(reader);
+                        break;
+                    case CalamityModMessageType.CooldownRemoval:
+                        Main.player[reader.ReadInt32()].Calamity().HandleCooldownRemoval(reader);
+                        break;
+                    case CalamityModMessageType.SyncCooldownDictionary:
+                        Main.player[reader.ReadInt32()].Calamity().HandleCooldownDictionary(reader);
                         break;
                     case CalamityModMessageType.DeathCountSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
@@ -347,12 +353,14 @@ namespace CalamityMod
         ExactSummonLevelSync,
         ExactRogueLevelSync,
 
-        // Core stat syncs
+        // Player mechanic syncs
         MoveSpeedStatSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
         AdrenalineSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
-        CooldownSync,
+        CooldownAddition,
+        CooldownRemoval,
+        SyncCooldownDictionary,
         DeathCountSync, // TODO -- this is synced in numerous incorrect places, Armageddon deaths count twice, and it supposedly counts every time you log in
 
         // Syncs for specific bosses or entities
@@ -408,5 +416,5 @@ namespace CalamityMod
         // Mouse Controls syncs
         RightClickSync,
         MousePositionSync
-	}
+    }
 }

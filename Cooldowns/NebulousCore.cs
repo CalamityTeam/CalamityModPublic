@@ -5,9 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class NebulousCore : CooldownHandler
     {
-        public static string ID => "NebulousCore";
-        public NebulousCore(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "NebulousCore";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Nebulous Core Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/NebulousCore";

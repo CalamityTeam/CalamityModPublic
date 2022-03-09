@@ -5,9 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class PermafrostConcoction : CooldownHandler
     {
-        public static string ID => "PermafrostConcoction";
-        public PermafrostConcoction(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "PermafrostConcoction";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Permafrost's Concoction Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/PermafrostConcoction";

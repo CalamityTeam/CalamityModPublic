@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Cooldowns;
-using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -150,6 +150,34 @@ namespace CalamityMod.CalPlayer
             player.SendPacket(packet, server);
         }
 
+        public void SyncCooldownAddition(bool server, CooldownInstance cd)
+        {
+            ModPacket packet = mod.GetPacket(256);
+            packet.Write((byte)CalamityModMessageType.CooldownAddition);
+            cd.Write(packet);
+            player.SendPacket(packet, server);
+        }
+
+        public void SyncCooldownRemoval(bool server, IList<string> cooldownIDs)
+        {
+            ModPacket packet = mod.GetPacket(256);
+            packet.Write((byte)CalamityModMessageType.CooldownRemoval);
+            packet.Write(cooldownIDs.Count);
+            foreach (string id in cooldownIDs)
+                packet.Write(CooldownRegistry.Get(id).netID);
+            player.SendPacket(packet, server);
+        }
+
+        public void SyncCooldownDictionary(bool server)
+        {
+            ModPacket packet = mod.GetPacket(1024);
+            packet.Write((byte)CalamityModMessageType.SyncCooldownDictionary);
+            packet.Write(cooldowns.Count);
+            foreach (CooldownInstance cd in cooldowns.Values)
+                cd.Write(packet);
+            player.SendPacket(packet, server);
+        }
+
         private void SyncDeathCount(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
@@ -259,6 +287,77 @@ namespace CalamityMod.CalPlayer
             adrenaline = reader.ReadSingle();
             if (Main.netMode == NetmodeID.Server)
                 SyncAdrenaline(true);
+        }
+
+        internal void HandleCooldownAddition(BinaryReader reader)
+        {
+            // The player ID and message ID are already read. The only remaining data is the serialization of the cooldown instance.
+            CooldownInstance instance = new CooldownInstance();
+            // The disposable cooldown handler is instantiated in the Read method.
+            instance.Read(reader);
+
+            // Actually assign this freshly synced cooldown to the appropriate player.
+            string id = CooldownRegistry.registry[instance.netID].ID;
+            cooldowns[id] = instance;
+        }
+
+        internal void HandleCooldownRemoval(BinaryReader reader)
+        {
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; ++i)
+            {
+                ushort netID = reader.ReadUInt16();
+                cooldowns.Remove(CooldownRegistry.registry[netID].ID);
+            }
+        }
+
+        internal void HandleCooldownDictionary(BinaryReader reader)
+        {
+            int count = reader.ReadInt32();
+            if (count <= 0)
+                return;
+
+            // Cooldown dictionary packets are just a span of serialized cooldown instances. So each one can be read exactly as with a single cooldown.
+            Dictionary<ushort, CooldownInstance> syncedCooldowns = new Dictionary<ushort, CooldownInstance>(count);
+            for (int i = 0; i < count; ++i)
+            {
+                CooldownInstance instance = new CooldownInstance();
+                instance.Read(reader);
+                syncedCooldowns[instance.netID] = instance;
+            }
+
+            HashSet<ushort> localIDs = new HashSet<ushort>();
+            foreach (CooldownInstance localInstance in cooldowns.Values)
+                localIDs.Add(localInstance.netID);
+
+            HashSet<ushort> syncedIDs = new HashSet<ushort>();
+            foreach (ushort syncedID in syncedCooldowns.Keys)
+                syncedIDs.Add(syncedID);
+
+            HashSet<ushort> combinedIDSet = new HashSet<ushort>();
+            combinedIDSet.UnionWith(localIDs);
+            combinedIDSet.UnionWith(syncedIDs);
+
+            foreach (ushort netID in combinedIDSet)
+            {
+                bool existsLocally = localIDs.Contains(netID);
+                bool existsRemotely = syncedIDs.Contains(netID);
+                string id = CooldownRegistry.registry[netID].ID;
+
+                // Exists locally but not remotely = cull -- destroy the local copy.
+                if (existsLocally && !existsRemotely)
+                    cooldowns.Remove(id);
+                // Exists remotely but not locally = add -- insert into the dictionary.
+                else if (existsRemotely && !existsLocally)
+                    cooldowns[id] = syncedCooldowns[netID];
+                // Exists in both places = update -- update timing fields but don't replace the instance.
+                else if (existsLocally && existsRemotely)
+                {
+                    CooldownInstance localInstance = cooldowns[id];
+                    localInstance.duration = syncedCooldowns[netID].duration;
+                    localInstance.timeLeft = syncedCooldowns[netID].timeLeft;
+                }
+            }
         }
 
         internal void HandleDeathCount(BinaryReader reader)

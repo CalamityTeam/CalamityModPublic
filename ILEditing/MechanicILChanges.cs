@@ -1,12 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
-using CalamityMod.UI.CooldownIndicators;
 using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +14,6 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.GameContent.Liquid;
 using Terraria.GameInput;
 using Terraria.Graphics;
@@ -113,7 +112,7 @@ namespace CalamityMod.ILEditing
                 if (mp.disableAllDodges)
                     return 1;
 
-                bool dodgeCooldownActive = mp.Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodgeCooldown));
+                bool dodgeCooldownActive = p.HasCooldown(GlobalDodge.ID);
                 return dodgeCooldownActive ? 1 : 0;
             });
 
@@ -133,11 +132,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
 
             // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
-            cursor.EmitDelegate<Action<Player>>((Player p) =>
-            {
-                CalamityPlayer calPlayer = p.Calamity();
-                calPlayer.Cooldowns.Add(new GlobalDodgeCooldown(CalamityPlayer.BeltDodgeCooldown, p));
-            });
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, CalamityPlayer.BeltDodgeCooldown));
         }
         #endregion Removal of Black Belt Dodge RNG
 

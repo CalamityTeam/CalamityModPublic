@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    // TODO - Abstract away most of the direct vector math away in here into things like SafeDirectionTo calls.
+    // TODO -- Abstract away most of the direct vector math away in here into things like SafeDirectionTo calls.
     public class AtaraxiaHoming : ModProjectile
     {
         private static int NumAnimationFrames = 5;

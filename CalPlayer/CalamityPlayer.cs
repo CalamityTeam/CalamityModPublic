@@ -177,6 +177,8 @@ namespace CalamityMod.CalPlayer
         public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
+        // NOTE -- With the Armageddon item removed from Calamity, this bool can only be set by other mods
+        public bool disableAllDodges = false;
         #endregion
 
         #region Town NPC Shop Variables
@@ -278,9 +280,8 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginConvertedCrit = 0;
 
         private const int DashDisableCooldown = 12;
-        public bool disableAllDodges = false;
 
-        public Dictionary<string, CooldownInstance> Cooldowns = new Dictionary<string, CooldownInstance>(16);
+        public Dictionary<string, CooldownInstance> cooldowns = new Dictionary<string, CooldownInstance>(16);
 
         public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;
@@ -2153,11 +2154,18 @@ namespace CalamityMod.CalPlayer
         public override void UpdateDead()
         {
             // Remove all cooldowns which do not persist through death.
-            if (Cooldowns.Count > 0)
+            if (cooldowns.Count > 0)
             {
-                var cooldownEntriesToRemove = Cooldowns.Where((kv) => !kv.Value.source.PersistsThroughDeath);
+                bool removedAnyCooldowns = false;
+                var cooldownEntriesToRemove = cooldowns.Where((kv) => !kv.Value.handler.PersistsThroughDeath);
                 foreach (var kv in cooldownEntriesToRemove)
-                    Cooldowns.Remove(kv.Key);
+                {
+                    cooldowns.Remove(kv.Key);
+                    removedAnyCooldowns = true;
+                }
+
+                if (removedAnyCooldowns)
+                    SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
             }
 
             #region Debuffs
@@ -2820,18 +2828,18 @@ namespace CalamityMod.CalPlayer
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
                                 duration = (int)(chaosStateDurationBoss * 1.5);
-                            if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.EvasionScarf)))
+                            if (player.HasCooldown(Cooldowns.EvasionScarf.ID))
                                 duration = (int)(duration * 1.5);
-                            else if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.CounterScarf)))
+                            else if (player.HasCooldown(Cooldowns.CounterScarf.ID))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
-                            //Add a cooldown here so it can have the custom NR icon
-                            Cooldowns.Add(new ChaosStateDisplay(duration, player, "normalityrelocator"));
+                            // Add a cooldown here so it can have the custom NR icon
+                            player.AddCooldown(ChaosState.ID, duration, true, "normalityrelocator");
                         }
                     }
                 }
             }
-            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.DivineBless)))
+            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !player.HasCooldown(Cooldowns.DivineBless.ID))
             {
 				int seconds = CalamityUtils.SecondsToFrames(15f);
 				player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>(), seconds, false);
@@ -2859,9 +2867,9 @@ namespace CalamityMod.CalPlayer
 				}
             }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-				wearingRogueArmor && rogueStealthMax > 0 && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.SandCloak)))
+				wearingRogueArmor && rogueStealthMax > 0 && !player.HasCooldown(Cooldowns.SandCloak.ID))
             {
-				Cooldowns.Add(new Cooldowns.SandCloakCooldown(CalamityUtils.SecondsToFrames(30f), player));
+                player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(30));
 				rogueStealth -= rogueStealthMax * 0.25f;
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI);
 				Main.PlaySound(SoundID.Item, player.position, 45);
@@ -2897,13 +2905,12 @@ namespace CalamityMod.CalPlayer
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
                                 duration = chaosStateDurationBoss;
-                            if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.EvasionScarf)))
+                            if (player.HasCooldown(Cooldowns.EvasionScarf.ID))
                                 duration = (int)(duration * 1.5);
-                            else if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.CounterScarf)))
+                            else if (player.HasCooldown(Cooldowns.CounterScarf.ID))
                                 duration *= 2;
                             player.AddBuff(BuffID.ChaosState, duration, true);
-
-                            Cooldowns.Add(new ChaosStateDisplay(duration, player, "spectralveil"));
+                            player.AddCooldown(ChaosState.ID, duration, true, "spectralveil");
 
                             int numDust = 40;
                             Vector2 step = teleportOffset / numDust;
@@ -2922,18 +2929,18 @@ namespace CalamityMod.CalPlayer
                 }
             }
             if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-                wearingRogueArmor && rogueStealthMax > 0 && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(RogueBooster)) && !player.mount.Active)
+                wearingRogueArmor && rogueStealthMax > 0 && !player.HasCooldown(RogueBooster.ID) && !player.mount.Active)
             {
                 jetPackDash = blunderBooster ? 15 : 10;
                 jetPackDirection = player.direction;
-                Cooldowns.Add(new RogueBooster(60, player, blunderBooster ? "birb" : "default"));
+                player.AddCooldown(RogueBooster.ID, 60, true, blunderBooster ? "birb" : "default");
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Main.PlaySound(SoundID.Item66, player.Center);
                 Main.PlaySound(SoundID.Item34, player.Center);
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
-                if (brimflameSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BrimflameFrenzy)))
+                if (brimflameSet && !player.HasCooldown(BrimflameFrenzy.ID))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -2967,19 +2974,18 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (tarraMelee && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.TarragonCloak)) && !tarragonCloak)
+                if (tarraMelee && !player.HasCooldown(Cooldowns.TarragonCloak.ID) && !tarragonCloak)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
 						player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonCloak>(), 602, false);
                     }
                 }
-                if (bloodflareRanged && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareRangedSet)))
+                if (bloodflareRanged && !player.HasCooldown(BloodflareRangedSet.ID))
                 {
                     if (player.whoAmI == Main.myPlayer)
-                    {
-                        Cooldowns.Add(new BloodflareRangedSet(1800, player));
-                    }
+                        player.AddCooldown(BloodflareRangedSet.ID, 1800);
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerActivation"), player.Center);
                     for (int d = 0; d < 64; d++)
                     {
@@ -3020,15 +3026,13 @@ namespace CalamityMod.CalPlayer
 						}
                     }
                 }
-                if (omegaBlueSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlue)))
+                if (omegaBlueSet && !player.HasCooldown(OmegaBlue.ID))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
                         player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
-
-                    Cooldowns.Add(new OmegaBlueCooldown(1800, player));
-
+                    player.AddCooldown(OmegaBlue.ID, 1800);
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueAbility"), player.Center);
                     for (int i = 0; i < 66; i++)
                     {
@@ -3075,10 +3079,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (plagueReaper && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackout)))
+                if (plagueReaper && !player.HasCooldown(PlagueBlackout.ID))
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperAbility"), player.Center);
-                    Cooldowns.Add(new PlagueBlackout(1800, player));
+                    player.AddCooldown(PlagueBlackout.ID, 1800);
                 }
                 if (forbiddenCirclet && forbiddenCooldown <= 0)
                 {
@@ -3111,7 +3115,7 @@ namespace CalamityMod.CalPlayer
 						}
                     }
                 }
-                if (prismaticSet && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PrismaticLaser)) && prismaticLasers <= 0)
+                if (prismaticSet && !player.HasCooldown(PrismaticLaser.ID) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
             if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
@@ -3142,7 +3146,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GodSlayerDash)) && player.dashDelay == 0)
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !player.HasCooldown(GodSlayerDash.ID) && player.dashDelay == 0)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -3848,23 +3852,22 @@ namespace CalamityMod.CalPlayer
             if (abyssalDivingSuit)
             {
                 player.AddBuff(ModContent.BuffType<AbyssalDivingSuitBuff>(), 60, true);
-                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingPlatesBroken)))
+                if (player.whoAmI == Main.myPlayer && !player.HasCooldown(DivingPlatesBroken.ID))
                 {
                     player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlates>(), 2);
                 }
 
                 if (player.whoAmI == Main.myPlayer && player.active && abyssalDivingSuitPlateHits < 3)
                 {
-                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking)))
+                    if (!player.HasCooldown(DivingPlatesBreaking.ID))
                     {
-                        Cooldown durability = new DivingPlatesBreaking(3, player);
-                        durability.TimeLeft = abyssalDivingSuitPlateHits;
-                        Cooldowns.Add(durability);
+                        CooldownInstance plates = player.AddCooldown(DivingPlatesBreaking.ID, 3);
+                        plates.timeLeft = abyssalDivingSuitPlateHits;
                     }
                     else
                     {
-                        Cooldown durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
-                        durability.TimeLeft = abyssalDivingSuitPlateHits;
+                        CooldownInstance plates = cooldowns[DivingPlatesBreaking.ID];
+                        plates.timeLeft = abyssalDivingSuitPlateHits;
                     }
                 }
             }
@@ -3875,7 +3878,7 @@ namespace CalamityMod.CalPlayer
             }
             if (sirenBoobs && NPC.downedBoss3)
             {
-                if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(AquaticHeartIceShield)))
+                if (player.whoAmI == Main.myPlayer && !player.HasCooldown(AquaticHeartIceShield.ID))
                 {
                     player.AddBuff(ModContent.BuffType<IceShieldBuff>(), 2);
                 }
@@ -4009,25 +4012,20 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && CalamityConfig.Instance.VanillaCooldownDisplay)
             {
-                //Add a cooldown display for potion sickness
-                if (player.potionDelay > 0)
-                {
-                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PotionSickness)))
-                    {
-                        Cooldowns.Add(new PotionSicknessDisplay(player.potionDelay, player));
-                    }
-                }
+                // Add a cooldown display for potion sickness if the player has the vanilla counter ticking
+                if (player.potionDelay > 0 && !player.HasCooldown(PotionSickness.ID))
+                    player.AddCooldown(PotionSickness.ID, player.potionDelay, false);
 
-                if (player.chaosState)
+                // Add a cooldown display for chaos state if the player has the vanilla counter ticking
+                // This will make the cooldown look like vanilla Rod of Discord, as it wasn't applied by either Normality Relocator or Spectral Veil
+                if (player.chaosState && !player.HasCooldown(ChaosState.ID))
                 {
-                    if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(ChaosState)))
-                    {
-                        for (int l = 0; l < Player.MaxBuffs; l++)
+                    for (int l = 0; l < Player.MaxBuffs; l++)
+                        if (player.buffType[l] == BuffID.ChaosState)
                         {
-                            if (player.buffType[l] == BuffID.ChaosState)
-                                Cooldowns.Add(new ChaosStateDisplay(player.buffTime[l], player));
+                            player.AddCooldown(ChaosState.ID, player.buffTime[l], false);
+                            break;
                         }
-                    }
                 }
             }
 
@@ -4158,14 +4156,15 @@ namespace CalamityMod.CalPlayer
 				return true;
 			}
             // Neither scarf can be used if either is on cooldown
-            if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.CounterScarf) || cooldown.GetType() == typeof(Cooldowns.EvasionScarf)))
+            // TODO -- Why do the two scarves not use the same cooldown? They're both called "Scarf Cooldown".
+            if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !player.HasCooldown(Cooldowns.CounterScarf.ID) || !player.HasCooldown(Cooldowns.EvasionScarf.ID))
             {
 				CounterScarfDodge();
                 return true;
             }
 
-            // Neither mirror can be used if either is on cooldown
-            if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodge)))
+            // Mirror evades do not work if the global dodge cooldown is active. This cooldown can be triggered by either mirror.
+            if (!player.HasCooldown(GlobalDodge.ID))
             {
                 if (eclipseMirror)
                 {
@@ -4233,9 +4232,15 @@ namespace CalamityMod.CalPlayer
         private void CounterScarfDodge()
         {
             if (evasionScarf)
-				Cooldowns.Add(new Cooldowns.EvasionScarf(player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f), player));
+            {
+                int duration = CalamityUtils.SecondsToFrames(player.chaosState ? 20 : 13);
+                player.AddCooldown(Cooldowns.EvasionScarf.ID, duration);
+            }
             else
-				Cooldowns.Add(new Cooldowns.CounterScarf(player.chaosState ? 1800 : 900, player));
+            {
+                int duration = CalamityUtils.SecondsToFrames(player.chaosState ? 30 : 15);
+                player.AddCooldown(Cooldowns.CounterScarf.ID, duration);
+            }
 
             player.GiveIFrames(player.longInvince ? 100 : 60, true);
 
@@ -4262,7 +4267,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !eclipseMirror)
             {
-                Cooldowns.Add(new GlobalDodge(MirrorDodgeCooldown, player, "abyssmirror"));
+                player.AddCooldown(GlobalDodge.ID, MirrorDodgeCooldown, true, "abyssmirror");
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
@@ -4292,7 +4297,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror)
             {
-                Cooldowns.Add(new GlobalDodge(MirrorDodgeCooldown, player, "eclipsemirror"));
+                player.AddCooldown(GlobalDodge.ID, MirrorDodgeCooldown, true, "eclipsemirror");
 
                 // TODO -- why is this here?
                 player.noKnockback = true;
@@ -4405,7 +4410,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (nCore && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.NebulousCore)))
+            if (nCore && !player.HasCooldown(Cooldowns.NebulousCore.ID))
             {
 				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
 
@@ -4428,8 +4433,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife > player.statLifeMax2)
 					player.statLife = player.statLifeMax2;
 
-				Cooldowns.Add(new Cooldowns.NebulousCore(CalamityUtils.SecondsToFrames(90f), player));
-
+                player.AddCooldown(Cooldowns.NebulousCore.ID, CalamityUtils.SecondsToFrames(90));
 				return false;
 			}
 
@@ -4449,7 +4453,7 @@ namespace CalamityMod.CalPlayer
 
                     player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
-                    if (draconicSurge && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(DraconicElixir)))
+                    if (draconicSurge && !player.HasCooldown(DraconicElixir.ID))
                     {
                         player.statLife += player.statLifeMax2 / 2;
                         player.HealEffect(player.statLifeMax2 / 2);
@@ -4460,7 +4464,7 @@ namespace CalamityMod.CalPlayer
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            Cooldowns.Add(new DraconicElixir(CalamityUtils.SecondsToFrames(60f), player));
+                            player.AddCooldown(DraconicElixir.ID, CalamityUtils.SecondsToFrames(60));
 
                             // Additional potion sickness time
                             int additionalTime = 0;
@@ -4492,10 +4496,9 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
-            if (permafrostsConcoction && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PermafrostConcoction)))
+            if (permafrostsConcoction && !player.HasCooldown(PermafrostConcoction.ID))
             {
-                Cooldowns.Add(new PermafrostConcoction(CalamityUtils.SecondsToFrames(180f), player));
-
+                player.AddCooldown(PermafrostConcoction.ID, CalamityUtils.SecondsToFrames(180));
                 player.AddBuff(ModContent.BuffType<Encased>(), CalamityUtils.SecondsToFrames(3f));
 
                 player.statLife = player.statLifeMax2 * 3 / 10;
@@ -5412,16 +5415,16 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction += 0.5;
             }
 
-            if (fleshTotem && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.FleshTotem)))
+            if (fleshTotem && !player.HasCooldown(Cooldowns.FleshTotem.ID))
             {
-				Cooldowns.Add(new Cooldowns.FleshTotem(1200, player, coreOfTheBloodGod ? "bloodgod" : "default")); //20 seconds
+				player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
 				contactDamageReduction += 0.5;
             }
 
-            if (tarragonCloak && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.TarragonCloak)) && tarraMelee)
+            if (tarragonCloak && tarraMelee && !player.HasCooldown(Cooldowns.TarragonCloak.ID))
 				contactDamageReduction += 0.5;
 
-            if (bloodflareMelee && bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzy)))
+            if (bloodflareMelee && bloodflareFrenzy && !player.HasCooldown(BloodflareFrenzy.ID))
                 contactDamageReduction += 0.5;
 
             if (npc.Calamity().tSad > 0)
@@ -5555,7 +5558,7 @@ namespace CalamityMod.CalPlayer
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
 				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
-                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodge)) && !disableAllDodges)
+                if (!disableAllDodges && !player.HasCooldown(GlobalDodge.ID))
 				{
 					// The Evolution
                     if (projRefRare)
@@ -5571,7 +5574,7 @@ namespace CalamityMod.CalPlayer
 						projRefRareLifeRegenCounter = 300;
 						projTypeJustHitBy = proj.type;
 
-                        Cooldowns.Add(new GlobalDodge(EvolutionReflectCooldown, player));
+                        player.AddCooldown(GlobalDodge.ID, EvolutionReflectCooldown);
                         return;
 					}
 				}
@@ -5722,10 +5725,9 @@ namespace CalamityMod.CalPlayer
             }
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
-                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodge)) && !disableAllDodges && daedalusReflect && !projRefRare)
-				{
+                // Daedalus Reflect counts as a reflect but doesn't actually stop you from taking damage
+                if (daedalusReflect && !disableAllDodges && !projRefRare && !player.HasCooldown(GlobalDodge.ID))
 					projectileDamageReduction += 0.5;
-				}
 			}
             
 
@@ -6470,8 +6472,8 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
-                if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(GlobalDodge)) && !disableAllDodges)
+				// Reflects count as dodges. They share the timer and can be disabled by global dodge disabling effects.
+                if (!disableAllDodges && !player.HasCooldown(GlobalDodge.ID))
 				{
 					if (daedalusReflect && !projRefRare)
 					{
@@ -6483,8 +6485,7 @@ namespace CalamityMod.CalPlayer
 
                         damage /= 2;
 
-                        Cooldowns.Add(new GlobalDodge(DaedalusReflectCooldown, player));
-
+                        player.AddCooldown(GlobalDodge.ID, DaedalusReflectCooldown);
                         // No return because the projectile hit isn't canceled -- it only does half damage.
                     }
 				}
@@ -6661,9 +6662,11 @@ namespace CalamityMod.CalPlayer
                 player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
                 player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
             }
-            else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlue) && cooldown.TimeLeft > 1500))
+            else if (omegaBlueTransformationPower || omegaBlueTransformationForce)
             {
-                player.head = mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
+                bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
+                if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
+                    player.head = mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
             }
             else
             {
@@ -6816,7 +6819,6 @@ namespace CalamityMod.CalPlayer
             //
 
             #region Custom Hurt Sounds
-            // TODO -- Shouldn't these all not occur in favor of the Iron Heart hurt noise if Iron Heart is on?
             if (hurtSoundTimer == 0)
             {
                 if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
@@ -7001,14 +7003,16 @@ namespace CalamityMod.CalPlayer
                     if (abyssalDivingSuitPlateHits < 3)
                         abyssalDivingSuitPlateHits++;
 
-                    Cooldown durability = Cooldowns.Find(cooldown => cooldown.GetType() == typeof(DivingPlatesBreaking));
-                    durability.TimeLeft = abyssalDivingSuitPlateHits;
+                    bool plateCDExists = cooldowns.TryGetValue(DivingPlatesBreaking.ID, out CooldownInstance plateDurability);
+                    if (plateCDExists)
+                        plateDurability.timeLeft = abyssalDivingSuitPlateHits;
 
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
                         Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 14);
-                        Cooldowns.Remove(durability);
-                        Cooldowns.Add(new DivingPlatesBroken(10830, player));
+                        if (plateCDExists)
+                            cooldowns.Remove(DivingPlatesBreaking.ID);
+                        player.AddCooldown(DivingPlatesBroken.ID, 10830);
                         for (int d = 0; d < 20; d++)
                         {
                             int dust = Dust.NewDust(player.position, player.width, player.height, 31, 0f, 0f, 100, default, 2f);
@@ -7034,7 +7038,7 @@ namespace CalamityMod.CalPlayer
                 if (sirenIce)
                 {
                     Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
-                    Cooldowns.Add(new SirenIceShieldCooldown(1800, player));
+                    player.AddCooldown(AquaticHeartIceShield.ID, CalamityUtils.SecondsToFrames(30));
 
                     for (int d = 0; d < 10; d++)
                     {
@@ -7167,8 +7171,8 @@ namespace CalamityMod.CalPlayer
         #region Post Hurt
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            if (!profanedCrystal && pArtifact)
-				Cooldowns.Add(new Cooldowns.ProfanedSoulArtifact(300, player));
+            if (pArtifact && !profanedCrystal)
+                player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
 
             // Bloodflare Core defense shattering
             if (bloodflareCore)
@@ -7350,9 +7354,9 @@ namespace CalamityMod.CalPlayer
                 }
                 if (inkBomb && !abyssalMirror && !eclipseMirror)
                 {
-                    if (player.whoAmI == Main.myPlayer && !Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.InkBomb)))
+                    if (player.whoAmI == Main.myPlayer && !player.HasCooldown(Cooldowns.InkBomb.ID))
                     {
-						Cooldowns.Add(new Cooldowns.InkBomb(1200, player));
+                        player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(20));
 						rogueStealth += 0.5f;
                         for (int i = 0; i < 5; i++)
                         {
@@ -8105,7 +8109,7 @@ namespace CalamityMod.CalPlayer
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
 					{
-                        Cooldowns.Add(new GodSlayerDash(CalamityUtils.SecondsToFrames(35f), player));
+                        player.AddCooldown(GodSlayerDash.ID, CalamityUtils.SecondsToFrames(35));
 						godSlayerDashHotKeyPressed = false;
 					}
 

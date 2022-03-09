@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
-	// TODO: This does not properly utilize OOP. Destroy this file and convert everything here into a base entity at some point.
+	// TODO -- This does not properly utilize OOP. Destroy this file and convert everything here into a base entity at some point.
 	public static partial class CalamityUtils
 	{
 		public static void SporeSacAI(this Projectile projectile)

@@ -7,9 +7,7 @@ namespace CalamityMod.Cooldowns
 {
     public class DivineBless : CooldownHandler
     {
-        public static string ID => "DivineBless";
-        public DivineBless(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "DivineBless";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Divine Bless Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/DivineBless";

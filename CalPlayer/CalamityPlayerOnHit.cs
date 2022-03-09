@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
@@ -16,7 +17,6 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -26,7 +26,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.CalPlayer
 {
-	public partial class CalamityPlayer : ModPlayer
+    public partial class CalamityPlayer : ModPlayer
     {
         #region On Hit Anything
         public override void OnHitAnything(float x, float y, Entity victim)
@@ -663,13 +663,8 @@ namespace CalamityMod.CalPlayer
                         if (player.wingTime > player.wingTimeMax)
                             player.wingTime = player.wingTimeMax;
                     }
-                    if (bloodflareMelee && item.melee)
-                    {
-                        if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))
-                        {
-                            bloodflareMeleeHits++;
-                        }
-                    }
+                    if (bloodflareMelee && item.melee && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !player.HasCooldown(BloodflareFrenzy.ID))
+                        bloodflareMeleeHits++;
                 }
             }
         }
@@ -775,13 +770,8 @@ namespace CalamityMod.CalPlayer
                     int geyserDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
                     Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<ChaosGeyser>(), geyserDamage, 0f, player.whoAmI, 0f, 0f);
                 }
-                if (bloodflareMelee && modProj.trueMelee)
-                {
-                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(BloodflareFrenzyCooldown)))
-                    {
-                        bloodflareMeleeHits++;
-                    }
-                }
+                if (bloodflareMelee && modProj.trueMelee && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !player.HasCooldown(BloodflareFrenzy.ID))
+                    bloodflareMeleeHits++;
             }
         }
         #endregion
@@ -1048,10 +1038,10 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[projectileIndex].localNPCHitCooldown = 10;
                 }
             }
-            if (tarraThrowing && !tarragonImmunity && !Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(TarragonImmunityCooldown)) && tarraThrowingCrits < 25 && crit)
-            {
+
+            if (crit && tarraThrowing && tarraThrowingCrits < 25 && !tarragonImmunity && !player.HasCooldown(Cooldowns.TarragonImmunity.ID))
                 tarraThrowingCrits++;
-            }
+
             if (xerocSet && xerocDmg <= 0 && player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
             {
                 switch (Main.rand.Next(5))

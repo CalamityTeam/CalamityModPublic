@@ -1,8 +1,8 @@
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -44,21 +44,23 @@ namespace CalamityMod.Items.Armor
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
                 "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
-				"Getting hit causes plague cinders to rain from above\n" +
+                "Getting hit causes plague cinders to rain from above\n" +
                 "Press " + hotkey + " to blind yourself for 5 seconds but massively boost your ranged damage\n" +
-				"This has a 25 second cooldown.";
+                "This has a 25 second cooldown.";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;
 
-			if (player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackoutCooldown) && cooldown.TimeLeft > 1500))
-			{
-				player.blind = true;
-				player.headcovered = true;
-				player.blackout = true;
-				player.rangedDamage += 0.6f; //60% ranged dmg and 20% crit
-				player.rangedCrit += 20;
-			}
+
+            bool hasPlagueBlackoutCD = modPlayer.cooldowns.TryGetValue(PlagueBlackout.ID, out CooldownInstance cd);
+            if (hasPlagueBlackoutCD && cd.timeLeft > 1500)
+            {
+                player.blind = true;
+                player.headcovered = true;
+                player.blackout = true;
+                player.rangedDamage += 0.6f; //60% ranged dmg and 20% crit
+                player.rangedCrit += 20;
+            }
 
             if (player.whoAmI == Main.myPlayer)
             {
@@ -66,9 +68,9 @@ namespace CalamityMod.Items.Armor
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-						Projectile cinder = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
-						if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
-							cinder.Calamity().forceTypeless = true;
+                        Projectile cinder = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
+                        if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
+                            cinder.Calamity().forceTypeless = true;
                     }
                 }
             }
@@ -85,15 +87,15 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.NecroHelmet);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-			recipe.AddIngredient(ItemID.Nanites, 11);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.Nanites, 11);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
+            recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.AncientNecroHelmet);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-			recipe.AddIngredient(ItemID.Nanites, 11);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.Nanites, 11);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

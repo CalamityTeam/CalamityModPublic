@@ -376,7 +376,7 @@ namespace CalamityMod.NPCs.ExoMechs
             TalkTimer++;
         }
 
-        // TODO - Make this work in conjunction with exo mech transitions. This requires that the exo mech AIs be finished.
+        // TODO -- Make this work in conjunction with exo mech transitions. This requires that the exo mech AIs be finished.
         public void FlyAroundInGamerChair()
         {
             // Define a hover destination offset if one hasn't been decided yet.

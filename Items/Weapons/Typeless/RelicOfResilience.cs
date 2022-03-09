@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Projectiles.Damageable;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -6,11 +5,10 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.UI.CooldownIndicators;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-	public class RelicOfResilience : ModItem
+    public class RelicOfResilience : ModItem
     {
         public const int CooldownSeconds = 5;
         public const float WeaknessDR = 0.45f;
@@ -36,16 +34,16 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
             item.noMelee = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
             item.shootSpeed = 0f;
         }
-        public override bool CanUseItem(Player player) => !player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(RelicOfResilienceCooldown));
+        public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
         public override bool UseItem(Player player) => true;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.Calamity().Cooldowns.Add(new RelicOfResilienceCooldown(CooldownSeconds * 60, player));
+            player.AddCooldown(Cooldowns.RelicOfResilience.ID, CalamityUtils.SecondsToFrames(CooldownSeconds));
             int[] shardTypes = new int[]
             {
                 ModContent.ProjectileType<ArtifactOfResilienceShard1>(),

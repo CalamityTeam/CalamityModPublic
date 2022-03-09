@@ -5,9 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class BloodflareRangedSet : CooldownHandler
     {
-        public static string ID => "BloodflareRangedSet";
-        public BloodflareRangedSet(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "BloodflareRangedSet";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Bloodflare Soul Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/BloodflareSoul";

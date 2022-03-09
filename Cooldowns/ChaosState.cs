@@ -4,7 +4,7 @@ namespace CalamityMod.Cooldowns
 {
 	public class ChaosState : CooldownHandler
 	{
-		public static string ID => "ChaosState";
+		public static new string ID => "ChaosState";
 
 		public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.chaosState;
 		public override string DisplayName => "Teleportation Cooldown";
@@ -19,7 +19,7 @@ namespace CalamityMod.Cooldowns
 		public Color cooldownColorStart;
 		public Color cooldownColorEnd;
 
-		public ChaosState(CooldownInstance? c, string skin = "") : base(c)
+		public ChaosState(string skin = "")
 		{
 			switch (skin)
 			{

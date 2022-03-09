@@ -13,15 +13,6 @@ namespace CalamityMod.Cooldowns
 		public static string ID => null;
 		public CooldownInstance instance;
 
-		public CooldownHandler(CooldownInstance? c)
-		{
-			if (c.HasValue)
-			{
-				instance = c.Value;
-				instance.handler = this;
-			}
-		}
-
 		#region Gameplay Behavior
 		/// <summary>
 		/// This method runs once every frame while the cooldown instance is active.
@@ -46,6 +37,12 @@ namespace CalamityMod.Cooldowns
 		/// All cooldowns with PersistsThroughDeath set to false disappear immediately when the player dies.
 		/// </summary>
 		public virtual bool PersistsThroughDeath => false;
+
+		/// <summary>
+		/// Set this to true to make this cooldown persist through saves and loads.<br/>
+		/// All cooldowns with SavedWithPlayer set to true are serialized into the modded player file.
+		/// </summary>
+		public virtual bool SavedWithPlayer => false;
 
 		/// <summary>
 		/// When the cooldown instance ends, this sound is played. Leave at <b>null</b> for no sound.

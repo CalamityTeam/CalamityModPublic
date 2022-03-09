@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<CosmicRainbow>());
 
             // This is the Celebration. The ItemID name is a bit unclear.
-            // TODO: Replace this with Celebration MK2 in 1.4.
+            // TODO -- Replace this with Celebration MK2 in 1.4.
             recipe.AddIngredient(ItemID.FireworksLauncher);
             recipe.AddIngredient(ItemID.FlaskofParty, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 25);

@@ -4,13 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBall : ModProjectile
     {
-        // TODO - Please for the love of god refactor this at some point. It is ancient.
+        // TODO -- Please for the love of god refactor this at some point. It is ancient.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC target = null;

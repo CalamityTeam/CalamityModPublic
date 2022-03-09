@@ -6,9 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class PlagueBlackout : CooldownHandler
     {
-        public static string ID => "PlagueBlackout";
-        public PlagueBlackout(CooldownInstance? c) : base(c) => instance.duration = 1500;
-
+        public static new string ID => "PlagueBlackout";
         public override bool ShouldDisplay => instance.timeLeft <= 1500;
         public override string DisplayName => "Plague Blackout Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/PlagueBlackout";

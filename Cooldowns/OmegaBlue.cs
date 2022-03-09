@@ -10,9 +10,7 @@ namespace CalamityMod.Cooldowns
 {
     public class OmegaBlue : CooldownHandler
     {
-        public static string ID => "OmegaBlue";
-        public OmegaBlue(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "OmegaBlue";
         public override bool ShouldDisplay => true;
         public override string DisplayName => instance.timeLeft > 1500 ? "Abyssal Madness" : "Abyssal Madness Cooldown";
         public override string Texture => instance.timeLeft > 1500 ? "CalamityMod/Cooldowns/OmegaBlueActive" : "CalamityMod/Cooldowns/OmegaBlue";

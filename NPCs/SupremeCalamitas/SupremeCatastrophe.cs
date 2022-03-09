@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
 
-                    // TODO: Consider changing this to use RotatedBy or ToRotationVector2.
+                    // TODO -- Consider changing this to use RotatedBy or ToRotationVector2.
                     float speed = 7f;
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = npc.GetProjectileDamage(type);

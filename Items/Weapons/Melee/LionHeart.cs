@@ -1,6 +1,6 @@
+using CalamityMod.Cooldowns;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.UI.CooldownIndicators;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -52,11 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 2)
-            {
-                if (!player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(LionHeartShieldCooldown)) && player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] <= 0)
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EnergyShell>(), 0, 0f, player.whoAmI);
-            }
+            if (player.altFunctionUse == 2 && !player.HasCooldown(LionHeartShield.ID) && player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] <= 0)
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EnergyShell>(), 0, 0f, player.whoAmI);
             return false;
         }
 
@@ -73,20 +70,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
+            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].Calamity().forceMelee = true;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, item.knockBack, player.whoAmI);
+            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].Calamity().forceMelee = true;
         }

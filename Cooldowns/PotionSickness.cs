@@ -4,9 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class PotionSickness : CooldownHandler
     {
-        public static string ID => "PotionSickness";
-        public PotionSickness(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "PotionSickness";
         public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.potionDelay > 0;
         public override string DisplayName => "Healing Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/PotionSickness";

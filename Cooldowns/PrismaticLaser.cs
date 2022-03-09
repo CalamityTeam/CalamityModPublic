@@ -6,9 +6,7 @@ namespace CalamityMod.Cooldowns
 {
     public class PrismaticLaser : CooldownHandler
     {
-        public static string ID => "PrismaticLaser";
-        public PrismaticLaser(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "PrismaticLaser";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Prismatic Laser Barrage Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/PrismaticLaser";

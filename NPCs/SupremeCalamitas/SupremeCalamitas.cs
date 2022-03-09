@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private const int sepulcherSpawnCastTime = 75;
         private const int brothersSpawnCastTime = 150;
 
-        // TODO: This is cumbersome. Change it to be better in 1.4.
+        // TODO -- This is cumbersome. Change it to be better in 1.4.
         internal static void LoadHeadIcons()
         {
             string hoodedIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
@@ -868,7 +868,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 					int divisor = revenge ? 225 : expertMode ? 450 : 675;
 
-                    // TODO: Resprite Brimstone Monsters to be something else.
+                    // TODO -- Resprite Brimstone Monsters to be something else. WIPs posted by Iban.
                     if (bulletHellCounter2 % divisor == 0 && expertMode) // Giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), monsterDamage, 0f, Main.myPlayer, 0f, passedVar);

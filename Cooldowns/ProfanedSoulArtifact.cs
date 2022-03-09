@@ -4,9 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class ProfanedSoulArtifact : CooldownHandler
     {
-        public static string ID => "ProfanedSoulArtifact";
-        public ProfanedSoulArtifact(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "ProfanedSoulArtifact";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Profaned Soul Artifact Burnout";
         public override string Texture => "CalamityMod/Cooldowns/ProfanedSoulArtifact";

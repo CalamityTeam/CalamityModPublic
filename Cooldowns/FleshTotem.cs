@@ -4,7 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class FleshTotem : CooldownHandler
     {
-        public static string ID => "FleshTotem";
+        public static new string ID => "FleshTotem";
 
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Contact Damage Halving Cooldown";
@@ -19,7 +19,7 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public FleshTotem(CooldownInstance? c, string skin = "") : base(c)
+        public FleshTotem(string skin = "")
         {
             switch (skin)
             {

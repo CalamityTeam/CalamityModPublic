@@ -1,15 +1,14 @@
-using CalamityMod.Buffs.Cooldowns;
+using CalamityMod.Cooldowns;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.UI.CooldownIndicators;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class EnergyShell : ModProjectile
+    public class EnergyShell : ModProjectile
     {
-		private bool playedSound = false;
+        private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -30,11 +29,11 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			if (!playedSound)
-			{
-				Main.PlaySound(SoundID.Item92, (int)projectile.position.X, (int)projectile.position.Y);
-				playedSound = true;
-			}
+            if (!playedSound)
+            {
+                Main.PlaySound(SoundID.Item92, (int)projectile.position.X, (int)projectile.position.Y);
+                playedSound = true;
+            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -46,25 +45,25 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.frame = 0;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
-			if (projectile.timeLeft < 51) //fade out
-			{
-				projectile.alpha += 5;
-			}
+            if (projectile.timeLeft < 51) //fade out
+            {
+                projectile.alpha += 5;
+            }
             Player player = Main.player[projectile.owner];
             projectile.Center = player.Center;
-			//if player is dead, null, or stops holding the Lion Heart, kill the projectile
-			if (player.dead || player is null || player.ActiveItem().type != ModContent.ItemType<LionHeart>())
-			{
-				projectile.Kill();
-			}
+            //if player is dead, null, or stops holding the Lion Heart, kill the projectile
+            if (player.dead || player is null || player.ActiveItem().type != ModContent.ItemType<LionHeart>())
+            {
+                projectile.Kill();
+            }
         }
 
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[projectile.owner];
             Main.PlaySound(SoundID.Item94, (int)projectile.position.X, (int)projectile.position.Y);
-            player.Calamity().Cooldowns.Add(new LionHeartShieldCooldown(CalamityUtils.SecondsToFrames(45), player));
-		}
+            player.AddCooldown(LionHeartShield.ID, CalamityUtils.SecondsToFrames(45));
+        }
 
         public override bool CanDamage() => false;
     }

@@ -4,9 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class LionHeartShield : CooldownHandler
     {
-        public static string ID => "LionHeartShield";
-        public LionHeartShield(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "LionHeartShield";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Energy Shell Cooldown";
         public override string Texture => "CalamityMod/UI/CooldownIndicators/LionHeartShield";

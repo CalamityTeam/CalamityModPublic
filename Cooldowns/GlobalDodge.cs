@@ -4,7 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class GlobalDodge : CooldownHandler
     {
-        public static string ID => "GlobalDodge";
+        public static new string ID => "GlobalDodge";
 
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Dodge Cooldown";
@@ -19,7 +19,7 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public GlobalDodge(CooldownInstance? c, string skin = "") : base(c)
+        public GlobalDodge(string skin = "")
         {
             switch (skin)
             {

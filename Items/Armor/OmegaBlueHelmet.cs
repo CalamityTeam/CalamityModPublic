@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
 {
@@ -58,15 +60,14 @@ namespace CalamityMod.Items.Armor
 				"Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
 				"This effect has a 25 second cooldown";
 
+            CalamityPlayer mp = player.Calamity();
             player.armorPenetration += 15;
-            player.Calamity().wearingRogueArmor = true;
-
+            mp.wearingRogueArmor = true;
 			player.maxMinions += 2;
+			mp.omegaBlueSet = true;
 
-			//raise rev caps
-			player.Calamity().omegaBlueSet = true;
-
-            if (player.Calamity().Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlueCooldown) && cooldown.TimeLeft > 1500))
+            bool hasOmegaBlueCooldown = mp.cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
+            if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
             {
                 int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 1.6f);
                 Main.dust[d].noGravity = true;

@@ -4,9 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class BloodflareFrenzy : CooldownHandler
     {
-        public static string ID => "BloodflareFrenzy";
-        public BloodflareFrenzy(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "BloodflareFrenzy";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Blood Frenzy Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/BloodflareFrenzy";

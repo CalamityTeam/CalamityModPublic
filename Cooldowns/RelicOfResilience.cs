@@ -5,9 +5,7 @@ namespace CalamityMod.Cooldowns
 {
     public class RelicOfResilience : CooldownHandler
     {
-        public static string ID => "RelicOfResilience";
-        public RelicOfResilience(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "RelicOfResilience";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Relic of Resilience Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/RelicOfResilience";

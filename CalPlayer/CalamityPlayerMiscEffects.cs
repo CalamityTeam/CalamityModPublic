@@ -867,8 +867,9 @@ namespace CalamityMod.CalPlayer
 
 			bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && CalamityWorld.downedSCal && CalamityWorld.downedExoMechs);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
+
 			// Guardian bonuses if not burnt out
-			if (!Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.ProfanedSoulArtifact)) && canProvideBuffs)
+			if (canProvideBuffs && !player.HasCooldown(Cooldowns.ProfanedSoulArtifact.ID))
 			{
 				bool healer = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] > 0;
 				bool defend = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] > 0;
@@ -945,34 +946,38 @@ namespace CalamityMod.CalPlayer
 			// Depending on the code for each individual cooldown, this isn't guaranteed to do anything.
 			// It may not tick down the timer or not do anything at all.
 			IList<string> expiredCooldowns = new List<string>(16);
-			var cdIterator = Cooldowns.Values.GetEnumerator();
+			var cdIterator = cooldowns.GetEnumerator();
 			while(cdIterator.MoveNext())
 			{
-				CooldownInstance instance = cdIterator.Current;
-				Cooldown cd = instance.source;
+				KeyValuePair<string, CooldownInstance> kv = cdIterator.Current;
+				string id = kv.Key;
+				CooldownInstance instance = kv.Value;
+				CooldownHandler handler = instance.handler;
 
 				// If applicable, tick down this cooldown instance's timer.
-				if (cd.CanTickDown)
+				if (handler.CanTickDown)
 					--instance.timeLeft;
 
 				// Tick always runs, even if the timer does not decrement.
-				cd.Tick(instance);
+				handler.Tick();
 
 				// Run on-completion code, play sounds and remove finished cooldowns.
 				if (instance.timeLeft < 0)
 				{
-					cd.OnCompleted(instance);
-					Main.PlaySound(cd.EndSound);
-					expiredCooldowns.Add(cd.ID);
-
-					// TODO -- netcode for when cooldowns disappear
+					handler.OnCompleted();
+					Main.PlaySound(handler.EndSound);
+					expiredCooldowns.Add(id);
 				}
 			}
 			cdIterator.Dispose();
 
 			// Remove all expired cooldowns.
 			foreach (string cdID in expiredCooldowns)
-				Cooldowns.Remove(cdID);
+				cooldowns.Remove(cdID);
+
+			// If any cooldowns were removed, send a cooldown removal packet that lists all cooldowns to remove.
+			if (expiredCooldowns.Count > 0)
+				SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
 			if (spiritOriginBullseyeShootCountdown > 0)
 				spiritOriginBullseyeShootCountdown--;
@@ -1148,8 +1153,7 @@ namespace CalamityMod.CalPlayer
 				if (silvaCountdown <= 0)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
-					// 5 minutes
-					Cooldowns.Add(new SilvaReviveCooldown(18000, player));
+					player.AddCooldown(SilvaRevive.ID, CalamityUtils.SecondsToFrames(5 * 60));
 				}
 
 				for (int j = 0; j < 2; j++)
@@ -1165,7 +1169,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[green].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 				}
 			}
-			if (!Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(SilvaRevive)) && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
+			if (!player.HasCooldown(SilvaRevive.ID) && hasSilvaEffect && silvaCountdown <= 0 && !areThereAnyDamnBosses && !areThereAnyDamnEvents)
 			{
 				silvaCountdown = 480;
 				hasSilvaEffect = false;
@@ -1179,7 +1183,7 @@ namespace CalamityMod.CalPlayer
 				{
 					tarraDefenseTime = 600;
 					if (player.whoAmI == Main.myPlayer)
-						Cooldowns.Add(new Cooldowns.TarragonCloak(1800, player));
+						player.AddCooldown(Cooldowns.TarragonCloak.ID, CalamityUtils.SecondsToFrames(30));
 				}
 
 				for (int j = 0; j < 2; j++)
@@ -1200,7 +1204,7 @@ namespace CalamityMod.CalPlayer
 			// Tarragon immunity effects
 			if (tarraThrowing)
 			{
-				// The iframes from the evasion are disabled by Armageddon.
+				// The iframes from the evasion are disabled by dodge disabling effects.
 				if (tarragonImmunity && !disableAllDodges)
 					player.GiveIFrames(2, true);
 
@@ -1216,10 +1220,8 @@ namespace CalamityMod.CalPlayer
 				{
 					int hasBuff = player.buffType[l];
 					if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>())
-					{
 						if (player.whoAmI == Main.myPlayer)
-							Cooldowns.Add(new Cooldowns.TarragonImmunityCooldown(1500, player));
-					}
+							player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(25));
 
 					bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
 					if (shouldAffect)
@@ -1249,11 +1251,8 @@ namespace CalamityMod.CalPlayer
 					for (int l = 0; l < Player.MaxBuffs; l++)
 					{
 						int hasBuff = player.buffType[l];
-						if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
-						{
-							if (player.whoAmI == Main.myPlayer)
-								Cooldowns.Add(new BloodflareFrenzyCooldown(1800, player));
-						}
+						if (player.buffTime[l] <= 1 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>() && player.whoAmI == Main.myPlayer)
+							player.AddCooldown(BloodflareFrenzy.ID, CalamityUtils.SecondsToFrames(30));
 					}
 
 					player.meleeCrit += 25;
@@ -1603,51 +1602,53 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			// This section of code ensures set bonuses and accessories with cooldowns go on cooldown immediately if the armor or accessory is removed.
 			if (!brimflameSet && brimflameFrenzy)
 			{
 				brimflameFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
-				Cooldowns.Add(new BrimflameFrenzy(BrimflameScowl.CooldownLength, player));
+				player.AddCooldown(BrimflameFrenzy.ID, BrimflameScowl.CooldownLength);
 			}
 			if (!bloodflareMelee && bloodflareFrenzy)
 			{
 				bloodflareFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BloodflareBloodFrenzy>());
-				Cooldowns.Add(new BloodflareFrenzyCooldown(1800, player));
+				player.AddCooldown(BloodflareFrenzy.ID, CalamityUtils.SecondsToFrames(30));
 			}
 			if (!tarraMelee && tarragonCloak)
 			{
 				tarragonCloak = false;
 				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonCloak>());
-				Cooldowns.Add(new Cooldowns.TarragonCloak(1800, player));
+				player.AddCooldown(Cooldowns.TarragonCloak.ID, CalamityUtils.SecondsToFrames(30));
 			}
 			if (!tarraThrowing && tarragonImmunity)
 			{
 				tarragonImmunity = false;
 				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>());
-				Cooldowns.Add(new Cooldowns.TarragonCloak(1500, player));
+				player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(25));
 			}
-			if (!omegaBlueSet && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(OmegaBlue) && cooldown.TimeLeft > 1500))
-			{
-				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(OmegaBlue)).TimeLeft = 1500;
-				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
-			}
-			if (!plagueReaper && Cooldowns.Exists(cooldown => cooldown.GetType() == typeof(PlagueBlackout) && cooldown.TimeLeft > 1500))
-			{
-				Cooldowns.Find(cooldown => cooldown.GetType() == typeof(PlagueBlackout)).TimeLeft = 1500;
 
+			bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance omegaBlueCD);
+			if (!omegaBlueSet && hasOmegaBlueCooldown && omegaBlueCD.timeLeft > 1500)
+			{
+				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
+				omegaBlueCD.timeLeft = 1500;
 			}
+
+			bool hasPlagueBlackoutCD = cooldowns.TryGetValue(PlagueBlackout.ID, out CooldownInstance plagueBlackoutCD);
+			if (!plagueReaper && hasPlagueBlackoutCD && plagueBlackoutCD.timeLeft > 1500)
+				plagueBlackoutCD.timeLeft = 1500;
+
 			if (!prismaticSet && prismaticLasers > 1800)
 			{
 				prismaticLasers = 1800;
-				Cooldowns.Add(new PrismaticLaserCooldown(CalamityUtils.SecondsToFrames(30f), player));
+				player.AddCooldown(PrismaticLaser.ID, 1800);
 			}
 			if (!angelicAlliance && divineBless)
 			{
 				divineBless = false;
 				player.ClearBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>());
-				int seconds = CalamityUtils.SecondsToFrames(60f);
-				Cooldowns.Add(new Cooldowns.DivineBless(seconds, player));
+				player.AddCooldown(Cooldowns.DivineBless.ID, CalamityUtils.SecondsToFrames(60));
 			}
 
 			// Armageddon's Dodge Disable feature puts Shadow Dodge/Holy Protection on permanent cooldown
@@ -2608,7 +2609,11 @@ namespace CalamityMod.CalPlayer
 			if (blueCandle)
 				player.moveSpeed += 0.1f;
 
-			if (Cooldowns.Exists((object cooldown) => cooldown.GetType() == typeof(Cooldowns.DraconicElixir))) // Weird mod conflicts with like Luiafk
+			// Original comment below:
+			// Weird mod conflicts with like Luiafk
+			//
+			// I have no idea what this is doing here
+			if (player.HasCooldown(Cooldowns.DraconicElixir.ID))
 			{
 				draconicSurge = false;
 				if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
@@ -3439,8 +3444,8 @@ namespace CalamityMod.CalPlayer
 			}
 			if (prismaticLasers == 1800)
 			{
-				//Set the cooldown
-				Cooldowns.Add(new PrismaticLaserCooldown(CalamityUtils.SecondsToFrames(30f), player));
+				// At the exact moment the lasers stop, set the cooldown to appear
+				player.AddCooldown(PrismaticLaser.ID, 1800);
 			}
 			if (prismaticLasers == 1)
 			{
@@ -3488,10 +3493,7 @@ namespace CalamityMod.CalPlayer
 					angelicActivate = -1;
 
 				if (angelicActivate == 1)
-				{
-					int seconds = CalamityUtils.SecondsToFrames(60f);
-					Cooldowns.Add(new Cooldowns.DivineBless(seconds, player));
-				}
+					player.AddCooldown(Cooldowns.DivineBless.ID, CalamityUtils.SecondsToFrames(60));
 			}
 
 			if (theBee)

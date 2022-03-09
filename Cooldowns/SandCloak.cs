@@ -4,9 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class SandCloak : CooldownHandler
     {
-        public static string ID => "SandCloak";
-        public SandCloak(CooldownInstance? c) : base(c) { }
-
+        public static new string ID => "SandCloak";
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Sand Cloak Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/SandCloak";

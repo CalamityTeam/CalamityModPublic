@@ -184,7 +184,54 @@ namespace CalamityMod
 			if (modPlayer is null)
 				return false;
 
-			return modPlayer.Cooldowns.ContainsKey(id);
+			return modPlayer.cooldowns.ContainsKey(id);
+		}
+
+		/// <summary>
+		/// Applies the specified cooldown to the player, creating a new instance automatically.<br/>
+		/// By default, overwrites existing instances of this cooldown, but this behavior can be disabled.
+		/// </summary>
+		/// <param name="p">The player to whom the cooldown should be applied.</param>
+		/// <param name="id">The string ID of the cooldown to apply. This is referenced against the Cooldown Registry.</param>
+		/// <param name="duration">The duration, in frames, of this instance of the cooldown.</param>
+		/// <param name="overwrite">Whether or not to overwrite any existing instances of this cooldown. Defaults to true.</param>
+		/// <returns>The cooldown instance which was created. <b>Note the cooldown is always created, but may not be necessarily applied to the player.</b></returns>
+		public static CooldownInstance AddCooldown(this Player p, string id, int duration, bool overwrite = true)
+		{
+			var cd = CooldownRegistry.Get(id);
+			CooldownInstance instance = new CooldownInstance(p, cd, duration);
+
+			bool alreadyHasCooldown = p.HasCooldown(id);
+			if (!alreadyHasCooldown || overwrite)
+			{
+				CalamityPlayer mp = p.Calamity();
+				mp.cooldowns[id] = instance;
+				mp.SyncCooldownAddition(Main.netMode == NetmodeID.Server, instance);
+			}
+
+			return instance;
+		}
+
+		/// <summary>
+		/// Applies the specified cooldown to the player, creating a new instance automatically.<br/>
+		/// By default, overwrites existing instances of this cooldown, but this behavior can be disabled.
+		/// </summary>
+		/// <param name="p">The player to whom the cooldown should be applied.</param>
+		/// <param name="id">The string ID of the cooldown to apply. This is referenced against the Cooldown Registry.</param>
+		/// <param name="duration">The duration, in frames, of this instance of the cooldown.</param>
+		/// <param name="overwrite">Whether or not to overwrite any existing instances of this cooldown. Defaults to true.</param>
+		/// <param name="handlerArgs">Arbitrary extra arguments to pass to the CooldownHandler constructor via reflection.</param>
+		/// <returns>The cooldown instance which was created. <b>Note the cooldown is always created, but may not be necessarily applied to the player.</b></returns>
+		public static CooldownInstance AddCooldown(this Player p, string id, int duration, bool overwrite = true, params object[] handlerArgs)
+		{
+			var cd = CooldownRegistry.Get(id);
+			CooldownInstance instance = new CooldownInstance(p, cd, duration, handlerArgs);
+
+			bool alreadyHasCooldown = p.HasCooldown(id);
+			if (!alreadyHasCooldown || overwrite)
+				p.Calamity().cooldowns[id] = instance;
+
+			return instance;
 		}
 
 		public static IList<CooldownInstance> GetDisplayedCooldowns(this Player p)
@@ -193,7 +240,7 @@ namespace CalamityMod
 			if (p is null || p.Calamity() is null)
 				return ret;
 
-			foreach (CooldownInstance instance in p.Calamity().Cooldowns.Values)
+			foreach (CooldownInstance instance in p.Calamity().cooldowns.Values)
 				if (instance.handler.ShouldDisplay)
 					ret.Add(instance);
 			return ret;

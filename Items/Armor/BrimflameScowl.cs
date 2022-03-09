@@ -1,8 +1,7 @@
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
-using CalamityMod.UI.CooldownIndicators;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,7 +44,7 @@ namespace CalamityMod.Items.Armor
                 if (!modPlayer.brimflameFrenzy)
                 {
                     frenzy = false;
-                    modPlayer.Cooldowns.Add(new BrimflameFrenzyCooldown(CooldownLength, player));
+                    player.AddCooldown(BrimflameFrenzy.ID, CooldownLength);
                 }
             }
         }
@@ -55,6 +54,7 @@ namespace CalamityMod.Items.Armor
             player.magicDamage += 0.05f;
             player.magicCrit += 5;
             player.statManaMax2 += 70;
+            // TODO -- oh god. player.manaCost -= 0.1f;
             player.manaCost *= 0.9f;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[BuffID.OnFire] = true;

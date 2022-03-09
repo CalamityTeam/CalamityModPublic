@@ -4,7 +4,7 @@ namespace CalamityMod.Cooldowns
 {
     public class RogueBooster : CooldownHandler
     {
-        public static string ID => "RogueBooster";
+        public static new string ID => "RogueBooster";
 
         public override bool ShouldDisplay => true;
         public override string DisplayName => "Rogue Booster Cooldown";
@@ -19,7 +19,7 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public RogueBooster(CooldownInstance? c, string skin = "") : base(c)
+        public RogueBooster(string skin = "")
         {
             switch (skin)
             {

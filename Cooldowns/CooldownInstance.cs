@@ -1,10 +1,43 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Terraria;
 
 namespace CalamityMod.Cooldowns
 {
 	public struct CooldownInstance
 	{
+		public CooldownInstance(Player p, Cooldown<CooldownHandler> cd, int dur)
+		{
+			netID = cd.netID;
+			player = p;
+			duration = dur;
+			timeLeft = dur;
+			handler = null;
+			AssignHandler(cd);
+		}
+
+		public CooldownInstance(Player p, Cooldown<CooldownHandler> cd, int dur, params object[] args)
+		{
+			netID = cd.netID;
+			player = p;
+			duration = dur;
+			timeLeft = dur;
+			handler = null;
+			AssignHandler(cd, args);
+		}
+
+		internal void AssignHandler(Cooldown<CooldownHandler> cd)
+		{
+			handler = Activator.CreateInstance(cd.GetType().GenericTypeArguments[0]) as CooldownHandler;
+			handler.instance = this;
+		}
+
+		internal void AssignHandler(Cooldown<CooldownHandler> cd, params object[] args)
+		{
+			handler = Activator.CreateInstance(cd.GetType().GenericTypeArguments[0], args) as CooldownHandler;
+			handler.instance = this;
+		}
+
 		/// <summary>
 		/// The netID of the cooldown represented by this cooldown instance.<br/>
 		/// This is used to look up gameplay behavior and rendering behavior as the cooldown instance is used in the game engine.
@@ -60,6 +93,7 @@ namespace CalamityMod.Cooldowns
 			player = Main.player[playerIDByte];
 			duration = reader.ReadInt32();
 			timeLeft = reader.ReadInt32();
+			AssignHandler(CooldownRegistry.registry[netID]);
 		}
 	}
 }
