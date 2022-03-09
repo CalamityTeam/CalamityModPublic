@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             r.AddIngredient(ModContent.ItemType<Shellshooter>());
             r.AddIngredient(ModContent.ItemType<Toxibow>());
             r.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(this);
             r.AddRecipe();
         }
