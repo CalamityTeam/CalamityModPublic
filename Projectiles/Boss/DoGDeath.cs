@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 450;
             cooldownSlot = 1;
 		}
 

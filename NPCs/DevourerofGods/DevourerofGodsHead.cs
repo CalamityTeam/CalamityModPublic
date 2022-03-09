@@ -623,7 +623,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Laser walls
 						if (!phase6 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
 						{
-							float speed = 12f;
+							float speed = 10f;
 							float spawnOffset = 1500f;
 							float divisor = malice ? 100f : 120f;
 
@@ -1358,7 +1358,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (phase2)
 					{
-						float speed = 12f;
+						float speed = 10f;
 						float spawnOffset = 1500f;
 						float divisor = malice ? 240f : death ? 360f : 480f;
 
@@ -1436,25 +1436,29 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 								case (int)LaserWallType.DiagonalCross:
 
+									int randomLaserGap = Main.rand.Next(3) + 3; // 3, 4, 5, 6
 									for (int x = 0; x < totalShots + 1; x++)
 									{
-										start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
-										aim.Y += laserWallSpacingOffset * (x - 3);
-										velocity = Vector2.Normalize(aim - start) * speed;
-										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+										if (x != randomLaserGap && x != randomLaserGap + 1)
+										{
+											start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
+											aim.Y += laserWallSpacingOffset * (x - 3);
+											velocity = Vector2.Normalize(aim - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
-										start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
-										velocity = Vector2.Normalize(aim - start) * speed;
-										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+											start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
+											velocity = Vector2.Normalize(aim - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
-										start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
-										aimClone.X += laserWallSpacingOffset * (x - 3);
-										velocity = Vector2.Normalize(aimClone - start) * speed;
-										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+											start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
+											aimClone.X += laserWallSpacingOffset * (x - 3);
+											velocity = Vector2.Normalize(aimClone - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
-										start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
-										velocity = Vector2.Normalize(aimClone - start) * speed;
-										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+											start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
+											velocity = Vector2.Normalize(aimClone - start) * speed;
+											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
+										}
 
 										shotSpacing -= spacingVar;
 									}
