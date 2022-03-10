@@ -181,10 +181,7 @@ namespace CalamityMod
 			if (p is null)
 				return false;
 			CalamityPlayer modPlayer = p.Calamity();
-			if (modPlayer is null)
-				return false;
-
-			return modPlayer.cooldowns.ContainsKey(id);
+			return !(modPlayer is null) && modPlayer.cooldowns.ContainsKey(id);
 		}
 
 		/// <summary>
