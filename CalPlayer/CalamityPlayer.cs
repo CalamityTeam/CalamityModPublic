@@ -1278,6 +1278,9 @@ namespace CalamityMod.CalPlayer
                 totalTicks = newSessionTotal.Ticks;
             }
 
+            // Save all cooldowns which are marked as persisting through save/load.
+            // TODO !: THIS
+
             return new TagCompound
             {
                 { "boost", boost },
@@ -1304,7 +1307,6 @@ namespace CalamityMod.CalPlayer
                 { "defenseDamage", totalDefenseDamage },
                 { "defenseDamageRecoveryFrames", defenseDamageRecoveryFrames },
                 { "totalDefenseDamageRecoveryFrames", totalDefenseDamageRecoveryFrames },
-                { "disableAllDodges", disableAllDodges },
                 { "totalSpeedrunTicks", totalTicks },
 				{ "lastSplitType", lastSplitType },
                 { "lastSplitTicks", lastSplit.Ticks },
@@ -1412,7 +1414,6 @@ namespace CalamityMod.CalPlayer
             totalDefenseDamageRecoveryFrames = tag.GetInt("totalDefenseDamageRecoveryFrames");
             if (totalDefenseDamageRecoveryFrames <= 0)
                 totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
-            disableAllDodges = tag.GetBool("disableAllDodges");
 
             // Load the previous total elapsed time to know where to start the timer when it starts.
             long ticks = tag.GetLong("totalSpeedrunTicks");
