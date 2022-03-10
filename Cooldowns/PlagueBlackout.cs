@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Graphics.Shaders;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
 {
@@ -26,6 +30,38 @@ namespace CalamityMod.Cooldowns
                 Main.dust[d].noGravity = true;
                 Main.dust[d].velocity *= 6.6f;
             }
+        }
+
+
+        //The cooldown is only displayed for the last 1500 frames (the other 300 are used for the actual blackout effect), so adjust the completion of the cooldown to start at 1500 frames and not earlier
+        private float AdjustedCompletion => instance.timeLeft > 1500 ? 0 : 1 - instance.timeLeft / 1500f;
+
+        public override void ApplyBarShaders(float opacity)
+        {
+            //Use the adjusted completion
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseOpacity(opacity);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSaturation(AdjustedCompletion);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseColor(CooldownStartColor);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].UseSecondaryColor(CooldownEndColor);
+            GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
+        }
+
+        public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            Texture2D sprite = GetTexture(Texture);
+            Texture2D outline = GetTexture(OutlineTexture);
+            Texture2D overlay = GetTexture(OverlayTexture);
+
+            //Draw the outline
+            spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the icon
+            spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            //Draw the small overlay
+            int lostHeight = (int)Math.Ceiling(overlay.Height * AdjustedCompletion);
+            Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
+            spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
     }
 }
