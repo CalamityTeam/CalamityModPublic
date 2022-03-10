@@ -2609,10 +2609,8 @@ namespace CalamityMod.CalPlayer
 			if (blueCandle)
 				player.moveSpeed += 0.1f;
 
-			// Original comment below:
-			// Weird mod conflicts with like Luiafk
-			//
-			// I have no idea what this is doing here
+			// If the player has the Draconic Elixir cooldown, prevent Draconic Surge from being set as true by any means.
+			// This can be caused by other mod interference, e.g. by Luiafk.
 			if (player.HasCooldown(Cooldowns.DraconicElixir.ID))
 			{
 				draconicSurge = false;
