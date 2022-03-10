@@ -19,7 +19,8 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public RogueBooster(string skin = "")
+        public RogueBooster() : this("") { }
+        public RogueBooster(string skin)
         {
             switch (skin)
             {

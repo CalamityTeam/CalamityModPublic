@@ -19,7 +19,8 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public GlobalDodge(string skin = "")
+        public GlobalDodge() : this("") { }
+        public GlobalDodge(string skin)
         {
             switch (skin)
             {

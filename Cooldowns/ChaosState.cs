@@ -19,7 +19,8 @@ namespace CalamityMod.Cooldowns
 		public Color cooldownColorStart;
 		public Color cooldownColorEnd;
 
-		public ChaosState(string skin = "")
+		public ChaosState() : this("") { }
+		public ChaosState(string skin)
 		{
 			switch (skin)
 			{

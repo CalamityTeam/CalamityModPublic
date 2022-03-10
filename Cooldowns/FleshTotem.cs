@@ -19,7 +19,8 @@ namespace CalamityMod.Cooldowns
         public Color cooldownColorStart;
         public Color cooldownColorEnd;
 
-        public FleshTotem(string skin = "")
+        public FleshTotem() : this("") { }
+        public FleshTotem(string skin)
         {
             switch (skin)
             {
