@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Cooldowns
 {
 	public class CooldownInstance
 	{
+		private const string NetIDSaveKey = "netID";
+		private const string DurationSaveKey = "duration";
+		private const string TimeLeftSaveKey = "timeLeft";
+
 		public CooldownInstance(Player p, Cooldown cd, int dur)
 		{
 			netID = cd.netID;
@@ -24,6 +29,25 @@ namespace CalamityMod.Cooldowns
 			timeLeft = dur;
 			handler = null;
 			AssignHandler(cd, args);
+		}
+
+		internal CooldownInstance(Player p, string id, TagCompound tag)
+		{
+			netID = (ushort)tag.GetAsInt(NetIDSaveKey);
+			// Correct for netID mismatch if for some reason this occurs.
+			// The string ID of the cooldown overrides whatever the netID may have been saved as.
+			Cooldown cd = CooldownRegistry.Get(id);
+			ushort registeredNetID = cd.netID;
+			if (netID != registeredNetID)
+			{
+				// Log when this occurs, even though it should be harmless.
+				CalamityMod.Instance.Logger.Warn($"Cooldown \"{id}\" loaded from NBT with discrepant netID {netID}. This cooldown was registered with netID {registeredNetID}");
+				netID = registeredNetID;
+			}
+			player = p;
+			duration = tag.GetAsInt(DurationSaveKey);
+			timeLeft = tag.GetAsInt(TimeLeftSaveKey);
+			AssignHandler(cd);
 		}
 
 		/// <summary>
@@ -90,6 +114,20 @@ namespace CalamityMod.Cooldowns
 		/// The handler which implements the behavior of this cooldown instance.
 		/// </summary>
 		public CooldownHandler handler;
+
+		/// <summary>
+		/// Serializes this cooldown instance into a TagCompound for saving with the world.
+		/// </summary>
+		/// <returns>An NBT TagCompound which contains the essential variables of this cooldown instance.</returns>
+		internal TagCompound Save()
+		{
+			return new TagCompound
+			{
+				{ NetIDSaveKey, (int)netID },
+				{ DurationSaveKey, duration },
+				{ TimeLeftSaveKey, timeLeft }
+			};
+		}
 
 		/// <summary>
 		/// Serializes this cooldown instance into binary data for netcode.

@@ -1279,7 +1279,22 @@ namespace CalamityMod.CalPlayer
             }
 
             // Save all cooldowns which are marked as persisting through save/load.
-            // TODO !: THIS
+            TagCompound cooldownsTag = new TagCompound();
+            var cdIterator = cooldowns.GetEnumerator();
+            while (cdIterator.MoveNext())
+            {
+                KeyValuePair<string, CooldownInstance> kv = cdIterator.Current;
+                string id = kv.Key;
+                CooldownInstance instance = kv.Value;
+
+                // If the cooldown isn't supposed to persist, skip it.
+                if (!instance.handler.SavedWithPlayer)
+                    continue;
+
+                // Add this cooldown to the overall cooldowns tag compound using its ID as the string key.
+                TagCompound singleCDTag = instance.Save();
+                cooldownsTag.Add(id, singleCDTag);
+            }
 
             return new TagCompound
             {
@@ -1310,6 +1325,7 @@ namespace CalamityMod.CalPlayer
                 { "totalSpeedrunTicks", totalTicks },
 				{ "lastSplitType", lastSplitType },
                 { "lastSplitTicks", lastSplit.Ticks },
+                { "cooldowns", cooldownsTag },
 			};
         }
 
@@ -1334,9 +1350,9 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
-			finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
+            finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
-			newMerchantInventory = boost.Contains("newMerchantInventory");
+            newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
@@ -1419,10 +1435,27 @@ namespace CalamityMod.CalPlayer
             long ticks = tag.GetLong("totalSpeedrunTicks");
             previousSessionTotal = new TimeSpan(ticks);
             // Also load the last split, so it will show up.
-			lastSplitType = tag.GetInt("lastSplitType");
+            lastSplitType = tag.GetInt("lastSplitType");
             ticks = tag.GetLong("lastSplitTicks");
             lastSplit = new TimeSpan(ticks);
-		}
+
+            // Clear the player's cooldowns in preparation for loading.
+            cooldowns.Clear();
+            if (!tag.ContainsKey("cooldowns"))
+                return;
+
+            // Load cooldowns and add them to the player's cooldown list.
+            TagCompound cooldownsTag = tag.GetCompound("cooldowns");
+            var tagIterator = cooldownsTag.GetEnumerator();
+            while (tagIterator.MoveNext())
+            {
+                KeyValuePair<string, object> kv = tagIterator.Current;
+                string id = kv.Key;
+                TagCompound singleCDTag = cooldownsTag.GetCompound(id);
+                CooldownInstance instance = new CooldownInstance(player, id, singleCDTag);
+                cooldowns.Add(id, instance);
+            }
+        }
         #endregion
 
         #region ResetEffects

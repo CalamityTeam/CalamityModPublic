@@ -37,8 +37,11 @@ namespace CalamityMod.UI
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
-			// Don't draw the cooldowns if the player's inventory is open, or if cooldown display is completely disabled.
-			if (Main.playerInventory || CalamityConfig.Instance.CooldownDisplay < 1)
+			// Don't draw cooldowns under the following conditions:
+			// 1 - The game isn't even on the game screen yet.
+			// 2 - The player's inventory is open.
+			// 3 - Cooldown display is completely disabled.
+			if (Main.gameMenu || Main.playerInventory || CalamityConfig.Instance.CooldownDisplay < 1)
 				return;
 
 			IList<CooldownInstance> cooldownsToDraw = Main.LocalPlayer.GetDisplayedCooldowns();

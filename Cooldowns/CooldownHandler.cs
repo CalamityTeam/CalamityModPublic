@@ -42,7 +42,7 @@ namespace CalamityMod.Cooldowns
 		/// Set this to true to make this cooldown persist through saves and loads.<br/>
 		/// All cooldowns with SavedWithPlayer set to true are serialized into the modded player file.
 		/// </summary>
-		public virtual bool SavedWithPlayer => false;
+		public virtual bool SavedWithPlayer => true;
 
 		/// <summary>
 		/// When the cooldown instance ends, this sound is played. Leave at <b>null</b> for no sound.
