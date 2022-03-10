@@ -4,9 +4,9 @@ using Terraria;
 
 namespace CalamityMod.Cooldowns
 {
-	public struct CooldownInstance
+	public class CooldownInstance
 	{
-		public CooldownInstance(Player p, Cooldown<CooldownHandler> cd, int dur)
+		public CooldownInstance(Player p, Cooldown cd, int dur)
 		{
 			netID = cd.netID;
 			player = p;
@@ -16,7 +16,7 @@ namespace CalamityMod.Cooldowns
 			AssignHandler(cd);
 		}
 
-		public CooldownInstance(Player p, Cooldown<CooldownHandler> cd, int dur, params object[] args)
+		public CooldownInstance(Player p, Cooldown cd, int dur, params object[] args)
 		{
 			netID = cd.netID;
 			player = p;
@@ -26,15 +26,37 @@ namespace CalamityMod.Cooldowns
 			AssignHandler(cd, args);
 		}
 
-		internal void AssignHandler(Cooldown<CooldownHandler> cd)
+		/// <summary>
+		/// Creates a cooldown instance from serialized binary data, used in netcode.
+		/// </summary>
+		/// <param name="reader">Reader of the binary stream.</param>
+		internal CooldownInstance(BinaryReader reader)
 		{
-			handler = Activator.CreateInstance(cd.GetType().GenericTypeArguments[0]) as CooldownHandler;
+			netID = reader.ReadUInt16();
+			byte playerIDByte = reader.ReadByte();
+			player = Main.player[playerIDByte];
+			duration = reader.ReadInt32();
+			timeLeft = reader.ReadInt32();
+
+			string id = CooldownRegistry.registry[netID].ID;
+			AssignHandler(CooldownRegistry.Get(id));
+		}
+
+		// These two functions make the blind reflection assumption that every Cooldown passed to them will actually be
+		// Cooldown<T : CooldownHandler>
+		// (which they all will be, of course, because nobody instantiates Cooldown)
+
+		internal void AssignHandler(Cooldown cd)
+		{
+			Type handlerT = cd.GetType().GenericTypeArguments[0];
+			handler = Activator.CreateInstance(handlerT) as CooldownHandler;
 			handler.instance = this;
 		}
 
-		internal void AssignHandler(Cooldown<CooldownHandler> cd, params object[] args)
+		internal void AssignHandler(Cooldown cd, params object[] args)
 		{
-			handler = Activator.CreateInstance(cd.GetType().GenericTypeArguments[0], args) as CooldownHandler;
+			Type handlerT = cd.GetType().GenericTypeArguments[0];
+			handler = Activator.CreateInstance(handlerT, args) as CooldownHandler;
 			handler.instance = this;
 		}
 
@@ -80,20 +102,6 @@ namespace CalamityMod.Cooldowns
 			writer.Write(playerIDByte);
 			writer.Write(duration);
 			writer.Write(timeLeft);
-		}
-
-		/// <summary>
-		/// Defines this cooldown instance from serialized binary data, used in netcode.
-		/// </summary>
-		/// <param name="reader">Reader of the binary stream.</param>
-		internal void Read(BinaryReader reader)
-		{
-			netID = reader.ReadUInt16();
-			byte playerIDByte = reader.ReadByte();
-			player = Main.player[playerIDByte];
-			duration = reader.ReadInt32();
-			timeLeft = reader.ReadInt32();
-			AssignHandler(CooldownRegistry.registry[netID]);
 		}
 	}
 }

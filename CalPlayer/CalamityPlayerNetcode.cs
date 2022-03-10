@@ -152,6 +152,8 @@ namespace CalamityMod.CalPlayer
 
         public void SyncCooldownAddition(bool server, CooldownInstance cd)
         {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownAddition);
             cd.Write(packet);
@@ -160,6 +162,8 @@ namespace CalamityMod.CalPlayer
 
         public void SyncCooldownRemoval(bool server, IList<string> cooldownIDs)
         {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownRemoval);
             packet.Write(cooldownIDs.Count);
@@ -170,6 +174,8 @@ namespace CalamityMod.CalPlayer
 
         public void SyncCooldownDictionary(bool server)
         {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
             ModPacket packet = mod.GetPacket(1024);
             packet.Write((byte)CalamityModMessageType.SyncCooldownDictionary);
             packet.Write(cooldowns.Count);
@@ -292,9 +298,7 @@ namespace CalamityMod.CalPlayer
         internal void HandleCooldownAddition(BinaryReader reader)
         {
             // The player ID and message ID are already read. The only remaining data is the serialization of the cooldown instance.
-            CooldownInstance instance = new CooldownInstance();
-            // The disposable cooldown handler is instantiated in the Read method.
-            instance.Read(reader);
+            CooldownInstance instance = new CooldownInstance(reader);
 
             // Actually assign this freshly synced cooldown to the appropriate player.
             string id = CooldownRegistry.registry[instance.netID].ID;
@@ -321,8 +325,7 @@ namespace CalamityMod.CalPlayer
             Dictionary<ushort, CooldownInstance> syncedCooldowns = new Dictionary<ushort, CooldownInstance>(count);
             for (int i = 0; i < count; ++i)
             {
-                CooldownInstance instance = new CooldownInstance();
-                instance.Read(reader);
+                CooldownInstance instance = new CooldownInstance(reader);
                 syncedCooldowns[instance.netID] = instance;
             }
 

@@ -7,7 +7,7 @@ namespace CalamityMod.Cooldowns
 		// Indexed by ushort netID. Contains every registered cooldown.
 		// Cooldowns are given netIDs when they are registered.
 		// Cooldowns are useless until they are registered.
-		public static Cooldown<CooldownHandler>[] registry;
+		public static Cooldown[] registry;
 		private const ushort defaultSize = 256;
 		private static ushort nextCDNetID = 0;
 
@@ -15,7 +15,7 @@ namespace CalamityMod.Cooldowns
 
 		public static void Load()
 		{
-			registry = new Cooldown<CooldownHandler>[defaultSize];
+			registry = new Cooldown[defaultSize];
 			nameToNetID = new Dictionary<string, ushort>(defaultSize);
 
 			// TODO -- CooldownHandlers should be ILoadable in 1.4
@@ -62,7 +62,7 @@ namespace CalamityMod.Cooldowns
 			nameToNetID = null;
 		}
 
-		public static Cooldown<CooldownHandler> Get(string id)
+		public static Cooldown Get(string id)
 		{
 			bool hasValue = nameToNetID.TryGetValue(id, out ushort netID);
 			return hasValue ? registry[netID] : null;
@@ -83,12 +83,13 @@ namespace CalamityMod.Cooldowns
 
 			Cooldown<HandlerT> cd = new Cooldown<HandlerT>(id, nextCDNetID);
 			nameToNetID[cd.ID] = cd.netID;
+			registry[cd.netID] = cd;
 			++nextCDNetID;
 
 			// If the end of the array is reached, double its size.
 			if (nextCDNetID == currentMaxID && currentMaxID < ushort.MaxValue)
 			{
-				Cooldown<CooldownHandler>[] largerArray = new Cooldown<CooldownHandler>[currentMaxID * 2];
+				Cooldown[] largerArray = new Cooldown[currentMaxID * 2];
 				for (int i = 0; i < currentMaxID; ++i)
 					largerArray[i] = registry[i];
 
