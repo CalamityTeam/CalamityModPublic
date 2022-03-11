@@ -217,12 +217,39 @@ namespace CalamityMod.Projectiles.Melee
                 ChargeSoundCooldown--;
             }
 
-            Shred -= 0.5f;
+            Shred -= OmegaBiomeBlade.SuperPogoAttunement_ShredDecayRate;
             PogoCooldown--;
             BounceTime--;
             if (projectile.timeLeft <= 2)
                 projectile.timeLeft = 2;
         }
+
+        //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_ShredderProc)
+                sword.OnHitProc = true;
+
+            float deviationFromBaseDamage = damage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(OmegaBiomeBlade.SuperPogoAttunement_BaseDamage * deviationFromBaseDamage, OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            float deviationFromBaseDamage = damage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(OmegaBiomeBlade.SuperPogoAttunement_BaseDamage * deviationFromBaseDamage, OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)OmegaBiomeBlade.SuperPogoAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
+        }
+
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget();
         public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget();
@@ -257,12 +284,6 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.velocity *= 0.1f; //Abrupt stop
             }
             Owner.Calamity().LungingDown = false;
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_ShredderProc)
-                sword.OnHitProc = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

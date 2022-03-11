@@ -91,11 +91,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             Vector2 projectileHalfLenght = 85f * projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
-            //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit
+            //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit & get some bonus damage
             if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
             {
                 if (SnapCoyoteTime > 0f)
                 {
+                    damage = (int)(damage * TrueBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier);
                     crit = true;
                     for (int i = 0; i < 4; i++)
                     {

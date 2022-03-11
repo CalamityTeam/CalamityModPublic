@@ -22,11 +22,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
         public override bool CloneNewInstances => true;
 
-        public static float NeedleDamageMultiplier = 0.5f; //Damage on the non-homing needle projectile
+        public static float NeedleDamageMultiplier = 0.7f; //Damage on the non-homing needle projectile
         public static float MaxThrowReach = 620;
         public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
 
-        public static float chargeDamageMultiplier = 1.6f; //Extra damage from charge
+        public static float chargeDamageMultiplier = 1.3f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
 
         public static int DashIframes = 10;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
         public static float SwirlBoltAmount = 7f; //The amount of cosmic bolts produced during hte swirl attack
-        public static float SwirlBoltDamageMultiplier = 0.8f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
+        public static float SwirlBoltDamageMultiplier = 1.5f; //This is the damage multiplier for ALL THE BOLTS: Aka, said damage multiplier is divided by the amount of bolts in a swirl and the full damage multiplier is gotten if you hit all the bolts
 
         const string ComboTooltip = "Performs a combo of swings, alternating between narrow and wide swings and throwing the blade out every 5 swings\n" +
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 136;
-            item.damage = 2022;
+            item.damage = 2222;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;

@@ -167,11 +167,34 @@ namespace CalamityMod.Projectiles.Melee
                 ChargeSoundCooldown--;
             }
 
-            Shred -= 0.5f;
+            Shred -= TrueBiomeBlade.HotAttunement_ShredDecayRate;
             PogoCooldown--;
             BounceTime--;
             if (projectile.timeLeft <= 2)
                 projectile.timeLeft = 2;
+        }
+
+        //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            float deviationFromBaseDamage = damage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(TrueBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, TrueBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)TrueBiomeBlade.HotAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            float deviationFromBaseDamage = damage / (float)TrueBiomeBlade.HotAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(TrueBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, TrueBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)TrueBiomeBlade.HotAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget();

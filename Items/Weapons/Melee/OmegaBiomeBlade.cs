@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
         public static int SuperPogoAttunement_BaseDamage = 500;
+        public static int SuperPogoAttunement_FullChargeDamage = 750;
         public static int SuperPogoAttunement_ShredIFrames = 10;
         public static int SuperPogoAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int SuperPogoAttunement_LocalIFramesCharged = 16;
@@ -50,6 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int SuperPogoAttunementSlashLifesteal = 6;
         public static int SuperPogoAttunement_SlashIFrames = 60;
         public static float SuperPogoAttunement_ShotDamageBoost = 2f;
+        public static float SuperPogoAttunement_ShredDecayRate = 0.7f;//How much charge is lost per frame.
 
         public static int SuperPogoAttunement_PassiveLifeSteal = 10;
 

@@ -33,26 +33,29 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int DefaultAttunement_BeamTime = 60;
         public static float DefaultAttunement_HomingAngle = MathHelper.PiOver4;
 
-        public static int EvilAttunement_BaseDamage = 320;
-        public static int EvilAttunement_Lifesteal = 4;
+        public static int EvilAttunement_BaseDamage = 195;
+        public static int EvilAttunement_Lifesteal = 2;
         public static int EvilAttunement_BounceIFrames = 10;
         public static float EvilAttunement_SlashDamageBoost = 3f;
         public static int EvilAttunement_SlashIFrames = 60;
 
         public static int ColdAttunement_BaseDamage = 200;
-        public static float ColdAttunement_SecondSwingBoost = 1.2f;
-        public static float ColdAttunement_ThirdSwingBoost = 1.6f;
+        public static float ColdAttunement_SecondSwingBoost = 1.15f;
+        public static float ColdAttunement_ThirdSwingBoost = 1.45f;
         public static float ColdAttunement_MistDamageReduction = 0.04f;
 
         public static int HotAttunement_BaseDamage = 320;
+        public static int HotAttunement_FullChargeDamage = 480;
         public static int HotAttunement_ShredIFrames = 8;
         public static float HotAttunement_ShotDamageBoost = 3.5f;
         public static int HotAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int HotAttunement_LocalIFramesCharged = 16;
+        public static float HotAttunement_ShredDecayRate = 0.7f; //How much charge is lost per frame.
 
-        public static int TropicalAttunement_BaseDamage = 160;
-        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static int TropicalAttunement_BaseDamage = 190;
+        public static float TropicalAttunement_ChainDamageReduction = 0.6f;
         public static float TropicalAttunement_VineDamageReduction = 0.5f;
+        public static float TropicalAttunement_SweetSpotDamageMultiplier = 1.2f; //It also crits, so be mindful of that
         public static int TropicalAttunement_LocalIFrames = 60; //Be warned its got 2 extra updates so all the iframes should be divided in 3
 
         public static int HolyAttunement_BaseDamage = 160;

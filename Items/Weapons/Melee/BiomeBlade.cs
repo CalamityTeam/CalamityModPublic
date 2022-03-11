@@ -25,25 +25,28 @@ namespace CalamityMod.Items.Weapons.Melee
         public int CanLunge = 1;
 
         #region stats
-        public static int BaseDamage = 50;
+        public static int BaseDamage = 47;
 
-        public static int DefaultAttunement_BaseDamage = 55;
+        public static int DefaultAttunement_BaseDamage = 47;
 
-        public static int EvilAttunement_BaseDamage = 102;
-        public static int EvilAttunement_Lifesteal = 3;
+        public static int EvilAttunement_BaseDamage = 63;
+        public static int EvilAttunement_Lifesteal = 2;
         public static int EvilAttunement_BounceIFrames = 10;
 
         public static int ColdAttunement_BaseDamage = 58;
-        public static float ColdAttunement_SecondSwingBoost = 1.2f; 
-        public static float ColdAttunement_ThirdSwingBoost = 1.6f;
+        public static float ColdAttunement_SecondSwingBoost = 1.14f; 
+        public static float ColdAttunement_ThirdSwingBoost = 1.4f;
 
         public static int HotAttunement_BaseDamage = 70;
+        public static int HotAttunement_FullChargeDamage = 105;
         public static int HotAttunement_ShredIFrames = 8;
         public static int HotAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int HotAttunement_LocalIFramesCharged = 16;
+        public static float HotAttunement_ShredDecayRate = 0.7f; //How much charge is lost per frame.
 
-        public static int TropicalAttunement_BaseDamage = 55;
-        public static float TropicalAttunement_ChainDamageReduction = 0.5f;
+        public static int TropicalAttunement_BaseDamage = 65;
+        public static float TropicalAttunement_ChainDamageReduction = 0.6f;
+        public static float TropicalAttunement_SweetSpotDamageMultiplier = 1.2f; //It also crits, so be mindful of that
         public static int TropicalAttunement_LocalIFrames = 60; //Be warned its got 2 extra updates so all the iframes should be divided in 3
         #endregion
 

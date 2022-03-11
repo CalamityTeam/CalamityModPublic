@@ -152,13 +152,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.netUpdate = true;
             projectile.netSpam = 0;
 
+            if (Main.myPlayer != Owner.whoAmI || CanBounce == 0f)
+                return;
+
             if (!cannotLifesteal) //trolled
             {
                 Owner.statLife += TrueBiomeBlade.EvilAttunement_Lifesteal;
                 Owner.HealEffect(TrueBiomeBlade.EvilAttunement_Lifesteal); //Idk if its too much or what but at the same time its close range as fuck
             }
-            if (Main.myPlayer != Owner.whoAmI || CanBounce == 0f)
-                return;
+
             // Bounce off
             float bounceStrength = Math.Max((LungeSpeed / 2f), Owner.velocity.Length());
             bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground 

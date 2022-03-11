@@ -233,10 +233,35 @@ namespace CalamityMod.Projectiles.Melee
             }
 
 
-            Shred += 1;
+            Shred += FourSeasonsGalaxia.PolarisAttunement_ShredChargeupGain;
             HitChargeCooldown--;
             projectile.timeLeft = 2;
         }
+
+        //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            float deviationFromBaseDamage = damage / (float)FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(FourSeasonsGalaxia.PolarisAttunement_BaseDamage * deviationFromBaseDamage, FourSeasonsGalaxia.PolarisAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)FourSeasonsGalaxia.PolarisAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            float deviationFromBaseDamage = damage / (float)FourSeasonsGalaxia.PolarisAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(FourSeasonsGalaxia.PolarisAttunement_BaseDamage * deviationFromBaseDamage, FourSeasonsGalaxia.PolarisAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+
+            //Adjust the damage to make it constant based on the local iframes
+            float damageReduction = projectile.localNPCHitCooldown / (float)FourSeasonsGalaxia.PolarisAttunement_LocalIFrames;
+
+            damage = (int)(currentDamage * damageReduction);
+        }
+
+
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget();
         public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget();

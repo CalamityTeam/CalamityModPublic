@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public float Combo = 1f;
         public float Charge = 0f;
-        public static float chargeDamageMultiplier = 1.75f; //Extra damage from charge
+        public static float chargeDamageMultiplier = 1.45f; //Extra damage from charge
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
         public static float glassStarDamageMultiplier = 0.2f; //Damage multiplier for the glass stars it shoots (Shoots 3x glass stars when not charged, shoots 2x glass stars + one beam when charged)
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = item.height = 72;
-            item.damage = 148;
+            item.damage = 188;
             item.melee = true;
             item.noUseGraphic = true;
             item.noMelee = true;
