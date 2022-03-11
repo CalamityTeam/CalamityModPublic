@@ -2001,7 +2001,7 @@ namespace CalamityMod
 					GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
 					return null;
 
-				case "RegisterModCoodlowns":
+				case "RegisterModCooldowns":
 					if (args.Length != 2 || !(args[1] is Mod))
 						return new ArgumentNullException("ERROR: Must specify a Mod instance to register cooldowns from.");
 
