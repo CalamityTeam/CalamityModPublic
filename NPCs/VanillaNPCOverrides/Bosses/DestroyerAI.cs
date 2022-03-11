@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 int type = ProjectileID.DeathLaser;
                                 int damage = npc.GetProjectileDamage(type);
-                                int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 9 : 6;
+                                int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 7 : 4;
                                 int spread = 54;
                                 float rotation = MathHelper.ToRadians(spread);
                                 float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
