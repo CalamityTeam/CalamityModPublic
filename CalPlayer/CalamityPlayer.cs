@@ -2187,19 +2187,31 @@ namespace CalamityMod.CalPlayer
         #region UpdateDead
         public override void UpdateDead()
         {
-            // Remove all cooldowns which do not persist through death.
+            // This function runs every frame the player is dead, so if the player does not have any cooldowns, don't try to remove any.
             if (cooldowns.Count > 0)
             {
-                bool removedAnyCooldowns = false;
-                var cooldownEntriesToRemove = cooldowns.Where((kv) => !kv.Value.handler.PersistsThroughDeath);
-                foreach (var kv in cooldownEntriesToRemove)
+                // Iterate through all cooldowns and find those which do not persist through death.
+                IList<string> removedCooldowns = new List<string>(16);
+                var cdIterator = cooldowns.GetEnumerator();
+                while (cdIterator.MoveNext())
                 {
-                    cooldowns.Remove(kv.Key);
-                    removedAnyCooldowns = true;
+                    KeyValuePair<string, CooldownInstance> kv = cdIterator.Current;
+                    string id = kv.Key;
+                    CooldownInstance instance = kv.Value;
+                    CooldownHandler handler = instance.handler;
+                    if (!handler.PersistsThroughDeath)
+                        removedCooldowns.Add(id);
                 }
+                cdIterator.Dispose();
 
-                if (removedAnyCooldowns)
+                // Actually remove all cooldowns which do not persist through death.
+                // If any cooldowns were removed, net sync the remaining cooldown dictionary.
+                if (removedCooldowns.Count > 0)
+                {
+                    foreach (string cdID in removedCooldowns)
+                        cooldowns.Remove(cdID);
                     SyncCooldownDictionary(Main.netMode == NetmodeID.Server);
+                }
             }
 
             #region Debuffs
