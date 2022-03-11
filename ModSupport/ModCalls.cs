@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
@@ -1999,6 +2000,14 @@ namespace CalamityMod
 
 					GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
 					return null;
+
+				case "RegisterModCoodlowns":
+					if (args.Length != 2 || !(args[1] is Mod))
+						return new ArgumentNullException("ERROR: Must specify a Mod instance to register cooldowns from.");
+
+					CooldownRegistry.RegisterModCooldowns(args[1] as Mod);
+					return null;
+
 
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");
