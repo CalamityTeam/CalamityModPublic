@@ -31,13 +31,13 @@ namespace CalamityMod.Items.Weapons.Melee
         #region stats
         public static int BaseDamage = 400;
 
-        public static int WhirlwindAttunement_BaseDamage = 400;
+        public static int WhirlwindAttunement_BaseDamage = 300;
         public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
         public static int WhirlwindAttunement_SigilTime = 1200;
         public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
-        public static float WhirlwindAttunement_BaseDamageReduction = 0.2f;
-        public static float WhirlwindAttunement_FullChargeDamageBoost = 2.4f;
-        public static float WhirlwindAttunement_ThrowDamageBoost = 3f;
+        public static float WhirlwindAttunement_BaseDamageReduction = 0.4f;
+        public static float WhirlwindAttunement_FullChargeDamageBoost = 2f;
+        public static float WhirlwindAttunement_ThrowDamageBoost = 3.8f;
 
         public static int WhirlwindAttunement_PassiveBaseDamage = 200;
 
@@ -58,8 +58,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int ShockwaveAttunement_BaseDamage = 2500;
         public static int ShockwaveAttunement_DashHitIFrames = 60;
-        public static float ShockwaveAttunement_FullChargeBoost = 5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float ShockwaveAttunement_FullChargeBoost = 4f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
         public static float ShockwaveAttunement_MonolithDamageBoost = 2f;
+        public static float ShockwaveAttunement_MonolithDamageFalloff = 0.1f; //Damage multiplier for all subsequent hits after the first one.
         public static float ShockwaveAttunement_BlastDamageReduction = 0.6f;
 
         public static int ShockwaveAttunement_PassiveBaseDamage = 200;

@@ -133,6 +133,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Center = projectile.Center + projectile.velocity * 40f;
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (projectile.numHits > 0)
+                damage = (int)(damage * TrueBiomeBlade.AstralAttunement_MonolithDamageFalloff);
+        }
+
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (WaitTimer > 0)
