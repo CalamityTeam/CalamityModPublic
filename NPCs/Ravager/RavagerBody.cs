@@ -787,8 +787,7 @@ namespace CalamityMod.NPCs.Ravager
                     DropHelper.WeightStack<RealmRavager>(w),
                     DropHelper.WeightStack<Hematemesis>(w),
                     DropHelper.WeightStack<SpikecragStaff>(w),
-                    DropHelper.WeightStack<CraniumSmasher>(w),
-					DropHelper.WeightStack<Vesuvius>(w)
+                    DropHelper.WeightStack<CraniumSmasher>(w)
 				);
 
 				// Equipment
@@ -799,6 +798,8 @@ namespace CalamityMod.NPCs.Ravager
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerMask>(), 7);
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), !Main.expertMode, 0.1f);
 
             // Mark Ravager as dead
             CalamityWorld.downedScavenger = true;

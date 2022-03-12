@@ -210,8 +210,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                     DropHelper.WeightStack<Downpour>(w),
                     DropHelper.WeightStack<DeepseaStaff>(w),
                     DropHelper.WeightStack<ScourgeoftheSeas>(w),
-					DropHelper.WeightStack<SeasSearing>(w),
-					DropHelper.WeightStack<DeepDiver>(w),
 					DropHelper.WeightStack<CorrosiveSpine>(w)
 				);
 
@@ -224,6 +222,9 @@ namespace CalamityMod.NPCs.AquaticScourge
                 // Fishing
                 DropHelper.DropItem(npc, ModContent.ItemType<BleachedAnglingKit>());
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), !Main.expertMode, 0.1f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), !Main.expertMode, 0.1f);
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
             if (!CalamityWorld.downedAquaticScourge)

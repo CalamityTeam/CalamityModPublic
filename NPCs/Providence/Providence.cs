@@ -1496,8 +1496,7 @@ namespace CalamityMod.NPCs.Providence
 					DropHelper.WeightStack<BlissfulBombardier>(w),
 					DropHelper.WeightStack<PurgeGuzzler>(w),
 					DropHelper.WeightStack<DazzlingStabberStaff>(w),
-					DropHelper.WeightStack<MoltenAmputator>(w),
-					DropHelper.WeightStack<PristineFury>(w)
+					DropHelper.WeightStack<MoltenAmputator>(w)
 				);
 
 				// Equipment
@@ -1507,7 +1506,9 @@ namespace CalamityMod.NPCs.Providence
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.Top.Y >= (Main.maxTilesY - 240f) * 16f)
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), !Main.expertMode, 0.1f);
+
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.Top.Y >= (Main.maxTilesY - 240f) * 16f)
                 SpawnLootBox();
 
             // If Providence has not been killed, notify players of Uelibloom Ore

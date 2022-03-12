@@ -55,16 +55,16 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Downpour>(w),
                 DropHelper.WeightStack<DeepseaStaff>(w),
                 DropHelper.WeightStack<ScourgeoftheSeas>(w),
-				DropHelper.WeightStack<DeepDiver>(w),
-				DropHelper.WeightStack<SeasSearing>(w),
 				DropHelper.WeightStack<CorrosiveSpine>(w)
 			);
 
 			// Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), 0.1f);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SeasSearing>(), 0.1f);
 
-			// Vanity
-			DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
+            // Vanity
+            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
             DropHelper.DropItem(player, ModContent.ItemType<BleachedAnglingKit>());

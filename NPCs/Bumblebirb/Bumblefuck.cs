@@ -413,7 +413,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 					DropHelper.WeightStack<GildedProboscis>(w),
 					DropHelper.WeightStack<GoldenEagle>(w),
 					DropHelper.WeightStack<RougeSlash>(w),
-					DropHelper.WeightStack<Swordsplosion>(w),
 					DropHelper.WeightStack<BirdSeed>(w)
 				);
 
@@ -424,8 +423,10 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            // Mark The Dragonfolly as dead
-            CalamityWorld.downedBumble = true;
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), !Main.expertMode, 0.1f);
+
+			// Mark The Dragonfolly as dead
+			CalamityWorld.downedBumble = true;
             CalamityNetcode.SyncWorld();
         }
 
