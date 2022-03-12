@@ -55,13 +55,13 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<AuroraBlazer>(w),
                 DropHelper.WeightStack<AlulaAustralis>(w),
                 DropHelper.WeightStack<BorealisBomber>(w),
-                DropHelper.WeightStack<AuroradicalThrow>(w),
-				DropHelper.WeightStack<LeonidProgenitor>(w)
+                DropHelper.WeightStack<AuroradicalThrow>(w)
 			);
 
 			// Equipment
 			DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
             DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<LeonidProgenitor>(), 0.1f);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<AureusMask>(), 7);

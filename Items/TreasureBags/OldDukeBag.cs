@@ -52,12 +52,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<VitriolicViper>(w),
                 DropHelper.WeightStack<CadaverousCarrion>(w),
                 DropHelper.WeightStack<ToxicantTwister>(w),
-				DropHelper.WeightStack<TheReaper>(w),
 				DropHelper.WeightStack<DukeScales>(w)
 			);
 
 			// Equipment
             DropHelper.DropItem(player, ModContent.ItemType<MutatedTruffle>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheReaper>(), 0.1f);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<OldDukeMask>(), 7);

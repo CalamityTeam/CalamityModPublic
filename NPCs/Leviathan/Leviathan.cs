@@ -730,8 +730,7 @@ namespace CalamityMod.NPCs.Leviathan
                     DropHelper.WeightStack<GastricBelcherStaff>(w),
                     DropHelper.WeightStack<BrackishFlask>(w),
                     DropHelper.WeightStack<LeviathanTeeth>(w),
-					DropHelper.WeightStack<LureofEnthrallment>(w),
-					DropHelper.WeightStack<TheCommunity>(w)
+					DropHelper.WeightStack<LureofEnthrallment>(w)
 				);
 
 				// Equipment
@@ -749,6 +748,8 @@ namespace CalamityMod.NPCs.Leviathan
                 DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 5, 8);
                 DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 5, 8);
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), !Main.expertMode, 0.1f);
 
             // Mark Siren & Levi as dead
             CalamityWorld.downedLeviathan = true;

@@ -1065,7 +1065,6 @@ namespace CalamityMod.NPCs.Cryogen
                     DropHelper.WeightStack<SnowstormStaff>(w),
                     DropHelper.WeightStack<Icebreaker>(w),
 					DropHelper.WeightStack<CryoStone>(w),
-					DropHelper.WeightStack<ColdDivinity>(w),
 					DropHelper.WeightStack<FrostFlare>(w)
 				);
 
@@ -1075,6 +1074,8 @@ namespace CalamityMod.NPCs.Cryogen
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);
             }
+
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), !Main.expertMode, 0.1f);
 
 			// Other
 			DropHelper.DropItemChance(npc, ItemID.FrozenKey, 3);

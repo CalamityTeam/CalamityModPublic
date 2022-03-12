@@ -53,15 +53,15 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GastricBelcherStaff>(w),
                 DropHelper.WeightStack<BrackishFlask>(w),
                 DropHelper.WeightStack<LeviathanTeeth>(w),
-				DropHelper.WeightStack<LureofEnthrallment>(w),
-				DropHelper.WeightStack<TheCommunity>(w)
+				DropHelper.WeightStack<LureofEnthrallment>(w)
 			);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheCommunity>(), 0.1f);
 
-			// Vanity
-			DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
+            // Vanity
+            DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
             DropHelper.DropItemChance(player, ModContent.ItemType<AnahitaMask>(), 7);
 
             // Fishing

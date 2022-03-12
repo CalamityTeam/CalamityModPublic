@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfDeliverance>(), 4);
-			DropHelper.DropItem(npc, ModContent.ItemType<SamuraiBadge>(), true);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 10);
 			DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
 

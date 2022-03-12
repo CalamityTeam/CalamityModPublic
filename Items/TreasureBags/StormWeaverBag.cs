@@ -41,7 +41,7 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
 			DropHelper.DropItemChance(player, ModContent.ItemType<TheStorm>(), DropHelper.BagWeaponDropRateInt);
 			DropHelper.DropItemChance(player, ModContent.ItemType<StormDragoon>(), DropHelper.BagWeaponDropRateInt);
-			DropHelper.DropItemChance(player, ModContent.ItemType<Thunderstorm>(), DropHelper.BagWeaponDropRateInt);
+			DropHelper.DropItemChance(player, ModContent.ItemType<Thunderstorm>(), 0.1f);
 
 			// Equipment (None yet boohoo)
 

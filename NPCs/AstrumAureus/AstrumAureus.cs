@@ -342,8 +342,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     DropHelper.WeightStack<AuroraBlazer>(w),
                     DropHelper.WeightStack<AlulaAustralis>(w),
                     DropHelper.WeightStack<BorealisBomber>(w),
-                    DropHelper.WeightStack<AuroradicalThrow>(w),
-					DropHelper.WeightStack<LeonidProgenitor>(w)
+                    DropHelper.WeightStack<AuroradicalThrow>(w)
 				);
 
 				// Equipment
@@ -357,8 +356,10 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);
             }
 
-			// Other
-			DropHelper.DropItemChance(npc, ItemID.HallowedKey, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), !Main.expertMode, 0.1f);
+
+            // Other
+            DropHelper.DropItemChance(npc, ItemID.HallowedKey, 3);
 
 			// Drop an Astral Meteor if applicable
 			ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());

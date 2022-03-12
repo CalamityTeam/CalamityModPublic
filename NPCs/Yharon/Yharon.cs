@@ -2826,8 +2826,7 @@ namespace CalamityMod.NPCs.Yharon
                     DropHelper.WeightStack<PhoenixFlameBarrage>(w),
                     DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
                     DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                    DropHelper.WeightStack<FinalDawn>(w),
-                    DropHelper.WeightStack<YharimsCrystal>(w)
+                    DropHelper.WeightStack<FinalDawn>(w)
                 );
 
                 // Vanity
@@ -2844,6 +2843,8 @@ namespace CalamityMod.NPCs.Yharon
                 DropHelper.DropItem(npc, ModContent.ItemType<YharimsGift>(), true);
                 DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), true);
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), !Main.expertMode, 0.1f);
 
             // Vanity
             DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);

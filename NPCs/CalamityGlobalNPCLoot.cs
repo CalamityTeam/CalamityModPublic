@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
 
 				DropHelper.DropItemCondition(npc, ItemID.RoyalGel, true, !Main.expertMode);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), !Main.expertMode, 0.1f);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
 				SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs
 			{
 				DropHelper.DropItemCondition(npc, ItemID.EoCShield, true, !Main.expertMode);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 0.1f);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
 
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs
 
 				DropHelper.DropItemCondition(npc, ItemID.HiveBackpack, true, !Main.expertMode);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), !Main.expertMode, 0.1f);
 
 				DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10); // Extra stingers
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
@@ -178,14 +178,13 @@ namespace CalamityMod.NPCs
 						ModContent.ItemType<Meowthrower>(),
 						ItemID.LaserRifle,
 						ModContent.ItemType<BlackHawkRemote>(),
-						ModContent.ItemType<BlastBarrel>(),
-						ModContent.ItemType<Carnage>()
+						ModContent.ItemType<BlastBarrel>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, wofWeapons);
 					DropHelper.BlockDrops(wofWeapons);
 
-					// Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
-					int[] emblems = new int[]
+                    // Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
+                    int[] emblems = new int[]
 					{
 						ItemID.WarriorEmblem,
 						ItemID.RangerEmblem,
@@ -197,8 +196,10 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(emblems);
 				}
 
-				// Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
-				float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), !Main.expertMode, 0.1f);
+
+                // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
+                float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
 				DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), true, hermitBoxChance);
 
 				DropHelper.DropItemFromSetChance(npc, DropHelper.BagWeaponDropRateFloat, ItemID.CorruptionKey, ItemID.CrimsonKey);
@@ -240,9 +241,9 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, DraedonMayhem, 8, 16);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, DraedonMayhem, 8, 16);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), !Main.expertMode, DropHelper.NormalWeaponDropRateFloat);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), !Main.expertMode, 0.1f);
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
 				SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
 				SetNewBossJustDowned(npc);
@@ -302,14 +303,15 @@ namespace CalamityMod.NPCs
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
 						ItemID.WaspGun,
-						ModContent.ItemType<BlossomFlux>(),
 						ModContent.ItemType<BloomStone>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
                 }
 
-				DropHelper.DropItemCondition(npc, ItemID.SporeSac, true, !Main.expertMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BlossomFlux>(), !Main.expertMode, 0.1f);
+
+                DropHelper.DropItemCondition(npc, ItemID.SporeSac, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
 				DropHelper.DropItemChance(npc, ItemID.JungleKey, 3);
@@ -360,16 +362,17 @@ namespace CalamityMod.NPCs
 						ItemID.HeatRay,
 						ItemID.StaffofEarth,
 						ItemID.EyeoftheGolem,
-						ItemID.SunStone,
-						ModContent.ItemType<AegisBlade>()
+						ItemID.SunStone
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, golemItems);
 					DropHelper.BlockDrops(golemItems);
 				}
 
-				// If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
-				// The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
-				DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !Main.expertMode && !NPC.downedGolemBoss);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<AegisBlade>(), !Main.expertMode, 0.1f);
+
+                // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
+                // The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
+                DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !Main.expertMode && !NPC.downedGolemBoss);
 
 				DropHelper.DropItemCondition(npc, ItemID.ShinyStone, true, !Main.expertMode);
 
@@ -421,14 +424,15 @@ namespace CalamityMod.NPCs
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
 						ItemID.FishronWings,
-						ModContent.ItemType<DukesDecapitator>(),
-						ModContent.ItemType<BrinyBaron>()
+						ModContent.ItemType<DukesDecapitator>()
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
 				}
 
-				DropHelper.DropItemCondition(npc, ItemID.ShrimpyTruffle, true, !Main.expertMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BrinyBaron>(), !Main.expertMode, 0.1f);
+
+                DropHelper.DropItemCondition(npc, ItemID.ShrimpyTruffle, true, !Main.expertMode);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
 				SetNewBossJustDowned(npc);

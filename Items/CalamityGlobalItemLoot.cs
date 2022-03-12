@@ -46,12 +46,12 @@ namespace CalamityMod.Items
 			switch (itemID)
 			{
 				case ItemID.KingSlimeBossBag:
-					DropHelper.DropItemChance(player, ModContent.ItemType<CrownJewel>(), DropHelper.BagWeaponDropRateFloat);
+					DropHelper.DropItemChance(player, ModContent.ItemType<CrownJewel>(), 0.1f);
 					break;
 
 				case ItemID.EyeOfCthulhuBossBag:
 					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
-					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), DropHelper.BagWeaponDropRateFloat);
+					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 0.1f);
 					break;
 
 				case ItemID.EaterOfWorldsBossBag:
@@ -70,11 +70,12 @@ namespace CalamityMod.Items
 					{
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
-						ItemID.BeeGun,
-						ModContent.ItemType<TheBee>()
+						ItemID.BeeGun
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
 					DropHelper.BlockDrops(queenBeeWeapons);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<TheBee>(), 0.1f);
 
 					DropHelper.DropItem(player, ItemID.Stinger, 8, 12); // Extra stingers
 					DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
@@ -89,11 +90,12 @@ namespace CalamityMod.Items
 						ModContent.ItemType<Meowthrower>(),
 						ItemID.LaserRifle,
 						ModContent.ItemType<BlackHawkRemote>(),
-						ModContent.ItemType<BlastBarrel>(),
-						ModContent.ItemType<Carnage>()
+						ModContent.ItemType<BlastBarrel>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, wofWeapons);
 					DropHelper.BlockDrops(wofWeapons);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<Carnage>(), 0.1f);
 
 					// Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
 					int[] emblems = new int[]
@@ -120,7 +122,7 @@ namespace CalamityMod.Items
 					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 
-					DropHelper.DropItemChance(player, ModContent.ItemType<Arbalest>(), DropHelper.BagWeaponDropRateFloat);
+					DropHelper.DropItemChance(player, ModContent.ItemType<Arbalest>(), 0.1f);
 					break;
 
 				case ItemID.SkeletronPrimeBossBag:
@@ -141,11 +143,12 @@ namespace CalamityMod.Items
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
 						ItemID.WaspGun,
-						ModContent.ItemType<BlossomFlux>(),
 						ModContent.ItemType<BloomStone>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<BlossomFlux>(), 0.1f);
 
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
 					break;
@@ -160,11 +163,12 @@ namespace CalamityMod.Items
 						ItemID.HeatRay,
 						ItemID.StaffofEarth,
 						ItemID.EyeoftheGolem,
-						ItemID.SunStone,
-						ModContent.ItemType<AegisBlade>()
+						ItemID.SunStone
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, golemItems);
 					DropHelper.BlockDrops(golemItems);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<AegisBlade>(), 0.1f);
 
 					// The Picksaw always drops if the player doesn't have one in their inventory. Otherwise it has a 25% chance.
 					bool playerHasPicksaw = player.InventoryHas(ItemID.Picksaw);
@@ -196,11 +200,12 @@ namespace CalamityMod.Items
 						ItemID.RazorbladeTyphoon,
 						ItemID.TempestStaff,
 						ItemID.FishronWings,
-						ModContent.ItemType<DukesDecapitator>(),
-						ModContent.ItemType<BrinyBaron>()
+						ModContent.ItemType<DukesDecapitator>()
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
+
+					DropHelper.DropItemChance(player, ModContent.ItemType<BrinyBaron>(), 0.1f);
 					break;
 
 				case ItemID.MoonLordBossBag:

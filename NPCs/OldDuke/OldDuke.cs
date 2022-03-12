@@ -397,7 +397,6 @@ namespace CalamityMod.NPCs.OldDuke
 					DropHelper.WeightStack<VitriolicViper>(w),
 					DropHelper.WeightStack<CadaverousCarrion>(w),
 					DropHelper.WeightStack<ToxicantTwister>(w),
-					DropHelper.WeightStack<TheReaper>(w),
 					DropHelper.WeightStack<DukeScales>(w)
 				);
 
@@ -408,8 +407,10 @@ namespace CalamityMod.NPCs.OldDuke
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeMask>(), 7);
             }
 
-            // Mark Old Duke as dead
-            CalamityWorld.downedBoomerDuke = true;
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), !Main.expertMode, 0.1f);
+
+			// Mark Old Duke as dead
+			CalamityWorld.downedBoomerDuke = true;
 
 			// Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
 			CalamityWorld.encounteredOldDuke = true;

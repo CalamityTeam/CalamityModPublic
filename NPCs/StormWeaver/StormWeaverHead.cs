@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					// Weapons
 					DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 4);
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 4);
-					DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), 4);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), 10);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);

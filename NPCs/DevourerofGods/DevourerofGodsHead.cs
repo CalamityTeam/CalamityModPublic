@@ -2253,9 +2253,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					DropHelper.WeightStack<Deathwind>(w),
 					DropHelper.WeightStack<DeathhailStaff>(w),
 					DropHelper.WeightStack<StaffoftheMechworm>(w),
-					DropHelper.WeightStack<Eradicator>(w),
-					DropHelper.WeightStack<CosmicDischarge>(w),
-					DropHelper.WeightStack<Norfleet>(w)
+					DropHelper.WeightStack<Eradicator>(w)
 				);
 
 				// Equipment
@@ -2264,6 +2262,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
 			}
+
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), !Main.expertMode, 0.1f);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), !Main.expertMode, 0.1f);
 
 			// If DoG has not been killed yet, notify players that the holiday moons are buffed
 			if (!CalamityWorld.downedDoG)

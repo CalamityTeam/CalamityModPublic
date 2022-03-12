@@ -64,13 +64,13 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Deathwind>(w),
                 DropHelper.WeightStack<DeathhailStaff>(w),
                 DropHelper.WeightStack<StaffoftheMechworm>(w),
-                DropHelper.WeightStack<Eradicator>(w),
-				DropHelper.WeightStack<CosmicDischarge>(w),
-				DropHelper.WeightStack<Norfleet>(w)
+                DropHelper.WeightStack<Eradicator>(w)
 			);
 
 			// Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), 0.1f);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CosmicDischarge>(), 0.1f);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);

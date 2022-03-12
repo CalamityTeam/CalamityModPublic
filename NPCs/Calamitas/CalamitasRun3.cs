@@ -190,7 +190,6 @@ namespace CalamityMod.NPCs.Calamitas
                     DropHelper.WeightStack<Animosity>(w),
                     DropHelper.WeightStack<CalamitasInferno>(w),
                     DropHelper.WeightStack<BlightedEyeStaff>(w),
-					DropHelper.WeightStack<Regenator>(w),
 					DropHelper.WeightStack<ChaosStone>(w)
 				);
 
@@ -205,6 +204,8 @@ namespace CalamityMod.NPCs.Calamitas
 					DropHelper.DropItem(npc, ModContent.ItemType<CalamityRobes>());
 				}
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), !Main.expertMode, 0.1f);
 
             // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";

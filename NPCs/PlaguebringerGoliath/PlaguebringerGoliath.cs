@@ -1216,17 +1216,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     DropHelper.WeightStack<PlagueStaff>(w),
                     DropHelper.WeightStack<FuelCellBundle>(w),
                     DropHelper.WeightStack<InfectedRemote>(w),
-                    DropHelper.WeightStack<TheSyringe>(w),
-					DropHelper.WeightStack<Malachite>(w)
+                    DropHelper.WeightStack<TheSyringe>(w)
 				);
 
 				// Equipment
 				DropHelper.DropItem(npc, ModContent.ItemType<ToxicHeart>(), true);
 
-				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 10);
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), !Main.expertMode, 0.1f);
 
             // Mark PBG as dead
             CalamityWorld.downedPlaguebringer = true;

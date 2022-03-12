@@ -174,8 +174,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     DropHelper.WeightStack<Brimlance>(w),
                     DropHelper.WeightStack<SeethingDischarge>(w),
                     DropHelper.WeightStack<DormantBrimseeker>(w),
-					DropHelper.WeightStack<Hellborn>(w),
-					DropHelper.WeightStack<FabledTortoiseShell>(w),
 					DropHelper.WeightStack<RoseStone>(w)
 				);
 
@@ -187,6 +185,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
+
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), !Main.expertMode, 0.1f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), !Main.expertMode, 0.1f);
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;
