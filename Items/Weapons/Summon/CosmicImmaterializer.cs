@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
             CalamityPlayer modPlayer = player.Calamity();
-            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
+            bool hasSummonerSet = modPlayer.WearingPostMLSummonerSet;
             Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

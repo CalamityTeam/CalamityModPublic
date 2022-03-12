@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
+            modPlayer.WearingPostMLSummonerSet = true;
             player.setBonus = "65% increased minion damage and +5 max minions\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +

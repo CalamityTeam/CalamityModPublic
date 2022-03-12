@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Armor
 
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
+            player.Calamity().WearingPostMLSummonerSet = true;
             player.minionDamage += 0.2f;
             player.maxMinions += 2;
 

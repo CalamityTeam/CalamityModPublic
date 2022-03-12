@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Auric Tesla Space Helmet");
             Tooltip.SetDefault("15% increased minion damage\n" +
-					"Not moving boosts all damage and critical strike chance");
+                    "Not moving boosts all damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
             modPlayer.auricSet = true;
+            modPlayer.WearingPostMLSummonerSet = true;
             player.thorns += 3f;
             player.lavaMax += 240;
             player.ignoreWater = true;

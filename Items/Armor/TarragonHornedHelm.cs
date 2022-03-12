@@ -44,20 +44,21 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
+            modPlayer.WearingPostMLSummonerSet = true;
             player.setBonus = "50% increased minion damage and +3 max minions\n" +
                 "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Summons a life aura around you that damages nearby enemies";
             player.minionDamage += 0.5f;
-			player.maxMinions += 3;
-		}
+            player.maxMinions += 3;
+        }
 
         public override void UpdateEquip(Player player)
         {
             player.endurance += 0.05f;
-			player.minionDamage += 0.05f;
-			player.lavaMax += 240;
+            player.minionDamage += 0.05f;
+            player.lavaMax += 240;
             player.ignoreWater = true;
         }
 

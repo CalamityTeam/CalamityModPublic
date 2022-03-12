@@ -784,6 +784,7 @@ namespace CalamityMod.CalPlayer
         public int MythrilFlareSpawnCountdown = 0;
         public bool AdamantiteSet = false;
         public int AdamantiteSetDecayDelay = 0;
+        public bool WearingPostMLSummonerSet = false;
 
         private float adamantiteSetDefenseBoostInterpolant;
         public int AdamantiteSetDefenseBoost
@@ -1621,6 +1622,8 @@ namespace CalamityMod.CalPlayer
             CobaltSet = false;
             MythrilSet = false;
             AdamantiteSet = false;
+
+            WearingPostMLSummonerSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2460,6 +2463,7 @@ namespace CalamityMod.CalPlayer
             MythrilSet = false;
             MythrilFlareSpawnCountdown = 0;
             AdamantiteSet = false;
+            WearingPostMLSummonerSet = false;
             AdamantiteSetDecayDelay = 0;
             omegaBlueChestplate = false;
             omegaBlueSet = false;

@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dsSetBonus = true;
             modPlayer.wearingRogueArmor = true;
+            modPlayer.WearingPostMLSummonerSet = true;
             if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
             {
                 modPlayer.redDevil = true;

@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Abyss
                             if (npc.ai[0] == 0f)
                             {
                                 npc.localAI[0] = 0f;
-                                value29.SafeNormalize(Vector2.Zero);
+                                value29.Normalize();
                                 value29 *= 0.5f;
                                 npc.velocity += value29;
                                 npc.ai[0] = 4f;
@@ -158,10 +158,10 @@ namespace CalamityMod.NPCs.Abyss
                     npc.rotation += (float)npc.direction * 0.1f;
                     Vector2 value30 = Main.player[npc.target].Top - npc.Center;
                     float num1311 = value30.Length();
-                    float num1312 = 5.5f;
+                    float num1312 = 5f;
                     num1312 += num1311 / 100f;
                     int num1313 = 50;
-                    value30.SafeNormalize(Vector2.Zero);
+                    value30.Normalize();
                     value30 *= num1312;
                     npc.velocity = (npc.velocity * (float)(num1313 - 1) + value30) / (float)num1313;
                     if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.Abyss
                     float num1315 = value31.Length();
                     float scaleFactor11 = 3f;
                     int num1316 = 3;
-                    value31.SafeNormalize(Vector2.Zero);
+                    value31.Normalize();
                     value31 *= scaleFactor11;
                     npc.velocity = (npc.velocity * (float)(num1316 - 1) + value31) / (float)num1316;
                     if (num1315 < 600f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.Abyss
                     float num1317 = value33.Length();
                     float num1318 = 2f;
                     float num1319 = 3f;
-                    value33.SafeNormalize(Vector2.Zero);
+                    value33.Normalize();
                     value33 *= num1318;
                     npc.velocity = (npc.velocity * (num1319 - 1f) + value33) / num1319;
                     if (npc.collideX || npc.collideY)
@@ -231,13 +231,13 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         value34 = Main.player[npc.target].Center - npc.Center;
                         value34.Y -= (float)(Main.player[npc.target].height / 4);
-                        value34.SafeNormalize(Vector2.Zero);
+                        value34.Normalize();
                         npc.velocity = value34 * 0.1f;
                     }
                     float scaleFactor12 = 2f;
                     float num1320 = 20f;
                     value34 = npc.velocity;
-                    value34.SafeNormalize(Vector2.Zero);
+                    value34.Normalize();
                     value34 *= scaleFactor12;
                     npc.velocity = (npc.velocity * (num1320 - 1f) + value34) / num1320;
                     npc.ai[1] += 1f;
