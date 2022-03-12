@@ -237,8 +237,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || (!modPlayer.profanedCrystal && !modPlayer.tarraSummon && !modPlayer.bloodflareSummon &&
-                !modPlayer.silvaSummon && !modPlayer.dsSetBonus && !modPlayer.omegaBlueSet && !modPlayer.fearmongerSet))
+            if (!modPlayer.pArtifact || (!modPlayer.profanedCrystal && !modPlayer.WearingPostMLSummonerSet))
             {
                 modPlayer.gOffense = false;
                 projectile.active = false;

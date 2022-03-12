@@ -42,20 +42,21 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareSummon = true;
+            modPlayer.WearingPostMLSummonerSet = true;
             player.setBonus = "50% increased minion damage and +3 max minions\n" +
                 "Greatly increases life regen\n" +
-				"Enemies below 50% life drop a heart when struck\n" +
-				"This effect has a 5 second cooldown\n" +
-				"Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+                "Enemies below 50% life drop a heart when struck\n" +
+                "This effect has a 5 second cooldown\n" +
+                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Summons polterghast mines to circle you\n" +
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
             player.minionDamage += 0.5f;
-			player.maxMinions += 3;
-		}
+            player.maxMinions += 3;
+        }
 
-		public override void UpdateEquip(Player player)
+        public override void UpdateEquip(Player player)
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
@@ -67,7 +68,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

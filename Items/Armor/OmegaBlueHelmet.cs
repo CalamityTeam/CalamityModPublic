@@ -10,7 +10,7 @@ using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
         public override void SetStaticDefaults()
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
-			player.Calamity().omegaBlueTransformation = true;
+            player.Calamity().omegaBlueTransformation = true;
             player.Calamity().omegaBlueTransformationForce = true;
         }
 
@@ -54,17 +54,18 @@ namespace CalamityMod.Items.Armor
         {
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Increases armor penetration by 15\n" +
-				"10% increased damage and critical strike chance and +2 max minions\n" +
-				"Short-ranged tentacles heal you by sucking enemy life\n" +
-				"Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
-				"Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
-				"This effect has a 25 second cooldown";
+                "10% increased damage and critical strike chance and +2 max minions\n" +
+                "Short-ranged tentacles heal you by sucking enemy life\n" +
+                "Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
+                "Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
+                "This effect has a 25 second cooldown";
 
             CalamityPlayer mp = player.Calamity();
             player.armorPenetration += 15;
+            player.maxMinions += 2;
             mp.wearingRogueArmor = true;
-			player.maxMinions += 2;
-			mp.omegaBlueSet = true;
+            mp.omegaBlueSet = true;
+            mp.WearingPostMLSummonerSet = true;
 
             bool hasOmegaBlueCooldown = mp.cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
             if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
