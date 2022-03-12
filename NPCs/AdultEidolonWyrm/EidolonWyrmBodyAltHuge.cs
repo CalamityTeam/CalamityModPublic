@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
 						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
-						Vector2 velocity = destination.SafeNormalize(Vector2.UnitX * npc.spriteDirection) * fireballVelocity;
+						Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
 						int type = ProjectileID.CultistBossFireBallClone;
 						int damage = npc.GetProjectileDamage(type);
 						int proj = Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer);

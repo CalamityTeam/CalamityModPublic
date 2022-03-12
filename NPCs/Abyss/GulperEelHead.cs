@@ -180,12 +180,12 @@ namespace CalamityMod.NPCs.Abyss
             {
                 if (num50 > num48)
                 {
-                    npc.velocity.SafeNormalize(Vector2.UnitX * npc.direction);
+                    npc.velocity.Normalize();
                     npc.velocity *= num48;
                 }
                 else if (num50 < num49)
                 {
-                    npc.velocity.SafeNormalize(Vector2.UnitX * npc.direction);
+                    npc.velocity.Normalize();
                     npc.velocity *= num49;
                 }
             }
