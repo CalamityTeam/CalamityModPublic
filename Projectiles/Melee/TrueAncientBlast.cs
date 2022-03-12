@@ -33,8 +33,6 @@ namespace CalamityMod.Projectiles.Melee
         const float MaxTime = 20;
         public float Timer => MaxTime - projectile.timeLeft;
 
-        public ref float HitCounter => ref projectile.ai[0];
-
         public Player Owner => Main.player[projectile.owner];
 
         public override void SetDefaults()
@@ -88,8 +86,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             //Add some damage falloff
-            damage = (int)(damage * Math.Pow((1 - TrueArkoftheAncients.blastFalloffStrenght), HitCounter * TrueArkoftheAncients.blastFalloffSpeed));
-            HitCounter++;
+            damage = (int)(damage * Math.Pow((1 - TrueArkoftheAncients.blastFalloffStrenght), projectile.numHits * TrueArkoftheAncients.blastFalloffSpeed));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

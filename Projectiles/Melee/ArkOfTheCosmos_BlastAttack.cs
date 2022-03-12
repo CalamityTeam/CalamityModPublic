@@ -60,8 +60,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public Vector2 scissorPosition => projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f;
 
-        public ref float HitCounter => ref projectile.localAI[0];
-
         public Player Owner => Main.player[projectile.owner];
 
         public Particle PolarStar;
@@ -242,8 +240,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             //Add some damage falloff
-            damage = (int)(damage * Math.Pow((1 - ArkoftheCosmos.blastFalloffStrenght), HitCounter * ArkoftheCosmos.blastFalloffSpeed));
-            HitCounter++;
+            damage = (int)(damage * Math.Pow((1 - ArkoftheCosmos.blastFalloffStrenght), projectile.numHits * ArkoftheCosmos.blastFalloffSpeed));
         }
 
         public override void Kill(int timeLeft)

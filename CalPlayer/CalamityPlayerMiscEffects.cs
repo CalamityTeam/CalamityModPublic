@@ -3180,7 +3180,6 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					bool crystal = profanedCrystal && !profanedCrystalForce;
-					bool summonSet = tarraSummon || bloodflareSummon || silvaSummon || dsSetBonus || omegaBlueSet || fearmongerSet;
 					int guardianAmt = 1;
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
@@ -3194,7 +3193,7 @@ namespace CalamityMod.CalPlayer
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 
-					if (crystal || summonSet)
+					if (crystal || WearingPostMLSummonerSet)
 					{
 						gOffense = true;
 

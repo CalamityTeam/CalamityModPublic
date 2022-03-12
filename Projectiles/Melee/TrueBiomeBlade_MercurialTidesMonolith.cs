@@ -180,6 +180,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_MonolithProc)
                 sword.OnHitProc = true;
+
+            if (projectile.numHits > 0)
+                damage = (int)(damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageFalloff);
+        
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
