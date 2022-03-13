@@ -71,6 +71,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float AstralAttunement_MonolithDamageFalloff = 0.1f; //Damage multiplier for all subsequent hits after the first one.
 
         public static int MarineAttunement_BaseDamage = 160;
+        public static float MarineAttunement_InWaterDamageMultiplier = 2f;
+
         #endregion
 
 
