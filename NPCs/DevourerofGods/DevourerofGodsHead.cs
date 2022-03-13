@@ -776,6 +776,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 						}
 					}
 
+					// Set flight time to max during laser walls
+					if (!phase6 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
+					{
+						if (Main.netMode != NetmodeID.Server)
+						{
+							if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
+							{
+								if (Main.player[Main.myPlayer].wingTime < Main.player[Main.myPlayer].wingTimeMax)
+									Main.player[Main.myPlayer].wingTime = Main.player[Main.myPlayer].wingTimeMax;
+							}
+						}
+					}
+
 					float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
 
 					if (expertMode)
