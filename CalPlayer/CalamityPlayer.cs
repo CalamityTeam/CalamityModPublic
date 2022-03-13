@@ -814,7 +814,7 @@ namespace CalamityMod.CalPlayer
         public bool alcoholPoisoning = false;
         public bool shadowflame = false;
         public bool wDeath = false;
-        public bool lethalLavaBurn = false;
+        public bool dragonFire = false;
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
@@ -1887,7 +1887,7 @@ namespace CalamityMod.CalPlayer
             alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
-            lethalLavaBurn = false;
+            dragonFire = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -2276,7 +2276,7 @@ namespace CalamityMod.CalPlayer
             alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
-            lethalLavaBurn = false;
+            dragonFire = false;
             aCrunch = false;
             irradiated = false;
             bFlames = false;
@@ -4595,7 +4595,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByOther(9);
                 }
-                if (lethalLavaBurn)
+                if (dragonFire)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " disintegrated into ashes.");
                 }

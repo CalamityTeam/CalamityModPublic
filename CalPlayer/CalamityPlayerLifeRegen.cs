@@ -263,7 +263,16 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
-            if (cDepth)
+			if (dragonFire)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				lifeRegenLost += 18;
+			}
+
+			if (cDepth)
             {
                 if (player.statDefense > 0)
                 {
@@ -545,38 +554,6 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegenCount > 0)
                     player.lifeRegenCount = 0;
             }
-
-            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) // Always occurs in Death regardless of config
-            {
-                if (Main.myPlayer == player.whoAmI)
-                {
-                    if (Collision.LavaCollision(player.position, player.width, player.waterWalk ? (player.height - 6) : player.height))
-                    {
-                        if (player.lavaImmune && !player.immune)
-                        {
-                            if (player.lavaTime > 0)
-                                player.lavaTime--;
-                        }
-
-                        if (player.lavaTime <= 0)
-                            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 2, true);
-                    }
-                }
-            }
-
-			if (lethalLavaBurn)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
-
-				player.lifeRegenTime = 0;
-				int lifeRegenDown = player.lavaImmune ? 9 : 18;
-
-				if (player.lavaRose)
-					lifeRegenDown = 3;
-
-				player.lifeRegen -= (int)(lifeRegenDown * lifeRegenMult);
-			}
 
 			if (hInferno)
             {

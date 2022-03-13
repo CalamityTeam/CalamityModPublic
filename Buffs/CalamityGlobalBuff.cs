@@ -39,10 +39,6 @@ namespace CalamityMod.Buffs
             {
                 player.endurance -= 0.1f;
             }
-            else if (type == BuffID.ObsidianSkin)
-            {
-                player.lavaMax += 420;
-            }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
                 float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%

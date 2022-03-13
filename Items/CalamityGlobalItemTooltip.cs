@@ -638,32 +638,6 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
             #endregion
 
-            // Items which interact with Lethal Lava
-            #region Lava and Death Mode Environmental Immunity Tooltips
-
-            if (item.type == ItemID.ObsidianSkinPotion)
-            {
-                // If Lethal Lava is enabled, Obsidian Skin Potions work very differently.
-                if (CalamityConfig.Instance.LethalLava)
-                {
-                    string lethalLavaReplacement = "Provides immunity to direct damage from touching lava\n"
-                        + "Provides temporary immunity to lava burn damage\n"
-                        + "Greatly increases the speed at which lava immunity recharges\n"
-                        + "Reduces lava burn damage";
-                    EditTooltipByNum(0, (line) => line.text = lethalLavaReplacement);
-                }
-            }
-
-            if (item.type == ItemID.ObsidianRose)
-            {
-                StringBuilder sb = new StringBuilder(128);
-                // If Lethal Lava is enabled, Obsidian Rose reduces the damage from the debuff.
-                if (CalamityConfig.Instance.LethalLava)
-                    sb.Append("\nGreatly reduces lava burn damage");
-                EditTooltipByNum(0, (line) => line.text += sb.ToString());
-            }
-            #endregion
-
             // Add mentions of what Calamity ores vanilla pickaxes can mine
             #region Pickaxe New Ore Tooltips
             if (item.type == ItemID.Picksaw)

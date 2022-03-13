@@ -177,12 +177,6 @@ namespace CalamityMod
 			"The third mech boss spawns Hallowed Ore on first kill")]
 		public bool EarlyHardmodeProgressionRework { get; set; }
 
-		[Label("$Mods.CalamityMod.LethalLava")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(true)]
-		[Tooltip("Makes lava significantly more deadly by adding a new debuff.\nPermanent lava immunity does not provide immunity to this debuff.\nThis setting is ignored in Death Mode, which always has Lethal Lava.")]
-		public bool LethalLava { get; set; }
-
 		[Label("$Mods.CalamityMod.Proficiency")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
@@ -354,7 +348,6 @@ namespace CalamityMod
 				new [] { "SpeedrunTimerY", ItemID.LaserRuler.ToString(), "Speedrun Timer Y Position" },
 
 				new [] { "EarlyHMRework", ItemID.Pwnhammer.ToString(), "Early Hardmode Progression Rework" },
-				new [] { "LethalLava", ItemID.LavaCharm.ToString(), "Lethal Lava" },
 				new [] { "Proficiency", instance.ItemType("MagicLevelMeter").ToString(), "Proficiency" },
 				new [] { "BossZen", instance.ItemType("ZenPotion").ToString(), "Boss Zen" },
 				new [] { "NPCNightSpawn", ItemID.ClothierVoodooDoll.ToString(), "Let Town NPCs spawn at night" },

@@ -2754,7 +2754,7 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed -= 0.1f;
 			}
 
-			if (lethalLavaBurn)
+			if (dragonFire)
 				player.moveSpeed -= 0.15f;
 
 			if (hInferno)

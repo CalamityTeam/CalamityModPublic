@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Lethal Lava Burn");
+            DisplayName.SetDefault("Dragon Fire");
             Description.SetDefault("Losing life, reduced movement speed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().lethalLavaBurn = true;
+            player.Calamity().dragonFire = true;
         }
     }
 }
