@@ -2714,7 +2714,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (aWeapon)
-				player.moveSpeed += 0.1f;
+				player.moveSpeed += 0.05f;
 
 			if (molten)
 				player.resistCold = true;
