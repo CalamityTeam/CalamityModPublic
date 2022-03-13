@@ -44,6 +44,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
+
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 60;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
