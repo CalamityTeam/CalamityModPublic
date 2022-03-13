@@ -281,7 +281,7 @@ namespace CalamityMod.CalPlayer
 
         private const int DashDisableCooldown = 12;
 
-        public Dictionary<string, CooldownInstance> cooldowns = new Dictionary<string, CooldownInstance>(16);
+        public Dictionary<string, CooldownInstance> cooldowns;
 
         public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;
@@ -1219,6 +1219,8 @@ namespace CalamityMod.CalPlayer
             newAmidiasInventory = false;
             newBanditInventory = false;
             newCalamitasInventory = false;
+
+            cooldowns = new Dictionary<string, CooldownInstance>(16);
         }
 
         public override TagCompound Save()
