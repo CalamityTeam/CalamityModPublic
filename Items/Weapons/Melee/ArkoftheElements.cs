@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CloneNewInstances => true;
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
-        public static float snapDamageMultiplier = 1.3f; //Extra damage from making the scissors snap
-        public static float chargeDamageMultiplier = 1.3f; //Extra damage from charge
+        public static float snapDamageMultiplier = 1.2f; //Extra damage from making the scissors snap
+        public static float chargeDamageMultiplier = 1.2f; //Extra damage from charge
 
         public static float needleDamageMultiplier = 0.8f; //Damage multiplier for non-homing needle projectile
         public static float glassStarDamageMultiplier = 0.2f; //Damage multiplier for the homing glass stars (4 glass stars per shot)
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 112;
             item.height = 172;
-            item.damage = 1305;
+            item.damage = 600;
             item.melee = true;
             item.noUseGraphic = true;
             item.noMelee = true;
