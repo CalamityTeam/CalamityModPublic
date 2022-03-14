@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ColdAttunement_ThirdSwingBoost = 1.3f;
         public static float ColdAttunement_MistDamageReduction = 0.09f;
 
-        public static int HotAttunement_BaseDamage = 120;
+        public static int HotAttunement_BaseDamage = 122;
         public static int HotAttunement_FullChargeDamage = 160;
         public static int HotAttunement_ShredIFrames = 8;
         public static float HotAttunement_ShotDamageBoost = 4.5f;
