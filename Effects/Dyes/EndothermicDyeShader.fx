@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     
@@ -22,7 +22,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 color = tex2D(uImage0, coords);
     float luminosity = (color.r + color.g + color.b) / 3;
     color.rgb = luminosity * idealColor * 1.3; // Average out the colors.
-    return color;
+    return color * sampleColor.a;
 }
 technique Technique1
 {

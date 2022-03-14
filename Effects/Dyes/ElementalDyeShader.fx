@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;

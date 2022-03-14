@@ -18,7 +18,7 @@ float2 RotatedBy(float2 xy, float theta)
     return float2(xy.x * cos(theta) + xy.y * sin(theta), xy.x * sin(theta) - xy.y * cos(theta));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
@@ -44,7 +44,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
         returnColor = lerp(returnColor, uSecondaryColor, (frameY - 0.5) * 3);
     }
     
-    return float4(returnColor, 1) * color * brightness;
+    return float4(returnColor, 1) * color * sampleColor.a * brightness;
 }
 technique Technique1
 {

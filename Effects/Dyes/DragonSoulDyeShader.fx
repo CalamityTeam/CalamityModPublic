@@ -21,7 +21,7 @@ static float3 colors[4] =
     float3(252, 155, 0) / 255.0
 };
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
     

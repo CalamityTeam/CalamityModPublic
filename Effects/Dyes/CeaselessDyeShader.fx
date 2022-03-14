@@ -19,14 +19,14 @@ float randomness(float2 uv)
     return noise;
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     coords.x += randomness(uTime + frameY).x * 0.09 * (1 - frameY); // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
     float4 color = tex2D(uImage0, coords);
     float4 returnColor = color * 0.1;
     returnColor.a = color.a;
-    return returnColor;
+    return returnColor * sampleColor.a;
 }
 technique Technique1
 {
