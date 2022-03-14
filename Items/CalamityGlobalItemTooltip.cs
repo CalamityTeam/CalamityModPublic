@@ -644,7 +644,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.text += "\nCan mine Scoria Ore located in the Abyss");
 
             if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
-                EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore located in the Jungle");
+                EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore");
             #endregion
 
             // Rebalances and information about vanilla set bonuses

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Genesis Pickaxe");
-            Tooltip.SetDefault("Can mine Uelibloom Ore located in the Jungle");
+            Tooltip.SetDefault("Can mine Uelibloom Ore");
         }
 
         public override void SetDefaults()
