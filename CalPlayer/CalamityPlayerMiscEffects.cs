@@ -2739,7 +2739,6 @@ namespace CalamityMod.CalPlayer
 				if (player.FindBuffIndex(BuffID.Lifeforce) > -1)
 					player.ClearBuff(BuffID.Lifeforce);
 				player.lifeMagnet = true;
-				player.calmed = true;
 			}
 
 			if (player.wellFed)
