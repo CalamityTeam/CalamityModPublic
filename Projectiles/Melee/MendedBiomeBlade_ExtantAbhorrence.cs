@@ -249,7 +249,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * (1f + TrueBiomeBlade.AstralAttunement_FullChargeBoost * Charge / MaxCharge));
+            damage = (int)(damage * (1f + TrueBiomeBlade.AstralAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
