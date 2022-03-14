@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
 
-        const string BlastTooltip = "Using RMB and pressing up while the Ark is charged will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process\n" +
+        const string BlastTooltip = "Using RMB and pressing up while the Ark is empowered will throw the blades in front of you to provoke a Big Rip in spacetime, using up all your charges in the process\n" +
                 "If more than half the charges were used up, you can dash across the rip by keeping the up key pressed down";
 
 
