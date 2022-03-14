@@ -83,6 +83,9 @@ namespace CalamityMod.CalPlayer
 			if (blazingCursorDamage)
 				HandleBlazingMouseEffects();
 
+			// Armor set effects
+			VanillaArmorChangeManager.ApplyPotentialEffectsTo(player);
+
 			// Revengeance effects
 			RevengeanceModeMiscEffects();
 
