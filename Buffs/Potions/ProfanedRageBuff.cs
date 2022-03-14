@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Profaned Rage");
-            Description.SetDefault("Increased crit chance, movement and flight speed");
+            Description.SetDefault("Increased critical strike chance");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
