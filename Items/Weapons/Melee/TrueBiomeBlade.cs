@@ -39,20 +39,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float EvilAttunement_SlashDamageBoost = 3f;
         public static int EvilAttunement_SlashIFrames = 60;
 
-        public static int ColdAttunement_BaseDamage = 200;
+        public static int ColdAttunement_BaseDamage = 150;
         public static float ColdAttunement_SecondSwingBoost = 1.15f;
         public static float ColdAttunement_ThirdSwingBoost = 1.3f;
         public static float ColdAttunement_MistDamageReduction = 0.09f;
 
-        public static int HotAttunement_BaseDamage = 140;
-        public static int HotAttunement_FullChargeDamage = 230;
+        public static int HotAttunement_BaseDamage = 122;
+        public static int HotAttunement_FullChargeDamage = 160;
         public static int HotAttunement_ShredIFrames = 8;
         public static float HotAttunement_ShotDamageBoost = 4.5f;
         public static int HotAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int HotAttunement_LocalIFramesCharged = 16;
-        public static float HotAttunement_ShredDecayRate = 0.7f; //How much charge is lost per frame.
+        public static float HotAttunement_ShredDecayRate = 0.65f; //How much charge is lost per frame.
 
-        public static int TropicalAttunement_BaseDamage = 115;
+        public static int TropicalAttunement_BaseDamage = 120;
         public static float TropicalAttunement_ChainDamageReduction = 0.6f;
         public static float TropicalAttunement_VineDamageReduction = 0.3f;
         public static float TropicalAttunement_SweetSpotDamageMultiplier = 1.2f; //It also crits, so be mindful of that
@@ -64,13 +64,15 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float HolyAttunement_ThrowDamageBoost = 3.8f;
         public static int HolyAttunement_LocalIFrames = 16; //Be warned its got 1 extra update yadda yadda
 
-        public static int AstralAttunement_BaseDamage = 500;
-        public static int AstralAttunement_DashHitIFrames = 30;
+        public static int AstralAttunement_BaseDamage = 225;
+        public static int AstralAttunement_DashHitIFrames = 20;
         public static float AstralAttunement_FullChargeBoost = 2.5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
-        public static float AstralAttunement_MonolithDamageBoost = 1f;
-        public static float AstralAttunement_MonolithDamageFalloff = 0.1f; //Damage multiplier for all subsequent hits after the first one.
+        public static float AstralAttunement_MonolithDamageBoost = 1.25f;
+        public static float AstralAttunement_MonolithDamageFalloff = 0.25f; //Damage multiplier for all subsequent hits after the first one.
 
-        public static int MarineAttunement_BaseDamage = 160;
+        public static int MarineAttunement_BaseDamage = 300;
+        public static float MarineAttunement_InWaterDamageMultiplier = 1.5f;
+
         #endregion
 
 

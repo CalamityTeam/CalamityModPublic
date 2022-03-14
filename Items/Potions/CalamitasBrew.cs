@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Calamitas' Brew");
             Tooltip.SetDefault("Adds abyssal flames to your melee and rogue projectiles and melee attacks\n" +
-                               "Increases your movement speed by 10%");
+                               "Increases your movement speed by 5%");
         }
 
         public override void SetDefaults()

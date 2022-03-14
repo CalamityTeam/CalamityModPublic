@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
@@ -29,7 +29,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float3 flameColor = lerp(alteredColor, alteredSecondaryColor, fadeToRed);
     flameColor.r = 0.6 + sqrt(fadeToRed) * 0.4;
     color = lerp(color, float4(flameColor, 1), 0.45) * color.a;
-    return color * lerp(1.3, 5.4, pow(flameStreakBrightness, 4.44));
+    return color * lerp(1.3, 5.4, pow(flameStreakBrightness, 4.44)) * sampleColor.a;
 }
 technique Technique1
 {

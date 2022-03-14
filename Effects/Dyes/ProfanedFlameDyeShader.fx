@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     float4 color = tex2D(uImage0, coords);
@@ -33,7 +33,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     transformColor = lerp(transformColor, float3(206 / 255, 116 / 255, 59 / 255), orangeFade);
     color.rgb = lerp(color.rgb, transformColor, fadeMapColor.r);
     opacity *= color.a;
-    return color * opacity;
+    return color * opacity * sampleColor.a;
 }
 technique Technique1
 {

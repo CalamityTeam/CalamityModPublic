@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
@@ -35,7 +35,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     // Handle sludge fades based on noise.
     color = lerp(color, float4(uSecondaryColor * 0.375, 1), pow(noiseColor.r, 3) * 0.3 + verticalFlowMovement * 0.3 + 0.13) * color.a;
     
-    return color * (1 + (1 - outlineFade) * 0.1);
+    return color * (1 + (1 - outlineFade) * 0.1) * sampleColor.a;
 }
 technique Technique1
 {

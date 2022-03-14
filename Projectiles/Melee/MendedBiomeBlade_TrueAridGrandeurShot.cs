@@ -41,6 +41,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
+
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

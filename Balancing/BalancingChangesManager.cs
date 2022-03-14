@@ -51,6 +51,9 @@ namespace CalamityMod.Balancing
             bool MushroomSpearFilter(Projectile p) =>
                 p.type == ProjectileID.Mushroom && Main.player[p.owner].ActiveItem().type == ItemID.MushroomSpear;
 
+            bool AotCThrowCombo(Projectile p) =>
+                p.type == ProjectileType<ArkoftheCosmosSwungBlade>() && (p.ai[0] == 2 || p.ai[0] == 3);
+
             UniversalBalancingChanges = new List<IBalancingRule[]>()
             {
                 // Nerf the T3 Monk Staff by 75% due to its strong primary fire buff.
@@ -227,6 +230,9 @@ namespace CalamityMod.Balancing
             // 50% resist to Enforcer projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<EssenceFlame2>()))));
 
+            // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
+
             // 20% resist to Eclipse's Fall stealth strike.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<EclipsesSmol>()))));
 
@@ -272,6 +278,9 @@ namespace CalamityMod.Balancing
 
             // 40% resist to Yharim's Crystal.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<YharimsCrystalBeam>()))));
+
+            // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
 
             // 30% resist to Sirius.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<SiriusExplosion>()))));

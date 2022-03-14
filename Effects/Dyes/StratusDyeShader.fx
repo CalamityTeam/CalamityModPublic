@@ -14,7 +14,7 @@ float2 uImageSize0;
 float2 uImageSize1;
 
 static float xAdditiveMax = 0.035;
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
     float sineTime = sin(uTime); // Saved so that I don't have the compute this multiple times. Shaders have a limited number of mathematical instructions you can use - 64.
@@ -34,7 +34,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
         color.rgb *= 1.6; // Sometimes give light "patches" depending on the swaying noise image.
     }
     color.rgb *= 1.6 + (sineTime * 0.5 + 1.5) * ((frameY + coords.x) - 1) * 2; // Brighten the shader over time.
-    return color;
+    return color * sampleColor.a;
 }
 technique Technique1
 {

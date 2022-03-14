@@ -17,7 +17,7 @@ float2 RotatedBy(float theta, float x, float y)
 {
     return float2(x * cos(theta) + y * sin(theta), x * sin(theta) - y * cos(theta));
 }
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float sineTime = sin(uTime); // Saved so that I don't have the compute this multiple times. Shaders have a limited number of mathematical instructions you can use - 64.
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
@@ -36,7 +36,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     color.rgb *= 0.2 + pow(noiseColor.rgb, 3); // Squash the color to the upper and lower bounds and add a bit of lightness to it.
     color.rgb *= lerp(uColor, uSecondaryColor, interpolationValue); // Blend with the secondary color.
     color.rgb *= 1.7 + (sineTime * 0.5 + 1.5) * interpolationValue; // Range of 1.7 to 3.7, can cause certain spots to become very bright.
-    return color;
+    return color * sampleColor.a;
 }
 technique Technique1
 {

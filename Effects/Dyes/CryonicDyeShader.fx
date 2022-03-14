@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
     float4 noiseColor = tex2D(uImage1, float2(frac(coords.x + uTime * 0.1), frameY));
@@ -31,7 +31,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     if (normalizedDistanceFromCenter > 0.7)
         fadeToSecondaryColor *= saturate(1 - (normalizedDistanceFromCenter - 0.7) / 0.2);
     float4 endFadeColor = lerp(float4(uColor, 1), float4(uSecondaryColor, 1), 0.5);
-    return (lerp(color, endFadeColor, 0.3 + fadeToSecondaryColor * 0.6) * color.a) * (1 + brightness);
+    return (lerp(color, endFadeColor, 0.3 + fadeToSecondaryColor * 0.6) * color.a) * (1 + brightness) * sampleColor.a;
 }
 technique Technique1
 {

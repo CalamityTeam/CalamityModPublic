@@ -13,7 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
     float luminosity = (color.r + color.g + color.b) / 3;
@@ -23,7 +23,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
 
     color.rgb *= ((coords.x * uColor * (1 - yMultiplier) * 1.4) + ((1 - coords.x) * uSecondaryColor * yMultiplier * 1.7)) * luminosity * 2.1;
     color.rgb *= clamp(1.6 * saturate(distance((0.5, 0.5), coords)), 0.8, 1.6); // Intensify the colors based on how far they are from the center of the sprite.
-    return color;
+    return color * sampleColor.a;
 }
 technique Technique1
 {

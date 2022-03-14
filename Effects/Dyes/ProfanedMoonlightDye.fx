@@ -13,11 +13,11 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 returnColor = tex2D(uImage0, coords);
     returnColor.rgb *= uColor * ((cos(uTime) * 0.5 + 0.5) * 0.3 + 1.3);
-    return returnColor;
+    return returnColor * sampleColor.a;
 }
 technique Technique1
 {

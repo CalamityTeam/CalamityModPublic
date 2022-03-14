@@ -275,7 +275,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
-            if (ShredRatio > 0.25 && Owner.whoAmI == Main.myPlayer)
+            if (ShredRatio > 0.8 && Owner.whoAmI == Main.myPlayer)
             {
                 Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), (int)(projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }

@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int PhoenixAttunement_LocalIFrames = 20; //Remember its got one extra update
         public static float PhoenixAttunement_BoltDamageReduction = 0.5f;
         public static float PhoenixAttunement_BoltThrowDamageMultiplier = 1.5f;
-        public static float PhoenixAttunement_BaseDamageReduction = 0.4f;
-        public static float PhoenixAttunement_FullChargeDamageBoost = 2f;
+        public static float PhoenixAttunement_BaseDamageReduction = 0.5f;
+        public static float PhoenixAttunement_FullChargeDamageBoost = 2.1f;
         public static float PhoenixAttunement_ThrowDamageBoost = 3.6f;
 
         public static int PolarisAttunement_BaseDamage = 1200;
@@ -47,19 +47,19 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int PolarisAttunement_ShredIFrames = 10;
         public static int PolarisAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int PolarisAttunement_LocalIFramesCharged = 16;
-        public static float PolarisAttunement_SlashDamageBoost = 5f; //Keep in mind the slice always crits
+        public static float PolarisAttunement_SlashDamageBoost = 13f; //Keep in mind the slice always crits
         public static int PolarisAttunement_SlashBoltsDamage = 1300;
         public static int PolarisAttunement_SlashIFrames = 60;
         public static float PolarisAttunement_ShotDamageBoost = 2f; //The shots fired if the dash connects
-        public static float PolarisAttunement_ShredChargeupGain = 1f; //How much charge is gainted per second.
+        public static float PolarisAttunement_ShredChargeupGain = 1.1f; //How much charge is gainted per second.
 
-        public static int AndromedaAttunement_BaseDamage = 3500;
-        public static int AndromedaAttunement_DashHitIFrames = 60;
-        public static float AndromedaAttunement_FullChargeBoost = 5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
-        public static float AndromedaAttunement_MonolithDamageBoost = 2f;
+        public static int AndromedaAttunement_BaseDamage = 2100;
+        public static int AndromedaAttunement_DashHitIFrames = 30;
+        public static float AndromedaAttunement_FullChargeBoost = 4f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float AndromedaAttunement_MonolithDamageBoost = 1.75f;
         public static float AndromedaAttunement_BoltsDamageReduction = 0.2f; //The shots fired as it charges
 
-        public static int AriesAttunement_BaseDamage = 1420;
+        public static int AriesAttunement_BaseDamage = 1100;
         public static int AriesAttunement_LocalIFrames = 10;
         public static int AriesAttunement_Reach = 600;
         public static float AriesAttunement_ChainDamageReduction = 0.2f;

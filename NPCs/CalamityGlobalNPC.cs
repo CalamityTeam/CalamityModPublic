@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs
 			// Abyssal Flames
 			if (aFlames > 0)
 			{
-				int baseAbyssalFlamesDoTValue = (int)((npc.oiled ? 265 : 125) * heatDamageMult);
+				int baseAbyssalFlamesDoTValue = (int)((npc.oiled ? 150 : 75) * heatDamageMult);
 				ApplyDPSDebuff(baseAbyssalFlamesDoTValue, baseAbyssalFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
 			}
 
