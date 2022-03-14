@@ -571,14 +571,16 @@ namespace CalamityMod.NPCs
 
 			// Debuff vulnerabilities and resistances.
 			// Damage multiplier calcs.
-			// Worms that are vulnerable to debuffs take reduced damage from vulnerabilities.
+			// Worms that are vulnerable to debuffs and Slime God slimes take reduced damage from vulnerabilities.
 			bool wormBoss = CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || CalamityLists.PerforatorIDs.Contains(npc.type) ||
 				CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type);
-			double heatDamageMult = npc.drippingSlime ? (wormBoss ? 3D : 5D) : 1D;
+			bool slimeGod = CalamityLists.SlimeGodIDs.Contains(npc.type);
+
+			double heatDamageMult = npc.drippingSlime ? ((wormBoss || slimeGod) ? 3D : 5D) : 1D;
 			if (VulnerableToHeat.HasValue)
 			{
 				if (VulnerableToHeat.Value)
-					heatDamageMult *= npc.drippingSlime ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
+					heatDamageMult *= npc.drippingSlime ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 3D : 5D);
 				else
 					heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
 			}
@@ -3890,7 +3892,7 @@ namespace CalamityMod.NPCs
 			if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
 				CalamityLists.PerforatorIDs.Contains(npc.type) || CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.DestroyerIDs.Contains(npc.type) ||
 				CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type) || CalamityLists.ThanatosIDs.Contains(npc.type) ||
-				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type))
+				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>())
 			{
 				double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())

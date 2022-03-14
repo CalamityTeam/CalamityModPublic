@@ -149,6 +149,7 @@ namespace CalamityMod
         public static List<int> PerforatorIDs;
         public static List<int> DesertScourgeIDs;
         public static List<int> EaterofWorldsIDs;
+        public static List<int> SlimeGodIDs;
         public static List<int> DeathModeSplittingWormIDs;
         public static List<int> DestroyerIDs;
         public static List<int> ThanatosIDs;
@@ -2130,6 +2131,15 @@ namespace CalamityMod
                 NPCID.EaterofWorldsTail
             };
 
+            SlimeGodIDs = new List<int>
+            {
+                NPCType<SlimeGod>(),
+                NPCType<SlimeGodRun>(),
+                NPCType<SlimeGodSplit>(),
+                NPCType<SlimeGodRunSplit>(),
+                NPCType<SlimeGodCore>()
+            };
+
             DeathModeSplittingWormIDs = new List<int>
             {
                 NPCID.DuneSplicerHead,
@@ -2779,6 +2789,7 @@ namespace CalamityMod
             PerforatorIDs = null;
             DesertScourgeIDs = null;
             EaterofWorldsIDs = null;
+            SlimeGodIDs = null;
             DeathModeSplittingWormIDs = null;
             DestroyerIDs = null;
             ThanatosIDs = null;

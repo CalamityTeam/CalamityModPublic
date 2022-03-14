@@ -75,6 +75,13 @@ namespace CalamityMod.Balancing
 
             #endregion Desert Scourge
 
+            #region Crabulon
+
+            // 50% resist to true melee.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<CrabulonIdle>(), new TrueMeleeResistBalancingRule(0.5f)));
+
+            #endregion
+
             #region Brain of Cthulhu / Creepers
 
             // 50% resist to true melee.
