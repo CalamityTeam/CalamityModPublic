@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "The thrown blade is held in place by constellations and will follow your cursor\n" +
                 "Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap and explode into stars";
 
-        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you.n" +
+        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you.\n" +
                 "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
