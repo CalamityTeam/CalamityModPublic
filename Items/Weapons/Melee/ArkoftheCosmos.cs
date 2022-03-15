@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
-                "The physical culmination of your journey, capable to rend gods asunder");
+                "The physical culmination of your journey, capable of rending gods asunder");
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
