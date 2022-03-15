@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     stomping = false;
                 }
                 npc.frameCounter += 1.0;
-                if (npc.frameCounter > 12.0)
+                if (npc.frameCounter > 8.0)
                 {
                     npc.frame.Y = npc.frame.Y + frameHeight;
                     npc.frameCounter = 0.0;
