@@ -91,6 +91,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            SafeCheckAttunements();
+
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
@@ -234,6 +236,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
+
+            SafeCheckAttunements();
         }
 
         public override void NetSend(BinaryWriter writer)
@@ -244,8 +248,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
-            secondaryAttunement = Attunement.attunementArray[reader.ReadByte()];
+            mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
+            secondaryAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
 
         #endregion
@@ -256,6 +260,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
             mult += mainAttunement.DamageMultiplier - 1;
+        }
+
+        public void SafeCheckAttunements()
+        {
+            if (mainAttunement != null)
+                mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
+
+            if (secondaryAttunement != null)
+                secondaryAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)secondaryAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
         }
 
         public override void HoldItem(Player player)
@@ -286,11 +299,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             else
-            {
-                if (mainAttunement.id < AttunementID.TrueDefault || mainAttunement.id > AttunementID.Marine)
-                    mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
                 mainAttunement.ApplyStats(item);
-            }
 
             if (mainAttunement != null && mainAttunement.id != AttunementID.TrueCold && mainAttunement.id != AttunementID.TrueTropical)
                 Combo = 0;
@@ -309,6 +318,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void UpdateInventory(Player player)
         {
+            SafeCheckAttunements();
+
             if (mainAttunement != null && mainAttunement.id == AttunementID.TrueCold && CanUseItem(player))
                 ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
 

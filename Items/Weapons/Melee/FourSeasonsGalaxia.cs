@@ -91,6 +91,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            SafeCheckAttunements();
+
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
@@ -253,7 +255,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
+            mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
 
         #endregion
@@ -273,6 +275,15 @@ namespace CalamityMod.Items.Weapons.Melee
             mult += mainAttunement.DamageMultiplier - 1;
         }
 
+        public void SafeCheckAttunements()
+        {
+            if (mainAttunement == null)
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+
+            else
+                mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.Phoenix, (float)AttunementID.Andromeda)];
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
@@ -287,11 +298,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 UseTimer++;
             }
 
-            if (mainAttunement == null)
-                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
-            //Clamp the attunement to only be part of the 4 galaxia attunements
-            else if (mainAttunement.id < AttunementID.Phoenix)
-                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+            SafeCheckAttunements();
 
             mainAttunement.ApplyStats(item);
 
@@ -309,6 +316,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaHoldout>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            SafeCheckAttunements();
         }
 
         public override bool CanUseItem(Player player)

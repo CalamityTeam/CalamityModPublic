@@ -108,6 +108,8 @@ namespace CalamityMod.Items.Weapons.Melee
         #region tooltip editing
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            SafeCheckAttunements();
+
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
@@ -271,6 +273,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
+
+            SafeCheckAttunements();
         }
 
         public override void NetSend(BinaryWriter writer)
@@ -281,8 +285,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
-            secondaryAttunement = Attunement.attunementArray[reader.ReadByte()];
+            mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
+            secondaryAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
 
         #endregion
@@ -293,6 +297,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
             mult += mainAttunement.DamageMultiplier - 1;
+        }
+
+        public void SafeCheckAttunements()
+        {
+            if (mainAttunement != null)
+                mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.Whirlwind, (float)AttunementID.Shockwave)];
+
+            if (secondaryAttunement != null)
+                secondaryAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)secondaryAttunement.id, (float)AttunementID.Whirlwind, (float)AttunementID.Shockwave)];
         }
 
         public override void HoldItem(Player player)
@@ -323,12 +336,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             else
-            {
-                if (mainAttunement.id < AttunementID.Whirlwind || mainAttunement.id > AttunementID.Shockwave)
-                    mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.Whirlwind, (float)AttunementID.Shockwave)];
-
                 mainAttunement.ApplyStats(item);
-            }
 
 
             if (player.whoAmI != Main.myPlayer)
@@ -358,6 +366,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<TrueBiomeBladeHoldout>(), 0, 0, player.whoAmI);
             }
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            SafeCheckAttunements();
         }
 
         public override bool CanUseItem(Player player)
