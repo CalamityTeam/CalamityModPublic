@@ -83,9 +83,6 @@ namespace CalamityMod.CalPlayer
 			if (blazingCursorDamage)
 				HandleBlazingMouseEffects();
 
-			// Armor set effects
-			VanillaArmorChangeManager.ApplyPotentialEffectsTo(player);
-
 			// Revengeance effects
 			RevengeanceModeMiscEffects();
 
@@ -135,6 +132,9 @@ namespace CalamityMod.CalPlayer
 
 			// Update the gem tech armor set.
 			GemTechState.Update();
+
+			// Armor set effects
+			VanillaArmorChangeManager.ApplyPotentialEffectsTo(player);
 
 			// Regularly sync player stats & mouse control info during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
