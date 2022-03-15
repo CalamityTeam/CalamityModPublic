@@ -2973,9 +2973,7 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dustIndex].noLight = true;
                             }
 
-                            int iframes = 150;
-                            player.GiveIFrames(iframes, true);
-                            spectralVeilImmunity = iframes;
+                            spectralVeilImmunity = 60;
                         }
                     }
                 }
