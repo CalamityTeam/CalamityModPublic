@@ -47,10 +47,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int PolarisAttunement_ShredIFrames = 10;
         public static int PolarisAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int PolarisAttunement_LocalIFramesCharged = 16;
-        public static float PolarisAttunement_SlashDamageBoost = 13f; //Keep in mind the slice always crits
+        public static float PolarisAttunement_SlashDamageBoost = 6f; //Keep in mind the slice always crits
         public static int PolarisAttunement_SlashBoltsDamage = 1300;
-        public static int PolarisAttunement_SlashIFrames = 60;
-        public static float PolarisAttunement_ShotDamageBoost = 2f; //The shots fired if the dash connects
+        public static int PolarisAttunement_SlashIFrames = 20;
+        public static float PolarisAttunement_ShotDamageBoost = 0.8f; //The shots fired if the dash connects
         public static float PolarisAttunement_ShredChargeupGain = 1.1f; //How much charge is gainted per second.
 
         public static int AndromedaAttunement_BaseDamage = 2100;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float AndromedaAttunement_MonolithDamageBoost = 1.75f;
         public static float AndromedaAttunement_BoltsDamageReduction = 0.2f; //The shots fired as it charges
 
-        public static int AriesAttunement_BaseDamage = 1100;
+        public static int AriesAttunement_BaseDamage = 950;
         public static int AriesAttunement_LocalIFrames = 10;
         public static int AriesAttunement_Reach = 600;
         public static float AriesAttunement_ChainDamageReduction = 0.2f;
