@@ -29,20 +29,16 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerGrenade";
 
-        private void Explode()
+        private void Explode(bool NPCHit = false)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
             if (Main.myPlayer == projectile.owner)
             {
-                for (int i = 0; i < 15; i++)
-                {
-                    Particle smoke = new SmallSmokeParticle(projectile.Center + Main.rand.NextVector2Circular(15f, 15f), Vector2.Zero, Color.Orange, new Color(40, 40, 40), Main.rand.NextFloat(0.8f, 1.6f), 145 - Main.rand.Next(30));
-                    smoke.Velocity = (smoke.Position - projectile.Center) * 0.2f + projectile.velocity;
-                    GeneralParticleHandler.SpawnParticle(smoke);
-                }
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PumplerGrenadeExplosion>(), (int)(projectile.damage), projectile.knockBack, projectile.owner, NPCHit ? 1 : 0);
             }
             projectile.Kill();
         }
+
         public override void AI()
         {
             if (projectile.timeLeft == 1)
@@ -71,7 +67,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-            Explode();
+            Explode(true);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Damage gets lowered for the main hit, most of the damage comes from the explosion itself.
+            damage = (int)(damage * 0.1f);
         }
     }
 }
