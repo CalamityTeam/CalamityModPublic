@@ -200,7 +200,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            Charge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

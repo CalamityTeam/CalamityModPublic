@@ -193,7 +193,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            Charge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
         }
 
         public override void AddRecipes()

@@ -97,12 +97,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("True Biome Blade");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
                                "Holding down RMB for 2 seconds attunes the weapon to the powers of the surrounding biome\n" +
                                "Using RMB for a shorter period of time switches your active and passive attunements around\n" +
-                               "Active attunement : None\n" +
-                               "Passive attunement: None\n");
+                               "Active Attunement : None\n" +
+                               "Passive Attunement: None\n");
         }
 
         #region tooltip editing
@@ -114,85 +113,43 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            foreach (TooltipLine l in list)
+
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
+            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.mod == "Terraria");
+
+            //Default stuff
+            effectDescTooltip.text = "Does nothing..yet\nIt seems that upgrading the blade expanded the scope of the previous attunements";
+            effectDescTooltip.overrideColor = new Color(163, 163, 163);
+
+            passiveDescTooltip.text = "Your secondary attunement can now provide passive bonuses";
+            passiveDescTooltip.overrideColor = new Color(163, 163, 163);
+
+            mainAttunementTooltip.text = "Active Attumenent : [None]";
+            mainAttunementTooltip.overrideColor = new Color(163, 163, 163);
+
+            secondaryAttunementTooltip.text = "Passive Attunement : [None]";
+            secondaryAttunementTooltip.overrideColor = new Color(163, 163, 163);
+
+            //If theres a main attunement
+            if (mainAttunement != null)
             {
-                if (l.text == null)
-                    continue;
+                effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+                effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
 
-                if (l.text.StartsWith("FUNCTION_DESC"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description;
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Does nothing.. yet";
-                    }
-                    continue;
-                }
+                mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+            }
 
-                if (l.text.StartsWith("FUNCTION_EXTRA"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description_extra;
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "It seems that upgrading the blade expanded the scope of the previous attunements";
-                    }
-                    continue;
-                }
+            //If theres a secondary attunement
+            if (secondaryAttunement != null)
+            {
+                passiveDescTooltip.text = secondaryAttunement.passive_description;
+                passiveDescTooltip.overrideColor = secondaryAttunement.tooltipColor;
 
-                if (l.text.StartsWith("FUNCTION_PASSIVE"))
-                {
-                    if (secondaryAttunement != null)
-                    {
-                        l.overrideColor = secondaryAttunement.tooltipColor;
-                        l.text = secondaryAttunement.passive_description;
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Your secondary attunement can now provide passive bonuses";
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Active attunement"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
-                        l.text = "Active Attumenent : [" + mainAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Active Attumenent : [None]";
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Passive attunement"))
-                {
-                    if (secondaryAttunement != null)
-                    {
-                        l.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
-                        l.text = "Passive Attumenent : [" + secondaryAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Passive Attumenent : [None]";
-                    }
-                    continue;
-                }
+                secondaryAttunementTooltip.text = "Passive Attumenent : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
             }
         }
 

@@ -79,7 +79,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Galaxia");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
                                "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
@@ -97,86 +96,31 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            foreach (TooltipLine l in list)
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
+            var blessingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.mod == "Terraria");
+
+            //Default stuff gets skipped here. MainAttunement is set to true in SafeCheckAttunements() above
+
+            //.. but just in case
+            if (mainAttunement == null)
             {
-                if (l.text == null)
-                    continue;
-
-                if (l.text.StartsWith("FUNCTION_DESC"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description;
-                    }
-                    else //Fake the existence of a main attunement
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("FUNCTION_EXTRA"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description_extra;
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description_extra;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("FUNCTION_PASSIVE"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipPassiveColor;
-                        l.text = mainAttunement.passive_description;
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].passive_description;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Active Attunement"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
-                        l.text = "Active Attumenent : [" + mainAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = "Active Attumenent : [" + Attunement.attunementArray[(int)AttunementID.Phoenix].name + "]";
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Passive Blessing"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipPassiveColor;
-                        l.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
-                        l.text = "Passive Blessing : ["+ Attunement.attunementArray[(int)AttunementID.Phoenix].passive_name + "]";
-                    }
-                    continue;
-                }
+                CalamityMod.Instance.Logger.Error("No main attunement on galaxia, couldn't edit its tooltip properly. How the hell did that happen.");
+                return;
             }
+
+            effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+            effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
+
+            passiveDescTooltip.text = mainAttunement.passive_description;
+            passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
+
+            mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+            mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+
+            blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
+            blessingTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
         }
         #endregion
 
