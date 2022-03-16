@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories.Wings
             DisplayName.SetDefault("Exodus Wings");
             Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 9.00\n" +
-                "Acceleration multiplier: 2.5\n" +
+                "Acceleration multiplier: 3.0\n" +
                 "Great vertical speed\n" +
                 "Flight time: 180\n" +
                 "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor");
@@ -61,11 +61,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.75f;
+            ascentWhenFalling = 0.85f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 2.5f;
-            constantAscend = 0.125f;
+            maxAscentMultiplier = 3f;
+            constantAscend = 0.135f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)

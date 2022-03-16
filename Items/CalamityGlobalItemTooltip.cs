@@ -795,11 +795,11 @@ namespace CalamityMod.Items
                     "10% increased movement speed and 12% increased jump speed");
 
             if (item.type == ItemID.WingsSolar)
-                AddWingStats(9f, 2.5f, 2, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +
+                AddWingStats(9f, 3f, 2, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +
                     "while wearing the Solar Flare Armor");
 
             if (item.type == ItemID.WingsStardust)
-                AddWingStats(9f, 2.5f, 2, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
+                AddWingStats(9f, 3f, 2, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
 
             if (item.type == ItemID.WingsVortex)
                 AddWingStats(6.5f, 1.5f, 1, 160, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +
