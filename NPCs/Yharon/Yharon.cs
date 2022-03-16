@@ -962,7 +962,7 @@ namespace CalamityMod.NPCs.Yharon
                             }
                             foreach (int t in targets)
                             {
-                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 40f - flareDustBulletHellSpawn) * 8f;
+                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 8f;
                                 int type = ModContent.ProjectileType<FlareDust>();
                                 int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
                                 Main.projectile[proj].extraUpdates += 1;
@@ -1324,7 +1324,7 @@ namespace CalamityMod.NPCs.Yharon
                             }
                             foreach (int t in targets)
                             {
-                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 40f - flareDustBulletHellSpawn) * 8f;
+                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 8f;
                                 int type = ModContent.ProjectileType<FlareDust>();
                                 int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
                                 Main.projectile[proj].extraUpdates += 1;
@@ -2181,7 +2181,7 @@ namespace CalamityMod.NPCs.Yharon
                                 }
                                 foreach (int t in targets)
                                 {
-                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 40f - flareDustBulletHellSpawn) * (projectileVelocity * 0.7f);
+                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * (projectileVelocity * 0.7f);
                                     int type = ModContent.ProjectileType<FlareDust>();
                                     int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
                                     Main.projectile[proj].extraUpdates += 1;
@@ -2211,7 +2211,7 @@ namespace CalamityMod.NPCs.Yharon
                                 }
                                 foreach (int t in targets)
                                 {
-                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 40f - flareDustBulletHellSpawn) * 8f;
+                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 8f;
                                     int type = ModContent.ProjectileType<FlareDust>();
                                     int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
                                     Main.projectile[proj].extraUpdates += 1;
