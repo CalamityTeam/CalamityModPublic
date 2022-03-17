@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-			writer.Write(npc.chaseable);
 			writer.Write(npc.dontTakeDamage);
             writer.Write(npc.localAI[0]);
             writer.Write(npc.localAI[1]);
@@ -86,7 +85,6 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
             npc.localAI[0] = reader.ReadSingle();
             npc.localAI[1] = reader.ReadSingle();

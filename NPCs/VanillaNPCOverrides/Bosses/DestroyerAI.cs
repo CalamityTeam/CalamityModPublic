@@ -605,18 +605,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
-            // 2 seconds of immunity to prevent spawn killing
-            if (npc.Calamity().newAI[1] < 120f)
-            {
-                npc.Calamity().newAI[1] += 1f;
-                if (npc.Calamity().newAI[1] % 15f == 0f)
-                    npc.SyncExtraAI();
-
-                npc.dontTakeDamage = true;
-            }
-            else
-                npc.dontTakeDamage = false;
-
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
@@ -705,9 +693,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else if (npc.velocity.Y > num5)
                 npc.velocity.Y -= acceleration;
 
-            if (npc.Calamity().newAI[1] >= 120f)
-                npc.localAI[0] += 1f;
-
+            npc.localAI[0] += 1f;
             if (npc.justHit)
                 npc.localAI[0] = 0f;
 

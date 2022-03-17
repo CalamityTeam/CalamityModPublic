@@ -126,9 +126,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             bool handsDead = num156 == 0;
             npc.chaseable = handsDead;
-            calamityGlobalNPC.DR = (malice ? 0.45f : 0.05f) + num156 * 0.45f;
-            if (calamityGlobalNPC.DR > 0.95f)
-                calamityGlobalNPC.DR = 0.95f;
+            calamityGlobalNPC.DR = num156 > 0 ? 0.9999f : 0.05f;
 
             // Teleport
             if (handsDead || phase2)

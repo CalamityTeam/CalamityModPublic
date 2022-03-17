@@ -143,10 +143,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
 
-            // If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
-            if (!phase3AI)
-                npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
-
             // Enrage
             if (enrage || malice)
             {
@@ -807,9 +803,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 3
             else if (npc.ai[0] == 10f && !player.dead)
             {
-                npc.dontTakeDamage = false;
-                npc.chaseable = false;
-
                 // Alpha
                 if (npc.alpha < 255)
                 {
@@ -929,9 +922,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Charge
             else if (npc.ai[0] == 11f)
             {
-                npc.dontTakeDamage = false;
-                npc.chaseable = true;
-
                 // Accelerate
                 npc.velocity *= 1.01f;
 
@@ -971,9 +961,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Pause before teleport
             else if (npc.ai[0] == 12f)
             {
-                npc.dontTakeDamage = true;
-                npc.chaseable = false;
-
                 // Alpha
                 if (npc.alpha < 255)
                 {

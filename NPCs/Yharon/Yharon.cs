@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.width = 200;
             npc.height = 200;
             npc.defense = 90;
-            npc.LifeMaxNERB(1085000, 1300000, 370000);
+            npc.LifeMaxNERB(1302000, 1562400, 370000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -182,14 +182,6 @@ namespace CalamityMod.NPCs.Yharon
             int phaseSwitchTimer = expertMode ? 36 : 40;
             float acceleration = expertMode ? 0.75f : 0.7f;
             float velocity = expertMode ? 12f : 11f;
-
-            // Damage immunity
-            if (phase3Change)
-                npc.dontTakeDamage = phase4Check;
-            else if (phase2Change)
-                npc.dontTakeDamage = phase3Check;
-            else if (phase1Change)
-                npc.dontTakeDamage = phase2Check;
 
             if (phase3Change)
             {
@@ -1528,32 +1520,12 @@ namespace CalamityMod.NPCs.Yharon
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
+            npc.dontTakeDamage = false;
             if (invincibilityCounter < Phase2InvincibilityTime)
             {
+                npc.dontTakeDamage = true;
                 phase2 = phase3 = phase4 = false;
-                invincibilityCounter += 1;
-            }
-            else
-            {
-                // Damage immunity
-                switch (secondPhasePhase)
-                {
-                    case 1:
-                        npc.dontTakeDamage = phase2;
-                        break;
-                    case 2:
-                        npc.dontTakeDamage = phase3;
-                        break;
-                    case 3:
-                        npc.dontTakeDamage = phase4;
-                        break;
-                    case 4:
-                        npc.dontTakeDamage = false;
-                        break;
-                }
-
-                if (!npc.dontTakeDamage)
-                    npc.dontTakeDamage = npc.ai[0] == 9f;
+                invincibilityCounter++;
             }
 
             // Acquire target and determine enrage state

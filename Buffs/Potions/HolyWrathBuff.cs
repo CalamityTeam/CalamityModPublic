@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Holy Wrath");
-            Description.SetDefault("Increased damage, increased movement and flight speed, and all attacks inflict holy fire");
+            Description.SetDefault("Increased damage and all attacks inflict holy fire");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.height = 374;
             npc.defense = 40;
 			npc.DR_NERD(0.5f);
-            npc.LifeMaxNERB(NPC.downedMoonlord ? 243750 : 89200, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
+            npc.LifeMaxNERB(NPC.downedMoonlord ? 196000 : 98000, NPC.downedMoonlord ? 235200 : 117600, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -70,8 +70,6 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(stomping);
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.chaseable);
             writer.Write(npc.alpha);
             writer.Write(npc.localAI[2]);
             for (int i = 0; i < 4; i++)
@@ -81,8 +79,6 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			stomping = reader.ReadBoolean();
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.chaseable = reader.ReadBoolean();
             npc.alpha = reader.ReadInt32();
             npc.localAI[2] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)

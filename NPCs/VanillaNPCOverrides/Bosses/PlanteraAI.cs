@@ -365,7 +365,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 calamityGlobalNPC.unbreakableDR = false;
                 npc.defense = 10;
                 npc.damage = (int)(npc.defDamage * 1.4f);
-                npc.chaseable = true;
 
                 // Spawn tentacles
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -559,50 +558,42 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
-            // Heal if on surface and it's daytime, else, gain defense
+            // Heal if on surface
             if (surface)
             {
-                if (Main.dayTime)
+                if (Main.rand.NextBool(Main.dayTime ? 3 : 6))
                 {
-                    if (Main.rand.NextBool(3))
-                    {
-                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, 55, 0f, 0f, 200, default, 0.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.75f;
-                        Main.dust[dust].fadeIn = 1.3f;
-                        Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                        vector.Normalize();
-                        vector *= Main.rand.Next(50, 100) * 0.04f;
-                        Main.dust[dust].velocity = vector;
-                        vector.Normalize();
-                        vector *= 86f;
-                        Main.dust[dust].position = npc.Center - vector;
-                    }
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, 55, 0f, 0f, 200, default, 0.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.75f;
+                    Main.dust[dust].fadeIn = 1.3f;
+                    Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                    vector.Normalize();
+                    vector *= Main.rand.Next(50, 100) * 0.04f;
+                    Main.dust[dust].velocity = vector;
+                    vector.Normalize();
+                    vector *= 86f;
+                    Main.dust[dust].position = npc.Center - vector;
+                }
 
-                    // Heal, 25 seconds to reach full HP from 0
-                    calamityGlobalNPC.newAI[1] += 1f;
-                    if (calamityGlobalNPC.newAI[1] >= 15f)
+                // Heal, 100 (50 during daytime) seconds to reach full HP from 0
+                calamityGlobalNPC.newAI[1] += 1f;
+                if (calamityGlobalNPC.newAI[1] >= (Main.dayTime ? 30f : 60f))
+                {
+                    calamityGlobalNPC.newAI[1] = 0f;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        calamityGlobalNPC.newAI[1] = 0f;
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        int healAmt = npc.lifeMax / 100;
+                        if (healAmt > npc.lifeMax - npc.life)
+                            healAmt = npc.lifeMax - npc.life;
+
+                        if (healAmt > 0)
                         {
-                            int healAmt = npc.lifeMax / 100;
-                            if (healAmt > npc.lifeMax - npc.life)
-                                healAmt = npc.lifeMax - npc.life;
-
-                            if (healAmt > 0)
-                            {
-                                npc.life += healAmt;
-                                npc.HealEffect(healAmt, true);
-                                npc.netUpdate = true;
-                            }
+                            npc.life += healAmt;
+                            npc.HealEffect(healAmt, true);
+                            npc.netUpdate = true;
                         }
                     }
-                }
-                else
-                {
-                    calamityGlobalNPC.DR = 0.9999f;
-                    calamityGlobalNPC.unbreakableDR = true;
                 }
             }
 

@@ -1293,7 +1293,6 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(SoundID.Item109, npc.Center);
 							calamityGlobalNPC.newAI[2] = 2f;
 							SpawnDust();
-							npc.alpha = 255;
 						}
 						else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
 						{
@@ -1303,45 +1302,33 @@ namespace CalamityMod.NPCs
 							string key = "Mods.CalamityMod.CalamitasBossText2";
 							Color messageColor = Color.Orange;
 							CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+							SpawnDust();
 						}
 						else
 						{
 							Main.PlaySound(SoundID.Item109, npc.Center);
 							calamityGlobalNPC.newAI[2] = 1f;
 							SpawnDust();
-							npc.alpha = 255;
 						}
 					}
 				}
 			}
 
-			// Huge DR boost if brothers are alive
-			if (expertMode)
+			// Immunity if brothers are alive
+			if (CalamityGlobalNPC.cataclysm != -1)
 			{
-				if (CalamityGlobalNPC.cataclysm != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.cataclysm].active)
-						brotherAlive = true;
-				}
-				if (CalamityGlobalNPC.catastrophe != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.catastrophe].active)
-						brotherAlive = true;
-				}
-				if (brotherAlive)
-				{
-					calamityGlobalNPC.DR = 0.9999f;
-					calamityGlobalNPC.unbreakableDR = true;
-				}
-				else
-				{
-					calamityGlobalNPC.DR = death ? 0.075f : 0.15f;
-					calamityGlobalNPC.unbreakableDR = false;
-				}
+				if (Main.npc[CalamityGlobalNPC.cataclysm].active)
+					brotherAlive = true;
+			}
+			if (CalamityGlobalNPC.catastrophe != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.catastrophe].active)
+					brotherAlive = true;
 			}
 
-			// Disable homing if brothers are alive
-			npc.chaseable = !brotherAlive;
+			if (brotherAlive)
+				npc.dontTakeDamage = true;
 
 			void SpawnDust()
 			{
@@ -1565,8 +1552,8 @@ namespace CalamityMod.NPCs
 				{
 					calamityGlobalNPC.newAI[3] += 1f;
 					npc.damage = 0;
-					npc.chaseable = false;
 					npc.dontTakeDamage = true;
+					npc.alpha = 255;
 
 					float rotX = player.Center.X - npc.Center.X;
 					float rotY = player.Center.Y - npc.Center.Y;
@@ -1636,7 +1623,6 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
-					npc.alpha = 0;
 
 					// Prevent bullshit charge hits when second bullet hell ends.
 					if (phase5)
@@ -1702,6 +1688,8 @@ namespace CalamityMod.NPCs
 
 				return;
 			}
+
+			npc.alpha = npc.dontTakeDamage ? 255 : 0;
 
 			// Float above target and fire lasers or fireballs
 			if (npc.ai[1] == 0f)
@@ -3033,10 +3021,6 @@ namespace CalamityMod.NPCs
             // Mid-teleport
             else if (npc.ai[0] == 6f)
             {
-                // Become immune
-                npc.chaseable = false;
-                npc.dontTakeDamage = true;
-
 				if (death)
 					npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
 
@@ -3104,10 +3088,6 @@ namespace CalamityMod.NPCs
 							npc.netUpdate = true;
 						}
 					}
-
-                    // Become vulnerable
-                    npc.chaseable = true;
-                    npc.dontTakeDamage = false;
 
                     // Reset alpha and set AI to next phase (Idle)
                     npc.alpha = 0;
@@ -4585,10 +4565,6 @@ namespace CalamityMod.NPCs
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-			npc.dontTakeDamage = phaseSwitchPhase;
-
-			calamityGlobalNPC.DR = (npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.75f : 0.1f;
-
 			if (phaseSwitchPhase)
 			{
 				if (npc.velocity.X < 0f)
@@ -5216,7 +5192,6 @@ namespace CalamityMod.NPCs
             {
                 Vector2 value43 = new Vector2(0f, -8f);
                 npc.velocity = (npc.velocity * 21f + value43) / 10f;
-                npc.dontTakeDamage = true;
                 return;
             }
 
@@ -5564,10 +5539,6 @@ namespace CalamityMod.NPCs
 			bool biomeEnraged = npc.localAI[1] <= 0f;
 
 			npc.Calamity().CurrentlyEnraged = biomeEnraged;
-
-			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
-			if (!phase3AI)
-				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
 			if (biomeEnraged)
@@ -6464,8 +6435,6 @@ namespace CalamityMod.NPCs
 			// Pause before teleport
 			else if (npc.ai[0] == 12f)
 			{
-				npc.dontTakeDamage = true;
-
 				// Alpha
 				if (npc.alpha < 255 && npc.ai[2] >= num12 - 15f)
 				{
@@ -6520,8 +6489,6 @@ namespace CalamityMod.NPCs
 					npc.ai[3] += 2f;
 					if (npc.ai[3] >= 9f)
 						npc.ai[3] = 0f;
-
-					npc.dontTakeDamage = false;
 
 					npc.netUpdate = true;
 				}

@@ -11,9 +11,8 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cadance Potion");
-            Tooltip.SetDefault("Gives the cadance buff which reduces spawn rates\n" +
-                               "Increases life regen and increases max life by 25%\n" +
-                               "Increases heart pickup range\n" +
+            Tooltip.SetDefault("Gives the cadance buff which increases life regeneration and heart pickup range\n" +
+                               "Increases max life by 25%\n" +
                                 "While this potion's buff is active, Regeneration Potion and Lifeforce Potion buffs are disabled");
         }
 

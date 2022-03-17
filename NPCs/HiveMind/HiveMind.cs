@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 178;
             npc.height = 122;
             npc.defense = 8;
-            npc.LifeMaxNERB(7800, 9360, 350000);
+            npc.LifeMaxNERB(8500, 10200, 350000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -405,8 +405,6 @@ namespace CalamityMod.NPCs.HiveMind
 					npc.frame.Y = 0;
 					npc.noGravity = true;
 					npc.noTileCollide = true;
-					npc.Calamity().DR = 0f;
-					npc.Calamity().unbreakableDR = false;
 					npc.scale = 1f;
 					npc.alpha = 0;
 					npc.dontTakeDamage = false;
@@ -465,20 +463,6 @@ namespace CalamityMod.NPCs.HiveMind
 						int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
 						for (int i = 0; i < maxBlobs; i++)
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI);
-					}
-				}
-
-				if (expertMode)
-				{
-					if (NPC.AnyNPCs(ModContent.NPCType<DankCreeper>()))
-					{
-						npc.Calamity().DR = 0.9999f;
-						npc.Calamity().unbreakableDR = true;
-					}
-					else
-					{
-						npc.Calamity().DR = 0f;
-						npc.Calamity().unbreakableDR = false;
 					}
 				}
 
