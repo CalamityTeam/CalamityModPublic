@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Perforator
 			npc.width = 110;
             npc.height = 100;
             npc.defense = 4;
-            npc.LifeMaxNERB(4500, 5400, 270000);
+            npc.LifeMaxNERB(5000, 6000, 270000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -170,27 +170,22 @@ namespace CalamityMod.NPCs.Perforator
 				npc.timeLeft = 1800;
 
 			int wormsAlive = 0;
-			bool largeWormAlive = false;
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>()))
-			{
 				wormsAlive++;
-				largeWormAlive = true;
-			}
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>()))
 				wormsAlive++;
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
 				wormsAlive++;
 
-			npc.dontTakeDamage = largeWormAlive && expertMode;
-
 			if (npc.ai[3] == 0f && npc.life > 0)
 				npc.ai[3] = npc.lifeMax;
 
-			if (npc.life > 0)
+			bool canSpawnWorms = !small || !medium || !large;
+			if (npc.life > 0 && canSpawnWorms)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int num660 = (int)(npc.lifeMax * 0.3);
+					int num660 = (int)(npc.lifeMax * 0.25);
 					if ((npc.life + num660) < npc.ai[3])
 					{
 						npc.ai[3] = npc.life;
@@ -209,8 +204,30 @@ namespace CalamityMod.NPCs.Perforator
 							large = true;
 							wormType = ModContent.NPCType<PerforatorHeadLarge>();
 						}
-						NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 800f), wormType, 1);
+						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, wormType, 1);
 						npc.TargetClosest();
+
+						Main.PlaySound(SoundID.NPCDeath23, npc.position);
+
+						for (int num621 = 0; num621 < 16; num621++)
+						{
+							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 170, 0f, 0f, 100, default, 1f);
+							Main.dust[num622].velocity *= 2f;
+							if (Main.rand.NextBool(2))
+							{
+								Main.dust[num622].scale = 0.25f;
+								Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+							}
+						}
+
+						for (int num623 = 0; num623 < 32; num623++)
+						{
+							int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
+							Main.dust[num624].noGravity = true;
+							Main.dust[num624].velocity *= 3f;
+							num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
+							Main.dust[num624].velocity *= 2f;
+						}
 					}
 				}
 			}

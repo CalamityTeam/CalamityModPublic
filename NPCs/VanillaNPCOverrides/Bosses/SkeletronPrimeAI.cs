@@ -108,12 +108,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else if (allArmsDead)
                 npc.damage = npc.defDamage;
 
-            int defenseBoost = malice ? 100 : 20;
-            npc.defense = npc.defDefense + (cannonAlive ? defenseBoost : 0) + (laserAlive ? defenseBoost : 0) + (viceAlive ? defenseBoost : 0) + (sawAlive ? defenseBoost : 0);
+            npc.defense = npc.defDefense;
 
             // Phases
-            bool phase2 = lifeRatio < 0.66f;
-            bool phase3 = lifeRatio < 0.33f;
+            bool phase2 = lifeRatio < 0.5f;
+            bool phase3 = lifeRatio < 0.25f;
 
             // Kill all arms if Prime Head enters phase 2
             if (phase2 && !allArmsDead)
