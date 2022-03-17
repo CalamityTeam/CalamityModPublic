@@ -116,7 +116,7 @@ namespace CalamityMod.Items.Weapons.Melee
             passiveDescTooltip.text = mainAttunement.passive_description;
             passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
 
-            mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+            mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
             mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
 
             blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
