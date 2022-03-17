@@ -4565,10 +4565,6 @@ namespace CalamityMod.NPCs
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-			npc.dontTakeDamage = phaseSwitchPhase;
-
-			calamityGlobalNPC.DR = (npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.75f : 0.1f;
-
 			if (phaseSwitchPhase)
 			{
 				if (npc.velocity.X < 0f)
@@ -5196,7 +5192,6 @@ namespace CalamityMod.NPCs
             {
                 Vector2 value43 = new Vector2(0f, -8f);
                 npc.velocity = (npc.velocity * 21f + value43) / 10f;
-                npc.dontTakeDamage = true;
                 return;
             }
 
@@ -5544,10 +5539,6 @@ namespace CalamityMod.NPCs
 			bool biomeEnraged = npc.localAI[1] <= 0f;
 
 			npc.Calamity().CurrentlyEnraged = biomeEnraged;
-
-			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
-			if (!phase3AI)
-				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
 			if (biomeEnraged)
@@ -6444,8 +6435,6 @@ namespace CalamityMod.NPCs
 			// Pause before teleport
 			else if (npc.ai[0] == 12f)
 			{
-				npc.dontTakeDamage = true;
-
 				// Alpha
 				if (npc.alpha < 255 && npc.ai[2] >= num12 - 15f)
 				{
@@ -6500,8 +6489,6 @@ namespace CalamityMod.NPCs
 					npc.ai[3] += 2f;
 					if (npc.ai[3] >= 9f)
 						npc.ai[3] = 0f;
-
-					npc.dontTakeDamage = false;
 
 					npc.netUpdate = true;
 				}

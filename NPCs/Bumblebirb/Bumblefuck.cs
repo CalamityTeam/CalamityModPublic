@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.height = 100;
             npc.defense = 40;
 			npc.DR_NERD(0.1f);
-			npc.LifeMaxNERB(158500, 190000, 300000); // Old HP - 227500, 252500
+			npc.LifeMaxNERB(190200, 228240, 300000); // Old HP - 227500, 252500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -66,7 +66,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
@@ -77,7 +76,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
