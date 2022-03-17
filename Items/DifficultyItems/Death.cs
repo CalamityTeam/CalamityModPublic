@@ -20,7 +20,6 @@ namespace CalamityMod.Items.DifficultyItems
 
 				// Biome effect lines
                 "Allows certain bosses to spawn naturally depending on what biome you're in.\n" +
-                "Lethal Lava effects are always enabled.\n" +
                 "Greatly boosts enemy spawn rates during the Blood Moon.\n" +
                 "Makes the Abyss more treacherous to navigate.\n" +
 

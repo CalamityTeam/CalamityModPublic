@@ -79,7 +79,18 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ElementalRay>());
-            recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
+            recipe.AddIngredient(ModContent.ItemType<ThornBlossom>());
+            recipe.AddIngredient(ModContent.ItemType<AsteroidStaff>());
+            recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
+            recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
+            recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ElementalRay>());
+            recipe.AddIngredient(ModContent.ItemType<ThePrince>());
             recipe.AddIngredient(ModContent.ItemType<AsteroidStaff>());
             recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
             recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());

@@ -502,7 +502,7 @@ namespace CalamityMod.DataStructures
             name = "Gesture for the Drowned";
             function_description = "Shoot out two water balls at your sides. On ground contact the water balls will turn into small waves that ride along the ground";
             function_description_extra = "Waves fired while underwater or that touch water will become much larger and faster";
-            tooltipColor = new Color(91, 73, 196);
+            tooltipColor = new Color(61, 103, 209);
 
             energyParticleEdgeColor = new Color(27, 59, 101);
             energyParticleCenterColor = new Color(27, 112643, 255);

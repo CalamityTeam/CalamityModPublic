@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eutrophic Scimitar");
-            Tooltip.SetDefault("Fires a beam upon swing that stuns enemies");
+            Tooltip.SetDefault("Fires two beams that stun enemies");
         }
 
         public override void SetDefaults()

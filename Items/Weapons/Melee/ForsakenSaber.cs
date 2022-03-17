@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forsaken Saber");
-            Tooltip.SetDefault("Shoots a sand blade that alters its velocity as it travels");
+            Tooltip.SetDefault("Shoots three sand blades that alter their velocity as they travel");
         }
 
         public override void SetDefaults()

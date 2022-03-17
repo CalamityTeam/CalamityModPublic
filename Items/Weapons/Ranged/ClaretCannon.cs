@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Claret Cannon");
-            Tooltip.SetDefault("Converts musket balls into strings of 3 bloody tears that drain enemy health");
+            Tooltip.SetDefault("Fires strings of 3 bullets\n" + 
+                "Converts musket balls into bloody tears that drain enemy health");
         }
 
         public override void SetDefaults()

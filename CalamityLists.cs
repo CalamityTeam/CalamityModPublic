@@ -1484,7 +1484,8 @@ namespace CalamityMod
                 ItemType<JawsOfOblivion>(),
                 ItemType<LeviathanTeeth>(),
                 ItemType<DeificThunderbolt>(),
-                ItemType<Sacrifice>()
+                ItemType<Sacrifice>(),
+                ItemType<Seraphim>()
             };
 
             daggerProjList = new List<int>()
