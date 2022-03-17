@@ -53,17 +53,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<IceStar>(), 200);
-            recipe.AddIngredient(ModContent.ItemType<Avalanche>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EffluviumBow>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<GlacialCrusher>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Icebreaker>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<SnowstormStaff>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<SoulofCryogen>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<FrostFlare>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<CryoStone>());
-            recipe.AddIngredient(ItemID.FrozenKey);
-            recipe.AddIngredient(ItemID.FrostCore, 2);
+            recipe.AddIngredient(ModContent.ItemType<IceStar>(), 100);
+            recipe.AddIngredient(ModContent.ItemType<Avalanche>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<EffluviumBow>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<GlacialCrusher>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Icebreaker>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SnowstormStaff>(), 1);
             recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
