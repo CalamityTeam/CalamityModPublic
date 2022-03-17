@@ -1040,9 +1040,7 @@ namespace CalamityMod.Items
 
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
-        {
-            VanillaArmorChangeManager.ApplyPotentialEffectsTo(player);
-
+        {           
             switch (item.type)
             {
                 case ItemID.MagicHat:

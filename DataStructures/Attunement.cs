@@ -764,7 +764,7 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Polaris;
             name = "Polaris' Gaze"; //It carries the mark of the Northern Star
-            function_description = "Hold the attack button to channel the Northern Star's power into a tight vortex of galactic energies, bound by concentric rings of stars. The vortex powers up over time and when hitting enemies";
+            function_description = "Hold the attack button to channel the Northern Star's power into a tight vortex of galactic energies, bound by concentric rings of stars.\nThe vortex powers up over time and when hitting enemies";
             function_description_extra = "Release the attack button to fire off the charged star. Attacking again immediately thereafter dashes to the star, emitting a nova of cosmic bolts";
             tooltipColor = new Color(128, 189, 255);
             tooltipColor2 = new Color(255, 128, 140);

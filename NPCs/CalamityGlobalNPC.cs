@@ -813,6 +813,10 @@ namespace CalamityMod.NPCs
 				npc.lifeRegen /= 4;
 				if (npc.lifeRegen > -1)
 					npc.lifeRegen = -1;
+
+				// Every other EoW body segment and the head segments are immune to DoT
+				if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && (CalamityWorld.death || BossRushEvent.BossRushActive))
+					npc.lifeRegen = 0;
 			}
 		}
 

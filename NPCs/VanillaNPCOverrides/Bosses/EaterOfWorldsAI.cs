@@ -22,11 +22,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            // Causes it to split far more in malice mode
-            if (malice && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail))
+            // Causes it to split far more in death mode
+            if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && death)
             {
-                calamityGlobalNPC.DR = 0.8f;
-                npc.defense = npc.defDefense * 4;
+                calamityGlobalNPC.DR = 0.5f;
+                npc.defense = npc.defDefense * 2;
             }
 
             // Get a target
@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetEaterOfWorldsSegmentsCountRevDeath()
         {
-            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 82 : 77;
+            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 67 : 77;
         }
     }
 }

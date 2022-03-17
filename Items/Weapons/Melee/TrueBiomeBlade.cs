@@ -80,81 +80,53 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Biome Blade");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_EXTRA\n" +
                                "Hold down RMB while standing still on flat ground to attune the weapon to the powers of the surrounding biome\n" +
                                "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
-                               "Main attunement : None\n" +
-                               "Secondary attunement: None\n"); //Theres potential for flavor text as well but im not a writer
+                               "Main Attunement : [None]\n" +
+                               "Secondary Attunement: [None]\n"); //Theres potential for flavor text as well but im not a writer
         }
 
         #region tooltip editing
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            SafeCheckAttunements();
+
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
 
-            foreach (TooltipLine l in list)
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip3" && x.mod == "Terraria");
+            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
+
+            //Default stuff
+            effectDescTooltip.text = "Does nothing..yet\nRepairing the blade seems to have improved its attuning capacities";
+            effectDescTooltip.overrideColor = new Color(163, 163, 163);
+
+            mainAttunementTooltip.text = "Main Attunement : [None]";
+            mainAttunementTooltip.overrideColor = new Color(163, 163, 163);
+
+            secondaryAttunementTooltip.text = "Secondary Attunement : [None]";
+            secondaryAttunementTooltip.overrideColor = new Color(163, 163, 163);
+
+            //If theres a main attunement
+            if (mainAttunement != null)
             {
-                if (l.text.StartsWith("FUNCTION_DESC"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description;
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Does nothing.. yet";
-                    }
-                }
+                effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra ;
+                effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
 
-                if (l.text.StartsWith("FUNCTION_EXTRA"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description_extra;
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Repairing the blade seems to have improved its attuning capacities";
-                    }
-                }
+                mainAttunementTooltip.text = "Main Attumenent : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.overrideColor = mainAttunement.tooltipColor;
+            }
 
-                if (l.text.StartsWith("Main attunement"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = "Main Attumenent : [" + mainAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Main Attumenent : [None]";
-                    }
-                }
-
-                if (l.text.StartsWith("Secondary attunement"))
-                {
-                    if (secondaryAttunement != null)
-                    {
-                        l.overrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
-                        l.text = "Secondary Attumenent : [" + secondaryAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = new Color(163, 163, 163);
-                        l.text = "Secondary Attumenent : [None]";
-                    }
-                }
+            //If theres a secondary attunement
+            if (secondaryAttunement != null)
+            {
+                secondaryAttunementTooltip.text = "Secondary Attumenent : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.overrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
             }
         }
-
         #endregion
 
         public override void SetDefaults()
@@ -234,6 +206,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == secondaryAttunement)
                 secondaryAttunement = null;
+
+            SafeCheckAttunements();
         }
 
         public override void NetSend(BinaryWriter writer)
@@ -244,8 +218,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
-            secondaryAttunement = Attunement.attunementArray[reader.ReadByte()];
+            mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
+            secondaryAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
 
         #endregion
@@ -256,6 +230,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
             mult += mainAttunement.DamageMultiplier - 1;
+        }
+
+        public void SafeCheckAttunements()
+        {
+            if (mainAttunement != null)
+                mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
+
+            if (secondaryAttunement != null)
+                secondaryAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)secondaryAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
         }
 
         public override void HoldItem(Player player)
@@ -286,11 +269,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             else
-            {
-                if (mainAttunement.id < AttunementID.TrueDefault || mainAttunement.id > AttunementID.Marine)
-                    mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.TrueDefault, (float)AttunementID.Marine)];
                 mainAttunement.ApplyStats(item);
-            }
 
             if (mainAttunement != null && mainAttunement.id != AttunementID.TrueCold && mainAttunement.id != AttunementID.TrueTropical)
                 Combo = 0;
@@ -309,6 +288,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void UpdateInventory(Player player)
         {
+            SafeCheckAttunements();
+
             if (mainAttunement != null && mainAttunement.id == AttunementID.TrueCold && CanUseItem(player))
                 ComboResetTimer -= 0.02f; //Make the combo counter get closer to being reset
 

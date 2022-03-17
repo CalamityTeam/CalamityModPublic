@@ -17,8 +17,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
            4 - Creepers are immune to debuffs*/
         public static bool BuffedBrainofCthulhuAI(NPC npc, Mod mod)
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
 
@@ -104,10 +102,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float lifeRatio = npc.life / (float)npc.lifeMax;
 
                 // Phases based on HP
-                bool phase2 = lifeRatio < 0.85f;
-                bool phase3 = lifeRatio < 0.7f;
-                bool phase4 = lifeRatio < 0.55f;
-                bool phase5 = lifeRatio < 0.4f;
+                bool phase2 = lifeRatio < 0.8f;
+                bool phase3 = lifeRatio < 0.65f;
+                bool phase4 = lifeRatio < 0.5f;
                 bool spinning = npc.ai[0] == -4f;
 
                 // KnockBack
@@ -139,10 +136,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float velocityScale = death ? 4f : 2f;
                         float velocityBoost = velocityScale * (1f - lifeRatio);
                         float num798 = 8f + velocityBoost + 3f * enrageScale;
-
-                        if (phase2 && !phase3)
-                            num798 *= 0.9f;
-
                         num797 = num798 / num797;
                         num795 *= num797;
                         num796 *= num797;
@@ -175,7 +168,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
 
                             // Velocity
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 16f : 14f) + 4f * enrageScale);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
                         }
                     }
 
@@ -186,8 +179,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] += 1f;
                         if (npc.ai[2] >= 180f)
                         {
-                            bool spin = phase4 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
-                            if (phase5)
+                            bool spin = phase3 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
+                            if (phase4)
                                 spin = true;
 
                             // Velocity and knockback
@@ -226,14 +219,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[2] += 1f;
 
-                    float timer = (death ? 30f - 30f * (1f - lifeRatio) : 30f) + npc.ai[3];
+                    float timer = (death ? 0f : 30f) + npc.ai[3];
 
                     if (npc.ai[2] >= timer - 5f)
                     {
                         if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 400f) // 25 tile distance
                         {
                             npc.ai[2] -= 1f;
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * ((death ? -8f : -6f) - 2f * enrageScale);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * ((death ? -10f : -8f) - 2f * enrageScale);
                         }
                     }
 
@@ -243,8 +236,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Complete stop
                         npc.velocity *= 0f;
 
-                        bool charge = phase4 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
-                        if (phase5)
+                        bool charge = phase3 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
+                        if (phase4)
                             charge = true;
 
                         // Adjust knockback
@@ -278,7 +271,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         // Go to phase 3
-                        if (phase3 && npc.ai[0] == -1f)
+                        if (phase2 && npc.ai[0] == -1f)
                         {
                             npc.ai[0] = -5f;
                             npc.ai[1] = 0f;
@@ -296,7 +289,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.justHit)
                             npc.localAI[1] -= Main.rand.Next(random);
 
-                        float num799 = (phase2 && !phase3) ? 60f : (death ? 105f : 90f);
+                        float num799 = phase2 ? 60f : 90f;
                         if (npc.localAI[1] >= num799)
                         {
                             npc.localAI[1] = 0f;
@@ -310,14 +303,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 num801 = (int)Main.player[npc.target].Center.X / 16;
                                 num802 = (int)Main.player[npc.target].Center.Y / 16;
 
-                                int min = 9;
-                                int max = (phase2 && !phase3) ? 11 : 15;
-
-                                if (phase3)
-                                {
-                                    min = 17;
-                                    max = 20;
-                                }
+                                int min = 14;
+                                int max = 17;
 
                                 min += teleportDistanceIncrease;
                                 max += teleportDistanceIncrease;
@@ -384,8 +371,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[3] <= 0f)
                     {
-                        bool spin = phase4 ? (Main.rand.NextBool() && npc.ai[0] == -9f) : false;
-                        if (phase5 && npc.ai[0] == -9f)
+                        bool spin = phase3 ? (Main.rand.NextBool() && npc.ai[0] == -9f) : false;
+                        if (phase4 && npc.ai[0] == -9f)
                             spin = true;
 
                         if (spin)
@@ -647,6 +634,33 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Return to Brain
                 if (num817 > 700f || (npc.justHit && !phase2))
                     npc.ai[0] = 0f;
+            }
+
+            // Push away from each other in death mode
+            if (death)
+            {
+                float pushVelocity = 0.5f;
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].active)
+                    {
+                        if (i != npc.whoAmI && Main.npc[i].type == npc.type)
+                        {
+                            if (Vector2.Distance(npc.Center, Main.npc[i].Center) < 48f)
+                            {
+                                if (npc.position.X < Main.npc[i].position.X)
+                                    npc.velocity.X -= pushVelocity;
+                                else
+                                    npc.velocity.X += pushVelocity;
+
+                                if (npc.position.Y < Main.npc[i].position.Y)
+                                    npc.velocity.Y -= pushVelocity;
+                                else
+                                    npc.velocity.Y += pushVelocity;
+                            }
+                        }
+                    }
+                }
             }
 
             return false;

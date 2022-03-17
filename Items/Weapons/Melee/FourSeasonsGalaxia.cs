@@ -47,10 +47,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int PolarisAttunement_ShredIFrames = 10;
         public static int PolarisAttunement_LocalIFrames = 30; //Be warned its got one extra update so all the iframes should be divided in 2
         public static int PolarisAttunement_LocalIFramesCharged = 16;
-        public static float PolarisAttunement_SlashDamageBoost = 13f; //Keep in mind the slice always crits
+        public static float PolarisAttunement_SlashDamageBoost = 6f; //Keep in mind the slice always crits
         public static int PolarisAttunement_SlashBoltsDamage = 1300;
-        public static int PolarisAttunement_SlashIFrames = 60;
-        public static float PolarisAttunement_ShotDamageBoost = 2f; //The shots fired if the dash connects
+        public static int PolarisAttunement_SlashIFrames = 20;
+        public static float PolarisAttunement_ShotDamageBoost = 0.8f; //The shots fired if the dash connects
         public static float PolarisAttunement_ShredChargeupGain = 1.1f; //How much charge is gainted per second.
 
         public static int AndromedaAttunement_BaseDamage = 2100;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float AndromedaAttunement_MonolithDamageBoost = 1.75f;
         public static float AndromedaAttunement_BoltsDamageReduction = 0.2f; //The shots fired as it charges
 
-        public static int AriesAttunement_BaseDamage = 1100;
+        public static int AriesAttunement_BaseDamage = 950;
         public static int AriesAttunement_LocalIFrames = 10;
         public static int AriesAttunement_Reach = 600;
         public static float AriesAttunement_ChainDamageReduction = 0.2f;
@@ -79,7 +79,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Galaxia");
             Tooltip.SetDefault("FUNCTION_DESC\n" +
-                               "FUNCTION_EXTRA\n" +
                                "FUNCTION_PASSIVE\n" +
                                "Upgrading the sword let it break free from its earthly boundaries. You now have access to every single attunement at all times!\n" +
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
@@ -91,90 +90,37 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            SafeCheckAttunements();
+
             Player player = Main.player[Main.myPlayer];
             if (player is null)
                 return;
 
-            foreach (TooltipLine l in list)
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
+            var blessingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.mod == "Terraria");
+
+            //Default stuff gets skipped here. MainAttunement is set to true in SafeCheckAttunements() above
+
+            //.. but just in case
+            if (mainAttunement == null)
             {
-                if (l.text == null)
-                    continue;
-
-                if (l.text.StartsWith("FUNCTION_DESC"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description;
-                    }
-                    else //Fake the existence of a main attunement
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("FUNCTION_EXTRA"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipColor;
-                        l.text = mainAttunement.function_description_extra;
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].function_description_extra;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("FUNCTION_PASSIVE"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipPassiveColor;
-                        l.text = mainAttunement.passive_description;
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
-                        l.text = Attunement.attunementArray[(int)AttunementID.Phoenix].passive_description;
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Active Attunement"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
-                        l.text = "Active Attumenent : [" + mainAttunement.name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipColor;
-                        l.text = "Active Attumenent : [" + Attunement.attunementArray[(int)AttunementID.Phoenix].name + "]";
-                    }
-                    continue;
-                }
-
-                if (l.text.StartsWith("Passive Blessing"))
-                {
-                    if (mainAttunement != null)
-                    {
-                        l.overrideColor = mainAttunement.tooltipPassiveColor;
-                        l.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
-                    }
-                    else
-                    {
-                        l.overrideColor = Attunement.attunementArray[(int)AttunementID.Phoenix].tooltipPassiveColor;
-                        l.text = "Passive Blessing : ["+ Attunement.attunementArray[(int)AttunementID.Phoenix].passive_name + "]";
-                    }
-                    continue;
-                }
+                CalamityMod.Instance.Logger.Error("No main attunement on galaxia, couldn't edit its tooltip properly. How the hell did that happen.");
+                return;
             }
+
+            effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+            effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
+
+            passiveDescTooltip.text = mainAttunement.passive_description;
+            passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
+
+            mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+            mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+
+            blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
+            blessingTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
         }
         #endregion
 
@@ -253,7 +199,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void NetRecieve(BinaryReader reader)
         {
-            mainAttunement = Attunement.attunementArray[reader.ReadByte()];
+            mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
 
         #endregion
@@ -273,6 +219,15 @@ namespace CalamityMod.Items.Weapons.Melee
             mult += mainAttunement.DamageMultiplier - 1;
         }
 
+        public void SafeCheckAttunements()
+        {
+            if (mainAttunement == null)
+                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+
+            else
+                mainAttunement = Attunement.attunementArray[(int)MathHelper.Clamp((float)mainAttunement.id, (float)AttunementID.Phoenix, (float)AttunementID.Andromeda)];
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().rightClickListener = true;
@@ -287,11 +242,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 UseTimer++;
             }
 
-            if (mainAttunement == null)
-                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
-            //Clamp the attunement to only be part of the 4 galaxia attunements
-            else if (mainAttunement.id < AttunementID.Phoenix)
-                mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
+            SafeCheckAttunements();
 
             mainAttunement.ApplyStats(item);
 
@@ -309,6 +260,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaHoldout>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            SafeCheckAttunements();
         }
 
         public override bool CanUseItem(Player player)

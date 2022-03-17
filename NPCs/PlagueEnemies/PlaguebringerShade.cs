@@ -444,6 +444,9 @@ namespace CalamityMod.NPCs.PlagueEnemies
 						bool fireRocket = Main.rand.NextBool(15);
                         int type = fireRocket ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
 						int damage = fireRocket ? 72 : 52;
+                        if (Main.expertMode)
+                            damage = fireRocket ? 50 : 35;
+
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
