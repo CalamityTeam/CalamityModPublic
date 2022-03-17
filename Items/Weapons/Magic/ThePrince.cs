@@ -58,9 +58,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 15);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

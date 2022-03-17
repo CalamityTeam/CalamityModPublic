@@ -1,4 +1,6 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -56,13 +58,23 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 Vector2 orbPos = clickPos + dir * orbDistance;
                 Vector2 vel = dir.RotatedBy(spinCoinflip * MathHelper.PiOver2) * orbSpeed;
-                
+
                 // Choose random firing stagger values for each orb to create a desynchronized barrage of lasers
                 float timingStagger = Main.rand.Next(OrbFireRate);
                 Projectile.NewProjectile(orbPos, vel, type, damage, knockBack, player.whoAmI, timingStagger, spinCoinflip);
                 dir = dir.RotatedBy(MathHelper.TwoPi / numOrbs);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Climax>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
