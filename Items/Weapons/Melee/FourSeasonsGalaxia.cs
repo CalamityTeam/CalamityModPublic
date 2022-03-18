@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float PhoenixAttunement_BoltThrowDamageMultiplier = 1f;
         public static float PhoenixAttunement_BaseDamageReduction = 0.5f;
         public static float PhoenixAttunement_FullChargeDamageBoost = 2.1f;
-        public static float PhoenixAttunement_ThrowDamageBoost = 3f;
+        public static float PhoenixAttunement_ThrowDamageBoost = 3.2f;
 
         public static int PolarisAttunement_BaseDamage = 1200;
         public static int PolarisAttunement_FullChargeDamage = 1900;
