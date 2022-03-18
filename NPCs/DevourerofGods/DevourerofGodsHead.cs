@@ -179,6 +179,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			bool wasDyingBefore = Dying;
+
 			// Phase 1 syncs
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(spawnedGuardians);
@@ -211,6 +213,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(Dying);
 			writer.Write(DeathAnimationTimer);
 			writer.Write(DestroyedSegmentCount);
+
+			// Be sure to inform clients of the fact that The Devourer of Gods is dying if only the server recieved this packet.
+			if (Main.netMode == NetmodeID.Server && !wasDyingBefore && Dying)
+			{
+				npc.netSpam = 0;
+				npc.netUpdate = true;
+			}
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)

@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Weapons.Melee
             passiveDescTooltip.text = "Your secondary attunement can now provide passive bonuses";
             passiveDescTooltip.overrideColor = new Color(163, 163, 163);
 
-            mainAttunementTooltip.text = "Active Attumenent : [None]";
+            mainAttunementTooltip.text = "Active Attunement : [None]";
             mainAttunementTooltip.overrideColor = new Color(163, 163, 163);
 
             secondaryAttunementTooltip.text = "Passive Attunement : [None]";
@@ -138,7 +138,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
                 effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
 
-                mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
                 mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
             }
 
@@ -148,7 +148,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 passiveDescTooltip.text = secondaryAttunement.passive_description;
                 passiveDescTooltip.overrideColor = secondaryAttunement.tooltipColor;
 
-                secondaryAttunementTooltip.text = "Passive Attumenent : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.text = "Passive Attunement : [" + secondaryAttunement.name + "]";
                 secondaryAttunementTooltip.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
             }
         }

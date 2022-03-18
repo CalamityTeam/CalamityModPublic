@@ -1123,7 +1123,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.DukeFishron)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.lifeMax = (int)(npc.lifeMax * 1.4);
                 npc.npcSlots = 20f;
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)

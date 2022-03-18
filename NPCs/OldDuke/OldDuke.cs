@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.GetNPCDamage();
 			npc.defense = 90;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.LifeMaxNERB(412500, 495000, 400000);
+			npc.LifeMaxNERB(495000, 594000, 400000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
@@ -65,7 +65,6 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.rotation);
@@ -76,7 +75,6 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.rotation = reader.ReadSingle();

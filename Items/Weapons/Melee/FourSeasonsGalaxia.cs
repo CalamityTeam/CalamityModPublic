@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int BaseDamage = 800;
 
         public static int PhoenixAttunement_BaseDamage = 800;
-        public static int PhoenixAttunement_LocalIFrames = 20; //Remember its got one extra update
+        public static int PhoenixAttunement_LocalIFrames = 30; //Remember its got one extra update
         public static float PhoenixAttunement_BoltDamageReduction = 0.5f;
-        public static float PhoenixAttunement_BoltThrowDamageMultiplier = 1.5f;
+        public static float PhoenixAttunement_BoltThrowDamageMultiplier = 1f;
         public static float PhoenixAttunement_BaseDamageReduction = 0.5f;
         public static float PhoenixAttunement_FullChargeDamageBoost = 2.1f;
-        public static float PhoenixAttunement_ThrowDamageBoost = 3.6f;
+        public static float PhoenixAttunement_ThrowDamageBoost = 3f;
 
         public static int PolarisAttunement_BaseDamage = 1200;
         public static int PolarisAttunement_FullChargeDamage = 1900;
@@ -116,7 +116,7 @@ namespace CalamityMod.Items.Weapons.Melee
             passiveDescTooltip.text = mainAttunement.passive_description;
             passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
 
-            mainAttunementTooltip.text = "Active Attumenent : [" + mainAttunement.name + "]";
+            mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
             mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
 
             blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
