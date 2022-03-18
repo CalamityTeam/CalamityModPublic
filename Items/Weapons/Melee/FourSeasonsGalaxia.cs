@@ -53,10 +53,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float PolarisAttunement_ShotDamageBoost = 0.8f; //The shots fired if the dash connects
         public static float PolarisAttunement_ShredChargeupGain = 1.1f; //How much charge is gainted per second.
 
-        public static int AndromedaAttunement_BaseDamage = 2100;
-        public static int AndromedaAttunement_DashHitIFrames = 30;
-        public static float AndromedaAttunement_FullChargeBoost = 4f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
-        public static float AndromedaAttunement_MonolithDamageBoost = 1.75f;
+        public static int AndromedaAttunement_BaseDamage = 2200;
+        public static int AndromedaAttunement_DashHitIFrames = 20;
+        public static float AndromedaAttunement_FullChargeBoost = 3.5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float AndromedaAttunement_MonolithDamageBoost = 1.2f;
         public static float AndromedaAttunement_BoltsDamageReduction = 0.2f; //The shots fired as it charges
 
         public static int AriesAttunement_BaseDamage = 950;
