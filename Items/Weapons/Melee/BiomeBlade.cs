@@ -88,14 +88,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 effectDescTooltip.text = mainAttunement.function_description;
                 effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
 
-                mainAttunementTooltip.text = "Main Attumenent : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.text = "Main Attunement : [" + mainAttunement.name + "]";
                 mainAttunementTooltip.overrideColor = mainAttunement.tooltipColor;
             }
 
             //If theres a secondary attunement
             if (secondaryAttunement != null)
             {
-                secondaryAttunementTooltip.text = "Secondary Attumenent : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.text = "Secondary Attunement : [" + secondaryAttunement.name + "]";
                 secondaryAttunementTooltip.overrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
             }
         }

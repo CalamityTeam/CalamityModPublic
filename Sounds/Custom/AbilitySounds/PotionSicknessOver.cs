@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Sounds.Custom
+namespace CalamityMod.Sounds.Custom.AbilitySounds
 {
-	public class OmegaBlueAbility : ModSound
+	public class PotionSicknessOver : ModSound
 	{
 		public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
 		{

@@ -133,6 +133,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			bool wasDyingBefore = Dying;
             text = reader.ReadBoolean();
             useDefenseFrames = reader.ReadBoolean();
             biomeType = reader.ReadInt32();
@@ -149,6 +150,13 @@ namespace CalamityMod.NPCs.Providence
 			DeathAnimationTimer = reader.ReadInt32();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
+
+			// Be sure to inform clients of the fact that Providence is dying if only the server recieved this packet.
+			if (Main.netMode == NetmodeID.Server && !wasDyingBefore && Dying)
+			{
+				npc.netSpam = 0;
+				npc.netUpdate = true;
+			}
 		}
 
         public override void AI()
@@ -1883,8 +1891,6 @@ namespace CalamityMod.NPCs.Providence
 			{
 				DespawnSpecificProjectiles(true);
 				Dying = true;
-				npc.life = 1;
-				npc.dontTakeDamage = true;
 				npc.active = true;
 				npc.netUpdate = true;
 			}
@@ -1893,10 +1899,14 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-			if (!Dying && (damage * (crit ? 2D : 1D)) >= npc.life)
+			if ((damage * (crit ? 2D : 1D)) >= npc.life)
             {
 				damage = 0D;
-				CheckDead();
+
+				npc.life = 1;
+				npc.dontTakeDamage = true;
+				if (!Dying)
+					CheckDead();
 				return false;
             }
 

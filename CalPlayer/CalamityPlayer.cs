@@ -2895,7 +2895,7 @@ namespace CalamityMod.CalPlayer
             {
 				int seconds = CalamityUtils.SecondsToFrames(15f);
 				player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>(), seconds, false);
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngelicAllianceActivation"), player.Center);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/AngelicAllianceActivation"), player.Center);
 
 				// Spawn an archangel for every minion you have
 				float angelAmt = 0f;
@@ -3003,7 +3003,7 @@ namespace CalamityMod.CalPlayer
                         {
                             brimflameFrenzy = true;
                             player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameAbility"), player.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/AbilitySounds/BrimflameAbility"), player.Center);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
                                 int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -3036,7 +3036,7 @@ namespace CalamityMod.CalPlayer
                     if (player.whoAmI == Main.myPlayer)
                         player.AddCooldown(BloodflareRangedSet.ID, 1800);
 
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerActivation"), player.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/BloodflareRangerActivation"), player.Center);
                     for (int d = 0; d < 64; d++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
@@ -3083,7 +3083,7 @@ namespace CalamityMod.CalPlayer
                         player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
                     player.AddCooldown(OmegaBlue.ID, 1800);
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueAbility"), player.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/OmegaBlueAbility"), player.Center);
                     for (int i = 0; i < 66; i++)
                     {
                         int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
@@ -3095,7 +3095,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dsSetBonus)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DemonshadeEnrage"), player.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/DemonshadeEnrage"), player.Center);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -3131,7 +3131,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (plagueReaper && !player.HasCooldown(PlagueBlackout.ID))
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperAbility"), player.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/PlagueReaperAbility"), player.Center);
                     player.AddCooldown(PlagueBlackout.ID, 1800);
                 }
                 if (forbiddenCirclet && forbiddenCooldown <= 0)
@@ -3205,7 +3205,7 @@ namespace CalamityMod.CalPlayer
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
                 if (gaelRageAttackCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/SilvaDispel"), player.Center);
 
                     for (int i = 0; i < 3; i++)
                         Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
@@ -3249,7 +3249,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
 					// Play Rage Activation sound
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RageActivate"), player.position);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageActivate"), player.position);
 
                     // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -3280,7 +3280,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
 					// Play Adrenaline Activation sound
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineActivate"), player.position);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/AdrenalineActivate"), player.position);
 
                     // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -4250,7 +4250,7 @@ namespace CalamityMod.CalPlayer
                 Main.dust[sVeilDustIndex2].noLight = false;
             }
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/SilvaDispel"), player.Center);
 
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
@@ -4324,7 +4324,7 @@ namespace CalamityMod.CalPlayer
 
                 player.GiveIFrames(player.longInvince ? 100 : 60, true);
                 rogueStealth += 0.5f;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), player.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/SilvaActivation"), player.Center);
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -4499,7 +4499,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
                     player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 

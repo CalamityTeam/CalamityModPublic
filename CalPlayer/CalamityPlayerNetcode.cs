@@ -156,6 +156,7 @@ namespace CalamityMod.CalPlayer
                 return;
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownAddition);
+            packet.Write(player.whoAmI);
             cd.Write(packet);
             player.SendPacket(packet, server);
         }
@@ -166,6 +167,7 @@ namespace CalamityMod.CalPlayer
                 return;
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownRemoval);
+            packet.Write(player.whoAmI);
             packet.Write(cooldownIDs.Count);
             foreach (string id in cooldownIDs)
                 packet.Write(CooldownRegistry.Get(id).netID);
@@ -178,6 +180,7 @@ namespace CalamityMod.CalPlayer
                 return;
             ModPacket packet = mod.GetPacket(1024);
             packet.Write((byte)CalamityModMessageType.SyncCooldownDictionary);
+            packet.Write(player.whoAmI);
             packet.Write(cooldowns.Count);
             foreach (CooldownInstance cd in cooldowns.Values)
                 cd.Write(packet);
