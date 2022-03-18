@@ -16,7 +16,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - instance.Completion);
 
-        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/BrimflameRecharge");
+        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/BrimflameRecharge");
 
 
         //Add red eyes to the icon

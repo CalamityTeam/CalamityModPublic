@@ -17,7 +17,7 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => new Color(174, 237, 122);
         public override Color CooldownStartColor => Color.DarkSlateGray;
         public override Color CooldownEndColor => Color.DarkSlateGray;
-        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/PlagueReaperRecharge");
+        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/PlagueReaperRecharge");
 
         public override void OnCompleted()
         {
