@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace CalamityMod.Cooldowns
 {
@@ -11,5 +12,6 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => new Color(255, 142, 165);
         public override Color CooldownStartColor => Color.Lerp(new Color(208, 234, 255), new Color(231, 3, 54), instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(new Color(208, 234, 255), new Color(231, 3, 54), instance.Completion);
+        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/PotionSicknessOver");
     }
 }
