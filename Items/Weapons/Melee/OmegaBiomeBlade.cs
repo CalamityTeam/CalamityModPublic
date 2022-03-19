@@ -56,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int SuperPogoAttunement_PassiveLifeSteal = 10;
 
 
-        public static int ShockwaveAttunement_BaseDamage = 720;
-        public static int ShockwaveAttunement_DashHitIFrames = 30;
-        public static float ShockwaveAttunement_FullChargeBoost = 4f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
-        public static float ShockwaveAttunement_MonolithDamageBoost = 1.25f;
-        public static float ShockwaveAttunement_MonolithDamageFalloff = 0.6f; //Damage multiplier for all subsequent hits after the first one.
-        public static float ShockwaveAttunement_BlastDamageReduction = 0.6f;
+        public static int ShockwaveAttunement_BaseDamage = 550;
+        public static int ShockwaveAttunement_DashHitIFrames = 20;
+        public static float ShockwaveAttunement_FullChargeBoost = 2.5f; //The EXTRA damage boost. So putting 1 here will make it deal double damage. Putting 0.5 here will make it deal 1.5x the damage.
+        public static float ShockwaveAttunement_MonolithDamageBoost = 1.1f;
+        public static float ShockwaveAttunement_MonolithDamageFalloff = 0.15f; //Damage multiplier for all subsequent hits after the first one.
+        public static float ShockwaveAttunement_BlastDamageReduction = 0.8f;
 
         public static int ShockwaveAttunement_PassiveBaseDamage = 200;
 
