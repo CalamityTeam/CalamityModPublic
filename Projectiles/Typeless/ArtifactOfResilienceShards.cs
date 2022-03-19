@@ -2,11 +2,13 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Damageable;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
+    // TODO -- Make this one projectile with multiple frames instead of multiple projectiles with one frame.
     public class ArtifactOfResilienceShard1 : ModProjectile
     {
         public int Timer = 0;
@@ -34,6 +36,19 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
         }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
+        }
+
         public static void ArtifactOfResilienceShardAI(Projectile projectile, ref Vector2 StartingPosition, ref int Timer)
         {
             // Spinning
@@ -42,6 +57,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.localAI[0] == 0f)
                 {
                     StartingPosition = projectile.Center;
+                    projectile.netUpdate = true;
                     projectile.localAI[0] = 1f;
                 }
                 Timer++;
@@ -145,6 +161,19 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
         }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
     }
@@ -170,6 +199,18 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
@@ -197,6 +238,18 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
         }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
+        }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
     }
@@ -223,6 +276,18 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
         }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
+        }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
     }
@@ -248,6 +313,18 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.frameCounter);
+            writer.WriteVector2(StartingPosition);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.frameCounter = reader.ReadInt32();
+            StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
