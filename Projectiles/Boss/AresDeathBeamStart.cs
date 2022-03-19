@@ -167,6 +167,11 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.velocity == Vector2.Zero)
                 return false;
 
+            // Don't draw the laser if its scale is too low, as that could lead to an infinite loop and out of memory crash.
+            // This has happened in multiplayer historically, so this check is important.
+            if (projectile.scale < 0.001f)
+                return false;
+
             Color beamColor = LaserOverlayColor;
             Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);

@@ -165,8 +165,9 @@ namespace CalamityMod.Tiles
 			}
 
 			Player player = Main.LocalPlayer;
-			if (player is null)
+			if (player is null || !player.active)
 				return;
+
 			if (player.Calamity().reaverExplore && !fail)
 			{
 				player.breath += 20;

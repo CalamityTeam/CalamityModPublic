@@ -249,8 +249,8 @@ namespace CalamityMod.Balancing
 
             #region Thanatos
 
-            // 83.75% resist to Seraphim lasers.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.1625f, ProjectileType<SeraphimBeamLarge>()))));
+            // 95% resist to Seraphim lasers (what the actual fuck?).
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.05f, ProjectileType<SeraphimBeamLarge>()))));
 
             // 75% resist to Celestus.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.25f, ProjectileType<CelestusBoomerang>(), ProjectileType<Celestus2>()))));

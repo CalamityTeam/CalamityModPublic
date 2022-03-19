@@ -287,6 +287,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.ai[0] == 2f)
                 {
                     npc.dontTakeDamage = true;
+                    npc.Calamity().ShouldCloseHPBar = true;
                     Vector2 value6 = new Vector2(npc.direction, -0.5f);
                     npc.velocity = Vector2.Lerp(npc.velocity, value6, 0.98f);
 
