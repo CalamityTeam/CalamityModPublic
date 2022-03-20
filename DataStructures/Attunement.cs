@@ -541,7 +541,6 @@ namespace CalamityMod.DataStructures
 
         public override void ApplyStats(Item item)
         {
-            item.damage = OmegaBiomeBlade.WhirlwindAttunement_BaseDamage;
             item.channel = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
