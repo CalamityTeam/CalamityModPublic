@@ -608,8 +608,8 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.SuperPogo;
             name = "Sanguine Fury";
-            function_description = "Conjures molten blades in front of you that get larger and stronger the more you hit enemies. The blades can also be used to bounce off tiles when in the air";
-            function_description_extra = "Releasing the attack button sends the charged blades hurtling forwards like a wheel. Attacking again immediately thereafter dashes to the wheel, shredding anything in the way";
+            function_description = "Conjures molten blades in front of you that get larger and stronger the more you hit enemies.\n The blades can also be used to bounce off tiles when in the air";
+            function_description_extra = "Releasing the attack button sends the charged blades hurtling forwards like a wheel.\n Attacking again immediately thereafter dashes to the wheel, shredding anything in the way";
             passive_description = "Striking enemies rarely steals a small amount of life";
             tooltipColor = new Color(216, 55, 22);
             tooltipColor2 = new Color(216, 131, 22);
@@ -645,7 +645,7 @@ namespace CalamityMod.DataStructures
         {
             id = AttunementID.Shockwave;
             name = "Mercurial Tides";
-            function_description = "Hold the attack button to charge a heaven-shattering lunge, release to unleash the devastating blow. Shock waves are emitted as the sword charges up";
+            function_description = "Hold the attack button to charge a heaven-shattering lunge, release to unleash the devastating blow.\n Shock waves are emitted as the sword charges up";
             function_description_extra = "Striking the earth with the lunge will cause a massive shock wave on impact which raises a flood of monoliths";
             passive_description = "Periodically emit shock waves while attacking";
             tooltipColor = new Color(132, 109, 233);
