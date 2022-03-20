@@ -50,16 +50,5 @@ namespace CalamityMod.Items.Weapons.Ranged
 		}
 
         public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() < 0.5f;
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }
