@@ -148,14 +148,10 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
 
-                if (Empowerment / maxEmpowerment >= 0.5) //Double the charge speed when under half speed
-                {
-                    Empowerment++;
-                }
-
 
                 if (Empowerment / maxEmpowerment >= 0.5)
                 {
+                    Empowerment++; //Charge faster when near the end
 
                     if (Main.rand.Next(2) == 0)
 
