@@ -350,6 +350,17 @@ namespace CalamityMod.NPCs.Yharon
             bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
             calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
 
+            // Increased DR during phase transitions
+            if (!protectionBoost)
+            {
+                if (phase3Change)
+                    calamityGlobalNPC.DR = phase4Check ? 0.61f : normalDR;
+                else if (phase2Change)
+                    calamityGlobalNPC.DR = phase3Check ? 0.61f : normalDR;
+                else if (phase1Change)
+                    calamityGlobalNPC.DR = phase2Check ? 0.61f : normalDR;
+            }
+
             if (bulletHell)
                 npc.damage = 0;
 
@@ -1578,6 +1589,26 @@ namespace CalamityMod.NPCs.Yharon
             // Set DR based on protection boost (aka enrage)
             bool bulletHell = npc.ai[0] == 5f;
             calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
+
+            // Increased DR during phase transitions
+            if (!protectionBoost)
+            {
+                switch (secondPhasePhase)
+                {
+                    case 1:
+                        calamityGlobalNPC.DR = phase2 ? 0.61f : normalDR;
+                        break;
+                    case 2:
+                        calamityGlobalNPC.DR = phase3 ? 0.61f : normalDR;
+                        break;
+                    case 3:
+                        calamityGlobalNPC.DR = phase4 ? 0.61f : normalDR;
+                        break;
+                }
+
+                if (npc.ai[0] == 9f)
+                    calamityGlobalNPC.DR = 0.61f;
+            }
 
             if (bulletHell)
                 npc.damage = 0;

@@ -4565,6 +4565,8 @@ namespace CalamityMod.NPCs
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
+			calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.55f : 0.1f;
+
 			if (phaseSwitchPhase)
 			{
 				if (npc.velocity.X < 0f)
@@ -5364,6 +5366,7 @@ namespace CalamityMod.NPCs
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
+			bool tired = calamityGlobalNPC.newAI[1] == 1f;
 			bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
 			bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;
 			bool phase2AI = npc.ai[0] > 4f;
@@ -5375,17 +5378,17 @@ namespace CalamityMod.NPCs
 				calamityGlobalNPC.newAI[1] = 1f;
 
 			// Adjust stats
-			calamityGlobalNPC.DR = calamityGlobalNPC.newAI[1] == 1f ? 0f : 0.5f;
-			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense;
+			calamityGlobalNPC.DR = tired ? 0f : 0.5f;
+			npc.defense = tired ? 0 : npc.defDefense;
 			if (phase3AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.2f);
-				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 40;
+				npc.defense = tired ? 0 : npc.defDefense - 40;
 			}
 			else if (phase2AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.1f);
-				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 20;
+				npc.defense = tired ? 0 : npc.defDefense - 20;
 			}
 			else
 			{
@@ -5444,7 +5447,7 @@ namespace CalamityMod.NPCs
 				chargeVelocity *= 1.05f;
 			}
 
-			if (calamityGlobalNPC.newAI[1] == 1f)
+			if (tired)
 				idlePhaseVelocity *= 0.25f;
 
 			// Variables
@@ -5507,7 +5510,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] = 0f;
 			}
 
-			if (calamityGlobalNPC.newAI[1] == 1f)
+			if (tired)
 			{
 				npc.Calamity().canBreakPlayerDefense = false;
 
@@ -5539,6 +5542,10 @@ namespace CalamityMod.NPCs
 			bool biomeEnraged = npc.localAI[1] <= 0f;
 
 			npc.Calamity().CurrentlyEnraged = biomeEnraged;
+
+			// Increased DR while transitioning phases and not tired
+			if (!tired)
+				calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.75f : 0.5f;
 
 			// Enrage
 			if (biomeEnraged)

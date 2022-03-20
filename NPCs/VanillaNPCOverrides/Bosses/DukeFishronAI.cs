@@ -143,6 +143,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
 
+            // Increased DR during phase transitions
+            calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.575f : 0.15f;
+
             // Enrage
             if (enrage || malice)
             {
