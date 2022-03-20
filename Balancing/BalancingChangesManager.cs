@@ -169,6 +169,11 @@ namespace CalamityMod.Balancing
 
             #endregion Astrum Deus
 
+            #region Moon Lord
+            // 30% resist to the shockwave attunement from the True biome blade.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.MoonLordCore, Do(new ProjectileResistBalancingRule(0.3f, ProjectileType<MercurialTides>(), ProjectileType<MercurialTidesMonolith>(), ProjectileType<MercurialTidesBlast>()))));
+            #endregion
+
             #region Ceaseless Void / Dark Energies
 
             // 50% resist to true melee.
@@ -249,8 +254,8 @@ namespace CalamityMod.Balancing
 
             #region Thanatos
 
-            // 83.75% resist to Seraphim lasers.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.1625f, ProjectileType<SeraphimBeamLarge>()))));
+            // 95% resist to Seraphim lasers (what the actual fuck?).
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.05f, ProjectileType<SeraphimBeamLarge>()))));
 
             // 75% resist to Celestus.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.25f, ProjectileType<CelestusBoomerang>(), ProjectileType<Celestus2>()))));

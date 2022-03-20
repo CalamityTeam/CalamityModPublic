@@ -147,8 +147,6 @@ namespace CalamityMod.UI
             OneToMany[NPCID.PirateShipCannon] = Ship;
 
             int[] MoonLord = new int[] { NPCID.MoonLordHead, NPCID.MoonLordHand, NPCID.MoonLordCore };
-            OneToMany[NPCID.MoonLordHead] = MoonLord;
-            OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
 
             int[] Void = new int[] { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
@@ -315,6 +313,28 @@ namespace CalamityMod.UI
                     failsafeCounter++;
                     if (failsafeCounter > Main.maxNPCs)
                         break;
+                }
+
+                return life;
+            });
+
+            SpecialHPRequirements.Add(npc => npc.type == NPCID.MoonLordCore, (npc, checkingForMaxLife) =>
+            {
+                long life = checkingForMaxLife ? npc.lifeMax : npc.life;
+                if (npc.ai[0] == 2f)
+                    life = 0L;
+
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    bool isMoonLordPiece = Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordHead;
+                    if (!Main.npc[i].active || !isMoonLordPiece || Main.npc[i].ai[3] != npc.whoAmI)
+                        continue;
+
+                    // Don't count HP towards the total if the NPC is in its dead state.
+                    if (Main.npc[i].Calamity().newAI[0] == 1f)
+                        continue;
+
+                    life += checkingForMaxLife ? Main.npc[i].lifeMax : Main.npc[i].life;
                 }
 
                 return life;
