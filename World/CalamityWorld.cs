@@ -417,8 +417,6 @@ namespace CalamityMod.World
                 downed.Add("oldDuke");
             if (death)
                 downed.Add("death");
-            if (armageddon)
-                downed.Add("armageddon");
             if (malice)
                 downed.Add("malice");
             if (abyssSide)
@@ -572,7 +570,6 @@ namespace CalamityMod.World
             downedGSS = downed.Contains("greatSandShark");
             downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
-            armageddon = downed.Contains("armageddon");
             malice = downed.Contains("malice");
             abyssSide = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
