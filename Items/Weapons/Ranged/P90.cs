@@ -11,27 +11,27 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("P90");
-            Tooltip.SetDefault("33% chance to not consume ammo\n" +
+            Tooltip.SetDefault("50% chance to not consume ammo\n" +
                 "It's a bullet hose");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 8;
             item.ranged = true;
             item.width = 60;
             item.height = 28;
-            item.useTime = 2;
-            item.useAnimation = 2;
+            item.useTime = 5;
+            item.useAnimation = 5;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 18f;
+            item.shoot = ProjectileID.Bullet;
+            item.shootSpeed = 7f;
             item.useAmmo = AmmoID.Bullet;
 			item.Calamity().canFirePointBlankShots = true;
 		}
@@ -49,12 +49,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			return false;
 		}
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 33)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() < 0.5f;
 
         public override void AddRecipes()
         {
