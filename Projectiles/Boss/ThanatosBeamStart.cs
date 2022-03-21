@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -20,6 +21,9 @@ namespace CalamityMod.Projectiles.Boss
 			get => (int)projectile.ai[1];
 			set => projectile.ai[1] = value;
 		}
+
+		public bool OwnerIsValid => Main.npc[OwnerIndex].active && Main.npc[OwnerIndex].type == ModContent.NPCType<ThanatosHead>();
+
 		public override float MaxScale => 1f;
 		public override float MaxLaserLength => 3600f;
 		public override float Lifetime => 180;
@@ -64,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AttachToSomething()
 		{
-			if (Main.npc[OwnerIndex].active && Main.npc[OwnerIndex].type == ModContent.NPCType<ThanatosHead>())
+			if (OwnerIsValid)
 			{
 				Vector2 fireFrom = Main.npc[OwnerIndex].Center + Vector2.UnitY * Main.npc[OwnerIndex].gfxOffY;
 				fireFrom += projectile.velocity.SafeNormalize(Vector2.UnitY) * projectile.scale * 174f;
@@ -72,9 +76,11 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			// Die of the owner is invalid in some way.
+			// This is not done client-side, as it's possible that they may not have recieved the proper owner index yet.
 			else
 			{
-				projectile.Kill();
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					projectile.Kill();
 				return;
 			}
 
@@ -94,6 +100,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void PostAI()
 		{
+			if (!OwnerIsValid)
+				return;
+
 			// Difficulty modes. Used during the firing of the perpendicular lasers.
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -161,6 +170,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (!OwnerIsValid)
+				return false;
+
 			// This should never happen, but just in case.
 			if (projectile.velocity == Vector2.Zero || projectile.localAI[0] < 2f)
 				return false;
@@ -227,7 +239,7 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
 		}
 
-		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
+		public override bool CanHitPlayer(Player target) => OwnerIsValid && projectile.scale >= 0.5f;
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
 		{
