@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
         public float Timer => projectile.ai[0] - projectile.timeLeft;
         const float ConstellationSwapTime = 15;
 
-        public List<Particle> Particles = new List<Particle>();
+        public List<Particle> Particles;
 
         Vector2 AnchorStart => Owner.Center;
         Vector2 AnchorEnd => Owner.Calamity().mouseWorld;
@@ -55,12 +55,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public void BootlegSpawnParticle(Particle particle)
         {
-            Particles.Add(particle);
-            particle.Type = GeneralParticleHandler.particleTypes[particle.GetType()];
+            if (!Main.dedServ)
+            {
+                Particles.Add(particle);
+                particle.Type = GeneralParticleHandler.particleTypes[particle.GetType()];
+            }
         }
 
         public override void AI()
         {
+            if (Particles == null)
+                Particles = new List<Particle>();
+
             projectile.Center = Owner.Center;
 
             if (!Owner.channel && projectile.timeLeft > 20)
@@ -144,14 +150,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.EnterShaderRegion(BlendState.Additive);
-
-            foreach (Particle particle in Particles)
+            if (Particles != null)
             {
-                particle.CustomDraw(spriteBatch);
-            }
+                spriteBatch.EnterShaderRegion(BlendState.Additive);
 
-            spriteBatch.ExitShaderRegion();
+                foreach (Particle particle in Particles)
+                {
+                    particle.CustomDraw(spriteBatch);
+                }
+
+                spriteBatch.ExitShaderRegion();
+            }
             return false;
         }
     }
