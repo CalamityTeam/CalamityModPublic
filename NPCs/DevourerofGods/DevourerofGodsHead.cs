@@ -214,6 +214,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(DeathAnimationTimer);
 			writer.Write(DestroyedSegmentCount);
 
+			// Frame syncs
+			writer.Write(npc.frame.X);
+			writer.Write(npc.frame.Y);
+			writer.Write(npc.frame.Width);
+			writer.Write(npc.frame.Height);
+
 			// Be sure to inform clients of the fact that The Devourer of Gods is dying if only the server recieved this packet.
 			if (Main.netMode == NetmodeID.Server && !wasDyingBefore && Dying)
 			{
@@ -256,6 +262,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Dying = reader.ReadBoolean();
 			DeathAnimationTimer = reader.ReadInt32();
 			DestroyedSegmentCount = reader.ReadInt32();
+
+			// Frame syncs
+			Rectangle frame = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+			if (frame.Width > 0 && frame.Height > 0)
+				npc.frame = frame;
 		}
 
         public override void AI()
@@ -368,7 +379,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Start sentinel phases, only run things that have to happen once in here
 			if (summonSentinels)
 			{
-				if (!Phase2Started)
+				if (Main.netMode == NetmodeID.Server && !Phase2Started)
 				{
 					Phase2Started = true;
 
@@ -376,17 +387,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 					npc.ai[3] = 0f;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
+					npc.netSpam = 0;
+					npc.netUpdate = true;
 
 					// Skip the sentinel phase entirely if DoG has already been killed
 					CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
 
-					if (Main.netMode == NetmodeID.Server)
-					{
-						var netMessage = mod.GetPacket();
-						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-						netMessage.Send();
-					}
+					var netMessage = mod.GetPacket();
+					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+					netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+					netMessage.Send();
 				}
 
 				// Play music after the transiton BS
@@ -401,6 +411,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					npc.height = 186;
 					npc.position -= npc.Size * 0.5f;
 					npc.frame = new Rectangle(0, 0, 134, 196);
+					npc.netUpdate = true;
 				}
 
 				// Dialogue the moment the second phase starts 

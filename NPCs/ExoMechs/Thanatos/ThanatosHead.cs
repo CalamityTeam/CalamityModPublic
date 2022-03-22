@@ -868,9 +868,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								{
 									int type = ModContent.ProjectileType<ThanatosBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
-									if (Main.projectile.IndexInRange(laser))
-										Main.projectile[laser].ai[1] = npc.whoAmI;
+									Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 								}
 							}
 						}

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Exotic Pheromones");
             Tooltip.SetDefault("Attracts the failed draconic experiment\n" +
-				"Summon The Dragonfolly when used in the jungle\n" +
+				"Summons The Dragonfolly when used in the jungle\n" +
 				"Not consumable");
         }
 

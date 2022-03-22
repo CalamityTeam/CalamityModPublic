@@ -80,7 +80,8 @@ namespace CalamityMod.Particles
         {
             // Don't queue particles if the game is paused.
             // This precedent is established with how Dust instances are created.
-            if (Main.gamePaused)
+            //Don't spawn particles if on the server side either, or if the particles dict is somehow null
+            if (Main.gamePaused || Main.dedServ || particles == null)
                 return;
 
             if (particles.Count >= CalamityConfig.Instance.ParticleLimit && !particle.Important)
@@ -187,7 +188,14 @@ namespace CalamityMod.Particles
         /// Gives you the amount of particle slots that are available. Useful when you need multiple particles at once to make an effect and dont want it to be only halfway drawn due to a lack of particle slots
         /// </summary>
         /// <returns></returns>
-        public static int FreeSpacesAvailable() => CalamityConfig.Instance.ParticleLimit - particles.Count();
+        public static int FreeSpacesAvailable()
+        {
+            //Safety check
+            if (Main.dedServ || particles == null)
+                return 0;
+
+            return CalamityConfig.Instance.ParticleLimit - particles.Count();
+        }
 
         /// <summary>
         /// Gives you the texture of the particle type. Useful for custom drawing

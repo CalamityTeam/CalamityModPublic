@@ -96,6 +96,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(setAlpha);
 			writer.Write(npc.alpha);
 			writer.Write(SegmentIndex);
+			writer.Write(npc.frame.X);
+			writer.Write(npc.frame.Y);
+			writer.Write(npc.frame.Width);
+			writer.Write(npc.frame.Height);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -106,6 +110,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			setAlpha = reader.ReadBoolean();
 			npc.alpha = reader.ReadInt32();
 			SegmentIndex = reader.ReadInt32();
+			Rectangle frame = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+			if (frame.Width > 0 && frame.Height > 0)
+				npc.frame = frame;
 		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -137,6 +144,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					npc.height = 70;
 					npc.frame = new Rectangle(0, 0, 114, 88);
 					npc.position -= npc.Size * 0.5f;
+					npc.netUpdate = true;
 				}
 			}
 
