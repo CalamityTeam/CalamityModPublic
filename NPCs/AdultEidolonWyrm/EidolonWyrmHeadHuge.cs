@@ -1190,7 +1190,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 						}
 					}
 
-					// Spin
 					// Swim up
 					destination += spinLocation;
 					turnDistance = spinLocationDistance;
