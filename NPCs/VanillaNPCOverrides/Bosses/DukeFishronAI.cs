@@ -141,10 +141,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 (player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400)));
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || malice;
 
             // Increased DR during phase transitions
-            calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.575f : 0.15f;
+            calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.625f : 0.15f;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
             // Enrage
             if (enrage || malice)

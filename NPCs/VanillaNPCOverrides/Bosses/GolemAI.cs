@@ -922,13 +922,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (turboEnrage && NPC.golemBoss >= 0)
             {
-                npc.Calamity().DR = 0.9999f;
-                npc.Calamity().unbreakableDR = true;
+                calamityGlobalNPC.DR = 0.9999f;
+                calamityGlobalNPC.unbreakableDR = true;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = true;
             }
             else
             {
-                npc.Calamity().DR = 0.25f;
-                npc.Calamity().unbreakableDR = false;
+                calamityGlobalNPC.DR = 0.25f;
+                calamityGlobalNPC.unbreakableDR = false;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
             }
 
             // Float through tiles or not

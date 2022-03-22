@@ -12,8 +12,6 @@ namespace CalamityMod.NPCs.StormWeaver
 {
     public class StormWeaverBody : ModNPC
     {
-        private int invinceTime = 180;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Weaver");
@@ -77,15 +75,11 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
-			writer.Write(invinceTime);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
-			invinceTime = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -95,18 +89,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            if (invinceTime > 0)
-            {
-                invinceTime--;
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
-            }
-            else
-            {
-                npc.damage = npc.defDamage;
-                npc.dontTakeDamage = false;
-            }
-
 			if (npc.ai[2] > 0f)
 				npc.realLife = (int)npc.ai[2];
 

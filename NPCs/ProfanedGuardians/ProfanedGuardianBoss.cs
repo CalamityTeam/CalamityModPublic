@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     public class ProfanedGuardianBoss : ModNPC
     {
         private int spearType = 0;
-        private int dustTimer = 3;
-		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+        private int healTimer = 0;
+        private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Profaned Guardian");
+            DisplayName.SetDefault("Guardian Commander");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
@@ -64,17 +64,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(spearType);
-            writer.Write(dustTimer);
+            writer.Write(healTimer);
             writer.Write(biomeEnrageTimer);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             spearType = reader.ReadInt32();
-            dustTimer = reader.ReadInt32();
-			biomeEnrageTimer = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
+            healTimer = reader.ReadInt32();
+            biomeEnrageTimer = reader.ReadInt32();
         }
 
         public override void FindFrame(int frameHeight)
@@ -105,8 +103,51 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
             }
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            bool defenderAlive = false;
+            bool healerAlive = false;
+            if (CalamityGlobalNPC.doughnutBossDefender != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.doughnutBossDefender].active)
+                    defenderAlive = true;
+            }
+            if (CalamityGlobalNPC.doughnutBossHealer != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].active)
+                    healerAlive = true;
+            }
+
+            // Defense
+            if (defenderAlive)
+                npc.defense = npc.defDefense * 4;
+            else
+                npc.defense = npc.defDefense;
+
+            // Healing
+            if (healerAlive)
+            {
+                float healGateValue = 60f;
+                healTimer++;
+                if (healTimer >= healGateValue)
+                {
+                    healTimer = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int healAmt = npc.lifeMax / 25;
+                        if (healAmt > npc.lifeMax - npc.life)
+                            healAmt = npc.lifeMax - npc.life;
+
+                        if (healAmt > 0)
+                        {
+                            npc.life += healAmt;
+                            npc.HealEffect(healAmt, true);
+                            npc.netUpdate = true;
+                        }
+                    }
+                }
+            }
+
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
 
 			// Despawn safety, make sure to target another player if the current player target is too far away
@@ -157,173 +198,139 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else
 				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            // Take damage or not
-            npc.dontTakeDamage = biomeEnrageTimer <= 0 && !malice;
-
-			bool flag100 = false;
+			bool phase1 = false;
             for (int num569 = 0; num569 < Main.maxNPCs; num569++)
             {
                 if ((Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
-                {
-                    flag100 = true;
-                }
+                    phase1 = true;
             }
-            if (flag100)
-            {
-                npc.dontTakeDamage = true;
-            }
-            else
-            {
-                npc.dontTakeDamage = false;
-            }
-            if (Math.Sign(npc.velocity.X) != 0)
-            {
-                npc.spriteDirection = -Math.Sign(npc.velocity.X);
-            }
-            npc.spriteDirection = Math.Sign(npc.velocity.X);
-            float num1000 = lifeRatio < 0.75f ? 14f : 16f;
+
+            float inertia = lifeRatio < 0.75f ? 54f : 60f;
+            if (!phase1)
+                inertia *= 0.8f;
             if (revenge)
-                num1000 *= 0.9f;
-			if (malice)
-				num1000 *= 0.8f;
+                inertia *= 0.9f;
+			if (malice || npc.Calamity().CurrentlyEnraged)
+                inertia *= 0.8f;
 
-            float num1006 = 0.111111117f * num1000;
-            int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
-            int num1010 = (npc.ai[0] == 2f) ? 80 : 60;
-            for (int num1011 = 0; num1011 < 2; num1011++)
-            {
-                if (Main.rand.Next(3) < num1009)
-                {
-                    int num1012 = Dust.NewDust(vectorCenter - new Vector2(num1010), num1010 * 2, num1010 * 2, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
-                    Main.dust[num1012].noGravity = true;
-                    Main.dust[num1012].velocity *= 0.2f;
-                    Main.dust[num1012].fadeIn = 1f;
-                }
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-				float shootBoost = malice ? 4f : death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-                npc.localAI[0] += 1f + shootBoost;
-                if (npc.localAI[0] >= 240f && Vector2.Distance(vectorCenter, player.Center) > 160f)
-                {
-                    npc.localAI[0] = 0f;
-
-                    Main.PlaySound(SoundID.Item20, npc.position);
-
-                    int totalProjectiles = 10;
-					float velocity = 5f;
-					int type = ModContent.ProjectileType<ProfanedSpear>();
-					int damage = npc.GetProjectileDamage(type);
-
-					switch (spearType)
-                    {
-                        case 0:
-							break;
-                        case 1:
-                            totalProjectiles = 12;
-                            velocity = 5.5f;
-                            break;
-                        case 2:
-                            totalProjectiles = 8;
-                            velocity = 6f;
-                            break;
-                        default:
-                            break;
-                    }
-
-					if (malice)
-						totalProjectiles *= 2;
-
-					float radians = MathHelper.TwoPi / totalProjectiles;
-					for (int i = 0; i < totalProjectiles; i++)
-					{
-						Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
-					}
-
-					spearType++;
-                    if (spearType > 2)
-                        spearType = 0;
-                }
-            }
+            float num1006 = 0.111111117f * inertia;
+            
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = malice ? 24f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
-                Vector2 center5 = player.Center;
-                Vector2 vector126 = center5 - vectorCenter;
-                Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
-                float num1013 = vector126.Length();
-                vector126 = Vector2.Normalize(vector126) * scaleFactor6;
-                vector127 = Vector2.Normalize(vector127) * scaleFactor6;
-                bool flag64 = Collision.CanHit(vectorCenter, 1, 1, player.Center, 1, 1);
-                if (npc.ai[3] >= 120f)
+                if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
                 {
-                    flag64 = true;
+                    float playerLocation = vectorCenter.X - player.Center.X;
+                    npc.direction = playerLocation < 0f ? 1 : -1;
+                    npc.spriteDirection = npc.direction;
                 }
-                float num1014 = 8f;
-                flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
-                if (num1013 > 1200f || !flag64)
+
+                float velocity = (malice || npc.Calamity().CurrentlyEnraged || phase1) ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+                Vector2 targetVector = player.Center - vectorCenter;
+                targetVector = Vector2.Normalize(targetVector) * velocity;
+                if (npc.ai[3] < (expertMode ? 180f : 240f) || phase1)
                 {
-                    npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
-                    npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / num1000;
-                    if (!flag64)
+                    npc.velocity = (npc.velocity * (inertia - 1f) + targetVector) / inertia;
+                    npc.ai[3] += 1f;
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.ai[3] += 1f;
-                        if (npc.ai[3] == 120f)
+                        if (npc.ai[3] % (phase1 ? 60f : 30f) == 0f)
                         {
-                            npc.netUpdate = true;
+                            Main.PlaySound(SoundID.Item20, npc.position);
+                            int type = ModContent.ProjectileType<FlareDust>();
+                            int damage = npc.GetProjectileDamage(type);
+                            Projectile.NewProjectile(vectorCenter, Vector2.Normalize(player.Center - vectorCenter) * npc.velocity.Length() * 1.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
                         }
-                    }
-                    else
-                    {
-                        npc.ai[3] = 0f;
                     }
                 }
                 else
                 {
                     npc.ai[0] = 1f;
-                    npc.ai[2] = vector126.X;
-                    npc.ai[3] = vector126.Y;
+                    npc.ai[2] = targetVector.X;
+                    npc.ai[3] = targetVector.Y;
                     npc.netUpdate = true;
                 }
             }
             else if (npc.ai[0] == 1f)
             {
+                if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
+                {
+                    float playerLocation = vectorCenter.X - player.Center.X;
+                    npc.direction = playerLocation < 0f ? 1 : -1;
+                    npc.spriteDirection = npc.direction;
+                }
+
                 npc.velocity *= 0.8f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 5f)
+                if (npc.ai[1] >= 12f)
                 {
                     npc.ai[0] = 2f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= malice ? 18f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
+                    velocity *= (malice || npc.Calamity().CurrentlyEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
                     npc.velocity = velocity;
                 }
             }
             else if (npc.ai[0] == 2f)
             {
+                if (Math.Sign(npc.velocity.X) != 0)
+                    npc.spriteDirection = -Math.Sign(npc.velocity.X);
+                npc.spriteDirection = Math.Sign(npc.velocity.X);
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    dustTimer--;
-                    if (lifeRatio < 0.5f && dustTimer <= 0)
+                    float shootBoost = (malice || npc.Calamity().CurrentlyEnraged) ? 2f : death ? 1.5f * (1f - lifeRatio) : 1f - lifeRatio;
+                    npc.localAI[0] += 1f + shootBoost;
+                    if (npc.localAI[0] >= 60f && Vector2.Distance(vectorCenter, player.Center) > 160f)
                     {
+                        npc.localAI[0] = 0f;
+
                         Main.PlaySound(SoundID.Item20, npc.position);
-						int type = ModContent.ProjectileType<FlareDust>();
-						int damage = npc.GetProjectileDamage(type);
-						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (npc.width + 20) / 2f + vectorCenter;
-						int projectile = Projectile.NewProjectile(vector173, Vector2.Zero, type, damage, 0f, Main.myPlayer, 2f, 0f);
-                        Main.projectile[projectile].timeLeft = 120;
-                        dustTimer = 3;
+
+                        int totalProjectiles = 10;
+                        float velocity = 5f;
+                        int type = ModContent.ProjectileType<ProfanedSpear>();
+                        int damage = npc.GetProjectileDamage(type);
+
+                        switch (spearType)
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                totalProjectiles = 12;
+                                velocity = 5.5f;
+                                break;
+                            case 2:
+                                totalProjectiles = 8;
+                                velocity = 6f;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if (malice || npc.Calamity().CurrentlyEnraged)
+                            totalProjectiles *= 2;
+
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+                            Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        }
+
+                        spearType++;
+                        if (spearType > 2)
+                            spearType = 0;
                     }
                 }
+
                 npc.ai[1] += 1f;
-                bool flag65 = vectorCenter.Y + 50f > player.Center.Y;
-                if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < 8f)
+                if (npc.ai[1] >= 90f)
                 {
                     npc.ai[0] = 3f;
-                    npc.ai[1] = 45f;
+                    npc.ai[1] = 24f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
                     npc.velocity /= 2f;
@@ -331,18 +338,20 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 else
                 {
-                    Vector2 center7 = player.Center;
-                    Vector2 vec2 = center7 - vectorCenter;
-                    vec2.Normalize();
-                    if (vec2.HasNaNs())
-                    {
-                        vec2 = new Vector2(npc.direction, 0f);
-                    }
-                    npc.velocity = (npc.velocity * (num1000 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1000;
+                    Vector2 targetVector = player.Center - vectorCenter;
+                    targetVector.Normalize();
+                    if (targetVector.HasNaNs())
+                        targetVector = new Vector2(npc.direction, 0f);
+
+                    npc.velocity = (npc.velocity * (inertia - 1f) + targetVector * (npc.velocity.Length() + num1006)) / inertia;
                 }
             }
             else if (npc.ai[0] == 3f)
             {
+                if (Math.Sign(npc.velocity.X) != 0)
+                    npc.spriteDirection = -Math.Sign(npc.velocity.X);
+                npc.spriteDirection = Math.Sign(npc.velocity.X);
+
                 npc.ai[1] -= 1f;
                 if (npc.ai[1] <= 0f)
                 {
@@ -351,7 +360,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
-                npc.velocity *= 0.98f;
+
+                npc.velocity *= 0.9f;
             }
         }
 

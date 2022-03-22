@@ -349,16 +349,26 @@ namespace CalamityMod.NPCs.Yharon
             bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
             bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
             calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = protectionBoost;
 
             // Increased DR during phase transitions
             if (!protectionBoost)
             {
                 if (phase3Change)
+                {
                     calamityGlobalNPC.DR = phase4Check ? 0.61f : normalDR;
+                    calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase4Check;
+                }
                 else if (phase2Change)
+                {
                     calamityGlobalNPC.DR = phase3Check ? 0.61f : normalDR;
+                    calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase3Check;
+                }
                 else if (phase1Change)
+                {
                     calamityGlobalNPC.DR = phase2Check ? 0.61f : normalDR;
+                    calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase2Check;
+                }
             }
 
             if (bulletHell)
@@ -1589,6 +1599,7 @@ namespace CalamityMod.NPCs.Yharon
             // Set DR based on protection boost (aka enrage)
             bool bulletHell = npc.ai[0] == 5f;
             calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = protectionBoost;
 
             // Increased DR during phase transitions
             if (!protectionBoost)
@@ -1597,17 +1608,23 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     case 1:
                         calamityGlobalNPC.DR = phase2 ? 0.61f : normalDR;
+                        calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase2;
                         break;
                     case 2:
                         calamityGlobalNPC.DR = phase3 ? 0.61f : normalDR;
+                        calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase3;
                         break;
                     case 3:
                         calamityGlobalNPC.DR = phase4 ? 0.61f : normalDR;
+                        calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phase4;
                         break;
                 }
 
                 if (npc.ai[0] == 9f)
+                {
                     calamityGlobalNPC.DR = 0.61f;
+                    calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = true;
+                }
             }
 
             if (bulletHell)

@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npc.height = 138;
             npc.defense = 100;
 			npc.DR_NERD(0.4f);
-			npc.LifeMaxNERB(2012500, 2415000);
+			npc.LifeMaxNERB(2415000, 2898000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -112,7 +112,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
 			writer.WriteVector2(chargeDestination);
 			writer.Write(rotationDirection);
 			writer.Write(chargeVelocityScalar);
@@ -126,7 +125,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
 			chargeDestination = reader.ReadVector2();
 			rotationDirection = reader.ReadInt32();
 			chargeVelocityScalar = reader.ReadSingle();
@@ -305,7 +303,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);
 			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && AIState == (float)Phase.LightningCharge;
 			bool invisiblePhase = AIState == (float)Phase.LightningRain || AIState == (float)Phase.IceMist || AIState == (float)Phase.AncientDoomSummon;
-			npc.dontTakeDamage = invisiblePartOfChargePhase || invisiblePartOfLightningChargePhase || invisiblePhase;
 			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
 				npc.Opacity += 0.2f;
@@ -1332,9 +1329,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
             vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
-            Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+                new Microsoft.Xna.Framework.Rectangle?(npc.frame), Color.White, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
 		public override void BossLoot(ref string name, ref int potionType)

@@ -232,9 +232,12 @@ namespace CalamityMod.NPCs.Perforator
 				}
 			}
 
-			float playerLocation = npc.Center.X - player.Center.X;
-			npc.direction = playerLocation < 0 ? 1 : -1;
-			npc.spriteDirection = npc.direction;
+			if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
+			{
+				float playerLocation = npc.Center.X - player.Center.X;
+				npc.direction = playerLocation < 0f ? 1 : -1;
+				npc.spriteDirection = npc.direction;
+			}
 
 			npc.rotation = npc.velocity.X * 0.04f;
 

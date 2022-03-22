@@ -429,6 +429,7 @@ namespace CalamityMod.UI
             public int OpenAnimationTimer;
             public int CloseAnimationTimer;
             public int EnrageTimer;
+            public int IncreasingDefenseOrDRTimer;
             public int ComboDamageCountdown;
             public long PreviousLife;
             public long HealthAtStartOfCombo;
@@ -526,6 +527,32 @@ namespace CalamityMod.UI
                     return false;
                 }
             }
+            public bool NPCIsIncreasingDefenseOrDR
+            {
+                get
+                {
+                    if (AssociatedNPC is null || !AssociatedNPC.active)
+                        return false;
+
+                    if (AssociatedNPC.Calamity().CurrentlyIncreasingDefenseOrDR)
+                        return true;
+
+                    // Don't check any further if the NPC is not a part of any one-to-many relationship.
+                    if (!OneToMany.ContainsKey(NPCType))
+                        return false;
+
+                    // Otherwise, check if any of said relationship NPCs are increasing their defense or DR.
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        if (!Main.npc[i].active || Main.npc[i].life <= 0 || !OneToMany[NPCType].Contains(Main.npc[i].type))
+                            continue;
+
+                        if (Main.npc[i].Calamity().CurrentlyIncreasingDefenseOrDR)
+                            return true;
+                    }
+                    return false;
+                }
+            }
             public float NPCLifeRatio
             {
                 get
@@ -546,6 +573,7 @@ namespace CalamityMod.UI
             public const int OpenAnimationTime = 80;
             public const int CloseAnimationTime = 120;
             public const int EnrageAnimationTime = 120;
+            public const int IncreasedDefenseOrDRAnimationTime = 120;
             public const int VerticalOffsetPerBar = 70;
             public const float SmallTextScale = 0.75f;
             public static Color MainColor = new Color(229, 189, 62);
@@ -588,12 +616,14 @@ namespace CalamityMod.UI
                 if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType || AssociatedNPC.Calamity().ShouldCloseHPBar)
                 {
                     EnrageTimer = Utils.Clamp(EnrageTimer - 4, 0, EnrageAnimationTime);
+                    IncreasingDefenseOrDRTimer = Utils.Clamp(IncreasingDefenseOrDRTimer - 4, 0, IncreasedDefenseOrDRAnimationTime);
                     CloseAnimationTimer = Utils.Clamp(CloseAnimationTimer + 1, 0, CloseAnimationTime);
                     return;
                 }
 
                 OpenAnimationTimer = Utils.Clamp(OpenAnimationTimer + 1, 0, OpenAnimationTime);
                 EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
+                IncreasingDefenseOrDRTimer = Utils.Clamp(IncreasingDefenseOrDRTimer + NPCIsIncreasingDefenseOrDR.ToDirectionInt(), 0, IncreasedDefenseOrDRAnimationTime);
 
                 if (CombinedNPCMaxLife != 0 && (InitialMaxLife == 0 || InitialMaxLife < CombinedNPCMaxLife))
                     InitialMaxLife = CombinedNPCMaxLife;
@@ -629,7 +659,14 @@ namespace CalamityMod.UI
                 }
 
                 // Draw a white separator bar.
-                Color separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / (float)EnrageAnimationTime) * animationCompletionRatio;
+                // Enrage bar color takes priority over defense or DR increase bar color, because it's more important to display the enrage.
+                Color separatorColor = new Color(240, 240, 255) * animationCompletionRatio;
+                if (NPCIsEnraged)
+                    separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / (float)EnrageAnimationTime) * animationCompletionRatio;
+                else if (NPCIsIncreasingDefenseOrDR)
+                    separatorColor = Color.Lerp(new Color(240, 240, 255), Color.LightGray * 0.5f, IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime) * animationCompletionRatio;
+
+                // Draw the bar.
                 sb.Draw(BossSeperatorBar, new Rectangle(x, y + SeparatorBarYOffset, BarMaxWidth, 6), separatorColor);
 
                 // Draw the text.
@@ -640,18 +677,34 @@ namespace CalamityMod.UI
 
                 CalamityUtils.DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), MainColor, MainBorderColour * 0.25f);
 
-                // Draw a red back-glow of the text if the NPC is enraged.
+                // Draw a red back-glow of the text if the NPC is enraged or a gray back-glow if the NPC is increasing defense or DR.
                 string name = OverridingName ?? AssociatedNPC.FullName;
 
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
-                if (EnrageTimer > 0)
+                if (NPCIsEnraged)
                 {
-                    float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
-                    float outwardness = EnrageTimer / (float)EnrageAnimationTime * 1.5f + pulse * 2f;
-                    for (int i = 0; i < 4; i++)
+                    if (EnrageTimer > 0)
                     {
-                        Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
-                        CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                        float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                        float outwardness = EnrageTimer / (float)EnrageAnimationTime * 1.5f + pulse * 2f;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                            CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                        }
+                    }
+                }
+                else if (NPCIsIncreasingDefenseOrDR)
+				{
+                    if (IncreasingDefenseOrDRTimer > 0)
+                    {
+                        float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                        float outwardness = IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime * 1.5f + pulse * 2f;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                            CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.LightGray * 0.6f, Color.Black * 0.2f);
+                        }
                     }
                 }
 

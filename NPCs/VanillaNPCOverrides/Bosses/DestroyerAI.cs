@@ -26,6 +26,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (calamityGlobalNPC.newAI[1] < 600f)
                 calamityGlobalNPC.newAI[1] += 1f;
 
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = calamityGlobalNPC.newAI[1] < 600f;
+
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			

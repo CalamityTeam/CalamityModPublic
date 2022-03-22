@@ -227,6 +227,8 @@ namespace CalamityMod.World
 
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
+            CalamityGlobalNPC.doughnutBossDefender = -1;
+            CalamityGlobalNPC.doughnutBossHealer = -1;
             CalamityGlobalNPC.voidBoss = -1;
             CalamityGlobalNPC.energyFlame = -1;
             CalamityGlobalNPC.hiveMind = -1;

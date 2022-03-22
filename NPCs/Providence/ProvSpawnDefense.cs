@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Providence
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("A Profaned Guardian");
+            DisplayName.SetDefault("Providence Defender");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
@@ -53,16 +53,6 @@ namespace CalamityMod.NPCs.Providence
 			npc.Calamity().VulnerableToWater = true;
 		}
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
-
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
-
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -84,8 +74,6 @@ namespace CalamityMod.NPCs.Providence
                 npc.netUpdate = true;
                 return;
             }
-
-            npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
 
 			NPC parent = Main.npc[CalamityGlobalNPC.holyBoss];
 			if (start)

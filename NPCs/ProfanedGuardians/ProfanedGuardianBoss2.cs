@@ -17,11 +17,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     [AutoloadBossHead]
     public class ProfanedGuardianBoss2 : ModNPC
     {
-		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+        private int healTimer = 0;
+        private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Profaned Guardian");
+            DisplayName.SetDefault("Guardian Defender");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
@@ -54,14 +55,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(healTimer);
             writer.Write(biomeEnrageTimer);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			biomeEnrageTimer = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
+            healTimer = reader.ReadInt32();
+            biomeEnrageTimer = reader.ReadInt32();
         }
 
         public override void FindFrame(int frameHeight)
@@ -74,21 +75,63 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            CalamityGlobalNPC.doughnutBossDefender = npc.whoAmI;
+
+            if (CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
+            {
+                npc.active = false;
+                npc.netUpdate = true;
+                return;
+            }
+
+            bool healerAlive = false;
+            if (CalamityGlobalNPC.doughnutBossHealer != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.doughnutBossHealer].active)
+                    healerAlive = true;
+            }
+
+            // Healing
+            if (healerAlive)
+            {
+                float healGateValue = 60f;
+                healTimer++;
+                if (healTimer >= healGateValue)
+                {
+                    healTimer = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int healAmt = npc.lifeMax / 25;
+                        if (healAmt > npc.lifeMax - npc.life)
+                            healAmt = npc.lifeMax - npc.life;
+
+                        if (healAmt > 0)
+                        {
+                            npc.life += healAmt;
+                            npc.HealEffect(healAmt, true);
+                            npc.netUpdate = true;
+                        }
+                    }
+                }
+            }
+
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
 
 			// Despawn safety, make sure to target another player if the current player target is too far away
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
-			Player player = Main.player[npc.target];
+			Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool isHoly = player.ZoneHoly;
             bool isHell = player.ZoneUnderworldHeight;
 
@@ -103,113 +146,148 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else
 				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            // Take damage or not
-            npc.dontTakeDamage = biomeEnrageTimer <= 0 && !malice;
-
-            Vector2 vectorCenter = npc.Center;
-
-            if (Math.Sign(npc.velocity.X) != 0)
-            {
-                npc.spriteDirection = -Math.Sign(npc.velocity.X);
-            }
-            npc.spriteDirection = Math.Sign(npc.velocity.X);
-            int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
-            int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-            for (int num1011 = 0; num1011 < 2; num1011++)
-            {
-                if (Main.rand.Next(3) < num1009)
-                {
-                    int dustType = Main.rand.Next(2);
-                    if (dustType == 0)
-                    {
-                        dustType = (int)CalamityDusts.ProfanedFire;
-                    }
-                    else
-                    {
-                        dustType = 160;
-                    }
-                    int num1012 = Dust.NewDust(npc.Center - new Vector2(num1010), num1010 * 2, num1010 * 2, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
-                    Main.dust[num1012].noGravity = true;
-                    Main.dust[num1012].velocity *= 0.2f;
-                    Main.dust[num1012].fadeIn = 1f;
-                }
-            }
-            if (CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
             if (npc.ai[0] == 0f)
             {
+                if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
+                {
+                    float playerLocation = npc.Center.X - player.Center.X;
+                    npc.direction = playerLocation < 0f ? 1 : -1;
+                    npc.spriteDirection = npc.direction;
+                }
+
+                npc.ai[3] += 1f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    if (npc.ai[3] % 60f == 0f)
+                    {
+                        Main.PlaySound(SoundID.Item20, npc.position);
+                        int type = ModContent.ProjectileType<FlareDust>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * npc.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                    }
+                }
+
+                Vector2 targetVector = player.Center - npc.Center;
+                if (npc.ai[3] >= (expertMode ? 180f : 240f))
+                {
+                    npc.ai[0] = 1f;
+                    npc.ai[2] = targetVector.X;
+                    npc.ai[3] = targetVector.Y;
+                    npc.netUpdate = true;
+                }
+
                 Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num784 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector96.X;
                 float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
                 float num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
-                if (num786 > 90f)
+
+                if (num786 > 320f)
                 {
-                    num786 = 21f / num786; //8f
+                    num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
                     num784 *= num786;
                     num785 *= num786;
-                    npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
-                    npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
+                    npc.velocity.X = (npc.velocity.X * 25f + num784) / 26f;
+                    npc.velocity.Y = (npc.velocity.Y * 25f + num785) / 26f;
                     return;
                 }
-                if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 21f) //8f
+
+                if (npc.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f)
+                    npc.velocity *= 1.1f;
+            }
+            else if (npc.ai[0] == 1f)
+            {
+                if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
                 {
-                    npc.velocity *= 1.12f; //1.05f
+                    float playerLocation = npc.Center.X - player.Center.X;
+                    npc.direction = playerLocation < 0f ? 1 : -1;
+                    npc.spriteDirection = npc.direction;
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
+
+                npc.velocity *= 0.8f;
+                npc.ai[1] += 1f;
+                if (npc.ai[1] >= 18f)
                 {
-                    npc.TargetClosest();
-                    vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                    num784 = player.Center.X - vector96.X;
-                    num785 = player.Center.Y - vector96.Y;
-                    num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
-                    num786 = 21f / num786; //8f
-                    npc.velocity.X = num784 * num786;
-                    npc.velocity.Y = num785 * num786;
-                    npc.ai[0] = 1f;
+                    npc.ai[0] = 2f;
+                    npc.ai[1] = 0f;
                     npc.netUpdate = true;
+                    Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
+                    velocity.Normalize();
+                    velocity *= (malice || npc.Calamity().CurrentlyEnraged) ? 28f : death ? 24f : revenge ? 22f : expertMode ? 20f : 16f;
+                    npc.velocity = velocity;
                 }
             }
-            else
+            else if (npc.ai[0] == 2f)
             {
-                Vector2 value4 = player.Center - npc.Center;
-                value4.Normalize();
-                value4 *= 22f; //9f
-                npc.velocity = (npc.velocity * 99f + value4) / 100f;
-                Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num787 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector97.X;
-                float num788 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector97.Y;
-                float num789 = (float)Math.Sqrt(num787 * num787 + num788 * num788);
-                if (num789 > 700f)
+                if (Math.Sign(npc.velocity.X) != 0)
+                    npc.spriteDirection = -Math.Sign(npc.velocity.X);
+                npc.spriteDirection = Math.Sign(npc.velocity.X);
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.ai[0] = 0f;
-                }
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                npc.localAI[0] += expertMode ? 2f : 1f;
-                if (npc.localAI[0] >= 420f)
-                {
-                    npc.localAI[0] = 0f;
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                    float shootBoost = (malice || npc.Calamity().CurrentlyEnraged) ? 1f : death ? 0.5f : 0f;
+                    npc.localAI[0] += 1f + shootBoost;
+                    if (npc.localAI[0] >= 60f && Vector2.Distance(npc.Center, player.Center) > 160f)
                     {
+                        npc.localAI[0] = 0f;
+
                         Main.PlaySound(SoundID.Item20, npc.position);
 
-						float velocity = 5f;
-						int totalProjectiles = 6;
-						float radians = MathHelper.TwoPi / totalProjectiles;
-						int type = ModContent.ProjectileType<ProfanedSpear>();
-						int damage = npc.GetProjectileDamage(type);
-						for (int i = 0; i < totalProjectiles; i++)
-						{
-							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-							Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
-						}
+                        float velocity = 5f;
+                        int totalProjectiles = 6;
+                        float radians = MathHelper.TwoPi / totalProjectiles;
+                        int type = ModContent.ProjectileType<ProfanedSpear>();
+                        int damage = npc.GetProjectileDamage(type);
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+                            Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                        }
                     }
                 }
+
+                npc.ai[1] += 1f;
+                if (npc.ai[1] >= 120f)
+                {
+                    npc.ai[0] = 3f;
+                    npc.ai[1] = 24f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                    npc.velocity /= 2f;
+                    npc.netUpdate = true;
+                }
+                else
+                {
+                    Vector2 targetVector = player.Center - npc.Center;
+                    targetVector.Normalize();
+                    if (targetVector.HasNaNs())
+                        targetVector = new Vector2(npc.direction, 0f);
+
+                    float inertia = 50f;
+                    if (revenge)
+                        inertia *= 0.9f;
+                    if (malice || npc.Calamity().CurrentlyEnraged)
+                        inertia *= 0.8f;
+
+                    float num1006 = 0.111111117f * inertia;
+                    npc.velocity = (npc.velocity * (inertia - 1f) + targetVector * (npc.velocity.Length() + num1006)) / inertia;
+                }
+            }
+            else if (npc.ai[0] == 3f)
+            {
+                if (Math.Sign(npc.velocity.X) != 0)
+                    npc.spriteDirection = -Math.Sign(npc.velocity.X);
+                npc.spriteDirection = Math.Sign(npc.velocity.X);
+
+                npc.ai[1] -= 1f;
+                if (npc.ai[1] <= 0f)
+                {
+                    npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
+                    npc.TargetClosest();
+                    npc.netUpdate = true;
+                }
+
+                npc.velocity *= 0.9f;
             }
         }
 
@@ -224,8 +302,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
+            if (npc.ai[0] == 2f)
+                num153 = 10;
 
-			if (CalamityConfig.Instance.Afterimages)
+            if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

@@ -582,7 +582,7 @@ namespace CalamityMod.NPCs.Signus
                             Main.PlaySound(SoundID.Item73, npc.position);
 							int type = ModContent.ProjectileType<EssenceDust>();
 							int damage = npc.GetProjectileDamage(type);
-							int projectile = Projectile.NewProjectile(vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+							Projectile.NewProjectile(vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
                         }
                     }
 

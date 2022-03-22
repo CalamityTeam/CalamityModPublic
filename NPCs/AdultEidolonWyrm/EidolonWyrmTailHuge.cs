@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npc.width = 86;
             npc.height = 120;
             npc.defense = 0;
-			npc.LifeMaxNERB(2012500, 2415000);
-			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.LifeMaxNERB(2415000, 2898000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
             aiType = -1;
@@ -150,9 +150,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmTailGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmTailGlowHuge").Height) * 0.5f;
             vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
-            Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmTailGlowHuge"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+                new Microsoft.Xna.Framework.Rectangle?(npc.frame), Color.White, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
 		public override bool CheckActive() => false;

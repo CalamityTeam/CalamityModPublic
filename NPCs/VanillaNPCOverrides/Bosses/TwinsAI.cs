@@ -657,6 +657,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.defense = npc.defDefense + 10;
                 calamityGlobalNPC.DR = spazInPhase1 ? 0.9999f : 0.2f;
                 calamityGlobalNPC.unbreakableDR = spazInPhase1;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = spazInPhase1;
 
                 npc.HitSound = SoundID.NPCHit4;
 
@@ -1394,6 +1395,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.defense = npc.defDefense + 18;
                 calamityGlobalNPC.DR = retInPhase1 ? 0.9999f : 0.2f;
                 calamityGlobalNPC.unbreakableDR = retInPhase1;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = retInPhase1;
 
                 // Change hit sound to metal
                 npc.HitSound = SoundID.NPCHit4;

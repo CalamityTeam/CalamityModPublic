@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
 		private const float BoltAngleSpread = 280;
         private bool tail = false;
-        private int invinceTime = 180;
 
 		// Lightning flash variables
 		public float lightning = 0f;
@@ -120,8 +119,6 @@ namespace CalamityMod.NPCs.StormWeaver
 		public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
-            writer.Write(invinceTime);
-            writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
@@ -132,8 +129,6 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
-            invinceTime = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
@@ -150,18 +145,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
-
-            if (invinceTime > 0)
-            {
-                invinceTime--;
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
-            }
-            else
-            {
-                npc.damage = npc.defDamage;
-                npc.dontTakeDamage = false;
-            }
 
             if (!Main.raining)
 				CalamityUtils.StartRain();

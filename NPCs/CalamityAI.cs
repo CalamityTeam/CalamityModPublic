@@ -688,6 +688,7 @@ namespace CalamityMod.NPCs
 
 			// Reset defense
 			npc.defense = npc.defDefense;
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == 4f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -3193,6 +3194,8 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[1] < resistanceTime)
 				calamityGlobalNPC.newAI[1] += 1f;
 
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = calamityGlobalNPC.newAI[1] < resistanceTime;
+
 			// Flight timer
 			float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
 			calamityGlobalNPC.newAI[3] += 1f;
@@ -4566,6 +4569,7 @@ namespace CalamityMod.NPCs
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
 			calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.55f : 0.1f;
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !malice);
 
 			if (phaseSwitchPhase)
 			{
@@ -5541,11 +5545,13 @@ namespace CalamityMod.NPCs
 
 			bool biomeEnraged = npc.localAI[1] <= 0f;
 
-			npc.Calamity().CurrentlyEnraged = biomeEnraged;
+			npc.Calamity().CurrentlyEnraged = biomeEnraged || malice;
 
 			// Increased DR while transitioning phases and not tired
 			if (!tired)
 				calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.75f : 0.5f;
+
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
 			if (biomeEnraged)

@@ -475,6 +475,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else
 				npc.Calamity().DR = 0.35f;
 
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = EnragedState == (float)Enraged.Yes;
+
 			SmokeDrawer.Update();
 
 			// Passive and Immune phases

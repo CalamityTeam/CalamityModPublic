@@ -257,7 +257,9 @@ namespace CalamityMod.NPCs
         public static int scavenger = -1;
         public static int energyFlame = -1;
         public static int doughnutBoss = -1;
-        public static int holyBossAttacker = -1;
+		public static int doughnutBossDefender = -1;
+		public static int doughnutBossHealer = -1;
+		public static int holyBossAttacker = -1;
         public static int holyBossDefender = -1;
         public static int holyBossHealer = -1;
         public static int holyBoss = -1;
@@ -288,6 +290,12 @@ namespace CalamityMod.NPCs
 		// 3 - Check if a specific enrage condition (such as Duke Fishron's Ocean check) is met. If it is, and Boss Rush is not active, set this to true. If not, go to step 4.
 		// 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
 		public bool CurrentlyEnraged;
+
+		// Increased defense or DR variable for use with the boss health UI.
+		// The logic behind this is as follows:
+		// 1 - When bosses are transitioning phases they gain a massive DR increase.
+		// 2 - When bosses are using certain attacks that make them particularly vulnerable they gain a massive DR or defense increase.
+		public bool CurrentlyIncreasingDefenseOrDR;
 
 		// Other Boss Rush stuff
 		public bool DoesNotDisappearInBossRush;
@@ -346,7 +354,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
             ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
-            ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
+			ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianBoss2>());
+			ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianBoss3>());
+			ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
             ResetSavedIndex(ref holyBossDefender, NPCType<ProvSpawnDefense>());
             ResetSavedIndex(ref holyBossHealer, NPCType<ProvSpawnHealer>());
             ResetSavedIndex(ref holyBoss, NPCType<Providence.Providence>());
@@ -371,6 +381,7 @@ namespace CalamityMod.NPCs
 
 			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
 			CurrentlyEnraged = false;
+			CurrentlyIncreasingDefenseOrDR = false;
 			CanHaveBossHealthBar = false;
 			ShouldCloseHPBar = false;
 		}

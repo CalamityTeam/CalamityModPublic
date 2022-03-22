@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.Providence
 
 			// Take damage or not
 			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
-			npc.dontTakeDamage = (biomeEnraged && !malice) || Dying;
+			npc.dontTakeDamage = Dying;
 
 			// Do the death animation once killed.
 			if (Dying)
@@ -478,6 +478,8 @@ namespace CalamityMod.NPCs.Providence
             npc.Calamity().DR = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon || AIState == (int)Phase.Laser || spawnAnimation) ?
 				cocoonDR : delayAttacks ?
 				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
+
+			calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon || AIState == (int)Phase.Laser || spawnAnimation;
 
 			// Movement
 			if (AIState != (int)Phase.FlameCocoon && AIState != (int)Phase.SpearCocoon)
@@ -789,7 +791,7 @@ namespace CalamityMod.NPCs.Providence
 						npc.ai[3] += 1f;
 
 						int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
-						int num856 = (expertMode ? 24 : 26) - shootBoost;
+						int num856 = (biomeEnraged ? 18 : expertMode ? 24 : 26) - shootBoost;
 
 						num856 = (int)(num856 * attackRateMult);
 
@@ -843,8 +845,8 @@ namespace CalamityMod.NPCs.Providence
 
 						int shootBoost = death ? (int)Math.Round(6f * (1f - lifeRatio)) : (int)Math.Round(5f * (1f - lifeRatio));
 						int num864 = (expertMode ? 36 : 39) - shootBoost;
-						if (BossRushEvent.BossRushActive)
-							num864 = 31;
+						if (BossRushEvent.BossRushActive || biomeEnraged)
+							num864 = 27;
 
 						num864 = (int)(num864 * attackRateMult);
 
@@ -890,7 +892,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 
 					float divisor = (expertMode ? 2f : 3f) + (float)Math.Floor(3f * lifeRatio) + (attackRateMult > 1D ? (float)Math.Ceiling(attackRateMult * 1.6) : 0f);
-					int totalFlameProjectiles = 36;
+					int totalFlameProjectiles = biomeEnraged ? 45 : 36;
 					int chains = 4;
 					float interval = totalFlameProjectiles / chains * divisor;
 					double patternInterval = Math.Floor(npc.ai[3] / interval);
@@ -934,7 +936,7 @@ namespace CalamityMod.NPCs.Providence
 						{
 							npc.ai[2] = 0f;
 
-							totalFlameProjectiles = 16;
+							totalFlameProjectiles = biomeEnraged ? 20 : 16;
 							if (npc.ai[3] % (divisor * totalFlameProjectiles) == 0f)
 							{
 								calamityGlobalNPC.newAI[1] += 1f;
@@ -1058,8 +1060,8 @@ namespace CalamityMod.NPCs.Providence
 
 						int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
 						int num856 = (expertMode ? 24 : 26) - shootBoost;
-						if (BossRushEvent.BossRushActive)
-							num856 = 20;
+						if (BossRushEvent.BossRushActive || biomeEnraged)
+							num856 = 18;
 
 						num856 = (int)(num856 * attackRateMult);
 
@@ -1114,7 +1116,7 @@ namespace CalamityMod.NPCs.Providence
 						npc.ai[3] += 1f;
 
 						int shootBoost = death ? (int)Math.Round(12f * (1f - lifeRatio)) : (int)Math.Round(10f * (1f - lifeRatio));
-						int num864 = (expertMode ? 73 : 77) - shootBoost;
+						int num864 = (biomeEnraged ? 54 : expertMode ? 73 : 77) - shootBoost;
 
 						num864 = (int)(num864 * attackRateMult);
 
@@ -1172,7 +1174,7 @@ namespace CalamityMod.NPCs.Providence
 
 							if (calamityGlobalNPC.newAI[2] % 2f == 0f)
 							{
-								int totalSpearProjectiles = 12;
+								int totalSpearProjectiles = biomeEnraged ? 15 : 12;
 								double radians = MathHelper.TwoPi / totalSpearProjectiles;
 								Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -cocoonProjVelocity));
 
