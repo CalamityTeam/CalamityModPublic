@@ -2,8 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,7 +34,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 30;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(21875, 26250, 20000); // Old HP - 25000, 35000
+            npc.LifeMaxNERB(25000, 30000, 20000); // Old HP - 25000, 35000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
