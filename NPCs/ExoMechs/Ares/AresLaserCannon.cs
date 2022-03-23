@@ -374,22 +374,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Do nothing, rotate to aim at the target and fly in place
 				case (int)Phase.Nothing:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity = distanceFromDestination.Length();
-					float minVelocityCap = baseVelocity;
-					if (minVelocity > minVelocityCap)
-						minVelocity = minVelocityCap;
-
-					// Max velocity
-					Vector2 maxVelocity = distanceFromDestination / 24f;
-					float maxVelocityCap = minVelocityCap * 3f;
-					if (maxVelocity.Length() > maxVelocityCap)
-						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+					// Smooth movement towards the location Ares Laser Cannon is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					calamityGlobalNPC.newAI[1] += 1f;
 					if (calamityGlobalNPC.newAI[1] >= deathrayPhaseGateValue)
@@ -410,22 +396,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), npc.Center);
 
-						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-						// Min velocity
-						float minVelocity2 = distanceFromDestination.Length();
-						float minVelocityCap2 = baseVelocity;
-						if (minVelocity2 > minVelocityCap2)
-							minVelocity2 = minVelocityCap2;
-
-						// Max velocity
-						Vector2 maxVelocity2 = distanceFromDestination / 24f;
-						float maxVelocityCap2 = minVelocityCap2 * 3f;
-						if (maxVelocity2.Length() > maxVelocityCap2)
-							maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
-
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+						// Smooth movement towards the location Ares Laser Cannon is meant to be at
+						CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 						// Set frames to deathray charge up frames, which begin on frame 12
 						if (calamityGlobalNPC.newAI[2] == 1f)
@@ -449,22 +421,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						// Fire regular Thanatos lasers if Ares is in deathray phase, otherwise, fire deathray
 						if (fireNormalLasers)
 						{
-							// Inverse lerp returns the percentage of progress between A and B
-							float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-							// Min velocity
-							float minVelocity3 = distanceFromDestination.Length();
-							float minVelocityCap3 = baseVelocity;
-							if (minVelocity3 > minVelocityCap3)
-								minVelocity3 = minVelocityCap3;
-
-							// Max velocity
-							Vector2 maxVelocity3 = distanceFromDestination / 24f;
-							float maxVelocityCap3 = minVelocityCap3 * 3f;
-							if (maxVelocity3.Length() > maxVelocityCap3)
-								maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
-
-							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
+							// Smooth movement towards the location Ares Laser Cannon is meant to be at
+							CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 							// Fire Thanatos lasers
 							int numLasers = enraged ? 9 : lastMechAlive ? 3 : 2;

@@ -953,22 +953,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Fly to the right of the target
 				case (int)Phase.Normal:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity = distanceFromDestination.Length();
-					float minVelocityCap = baseVelocity;
-					if (minVelocity > minVelocityCap)
-						minVelocity = minVelocityCap;
-					
-					// Max velocity
-					Vector2 maxVelocity = distanceFromDestination / 24f;
-					float maxVelocityCap = minVelocityCap * 3f;
-					if (maxVelocity.Length() > maxVelocityCap)
-						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-					
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+					// Smooth movement towards the location Apollo is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					// Default animation for 60 frames and then go to telegraph animation
 					// newAI[3] tells Apollo what animation state it's currently in
@@ -1039,22 +1025,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge
 				case (int)Phase.RocketBarrage:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity2 = distanceFromDestination.Length();
-					float minVelocityCap2 = baseVelocity;
-					if (minVelocity2 > minVelocityCap2)
-						minVelocity2 = minVelocityCap2;
-
-					// Max velocity
-					Vector2 maxVelocity2 = distanceFromDestination / 24f;
-					float maxVelocityCap2 = minVelocityCap2 * 3f;
-					if (maxVelocity2.Length() > maxVelocityCap2)
-						maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+					// Smooth movement towards the location Apollo is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
@@ -1090,22 +1062,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 					if (!readyToCharge)
 					{
-						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-						// Min velocity
-						float minVelocity3 = distanceFromDestination.Length();
-						float minVelocityCap3 = baseVelocity;
-						if (minVelocity3 > minVelocityCap3)
-							minVelocity3 = minVelocityCap3;
-
-						// Max velocity
-						Vector2 maxVelocity3 = distanceFromDestination / 24f;
-						float maxVelocityCap3 = minVelocityCap3 * 3f;
-						if (maxVelocity3.Length() > maxVelocityCap3)
-							maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
-
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
+						// Smooth movement towards the location Apollo is meant to be at
+						CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 					}
 					else
 					{
@@ -1299,22 +1257,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Phase transition animation, that's all this exists for
 				case (int)Phase.PhaseTransition:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue4 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity4 = distanceFromDestination.Length();
-					float minVelocityCap4 = baseVelocity;
-					if (minVelocity4 > minVelocityCap4)
-						minVelocity4 = minVelocityCap4;
-
-					// Max velocity
-					Vector2 maxVelocity4 = distanceFromDestination / 24f;
-					float maxVelocityCap4 = minVelocityCap4 * 3f;
-					if (maxVelocity4.Length() > maxVelocityCap4)
-						maxVelocity4 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap4;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity4, maxVelocity4, lerpValue4);
+					// Smooth movement towards the location Apollo is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					// Shoot lens gore at the target at the proper time
 					if (calamityGlobalNPC.newAI[2] == lensPopTime)

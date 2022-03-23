@@ -5634,10 +5634,32 @@ namespace CalamityMod.NPCs
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region Astral things
-        public static void DoHitDust(NPC npc, int hitDirection, int dustType = 5, float xSpeedMult = 1f, int numHitDust = 5, int numDeathDust = 20)
+		#region Smooth Movement
+		public static void SmoothMovement(NPC npc, float movementDistanceGateValue, Vector2 distanceFromDestination, float baseVelocity)
+		{
+			// Inverse lerp returns the percentage of progress between A and B
+			float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+			// Min velocity
+			float minVelocity = distanceFromDestination.Length();
+			float minVelocityCap = baseVelocity;
+			if (minVelocity > minVelocityCap)
+				minVelocity = minVelocityCap;
+
+			// Max velocity
+			Vector2 maxVelocity = distanceFromDestination / 24f;
+			float maxVelocityCap = minVelocityCap * 3f;
+			if (maxVelocity.Length() > maxVelocityCap)
+				maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+			npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+		}
+		#endregion
+
+		#region Astral things
+		public static void DoHitDust(NPC npc, int hitDirection, int dustType = 5, float xSpeedMult = 1f, int numHitDust = 5, int numDeathDust = 20)
         {
             for (int k = 0; k < 5; k++)
             {

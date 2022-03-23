@@ -586,9 +586,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				}
 			}
 
-			// Destination variables
-			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
-
 			// Duration of deathray spin to do a full circle
 			// Normal = 120, Expert = 104, Rev = 96, Death = 88, Malice = 72
 			float spinTime = 120f - 320f * (baseVelocityMult - 1.25f);
@@ -657,22 +654,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						// Set charge variable to default
 						chargeVelocityNormalized = default;
 
-						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-						// Min velocity
-						float minVelocity2 = distanceFromDestination.Length();
-						float minVelocityCap2 = baseVelocity;
-						if (minVelocity2 > minVelocityCap2)
-							minVelocity2 = minVelocityCap2;
-
-						// Max velocity
-						Vector2 maxVelocity2 = distanceFromDestination / 24f;
-						float maxVelocityCap2 = minVelocityCap2 * 3f;
-						if (maxVelocity2.Length() > maxVelocityCap2)
-							maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
-
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+						// Smooth movement towards the location Artemis is meant to be at
+						CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 					}
 					else
 					{
@@ -829,22 +812,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				// Laser shotgun barrage
 				case (int)Phase.LaserShotgun:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity = distanceFromDestination.Length();
-					float minVelocityCap = baseVelocity;
-					if (minVelocity > minVelocityCap)
-						minVelocity = minVelocityCap;
-
-					// Max velocity
-					Vector2 maxVelocity = distanceFromDestination / 24f;
-					float maxVelocityCap = minVelocityCap * 3f;
-					if (maxVelocity.Length() > maxVelocityCap)
-						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+					// Smooth movement towards the location Artemis is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					// Fire lasers
 					int numSpreads = lastMechAlive ? 3 : 2;
@@ -1040,22 +1009,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					}
 					else
 					{
-						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-						// Min velocity
-						float minVelocity3 = distanceFromDestination.Length();
-						float minVelocityCap3 = baseVelocity;
-						if (minVelocity3 > minVelocityCap3)
-							minVelocity3 = minVelocityCap3;
-
-						// Max velocity
-						Vector2 maxVelocity3 = distanceFromDestination / 24f;
-						float maxVelocityCap3 = minVelocityCap3 * 3f;
-						if (maxVelocity3.Length() > maxVelocityCap3)
-							maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
-
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
+						// Smooth movement towards the location Artemis is meant to be at
+						CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 					}
 
 					// Reset phase and variables
@@ -1105,22 +1060,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				// Phase transition animation, that's all this exists for
 				case (int)Phase.PhaseTransition:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue4 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity4 = distanceFromDestination.Length();
-					float minVelocityCap4 = baseVelocity;
-					if (minVelocity4 > minVelocityCap4)
-						minVelocity4 = minVelocityCap4;
-
-					// Max velocity
-					Vector2 maxVelocity4 = distanceFromDestination / 24f;
-					float maxVelocityCap4 = minVelocityCap4 * 3f;
-					if (maxVelocity4.Length() > maxVelocityCap4)
-						maxVelocity4 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap4;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity4, maxVelocity4, lerpValue4);
+					// Smooth movement towards the location Artemis is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					// Shoot lens gore at the target at the proper time
 					if (calamityGlobalNPC.newAI[2] == lensPopTime)
