@@ -126,8 +126,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		public const float teslaArmStartTimer = 80f;
 
 		// Drawers for arm segments.
-		public static PrimitiveTrail LightningDrawer;
-		public static PrimitiveTrail LightningBackgroundDrawer;
+		public PrimitiveTrail LightningDrawer;
+		public PrimitiveTrail LightningBackgroundDrawer;
 
 		public override void SetStaticDefaults()
 		{
