@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     healTimer = 0;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int healAmt = npc.lifeMax / 25;
+                        int healAmt = npc.lifeMax / 20;
                         if (healAmt > npc.lifeMax - npc.life)
                             healAmt = npc.lifeMax - npc.life;
 
@@ -228,7 +228,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
                 float phaseGateValue = (malice || biomeEnraged) ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
-                if (npc.ai[3] < phaseGateValue || phase1)
+                if (defenderAlive)
+                    phaseGateValue *= 1.25f;
+
+                if (npc.ai[3] < phaseGateValue || healerAlive)
                 {
                     npc.velocity = (npc.velocity * (inertia - 1f) + targetVector) / inertia;
                     npc.ai[3] += 1f;
@@ -275,6 +278,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
                     velocity *= (malice || biomeEnraged) ? 39f : death ? 33f : revenge ? 30f : expertMode ? 27f : 21f;
+                    if (defenderAlive)
+                        velocity *= 0.8f;
+
                     npc.velocity = velocity;
                 }
             }
