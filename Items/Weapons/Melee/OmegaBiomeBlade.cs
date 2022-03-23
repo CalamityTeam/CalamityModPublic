@@ -31,13 +31,13 @@ namespace CalamityMod.Items.Weapons.Melee
         #region stats
         public static int BaseDamage = 400;
 
-        public static int WhirlwindAttunement_BaseDamage = 240;
+        public static int WhirlwindAttunement_BaseDamage = 140;
         public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
-        public static int WhirlwindAttunement_SigilTime = 1200;
+        public static int WhirlwindAttunement_SigilTime = 1000;
         public static float WhirlwindAttunement_BeamDamageReduction = 0.5f;
-        public static float WhirlwindAttunement_BaseDamageReduction = 0.4f;
-        public static float WhirlwindAttunement_FullChargeDamageBoost = 1.5f;
-        public static float WhirlwindAttunement_ThrowDamageBoost = 4.5f;
+        public static float WhirlwindAttunement_BaseDamageReduction = 0.3f;
+        public static float WhirlwindAttunement_FullChargeDamageBoost = 0.9f;
+        public static float WhirlwindAttunement_ThrowDamageBoost = 3.3f;
 
         public static int WhirlwindAttunement_PassiveBaseDamage = 200;
 
