@@ -640,22 +640,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above the target
 				case (int)Phase.Normal:
 
-					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-					// Min velocity
-					float minVelocity = distanceFromDestination.Length();
-					float minVelocityCap = baseVelocity;
-					if (minVelocity > minVelocityCap)
-						minVelocity = minVelocityCap;
-
-					// Max velocity
-					Vector2 maxVelocity = distanceFromDestination / 24f;
-					float maxVelocityCap = minVelocityCap * 3f;
-					if (maxVelocity.Length() > maxVelocityCap)
-						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+					// Smooth movement towards the location Ares is meant to be at
+					CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
 					if (shouldGetBuffedByBerserkPhase)
 					{
@@ -732,7 +718,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 						int totalProjectiles = malice ? 12 : death ? 10 : revenge ? 9 : expertMode ? 8 : 6;
 						float radians = MathHelper.TwoPi / totalProjectiles;
-						Vector2 laserSpawnPoint = new Vector2(npc.Center.X, npc.Center.Y);
 						bool normalLaserRotation = npc.localAI[0] % 2f == 0f;
 						float velocity = 6f;
 						double angleA = radians * 0.5;

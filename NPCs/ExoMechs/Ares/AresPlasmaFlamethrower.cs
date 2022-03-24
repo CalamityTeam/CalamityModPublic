@@ -455,23 +455,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			EnergyDrawer.Update();
 
-			// Movement
-			// Inverse lerp returns the percentage of progress between A and B
-			float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-			// Min velocity
-			float minVelocity = distanceFromDestination.Length();
-			float minVelocityCap = baseVelocity;
-			if (minVelocity > minVelocityCap)
-				minVelocity = minVelocityCap;
-
-			// Max velocity
-			Vector2 maxVelocity = distanceFromDestination / 24f;
-			float maxVelocityCap = minVelocityCap * 3f;
-			if (maxVelocity.Length() > maxVelocityCap)
-				maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-			npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+			// Smooth movement towards the location Ares Plasma Flamethrower is meant to be at
+			CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
