@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			aiType = -1;
 			npc.Opacity = 0f;
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(3, 33, 0, 0);
+			npc.value = Item.buyPrice(15, 0, 0, 0);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

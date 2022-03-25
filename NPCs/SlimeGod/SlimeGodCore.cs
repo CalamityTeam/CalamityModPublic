@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 8, 0, 0);
+            npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.Opacity = 0.8f;
             npc.boss = true;
             npc.noGravity = true;

@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 6, 0, 0);
+            npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;

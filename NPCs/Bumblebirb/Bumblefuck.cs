@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             npc.lavaImmune = true;
             npc.noGravity = true;
-            npc.value = Item.buyPrice(0, 30, 0, 0);
+            npc.value = Item.buyPrice(1, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
             bossBag = ModContent.ItemType<BumblebirbBag>();

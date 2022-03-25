@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Crabulon
             music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             npc.boss = true;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 4, 0, 0);
+            npc.value = Item.buyPrice(0, 10, 0, 0);
             npc.HitSound = SoundID.NPCHit45;
             npc.DeathSound = SoundID.NPCDeath1;
             bossBag = ModContent.ItemType<CrabulonBag>();

@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             aiType = -1;
             npc.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
-            npc.value = Item.buyPrice(0, 15, 0, 0);
+            npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
 			npc.Calamity().VulnerableToHeat = false;

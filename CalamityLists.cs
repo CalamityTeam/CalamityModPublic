@@ -2513,11 +2513,20 @@ namespace CalamityMod
 
             BossValues = new SortedDictionary<int, int>
             {
-                { NPCID.QueenBee, Item.buyPrice(0, 5)},
-                { NPCID.SkeletronHead, Item.buyPrice(0, 7) },
-                { NPCID.DukeFishron, Item.buyPrice(0, 25) },
-                { NPCID.CultistBoss, Item.buyPrice(0, 25) },
-                { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
+                { NPCID.KingSlime, Item.buyPrice(0, 5)},
+                { NPCID.EyeofCthulhu, Item.buyPrice(0, 10)},
+                { NPCID.QueenBee, Item.buyPrice(0, 15)},
+                { NPCID.SkeletronHead, Item.buyPrice(0, 20) },
+                { NPCID.WallofFlesh, Item.buyPrice(0, 25)},
+                { NPCID.Spazmatism, Item.buyPrice(0, 40)},
+                { NPCID.Retinazer, Item.buyPrice(0, 40)},
+                { NPCID.TheDestroyer, Item.buyPrice(0, 40)},
+                { NPCID.SkeletronPrime, Item.buyPrice(0, 40)},
+                { NPCID.Plantera, Item.buyPrice(0, 50)},
+                { NPCID.Golem, Item.buyPrice(0, 60)},
+                { NPCID.DukeFishron, Item.buyPrice(0, 75) },
+                { NPCID.CultistBoss, Item.buyPrice(1) },
+                { NPCID.MoonLordCore, Item.buyPrice(1, 50) }
             };
 
             bossTypes = new SortedDictionary<int, int>()

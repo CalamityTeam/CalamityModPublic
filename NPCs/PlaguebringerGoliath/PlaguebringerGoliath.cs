@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.aiStyle = -1;
             aiType = -1;
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 25, 0, 0);
+            npc.value = Item.buyPrice(0, 75, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;

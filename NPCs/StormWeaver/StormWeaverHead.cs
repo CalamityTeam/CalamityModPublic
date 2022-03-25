@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			// If fought alone, Storm Weaver plays its own theme
 			if (notDoGFight)
             {
-                npc.value = Item.buyPrice(0, 35, 0, 0);
+                npc.value = Item.buyPrice(2, 0, 0, 0);
                 music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
             }
             // If fought as a DoG interlude, keep the DoG music playing

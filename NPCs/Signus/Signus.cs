@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Signus
             // If fought alone, Signus plays his own theme
             if (notDoGFight)
             {
-                npc.value = Item.buyPrice(0, 35, 0, 0);
+                npc.value = Item.buyPrice(2, 0, 0, 0);
                 music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             }
             // If fought as a DoG interlude, keep the DoG music playing

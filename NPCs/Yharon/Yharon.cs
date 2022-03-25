@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(1, 0, 0, 0);
+            npc.value = Item.buyPrice(10, 0, 0, 0);
             npc.boss = true;
             npc.DR_NERD(normalDR);
 

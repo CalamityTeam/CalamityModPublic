@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 6, 0, 0);
+            npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

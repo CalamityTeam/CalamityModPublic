@@ -1607,17 +1607,17 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyWoodenSword", group);
 
-            group = new RecipeGroup(() => "Any Large Gem", new int[]
-            {
-                ItemID.LargeAmber,
-                ItemID.LargeAmethyst,
-                ItemID.LargeDiamond,
-                ItemID.LargeEmerald,
-                ItemID.LargeRuby,
-                ItemID.LargeSapphire,
-                ItemID.LargeTopaz
-            });
-            RecipeGroup.RegisterGroup("AnyLargeGem", group);
+            //group = new RecipeGroup(() => "Any Large Gem", new int[]
+            //{
+            //    ItemID.LargeAmber,
+            //    ItemID.LargeAmethyst,
+            //    ItemID.LargeDiamond,
+            //    ItemID.LargeEmerald,
+            //    ItemID.LargeRuby,
+            //    ItemID.LargeSapphire,
+            //    ItemID.LargeTopaz
+            //});
+            //RecipeGroup.RegisterGroup("AnyLargeGem", group);
 
             group = new RecipeGroup(() => "Any Food Item", new int[]
             {
