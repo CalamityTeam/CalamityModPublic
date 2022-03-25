@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.DesertScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 2, 0, 0);
+            npc.value = Item.buyPrice(0, 5, 0, 0);
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;

@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.aiStyle = -1;
             aiType = -1;
 			npc.Opacity = 0f;
-			npc.value = Item.buyPrice(0, 15, 0, 0);
+			npc.value = Item.buyPrice(0, 60, 0, 0);
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
             npc.noTileCollide = true;

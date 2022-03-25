@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 12, 0, 0);
+            npc.value = Item.buyPrice(0, 40, 0, 0);
             npc.behindTiles = true;
 			npc.chaseable = false;
             npc.noGravity = true;

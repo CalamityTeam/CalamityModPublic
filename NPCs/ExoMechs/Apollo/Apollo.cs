@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(3, 33, 0, 0);
+            npc.value = Item.buyPrice(15, 0, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;

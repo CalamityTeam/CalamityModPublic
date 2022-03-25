@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.npcSlots = 15f;
             npc.HitSound = SoundID.NPCHit14;
             npc.DeathSound = SoundID.NPCDeath20;
-			npc.value = Item.buyPrice(0, 70, 0, 0);
+			npc.value = Item.buyPrice(4, 0, 0, 0);
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;

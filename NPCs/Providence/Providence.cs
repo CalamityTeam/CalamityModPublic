@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Providence
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 50, 0, 0);
+            npc.value = Item.buyPrice(3, 0, 0, 0);
             npc.boss = true;
 			npc.Opacity = 0f;
             npc.noGravity = true;

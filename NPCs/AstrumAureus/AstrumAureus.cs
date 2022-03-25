@@ -52,15 +52,11 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 15, 0, 0);
+            npc.value = Item.buyPrice(0, 60, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
-            if (NPC.downedMoonlord)
-            {
-                npc.value = Item.buyPrice(0, 25, 0, 0);
-            }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.Calamity().VulnerableToHeat = true;
