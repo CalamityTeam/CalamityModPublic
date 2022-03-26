@@ -379,24 +379,29 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Start sentinel phases, only run things that have to happen once in here
 			if (summonSentinels)
 			{
-				if (Main.netMode != NetmodeID.MultiplayerClient && !Phase2Started)
+				if (!Phase2Started)
 				{
 					Phase2Started = true;
 
-					// Reset important shit
-					npc.ai[3] = 0f;
-					calamityGlobalNPC.newAI[1] = 0f;
-					calamityGlobalNPC.newAI[2] = 0f;
-					npc.netSpam = 0;
-					npc.netUpdate = true;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						// Reset important shit
+						npc.ai[3] = 0f;
+						calamityGlobalNPC.newAI[1] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						npc.netSpam = 0;
+						npc.netUpdate = true;
+					}
 
 					// Skip the sentinel phase entirely if DoG has already been killed
 					CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
-
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-					netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-					netMessage.Send();
+					if (Main.netMode == NetmodeID.Server)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+						netMessage.Send();
+					}
 				}
 
 				// Play music after the transiton BS
