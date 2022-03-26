@@ -166,12 +166,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         Main.PlaySound(SoundID.Item20, npc.position);
                         int type = ModContent.ProjectileType<FlareDust>();
                         int damage = npc.GetProjectileDamage(type);
-                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * npc.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * npc.velocity.Length() * 1.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
                     }
                 }
 
                 Vector2 targetVector = player.Center - npc.Center;
-                float phaseGateValue = (malice || biomeEnraged) ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
+                float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                 if (npc.ai[3] >= phaseGateValue && !healerAlive)
                 {
                     npc.ai[0] = 1f;
@@ -185,9 +185,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
                 float num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
 
-                if (num786 > 320f)
+                if (num786 > (healerAlive ? 160f : 80f))
                 {
-                    num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
+                    num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f) / num786;
                     num784 *= num786;
                     num785 *= num786;
                     npc.velocity.X = (npc.velocity.X * 25f + num784) / 26f;
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     return;
                 }
 
-                if (npc.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f)
+                if (npc.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f)
                     npc.velocity *= 1.1f;
             }
             else if (npc.ai[0] == 1f)
@@ -369,11 +369,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 		{
 			player.AddBuff(ModContent.BuffType<HolyFlames>(), 240, true);
 		}
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
-        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

@@ -118,9 +118,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Defense
             if (defenderAlive)
-                npc.defense = npc.defDefense * 4;
+            {
+                npc.Calamity().DR = 0.9f;
+                npc.Calamity().unbreakableDR = true;
+                npc.Calamity().CurrentlyIncreasingDefenseOrDR = true;
+            }
             else
-                npc.defense = npc.defDefense;
+            {
+                npc.Calamity().DR = 0.3f;
+                npc.Calamity().unbreakableDR = false;
+                npc.Calamity().CurrentlyIncreasingDefenseOrDR = false;
+            }
 
             // Healing
             if (healerAlive)
@@ -209,9 +217,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             float inertia = (malice || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
             if (lifeRatio < 0.5f)
-                inertia *= 0.9f;
+                inertia *= 0.8f;
             if (!phase1)
-                inertia *= 0.9f;
+                inertia *= 0.8f;
 
             float num1006 = 0.111111117f * inertia;
             
@@ -224,10 +232,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     npc.spriteDirection = npc.direction;
                 }
 
-                float velocity = (malice || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                float velocity = (malice || biomeEnraged) ? 20f : death ? 18f : revenge ? 17f : expertMode ? 16f : 14f;
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
-                float phaseGateValue = (malice || biomeEnraged) ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
+                float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
                 if (defenderAlive)
                     phaseGateValue *= 1.25f;
 
@@ -247,7 +255,23 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             Main.PlaySound(SoundID.Item20, npc.position);
                             int type = ModContent.ProjectileType<FlareDust>();
                             int damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(vectorCenter, Vector2.Normalize(player.Center - vectorCenter) * npc.velocity.Length() * 1.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                            Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
+
+                            int numProj = death ? 3 : 2;
+                            int spread = death ? 30 : 20;
+                            if (!phase1)
+                            {
+                                numProj *= 2;
+                                spread *= 2;
+                            }
+
+                            float rotation = MathHelper.ToRadians(spread);
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+                                Projectile.NewProjectile(vectorCenter, normalizedPerturbedSpeed * npc.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                            }
                         }
                     }
                 }
@@ -300,8 +324,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                         Main.PlaySound(SoundID.Item20, npc.position);
 
-                        int totalProjectiles = 10;
-                        float velocity = 5f;
+                        int totalProjectiles = phase1 ? 6 : 10;
+                        float velocity = phase1 ? 5f : 6f;
                         int type = ModContent.ProjectileType<ProfanedSpear>();
                         int damage = npc.GetProjectileDamage(type);
 
@@ -310,12 +334,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             case 0:
                                 break;
                             case 1:
-                                totalProjectiles = 12;
-                                velocity = 5.5f;
+                                totalProjectiles = phase1 ? 10 : 15;
+                                velocity = phase1 ? 4f : 5f;
                                 break;
                             case 2:
-                                totalProjectiles = 8;
-                                velocity = 6f;
+                                totalProjectiles = phase1 ? 5 : 7;
+                                velocity = phase1 ? 6f : 7f;
                                 break;
                             default:
                                 break;
