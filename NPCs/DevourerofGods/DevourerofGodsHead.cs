@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Start sentinel phases, only run things that have to happen once in here
 			if (summonSentinels)
 			{
-				if (Main.netMode == NetmodeID.Server && !Phase2Started)
+				if (Main.netMode != NetmodeID.MultiplayerClient && !Phase2Started)
 				{
 					Phase2Started = true;
 
