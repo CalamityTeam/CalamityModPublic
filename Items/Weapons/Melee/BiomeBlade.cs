@@ -62,6 +62,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            if (list == null)
+                return;
+
             SafeCheckAttunements();
 
             Player player = Main.player[Main.myPlayer];

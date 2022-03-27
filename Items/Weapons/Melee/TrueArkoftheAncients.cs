@@ -43,6 +43,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            if (tooltips == null)
+                return;
+
+            Player player = Main.player[Main.myPlayer];
+            if (player is null)
+                return;
+
             var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
             tooltip.text = ParryTooltip;
             tooltip.overrideColor = Color.CornflowerBlue;
