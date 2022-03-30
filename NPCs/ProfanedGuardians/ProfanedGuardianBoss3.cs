@@ -118,9 +118,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
             float num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
 
-            if (num786 > 160f)
+            if (num786 > 320f)
             {
-                num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f) / num786;
+                num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
                 num784 *= num786;
                 num785 *= num786;
                 npc.velocity.X = (npc.velocity.X * 25f + num784) / 26f;
@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 return;
             }
 
-            if (npc.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f)
+            if (npc.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f)
                 npc.velocity *= 1.1f;
         }
 
@@ -218,11 +218,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 		{
 			player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
 		}
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
-        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

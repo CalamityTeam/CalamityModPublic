@@ -1,5 +1,5 @@
 author = Fabsol and the Dev Team
-version = 1.5.1.002
+version = 1.5.1.005
 displayName = Calamity Mod (No Calamity Music)
 homepage = https://forums.terraria.org/index.php?threads/calamity-mod.44065/
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .git\*, LICENSE, README.md, .editorconfig, .gitignore, .gitattributes

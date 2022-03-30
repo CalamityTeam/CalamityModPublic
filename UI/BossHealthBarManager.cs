@@ -12,8 +12,8 @@ using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
@@ -262,7 +262,9 @@ namespace CalamityMod.UI
                 NPCType<SupremeCatastrophe>(),
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnOffense>(),
-                NPCType<ProvSpawnHealer>()
+                NPCType<ProvSpawnHealer>(),
+                NPCType<ProfanedGuardianBoss2>(),
+                NPCType<ProfanedGuardianBoss3>()
             };
             MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }
