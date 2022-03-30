@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ItemID.HeartreachPotion);
             recipe.AddIngredient(ItemID.LifeforcePotion);
             recipe.AddIngredient(ItemID.RegenerationPotion);
-            recipe.AddIngredient(ItemID.CalmingPotion);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
