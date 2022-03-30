@@ -1531,7 +1531,8 @@ namespace CalamityMod
                 ProjectileType<JawsProjectile>(),
                 ProjectileType<LeviathanTooth>(),
                 ProjectileType<DeificThunderboltProj>(),
-                ProjectileType<SacrificeProjectile>()
+                ProjectileType<SacrificeProjectile>(),
+                ProjectileType<SeraphimProjectile>()
             };
 
             flaskBombList = new List<int>()
