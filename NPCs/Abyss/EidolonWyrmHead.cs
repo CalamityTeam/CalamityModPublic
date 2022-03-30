@@ -499,7 +499,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<StardustStaff>(), CalamityWorld.downedPolterghast, 10);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<StardustStaff>(), CalamityWorld.downedPolterghast, 10, 1, 1);
             int minLumenyl = Main.expertMode ? 8 : 6;
             int maxLumenyl = Main.expertMode ? 11 : 8;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
