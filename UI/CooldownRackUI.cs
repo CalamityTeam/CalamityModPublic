@@ -31,9 +31,9 @@ namespace CalamityMod.UI
 		// TODO -- more of these display positioning constants
 		public const float CompactXSpacing = 28f;
 		public const float ExpandedXScaling = 46f;
-		public static Vector2 Spacing => CompactIcons ? Vector2.UnitX * Main.UIScale * CompactXSpacing : Vector2.UnitX * Main.UIScale * ExpandedXScaling;
+		public static Vector2 Spacing => CompactIcons ? Vector2.UnitX * CompactXSpacing : Vector2.UnitX * ExpandedXScaling;
 
-		public static Vector2 BaseDrawPosition => new Vector2(32, 100) * Main.UIScale + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50 * Main.UIScale : Vector2.Zero);
+		public static Vector2 BaseDrawPosition => new Vector2(32, 100) + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50  : Vector2.Zero);
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
@@ -48,7 +48,7 @@ namespace CalamityMod.UI
 			if (cooldownsToDraw.Count == 0)
 				return;
 
-			float uiScale = Main.UIScale;
+			float uiScale = 1f; //The actual UI scale is automatically applied. Using Main.UIScale here will make everyting way bigger due to the scale being applied twice over
 			Vector2 displayPosition = BaseDrawPosition;
 			int rectangleSide = (int)Math.Floor(CompactIcons ? 24 * uiScale : 52 * uiScale);
 			Rectangle iconRectangle = new Rectangle((int)displayPosition.X - rectangleSide / 2, (int)displayPosition.Y - rectangleSide / 2, rectangleSide, rectangleSide);
