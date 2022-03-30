@@ -52,9 +52,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             if ((HeadPieceID ?? ItemID.None) == player.armor[0].type || AlternativeHeadPieceIDs.Contains(player.armor[0].type))
                 ApplyHeadPieceEffect(player);
-            if ((HeadPieceID ?? ItemID.None) == player.armor[1].type || AlternativeBodyPieceIDs.Contains(player.armor[1].type))
+            if ((BodyPieceID ?? ItemID.None) == player.armor[1].type || AlternativeBodyPieceIDs.Contains(player.armor[1].type))
                 ApplyBodyPieceEffect(player);
-            if ((HeadPieceID ?? ItemID.None) == player.armor[2].type || AlternativeLegPieceIDs.Contains(player.armor[2].type))
+            if ((LegPieceID ?? ItemID.None) == player.armor[2].type || AlternativeLegPieceIDs.Contains(player.armor[2].type))
                 ApplyLegPieceEffect(player);
         }
     }
