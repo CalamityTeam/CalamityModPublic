@@ -501,7 +501,18 @@ namespace CalamityMod.CalPlayer
         //I feel like having an Interface folder might be good.
         public interface IExtendedHat
         {
-            void DrawExtension(PlayerDrawInfo drawInfo);
+            /// <summary>
+            /// The texture of the extension
+            /// </summary>
+            string ExtensionTexture();
+            /// <summary>
+            /// Unless you are using custom drawing, mount offsets are taken into account automatically.
+            /// </summary>
+            Vector2 ExtensionSpriteOffset(PlayerDrawInfo drawInfo);
+            /// <summary>
+            ///Return true to make the extension get drawn automatically from the texture and offsets provided. Return false if you want to draw it yourself
+            /// </summary>
+            bool PreDrawExtension(PlayerDrawInfo drawInfo);
         }
 
         public static readonly PlayerLayer HatExtension = new PlayerLayer("CalamityMod", "HatExtension", PlayerLayer.Head, drawInfo =>
@@ -516,7 +527,27 @@ namespace CalamityMod.CalPlayer
 
             if (ModContent.GetModItem(headItemType) is IExtendedHat ExtendedHatDrawer)
             {
-                ExtendedHatDrawer.DrawExtension(drawInfo);
+                if (ExtendedHatDrawer.PreDrawExtension(drawInfo))
+                {
+                    int dyeShader = drawPlayer.dye?[0].dye ?? 0;
+
+                    //Remember to use drawInfo.position and not drawPlayer.position, or else it will not display properly in the player selection screen.
+                    Vector2 origin = drawInfo.headOrigin;
+                    Vector2 headDrawPosition = drawInfo.position.Floor() + origin - Main.screenPosition;
+                    headDrawPosition.Y -= drawPlayer.gfxOffY;
+
+                    //Account for the hellspawns known as mounts
+                    if (drawPlayer.mount.Active)
+                        headDrawPosition.Y += drawPlayer.mount.HeightBoost;
+
+                    headDrawPosition += ExtendedHatDrawer.ExtensionSpriteOffset(drawInfo);
+
+                    Texture2D extraPieceTexture = ModContent.GetTexture(ExtendedHatDrawer.ExtensionTexture());
+                    Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
+                    DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.upperArmorColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
+                    pieceDrawData.shader = dyeShader;
+                    Main.playerDrawData.Add(pieceDrawData);
+                }
             }
         });
         
