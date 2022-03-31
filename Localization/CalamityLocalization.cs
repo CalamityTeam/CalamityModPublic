@@ -177,8 +177,6 @@ namespace CalamityMod.Localization
                 new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
                 new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
 
-                new [] { "BossSpawnText", "Something is approaching..." },
-
                 new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
                 new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
                 new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },

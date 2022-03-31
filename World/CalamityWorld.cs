@@ -41,11 +41,6 @@ namespace CalamityMod.World
         // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
 
-        // Death Mode natural boss spawns
-        public static int bossSpawnCountdown = 0; // Death Mode natural boss spawn countdown
-        public static int bossType = 0; // Death Mode natural boss spawn type
-        public static int deathBossSpawnCooldown = 0; // Cooldown between Death Mode natural boss spawns
-
         // Modes
         public static bool onionMode = false; // Extra accessory from Moon Lord
         public static bool revenge = false; // Revengeance Mode
@@ -255,10 +250,7 @@ namespace CalamityMod.World
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;
             BossRushEvent.BossRushSpawnCountdown = 180;
-            bossSpawnCountdown = 0;
             bossRushHostileProjKillCounter = 0;
-            deathBossSpawnCooldown = 0;
-            bossType = 0;
             newAltarX = 0;
             newAltarY = 0;
             abyssChasmBottom = 0;

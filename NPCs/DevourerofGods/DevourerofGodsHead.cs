@@ -51,6 +51,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			phase2IconIndex = ModContent.GetModBossHeadSlot(phase2IconPath);
 		}
 
+		// Laser velocity
+		private const float laserVelocity = 10f;
+
 		// Phase 1 variables
 
 		// Enums
@@ -279,8 +282,18 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Stop rain
             CalamityMod.StopRain();
 
-            // Variables
-            Vector2 vector = npc.Center;
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
+
+			// Variables
+			Vector2 vector = npc.Center;
             bool flies = npc.ai[3] == 0f;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -302,6 +315,40 @@ namespace CalamityMod.NPCs.DevourerofGods
 			bool phase6 = lifeRatio < 0.18f;
 			bool phase7 = lifeRatio < 0.09f;
 
+			// Velocity variables
+			float fallSpeed = malice ? 19f : death ? 17.5f : 16f;
+			if (expertMode)
+				fallSpeed += 4f * (1f - lifeRatio);
+
+			float speed = malice ? 18f : death ? 16.5f : 15f;
+			float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
+			float homingSpeed = malice ? 36f : death ? 30f : 24f;
+			float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
+
+			if (expertMode)
+			{
+				speed += 3f * (1f - lifeRatio);
+				turnSpeed += 0.06f * (1f - lifeRatio);
+				homingSpeed += 12f * (1f - lifeRatio);
+				homingTurnSpeed += 0.15f * (1f - lifeRatio);
+			}
+
+			float groundPhaseTurnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
+
+			if (expertMode)
+				groundPhaseTurnSpeed += 0.1f * (1f - lifeRatio);
+
+			groundPhaseTurnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.0002f;
+
+			// How long it takes before swapping phases
+			int phaseLimit = death ? 600 : 900;
+			if (expertMode && npc.ai[3] == 0f)
+			{
+				phaseLimit /= 1 + (int)((death ? 4f : 5f) * (1f - lifeRatio));
+				if (phaseLimit < 180)
+					phaseLimit = 180;
+			}
+
 			// Continuously reset certain things.
 			AttemptingToEnterPortal = false;
 
@@ -311,16 +358,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Worm variable
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
-
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
-
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
-
-			Player player = Main.player[npc.target];
 
 			// Despawn
 			if (player.dead)
@@ -648,7 +685,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Laser walls
 						if (!phase6 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
 						{
-							float speed = 10f;
 							float spawnOffset = 1500f;
 							float divisor = malice ? 100f : 120f;
 
@@ -671,15 +707,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 										for (int x = 0; x < totalShots_Phase2; x++)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 											shotSpacing_Phase2[0] -= spacingVar_Phase2;
 										}
 
 										if (expertMode)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 										}
 
 										break;
@@ -689,15 +725,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 										targetPosY += 50f;
 										for (int x = 0; x < totalShots_Phase2; x++)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 											shotSpacing_Phase2[0] -= spacingVar_Phase2;
 										}
 
 										if (expertMode)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 										}
 
 										break;
@@ -708,18 +744,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 										{
 											start = new Vector2(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0]);
 											aim.Y += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											start = new Vector2(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0]);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											shotSpacing_Phase2[0] -= diagonalSpacingVar;
 										}
 
-										Projectile.NewProjectile(player.Center.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.Center.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.Center.X, targetPosY + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.Center.X, targetPosY - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
 
 										break;
 
@@ -727,21 +763,21 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 										for (int x = 0; x < totalShots_Phase2; x++)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 											shotSpacing_Phase2[0] -= spacingVar_Phase2;
 										}
 
 										int totalBonusLasers = totalShots_Phase2 / 2;
 										for (int x = 0; x < totalBonusLasers; x++)
 										{
-											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[3], -speed, 0f, type, damage, 0f, Main.myPlayer);
-											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[3], speed, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[3], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[3], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 											shotSpacing_Phase2[3] -= Main.rand.NextBool(2) ? 180 : 200;
 										}
 
-										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
 										break;
 
@@ -751,18 +787,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 										{
 											start = new Vector2(player.position.X + shotSpacing_Phase2[0], targetPosY + spawnOffset);
 											aim.X += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											start = new Vector2(player.position.X + shotSpacing_Phase2[0], targetPosY - spawnOffset);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											shotSpacing_Phase2[0] -= diagonalSpacingVar;
 										}
 
-										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
 										break;
 								}
@@ -782,14 +818,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 								// Lower wall
 								for (int x = 0; x < totalShots_Phase2; x++)
 								{
-									Projectile.NewProjectile(player.position.X + shotSpacing_Phase2[1], player.position.Y + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X + shotSpacing_Phase2[1], player.position.Y + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
 									shotSpacing_Phase2[1] -= spacingVar_Phase2;
 								}
 
 								// Upper wall
 								for (int x = 0; x < totalShots_Phase2; x++)
 								{
-									Projectile.NewProjectile(player.position.X + shotSpacing_Phase2[2], player.position.Y - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X + shotSpacing_Phase2[2], player.position.Y - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
 									shotSpacing_Phase2[2] -= spacingVar_Phase2;
 								}
 
@@ -814,11 +850,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 						}
 					}
 
-					float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
-
-					if (expertMode)
-						fallSpeed += 3.5f * (1f - lifeRatio);
-
 					// Movement
 					int num180 = (int)(npc.position.X / 16f) - 1;
 					int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
@@ -839,8 +870,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					else if (npc.velocity.X > 0f)
 						npc.spriteDirection = 1;
 
-					int phaseLimit = death ? 600 : 900;
-
 					// Flight
 					if (npc.ai[3] == 0f)
 					{
@@ -860,24 +889,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 						calamityGlobalNPC.newAI[2] += 1f;
 
 						npc.localAI[1] = 0f;
-
-						float speed = malice ? 18f : death ? 16.5f : 15f;
-						float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
-						float homingSpeed = malice ? 36f : death ? 30f : 24f;
-						float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
-
-						if (expertMode)
-						{
-							phaseLimit /= 1 + (int)(5f * (1f - lifeRatio));
-
-							if (phaseLimit < 180)
-								phaseLimit = 180;
-
-							speed += 3f * (1f - lifeRatio);
-							turnSpeed += 0.06f * (1f - lifeRatio);
-							homingSpeed += 12f * (1f - lifeRatio);
-							homingTurnSpeed += 0.15f * (1f - lifeRatio);
-						}
 
 						// Go to ground phase sooner
 						if (increaseSpeedMore)
@@ -1071,13 +1082,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 						calamityGlobalNPC.newAI[2] += 1f;
 
-						float turnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
-
-						if (expertMode)
-							turnSpeed += 0.1f * (1f - lifeRatio);
-
-						turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.0002f;
-
 						// Enrage
 						if (increaseSpeedMore)
 						{
@@ -1086,10 +1090,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 								SpawnTeleportLocation(player);
 							}
 							else
-								turnSpeed *= 4f;
+								groundPhaseTurnSpeed *= 4f;
 						}
 						else if (increaseSpeed)
-							turnSpeed *= 2f;
+							groundPhaseTurnSpeed *= 2f;
 
 						if (!flies)
 						{
@@ -1119,8 +1123,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 							Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 
 							int num954 = death ? 1125 : 1200;
-							if (lifeRatio < 0.8f && lifeRatio > 0.2f && !death)
-								num954 = 1400;
 
 							if (expertMode)
 								num954 -= (int)(150f * (1f - lifeRatio));
@@ -1150,7 +1152,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						else
 							npc.localAI[1] = 0f;
 
-						float num189 = turnSpeed;
+						float num189 = groundPhaseTurnSpeed;
 						Vector2 vector18 = npc.Center;
 						float num191 = player.Center.X;
 						float num192 = player.Center.Y;
@@ -1163,7 +1165,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 						if (!flies)
 						{
-							npc.velocity.Y += turnSpeed;
+							npc.velocity.Y += groundPhaseTurnSpeed;
 							if (npc.velocity.Y > fallSpeed)
 								npc.velocity.Y = fallSpeed;
 
@@ -1210,72 +1212,72 @@ namespace CalamityMod.NPCs.DevourerofGods
 							if (((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f)) && ((npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)))
 							{
 								if (npc.velocity.X < num191)
-									npc.velocity.X += turnSpeed * 1.5f;
+									npc.velocity.X += groundPhaseTurnSpeed * 1.5f;
 								else if (npc.velocity.X > num191)
-									npc.velocity.X -= turnSpeed * 1.5f;
+									npc.velocity.X -= groundPhaseTurnSpeed * 1.5f;
 
 								if (npc.velocity.Y < num192)
-									npc.velocity.Y += turnSpeed * 1.5f;
+									npc.velocity.Y += groundPhaseTurnSpeed * 1.5f;
 								else if (npc.velocity.Y > num192)
-									npc.velocity.Y -= turnSpeed * 1.5f;
+									npc.velocity.Y -= groundPhaseTurnSpeed * 1.5f;
 							}
 
 							if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
 							{
 								if (npc.velocity.X < num191)
-									npc.velocity.X += turnSpeed;
+									npc.velocity.X += groundPhaseTurnSpeed;
 								else if (npc.velocity.X > num191)
-									npc.velocity.X -= turnSpeed;
+									npc.velocity.X -= groundPhaseTurnSpeed;
 
 								if (npc.velocity.Y < num192)
-									npc.velocity.Y += turnSpeed;
+									npc.velocity.Y += groundPhaseTurnSpeed;
 								else if (npc.velocity.Y > num192)
-									npc.velocity.Y -= turnSpeed;
+									npc.velocity.Y -= groundPhaseTurnSpeed;
 
 								if (Math.Abs(num192) < fallSpeed * maximumSpeed1 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
 								{
 									if (npc.velocity.Y > 0f)
-										npc.velocity.Y += turnSpeed * 2f;
+										npc.velocity.Y += groundPhaseTurnSpeed * 2f;
 									else
-										npc.velocity.Y -= turnSpeed * 2f;
+										npc.velocity.Y -= groundPhaseTurnSpeed * 2f;
 								}
 
 								if (Math.Abs(num191) < fallSpeed * maximumSpeed1 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
 								{
 									if (npc.velocity.X > 0f)
-										npc.velocity.X += turnSpeed * 2f;
+										npc.velocity.X += groundPhaseTurnSpeed * 2f;
 									else
-										npc.velocity.X -= turnSpeed * 2f;
+										npc.velocity.X -= groundPhaseTurnSpeed * 2f;
 								}
 							}
 							else if (num25 > num26)
 							{
 								if (npc.velocity.X < num191)
-									npc.velocity.X += turnSpeed * 1.1f;
+									npc.velocity.X += groundPhaseTurnSpeed * 1.1f;
 								else if (npc.velocity.X > num191)
-									npc.velocity.X -= turnSpeed * 1.1f;
+									npc.velocity.X -= groundPhaseTurnSpeed * 1.1f;
 
 								if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * maximumSpeed2)
 								{
 									if (npc.velocity.Y > 0f)
-										npc.velocity.Y += turnSpeed;
+										npc.velocity.Y += groundPhaseTurnSpeed;
 									else
-										npc.velocity.Y -= turnSpeed;
+										npc.velocity.Y -= groundPhaseTurnSpeed;
 								}
 							}
 							else
 							{
 								if (npc.velocity.Y < num192)
-									npc.velocity.Y += turnSpeed * 1.1f;
+									npc.velocity.Y += groundPhaseTurnSpeed * 1.1f;
 								else if (npc.velocity.Y > num192)
-									npc.velocity.Y -= turnSpeed * 1.1f;
+									npc.velocity.Y -= groundPhaseTurnSpeed * 1.1f;
 
 								if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * maximumSpeed2)
 								{
 									if (npc.velocity.X > 0f)
-										npc.velocity.X += turnSpeed;
+										npc.velocity.X += groundPhaseTurnSpeed;
 									else
-										npc.velocity.X -= turnSpeed;
+										npc.velocity.X -= groundPhaseTurnSpeed;
 								}
 							}
 						}
@@ -1396,7 +1398,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (phase2)
 					{
-						float speed = 10f;
 						float spawnOffset = 1500f;
 						float divisor = malice ? 240f : death ? 360f : 480f;
 
@@ -1420,14 +1421,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 									{
 										start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 										aim.Y += laserWallSpacingOffset * (x - 3);
-										velocity = Vector2.Normalize(aim - start) * speed;
+										velocity = Vector2.Normalize(aim - start) * laserVelocity;
 										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 										shotSpacing -= spacingVar;
 									}
 
 									if (expertMode)
-										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
 									break;
 
@@ -1437,14 +1438,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 									{
 										start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
 										aim.Y += laserWallSpacingOffset * (x - 3);
-										velocity = Vector2.Normalize(aim - start) * speed;
+										velocity = Vector2.Normalize(aim - start) * laserVelocity;
 										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 										shotSpacing -= spacingVar;
 									}
 
 									if (expertMode)
-										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
 									break;
 
@@ -1454,11 +1455,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 									{
 										start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 										aim.Y += laserWallSpacingOffset * (x - 3);
-										velocity = Vector2.Normalize(aim - start) * speed;
+										velocity = Vector2.Normalize(aim - start) * laserVelocity;
 										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 										start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
-										velocity = Vector2.Normalize(aim - start) * speed;
+										velocity = Vector2.Normalize(aim - start) * laserVelocity;
 										Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 										shotSpacing -= spacingVar;
@@ -1466,8 +1467,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 									if (expertMode)
 									{
-										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 									}
 
 									break;
@@ -1481,20 +1482,20 @@ namespace CalamityMod.NPCs.DevourerofGods
 										{
 											start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 											aim.Y += laserWallSpacingOffset * (x - 3);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
-											velocity = Vector2.Normalize(aim - start) * speed;
+											velocity = Vector2.Normalize(aim - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
 											aimClone.X += laserWallSpacingOffset * (x - 3);
-											velocity = Vector2.Normalize(aimClone - start) * speed;
+											velocity = Vector2.Normalize(aimClone - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 											start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
-											velocity = Vector2.Normalize(aimClone - start) * speed;
+											velocity = Vector2.Normalize(aimClone - start) * laserVelocity;
 											Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 										}
 
@@ -1503,8 +1504,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 									if (expertMode)
 									{
-										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
-										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 									}
 
 									break;
@@ -1563,21 +1564,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Flying movement
 					npc.localAI[1] = 0f;
 
-					float phaseChangeRate = 1f + (expertMode ? 9f * (1f - lifeRatio) : 0f);
-					calamityGlobalNPC.newAI[2] += phaseChangeRate;
-
-					float speed = malice ? 18f : death ? 16.5f : 15f;
-					float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
-					float homingSpeed = malice ? 27f : death ? 22.5f : 18f;
-					float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
-
-					if (expertMode)
-					{
-						speed += 3f * (1f - lifeRatio);
-						turnSpeed += 0.06f * (1f - lifeRatio);
-						homingSpeed += 9f * (1f - lifeRatio);
-						homingTurnSpeed += 0.15f * (1f - lifeRatio);
-					}
+					calamityGlobalNPC.newAI[2] += 1f;
 
 					// Go to ground phase sooner
 					if (increaseSpeedMore)
@@ -1736,7 +1723,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
-					if (calamityGlobalNPC.newAI[2] > 900f)
+					if (calamityGlobalNPC.newAI[2] > phaseLimit)
 					{
 						npc.ai[3] = 1f;
 						calamityGlobalNPC.newAI[2] = 0f;
@@ -1756,30 +1743,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					calamityGlobalNPC.newAI[2] += 1f;
 
-					float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
-					float speed = malice ? 0.26f : death ? 0.22f : 0.18f;
-					float turnSpeed = malice ? 0.24f : death ? 0.18f : 0.12f;
-
-					if (expertMode)
-					{
-						fallSpeed += 3.5f * (1f - lifeRatio);
-						speed += 0.08f * (1f - lifeRatio);
-						turnSpeed += 0.12f * (1f - lifeRatio);
-						speed += distanceFromTarget * 0.00005f * (1f - lifeRatio);
-						turnSpeed += distanceFromTarget * 0.00005f * (1f - lifeRatio);
-					}
-
 					// Enrage
 					if (increaseSpeedMore)
-					{
-						speed *= 4f;
-						turnSpeed *= 4f;
-					}
+						groundPhaseTurnSpeed *= 4f;
 					else if (increaseSpeed)
-					{
-						speed *= 2f;
-						turnSpeed *= 2f;
-					}
+						groundPhaseTurnSpeed *= 2f;
 
 					if (!flies)
 					{
@@ -1805,13 +1773,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 					if (!flies)
 					{
 						npc.localAI[1] = 1f;
+
 						Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 
-						int num954 = death ? 1100 : 1175;
+						int num954 = death ? 1125 : 1200;
+
 						if (expertMode)
 							num954 -= (int)(150f * (1f - lifeRatio));
-						if (num954 < 1025)
-							num954 = 1025;
+
+						if (num954 < 1050)
+							num954 = 1050;
 
 						bool flag95 = true;
 						if (npc.position.Y > player.position.Y)
@@ -1835,130 +1806,132 @@ namespace CalamityMod.NPCs.DevourerofGods
 					else
 						npc.localAI[1] = 0f;
 
-					Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-					float num20 = player.position.X + (player.width / 2);
-					float num21 = player.position.Y + (player.height / 2);
-					num20 = (int)(num20 / 16f) * 16;
-					num21 = (int)(num21 / 16f) * 16;
-					vector3.X = (int)(vector3.X / 16f) * 16;
-					vector3.Y = (int)(vector3.Y / 16f) * 16;
-					num20 -= vector3.X;
-					num21 -= vector3.Y;
+					float num189 = groundPhaseTurnSpeed;
+					Vector2 vector18 = npc.Center;
+					float num191 = player.Center.X;
+					float num192 = player.Center.Y;
+					num191 = (int)(num191 / 16f) * 16;
+					num192 = (int)(num192 / 16f) * 16;
+					vector18.X = (int)(vector18.X / 16f) * 16;
+					vector18.Y = (int)(vector18.Y / 16f) * 16;
+					num191 -= vector18.X;
+					num192 -= vector18.Y;
 
 					if (!flies)
 					{
-						npc.velocity.Y += turnSpeed;
+						npc.velocity.Y += groundPhaseTurnSpeed;
 						if (npc.velocity.Y > fallSpeed)
 							npc.velocity.Y = fallSpeed;
 
-						if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 1.8)
+						if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * 2.2)
 						{
 							if (npc.velocity.X < 0f)
-								npc.velocity.X -= speed * 1.1f;
+								npc.velocity.X -= num189 * 1.1f;
 							else
-								npc.velocity.X += speed * 1.1f;
+								npc.velocity.X += num189 * 1.1f;
 						}
 						else if (npc.velocity.Y == fallSpeed)
 						{
-							if (npc.velocity.X < num20)
-								npc.velocity.X += speed;
-							else if (npc.velocity.X > num20)
-								npc.velocity.X -= speed;
+							if (npc.velocity.X < num191)
+								npc.velocity.X += num189;
+							else if (npc.velocity.X > num191)
+								npc.velocity.X -= num189;
 						}
 						else if (npc.velocity.Y > 4f)
 						{
 							if (npc.velocity.X < 0f)
-								npc.velocity.X += speed * 0.9f;
+								npc.velocity.X += num189 * 0.9f;
 							else
-								npc.velocity.X -= speed * 0.9f;
+								npc.velocity.X -= num189 * 0.9f;
 						}
 					}
 					else
 					{
-
-						double maximumSpeed1 = malice ? 0.48 : death ? 0.44 : 0.4;
-						double maximumSpeed2 = malice ? 1.16 : death ? 1.08 : 1D;
+						double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
+						double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
 
 						if (expertMode)
 						{
-							maximumSpeed1 += 0.08f * (1f - lifeRatio);
-							maximumSpeed2 += 0.16f * (1f - lifeRatio);
+							maximumSpeed1 += 0.1f * (1f - lifeRatio);
+							maximumSpeed2 += 0.2f * (1f - lifeRatio);
 						}
 
-						float num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
-						float num25 = Math.Abs(num20);
-						float num26 = Math.Abs(num21);
-						float num27 = fallSpeed / num22;
-						num20 *= num27;
-						num21 *= num27;
+						float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
+						float num25 = Math.Abs(num191);
+						float num26 = Math.Abs(num192);
+						float num27 = fallSpeed / num193;
+						num191 *= num27;
+						num192 *= num27;
 
-						if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+						if (((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f)) && ((npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)))
 						{
-							if (npc.velocity.X < num20)
-								npc.velocity.X += turnSpeed * 1.3f;
-							else if (npc.velocity.X > num20)
-								npc.velocity.X -= turnSpeed * 1.3f;
+							if (npc.velocity.X < num191)
+								npc.velocity.X += groundPhaseTurnSpeed * 1.5f;
+							else if (npc.velocity.X > num191)
+								npc.velocity.X -= groundPhaseTurnSpeed * 1.5f;
 
-							if (npc.velocity.Y < num21)
-								npc.velocity.Y += turnSpeed * 1.3f;
-							else if (npc.velocity.Y > num21)
-								npc.velocity.Y -= turnSpeed * 1.3f;
+							if (npc.velocity.Y < num192)
+								npc.velocity.Y += groundPhaseTurnSpeed * 1.5f;
+							else if (npc.velocity.Y > num192)
+								npc.velocity.Y -= groundPhaseTurnSpeed * 1.5f;
 						}
 
-						if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
+						if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
 						{
-							if (npc.velocity.X < num20)
-								npc.velocity.X += speed;
-							else if (npc.velocity.X > num20)
-								npc.velocity.X -= speed;
-							if (npc.velocity.Y < num21)
-								npc.velocity.Y += speed;
-							else if (npc.velocity.Y > num21)
-								npc.velocity.Y -= speed;
+							if (npc.velocity.X < num191)
+								npc.velocity.X += groundPhaseTurnSpeed;
+							else if (npc.velocity.X > num191)
+								npc.velocity.X -= groundPhaseTurnSpeed;
 
-							if (Math.Abs(num21) < fallSpeed * maximumSpeed1 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
+							if (npc.velocity.Y < num192)
+								npc.velocity.Y += groundPhaseTurnSpeed;
+							else if (npc.velocity.Y > num192)
+								npc.velocity.Y -= groundPhaseTurnSpeed;
+
+							if (Math.Abs(num192) < fallSpeed * maximumSpeed1 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
 							{
 								if (npc.velocity.Y > 0f)
-									npc.velocity.Y += speed * 2f;
+									npc.velocity.Y += groundPhaseTurnSpeed * 2f;
 								else
-									npc.velocity.Y -= speed * 2f;
+									npc.velocity.Y -= groundPhaseTurnSpeed * 2f;
 							}
-							if (Math.Abs(num20) < fallSpeed * maximumSpeed1 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
+
+							if (Math.Abs(num191) < fallSpeed * maximumSpeed1 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
 							{
 								if (npc.velocity.X > 0f)
-									npc.velocity.X += speed * 2f;
+									npc.velocity.X += groundPhaseTurnSpeed * 2f;
 								else
-									npc.velocity.X -= speed * 2f;
+									npc.velocity.X -= groundPhaseTurnSpeed * 2f;
 							}
 						}
 						else if (num25 > num26)
 						{
-							if (npc.velocity.X < num20)
-								npc.velocity.X += speed * 1.1f;
-							else if (npc.velocity.X > num20)
-								npc.velocity.X -= speed * 1.1f;
+							if (npc.velocity.X < num191)
+								npc.velocity.X += groundPhaseTurnSpeed * 1.1f;
+							else if (npc.velocity.X > num191)
+								npc.velocity.X -= groundPhaseTurnSpeed * 1.1f;
 
 							if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * maximumSpeed2)
 							{
 								if (npc.velocity.Y > 0f)
-									npc.velocity.Y += speed;
+									npc.velocity.Y += groundPhaseTurnSpeed;
 								else
-									npc.velocity.Y -= speed;
+									npc.velocity.Y -= groundPhaseTurnSpeed;
 							}
 						}
 						else
 						{
-							if (npc.velocity.Y < num21)
-								npc.velocity.Y += speed * 1.1f;
-							else if (npc.velocity.Y > num21)
-								npc.velocity.Y -= speed * 1.1f;
+							if (npc.velocity.Y < num192)
+								npc.velocity.Y += groundPhaseTurnSpeed * 1.1f;
+							else if (npc.velocity.Y > num192)
+								npc.velocity.Y -= groundPhaseTurnSpeed * 1.1f;
 
 							if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < fallSpeed * maximumSpeed2)
 							{
 								if (npc.velocity.X > 0f)
-									npc.velocity.X += speed;
+									npc.velocity.X += groundPhaseTurnSpeed;
 								else
-									npc.velocity.X -= speed;
+									npc.velocity.X -= groundPhaseTurnSpeed;
 							}
 						}
 					}
@@ -1983,7 +1956,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
 						npc.netUpdate = true;
 
-					if (calamityGlobalNPC.newAI[2] > 900f)
+					if (calamityGlobalNPC.newAI[2] > phaseLimit)
 					{
 						npc.ai[3] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;

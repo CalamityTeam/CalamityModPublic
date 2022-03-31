@@ -214,14 +214,6 @@ namespace CalamityMod
                     case CalamityModMessageType.BossRushEndTimer:
                         BossRushEvent.EndTimer = reader.ReadInt32();
                         break;
-                    case CalamityModMessageType.BossSpawnCountdownSync:
-                        int countdown2 = reader.ReadInt32();
-                        CalamityWorld.bossSpawnCountdown = countdown2;
-                        break;
-                    case CalamityModMessageType.BossTypeSync:
-                        int type = reader.ReadInt32();
-                        CalamityWorld.bossType = type;
-                        break;
                     case CalamityModMessageType.EndBossRush:
                         BossRushEvent.EndEffects();
                         break;
@@ -258,14 +250,6 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.ExoMechSelection:
                         CalamityWorld.DraedonMechToSummon = (ExoMech)reader.ReadInt32();
-                        break;
-
-                    //
-                    // Death Mode boss spawn countdown sync
-                    //
-                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
-                        int countdown4 = reader.ReadInt32();
-                        CalamityWorld.deathBossSpawnCooldown = countdown4;
                         break;
 
                     //
@@ -395,8 +379,6 @@ namespace CalamityMod
         BossRushStage,
         BossRushStartTimer,
         BossRushEndTimer,
-        BossSpawnCountdownSync,
-        BossTypeSync,
         EndBossRush,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".
         TeleportPlayer, // also used by Astral Arcanum.
@@ -405,9 +387,6 @@ namespace CalamityMod
         AcidRainSync,
         AcidRainOldDukeSummonSync,
         EncounteredOldDukeSync,
-
-        // Death Mode environmental syncs
-        DeathBossSpawnCountdownSync, // TODO -- This currently syncs every frame and shouldn't. It only needs to sync once, when the countdown starts.
 
         // Reforge syncs
         ItemTypeLastReforgedSync, // TODO -- there has to be a better way to do this, but I don't know what it is
