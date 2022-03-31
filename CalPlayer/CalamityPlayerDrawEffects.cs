@@ -498,73 +498,28 @@ namespace CalamityMod.CalPlayer
             Main.playerDrawData.Add(bookDrawData);
         });
 
-        public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
+        //I feel like having an Interface folder might be good.
+        public interface IExtendedHat
+        {
+            void DrawExtension(PlayerDrawInfo drawInfo);
+        }
+
+        public static readonly PlayerLayer HatExtension = new PlayerLayer("CalamityMod", "HatExtension", PlayerLayer.Head, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (drawInfo.shadow != 0f || drawPlayer.dead)
                 return;
 
-            int dyeShader = drawPlayer.dye?[0].dye ?? 0;
             int headItemType = drawPlayer.armor[0].type;
             if (drawPlayer.armor[10].type > ItemID.None)
                 headItemType = drawPlayer.armor[10].type;
 
-            Vector2 origin = drawInfo.headOrigin;
-            Vector2 headDrawPosition = drawInfo.position + origin - Main.screenPosition;
-            headDrawPosition.Y += drawPlayer.mount.PlayerOffset;
-            if (headItemType == ModContent.ItemType<ArtemisMask>())
+            if (ModContent.GetModItem(headItemType) is IExtendedHat ExtendedHatDrawer)
             {
-                headDrawPosition.X -= drawPlayer.direction == 1f ? 16f : 12f;
-                headDrawPosition.Y -= 10f;
-
-                Texture2D extraPieceTexture = ModContent.GetTexture("CalamityMod/Items/Armor/Vanity/ArtemisMask_Extra");
-                Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
-                DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.eyeColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
-                Main.playerDrawData.Add(pieceDrawData);
-            }
-            if (headItemType == ModContent.ItemType<ApolloMask>())
-            {
-                headDrawPosition.X -= drawPlayer.direction == 1f ? 16f : 4.5f;
-                headDrawPosition.Y -= 10f;
-
-                Texture2D extraPieceTexture = ModContent.GetTexture("CalamityMod/Items/Armor/Vanity/ApolloMask_Extra");
-                DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, drawPlayer.bodyFrame, drawInfo.eyeColor, 0f, origin, 1f, drawInfo.spriteEffects, 0);
-                pieceDrawData.shader = dyeShader;
-                Main.playerDrawData.Add(pieceDrawData);
+                ExtendedHatDrawer.DrawExtension(drawInfo);
             }
         });
-
-        // Let's please never do something like this again.
-        public static readonly PlayerLayer DemonshadeHeadPiece = new PlayerLayer("CalamityMod", "DemonshadeHead", PlayerLayer.Head, drawInfo =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (drawInfo.shadow != 0f || drawPlayer.dead)
-                return;
-
-            int dyeShader = drawPlayer.dye?[0].dye ?? 0;
-            int headItemType = drawPlayer.armor[0].type;
-            if (drawPlayer.armor[10].type > ItemID.None)
-                headItemType = drawPlayer.armor[10].type;
-
-            Vector2 origin = drawInfo.headOrigin;
-            Vector2 headDrawPosition = drawPlayer.position.Floor() + origin - Main.screenPosition;
-            headDrawPosition.X -= drawPlayer.direction == 1f ? 10f : 12f;
-            headDrawPosition.Y += drawPlayer.gfxOffY - 12f;
-            if (headItemType == ModContent.ItemType<DemonshadeHelm>())
-            {
-                Texture2D extraPieceTexture = ModContent.GetTexture("CalamityMod/Items/Armor/DemonshadeHelm_Extension");
-
-                int headVerticalFrame = drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height;
-                Rectangle headFrame = extraPieceTexture.Frame(1, 20, 0, headVerticalFrame);
-
-                DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, headFrame, drawInfo.eyeColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
-                pieceDrawData.shader = dyeShader;
-                Main.playerDrawData.Add(pieceDrawData);
-            }
-        });
-
+        
         public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, drawInfo =>
         {
             DrawData drawData = new DrawData();
@@ -889,8 +844,7 @@ namespace CalamityMod.CalPlayer
                 list.Insert(drawTheStupidSign, ForbiddenCircletSign);
             }
 
-            list.Add(ArtemisAndApolloMaskPieces);
-            list.Add(DemonshadeHeadPiece);
+            list.Add(HatExtension);
             list.Add(ColdDivinityOverlay);
             list.Add(ConcentratedVoidAura);
             list.Add(RoverDriveShield);
