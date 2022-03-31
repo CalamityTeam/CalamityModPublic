@@ -504,7 +504,7 @@ namespace CalamityMod.CalPlayer
             /// <summary>
             /// The texture of the extension
             /// </summary>
-            string ExtensionTexture();
+            string ExtensionTexture { get;  }
             /// <summary>
             /// Unless you are using custom drawing, mount offsets are taken into account automatically.
             /// </summary>
@@ -534,7 +534,6 @@ namespace CalamityMod.CalPlayer
                     //Remember to use drawInfo.position and not drawPlayer.position, or else it will not display properly in the player selection screen.
                     Vector2 origin = drawInfo.headOrigin;
                     Vector2 headDrawPosition = drawInfo.position.Floor() + origin - Main.screenPosition;
-                    headDrawPosition.Y -= drawPlayer.gfxOffY;
 
                     //Account for the hellspawns known as mounts
                     if (drawPlayer.mount.Active)
@@ -542,7 +541,7 @@ namespace CalamityMod.CalPlayer
 
                     headDrawPosition += ExtendedHatDrawer.ExtensionSpriteOffset(drawInfo);
 
-                    Texture2D extraPieceTexture = ModContent.GetTexture(ExtendedHatDrawer.ExtensionTexture());
+                    Texture2D extraPieceTexture = ModContent.GetTexture(ExtendedHatDrawer.ExtensionTexture);
                     Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
                     DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.upperArmorColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
                     pieceDrawData.shader = dyeShader;

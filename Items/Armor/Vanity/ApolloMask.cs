@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override bool DrawHead() => false;
 
-        public string ExtensionTexture() => "CalamityMod/Items/Armor/Vanity/ApolloMask_Extra";
+        public string ExtensionTexture => "CalamityMod/Items/Armor/Vanity/ApolloMask_Extra";
         public Vector2 ExtensionSpriteOffset(PlayerDrawInfo drawInfo) => new Vector2(drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
         public bool PreDrawExtension(PlayerDrawInfo drawInfo) => true;
     }
