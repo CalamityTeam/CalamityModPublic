@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.lifeMax = 12788;
             npc.knockBackResist = 0f;
             aiType = -1;
+            npc.netAlways = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.alpha = 255;

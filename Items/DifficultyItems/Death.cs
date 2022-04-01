@@ -19,7 +19,6 @@ namespace CalamityMod.Items.DifficultyItems
 				"All effects from Revengeance Mode are enabled, including the following:\n" +
 
 				// Biome effect lines
-                "Allows certain bosses to spawn naturally depending on what biome you're in.\n" +
                 "Greatly boosts enemy spawn rates during the Blood Moon.\n" +
                 "Makes the Abyss more treacherous to navigate.\n" +
 

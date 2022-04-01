@@ -27,7 +27,8 @@ namespace CalamityMod.NPCs.Ravager
 			npc.lifeMax = 9591;
 			npc.knockBackResist = 0f;
             aiType = -1;
-            npc.noGravity = true;
+			npc.netAlways = true;
+			npc.noGravity = true;
 			npc.canGhostHeal = false;
 			npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit41;
