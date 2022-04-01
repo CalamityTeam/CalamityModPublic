@@ -503,10 +503,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 							Main.projectile[PortalIndex].Center = npc.Center + npc.SafeDirectionTo(Main.projectile[PortalIndex].Center) * npc.Distance(Main.projectile[PortalIndex].Center);
 					}
 
-					// Remain invisible during the transition.
-					if (CalamityWorld.DoGSecondStageCountdown < 60)
-						npc.Opacity = 0f;
-
 					if (Main.netMode != NetmodeID.MultiplayerClient && !hasCreatedPhase1Portal)
 					{
 						Vector2 portalSpawnPosition = npc.Center + npc.velocity.SafeNormalize(-Vector2.UnitY) * 1000f;
@@ -1991,7 +1987,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (Main.netMode != NetmodeID.MultiplayerClient && phase2Transition)
 			{
 				int randomRange = 48;
-				float distance = 960f;
+				float distance = 1080f;
 				Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}

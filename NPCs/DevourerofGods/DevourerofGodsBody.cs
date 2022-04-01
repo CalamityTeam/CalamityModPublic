@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 		}
 
 		private int invinceTime = 360;
-		private bool setAlpha = false;
+		private bool setOpacity = false;
 		private bool phase2Started = false;
 		public int SegmentIndex;
 
@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.alpha = 255;
+            npc.Opacity = 0f;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -93,8 +93,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(phase2Started);
 			writer.Write(invinceTime);
             writer.Write(npc.dontTakeDamage);
-			writer.Write(setAlpha);
-			writer.Write(npc.alpha);
+			writer.Write(setOpacity);
+			writer.Write(npc.Opacity);
 			writer.Write(SegmentIndex);
 			writer.Write(npc.frame.X);
 			writer.Write(npc.frame.Y);
@@ -107,8 +107,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			phase2Started = reader.ReadBoolean();
 			invinceTime = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
-			setAlpha = reader.ReadBoolean();
-			npc.alpha = reader.ReadInt32();
+			setOpacity = reader.ReadBoolean();
+			npc.Opacity = reader.ReadSingle();
 			SegmentIndex = reader.ReadInt32();
 			Rectangle frame = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 			if (frame.Width > 0 && frame.Height > 0)
@@ -192,13 +192,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.active = false;
 			}
 
-			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
+			if (Main.npc[(int)npc.ai[1]].Opacity >= 0.5f && (!setOpacity || (CalamityWorld.DoGSecondStageCountdown <= 60 && CalamityWorld.DoGSecondStageCountdown > 0)))
 			{
-				npc.alpha -= 42;
-				if (npc.alpha <= 0 && invinceTime <= 0)
+				npc.Opacity += 0.165f;
+				if (npc.Opacity >= 1f && invinceTime <= 0)
 				{
-					setAlpha = true;
-					npc.alpha = 0;
+					setOpacity = true;
+					npc.Opacity = 1f;
 				}
 			}
 			else
@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					}
 				}
 				else
-					npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
+					npc.Opacity = Main.npc[(int)npc.ai[2]].Opacity;
 			}
 
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= (phase2Started ? 55f : 40f) && npc.alpha == 0 && invinceTime <= 0;
+			return minDist <= (phase2Started ? 55f : 40f) && npc.Opacity >= 1f && invinceTime <= 0;
 		}
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
