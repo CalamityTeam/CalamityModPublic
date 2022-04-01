@@ -59,6 +59,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.boss = true;
+            npc.netAlways = true;
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;

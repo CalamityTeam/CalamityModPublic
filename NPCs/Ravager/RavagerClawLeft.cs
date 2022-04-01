@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.alpha = 255;
+            npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
