@@ -362,7 +362,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Despawn
 			if (player.dead)
 			{
-				flies = true;
+				npc.ai[3] = 0f;
+				calamityGlobalNPC.newAI[2] = 0f;
 
 				npc.velocity.Y -= 3f;
 				if ((double)npc.position.Y < Main.topWorld + 16f)
