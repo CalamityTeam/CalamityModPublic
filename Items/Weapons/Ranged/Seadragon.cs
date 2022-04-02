@@ -58,18 +58,18 @@ namespace CalamityMod.Items.Weapons.Ranged
                 shotType = 1;
                 rocket = true;
             }
-            
+
             if (!rocket)
             {
                 if (shotType % 2 == 1)
                     Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 else
                     Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                
+
                 shotType++;
             }
             else
-            { 
+            {
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SeaDragonRocket>(), (int)(damage * 5), knockBack, player.whoAmI, 0f, 0f);
                 rocket = false;
             }

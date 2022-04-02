@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.rotation -= MathHelper.PiOver2;
                 }
             }
-            
+
             projectile.ai[0] += 1f;
             projectile.rotation += MathHelper.TwoPi * 2f / spinCycleTime * (float)direction;
             int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();

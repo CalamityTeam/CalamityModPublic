@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Placeables
                 When Astrum Deus has been defeated, it will give Astral Ore
             */
 
-            bool twoMechsDowned = 
-                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) || 
-                (NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) || 
-                (NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) || 
+            bool twoMechsDowned =
+                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) ||
+                (NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) ||
+                (NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) ||
                 (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
 
             float val = Main.rand.NextFloat(100);

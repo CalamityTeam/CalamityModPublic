@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.Kill();
                 return;
             }
-            
+
             if (TargetIndex >= Main.npc.Length || TargetIndex < 0)
             {
                 DeathDust();

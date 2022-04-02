@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         public int frameX = 0;
         public int frameY = 0;
 
-        public int CurrentFrame 
+        public int CurrentFrame
         {
             get => frameX * 7 + frameY;
             set
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 speed = player.ActiveItem().shootSpeed * projectile.scale;
             }
-            Vector2 newVelocity = (Main.MouseWorld - playerRotatedPoint).SafeNormalize(Vector2.UnitX * player.direction) * speed;    
+            Vector2 newVelocity = (Main.MouseWorld - playerRotatedPoint).SafeNormalize(Vector2.UnitX * player.direction) * speed;
 
             // Sync if a velocity component changes.
             if (projectile.velocity.X != newVelocity.X || projectile.velocity.Y != newVelocity.Y)

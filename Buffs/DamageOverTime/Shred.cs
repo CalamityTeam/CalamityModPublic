@@ -9,11 +9,11 @@ namespace CalamityMod.Buffs.DamageOverTime
     public class Shred : ModBuff
     {
         internal const int StackFalloffFrames = 320;
-        
+
         // 75 DPS (15x5) per stack may seem low, but it gets boosted by ranged stats and can supercrit.
         internal static int BaseDamage = 15;
         internal static int FramesPerDamageTick = 12;
-        
+
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Shred");

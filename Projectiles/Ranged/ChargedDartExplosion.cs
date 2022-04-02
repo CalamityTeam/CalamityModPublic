@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             DisplayName.SetDefault("Explosion");
         }
-        
+
         public override void SetDefaults()
         {
             projectile.width = 50;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 240);

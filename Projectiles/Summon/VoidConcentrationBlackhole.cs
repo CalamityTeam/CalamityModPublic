@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
             npc.velocity.Y = (velocity.Y * 15f + num552) / 16f;
             npc.velocity = (velocity / succStrength);
         }
-        
+
         private void Death()
         {
             if (projectile.scale >= 2.5f) //it's boom o' clock
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override bool PreAI()
-        {   
+        {
             if (damage == 0)
             {
                 damage = projectile.damage;
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             int radius = (int)(projectile.scale * 100f); //0.01f; to a max of 2.5f; so radius of 1 to 250 by default
             if (projectile.scale >= 2f)
-                radius *= 2; 
+                radius *= 2;
 
             int baseWidth = 32;
             int baseHeight = 34;
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
             int newHeight = (int)(baseHeight * projectile.scale);
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, newWidth, newHeight);
 
-            
+
 
             if (projectile.frameCounter > 6)
             {
@@ -175,7 +175,7 @@ namespace CalamityMod.Projectiles.Summon
                             ApplySucc(Main.npc[i]);
                     }
                 }
-            
+
 
             if (projectile.scale >= 2.5f) //it's boom o' clock
             {

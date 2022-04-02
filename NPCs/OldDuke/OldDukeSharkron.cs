@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.OldDuke
             DisplayName.SetDefault("Sulphurous Sharkron");
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
-        
+
         public override void SetDefaults()
         {
             npc.Calamity().canBreakPlayerDefense = true;

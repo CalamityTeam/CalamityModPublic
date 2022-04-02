@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Center = player.Center;
             player.heldProj = projectile.whoAmI;
             projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
-            
+
             projectile.ai[0]++;
             if (projectile.ai[0] >= 4)
             {

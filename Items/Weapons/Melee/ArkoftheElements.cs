@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float glassStarDamageMultiplier = 0.2f; //Damage multiplier for the homing glass stars (4 glass stars per shot)
 
         public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
-        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets 
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Releasing the mouse while the blade is out will throw the second half towards it, making the scissors snap\n" +
                 "Snapping the scissors together increase their damage and empower your next two swings";
 
-        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you\n" + 
+        const string ParryTooltip = "Using RMB will snip out the scissor blades in front of you\n" +
                 "Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 200 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, letting you use both blades at once";
@@ -141,12 +141,12 @@ namespace CalamityMod.Items.Weapons.Melee
             float scissorState = Combo == ComboLenght ? 2 : Combo % 2;
 
             Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);
-            
+
             Combo += 1;
             if (Combo > ComboLenght)
                 Combo = 0;
 
-            
+
 
 
             //Shoot projectiles every upwards swing

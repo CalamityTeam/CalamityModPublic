@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Condemnation : ModItem
     {
         public const int MaxLoadedArrows = 8;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Condemnation");

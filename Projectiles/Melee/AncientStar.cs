@@ -78,12 +78,12 @@ namespace CalamityMod.Projectiles.Melee
                 Main.gore[starGore].velocity += projectile.velocity * 0.3f;
             }
 
-            if (projectile.velocity.Length() < 2f) 
+            if (projectile.velocity.Length() < 2f)
             {
                 projectile.Kill();
                 return;
             }
-                
+
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
             CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);

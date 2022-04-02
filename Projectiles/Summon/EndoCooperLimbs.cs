@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             //Keep the limbs in place
-            
+
             if (body.type != ModContent.ProjectileType<EndoCooperBody>() || !body.active)
                 projectile.Kill();
             projectile.Center = body.Center;
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[0] = 0f;
             }
 
-            
+
         }
 
         public override void Kill(int timeLeft)

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class TerrorTalons : RogueWeapon
     {
         private float sign = 1f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Talons");

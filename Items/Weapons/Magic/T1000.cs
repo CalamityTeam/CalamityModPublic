@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class T1000 : ModItem
     {
         public const int UseTime = 36;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aetherflux Cannon");

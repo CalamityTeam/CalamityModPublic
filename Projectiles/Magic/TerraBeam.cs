@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Magic
             int totalShards = (int)MathHelper.Lerp(1, 4, MathHelper.Clamp(lengthFromStart / MaxLaserLength * 1.4f, 0f, 1f));
             int shardType = ModContent.ProjectileType<TerraShard>();
             int shardDamage = (int)(projectile.damage * 0.6);
-            for (int i = 0; i < totalShards; i++) 
+            for (int i = 0; i < totalShards; i++)
             {
                 int tries = 0;
                 Vector2 spawnOffset;

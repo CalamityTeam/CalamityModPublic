@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int EvilAttunement_BounceIFrames = 10;
 
         public static int ColdAttunement_BaseDamage = 58;
-        public static float ColdAttunement_SecondSwingBoost = 1.14f; 
+        public static float ColdAttunement_SecondSwingBoost = 1.14f;
         public static float ColdAttunement_ThirdSwingBoost = 1.4f;
 
         public static int HotAttunement_BaseDamage = 70;
@@ -112,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.shoot = ProjectileID.PurificationPowder; 
+            item.shoot = ProjectileID.PurificationPowder;
             item.knockBack = 5f;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
@@ -136,7 +136,7 @@ namespace CalamityMod.Items.Weapons.Melee
         #region Saving and syncing attunements
         public override bool CloneNewInstances => true;
 
-        public override ModItem Clone(Item item) 
+        public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
 
@@ -283,8 +283,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI &&
-            (n.type == ProjectileType<BitingEmbrace>() || 
-             n.type == ProjectileType<GrovetendersTouch>() || 
+            (n.type == ProjectileType<BitingEmbrace>() ||
+             n.type == ProjectileType<GrovetendersTouch>() ||
              n.type == ProjectileType<AridGrandeur>()));
         }
 

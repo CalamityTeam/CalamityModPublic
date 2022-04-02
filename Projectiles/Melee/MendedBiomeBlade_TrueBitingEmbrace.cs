@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Manage position and rotation
             projectile.Center = Owner.Center + (direction * 30);
-            //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime); 
+            //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime);
             float factor = 1 - (float)Math.Pow((double)-(Timer / MaxTime) + 1, 2d);
             rotation = projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
             projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER

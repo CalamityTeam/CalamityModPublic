@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TrueAncientBlast : ModProjectile 
+    public class TrueAncientBlast : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = Owner.Center + angle.ToRotationVector2() * displace - Main.screenPosition;
 
-            float swordSize = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); 
+            float swordSize = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f);
 
             spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, swordSize, 0f, 0f);
             spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, swordSize, 0f, 0f);

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Eradicator : RogueWeapon
     {
         public static float Speed = 10.5f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eradicator");

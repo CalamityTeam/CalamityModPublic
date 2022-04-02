@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        //TLDR : https://media.discordapp.net/attachments/659100646397575208/933521303443501136/placeholder.gif 
+        //TLDR : https://media.discordapp.net/attachments/659100646397575208/933521303443501136/placeholder.gif
         private void GenerateCurve(float seed, Vector2 direction, out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, float angleShift = 0f, float necessaryOrientation = 1f)
         {
             float randomNumber = 0.5f + ((float)Math.Sin(seed * 17.07947) + (float)Math.Sin(seed * 0.2f * 25.13274)) * 0.25f; //Ty dom for the awesome pseudo rng

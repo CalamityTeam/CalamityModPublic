@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
             item.height = 26;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = ItemRarityID.Green;
-            item.defense = 5; 
+            item.defense = 5;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

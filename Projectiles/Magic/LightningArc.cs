@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
             NPC npc = null;
             bool pastNPC = false;
             if (projectile.timeLeft < 18)
-            { 
+            {
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5 && !shockedbefore.Contains(Main.npc[k]))
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
                         npc = pastnpc;
                         pastNPC = true;
                     }
-                }  
+                }
             }
 
 
@@ -91,13 +91,13 @@ namespace CalamityMod.Projectiles.Magic
                 //AdjustMagnitude(ref move);
                 //AdjustMagnitude(ref projectile.velocity);
                 //projectile.velocity = (10 * projectile.velocity + move) / 11f;
-                
+
                 move+= new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10))*distance/30;
                 if (pastNPC) {
                     prevX++;
                     move += new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)) * prevX;
                 }
-                
+
 
             }
             else {
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.timeLeft -= 12;
             }*/
-             
+
 
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

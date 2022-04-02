@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.rotation += 0.025f;
             //Light
             Lighting.AddLight(projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
-            
+
             //Dust
             if(projectile.timeLeft > 40)
             {

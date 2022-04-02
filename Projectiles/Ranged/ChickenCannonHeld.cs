@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         static float FireRate = 33f;
         //The first shot from the holdout doesnt consume ammo, this is because the ammo is already consumed by the fact the player needs to consume ammo to shoot it
-        public ref float FreeShotLoaded => ref projectile.ai[0]; 
+        public ref float FreeShotLoaded => ref projectile.ai[0];
         public ref float FramesTillNextShot => ref projectile.ai[1];
 
         public override void SetStaticDefaults()

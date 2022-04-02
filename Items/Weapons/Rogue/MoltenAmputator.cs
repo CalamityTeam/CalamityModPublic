@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class MoltenAmputator : RogueWeapon
     {
         public const float Speed = 21f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Amputator");

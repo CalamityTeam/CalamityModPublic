@@ -588,7 +588,7 @@ namespace CalamityMod.UI
                 // Store the intended NPC type for this bar.
                 // This is necessary because it is possible for the NPC slot to become occupied by something else when the NPC becomes
                 // inactive. If this happens and the bar isn't done closing, it will simply think that the new occupant is what is should attach to, regardless
-                // of if it's actually supposed to have a bar in the first place. By verifying NPC type, we can be sure that this does not happen. 
+                // of if it's actually supposed to have a bar in the first place. By verifying NPC type, we can be sure that this does not happen.
                 // And if an NPC of the same type does this, it doesn't matter, because that means it was valid to begin with.
                 if (AssociatedNPC != null && AssociatedNPC.active)
                 {

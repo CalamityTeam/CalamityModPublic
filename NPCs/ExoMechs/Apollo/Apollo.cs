@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             npc.Calamity().VulnerableToSickness = false;
             npc.Calamity().VulnerableToElectricity = true;
         }
-        
+
         public override void BossHeadSlot(ref int index)
         {
             if (SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune)

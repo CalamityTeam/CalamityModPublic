@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 dspeed = -projectile.velocity * Main.rand.NextFloat(0.5f * 0.8f);
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
                 Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity = dspeed; 
+                Main.dust[num458].velocity = dspeed;
             }
         }
 

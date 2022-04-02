@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.velocity += projectile.velocity * 0.1f;
                 dust.position.X -= num93;
                 dust.position.Y -= num94;
-                
+
                 if (Main.rand.NextBool(20))
                 {
                     int num97 = 4;

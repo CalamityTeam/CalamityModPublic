@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Bounce off
             float bounceStrength = Math.Max((LungeSpeed / 2f), Owner.velocity.Length());
-            bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground 
+            bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground
             Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(bounceStrength, 0f, 22f);
             CanBounce = 0f;
             Owner.GiveIFrames(BiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!

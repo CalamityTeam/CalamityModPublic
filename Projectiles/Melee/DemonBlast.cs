@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (tileCheck)
                 dust.noLight = true;
-            
+
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.ToRadians(45);
         }
 

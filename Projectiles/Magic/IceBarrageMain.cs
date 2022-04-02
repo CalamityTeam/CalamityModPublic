@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[d1].velocity = Dspeed;
                     Main.dust[d1].noGravity = true;
                 }
-                
+
             }
             else if (projectile.ai[0] == 140f)
             {

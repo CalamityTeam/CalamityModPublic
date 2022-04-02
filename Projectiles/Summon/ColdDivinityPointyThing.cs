@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Summon
                         velocity.Normalize();
                         velocity *= 20f;
                         Projectile.NewProjectile(projectile.position, velocity, projectile.type, (int)(projectile.damage * 1.05f), projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
-                        
+
                     }
                     projectile.netUpdate = projectile.owner == Main.myPlayer;
                 }
@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type)
                 {
                     ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].modProjectile;
-                    if (Main.projectile[i].ai[1] > 2f) 
+                    if (Main.projectile[i].ai[1] > 2f)
                         circlers = circlers + Main.rand.Next(1, 4);
                 }
             }

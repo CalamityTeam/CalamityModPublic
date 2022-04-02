@@ -50,7 +50,7 @@ namespace CalamityMod.World
         // New Temple Altar
         public static int newAltarX = 0;
         public static int newAltarY = 0;
-        
+
         // Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;

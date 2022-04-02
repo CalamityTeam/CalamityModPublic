@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio());
 
-            projectile.scale = 1.4f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.6f; 
+            projectile.scale = 1.4f + ((float)Math.Sin(SwingRatio() * MathHelper.Pi) * 0.6f) + (Charge / 10f) * 0.6f;
 
             if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
             {
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(Owner.direction < 0 ? sword.Width : 0f , sword.Height);
             Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
 
-            if (CalamityConfig.Instance.Afterimages && Timer > ProjectileID.Sets.TrailCacheLength[projectile.type]) 
+            if (CalamityConfig.Instance.Afterimages && Timer > ProjectileID.Sets.TrailCacheLength[projectile.type])
             {
                 for (int i = 0; i < projectile.oldRot.Length; ++i)
                 {

@@ -88,7 +88,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Player player = Main.LocalPlayer;
             player.CancelSignsAndChests();
             CalamityPlayer mp = player.Calamity();
-            
+
             // If this is the charger the player is currently looking at OR this charger doesn't really exist, close the GUI.
             if (thisCharger is null || thisCharger.ID == mp.CurrentlyViewedChargerID)
             {

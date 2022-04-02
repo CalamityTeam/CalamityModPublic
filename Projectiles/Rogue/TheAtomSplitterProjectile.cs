@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         // DO NOT increase this unless you are ABSOLUTELY SURE you know what will happen.
         private const float NormalSplitMultiplier = 0.7f;
         private const float StealthSplitMultiplier = 0.144f;
-        
+
         public ref float HitTargetIndex => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];
 

@@ -11,8 +11,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     public static class DukeFishronAI
     {
         // Master Mode changes
-        // 1 - Cycles between attacks faster, 
-        // 2 - Moves faster, 
+        // 1 - Cycles between attacks faster,
+        // 2 - Moves faster,
         // 3 - Bigger tornadoes
         public static bool BuffedDukeFishronAI(NPC npc, Mod mod)
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-            
+
             // Variables
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;

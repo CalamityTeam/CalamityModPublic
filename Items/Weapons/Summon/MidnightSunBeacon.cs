@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
     public class MidnightSunBeacon : ModItem
     {
         public const float MachineGunRate = 18f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Sun Beacon");

@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 pos1 = owner.position;
                 Vector2 pos2 = target.position;
                 projectile.ai[0] = (pos2 - pos1).ToRotation();
-            } 
+            }
             else
             {
                 projectile.ai[0] -= MathHelper.ToRadians(2f);

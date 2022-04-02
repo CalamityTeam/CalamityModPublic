@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float glassStarDamageMultiplier = 0.4f; //Damage multiplier for the glass stars it shoots (Shoots 3x glass stars when not charged, shoots 2x glass stars + one beam when charged)
 
         public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
-        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets 
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
 
 

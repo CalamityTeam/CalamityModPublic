@@ -107,7 +107,7 @@ namespace CalamityMod
 
             return theta;
         }
-        
+
         /// <summary>
         /// Determines the angular distance between two vectors based on dot product comparisons. This method ensures underlying normalization is performed safely.
         /// </summary>
@@ -182,7 +182,7 @@ namespace CalamityMod
             public float originY;
             /// <summary>
             /// This represents the elevation shift that will happen during the segment. Set this to 0 to turn the segment into a flat line.
-            /// Usually this elevation shift is fully applied at the end of a segment, but the sinebump easing type makes it be reached at the apex of its curve. 
+            /// Usually this elevation shift is fully applied at the end of a segment, but the sinebump easing type makes it be reached at the apex of its curve.
             /// </summary>
             public float displacement;
             /// <summary>
@@ -213,7 +213,7 @@ namespace CalamityMod
                 return 0f;
 
             if (segments[0].originX != 0) //If for whatever reason you try to not play by the rules, get fucked
-                segments[0].originX = 0; 
+                segments[0].originX = 0;
 
             progress = MathHelper.Clamp(progress, 0f, 1f); //Clamp the progress
             float ratio = 0f;

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return swordItem.ChargeRatio < Phaseslayer.SizeChargeThreshold;
             }
         }
-        
+
         // ai[0] wrapper. Stores a rolling lerped average of angular momentum which is used as the swing speed damage multiplier.
         public float AngularDamageFactor
         {

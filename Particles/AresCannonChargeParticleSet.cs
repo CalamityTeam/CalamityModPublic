@@ -92,7 +92,7 @@ namespace CalamityMod.Particles
 
         public void DrawBloom(Vector2 basePosition)
         {
-            if (bloom != null) 
+            if (bloom != null)
             {
                 bloom.CustomDraw(Main.spriteBatch, basePosition);
             }

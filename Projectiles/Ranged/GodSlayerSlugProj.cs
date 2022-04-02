@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Store the original velocity if it has yet to be initialized. This is needed for the warp.
             if (projectile.localAI[0] == 0f)
                 projectile.localAI[0] = projectile.velocity.Length();
-            
+
             // Rapidly fade into visibility.
             if (projectile.alpha > 0)
                 projectile.alpha -= 17;

@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
                     CurrentState = 1f;
                     Main.PlaySound(SoundID.Item80, projectile.Center);
                     direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
-                    //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES 
+                    //PARTICLES LOTS OF PARTICLES LOTS OF SPARKLES YES YES MH YES YES
                     for (int i = 0; i <= 8; i++)
                     {
                         float variation = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4);

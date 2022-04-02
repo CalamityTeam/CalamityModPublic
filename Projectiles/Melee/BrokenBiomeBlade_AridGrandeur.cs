@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(BiomeBlade.HotAttunement_ShredIFrames); // i framez. 
+                Owner.GiveIFrames(BiomeBlade.HotAttunement_ShredIFrames); // i framez.
                 PogoCooldown = 20;
             }
         }

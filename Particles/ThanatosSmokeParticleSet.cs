@@ -10,7 +10,7 @@ namespace CalamityMod.Particles
         public float BaseMoveRotation;
         public float MoveRotationOffset;
 
-        public ThanatosSmokeParticleSet(int setLifetime, int particleSpawnRate, float baseMoveRotation, float spawnAreaCompactness, float relativePower) : 
+        public ThanatosSmokeParticleSet(int setLifetime, int particleSpawnRate, float baseMoveRotation, float spawnAreaCompactness, float relativePower) :
             base(setLifetime, particleSpawnRate)
         {
             MoveRotationOffset = Main.rand.NextFloat(-0.36f, 0.36f);

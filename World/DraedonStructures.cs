@@ -44,7 +44,7 @@ namespace CalamityMod.World
         {
             otherModTilesToAvoid = null;
         }
-        
+
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);

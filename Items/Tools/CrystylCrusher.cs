@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Tools
                 item.autoReuse = false;
                 item.noMelee = true;
             }
-        }       
+        }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

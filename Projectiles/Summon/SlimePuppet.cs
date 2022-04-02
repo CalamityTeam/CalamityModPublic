@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Vector2.Dot(projectile.oldVelocity.SafeNormalize(Vector2.Zero), projectile.velocity.SafeNormalize(Vector2.Zero)) < 0.87)
                 projectile.ai[0] = 50f;
         }
-        
+
         public void ResetDamage()
         {
             // Initialize minion damage values the moment the projectile is spawned.

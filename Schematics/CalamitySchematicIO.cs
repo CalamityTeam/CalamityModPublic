@@ -262,7 +262,7 @@ namespace CalamityMod.Schematics
                 }
             }
         }
-        
+
         private static SchematicData ConstructSchematicData(Tile[,] tiles)
         {
             int width = tiles.GetLength(0);
@@ -334,7 +334,7 @@ namespace CalamityMod.Schematics
             // IsEmpty does NOT return false for all rectangles with zero area.
             if (area.Width <= 0 || area.Height <= 0)
                 return ExportResult.ZeroArea;
-            
+
             Tile[,] tiles = GetTilesInRectangle(area);
 
             byte[] renderedStream;

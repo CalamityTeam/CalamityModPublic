@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void AI()
-        { 
-            //Gravity 
+        {
+            //Gravity
             projectile.velocity.Y += 0.11f;
             if (projectile.velocity.Y > 16f)
                 projectile.velocity.Y = 16f;

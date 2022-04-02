@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.NPCHit43, projectile.Center);
-            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer) 
+            if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer)
             {
                 Projectile.NewProjectile(projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), (int)(projectile.damage * TrueBiomeBlade.HotAttunement_ShotDamageBoost), projectile.knockBack, Owner.whoAmI, Shred);
             }

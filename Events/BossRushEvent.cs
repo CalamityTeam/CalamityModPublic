@@ -440,7 +440,7 @@ namespace CalamityMod.Events
                     // Increase cooldown post-Fishron.
                     if (BossRushStage >= Bosses.FindIndex(boss => boss.EntityID == NPCID.DukeFishron))
                         BossRushSpawnCountdown += 300;
-                    
+
                     // Override the spawn countdown if specified.
                     if (BossRushStage < Bosses.Count - 1 && Bosses[BossRushStage + 1].SpecialSpawnCountdown != -1)
                         BossRushSpawnCountdown = Bosses[BossRushStage + 1].SpecialSpawnCountdown;
@@ -448,7 +448,7 @@ namespace CalamityMod.Events
                     // Change time as necessary.
                     if (Bosses[BossRushStage].ToChangeTimeTo != TimeChangeContext.None)
                         CalamityUtils.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
-                    
+
                     // Play the typical boss roar sound.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
                         Main.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position, 0);

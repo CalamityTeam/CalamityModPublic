@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
         {
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi); 
-            
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+
             if (projectile.alpha < 170)
             {
                 for (int d = 0; d < 5; d++)

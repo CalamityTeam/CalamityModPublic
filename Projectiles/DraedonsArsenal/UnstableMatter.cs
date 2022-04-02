@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Time >= 10f)
                 GenerateIdleDust();
         }
-        
+
         public void GenerateIdleDust()
         {
             if (Main.dedServ)

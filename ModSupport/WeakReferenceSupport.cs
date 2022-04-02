@@ -619,7 +619,7 @@ namespace CalamityMod
                 AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn, bossLogTex);
             }
         }
-        
+
         private static void AddCalamityInvasions(Mod bossChecklist, Mod calamity)
         {
             // Initial Acid Rain

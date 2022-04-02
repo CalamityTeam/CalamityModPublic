@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         private const float LaserLength = 40f;
         private const float LaserLengthChangeRate = 1.5f;
-        
+
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetStaticDefaults()

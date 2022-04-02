@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Healing
         {
             DisplayName.SetDefault("Phantomic Heart");
             Main.projFrames[projectile.type] = 4;
-           
+
         }
 
         public override void SetDefaults()

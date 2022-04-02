@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             //
             // Boomerang AI copied from Nanoblack Reaper
             //
-            
+
             // On the frame the disc begins returning, send a net update.
             if (projectile.timeLeft == Lifetime - ReboundTime)
                 projectile.netUpdate = true;

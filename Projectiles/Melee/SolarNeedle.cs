@@ -12,7 +12,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class SolarNeedle : ModProjectile 
+    public class SolarNeedle : ModProjectile
     {
         public override void SetStaticDefaults()
         {

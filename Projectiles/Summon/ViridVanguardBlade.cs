@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Summon
         public float RedirectAngle;
         public float FiringTime = 0f;
         public Vector2 IdealPosition;
-        public float Angle 
-        { 
-            get => projectile.ai[0]; 
-            set => projectile.ai[0] = value; 
+        public float Angle
+        {
+            get => projectile.ai[0];
+            set => projectile.ai[0] = value;
         }
         public override void SetStaticDefaults()
         {

@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.HiveMind
             bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.player.ZoneCorrupt;
             if (anyBossElements || spawnInfo.playerSafe || !corrupt)
                 return 0f;
-            
+
             if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
                 return 1.5f;
 

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             // Just doing damage = (int)(damage * scalar) wouldn't work here.
-            // The exponential base would be too small for a weapon like this, and the 
+            // The exponential base would be too small for a weapon like this, and the
             // cast (which removes the fractional part) would overtake any increases before the damage can rise.
             if (InitialDamage == 0f)
             {

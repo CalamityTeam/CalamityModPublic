@@ -97,7 +97,7 @@ namespace CalamityMod.CalPlayer
 
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            
+
             modPlayer.ProvidenceBurnEffectDrawer.DrawSet(drawPlayer.Bottom - Vector2.UnitY * 10f);
             modPlayer.ProvidenceBurnEffectDrawer.SpawnAreaCompactness = 18f;
             modPlayer.ProvidenceBurnEffectDrawer.RelativePower = 0.4f;
@@ -405,7 +405,7 @@ namespace CalamityMod.CalPlayer
                              currentlyHeldItem.type == ModContent.ItemType<EssenceFlayer>() ||
                              currentlyHeldItem.type == ModContent.ItemType<TheEnforcer>() ||
                              currentlyHeldItem.type == ModContent.ItemType<TerrorBlade>() ||
-                             currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>() || 
+                             currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>() ||
                              (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.SwingThrow))
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
@@ -542,7 +542,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
         });
-        
+
         public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, drawInfo =>
         {
             DrawData drawData = new DrawData();
@@ -680,10 +680,10 @@ namespace CalamityMod.CalPlayer
                                                      (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
                                                      new Rectangle?(rectangle),
                                                      Color.White,
-                                                     drawPlayer.itemRotation, 
+                                                     drawPlayer.itemRotation,
                                                      origin,
                                                      drawPlayer.inventory[drawPlayer.selectedItem].scale,
-                                                     effect, 
+                                                     effect,
                                                      0));
             }
         });
@@ -850,7 +850,7 @@ namespace CalamityMod.CalPlayer
                 list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
 
             if (player.Calamity().fab || player.Calamity().crysthamyr || player.Calamity().onyxExcavator)
-                AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
+                AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false);
 
             if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
                 list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);

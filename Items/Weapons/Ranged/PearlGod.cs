@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 finalShot = false;
             }
-            
+
             return false;
         }
 

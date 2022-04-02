@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CloneNewInstances => true;
 
-        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" + 
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
                 "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw projectiles out";
 

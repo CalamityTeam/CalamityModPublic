@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].active && 
+                    if (Main.projectile[i].active &&
                         Main.projectile[i].type == item.shoot &&
                         Main.projectile[i].owner == player.whoAmI)
                     {

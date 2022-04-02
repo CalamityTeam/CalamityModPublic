@@ -92,7 +92,7 @@ namespace CalamityMod
 
                 case "cryogen":
                     return CalamityWorld.downedCryogen;
-                    
+
                 case "acid rain 2":
                 case "acidrain 2":
                 case "acidrain2":
@@ -105,7 +105,7 @@ namespace CalamityMod
                 case "acidrainscourge":
                 case "acidrainaquaticscourge":
                     return CalamityWorld.downedAquaticScourgeAcidRain;
-                    
+
                 case "aquaticscourge":
                 case "aquatic scourge":
                     return CalamityWorld.downedAquaticScourge;
@@ -540,7 +540,7 @@ namespace CalamityMod
         public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
 
         public static float GetCurrentStealth(Player p) => p?.Calamity()?.rogueStealth ?? 0f;
-        
+
         public static float GetMaxStealth(Player p) => p?.Calamity()?.rogueStealthMax ?? 0f;
 
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
@@ -1853,7 +1853,7 @@ namespace CalamityMod
                         AcidRainEvent.UpdateInvasion(false);
                     }
                     return true;
-                
+
                 // This is intentionally separate from the above because it will stop other events when they are added.
                 case "AbominationnClearEvents":
                     bool eventActive = CalamityWorld.rainingAcid;
@@ -1953,8 +1953,8 @@ namespace CalamityMod
 
                 // In the following two mod calls, the first argument is the NPC type, the second is the time change context (-1 being night, 0 being nothing, and 1 being day),
                 // the third being the boss spawning function, the fourth being the overriding countdown to use, the fifth being whether the boss uses a special sound on spawning,
-                // the sixth being the dimness factor that Boss Rush should become once the boss is currently present, the seventh being the array of NPCs present in the battle that 
-                // should not be deleted by the Boss Rush itself, and the eight being the potential NPCs that will end up killing, assuming the initial boss isn't 
+                // the sixth being the dimness factor that Boss Rush should become once the boss is currently present, the seventh being the array of NPCs present in the battle that
+                // should not be deleted by the Boss Rush itself, and the eight being the potential NPCs that will end up killing, assuming the initial boss isn't
                 // that (such as P1 Hive Mind turning into its second form and you being expected to kill that).
                 case "GetBossRushEntries":
                     var entries = new List<(int, int, Action<int>, int, bool, float, int[], int[])>();

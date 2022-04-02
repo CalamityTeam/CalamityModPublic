@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             else
             {
-                // Frame 1 effects: Initialize the shoot speed 
+                // Frame 1 effects: Initialize the shoot speed
                 if (FramesToLoadNextPumpkin == 0f)
                 {
                     FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation;
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Ranged
             spriteBatch.EnterShaderRegion();
             if (PumpkinsCharge > 0 && Overfilled == 0f)
             {
-                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.20f * CurrentChargingFrames - 0.1f*(5f-PumpkinsCharge) , 0f, 1f)); 
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.20f * CurrentChargingFrames - 0.1f*(5f-PumpkinsCharge) , 0f, 1f));
                 //tint effect is visible if its charging. The more pumpkins are loaded, the more opacity
             }
             else
@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool CanDamage() => false;
 
 
-        //netcode hell 
+        //netcode hell
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Overfilled);

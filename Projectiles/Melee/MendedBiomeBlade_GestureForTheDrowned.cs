@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (Math.Abs(HalfTimer / 20f) == 0.5f) 
+            if (Math.Abs(HalfTimer / 20f) == 0.5f)
             {
                 var splash = new LegacySoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
                 Main.PlaySound(splash, projectile.Center);

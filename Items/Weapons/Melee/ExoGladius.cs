@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
     public class ExoGladius : ModItem
     {
         public const int OnHitIFrames = 3;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Gladius");

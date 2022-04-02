@@ -49,7 +49,7 @@ namespace CalamityMod
             EditShroomiteBarRecipe();
             EditChlorophyteBarRecipe(); // Don't remove this in 1.4 since it has 1 less ore required than that version
             EditTier3HardmodeBarRecipes(); // Remove this when we get 1.4 port
-            EditHardmodeOreSetRecipes(); 
+            EditHardmodeOreSetRecipes();
 
             AddPotionRecipes();
             AddCookedFood();
@@ -359,7 +359,7 @@ namespace CalamityMod
             });
         }
 
-        private static void EditMechBossSummonRecipes() 
+        private static void EditMechBossSummonRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>

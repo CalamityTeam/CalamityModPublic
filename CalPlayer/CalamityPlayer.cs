@@ -2742,7 +2742,7 @@ namespace CalamityMod.CalPlayer
 
             ZoneAbyssLayer4 = ZoneAbyss &&
                 point.Y > (Main.rockLayer + y * 0.26);
-            
+
             ZoneSulphur = (CalamityWorld.sulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
             //Overriding 1.4's ass req boosts
@@ -3244,7 +3244,7 @@ namespace CalamityMod.CalPlayer
                     rage = 0f;
                     gaelRageAttackCooldown = CalamityUtils.SecondsToFrames(GaelsGreatsword.SkullsplosionCooldownSeconds);
                 }
-                
+
                 // Activating Rage Mode
                 if (rage >= rageMax && !rageModeActive)
                 {
@@ -4398,7 +4398,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile projectile = Main.projectile[i];
-                    if ((projectile.minionSlots <= 0f && !CalamityLists.ZeroMinionSlotExceptionList.Contains(projectile.type)) || !projectile.minion || 
+                    if ((projectile.minionSlots <= 0f && !CalamityLists.ZeroMinionSlotExceptionList.Contains(projectile.type)) || !projectile.minion ||
                         projectile.owner != player.whoAmI || !projectile.active || CalamityLists.MinionsToNotResurrectList.Contains(projectile.type))
                         continue;
 
@@ -4713,7 +4713,7 @@ namespace CalamityMod.CalPlayer
 
                     PendingProjectilesToRespawn[i].SummonCopy(player.whoAmI);
 
-                    
+
                     // Apply vanilla buffs as usual to the player.
                     if (VanillaMinionBuffRelationship.ContainsKey(PendingProjectilesToRespawn[i].Type))
                         player.AddBuff(VanillaMinionBuffRelationship[PendingProjectilesToRespawn[i].Type], 3600);
@@ -5782,7 +5782,7 @@ namespace CalamityMod.CalPlayer
                 if (daedalusReflect && !disableAllDodges && !projRefRare && !player.HasCooldown(GlobalDodge.ID))
                     projectileDamageReduction += 0.5;
             }
-            
+
 
             if (beeResist)
             {
@@ -9060,7 +9060,7 @@ namespace CalamityMod.CalPlayer
              * DGS  = (100% + 1% * T)
              * EM   = (100% + 1% * T) * 1.0084^T
              * BOTH = (100% + 1.5% * T) * 1.0084^T
-             * 
+             *
              * DGS alone caps in 100 frames
              * EM alone caps in 41 frames
              * Both together caps in 32 frames
@@ -10106,7 +10106,7 @@ namespace CalamityMod.CalPlayer
 
         private int HandlePSCAnimationFrames(AnimationType newType)
         {
-            int key = profanedCrystalAnimCounter.Key; //0-based indexing 
+            int key = profanedCrystalAnimCounter.Key; //0-based indexing
             int value = profanedCrystalAnimCounter.Value - 1;
             AnimationType currentType = key < 8 ? AnimationType.Idle : key == 8 ? AnimationType.Jump : AnimationType.Walk;
 

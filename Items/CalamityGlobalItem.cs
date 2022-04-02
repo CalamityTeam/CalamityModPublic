@@ -1040,7 +1040,7 @@ namespace CalamityMod.Items
 
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
-        {           
+        {
             switch (item.type)
             {
                 case ItemID.MagicHat:
@@ -1422,7 +1422,7 @@ namespace CalamityMod.Items
                  * Post-DoG = 3
                  * Post-Yharon = 4
                  */
-                
+
                 if (CalamityWorld.downedYharon)
                     player.statDefense += 3;
                 else if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
@@ -1443,7 +1443,7 @@ namespace CalamityMod.Items
                  * Post-DoG = 6
                  * Post-Yharon = 8
                  */
-                
+
                 if (CalamityWorld.downedYharon)
                     player.statDefense += 6;
                 else if (CalamityWorld.downedDoG)
@@ -1468,7 +1468,7 @@ namespace CalamityMod.Items
                  * Post-DoG = 9
                  * Post-Yharon = 11
                  */
-                
+
                 if (CalamityWorld.downedYharon)
                     player.statDefense += 8;
                 else if (CalamityWorld.downedDoG)
@@ -1495,7 +1495,7 @@ namespace CalamityMod.Items
                  * Post-DoG = 12
                  * Post-Yharon = 15
                  */
-                
+
                 if (CalamityWorld.downedYharon)
                     player.statDefense += 11;
                 else if (CalamityWorld.downedDoG)

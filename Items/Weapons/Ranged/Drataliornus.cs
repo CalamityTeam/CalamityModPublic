@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Drataliornus : ModItem
     {
         private const double RightClickDamageRatio = 0.6;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");

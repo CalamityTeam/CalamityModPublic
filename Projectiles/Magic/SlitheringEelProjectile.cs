@@ -79,9 +79,9 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Vector2 offsetToDestination = aheadPosition - Segments[i].CurrentPosition;
 
-                // This variant of segment attachment incorporates rotation. 
+                // This variant of segment attachment incorporates rotation.
                 // Given the fact that all segments will execute this code is succession, the
-                // result across the entire worm will exponentially decay over each segment, 
+                // result across the entire worm will exponentially decay over each segment,
                 // allowing for smooth rotations. This code is what the stardust dragon uses for its segmenting.
                 if (aheadRotation != projectile.rotation)
                 {

@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if ((Main.tile[i - 1, j - 1].type != Type || Main.tile[i, j - 1].type != Type || Main.tile[i + 1, j - 1].type != Type ||
-                Main.tile[i - 1, j - 2].type != Type || Main.tile[i, j - 2].type != Type || Main.tile[i + 1, j - 2].type != Type) && 
+                Main.tile[i - 1, j - 2].type != Type || Main.tile[i, j - 2].type != Type || Main.tile[i + 1, j - 2].type != Type) &&
                 nextSpecialDrawIndex < Main.specX.Length)
             {
                 Main.specX[nextSpecialDrawIndex] = i;

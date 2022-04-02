@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (potentialTarget != null)
                 {
                     float destinationDeltaAngle = MathHelper.WrapAngle(projectile.AngleTo(potentialTarget.Center) - projectile.velocity.ToRotation());
-                    
+
                     // If the angle is <0, meaning it's to the left, the sine will return a negative number,
                     // and a positive number if >0, because WrapAngle constricts to angle to a bound of
                     // -pi and pi, which are where a sine's wave restarts anew.

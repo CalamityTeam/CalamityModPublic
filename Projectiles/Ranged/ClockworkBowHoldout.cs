@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             else
             {
-                // Frame 1 effects: Initialize the shoot speed 
+                // Frame 1 effects: Initialize the shoot speed
                 if (FramesToLoadBolt == 0f)
                 {
                     FramesToLoadBolt = Owner.ActiveItem().useAnimation;

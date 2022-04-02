@@ -124,8 +124,8 @@ namespace CalamityMod
             int effectivePointCount = DegreeOfBezierCurveCornerSmoothening > 0 ? totalTrailPoints * DegreeOfBezierCurveCornerSmoothening : totalTrailPoints;
             BezierCurve bezierCurve = new BezierCurve(controlPoints.Where((_, i) =>
             {
-                return DegreeOfBezierCurveCornerSmoothening <= 0 || 
-                    i % DegreeOfBezierCurveCornerSmoothening == 0 || 
+                return DegreeOfBezierCurveCornerSmoothening <= 0 ||
+                    i % DegreeOfBezierCurveCornerSmoothening == 0 ||
                     i == 0 ||
                     i == controlPoints.Count - 1 ||
                     pointCountCondition;

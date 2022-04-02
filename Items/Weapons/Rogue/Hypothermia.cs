@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
         private bool throwTwo = true;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");

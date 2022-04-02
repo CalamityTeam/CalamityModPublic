@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num137].position.Y = y2;
             Main.dust[num137].velocity = dspeed;
             Main.dust[num137].noGravity = true;
-            
+
             float num138 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
             float num139 = projectile.localAI[0];
             if (num139 == 0f)

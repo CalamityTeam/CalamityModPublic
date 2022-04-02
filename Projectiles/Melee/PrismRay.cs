@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOffset = (StartingPosition - projectile.Center) * 0.5f;
                 Vector2 scale = new Vector2(1f, drawOffset.Length() * 2f / texture.Height);
                 float rotation = drawOffset.ToRotation() + MathHelper.PiOver2;
-                
+
                 // This factor causes the opacity to flash rather quickly.
                 float drawFade = MathHelper.Clamp(MathHelper.Distance(Lifetime * 0.5f, Time) / (Lifetime * 0.667f), 0f, 1f);
 

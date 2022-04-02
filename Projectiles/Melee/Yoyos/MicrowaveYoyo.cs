@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
             else if (!mmmmmm.IsDisposed)
                 CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
-            
+
             // Spawn invisible but damaging aura projectile
             if (projectile.owner == Main.myPlayer && !spawnedAura)
             {

@@ -44,8 +44,8 @@ namespace CalamityMod.Tiles.Abyss
         {
             for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
             {
-                Gore.NewGore(new Vector2(i, j) * 16f, 
-                    Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f), 
+                Gore.NewGore(new Vector2(i, j) * 16f,
+                    Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f),
                     mod.GetGoreSlot($"Gores/SulphSeaGen/SulphurousRockGore{WorldGen.genRand.Next(3) + 1}"));
             }
         }

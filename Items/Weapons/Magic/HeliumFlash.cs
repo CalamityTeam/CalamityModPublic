@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class HeliumFlash : ModItem
     {
         internal const float ExplosionDamageMultiplier = 0.125f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helium Flash");

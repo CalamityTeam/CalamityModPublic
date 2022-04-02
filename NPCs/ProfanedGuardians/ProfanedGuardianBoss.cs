@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 inertia *= 0.8f;
 
             float num1006 = 0.111111117f * inertia;
-            
+
             if (npc.ai[0] == 0f)
             {
                 if (Math.Abs(npc.Center.X - player.Center.X) > 10f)

@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 0f;
                 updatedTime = true;
             }
-            
+
             if (projectile.timeLeft >= (updatedTime ? 80 : 6))
             {
                 for (int i = 0; i < 5; i++)

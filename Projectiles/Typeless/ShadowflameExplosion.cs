@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.damage = 0;
             }
-            
+
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

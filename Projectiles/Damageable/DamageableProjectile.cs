@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Damageable
             {
                 if (DeathSound != null)
                 {
-                    Main.PlaySound(DeathSound, projectile.Center); 
+                    Main.PlaySound(DeathSound, projectile.Center);
                 }
                 DamageKillEffect();
                 projectile.Kill();

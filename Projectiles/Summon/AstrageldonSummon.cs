@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                         float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
                         if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
                         {
-                            
+
                             mindistance = disttoobjective;
                             objectivepos = npc.Center;
                             gotoenemy = true;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Summon
                             float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
                             if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
                             {
-                                
+
                                 mindistance = disttoobjective;
                                 objectivepos = npc.Center;
                                 gotoenemy = true;

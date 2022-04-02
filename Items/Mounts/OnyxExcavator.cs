@@ -205,7 +205,7 @@ namespace CalamityMod.Items.Mounts
                                 bool f = 1 == 2;
                                 bool canBreakTileCheck = TileLoader.CanKillTile(x, y, tile.type, ref t) && TileLoader.CanKillTile(x, y, tile.type, ref f);
                                 List<int> tileExcludeList = new List<int>()
-                                { 
+                                {
                                     ModContent.TileType<AbyssGravel>(),
                                     ModContent.TileType<Voidstone>(),
                                     TileID.DemonAltar,

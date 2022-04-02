@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             if (potentialTarget == null)
             {
                 if (projectile.ai[0] != 0f)
-                { 
+                {
                     projectile.ai[0] = 0f; // Disable charge animation when not attacking
                 }
                 projectile.rotation = projectile.rotation.AngleTowards(0f, 0.1f);
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.frame = (projectile.localAI[1] == 1f).ToInt() * 4;
                 }
-                
+
                 projectile.MinionAntiClump(0.1f);
                 if (projectile.Distance(player.Center) > 2700f)
                 {

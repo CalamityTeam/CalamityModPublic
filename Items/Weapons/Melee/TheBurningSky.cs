@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             // Every time the item spawns more meteors, play a violent, bass heavy sound to add onto Star Wrath's use sound.
             Main.PlaySound(SoundID.Item70, player.Center);
-            
+
             Vector2 originalVelocity = new Vector2(speedX, speedY);
             float speed = originalVelocity.Length();
             for (int i = 0; i < ProjectilesPerBarrage; ++i)

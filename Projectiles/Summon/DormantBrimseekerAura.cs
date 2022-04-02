@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
-                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<DormantBrimseekerBab>() && 
+                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<DormantBrimseekerBab>() &&
                             Main.projectile[i].owner == projectile.owner && Main.projectile[i].localAI[1] == 0f)
                         {
                             if (Main.projectile[i].Distance(projectile.Center) < projectile.localAI[1])

@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Pets
                     Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.7f);
                     break;
             }
-            
+
             float velAdjustment = 0.2f;
             float speedLimit = 5f;
             Vector2 playerVec = player.Center - projectile.Center;

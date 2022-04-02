@@ -13,8 +13,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     public static class SkeletronPrimeAI
     {
         // Master Mode changes
-        // 1 - Charges far quicker, 
-        // 2 - Arms and head accelerate extremely fast, 
+        // 1 - Charges far quicker,
+        // 2 - Arms and head accelerate extremely fast,
         // 3 - Arms remain closer to the head and resist piercing
         public static bool BuffedSkeletronPrimeAI(NPC npc, Mod mod)
         {

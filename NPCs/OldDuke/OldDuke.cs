@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.OldDuke
             Main.npcFrameCount[npc.type] = 7;
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
-        
+
         public override void SetDefaults()
         {
             npc.width = 150;
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.OldDuke
         {
             player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
-        
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life > 0)

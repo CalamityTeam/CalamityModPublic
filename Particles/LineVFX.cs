@@ -18,7 +18,7 @@ namespace CalamityMod.Particles
         public Vector2 LineVector;
         public bool Concave;
         public bool Telegraph; //Denotes if the line is used as an enemy telegraph. In that case, it'll be marked as important
-        public float Expansion; 
+        public float Expansion;
 
         public LineVFX(Vector2 startPoint, Vector2 lineVector, float thickness, Color color, bool concave = false, bool telegraph = false, float expansion = 0f)
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Particles
             Lifetime = 2;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch) 
+        public override void CustomDraw(SpriteBatch spriteBatch)
         {
             Texture2D tex;
             if (Concave)

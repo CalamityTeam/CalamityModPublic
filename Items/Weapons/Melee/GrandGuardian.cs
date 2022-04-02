@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void UseStyle(Player player)
         {
             player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
-        } 
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             spriteBatch.Draw(ModContent.GetTexture(Texture),
                              projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY) - Main.screenPosition,
                              null,
-                             lightColor, 
+                             lightColor,
                              projectile.rotation,
                              projectile.Size * 0.5f,
                              projectile.scale,

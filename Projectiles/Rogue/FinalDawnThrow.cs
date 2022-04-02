@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Vector2 desiredVelocity = projectile.SafeDirectionTo(player.Center) * DesiredSpeed;
                 projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
-                
+
                 float distance = projectile.Distance(player.Center);
                 if (distance < 64)
                     projectile.Kill();

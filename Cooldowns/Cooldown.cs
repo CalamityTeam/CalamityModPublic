@@ -19,7 +19,7 @@
             netID = nid;
         }
     }
-    
+
     // Cooldowns are nothing other than identifiers. They serve as a minimal identification interface that is netcode compatible.
     // Everything else is handled by one of the following two types:
     // - CooldownInstance (if a player has a cooldown, this is what they have)

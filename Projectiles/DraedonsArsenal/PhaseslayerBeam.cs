@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 120;
             projectile.scale = 0.5f;
             projectile.Size *= projectile.scale;
-            
+
             projectile.friendly = true;
             projectile.penetrate = 3;
             projectile.melee = true;

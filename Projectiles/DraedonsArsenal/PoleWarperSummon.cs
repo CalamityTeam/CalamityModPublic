@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 if (Main.projectile[i].type == projectile.type &&
-                    Main.projectile[i].active && 
+                    Main.projectile[i].active &&
                     projectile.Distance(Main.projectile[i].Center) < 40f)
                 {
                     PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].modProjectile;

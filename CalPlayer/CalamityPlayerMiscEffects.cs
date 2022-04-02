@@ -3885,7 +3885,7 @@ namespace CalamityMod.CalPlayer
             // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
             if (player.endurance > 0f)
                 player.endurance = 1f - (1f / (1f + player.endurance));
-            
+
             // Do not apply reduced aggro if there are any bosses alive and it's singleplayer
             if (areThereAnyDamnBosses && Main.netMode == NetmodeID.SinglePlayer)
             {
@@ -3950,8 +3950,8 @@ namespace CalamityMod.CalPlayer
             armorPenetrationStat = player.armorPenetration;
             moveSpeedStat = (int)((player.moveSpeed - 1f) * 100f);
             wingFlightTimeStat = player.wingTimeMax / 60f;
-            float trueJumpSpeedBoost = player.jumpSpeedBoost + 
-                (player.wereWolf ? 0.2f : 0f) + 
+            float trueJumpSpeedBoost = player.jumpSpeedBoost +
+                (player.wereWolf ? 0.2f : 0f) +
                 (player.jumpBoost ? 0.75f : 0f);
             jumpSpeedStat = trueJumpSpeedBoost * 20f;
             rageDamageStat = (int)(100D * RageDamageBoost);

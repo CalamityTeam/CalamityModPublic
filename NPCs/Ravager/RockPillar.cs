@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Ravager
                     npc.damage = (int)(npc.defDamage * 1.5);
                 else
                     npc.damage = npc.defDamage;
-            }                
+            }
 
             if (npc.ai[0] == 0f)
             {

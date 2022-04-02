@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             DisplayName.SetDefault("Explosion");
         }
-        
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);

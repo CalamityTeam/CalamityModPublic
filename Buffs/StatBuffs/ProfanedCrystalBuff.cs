@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class ProfanedCrystalBuff : ModBuff 
+    public class ProfanedCrystalBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Buffs.StatBuffs
                     bool offense = (Main.dayTime && !player.wet) || player.lavaWet;
                     bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
                     tip = "You are an emissary of the profaned goddess now!\n" +
-                        (offense ? "The " + (Main.dayTime ? "light of the sun" : "heat of the lava") + " empowers your offensive capabilities" : 
+                        (offense ? "The " + (Main.dayTime ? "light of the sun" : "heat of the lava") + " empowers your offensive capabilities" :
                         "The " + (player.wet ? (player.honeyWet ? "honey cools" : "water douses") : "darkness of night cools") + " your flames, empowering your defensive capabilities") +
                         (enrage ? "\nYour weakened life force fuels your desperate attacks" : "");
                 }

@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void SetDefaults()
-        {            
+        {
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;

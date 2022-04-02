@@ -317,7 +317,7 @@ namespace CalamityMod.Projectiles.Summon
                 Main.PlaySound(SoundID.Item12, projectile.Center);
                 projectile.netUpdate = true;
             }
-            
+
             // If neither of the above if-statements trigger, the worm just moves forwards in a straight line and this AI function does nothing.
         }
 

@@ -280,7 +280,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 origin = frame.Size() * 0.5f;
             Color auraColor = Color.Lerp(Color.Fuchsia, Color.Black, 0.55f);
             SpriteEffects direction = Math.Cos(projectile.rotation) > 0f ? SpriteEffects.None : SpriteEffects.FlipVertically;
-            
+
             // Draw the outline aura below everything else.
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;

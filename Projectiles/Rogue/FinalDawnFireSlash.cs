@@ -120,12 +120,12 @@ namespace CalamityMod.Projectiles.Rogue
                                   projectile.scale,
                                   projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
-            Main.spriteBatch.Draw(glowTexture, 
-                                  drawCenter - Main.screenPosition, 
-                                  frameRectangle, 
+            Main.spriteBatch.Draw(glowTexture,
+                                  drawCenter - Main.screenPosition,
+                                  frameRectangle,
                                   projectile.GetAlpha(Color.White),
                                   projectile.rotation,
-                                  frameRectangle.Size() / 2, 
+                                  frameRectangle.Size() / 2,
                                   projectile.scale,
                                   projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);

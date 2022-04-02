@@ -301,7 +301,7 @@ namespace CalamityMod
                     checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
 
                     ConditionMet = !(checkedTile != null && checkedTile.nactive() && Main.tileSolid[checkedTile.type]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
-                    if (!ConditionMet) 
+                    if (!ConditionMet)
                         return ConditionMet;
                 }
             }

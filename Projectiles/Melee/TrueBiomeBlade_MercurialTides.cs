@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[projectile.owner];
         public ref float Charge => ref projectile.ai[0]; //Charge
         public ref float State => ref projectile.ai[1]; //State 0 is "charging", State 1 is "thrusting"
-        public ref float CurrentIndicator => ref projectile.localAI[0]; //What "indicator" stage are you on. 
+        public ref float CurrentIndicator => ref projectile.localAI[0]; //What "indicator" stage are you on.
         public ref float OverCharge => ref projectile.localAI[1];
 
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;

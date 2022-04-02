@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Pets
         public int frameX = 0;
         public int frameY = 0;
 
-        public int CurrentFrame 
+        public int CurrentFrame
         {
             get => frameX * yFrameAmt + frameY;
             set
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Pets
                 bool noSolidGround = true;
                 for (int i = (int)projectile.BottomLeft.X / 16; i < (int)projectile.BottomRight.X / 16; i++)
                 {
-                    Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(i, (int)(projectile.Bottom.Y / 16)); 
+                    Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(i, (int)(projectile.Bottom.Y / 16));
                     if (tileBelow.IsTileSolidGround())
                     {
                         noSolidGround = false;

@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];
-                    
+
                     float distance = Vector2.Distance(player.Center, projectile.Center);
                     if (distance < distanceRequired && player.grappling[0] == -1)
                     {

@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 vel = new Vector2(speedX, speedY);
             int[] bulletIDs = new int[PelletsPerShot];
             float spreadFactor = 1f;
-            
+
             // Right click full auto: Randomly intermix three regular bullets and three Dragon's Breath Rounds in a wider spread
             if (player.altFunctionUse == 2)
             {

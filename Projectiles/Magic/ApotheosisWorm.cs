@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            
+
             // Initialization.
             if (projectile.localAI[0] == 0f)
             {
@@ -168,9 +168,9 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            // This variant of segment attachment incorporates rotation. 
+            // This variant of segment attachment incorporates rotation.
             // Given the fact that all segments will execute this code is succession, the
-            // result across the entire worm will exponentially decay over each segment, 
+            // result across the entire worm will exponentially decay over each segment,
             // allowing for smooth rotations. This code is what the stardust dragon and mechworm use for their segmenting.
             if (aheadSegmentRotation != Segments[segmentIndex].Rotation)
             {

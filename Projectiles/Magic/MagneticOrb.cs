@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         private const int Lifetime = 120;
         private const float FramesPerBeam = 12f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magnetic Orb");

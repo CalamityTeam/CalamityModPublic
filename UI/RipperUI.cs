@@ -21,7 +21,7 @@ namespace CalamityMod.UI
         private const int RageAnimFrames = 10;
         private const int AdrenAnimFrameDelay = 5;
         private const int AdrenAnimFrames = 10;
-        
+
         public static Vector2 rageDrawPos = new Vector2(DefaultRagePosX, DefaultRagePosY);
         public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
         private static Vector2? rageDragOffset = null;
@@ -162,7 +162,7 @@ namespace CalamityMod.UI
             if (modPlayer.rageBoostThree) // Red Lightning Container
                 pearls.Add(redLightningTex);
             IList<Vector2> offsets = GetPearlOffsets(pearls.Count);
-            
+
             // Draw pearls at appropriate positions.
             for (int i = 0; i < pearls.Count; ++i)
                 spriteBatch.Draw(pearls[i], rageDrawPos + shakeOffset + offsets[i] * uiScale, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
@@ -210,7 +210,7 @@ namespace CalamityMod.UI
             spriteBatch.Draw(adrenBorderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             // Use a slightly different texture if Adrenaline is full or active
             if (modPlayer.adrenaline >= modPlayer.adrenalineMax || modPlayer.adrenalineModeActive)
-                spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);                
+                spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.

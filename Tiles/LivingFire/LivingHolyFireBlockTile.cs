@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.LivingFire
             };
             //if (Main.tile[i, j]) || tile.type == Type
 
-            //return true; //temporary for testing purposes 
+            //return true; //temporary for testing purposes
 
             if (Main.tile[i, j].wall != WallID.None)
             {

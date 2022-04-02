@@ -62,7 +62,7 @@ namespace CalamityMod.World
         internal static Chest AddChestWithLoot(int i, int j, ushort type = TileID.Containers, uint startingSlot = 1, int tileStyle = 0)
         {
             int chestIndex = -1;
-            
+
             // Slide downwards on the Y axis trying to find the floor beneath the empty position initially picked
             while (j < Main.maxTilesY - 210)
             {

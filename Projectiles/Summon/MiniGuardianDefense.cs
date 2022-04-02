@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().endoCooper)
-            { 
+            {
                 CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
                 return false;
             }

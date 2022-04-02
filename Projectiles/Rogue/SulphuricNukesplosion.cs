@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) //custom collision when it's explosion, yes i didn't want to make yet another projectile for the stealth explosion :hdfailure:
         {
             if (boomerTime == -1)
-                projHitbox.Intersects(targetHitbox); 
+                projHitbox.Intersects(targetHitbox);
 
             return CalamityUtils.CircularHitboxCollision(projectile.Center, 200f, targetHitbox);
         }

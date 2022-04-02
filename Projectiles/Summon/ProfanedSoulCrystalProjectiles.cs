@@ -485,7 +485,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void onHit()
         {
-            
+
             Main.PlaySound(new LegacySoundStyle(2, 74, Terraria.Audio.SoundType.Sound), (int)projectile.position.X, (int)projectile.position.Y);
             if (Main.rand.NextBool(2) || Main.rand.NextBool(3)) //so it's not exactly 1 in 2, but it's not more or less consistently either.
             {
@@ -586,7 +586,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 50;
                     kill = true;
                 }
-                    
+
                 float num550 = 40f;
                 Vector2 vector43 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                 float num551 = num535 - vector43.X;
@@ -831,7 +831,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            if (projectile.ai[0] == 0f) { 
+            if (projectile.ai[0] == 0f) {
             }
             projectile.velocity.X *= 1.01f;
             projectile.velocity.Y *= 1.01f;

@@ -1540,7 +1540,7 @@ namespace CalamityMod.NPCs.Providence
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProfanedBossText4"), Color.DarkOrange);
-                } 
+                }
             }
 
             // Mark Providence as dead

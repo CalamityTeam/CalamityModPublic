@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
                 target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 300);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             target.Calamity().lastProjectileHit = projectile;
         }

@@ -644,9 +644,9 @@ namespace CalamityMod.ILEditing
         ///     355,
         ///     358
         /// });
-        /// 
-        /// to 
-        /// 
+        ///
+        /// to
+        ///
         /// var arr = new short[2]
         /// {
         ///     355,
@@ -654,7 +654,7 @@ namespace CalamityMod.ILEditing
         /// });
         /// arr = arr.ToList().Add(id).ToArray();
         /// num8 = Utils.SelectRandom(Main.rand, arr);
-        /// 
+        ///
         /// </summary>
         /// <param name="il"></param>
         private static void AddTwinklersToStatue(ILContext il)

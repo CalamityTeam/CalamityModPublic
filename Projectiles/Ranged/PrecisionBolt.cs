@@ -56,12 +56,12 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(projectile.Center, Color.LightSteelBlue.ToVector3());
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (potentialTarget == null) //(Re)target 
+            if (potentialTarget == null) //(Re)target
                 potentialTarget = projectile.Center.ClosestNPCAt(512f, true);
 
             if (potentialTarget != null)
             {
-                //Do some funny slight homing just in case 
+                //Do some funny slight homing just in case
                 float angularTurnSpeed = MathHelper.ToRadians(2.5f);
                 float idealDirection = projectile.AngleTo(potentialTarget.Center);
                 float updatedDirection = projectile.velocity.ToRotation().AngleTowards(idealDirection, angularTurnSpeed);

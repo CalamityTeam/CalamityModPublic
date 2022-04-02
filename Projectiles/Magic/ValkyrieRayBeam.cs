@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         private const int Lifetime = 24;
         private const int BeamDustID = 73;
-        
+
         private const float MaxBeamScale = 1.2f;
 
         private const float MaxBeamLength = 2400f;
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Magic
             // If the beam doesn't have a defined projection vector or hasn't yet had its velocity set to zero, don't draw anything.
             if (beamVector == Vector2.Zero || projectile.velocity != Vector2.Zero)
                 return false;
-            
+
             Texture2D tex = Main.projectileTexture[projectile.type];
             float beamLength = projectile.ai[0];
             Vector2 centerFloored = projectile.Center.Floor() + beamVector * projectile.scale * BeamRenderTileOffset;

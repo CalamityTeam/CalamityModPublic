@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
 
             // Randomly prepare to shoot a laser.
-            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(Target.Center.X - npc.Center.X) < 250f && Target.Center.X < npc.Center.X && 
+            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(Target.Center.X - npc.Center.X) < 250f && Target.Center.X < npc.Center.X &&
                 LaserShootCountdown == 0f && Main.rand.NextBool(110) && !Target.npcTypeNoAggro[npc.type])
             {
                 LaserShootCountdown = 600f;

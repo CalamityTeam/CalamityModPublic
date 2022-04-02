@@ -63,7 +63,7 @@ namespace CalamityMod.Items
                     // A custom packet must be sent so that the deletion can be done on the server. This hook does not run there.
                     // Why? Well, netUpdate/MessageID.SyncNPC packets do not send data to the server. They only send data to other clients. What this means is that prior to this fix
                     // what would happen was every client EXCEPT THE SERVER would be told by this player that the dummies disappeared.
-                    // However, since the server isn't notified, it is inevitable that the server will do a sync of its own, unaware that the 
+                    // However, since the server isn't notified, it is inevitable that the server will do a sync of its own, unaware that the
                     // dummies are gone, and cause them to reappear, making the deletion moot.
                     else
                     {

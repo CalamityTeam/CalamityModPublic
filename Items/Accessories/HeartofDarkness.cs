@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         // The percentage of a full Rage bar that is gained every second with Heart of Darkness equipped.
         public const float RagePerSecond = 0.01f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart of Darkness");

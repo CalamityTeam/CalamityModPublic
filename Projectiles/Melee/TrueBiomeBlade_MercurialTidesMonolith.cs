@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (projectile.numHits > 0)
                 damage = (int)(damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageFalloff);
-        
+
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const float NormalArrowDamageMult = 1.25f;
         private static int[] ExoArrows;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heavenly Gale");

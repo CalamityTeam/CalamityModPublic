@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
                         proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
-                        proj.Size.Length() < 300 && //Only parry projectiles that aren't too large 
+                        proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
                         Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
                         GeneralParryEffects();

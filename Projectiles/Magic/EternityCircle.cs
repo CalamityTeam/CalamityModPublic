@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.active = false;
             }
-            
+
             // Assign an offset angle if it has a default value.
             if (SinusoidalOffsetAngle == 0f)
             {

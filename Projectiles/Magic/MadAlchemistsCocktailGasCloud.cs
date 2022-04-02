@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            
+
             // Only one gas cloud can hit at once.
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 9;

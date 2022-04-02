@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 return;
 
             Lighting.AddLight(projectile.Center, 0.8f, 0.3f, 1f);
-            
+
             projectile.localAI[1]++;
             if (projectile.localAI[1] >= 4 * FramesPerShot)
                 projectile.localAI[1] = 0f;

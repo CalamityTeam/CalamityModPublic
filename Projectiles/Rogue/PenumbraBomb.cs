@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 projectile.ai[0] = 0f;
             }
-            
+
         }
 
         public override void Kill(int timeLeft)

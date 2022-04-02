@@ -149,9 +149,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.velocity = Vector2.Zero;
             Vector2 offsetToDestination = segmentAhead.Center - projectile.Center;
 
-            // This variant of segment attachment incorporates rotation. 
+            // This variant of segment attachment incorporates rotation.
             // Given the fact that all segments will execute this code is succession, the
-            // result across the entire worm will exponentially decay over each segment, 
+            // result across the entire worm will exponentially decay over each segment,
             // allowing for smooth rotations. This code is what the stardust dragon uses for its segmenting.
             if (segmentAhead.rotation != projectile.rotation)
             {

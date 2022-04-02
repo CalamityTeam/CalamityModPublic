@@ -164,13 +164,13 @@ namespace CalamityMod.Projectiles.Melee
                 // By default, make the prism rays go outward a good amount based on their rotation
                 // to give a fan look.
                 Vector2 prismEndPosition = WhipEnd + rayRotation.ToRotationVector2() * 420f;
-                
+
                 // However, if a potential target is within the general line of sight of the whip,
                 // fire all lasers at it instead. This results in the entire laser spectrum appearing as one
                 // brilliant, blazing laser that does great damage. However, it does take some skill to do.
                 if (potentialTarget != null && targetAimDisparity < MathHelper.Pi * 0.27f)
                     prismEndPosition = potentialTarget.Center + potentialTarget.velocity * 4f;
- 
+
                 int prismRay = Projectile.NewProjectile(prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, projectile.knockBack * 0.2f, projectile.owner);
                 if (Main.projectile.IndexInRange(prismRay))
                 {

@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             projectile.tileCollide = true;
-            // Don't bother moving any more if super close to the destination. 
+            // Don't bother moving any more if super close to the destination.
             // Just slow down and face the player.
             if (Math.Abs(projectile.Center.X - destination.X) < 55 + Math.Abs(projectile.velocity.X))
             {
@@ -236,8 +236,8 @@ namespace CalamityMod.Projectiles.Summon
             // Jump if there's a gap or a wall.
             if (tileBelow.IsTileSolidGround() || Collision.SolidCollision(projectile.Center, 10, 10))
             {
-                if (Math.Abs(projectile.oldPosition.X - projectile.position.X) < 2f || 
-                    Collision.SolidCollision(projectile.Center, 2, 2) || 
+                if (Math.Abs(projectile.oldPosition.X - projectile.position.X) < 2f ||
+                    Collision.SolidCollision(projectile.Center, 2, 2) ||
                     !Collision.CanHitLine(projectile.position, projectile.width, projectile.height, Owner.position, Owner.width, Owner.height))
                 {
                     projectile.velocity.Y = -12f - StuckJumpSpeed;

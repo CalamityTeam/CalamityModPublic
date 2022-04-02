@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Lucrecia : ModItem
     {
         public const int OnHitIFrames = 5;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lucrecia");

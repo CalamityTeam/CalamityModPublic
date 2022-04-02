@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             //Rotation
             projectile.rotation -= 0.025f;
-            
+
         }
     }
 }

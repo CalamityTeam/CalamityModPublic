@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
                 return;
             }
-                
+
             if (Timer % ConstellationSwapTime == 0 && projectile.timeLeft >= 20)
             {
                 Particles.Clear();

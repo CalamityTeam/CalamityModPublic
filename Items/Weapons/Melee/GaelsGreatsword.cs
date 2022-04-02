@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 15f;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
-        
+
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

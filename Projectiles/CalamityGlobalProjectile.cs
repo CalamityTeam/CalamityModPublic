@@ -346,7 +346,7 @@ namespace CalamityMod.Projectiles
                     projectile.usesLocalNPCImmunity = true;
                     projectile.usesIDStaticNPCImmunity = false;
                     break;
-                    
+
                 case ProjectileID.FlowerPetal:
                     projectile.MaxUpdates = 4;
                     projectile.localNPCHitCooldown = 10;
@@ -1866,7 +1866,7 @@ namespace CalamityMod.Projectiles
                         projectile.damage = defDamage + 30;
                 }
             }
-            
+
             if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
@@ -2296,13 +2296,13 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region Grappling Hooks
-        public override void GrapplePullSpeed(Projectile projectile, Player player, ref float speed) 
+        public override void GrapplePullSpeed(Projectile projectile, Player player, ref float speed)
         {
             if (player.Calamity().reaverSpeed)
                 speed *= 1.1f;
         }
 
-        public override void GrappleRetreatSpeed(Projectile projectile, Player player, ref float speed) 
+        public override void GrappleRetreatSpeed(Projectile projectile, Player player, ref float speed)
         {
             if (player.Calamity().reaverSpeed)
                 speed *= 1.1f;
@@ -2317,7 +2317,7 @@ namespace CalamityMod.Projectiles
 
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
-            
+
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 

@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.frame = 0;
             }
-        }  
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

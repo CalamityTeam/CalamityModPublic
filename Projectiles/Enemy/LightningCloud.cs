@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Enemy
                 projectile.frameCounter = 0;
                 projectile.frame++;
 
-                int maxFrame = projectile.timeLeft < 60 ? 6 : 3; 
+                int maxFrame = projectile.timeLeft < 60 ? 6 : 3;
                 if (projectile.frame >= maxFrame)
                     projectile.frame = 0;
 
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Enemy
                 }
             }
 
-            if (projectile.timeLeft < 30) 
+            if (projectile.timeLeft < 30)
                 projectile.Opacity = MathHelper.Lerp(projectile.Opacity, 0f, 0.14f);
             else
                 projectile.Opacity = MathHelper.Lerp(projectile.Opacity, 1f, 0.33f);

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.DifficultyItems
 
             // Misc lines
             "Nerfs the effectiveness of life steal a bit more.\n" +
-            
+
             // Boss lines
             "Enrages all bosses and gives them far more aggressive AI.\n" +
             "Bosses and their projectiles deal 25% more damage.\n" +

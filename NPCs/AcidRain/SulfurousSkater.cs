@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AcidRain
             else
                 npc.knockBackResist = 0f;
         }
-        
+
         public void DoFlyMovement()
         {
             npc.knockBackResist = 0.5f;

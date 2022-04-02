@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     public class TerrorBlade : ModItem
     {
         internal const float TerrorBlastMultiplier = 0.3f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Blade");

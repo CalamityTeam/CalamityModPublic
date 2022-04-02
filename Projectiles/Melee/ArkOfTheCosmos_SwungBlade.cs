@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
                 //Manage position and rotation
                 projectile.Center = Owner.Center + DistanceFromPlayer;
 
-                //Baby swing 
+                //Baby swing
                 if (!SwirlSwing)
                 {
                     projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, SwingRatio());
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
                     //Really important to use projectile.timeLeft -1 instead of simply projectile.timeLeft because if it spawns a bolt on its last frame of existence the primitive drawer will break and shit itself or something idk
                     if (Owner.whoAmI == Main.myPlayer && (projectile.timeLeft - 1) % Math.Ceiling(MaxSwingTime / ArkoftheCosmos.SwirlBoltAmount) == 0f)
                     {
-                        //Slightly shift the blasts up so the final close shots don't go BELOW the cursor and instead go right on it. 
+                        //Slightly shift the blasts up so the final close shots don't go BELOW the cursor and instead go right on it.
                         float adjustedBlastRotation = projectile.rotation - MathHelper.PiOver4 * 1.15f * Owner.direction;
 
                          Projectile blast = Projectile.NewProjectileDirect(Owner.Center + adjustedBlastRotation.ToRotationVector2() * 10f, adjustedBlastRotation.ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
@@ -561,7 +561,7 @@ namespace CalamityMod.Projectiles.Melee
                     spriteBatch.Draw(afterimage, drawOffset, null, color * 0.15f, afterimageRotation, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
                 }
             }
-            
+
             spriteBatch.Draw(backBlade, backScissorDrawPosition, null, lightColor, drawRotation, backScissorOrigin, projectile.scale, flip, 0f);
             spriteBatch.Draw(backBladeGlow, backScissorDrawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, backScissorOrigin, projectile.scale, flip, 0f);
 
@@ -598,7 +598,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Vector2 drawPos2 = Vector2.SmoothStep(Owner.Center, projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
                 float drawRotation2 = direction.ToRotation() + MathHelper.PiOver4;
-                Vector2 drawOrigin2 = new Vector2(44, 86); 
+                Vector2 drawOrigin2 = new Vector2(44, 86);
 
                 spriteBatch.Draw(thrownSword, drawPos2 - Main.screenPosition, null, lightColor, drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
                 spriteBatch.Draw(thrownGlowmask, drawPos2 - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation2, drawOrigin2, projectile.scale, 0f, 0f);
@@ -620,7 +620,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow");
 
             Vector2 drawPos = projectile.Center;
-            Vector2 drawOrigin = new Vector2(32, 86); 
+            Vector2 drawOrigin = new Vector2(32, 86);
             float drawRotation = projectile.rotation + MathHelper.PiOver4;
 
             Vector2 drawOrigin2 = new Vector2(44, 86); //Right on the hole

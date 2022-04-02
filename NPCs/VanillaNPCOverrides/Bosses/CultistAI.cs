@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     public static class CultistAI
     {
         // Master Mode changes
-        // 1 - Use more dangerous attacks more often, 
+        // 1 - Use more dangerous attacks more often,
         // 2 - Cycles between attacks faster
         public static bool BuffedCultistAI(NPC npc, Mod mod)
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-            
+
             // Phases
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -1070,7 +1070,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining for Cultist or Eidolon Wyrm
             float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;
-            
+
             bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>() ? 0.6f : 0.55f);
             bool phase4 = lifeRatio < 0.4f;

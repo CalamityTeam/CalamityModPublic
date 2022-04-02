@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
                 num745 += MathHelper.TwoPi;
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            
+
             if (projectile.timeLeft < 90)
                 CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 400f, 8f, 20f);
         }

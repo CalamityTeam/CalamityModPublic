@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            if (!Main.dedServ) 
+            if (!Main.dedServ)
             {
                 for (int i = 0; i < projectile.oldPos.Length / 2; i++)
                 {

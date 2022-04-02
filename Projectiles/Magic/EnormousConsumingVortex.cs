@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
 
             subsumingHentai.tileCollide = false;
         }
-        
+
         public void TargetingMovement()
         {
             NPC potentialTarget = projectile.Center.ClosestNPCAt(600f, true, true);

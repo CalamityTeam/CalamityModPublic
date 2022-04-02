@@ -89,7 +89,7 @@ namespace CalamityMod.Cooldowns
         /// This is used to look up gameplay behavior and rendering behavior as the cooldown instance is used in the game engine.
         /// </summary>
         internal ushort netID;
-        
+
         /// <summary>
         /// The player that the cooldown is applying to
         /// </summary>

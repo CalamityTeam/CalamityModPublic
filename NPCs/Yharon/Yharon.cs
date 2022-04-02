@@ -1992,9 +1992,9 @@ namespace CalamityMod.NPCs.Yharon
                                 npc.rotation += pie;
 
                             npc.velocity = vector3 * spinPhaseVelocity;
-                            
+
                             npc.localAI[3] = Main.rand.Next(2);
-                            
+
                             break;
                         }
                         case 7: //fast charge

@@ -63,11 +63,11 @@ namespace CalamityMod.Projectiles.Summon
             float weaveDistanceInner = 0.5f;
             for (float theta = 0f; theta < MathHelper.TwoPi; theta += 0.05f)
             {
-                Vector2 velocity = theta.ToRotationVector2() * 
-                    (weaveDistanceMin + 
+                Vector2 velocity = theta.ToRotationVector2() *
+                    (weaveDistanceMin +
                     // The 0.5 in here is to prevent the petal from looping back into itself. With a 0.5 addition, it is perfect, coming back to (0,0)
                     // instead of weaving backwards.
-                    (float)(Math.Sin(thetaDelta + theta * flowerPetalCount) + 0.5f + weaveDistanceInner) * 
+                    (float)(Math.Sin(thetaDelta + theta * flowerPetalCount) + 0.5f + weaveDistanceInner) *
                     weaveDistanceOutwardMax);
                 Dust dust = Dust.NewDustPerfect(projectile.Center, 113, velocity);
                 dust.noGravity = true;

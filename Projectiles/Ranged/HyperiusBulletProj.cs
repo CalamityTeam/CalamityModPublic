@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class HyperiusBulletProj : ModProjectile
     {
         private Color currentColor = Color.Black;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bullet");

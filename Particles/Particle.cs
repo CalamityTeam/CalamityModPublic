@@ -8,7 +8,7 @@ namespace CalamityMod.Particles
         /// <summary>
         /// The ID of the particle inside of the general particle handler's array. This is set automatically when the particle is created
         /// </summary>
-        public int ID; 
+        public int ID;
         /// <summary>
         /// The ID of the particle type as registered by the general particle handler. This is set automatically when the particle handler loads
         /// </summary>

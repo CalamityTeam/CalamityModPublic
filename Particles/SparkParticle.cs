@@ -13,7 +13,7 @@ namespace CalamityMod.Particles
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
         public override bool UseAdditiveBlend => true;
-        
+
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
         public SparkParticle(Vector2 relativePosition, Vector2 velocity, bool affectedByGravity, int lifetime, float scale, Color color)

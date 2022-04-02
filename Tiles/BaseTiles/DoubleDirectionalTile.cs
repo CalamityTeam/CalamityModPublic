@@ -26,15 +26,15 @@ namespace CalamityMod.Tiles.BaseTiles
 
         // There is a chungus among us
         // This is based largely on characteristics exhibited by vanilla's tile sheets.
-        public static readonly TileDirection?[,] WhereDoIPoint = new TileDirection?[,] 
-        { 
-            { TileDirection.Left, TileDirection.Up, TileDirection.Up, TileDirection.Up, TileDirection.Right, null, null, null, null, null, TileDirection.Left, TileDirection.Right, null },          
+        public static readonly TileDirection?[,] WhereDoIPoint = new TileDirection?[,]
+        {
+            { TileDirection.Left, TileDirection.Up, TileDirection.Up, TileDirection.Up, TileDirection.Right, null, null, null, null, null, TileDirection.Left, TileDirection.Right, null },
             { TileDirection.Left, TileDirection.Center, TileDirection.Center, TileDirection.Center, TileDirection.Right, null, TileDirection.Up, TileDirection.Up, TileDirection.Up, null, TileDirection.Left, TileDirection.Right, null },
             { TileDirection.Left, TileDirection.Down, TileDirection.Down, TileDirection.Down, TileDirection.Right, null, TileDirection.Down, TileDirection.Down, TileDirection.Down, null, TileDirection.Left, TileDirection.Right, null },
             { TileDirection.UpLeft, TileDirection.UpRight, TileDirection.UpLeft, TileDirection.UpRight, TileDirection.UpLeft, TileDirection.UpRight, null, null, null, null, null, null, null },
             { TileDirection.DownLeft, TileDirection.DownRight, TileDirection.DownLeft, TileDirection.DownRight, TileDirection.DownLeft, TileDirection.DownRight, null, null, null, null, null, null, null }
         };
-        
+
         public static readonly int?[,] WhatVariantAmI = new int?[,]
         {
             { 1, 1, 2, 3, 1, 1, 1, 2, 3, 1, 1, 1, 1 },
@@ -103,7 +103,7 @@ namespace CalamityMod.Tiles.BaseTiles
                 frameXOffset = 36 + -18 * (GiveVariant(i, j) - 1);
                 frameYOffset = -18 + 90 + 18 * (GiveVariant(i, j) - 1);
             }
-            if ((Top == TileDirection.Up && Left == TileDirection.Left && Bottom == TileDirection.Center && Right == TileDirection.Center) || 
+            if ((Top == TileDirection.Up && Left == TileDirection.Left && Bottom == TileDirection.Center && Right == TileDirection.Center) ||
                 ((Top == TileDirection.Left || Top == TileDirection.UpLeft) && (Left == TileDirection.Up || Left == TileDirection.UpLeft) && (BottomRight == TileDirection.Center || BroadBottomRight.Contains(BottomRight)))) //Top left
             {
                 frameXOffset = 54 + -18 * (GiveVariant(i, j) - 1);
@@ -129,7 +129,7 @@ namespace CalamityMod.Tiles.BaseTiles
             }
 
             //If we don't absolutely need the transition layer to exist, we cut out anything else extra
-            if (!TransitionHardRequired) 
+            if (!TransitionHardRequired)
                 return;
 
             if (BroadLeft.Contains(Left) && BroadRight.Contains(Right) && Top == TileDirection.Center && Bottom == TileDirection.Center) //Vertical thin line

@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Ranged
             float distanceY = Math.Abs(projectile.Center.Y - target.Hitbox.Center.Y);
 
             //If the distance is just too big for the two to intersect, return false
-            if (distanceX > (target.Hitbox.Width / 2f + blastRadius) || distanceY > (target.Hitbox.Height / 2f + blastRadius)) 
-                return false; 
+            if (distanceX > (target.Hitbox.Width / 2f + blastRadius) || distanceY > (target.Hitbox.Height / 2f + blastRadius))
+                return false;
 
             //If either distance is too small (aka if the projectile's center is inside of the target's hitbox, return true
             if (distanceX <= (target.Hitbox.Width / 2f) || distanceY <= (target.Hitbox.Height / 2f))

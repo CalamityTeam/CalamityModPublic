@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
 
         public override void AI()
-        {            
+        {
             Lighting.AddLight(npc.Center, 0.3f, 1.5f, 0.3f);
 
             int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             try
             {
-            } 
+            }
             catch
             {
                 return;

@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Math.Sign(projectile.velocity.X) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
             float velocityMagnitude = 0f;
             float scaleFactor = 35f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), 
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
                 projectile.Center, projectile.Center + f2.ToRotationVector2() * scaleFactor,
                 (TravelSpeed + 1f) * projectile.scale, ref velocityMagnitude))
             {

@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Timer > ParryTime)
                 return;
-            
+
             float collisionPoint = 0f;
             float bladeLenght = 142f * projectile.scale;
 
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Melee
                     break;
                 }
             }
-            
+
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = projectile.whoAmI;

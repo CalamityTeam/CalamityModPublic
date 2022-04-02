@@ -60,7 +60,7 @@ namespace CalamityMod.TileEntities
             // Store the value that will be set into PlayerTargetIndex here.
             // This local is used because changing the actual field will trigger a netcode auto-sync.
             int indexToSet = PlayerTargetIndex;
-            
+
             // If a player is already targeted, make sure they still exist and aren't dead.
             if (indexToSet != -1)
             {

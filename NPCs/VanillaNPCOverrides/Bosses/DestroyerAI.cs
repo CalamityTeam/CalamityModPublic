@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-            
+
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;

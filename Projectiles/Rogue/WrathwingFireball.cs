@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
                 projectile.frame = 0;
-            
+
             // Keep the fireball rotated the correct way because the sheet faces down, not up
             projectile.rotation += MathHelper.Pi;
         }

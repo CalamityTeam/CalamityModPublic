@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class DrizzlefishFire : ModProjectile
     {
         private int splitTimer = 30;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drizzlefish Flames");

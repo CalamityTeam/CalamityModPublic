@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Ranged
                 num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num249].velocity *= 0.05f;
-                
+
             }
         }
 

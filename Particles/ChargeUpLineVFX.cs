@@ -72,7 +72,7 @@ namespace CalamityMod.Particles
                 RelativeOffset = LineDirection.ToRotationVector2() * MinDistanceFromOrigin;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition) 
+        public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition)
         {
             Texture2D tex = ModContent.GetTexture("CalamityMod/Particles/Light");
 

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (!initialized) //Initialization. 
+            if (!initialized) //Initialization.
             {
                 Main.PlaySound(SoundID.Item90, projectile.Center);
                 initialized = true;

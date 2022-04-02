@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         private const float DriftVelocity = 10f;
         private const float FramesBeforeSlowing = 8f;
         private const float MaximumWaitFrames = 360f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ghast Blast");
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
 
-                // Grow and slow down 
+                // Grow and slow down
                 if (projectile.ai[0] >= FramesBeforeSlowing * projectile.MaxUpdates)
                 {
                     projectile.velocity *= 0.977f;

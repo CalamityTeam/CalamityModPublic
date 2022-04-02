@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
             float slowWeaponBonus = MathHelper.Lerp(0f, MaxSlowWeaponBonus, useTimeInterpolant);
             return baseCritMult * (1f + convertedCritBonus + slowWeaponBonus);
         }
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daawnlight Spirit Origin");

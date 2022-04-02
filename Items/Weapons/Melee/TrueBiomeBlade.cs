@@ -355,7 +355,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 spriteBatch.Draw(itemTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 return false;
             }
-                
+
 
             // Draw all particles.
 
@@ -381,7 +381,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade"); //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal 
+            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade"); //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal
             spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }

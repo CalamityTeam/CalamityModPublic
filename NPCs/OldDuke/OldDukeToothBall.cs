@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.OldDuke
         {
             DisplayName.SetDefault("Tooth Ball");
         }
-        
+
         public override void SetDefaults()
         {
             npc.Calamity().canBreakPlayerDefense = true;

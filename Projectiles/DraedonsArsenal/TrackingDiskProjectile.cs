@@ -104,11 +104,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     if (targetCount >= MaxLaserCountPerShot)
                         break;
-                    Projectile laser = Projectile.NewProjectileDirect(projectile.Center, 
-                                                                      projectile.SafeDirectionTo(target.Center) * 4f, 
+                    Projectile laser = Projectile.NewProjectileDirect(projectile.Center,
+                                                                      projectile.SafeDirectionTo(target.Center) * 4f,
                                                                       ModContent.ProjectileType<TrackingDiskLaser>(),
                                                                       damage,
-                                                                      projectile.knockBack, 
+                                                                      projectile.knockBack,
                                                                       projectile.owner,
                                                                       1f);
                     laser.scale *= 1.6f;

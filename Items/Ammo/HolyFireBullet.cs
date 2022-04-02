@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Ammo
     public class HolyFireBullet : ModItem
     {
         internal const float ExplosionMultiplier = 0.33f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire Bullet");

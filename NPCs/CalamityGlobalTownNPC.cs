@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs
             {
                 alreadySet = true;
                 return currentName;
-            } 
+            }
 
             alreadySet = true;
             int index = Main.rand.Next(numVanillaNames + patreonNames.Length);
@@ -860,7 +860,7 @@ namespace CalamityMod.NPCs
                         }
                         else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
                         {
-                            chat = "Aww, they're so cute, do they have names?"; 
+                            chat = "Aww, they're so cute, do they have names?";
                         }
                     }
                     break;

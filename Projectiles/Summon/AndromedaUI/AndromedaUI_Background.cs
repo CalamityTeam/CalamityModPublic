@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
         #region Robot Properties
         public bool LeftBracketActive
-        { 
+        {
             get => AttachedRobot.LeftBracketActive;
             set => AttachedRobot.LeftBracketActive = value;
         }

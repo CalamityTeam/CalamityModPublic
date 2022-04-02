@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Ranged
 
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
-            {             
+            {
                 Vector2 dspeed = -projectile.velocity * Main.rand.NextFloat(0.3f, 0.6f);
                 int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, new Color(237, 242, 242, 200), 1.2f);
                 Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity = dspeed;            
+                Main.dust[num469].velocity = dspeed;
             }
         }
 

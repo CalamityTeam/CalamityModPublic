@@ -788,14 +788,14 @@ namespace CalamityMod.World
 
             // Bit of a weird solution that makes wooden spikes non-solid so that nothing is placed on top of them.
             Main.tileSolid[TileID.WoodenSpikes] = false;
-            
+
             placementAttempts = 0;
             while (totalChestsToPlace > 0f)
             {
                 int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
                 int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
                 if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe &&
-                    !Main.tile[randomPointInTempleX, randomPointInTempleY].active() && 
+                    !Main.tile[randomPointInTempleX, randomPointInTempleY].active() &&
                     WorldGen.AddBuriedChest(randomPointInTempleX, randomPointInTempleY, ItemID.LihzahrdPowerCell, true, 16))
                 {
                     totalChestsToPlace--;

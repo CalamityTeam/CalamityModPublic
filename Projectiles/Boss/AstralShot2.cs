@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (projectile.frame > 3)
                 projectile.frame = 0;
-            
+
             if (projectile.alpha > 0)
                 projectile.alpha -= 25;
             if (projectile.alpha < 0)

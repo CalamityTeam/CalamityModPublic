@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor
                     player.velocity.X *= 1.1f;
                     shouldBoost = false;
                 }
-                    
+
             }
             else if (!shouldBoost && player.velocity.Y == 0)
             {

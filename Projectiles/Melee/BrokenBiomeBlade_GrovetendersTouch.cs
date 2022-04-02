@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Reach => ref projectile.localAI[0];
 
         const float MaxTime = 90;
-        const int coyoteTimeFrames = 15; //How many frames does the whip stay extended 
+        const int coyoteTimeFrames = 15; //How many frames does the whip stay extended
         const int MaxReach = 400;
         const int MinReach = 300;
         const float SnappingPoint = 0.7f; //When does the snap occur.
@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
                 controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.5f, 0f, 1f)) * 0.2f;
                 controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Clamp(ratio + 0.2f, 0f, 1f)) * 0.5f;
             }
-            else //After the whip snaps, make the curve be a wave 
+            else //After the whip snaps, make the curve be a wave
             {
                 Vector2 perpendicular = SwingPosition(ratio).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2);
                 controlPoint1 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * -155f;

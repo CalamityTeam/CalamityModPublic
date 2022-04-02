@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private Player Owner => Main.player[projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        
+
         private ref float DeployedFrames => ref projectile.ai[0];
         private ref float AnimationRate => ref projectile.ai[1];
         private ref float LastShootAttemptTime => ref projectile.localAI[0];

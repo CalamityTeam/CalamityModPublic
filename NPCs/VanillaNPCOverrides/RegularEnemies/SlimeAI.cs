@@ -324,7 +324,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                 if (isLavaSlime)
                     verticalJumpSpeed += 2f;
             }
-            
+
             // Perform the jump.
             npc.velocity.Y = -verticalJumpSpeed;
             npc.velocity.X += horizontalJumpSpeed * npc.direction;

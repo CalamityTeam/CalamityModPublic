@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                projectile.ai[0]++;            
+                projectile.ai[0]++;
                 projectile.velocity.Y = startingVelocityY + (float)(Math.Cos(projectile.ai[0] / 12D + randomAngleDelta) * 7D);
             }
         }
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
         }
         // pretty much entirely from the Oracle circular damage code
-        
+
         private void CircularDamage(float radius)
         {
             if (projectile.owner != Main.myPlayer)

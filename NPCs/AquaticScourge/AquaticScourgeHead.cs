@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 else if (npc.localAI[3] > 0f)
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(npc.localAI[3] / 90f, 0f, 1f));
             }
-            
+
             spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
             return false;

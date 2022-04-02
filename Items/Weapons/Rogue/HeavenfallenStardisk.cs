@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             else
             {
                 Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI);
-            }    
+            }
             return false;
         }
     }

@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             Rectangle type1BodyFrame = new Rectangle(0, BodyType1StartY, FlailTexture.Width, BodyType1SectionHeight);
             Vector2 bodyDrawPosition = projectile.Center.Floor();
             bodyDrawPosition += normalizedVelocity * projectile.scale * 33f;
-            
+
             if (speed > 0f)
             {
                 float counter = 0f;

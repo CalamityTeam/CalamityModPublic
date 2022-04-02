@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int HitsPerFlash = 300;
         public const int FlashBaseDamage = 16000;
-        
+
         private const float SpawnAngleSpread = 0.4f * MathHelper.Pi;
         private const float SpeedRandomness = 0.08f;
         private const float Inaccuracy = 0.04f;

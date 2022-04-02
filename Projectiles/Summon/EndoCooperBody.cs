@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void AI()
-        {   
+        {
             //dust
             if (Main.rand.NextBool(15))
             {
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
             float firerate = 30f;
 
             Projectile limbs = Main.projectile[LimbID];
-            
+
             switch (AttackMode)
             {
                 case 0: chasespeed1 = 29f;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
                 case 1: chasespeed1 = 24f;
                         chasespeed2 = 12f;
                         firerate = 200f;
-                        
+
                         break;
                 case 2: chasespeed1 = 32f;
                         chasespeed2 = 20f;
@@ -265,7 +265,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity.X = -0.15f;
                     projectile.velocity.Y = -0.05f;
                 }
-                
+
             }
 
             if (projectile.ai[1] > 0f)
@@ -276,12 +276,12 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
-            }            
+            }
             if (projectile.ai[0] == 0f)
-            {               
+            {
                 if (projectile.ai[1] == 0f && gotoenemy && mindistance < 600f)
                 {
-                    
+
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {

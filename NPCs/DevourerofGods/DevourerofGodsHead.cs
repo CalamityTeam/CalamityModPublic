@@ -457,7 +457,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.netUpdate = true;
                 }
 
-                // Dialogue the moment the second phase starts 
+                // Dialogue the moment the second phase starts
                 if (CalamityWorld.DoGSecondStageCountdown == 60)
                 {
                     string key = "Mods.CalamityMod.EdgyBossText10";
@@ -1994,7 +1994,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             Vector2 newPosition = GetRiftLocation(true);
-            
+
             if ((!AwaitingPhase2Teleport && (player.dead || !player.active)) || newPosition == default)
                 return;
 
@@ -2080,7 +2080,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 };
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (segments.Contains(Main.npc[i].type) && Main.npc[i].active && 
+                    if (segments.Contains(Main.npc[i].type) && Main.npc[i].active &&
                         (Main.npc[i].type == segments[1] || Main.npc[i].ModNPC<DevourerofGodsBody>().SegmentIndex == index))
                     {
                         for (int j = 0; j < 20; j++)

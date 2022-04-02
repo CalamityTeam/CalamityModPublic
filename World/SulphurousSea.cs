@@ -268,7 +268,7 @@ namespace CalamityMod.World
                 {
                     int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
                     int edgeScore = GetEdgeScore(trueX, y);
-                    
+
                     if (edgeScore >= MinimumEdgeScore)
                     {
                         for (int dx = -SpotWidth / 2; dx <= SpotWidth; dx++)
@@ -501,7 +501,7 @@ namespace CalamityMod.World
                     if (y - YStart > BlockDepth * 0.5f)
                     {
                         if (WorldGen.SolidTile(trueX, y + 1) &&
-                            WorldGen.SolidTile(trueX + 1, y + 1) && 
+                            WorldGen.SolidTile(trueX + 1, y + 1) &&
                             SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).type) &&
                             WorldGen.genRand.NextBool(3) &&
                             Math.Abs(trueX - previousX) >= ColumnMinDistanceX)

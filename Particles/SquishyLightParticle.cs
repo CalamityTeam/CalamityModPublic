@@ -35,7 +35,7 @@ namespace CalamityMod.Particles
 
         public override void Update()
         {
-            Velocity *= (LifetimeCompletion >= 0.34f) ? 0.93f : 1.02f;  
+            Velocity *= (LifetimeCompletion >= 0.34f) ? 0.93f : 1.02f;
 
             Opacity = LifetimeCompletion > 0.5f ? (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f + 0.8f : (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
             Scale *= 0.95f;
@@ -43,7 +43,7 @@ namespace CalamityMod.Particles
             Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch) 
+        public override void CustomDraw(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("CalamityMod/Particles/Light");
             Texture2D bloomTex = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");

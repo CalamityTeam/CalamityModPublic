@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                 }
             }
-            
+
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 

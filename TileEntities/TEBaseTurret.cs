@@ -80,7 +80,7 @@ namespace CalamityMod.TileEntities
                 ActiveBehavior(turretPos, TargetPos);
                 FiringTime++;
             }
-            
+
             // Otherwise, reset the running "firing timer" and exhibit passive behavior.
             else
             {
@@ -100,7 +100,7 @@ namespace CalamityMod.TileEntities
         public virtual void UpdateAngle()
         {
             float targetAngle = TargetAngle;
-            
+
             // WrapAngle clamps things from -pi to pi, not from 0 to 2pi.
             float deltaAngle = MathHelper.WrapAngle(Angle - targetAngle);
             bool usingCloseAiming = Math.Abs(deltaAngle) <= Math.Max(CloseAimThreshold, MaxDeltaAnglePerFrame);
@@ -175,7 +175,7 @@ namespace CalamityMod.TileEntities
         // void OnKill()
         // TagCompound Save()
         // void Load(TagCompound tag)
-        // 
+        //
         // Subclasses can override these TML hooks as they please. The base turret does not need to use them.
 
         public override void NetSend(BinaryWriter writer, bool lightSend)

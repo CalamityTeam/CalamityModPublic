@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 //Switch up the attunements
                 Reattune((FourSeasonsGalaxia)associatedItem.modItem);
 
-                //Do particles around the player 
+                //Do particles around the player
 
                 Color particleColor = (associatedItem.modItem as FourSeasonsGalaxia).mainAttunement.tooltipColor;
                 for (int i = 0; i <= 5; i++)
@@ -87,16 +87,16 @@ namespace CalamityMod.Projectiles.Melee
             {
                 switch (item.mainAttunement.id)
                 {
-                    case AttunementID.Phoenix: //Switching to the aries attunement. 
+                    case AttunementID.Phoenix: //Switching to the aries attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Aries];
                         break;
-                    case AttunementID.Aries: //Switching to the polaris attunement. 
+                    case AttunementID.Aries: //Switching to the polaris attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Polaris];
                         break;
-                    case AttunementID.Polaris: //Switching to the andromeda attunement. 
+                    case AttunementID.Polaris: //Switching to the andromeda attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Andromeda];
                         break;
-                    case AttunementID.Andromeda: //Switching to the phoenix attunement. 
+                    case AttunementID.Andromeda: //Switching to the phoenix attunement.
                     default:
                         attunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
                         break;
@@ -106,16 +106,16 @@ namespace CalamityMod.Projectiles.Melee
             {
                 switch (item.mainAttunement.id)
                 {
-                    case AttunementID.Phoenix: //Switching to the andromeda attunement. 
+                    case AttunementID.Phoenix: //Switching to the andromeda attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Andromeda];
                         break;
-                    case AttunementID.Andromeda: //Switching to the polaris attunement. 
+                    case AttunementID.Andromeda: //Switching to the polaris attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Polaris];
                         break;
-                    case AttunementID.Polaris: //Switching to the aries attunement. 
+                    case AttunementID.Polaris: //Switching to the aries attunement.
                         attunement = Attunement.attunementArray[(int)AttunementID.Aries];
                         break;
-                    case AttunementID.Aries: //Switching to the phoenix attunement. 
+                    case AttunementID.Aries: //Switching to the phoenix attunement.
                     default:
                         attunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
                         break;

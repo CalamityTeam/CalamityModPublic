@@ -288,7 +288,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                     for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
-                        if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>() 
+                        if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
                             || Main.npc[num957].type == ModContent.NPCType<StormWeaverHead>()
                             || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
                         {

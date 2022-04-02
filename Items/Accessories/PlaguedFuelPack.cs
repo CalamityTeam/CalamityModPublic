@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Plagued Fuel Pack");
             Tooltip.SetDefault("5% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +
-                "TOOLTIP LINE HERE" + 
+                "TOOLTIP LINE HERE" +
                 "This effect has a 1 second cooldown before it can be used again");
         }
 

@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddRecipe();
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
-        
+
         public override float UseTimeMultiplier(Player player)
         {
             return 1f;

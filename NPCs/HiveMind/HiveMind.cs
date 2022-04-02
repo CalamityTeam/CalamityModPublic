@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.HiveMind
 
                 Vector2 center = npc.Center - Main.screenPosition;
                 spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
-                
+
                 return false;
             }
 

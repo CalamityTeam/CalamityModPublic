@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     public class SystemBane : RogueWeapon
     {
         public const int MaxDeployedProjectiles = 5;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("System Bane");

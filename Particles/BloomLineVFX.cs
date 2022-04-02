@@ -31,7 +31,7 @@ namespace CalamityMod.Particles
             Rotation = 0;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch) 
+        public override void CustomDraw(SpriteBatch spriteBatch)
         {
             Texture2D tex = GeneralParticleHandler.GetTexture(Type);
             float rot = LineVector.ToRotation() + MathHelper.PiOver2;
@@ -49,7 +49,7 @@ namespace CalamityMod.Particles
                 spriteBatch.Draw(cap, Position + LineVector - Main.screenPosition, null, Color, rot, origin, scale, SpriteEffects.None, 0);
             }
 
-            
+
         }
     }
 }

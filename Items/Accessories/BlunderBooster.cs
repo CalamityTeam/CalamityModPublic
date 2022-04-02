@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("12% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +
                 "Summons a red lightning aura to surround the player and electrify nearby enemies\n" +
-                "TOOLTIP LINE HERE" + 
+                "TOOLTIP LINE HERE" +
                 "This effect has a 1 second cooldown before it can be used again");
         }
 

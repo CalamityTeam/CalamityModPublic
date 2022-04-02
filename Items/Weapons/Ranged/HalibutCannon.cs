@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HalibutCannon : ModItem
-    {        
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Halibut Cannon");

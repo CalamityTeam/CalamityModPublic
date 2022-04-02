@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {    
+        {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

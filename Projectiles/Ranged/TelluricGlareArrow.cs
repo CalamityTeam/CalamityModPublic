@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.timeLeft > 8)
                 projectile.timeLeft = 8;
         }
-        
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             RestrictLifetime();
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
-            
+
             // Explode into a bunch of holy fire on death.
             for (int i = 0; i < 10; i++)
             {

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Burning Strife");
-            Tooltip.SetDefault("Throws a shadowflame spiky ball that bursts into flames\n" + 
+            Tooltip.SetDefault("Throws a shadowflame spiky ball that bursts into flames\n" +
                                "Stealth Strikes make the ball linger and explode more violently\n" +
                                "'Definitely not pocket safe'");
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<BurningStrifeProj>();
 
-            item.Calamity().rogue = true; 
+            item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[proj].Calamity().stealthStrike = true;
-                Main.projectile[proj].penetrate = 5;            
+                Main.projectile[proj].penetrate = 5;
             }
             return false;
         }

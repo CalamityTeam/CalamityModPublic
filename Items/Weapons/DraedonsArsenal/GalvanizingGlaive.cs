@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             DisplayName.SetDefault("Galvanizing Glaive");
             Tooltip.SetDefault("Its use as a tool is to quickly separate a single object into two\n" +
                 "That is also its use as a weapon\n" +
-                "Swings a spear which envelops struck foes in an energy field\n" + 
+                "Swings a spear which envelops struck foes in an energy field\n" +
                 "When done swinging, the spear discharges an extra pulse of energy");
         }
 
@@ -37,11 +37,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            
+
             item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            
+
             item.shoot = ModContent.ProjectileType<GalvanizingGlaiveProjectile>();
             item.shootSpeed = 21f;
 

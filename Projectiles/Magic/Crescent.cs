@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile parent = Main.projectile[(int)projectile.ai[0]];
-            if (!parent.active) 
+            if (!parent.active)
                 projectile.Kill();
 
             projectile.rotation += 0.7f;

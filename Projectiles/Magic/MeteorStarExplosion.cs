@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                     damage /= 2;
             }
         }
-        
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.GiveIFrames(target.longInvince ? 100 : 60, true);

@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Center = center;
                 Rotation = rotation;
             }
-            
+
             public void SendData(BinaryWriter writer)
             {
                 writer.WritePackedVector2(Center);

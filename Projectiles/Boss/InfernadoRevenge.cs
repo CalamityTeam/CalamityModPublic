@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Boss
                 drawPosition += (angle + Main.GlobalTime * i / 16f).ToRotationVector2() * 6f;
                 spriteBatch.Draw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
             }
-            
+
             return false;
         }
 
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             target.Calamity().lastProjectileHit = projectile;
         }

@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            if (player.dead || 
+            if (player.dead ||
                 projectile.Center.Y < 200f ||
                 projectile.Center.X < 200f ||
                 projectile.Center.X > Main.maxTilesX * 16f - 200f)
@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
         // Force the spear to have "priority" when drawing so that it draws over the player.
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, 
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles,
                                                    List<int> drawCacheProjsBehindNPCs,
                                                    List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsOverWiresUI.Add(index);
 

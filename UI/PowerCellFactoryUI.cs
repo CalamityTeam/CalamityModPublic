@@ -24,7 +24,7 @@ namespace CalamityMod.UI
             Player p = Main.LocalPlayer;
             CalamityPlayer mp = p.Calamity();
             int factoryID = mp.CurrentlyViewedFactoryID;
-            
+
             // The UI only draws if the player is viewing a factory.
             if (factoryID == -1)
                 return;

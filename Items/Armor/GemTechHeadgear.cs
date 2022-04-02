@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Armor
                 $"When a gem is lost, it breaks off and homes towards the nearest enemy or boss, if one is present, dealing a base of {GemDamage} damage\n" +
                 $"Gems have a {GemRegenTime / 60} second delay before they appear again\n" +
                 redGemText +
-                yellowGemText + 
+                yellowGemText +
                 greenGemText +
                 blueGemText +
                 purpleGemText +

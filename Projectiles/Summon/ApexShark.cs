@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Summon
             float num635 = 2200f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<ApexShark>();
-            
+
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<ApexSharkBuff>(), 3600);
             if (flag64)
@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            
+
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.projectile[sand].Center = projectile.Center;
             projectile.netUpdate = true;
             HitCooldown = 20;
-            
+
         }
 
         public override bool? CanHitNPC(NPC target)

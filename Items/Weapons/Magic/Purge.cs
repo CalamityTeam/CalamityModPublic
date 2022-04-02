@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class Purge : ModItem
     {
         public const int UseTime = 20;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nano Purge");

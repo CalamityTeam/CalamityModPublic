@@ -11,7 +11,7 @@ namespace CalamityMod.Particles
         public Color DarkColor;
         public override int ParticleLifetime => 50;
 
-        public FireParticleSet(int setLifetime, int particleSpawnRate, Color brightColor, Color darkColor, float spawnAreaCompactness, float relativePower) : 
+        public FireParticleSet(int setLifetime, int particleSpawnRate, Color brightColor, Color darkColor, float spawnAreaCompactness, float relativePower) :
             base(setLifetime, particleSpawnRate)
         {
             BrightColor = brightColor;

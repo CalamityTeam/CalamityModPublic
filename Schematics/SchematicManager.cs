@@ -51,7 +51,7 @@ namespace CalamityMod.Schematics
             PilePlacementMaps = null;
         }
         #endregion
-        
+
         #region Get Schematic Area
         public static Vector2? GetSchematicArea(string name)
         {
@@ -62,7 +62,7 @@ namespace CalamityMod.Schematics
             return new Vector2(schematic.GetLength(0), schematic.GetLength(1));
         }
         #endregion Get Schematic Area
-        
+
         #region Place Schematic
         public static void PlaceSchematic<T>(string name, Point pos, SchematicAnchor anchorType, ref bool specialCondition, T chestDelegate = null) where T : Delegate
         {
@@ -156,7 +156,7 @@ namespace CalamityMod.Schematics
                 for (int y = 0; y < height; ++y)
                     if (originalTiles[x, y].type != TileID.Containers)
                         WorldGen.KillTile(x + cornerX, y + cornerY);
-            
+
             // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)

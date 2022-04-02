@@ -239,7 +239,7 @@ namespace CalamityMod.World
                 maxAbyssIslands = 16; //Medium World
 
             // Place the Terminus shrine.
-            UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(), 
+            UndergroundShrines.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
                 (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), UndergroundShrines.UndergroundShrineType.Abyss, abyssChasmX, CalamityWorld.abyssChasmBottom);
 
             int islandLocationOffset = 30;

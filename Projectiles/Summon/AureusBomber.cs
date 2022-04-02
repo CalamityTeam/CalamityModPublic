@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.spriteDirection = projectile.direction = -1;
             else if (projectile.velocity.X < 0f)
                 projectile.spriteDirection = projectile.direction = 1;
-            
+
             //tile collision
             projectile.tileCollide = true;
             if (projectile.ai[0] == 1f)

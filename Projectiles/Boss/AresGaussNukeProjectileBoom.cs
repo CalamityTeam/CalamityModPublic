@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             //It only fades out near the end
             else
                 opacity = (float)Math.Cos(((completion - 0.8f) / 0.2f * MathHelper.Pi) / 2f); ;
-            
+
             return opacity * 0.85f;
         }
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

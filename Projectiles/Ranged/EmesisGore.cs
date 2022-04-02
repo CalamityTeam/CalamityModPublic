@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
-{   
+{
     public class EmesisGore : ModProjectile
     {
         public int HurtCounter = 0;

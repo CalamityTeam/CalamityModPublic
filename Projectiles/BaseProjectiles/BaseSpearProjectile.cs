@@ -116,10 +116,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
                     // The motion moves in an imaginary circle, but the cane does not because it relies on
                     // its ai[0] X multiplier, giving it the "swiping" motion.
-                    Vector2 flatVelocity = Vector2.UnitX.RotatedBy(MathHelper.Pi + inverseAnimationCompletion * MathHelper.TwoPi) * 
+                    Vector2 flatVelocity = Vector2.UnitX.RotatedBy(MathHelper.Pi + inverseAnimationCompletion * MathHelper.TwoPi) *
                         new Vector2(originalVelocitySpeed, projectile.ai[0]);
 
-                    projectile.position += flatVelocity.RotatedBy(originalVelocityDirection) + 
+                    projectile.position += flatVelocity.RotatedBy(originalVelocityDirection) +
                         new Vector2(originalVelocitySpeed + TravelSpeed, 0f).RotatedBy(originalVelocityDirection);
 
                     // Determine how to rotate. The larger the 40 value is, the more rapidly the projectile rotates.
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public override void AI()
         {
             Behavior();
-            if ((SpearAiType == SpearType.GhastlyGlaiveSpear && !Main.player[projectile.owner].frozen) || 
+            if ((SpearAiType == SpearType.GhastlyGlaiveSpear && !Main.player[projectile.owner].frozen) ||
                 SpearAiType == SpearType.TypicalSpear)
             {
                 ExtraBehavior();

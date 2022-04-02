@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public Player Owner => Main.player[projectile.owner];
         public const float ZeroChargeDamageRatio = 0.36f;
-        public const float ToothDamageRatio = 0.1666667f; 
+        public const float ToothDamageRatio = 0.1666667f;
         public const int ToothShootRate = 5; // One chainsaw tooth is emitted every this many frames.
         public const int ChargeUpTime = 150;
         public ref float Time => ref projectile.ai[0];

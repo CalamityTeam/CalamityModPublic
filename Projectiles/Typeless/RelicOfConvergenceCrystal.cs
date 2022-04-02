@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Vector2 drawPositionOffset = angle.ToRotationVector2() * radius;
                 Vector2 drawPosition = projectile.Center + drawPositionOffset;
                 spriteBatch.Draw(crystalTexture,
-                                 drawPosition - Main.screenPosition, 
+                                 drawPosition - Main.screenPosition,
                                  null,
                                  Color.White * opacity,
                                  projectile.rotation,

@@ -36,7 +36,7 @@ namespace CalamityMod.TileEntities
                 return Time % totalCycleTime;
             }
         }
-        
+
         private bool IsCellFrame
         {
             get

@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Accessories
                         if (line.Name == "Tooltip0")
                         {
                             index = tooltips.IndexOf(line);
-                        } 
+                        }
                         else
                         {
                             line.text = "";
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Accessories
                     {
                         line.text = "";
                     }
-                        
+
                 }
                 string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure
                 tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", rejectionReason + "\nMerchants will reject a defiled soul such as this."));

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/HyperiusBulletProj";
         private Color currentColor = Color.Black;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bad Time");

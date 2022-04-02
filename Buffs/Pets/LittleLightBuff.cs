@@ -21,7 +21,7 @@ namespace CalamityMod.Buffs.Pets
 
             player.Calamity().littleLightPet = true;
             bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<LittleLightProj>()] <= 0;
-            if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)            
+            if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
                 Projectile.NewProjectile(player.Center, -Vector2.UnitY * 10f, ModContent.ProjectileType<LittleLightProj>(), 0, 0f, player.whoAmI, 0f, 0f);
         }
     }

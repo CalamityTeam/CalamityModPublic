@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f), 
+                    Projectile.NewProjectile(projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
                         Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 4f, ModContent.ProjectileType<SkeletalDragonChild>(), projectile.damage, projectile.knockBack, player.whoAmI, projectile.whoAmI);
                 }
                 projectile.localAI[0] = 1f;

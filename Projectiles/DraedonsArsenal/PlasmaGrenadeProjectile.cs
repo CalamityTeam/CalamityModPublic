@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
 
         private static readonly float Gravity = 0.09f;
-        
+
         public float Time
         {
             get => projectile.ai[0];

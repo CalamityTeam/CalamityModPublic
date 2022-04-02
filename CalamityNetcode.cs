@@ -143,9 +143,9 @@ namespace CalamityMod
                         (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
                         break;
 
-                    // 
+                    //
                     // General syncs for entities
-                    // 
+                    //
 
                     case CalamityModMessageType.SpawnNPCOnPlayer:
                         x = reader.ReadInt32();
@@ -241,9 +241,9 @@ namespace CalamityMod
                         CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
                         break;
 
-                    // 
+                    //
                     // Draedon Summoner stuff
-                    // 
+                    //
                     case CalamityModMessageType.CodebreakerSummonStuff:
                         CalamityWorld.DraedonSummonCountdown = reader.ReadInt32();
                         CalamityWorld.DraedonSummonPosition = reader.ReadVector2();

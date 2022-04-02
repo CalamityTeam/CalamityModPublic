@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             DevourerofGodsHead modNPC = head?.ModNPC<DevourerofGodsHead>() ?? null;
             if (head is null || modNPC.AwaitingPhase2Teleport || !modNPC.Phase2Started)
                 return;
-            
+
             rotation = npc.rotation;
         }
 
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.AttemptingToEnterPortal ?? false)
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient) 
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile portal = Main.projectile[Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
                         float newOpacity = 1f - Utils.InverseLerp(270f, 100f, npc.Distance(portal.Center), true);

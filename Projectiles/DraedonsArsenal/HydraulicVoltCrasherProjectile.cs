@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (player.channel && modItem.Charge >= HydraulicVoltCrasher.HoldoutChargeUse)
                 {
                     modItem.Charge -= HydraulicVoltCrasher.HoldoutChargeUse;
-                    
+
                     float speed = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
                     Vector2 toPointTo = Main.MouseWorld;
                     if (player.gravDir == -1f)

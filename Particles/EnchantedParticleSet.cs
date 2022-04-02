@@ -10,7 +10,7 @@ namespace CalamityMod.Particles
         public Color EdgeColor;
         public Color CenterColor;
         public override int ParticleLifetime => 50;
-        public ChargingEnergyParticleSet(int setLifetime, int particleSpawnRate, Color edgeColor, Color centerColor, float interpolationSpeed, float edgeOffset) : 
+        public ChargingEnergyParticleSet(int setLifetime, int particleSpawnRate, Color edgeColor, Color centerColor, float interpolationSpeed, float edgeOffset) :
             base(setLifetime, particleSpawnRate)
         {
             EdgeColor = edgeColor;

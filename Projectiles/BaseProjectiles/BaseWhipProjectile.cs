@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 direction *= -1f;
             }
-            // As ai[0], the timer, goes up, 
+            // As ai[0], the timer, goes up,
             Vector2 velocityAdditive = (direction * (projectile.ai[0] / 30f * MathHelper.TwoPi - MathHelper.PiOver2)).ToRotationVector2();
 
             // ai[1] = A starting rotation value. With a min of 0 and a max of pi/4
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             DrawHandleSprite(in lightColor);
 
             Vector2 normalizedVelocity = Vector2.Normalize(projectile.velocity);
-            
+
             float speed = projectile.velocity.Length() + 16f - 40f * projectile.scale;
 
             Vector2 bodyDrawPosition = projectile.Center.Floor() + normalizedVelocity * projectile.scale * 20f;
@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 whipEndPosition - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
                 new Rectangle?(tailFrame),
                 lightColor,
-                projectile.rotation + MathHelper.Pi, 
+                projectile.rotation + MathHelper.Pi,
                 FlailTexture.Frame(1, 1, 0, 0).Top(),
                 projectile.scale,
                 SpriteEffects.None,

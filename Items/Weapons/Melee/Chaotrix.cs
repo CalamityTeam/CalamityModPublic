@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.channel = true;
             item.noUseGraphic = true;
             item.noMelee = true;
-            
+
             item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
             item.shootSpeed = 14f;
 

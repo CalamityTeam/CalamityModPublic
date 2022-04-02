@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs
         }
 
         /// <summary>
-        /// Causes an NPC to run on the X axis until it hits the maximum speed and decclerates as needed. 
+        /// Causes an NPC to run on the X axis until it hits the maximum speed and decclerates as needed.
         /// Works best with fighter AI based NPCs.
         /// </summary>
         /// <param name="npc">The NPC to manipulate</param>
@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs
             }
             if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
             {
-                // Pissed off 
+                // Pissed off
                 if (npc.ai[3] < 0f)
                 {
                     npc.damage = 0;
@@ -1063,7 +1063,7 @@ namespace CalamityMod.NPCs
             // This variable means so many fucking things for different NPCs
             // Such as npc spawn timer, projectile timer, ect
             // From what I can gather, the ai2 value's max for spawning things also varies
-            // As a result, I'll just leave this as flag7. If anyone has 
+            // As a result, I'll just leave this as flag7. If anyone has
             // Ideas for a better variable name, please change it
             bool flag7 = npc.ai[2] <= 0f;
             if (npcType <= NPCID.RayGunner)
@@ -1098,7 +1098,7 @@ namespace CalamityMod.NPCs
             {
                 goto PrepareToShoot;
             }
-        // If anyone can give me an explanation of the real noticable differences between 
+        // If anyone can give me an explanation of the real noticable differences between
         //& and && (same with | and ||) with booleans,
         // I'd greatly appreciate it
         PrepareToShoot:
@@ -5498,9 +5498,9 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.VoodooDemon ||
                 npc.type == NPCID.GiantBat ||
                 npc.type == NPCID.IlluminantBat ||
-                npc.type == NPCID.IceBat || 
-                npc.type == NPCID.Lavabat || 
-                npc.type == NPCID.GiantFlyingFox || 
+                npc.type == NPCID.IceBat ||
+                npc.type == NPCID.Lavabat ||
+                npc.type == NPCID.GiantFlyingFox ||
                 npc.type == ModContent.NPCType<SunBat>() ||
                 npc.type == ModContent.NPCType<PlaguedFlyingFox>())
             {
@@ -5557,8 +5557,8 @@ namespace CalamityMod.NPCs
             // Turn back into a walking bat when possible
             if (npc.type == NPCID.VampireBat && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (npc.Distance(Main.player[npc.target].Center) < 200f && 
-                    npc.Center.Y < Main.player[npc.target].Center.Y && 
+                if (npc.Distance(Main.player[npc.target].Center) < 200f &&
+                    npc.Center.Y < Main.player[npc.target].Center.Y &&
                     Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     npc.Transform(NPCID.Vampire);
@@ -6018,7 +6018,7 @@ namespace CalamityMod.NPCs
                 npc.ai[0] = 1f;
                 return false;
             }
-            // Collision 
+            // Collision
             // Turn around on X collision
             if (npc.collideX)
             {
@@ -8959,9 +8959,9 @@ namespace CalamityMod.NPCs
 
             // Make it rain
             float minXRainDistance = 150f;
-            if (npc.Center.X > Main.player[npc.target].position.X - minXRainDistance && 
+            if (npc.Center.X > Main.player[npc.target].position.X - minXRainDistance &&
                 npc.position.X < Main.player[npc.target].Center.X + minXRainDistance &&
-                npc.Center.Y < Main.player[npc.target].position.Y && 
+                npc.Center.Y < Main.player[npc.target].position.Y &&
                 Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) &&
                 Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -9510,7 +9510,7 @@ namespace CalamityMod.NPCs
                     return false;
                 }
 
-                // If a player is below and nearby the probe, become active 
+                // If a player is below and nearby the probe, become active
                 if (distanceFromPlayer < 440f && Main.player[playerIndex].Center.Y > npc.Center.Y)
                 {
                     npc.ai[0] = 1f;

@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Dust dust = Dust.NewDustDirect(projectile.Center, 14, 14, 60, 0f, 0f, 110, default, 1f);
                 dust.velocity = player.SafeDirectionTo(dust.position) * 2f;
-                dust.position = projectile.Center + 
+                dust.position = projectile.Center +
                     initalVelocity.RotatedBy(completionAsAngle * 2f + i / dustCount * MathHelper.TwoPi) * 10f;
                 dust.scale = 1f + Main.rand.NextFloat(0.6f);
                 dust.velocity += initalVelocity * 3f;
@@ -92,8 +92,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D alternateHookTexture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt") : Main.projectileTexture[projectile.type];
             Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? alternateHookTexture.Width + 8f : -8f, -8f);
-            spriteBatch.Draw(alternateHookTexture, drawPosition, null, 
-                new Color(255, 255, 255, 127), projectile.rotation, 
+            spriteBatch.Draw(alternateHookTexture, drawPosition, null,
+                new Color(255, 255, 255, 127), projectile.rotation,
                 origin, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }

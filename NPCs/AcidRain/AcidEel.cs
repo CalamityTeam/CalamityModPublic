@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     waterAbove = true;
                     break;
-                }    
+                }
             }
 
             if (waterAbove)
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (npc.velocity.Length() > 1.5f)
                 CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
         }
-        
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)

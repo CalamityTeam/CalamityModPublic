@@ -802,7 +802,7 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak MaxStack(int stk) => new MaxStackRule(stk);
-        
+
         internal class PickPowerRule : IItemTweak
         {
             internal readonly int newPickPower = 0;
@@ -824,7 +824,7 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it) => it.Calamity().canFirePointBlankShots = true;
         }
         internal static IItemTweak PointBlank => new PointBlankRule();
-        
+
         #region Scale (True Melee)
         internal class ScaleDeltaRule : IItemTweak
         {
@@ -938,7 +938,7 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it) => it.tileBoost = newTileBoost;
         }
         internal static IItemTweak TileBoostExact(int tb) => new TileBoostExactRule(tb);
-        
+
         internal class TrueMeleeRule : IItemTweak
         {
             public bool AppliesTo(Item it) => IsMelee(it);
@@ -1000,7 +1000,7 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak UseRatio(float f) => new UseRatioRule(f);
-        
+
         internal class UseAnimationDeltaRule : IItemTweak
         {
             internal readonly int delta = 0;

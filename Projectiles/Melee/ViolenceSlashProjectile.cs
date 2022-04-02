@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
                 return;
             }
-                
+
             ManipulatePlayerFields();
             DoMovement();
 

@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs
                         npc.ai[3] = 0f;
                         npc.netUpdate = true;
                     }
-                    
+
                     npc.spriteDirection = npc.direction = (npc.velocity.X > 0).ToDirectionInt();
                     npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.025f) / 5f;
 

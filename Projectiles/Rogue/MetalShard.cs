@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.localAI[1] = Main.rand.Next(1, 4);
             switch (projectile.localAI[1])
             {
-                
+
                 case 2f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MetalShard2");
                          break;
                 case 3f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MetalShard3");

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const float AmmoNotConsumeChance = 0.9f;
         private const float AltFireShootSpeed = 17f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photoviscerator");

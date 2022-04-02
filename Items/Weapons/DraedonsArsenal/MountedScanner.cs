@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 if (projectile.owner != player.whoAmI)
                     continue;
                 float completionRatio = currentScannerIndex / (float)totalOwnedScanners;
-                
+
                 // ai[0] is the angular offset relative to the projectile's owner.
                 // For the first 15 summons, wrap around the player angularly, but not at a perfect angle, a bit like the Dazzling Stabbers when idle.
                 // But once the total summon count is greater than 15, just create a perfect circle depending on the total amount of summons.

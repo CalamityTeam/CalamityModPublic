@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // Remember, && doesn't evaluate future statements if the statement it just evaluated is true.
             // This means that null problems should never happen, since it wouldn't pass the potentialTarget != null check.
             NPC potentialTarget = projectile.Center.MinionHoming(800f, player);
-            if (potentialTarget != null && 
+            if (potentialTarget != null &&
                 Math.Abs(potentialTarget.Center.X - projectile.Center.X) < 320f &&
                 Math.Sign(potentialTarget.Center.Y - projectile.Center.Y) == -1 &&
                 Math.Abs(potentialTarget.Center.Y - projectile.Center.Y) < 160f &&

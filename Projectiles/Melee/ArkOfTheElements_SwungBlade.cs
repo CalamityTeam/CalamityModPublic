@@ -382,7 +382,7 @@ namespace CalamityMod.Projectiles.Melee
                     spriteBatch.Draw(frontBladeGlow, drawOffset, null, color * 0.15f, afterimageRotation, drawOrigin, projectile.scale - 0.2f * ((i / (float)projectile.oldRot.Length)), flip, 0f);
                 }
             }
-            
+
             spriteBatch.Draw(backBlade, backScissorDrawPosition, null, lightColor, backScissorRotation, backScissorOrigin, projectile.scale, flip, 0f);
             spriteBatch.Draw(backBladeGlow, backScissorDrawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), backScissorRotation, backScissorOrigin, projectile.scale, flip, 0f);
 

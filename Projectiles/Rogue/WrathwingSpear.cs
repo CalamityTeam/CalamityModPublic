@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class WrathwingSpear : ModProjectile
     {
         private const float FireballAngleVariance = 0.07f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrathwing");
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.owner == Main.myPlayer && projectile.ai[0] <= 0f)
             {
                 projectile.ai[0] = Main.rand.NextFloat(15f, 19f);
-                
+
                 int fireballID = ModContent.ProjectileType<WrathwingFireball>();
                 int damage = (int)(projectile.damage * 0.8f);
                 float angleDiff = Main.rand.NextFloat(-FireballAngleVariance, FireballAngleVariance);

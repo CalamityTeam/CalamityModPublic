@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int BaseDamage = 5185;
         public const float SkullRatio = 0.08f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");

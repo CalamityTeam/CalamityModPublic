@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormTail>(), npc.whoAmI);
-                        
+
                         // Create arms.
                         if (i >= 3 && i % 4 == 0)
                         {

@@ -2955,7 +2955,7 @@ namespace CalamityMod.NPCs
                     npc.localAI[1] += 1f;
                     if (death)
                         npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
-                    
+
                     if (phase3)
                     {
                         npc.localAI[1] += 1f;
@@ -6903,7 +6903,7 @@ namespace CalamityMod.NPCs
                         {
                             Projectile.NewProjectile(vectorCenter, Vector2.Zero, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 15f, i * offsetAngle);
                         }
-                        
+
                         totalProjectiles = 16;
                         chains = 4;
                         float velocityTimer = 90f / (totalProjectiles / chains);

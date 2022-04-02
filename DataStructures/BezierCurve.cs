@@ -33,7 +33,7 @@ namespace CalamityMod.DataStructures
 
                 points = nextPoints;
             }
-            
+
             return Vector2.Lerp(points[0], points[1], T);
         }
     }

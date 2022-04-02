@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
         private const int NoHomingFrames = 40;
         private const int NoHitFrames = 10;
         private const int NoDrawFrames = 5;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Soul");

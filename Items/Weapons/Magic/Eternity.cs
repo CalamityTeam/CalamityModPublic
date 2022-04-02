@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Magic
             tt2.text = $"[" + DisoHex + "There's pictures of ponies in the book]";
         }
         public static string DisoHex => "c/" +
-            ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2") 
+            ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2")
             + 108.ToString("X2") + 251.ToString("X2") + ":";
         public override void AddRecipes()
         {

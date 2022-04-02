@@ -124,7 +124,7 @@ namespace CalamityMod.UI
                     // Otherwise, if the slot is clicked, try to swap it with the player's held item. There are a few cases this succeeds:
                     // 1) The player's held item is air and the plugged item is NOT air.
                     // 2) The player's held item is chargeable.
-                    // If neither case meets, then nothing happens 
+                    // If neither case meets, then nothing happens
                     else if((playerHandItem.IsAir && !pluggedItem.IsAir) || (!playerHandItem.IsAir && playerHandItem.Calamity().UsesCharge))
                     {
                         Utils.Swap(ref playerHandItem, ref pluggedItem);
@@ -151,7 +151,7 @@ namespace CalamityMod.UI
                 {
                     short chargerStackDiff = 0;
                     bool shiftClicked = false;
-                    
+
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
                     {

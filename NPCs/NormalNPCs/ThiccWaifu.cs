@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.ai[0] = (int)value;
                     npc.netUpdate = true;
-                }                    
+                }
             }
         }
         public bool Phase2 => npc.life < npc.lifeMax * 0.5f;

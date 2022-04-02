@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void AI()
         {
             Time++;
-            
+
             if (Time < ChargeTime && OldVelocity == Vector2.Zero)
             {
                 OldVelocity = projectile.velocity;
