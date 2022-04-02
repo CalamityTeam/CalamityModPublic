@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class AstrealFlame : ModProjectile
+    public class AstrealFlame : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Healing/EssenceFlame";
 
@@ -26,9 +26,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.alpha -= 5;
 
@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.frame > 3)
                 projectile.frame = 0;
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

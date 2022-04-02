@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             DisplayName.SetDefault("Cosmolight");
             Tooltip.SetDefault("Changes night to day and vice versa\n" +
-				"Does not work while a boss is alive");
+                "Does not work while a boss is alive");
         }
 
         public override void SetDefaults()
@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FallenStar, 10); // Made it slightly more expensive than requested. - Merkalto
-			recipe.AddIngredient(ItemID.SoulofLight, 7);
-			recipe.AddIngredient(ItemID.SoulofNight, 7);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-			recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.SoulofLight, 7);
+            recipe.AddIngredient(ItemID.SoulofNight, 7);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

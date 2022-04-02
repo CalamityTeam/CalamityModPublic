@@ -54,18 +54,18 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Brimlance>(w),
                 DropHelper.WeightStack<SeethingDischarge>(w),
                 DropHelper.WeightStack<DormantBrimseeker>(w),
-				DropHelper.WeightStack<RoseStone>(w)
-			);
+                DropHelper.WeightStack<RoseStone>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
             DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
             DropHelper.DropItemChance(player, ModContent.ItemType<Hellborn>(), 0.1f);
             DropHelper.DropItemChance(player, ModContent.ItemType<FabledTortoiseShell>(), 0.1f);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
 
-			// Vanity
-			DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
+            // Vanity
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
             DropHelper.DropItemChance(player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
         }
     }

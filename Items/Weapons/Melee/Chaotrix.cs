@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Fault Line");
             Tooltip.SetDefault("Explodes on enemy hits\n" +
-			"A very agile yoyo");
+            "A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;

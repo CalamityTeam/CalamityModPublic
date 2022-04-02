@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<StarSwallowerSummon>();
             player.AddBuff(ModContent.BuffType<StarSwallowerBuff>(), 3600);
@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Vector2 returnPosition = projectile.Center;
             returnPosition.Y -= 200 * 16;
-			returnPosition.Y = MathHelper.Clamp(returnPosition.Y, 50, Main.maxTilesX * 16 - 50);
+            returnPosition.Y = MathHelper.Clamp(returnPosition.Y, 50, Main.maxTilesX * 16 - 50);
 
             bool noGround = !WorldUtils.Find(returnPosition.ToTileCoordinates(), Searches.Chain(new Searches.Down(400), new GenCondition[]
             {

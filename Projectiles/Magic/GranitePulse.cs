@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Magic
                 int projType = projectile.type;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-					Projectile proj = Main.projectile[i];
+                    Projectile proj = Main.projectile[i];
                     if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
                         projCount++;
@@ -153,9 +153,9 @@ namespace CalamityMod.Projectiles.Magic
             Texture2D texture = Main.projectileTexture[projectile.type];
             int height = texture.Height / Main.projFrames[projectile.type];
             int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), projectile.scale, spriteEffects, 0f);
             return false;
         }

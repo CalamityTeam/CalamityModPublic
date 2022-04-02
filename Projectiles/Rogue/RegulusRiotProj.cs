@@ -47,10 +47,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100);
-			Main.dust[blueDust].noGravity = true;
+            Main.dust[blueDust].noGravity = true;
             Main.dust[blueDust].velocity = Vector2.Zero;
             int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100);
-			Main.dust[orangeDust].noGravity = true;
+            Main.dust[orangeDust].noGravity = true;
             Main.dust[orangeDust].velocity = Vector2.Zero;
 
             projectile.ai[0] += 1f;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 if (projectile.ai[0] >= 30f)
                 {
-					projectile.extraUpdates = 2;
+                    projectile.extraUpdates = 2;
                     projectile.velocity *= 0.98f;
                     projectile.rotation -= 0.0174532924f;
                 }
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity.Normalize();
                     projectile.velocity *= 4f;
                     projectile.ai[0] = 0f;
-					projectile.extraUpdates = 1;
+                    projectile.extraUpdates = 1;
                 }
             }
             else if (behaviorInt == 1)
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                     {
-						NPC npc = Main.npc[npcIndex];
+                        NPC npc = Main.npc[npcIndex];
                         if (npc.CanBeChasedBy(projectile, false))
                         {
                             Vector2 npcCenter = npc.Center;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 targetCenter = npcCenter;
                                 homeIn = true;
                                 targetIndex = npcIndex;
-								break;
+                                break;
                             }
                         }
                     }
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.ai[1] != 0f)
                 {
                     int npcIndex2 = (int)(projectile.ai[1] - 1f);
-					NPC npc2 = Main.npc[npcIndex2];
+                    NPC npc2 = Main.npc[npcIndex2];
                     if (npc2.active && npc2.CanBeChasedBy(projectile, true) && projectile.Distance(npc2.Center) < 1000f)
                     {
                         homeIn = true;
@@ -178,8 +178,8 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[orangeDust].noGravity = true;
                 Main.dust[orangeDust].velocity = Vector2.Zero;
             }
-			if (projectile.Calamity().stealthStrike)
-			{
+            if (projectile.Calamity().stealthStrike)
+            {
                 if (projectile.owner == Main.myPlayer)
                 {
                     float spread = 60f * 0.0174f;
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
-			}
+            }
         }
     }
 }

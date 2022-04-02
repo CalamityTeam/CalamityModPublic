@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] = 1f;
-			}
+            }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /

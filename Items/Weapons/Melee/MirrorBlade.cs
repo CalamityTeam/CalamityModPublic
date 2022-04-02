@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 62;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shootSpeed = 9f;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<MirrorBlast>();
         }
 

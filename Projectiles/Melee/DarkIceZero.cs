@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 28;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			projectile.timeLeft = 600;
+            projectile.timeLeft = 600;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
@@ -30,15 +30,15 @@ namespace CalamityMod.Projectiles.Melee
             DisplayName.SetDefault("Dark Ice");
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			if (projectile.timeLeft > 595)
-				return false;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (projectile.timeLeft > 595)
+                return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		public override void AI()
+        public override void AI()
         {
             if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 16f)
             {

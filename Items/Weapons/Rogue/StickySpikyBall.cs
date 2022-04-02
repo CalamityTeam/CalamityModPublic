@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class StickySpikyBall : RogueWeapon
+    public class StickySpikyBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -21,8 +21,8 @@ Stealth strikes throw seven at once and last a lot longer");
             item.damage = 10;
             item.noMelee = true;
             item.noUseGraphic = true;
-			item.maxStack = 999;
-			item.consumable = true;
+            item.maxStack = 999;
+            item.consumable = true;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
@@ -45,12 +45,12 @@ Stealth strikes throw seven at once and last a lot longer");
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[proj].Calamity().stealthStrike = true;
-						Main.projectile[proj].timeLeft *= 4;
-						Main.projectile[proj].localNPCHitCooldown += 15;
-					}
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                        Main.projectile[proj].timeLeft *= 4;
+                        Main.projectile[proj].localNPCHitCooldown += 15;
+                    }
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

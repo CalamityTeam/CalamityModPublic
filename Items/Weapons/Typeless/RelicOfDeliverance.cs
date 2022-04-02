@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-	public class RelicOfDeliverance : ModItem
+    public class RelicOfDeliverance : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
             item.Calamity().CannotBeEnchanted = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
     }

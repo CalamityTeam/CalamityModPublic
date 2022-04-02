@@ -38,36 +38,36 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 12f;
         }
 
-		public override void UseStyle(Player player)
-	    {
-			player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
-		} 
+        public override void UseStyle(Player player)
+        {
+            player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
+        } 
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (target.Calamity().miscDefenseLoss < target.defense)
-				target.Calamity().miscDefenseLoss += 1;
+            if (target.Calamity().miscDefenseLoss < target.defense)
+                target.Calamity().miscDefenseLoss += 1;
 
-			if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal && !player.moonLeech)
+            if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal && !player.moonLeech)
             {
                 player.statLife += 4;
                 player.HealEffect(4);
             }
 
-			OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback, damage, crit);
+            OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback, damage, crit);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack, damage, crit);
+            OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack, damage, crit);
         }
 
-		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
-		{
-			if (crit)
-				damage /= 2;
+        private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
+        {
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(damage * 0.5f), 0f, player.whoAmI);
+            Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(damage * 0.5f), 0f, player.whoAmI);
             if (targetLife <= (targetMaxLife * 0.5f) && player.ownedProjectileCounts[ModContent.ProjectileType<RainBolt>()] < 3)
             {
                 float randomSpeedX = Main.rand.Next(6, 13);
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
             }
-		}
+        }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

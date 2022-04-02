@@ -9,7 +9,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GalaxiaTropicRing : ModProjectile
+    public class GalaxiaTropicRing : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Mode => ref projectile.ai[0];

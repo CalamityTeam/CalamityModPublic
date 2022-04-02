@@ -37,14 +37,14 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.lavaImmune = true;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.lavaImmune = true;
             npc.npcSlots = 5f;
             npc.damage = 50;
             npc.width = 160;
             npc.height = 120;
             npc.defense = 9999;
-			npc.DR_NERD(0.3f);
+            npc.DR_NERD(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
             npc.aiStyle = -1;
             aiType = -1;
@@ -54,11 +54,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GiantClamBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void NPCLoot()
         {
             // Spawn Amidias if he isn't in the world
-			//This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
+            //This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
             int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -418,8 +418,8 @@ namespace CalamityMod.NPCs.SunkenSea
             DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
 
             // Weapons
-			if (Main.hardMode)
-			{
+            if (Main.hardMode)
+            {
                 float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<ClamCrusher>(w),
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.SunkenSea
                     DropHelper.WeightStack<Poseidon>(w),
                     DropHelper.WeightStack<ShellfishStaff>(w)
                 );
-			}
+            }
 
             // Equipment
             DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);

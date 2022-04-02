@@ -27,16 +27,16 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-			cooldownSlot = 1;
-			projectile.penetrate = 1;
+            cooldownSlot = 1;
+            projectile.penetrate = 1;
             projectile.timeLeft = 200;
-			projectile.Calamity().canBreakPlayerDefense = true;
-		}
+            projectile.Calamity().canBreakPlayerDefense = true;
+        }
 
         public override void AI()
         {
-			if (projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
-				projectile.velocity *= 1.25f;
+            if (projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+                projectile.velocity *= 1.25f;
 
             if (projectile.ai[0] < 240f)
             {
@@ -115,12 +115,12 @@ namespace CalamityMod.Projectiles.Boss
         {
             int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 180);
-			projectile.Kill();
+            projectile.Kill();
         }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
-	}
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
+    }
 }

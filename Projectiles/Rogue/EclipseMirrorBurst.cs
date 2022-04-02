@@ -59,12 +59,12 @@ namespace CalamityMod.Projectiles.Rogue
                 new Rectangle(frameX * 752, frameY * 752, 752, 752),
                 Color.White,
                 projectile.rotation,
-				projectile.Size / 2f,
+                projectile.Size / 2f,
                 projectile.scale,
                 SpriteEffects.None,
                 0f
             );
-			return false;
+            return false;
         }
     }
 }

@@ -51,9 +51,9 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Torch, 25);
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
-			// Difficulty items (Revengeance, Death and Malice don't drop in Normal)
-			DropHelper.DropItemCondition(player, ModContent.ItemType<Revenge>(), Main.expertMode);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
+            // Difficulty items (Revengeance, Death and Malice don't drop in Normal)
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Revenge>(), Main.expertMode);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Malice>(), Main.expertMode);
 
             // The Lad

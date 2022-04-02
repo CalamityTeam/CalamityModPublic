@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class HowlsHeartFireball : ModProjectile
+    public class HowlsHeartFireball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,9 +28,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
-			//Cycle through animation
+            //Cycle through animation
             projectile.frameCounter++;
             if (projectile.frameCounter >= 6)
             {
@@ -42,9 +42,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			Vector2 center = projectile.Center;
-			float maxDistance = 500f;
-			bool homeIn = false;
+            Vector2 center = projectile.Center;
+            float maxDistance = 500f;
+            bool homeIn = false;
             int target = (int)projectile.ai[0];
 
             if (player.HasMinionAttackTargetNPC)
@@ -52,63 +52,63 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDistance = (npc.width / 2) + (npc.height / 2);
+                    float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-					bool canHit = true;
-					if (extraDistance < maxDistance)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                    bool canHit = true;
+                    if (extraDistance < maxDistance)
+                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
-			}
-			else if (Main.npc[target].CanBeChasedBy(projectile, false))
-            {
-				NPC npc = Main.npc[target];
-
-				float extraDistance = (npc.width / 2) + (npc.height / 2);
-
-				bool canHit = true;
-				if (extraDistance < maxDistance)
-					canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
-
-				if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
-				{
-					center = npc.Center;
-					homeIn = true;
-				}
             }
-			if (!homeIn)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (npc.width / 2) + (npc.height / 2);
+            else if (Main.npc[target].CanBeChasedBy(projectile, false))
+            {
+                NPC npc = Main.npc[target];
 
-						bool canHit = true;
-						if (extraDistance < maxDistance)
-							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-						if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
-						{
-							center = npc.Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
-			}
+                bool canHit = true;
+                if (extraDistance < maxDistance)
+                    canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
 
-			if (homeIn)
-			{
-				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-				projectile.velocity = (projectile.velocity * 20f + moveDirection * 21f) / (21f);
-			}
+                if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                {
+                    center = npc.Center;
+                    homeIn = true;
+                }
+            }
+            if (!homeIn)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+                        bool canHit = true;
+                        if (extraDistance < maxDistance)
+                            canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+
+                        if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                        {
+                            center = npc.Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (homeIn)
+            {
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * 20f + moveDirection * 21f) / (21f);
+            }
 
             int blueT = Dust.NewDust(projectile.position, projectile.width, projectile.height, 59, 0f, 0f, 100, default, 0.6f);
             Main.dust[blueT].noGravity = true;

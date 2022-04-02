@@ -6,7 +6,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ConsecratedWaterProjectile : ModProjectile
+    public class ConsecratedWaterProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ConsecratedWater";
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = 200;
             projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-			projectile.alpha = 0;
+            projectile.ignoreWater = true;
+            projectile.alpha = 0;
             projectile.Calamity().rogue = true;
         }
         public override void AI()

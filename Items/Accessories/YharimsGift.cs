@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-			item.defense = 30;
+            item.defense = 30;
             item.width = 20;
             item.height = 22;
             item.accessory = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.moveSpeed += 0.15f;
+            player.moveSpeed += 0.15f;
             player.allDamage += 0.15f;
             if (!player.StandingStill())
             {
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-				if (player.miscCounter % 8 == 0)
-				{
+                if (player.miscCounter % 8 == 0)
+                {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(375 * player.AverageDamage()), 9f, player.whoAmI);
+                        CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(375 * player.AverageDamage()), 9f, player.whoAmI);
                     }
                 }
             }

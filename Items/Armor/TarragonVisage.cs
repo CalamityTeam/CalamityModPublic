@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class TarragonVisage : ModItem
     {
         public override void SetStaticDefaults()
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-				"Ranged projectiles split into homing life energy and leaves on death";
+                "Ranged projectiles split into homing life energy and leaves on death";
         }
 
         public override void UpdateEquip(Player player)

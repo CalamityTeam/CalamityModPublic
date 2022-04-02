@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Illuminated Bullet");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
 
             // Invisible for the first few frames
             projectile.alpha = 255;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -52,13 +52,13 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            return false;
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }

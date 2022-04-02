@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			int dustType = projectile.ai[0] == 0f ? 14 : 114;
+            int dustType = projectile.ai[0] == 0f ? 14 : 114;
 
             int num310 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + (float)projectile.height - 2f), 2, 2, dustType, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num310];
@@ -61,8 +61,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int buffType = projectile.ai[0] == 0f ? BuffID.CursedInferno : ModContent.BuffType<BurningBlood>();
+            int buffType = projectile.ai[0] == 0f ? BuffID.CursedInferno : ModContent.BuffType<BurningBlood>();
             target.AddBuff(buffType, 90);
-		}
+        }
     }
 }

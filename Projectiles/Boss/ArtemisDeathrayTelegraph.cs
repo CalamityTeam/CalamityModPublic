@@ -8,17 +8,17 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ArtemisDeathrayTelegraph : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		public float TelegraphDelay
+        public float TelegraphDelay
         {
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
 
-		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
-		public Vector2 OldVelocity;
+        public Vector2 OldVelocity;
         public const float TelegraphTotalTime = 60f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 4800f;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.width = 10;
+            projectile.width = 10;
             projectile.height = 10;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -38,19 +38,19 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 60;
-		}
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.WriteVector2(OldVelocity);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.WriteVector2(OldVelocity);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			OldVelocity = reader.ReadVector2();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            OldVelocity = reader.ReadVector2();
+        }
 
-		public override void AI()
+        public override void AI()
         {
             // Determine the relative opacities for each player based on their distance.
             if (projectile.localAI[0] == 0f)
@@ -59,18 +59,18 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.netUpdate = true;
             }
 
-			// Die if the thing to attach to disappears.
-			if (ThingToAttachTo is null || !ThingToAttachTo.active)
-			{
-				projectile.Kill();
-				return;
-			}
+            // Die if the thing to attach to disappears.
+            if (ThingToAttachTo is null || !ThingToAttachTo.active)
+            {
+                projectile.Kill();
+                return;
+            }
 
-			// Set start of telegraph to the npc center.
-			projectile.Center = ThingToAttachTo.Center + Vector2.Normalize(OldVelocity) * 70f;
+            // Set start of telegraph to the npc center.
+            projectile.Center = ThingToAttachTo.Center + Vector2.Normalize(OldVelocity) * 70f;
 
-			// Be sure to save the velocity the projectile started with. It will be set again when the telegraph is over.
-			if (OldVelocity == Vector2.Zero)
+            // Be sure to save the velocity the projectile started with. It will be set again when the telegraph is over.
+            if (OldVelocity == Vector2.Zero)
             {
                 OldVelocity = projectile.velocity;
                 projectile.velocity = Vector2.Zero;
@@ -102,8 +102,8 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
 
-			Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
-			Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
+            Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+            Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
             colorOuter *= 0.7f;
             colorInner *= 0.7f;

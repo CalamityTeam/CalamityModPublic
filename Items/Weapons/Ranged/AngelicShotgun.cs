@@ -44,8 +44,8 @@ Fighting 'til the war's won");
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -64,11 +64,11 @@ Fighting 'til the war's won");
                 float dy = Main.rand.NextFloat(-1.3f, 1.3f);
                 Vector2 randomVelocity = baseVelocity + new Vector2(dx, dy);
 
-				if (type == ProjectileID.Bullet)
-					Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI);
-				else
-					Projectile.NewProjectile(position, randomVelocity, type, damage, knockBack, player.whoAmI);
-			}
+                if (type == ProjectileID.Bullet)
+                    Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI);
+                else
+                    Projectile.NewProjectile(position, randomVelocity, type, damage, knockBack, player.whoAmI);
+            }
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
             float laserSpeed = 8f;

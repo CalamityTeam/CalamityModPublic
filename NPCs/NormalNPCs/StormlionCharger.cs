@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class StormlionCharger : ModNPC
+    public class StormlionCharger : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -29,11 +29,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath34;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StormlionBanner>();
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

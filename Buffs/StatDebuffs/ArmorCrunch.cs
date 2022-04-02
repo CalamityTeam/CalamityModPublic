@@ -20,10 +20,10 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().aCrunch < npc.buffTime[buffIndex])
-				npc.Calamity().aCrunch = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().aCrunch < npc.buffTime[buffIndex])
+                npc.Calamity().aCrunch = npc.buffTime[buffIndex];
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
 
         public override void Update(Player player, ref int buffIndex)

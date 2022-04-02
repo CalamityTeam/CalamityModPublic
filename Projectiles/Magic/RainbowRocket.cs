@@ -52,8 +52,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
-		#region AI
-		public override void AI()
+        #region AI
+        public override void AI()
         {
             Time++;
             Lighting.AddLight(projectile.Center, Main.hslToRgb((float)Math.Sin(Time / 20f) * 0.5f + 0.5f, 0.9f, 0.9f).ToVector3());
@@ -152,10 +152,10 @@ namespace CalamityMod.Projectiles.Magic
                              0f);
             return false;
         }
-		#endregion
+        #endregion
 
-		#region Kill Effects
-		public override void Kill(int timeLeft)
+        #region Kill Effects
+        public override void Kill(int timeLeft)
         {
             if (projectile.owner == Main.myPlayer)
             {
@@ -207,10 +207,10 @@ namespace CalamityMod.Projectiles.Magic
                     break;
             }
         }
-		#endregion
+        #endregion
 
-		#region Pink Mark
-		public void PinkMarkExplosionDust()
+        #region Pink Mark
+        public void PinkMarkExplosionDust()
         {
             // Spawn the main balloon.
             BalloonExplosionDust(projectile.Center, Main.rand.NextFloat(8f, 15f), Color.Yellow);

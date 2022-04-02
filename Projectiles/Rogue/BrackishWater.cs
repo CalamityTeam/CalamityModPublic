@@ -31,18 +31,18 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21);
                 projectile.localAI[0] += 1f;
             }
-			if (projectile.timeLeft % 2 == 0)
-			{
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					33,
-					89
-				});
-				int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1.2f);
-				Main.dust[water].noGravity = true;
-				Main.dust[water].velocity *= 0.5f;
-				Main.dust[water].velocity += projectile.velocity * 0.1f;
-			}
+            if (projectile.timeLeft % 2 == 0)
+            {
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    33,
+                    89
+                });
+                int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1.2f);
+                Main.dust[water].noGravity = true;
+                Main.dust[water].velocity *= 0.5f;
+                Main.dust[water].velocity += projectile.velocity * 0.1f;
+            }
         }
 
         public override void Kill(int timeLeft)

@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 240;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 85;
+        public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 85;
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -83,8 +83,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.timeLeft >= 85)
-				target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+            if (projectile.timeLeft >= 85)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
     }
 }

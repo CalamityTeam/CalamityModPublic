@@ -53,9 +53,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumPylonBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void AI()
         {
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			float pylonMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 1.3f : 1f;
+            float pylonMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 1.3f : 1f;
 
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;

@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class ScornEater : ModNPC
+    public class ScornEater : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -18,14 +18,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 3f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.npcSlots = 3f;
             npc.aiStyle = -1;
             npc.damage = 90;
             npc.width = 160;
             npc.height = 160;
             npc.defense = 38;
-			npc.DR_NERD(0.05f);
+            npc.DR_NERD(0.05f);
             npc.lifeMax = 9000;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -34,21 +34,21 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScornEaterBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
-			npc.TargetClosest(true);
-			if ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f))
-				npc.noTileCollide = true;
-			else
-				npc.noTileCollide = false;
+            npc.TargetClosest(true);
+            if ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f))
+                npc.noTileCollide = true;
+            else
+                npc.noTileCollide = false;
 
-			if (npc.velocity.Y == 0f)
+            if (npc.velocity.Y == 0f)
             {
                 npc.ai[2] += 1f;
                 int num321 = 20;
@@ -56,10 +56,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     num321 = 12;
                 }
-				if (CalamityWorld.death)
-				{
-					num321 /= 4;
-				}
+                if (CalamityWorld.death)
+                {
+                    num321 /= 4;
+                }
                 if (npc.ai[2] < (float)num321)
                 {
                     npc.velocity.X = npc.velocity.X * 0.9f;
@@ -76,15 +76,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.ai[3] >= 4f)
                 {
                     npc.ai[3] = 0f;
-					npc.noTileCollide = true;
-					if (npc.ai[1] == 2f)
+                    npc.noTileCollide = true;
+                    if (npc.ai[1] == 2f)
                     {
                         npc.velocity.X = (float)npc.direction * 15f;
 
-						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
-							npc.velocity.Y = -12f;
-						else
-							npc.velocity.Y = 12f;
+                        if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+                            npc.velocity.Y = -12f;
+                        else
+                            npc.velocity.Y = 12f;
 
                         npc.ai[1] = 0f;
                     }
@@ -92,13 +92,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         npc.velocity.X = (float)npc.direction * 21f;
 
-						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
-							npc.velocity.Y = -6f;
-						else
-							npc.velocity.Y = 12f;
+                        if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+                            npc.velocity.Y = -6f;
+                        else
+                            npc.velocity.Y = 12f;
                     }
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScornJump"), (int)npc.Center.X, (int)npc.Center.Y);
-				}
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScornJump"), (int)npc.Center.X, (int)npc.Center.Y);
+                }
                 npc.netUpdate = true;
             }
             else
@@ -161,12 +161,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldHallow.Chance / 4f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.soundDelay == 0)
             {
@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
         }
     }
 }

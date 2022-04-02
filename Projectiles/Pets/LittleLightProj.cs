@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class LittleLightProj : ModProjectile
+    public class LittleLightProj : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
 
@@ -65,13 +65,13 @@ namespace CalamityMod.Projectiles.Pets
         }
 
         public void HandleFrames()
-		{
+        {
             projectile.frameCounter++;
             projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
-		}
+        }
 
         public void DoSpinEffect()
-		{
+        {
             // Spin around from time to time.
             if (projectile.frameCounter % 180f > 150f)
                 projectile.rotation += MathHelper.TwoPi / 30f;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Pets
         }
 
         public void HoverTowardsOwnersShoulder()
-		{
+        {
             Vector2 destination = Owner.Top;
             destination.X -= Owner.direction * Owner.width * 1.25f;
             destination.Y += Owner.height * 0.25f;
@@ -95,6 +95,6 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.Center += projectile.SafeDirectionTo(destination) * 4f;
 
             projectile.Center = destination;
-		}
-	}
+        }
+    }
 }

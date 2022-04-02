@@ -32,10 +32,10 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			// Removed Giant Shell speed boost from The Absorber
+            // Removed Giant Shell speed boost from The Absorber
             // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
             modPlayer.seaShell = true;

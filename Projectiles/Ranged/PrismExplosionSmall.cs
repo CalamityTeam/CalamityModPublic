@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class PrismExplosionSmall : ModProjectile
     {
         public override void SetStaticDefaults()
-		{
+        {
             DisplayName.SetDefault("Explosion");
             Main.projFrames[projectile.type] = 7;
         }
@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.Opacity = Utils.InverseLerp(5f, 36f, projectile.timeLeft, true);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D texture = Main.projectileTexture[projectile.type];
             Texture2D lightTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PhotovisceratorLight");
             Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
@@ -51,6 +51,6 @@ namespace CalamityMod.Projectiles.Ranged
 
             spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             return false;
-		}
-	}
+        }
+    }
 }

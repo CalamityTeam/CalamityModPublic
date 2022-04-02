@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class BlunderBoosterLightning : ModProjectile
+    public class BlunderBoosterLightning : ModProjectile
     {
         public static int frameWidth = 12;
         public static int frameHeight = 26;
@@ -51,39 +51,39 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = true;
             }
 
-			projectile.ai[1]++;
-			if (projectile.ai[1] >= 15f)
-			{
-				float minDist = 999f;
-				int index = -1;
-				for (int i = 0; i < Main.npc.Length; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float dist = (projectile.Center - npc.Center).Length();
-						if (dist < minDist)
-						{
-							minDist = dist;
-							index = i;
-						}
-					}
-				}
+            projectile.ai[1]++;
+            if (projectile.ai[1] >= 15f)
+            {
+                float minDist = 999f;
+                int index = -1;
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float dist = (projectile.Center - npc.Center).Length();
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            index = i;
+                        }
+                    }
+                }
 
-				Vector2 velocityNew;
-				if (minDist < 999f && index != -1)
-				{
-					velocityNew = Main.npc[index].Center - projectile.Center;
-					velocityNew.Normalize();
-					velocityNew *= 2f;
-					projectile.velocity += velocityNew;
-					if (projectile.velocity.Length() > 10f)
-					{
-						projectile.velocity.Normalize();
-						projectile.velocity *= 10f;
-					}
-				}
-			}
+                Vector2 velocityNew;
+                if (minDist < 999f && index != -1)
+                {
+                    velocityNew = Main.npc[index].Center - projectile.Center;
+                    velocityNew.Normalize();
+                    velocityNew *= 2f;
+                    projectile.velocity += velocityNew;
+                    if (projectile.velocity.Length() > 10f)
+                    {
+                        projectile.velocity.Normalize();
+                        projectile.velocity *= 10f;
+                    }
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -6,8 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shield)]
-	public class OrnateShield : ModItem
+    [AutoloadEquip(EquipType.Shield)]
+    public class OrnateShield : ModItem
     {
         public const int ShieldSlamIFrames = 4;
         
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Ornate Shield");
             Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor\n" +
-				"Grants a frost dash");
+                "Grants a frost dash");
         }
 
         public override void SetDefaults()
@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.08f;
                 player.statLifeMax2 += 20;
             }
-			player.Calamity().dashMod = 6;
-			player.dash = 0;
-		}
+            player.Calamity().dashMod = 6;
+            player.dash = 0;
+        }
 
         public override void AddRecipes()
         {

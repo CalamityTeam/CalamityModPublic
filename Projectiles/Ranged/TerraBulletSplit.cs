@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraBulletSplit : ModProjectile
     {
-		private float speed = 0f;
+        private float speed = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bullet");
@@ -31,15 +31,15 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.Bullet;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            return false;
+        }
 
-		public override void AI()
+        public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.alpha > 0)
@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num137].velocity *= 0f;
             Main.dust[num137].noGravity = true;
 
-			if (speed == 0f)
-				speed = projectile.velocity.Length();
+            if (speed == 0f)
+                speed = projectile.velocity.Length();
 
-			if (projectile.timeLeft < 90)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, speed, 12f);
-		}
+            if (projectile.timeLeft < 90)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, speed, 12f);
+        }
     }
 }

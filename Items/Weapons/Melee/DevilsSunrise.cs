@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.Calamity().donorItem = true;
 
-			item.Calamity().trueMelee = true;
-			item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
+            item.Calamity().trueMelee = true;
+            item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
             item.shootSpeed = 24f;
         }
 

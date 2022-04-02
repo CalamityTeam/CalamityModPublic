@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class PhantomSpirit : ModNPC
+    public class PhantomSpirit : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {

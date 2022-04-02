@@ -7,7 +7,7 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CosmicShivBlade : ModProjectile
+    public class CosmicShivBlade : ModProjectile
     {
         public const int penetrateMax = 12;
         public const float maxScale = 1.8f;

@@ -36,17 +36,17 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.ai[0] < 219f) //255 - frameCounter tick * number of disippation frames
-			{
-				if (projectile.frame >= 4)
-				{
-					projectile.frame = 0;
-				}
-			}
-			else if (projectile.owner == Main.myPlayer && projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.Kill();
-			}
+            if (projectile.ai[0] < 219f) //255 - frameCounter tick * number of disippation frames
+            {
+                if (projectile.frame >= 4)
+                {
+                    projectile.frame = 0;
+                }
+            }
+            else if (projectile.owner == Main.myPlayer && projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.Kill();
+            }
             projectile.velocity *= 0.98f;
             if (projectile.alpha > 80)
             {

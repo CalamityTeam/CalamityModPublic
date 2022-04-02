@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 13);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

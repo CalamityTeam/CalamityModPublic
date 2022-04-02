@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class XerocMask : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("Wrath of the cosmos\n" +
-				"11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
+                "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
                 "Temporary immunity to lava");
         }
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
         {
             player.armorEffectDrawShadow = true;
             player.armorEffectDrawOutlines = true;
-			player.Calamity().meldTransformation = true;
+            player.Calamity().meldTransformation = true;
             player.Calamity().meldTransformationForce = true;
         }
 

@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Tools
             item.autoReuse = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

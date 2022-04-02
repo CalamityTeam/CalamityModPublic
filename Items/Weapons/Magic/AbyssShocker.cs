@@ -6,7 +6,7 @@ using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class AbyssShocker : ModItem
+    public class AbyssShocker : ModItem
     {
         public override void SetStaticDefaults() 
         {

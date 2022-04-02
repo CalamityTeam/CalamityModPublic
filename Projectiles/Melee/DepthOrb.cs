@@ -37,10 +37,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 25)
-				return false;
+            if (projectile.timeLeft > 25)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 64;
-			projectile.Center = projectile.position;
+            projectile.Center = projectile.position;
             for (int dustIndex = 0; dustIndex < 30; dustIndex++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);
@@ -79,13 +79,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
         }
     }
 }

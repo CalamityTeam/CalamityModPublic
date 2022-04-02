@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Spent Fuel Container");
             Tooltip.SetDefault("War Never Changes\n" + //Fallout reference breh, pls don't fall out with me :cri:
-							   "Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion\n" +
+                               "Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion\n" +
                                "The explosion does not occur if there are no tiles below it\n" +
                                "Stealth strikes leave a lingering irradiated zone after the explosion dissipates");
         }

@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Main.tileLavaDeath[Type] = false;
             TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4); //This bed has different dimensions to conventional beds, using bookcase dimentions instead
-			TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

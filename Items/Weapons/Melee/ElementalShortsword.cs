@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class ElementalShortsword : ModItem
+    public class ElementalShortsword : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ElementBallShiv>();
             item.shootSpeed = 14f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-		}
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -66,16 +66,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
     }
 }

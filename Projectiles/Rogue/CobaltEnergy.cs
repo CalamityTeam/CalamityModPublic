@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CobaltEnergy : ModProjectile
+    public class CobaltEnergy : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -34,17 +34,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			for (int index = 0; index < 2; ++index)
-			{
-				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 90, new Color(), 1.2f);
-				Dust dust = Main.dust[ruby];
-				dust.noGravity = true;
-				dust.velocity *= 0.3f;
-			}
+            for (int index = 0; index < 2; ++index)
+            {
+                int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 90, new Color(), 1.2f);
+                Dust dust = Main.dust[ruby];
+                dust.noGravity = true;
+                dust.velocity *= 0.3f;
+            }
 
             if (!hasHitEnemy && projectile.timeLeft < 575)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (hasHitEnemy)
             {
@@ -118,15 +118,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			for (int index1 = 0; index1 < 15; ++index1)
-			{
-				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.oldVelocity.X, projectile.oldVelocity.Y, 50, new Color(), 1.2f);
-				Dust dust = Main.dust[ruby];
-				dust.noGravity = true;
-				dust.scale *= 1.25f;
-				dust.velocity *= 0.5f;
-			}
-		}
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            for (int index1 = 0; index1 < 15; ++index1)
+            {
+                int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.oldVelocity.X, projectile.oldVelocity.Y, 50, new Color(), 1.2f);
+                Dust dust = Main.dust[ruby];
+                dust.noGravity = true;
+                dust.scale *= 1.25f;
+                dust.velocity *= 0.5f;
+            }
+        }
     }
 }

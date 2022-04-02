@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class WebBall : RogueWeapon
+    public class WebBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -21,8 +21,8 @@ Stealth strikes slow enemies down longer");
             item.damage = 8;
             item.noMelee = true;
             item.noUseGraphic = true;
-			item.maxStack = 999;
-			item.consumable = true;
+            item.maxStack = 999;
+            item.consumable = true;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
@@ -40,9 +40,9 @@ Stealth strikes slow enemies down longer");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

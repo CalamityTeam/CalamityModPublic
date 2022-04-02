@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EndoCooperLimbs : ModProjectile
+    public class EndoCooperLimbs : ModProjectile
     {
         private int AttackMode = 0;
         public override void SetStaticDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.extraUpdates = 1;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

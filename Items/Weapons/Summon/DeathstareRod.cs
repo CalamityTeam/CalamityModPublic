@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class DeathstareRod : ModItem
+    public class DeathstareRod : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathstare Rod");
             Tooltip.SetDefault("Summons an eye above your head that watches you and shoots at enemies\n" +
-			"There can only be one eye");
+            "There can only be one eye");
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityUtils.KillShootProjectiles(true, type, player);
+            CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Boss
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
         public Vector2 OldVelocity;
-		public const float deathrayTelegraphDuration_Normal = 150f;
-		public const float deathrayTelegraphDuration_Expert = 120f;
-		public const float deathrayTelegraphDuration_Rev = 105f;
-		public const float deathrayTelegraphDuration_Death = 90f;
-		public const float deathrayTelegraphDuration_Malice = 60f;
-		public const float TelegraphFadeTime = 15f;
+        public const float deathrayTelegraphDuration_Normal = 150f;
+        public const float deathrayTelegraphDuration_Expert = 120f;
+        public const float deathrayTelegraphDuration_Rev = 105f;
+        public const float deathrayTelegraphDuration_Death = 90f;
+        public const float deathrayTelegraphDuration_Malice = 60f;
+        public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 2400f;
 
         public override void SetStaticDefaults()
@@ -45,14 +45,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
 
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            // Difficulty modes
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			projectile.timeLeft = (int)(malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
-				revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal);
+            projectile.timeLeft = (int)(malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
+                revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal);
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -103,16 +103,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            // Difficulty modes
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			float TelegraphTotalTime = malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
-				revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal;
+            float TelegraphTotalTime = malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
+                revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal;
 
-			if (TelegraphDelay >= TelegraphTotalTime)
+            if (TelegraphDelay >= TelegraphTotalTime)
                 return true;
 
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");

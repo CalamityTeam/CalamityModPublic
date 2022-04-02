@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int stabDevice = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stabDevice.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stabDevice].Calamity().stealthStrike = true;
+                if (stabDevice.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stabDevice].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

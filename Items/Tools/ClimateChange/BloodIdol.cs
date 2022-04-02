@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             DisplayName.SetDefault("Blood Relic");
             Tooltip.SetDefault("Summons a blood moon\n" +
-			"Not consumable");
+            "Not consumable");
         }
 
         public override void SetDefaults()

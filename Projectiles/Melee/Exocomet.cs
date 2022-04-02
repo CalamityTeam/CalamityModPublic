@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Exocomet : ModProjectile
+    public class Exocomet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,12 +26,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.alpha = 50;
-			projectile.timeLeft = 360;
+            projectile.timeLeft = 360;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
@@ -62,27 +62,27 @@ namespace CalamityMod.Projectiles.Melee
 
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.5f);
 
-			if (projectile.timeLeft < 240)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
-			else
-			{
-				float num953 = 100f * projectile.ai[1];
-				float scaleFactor12 = 20f * projectile.ai[1];
-				float num954 = 40f;
-				if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
-				{
-					if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
-					{
-						Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
-						projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
-					}
-				}
-			}
+            if (projectile.timeLeft < 240)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
+            else
+            {
+                float num953 = 100f * projectile.ai[1];
+                float scaleFactor12 = 20f * projectile.ai[1];
+                float num954 = 40f;
+                if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+                {
+                    if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
+                    {
+                        Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                        projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
+                    }
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
 
             float healAmt = damage * 0.01f;
             if ((int)healAmt == 0)
@@ -91,15 +91,15 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                 return;
 
-			if (healAmt > CalamityMod.lifeStealCap)
-				healAmt = CalamityMod.lifeStealCap;
+            if (healAmt > CalamityMod.lifeStealCap)
+                healAmt = CalamityMod.lifeStealCap;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 3f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
 
             float healAmt = damage * 0.01f;
             if ((int)healAmt == 0)
@@ -108,10 +108,10 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                 return;
 
-			if (healAmt > CalamityMod.lifeStealCap)
-				healAmt = CalamityMod.lifeStealCap;
+            if (healAmt > CalamityMod.lifeStealCap)
+                healAmt = CalamityMod.lifeStealCap;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 3f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

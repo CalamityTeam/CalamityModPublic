@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Exorcism : RogueWeapon
+    public class Exorcism : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.15f), knockBack, player.whoAmI, 2f, damage);
-				if (p.WithinBounds(Main.maxProjectiles))
-					Main.projectile[p].Calamity().stealthStrike = true;
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {
@@ -57,9 +57,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 10);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
-			recipe.AddIngredient(ItemID.SoulofMight, 6);
-			recipe.AddIngredient(ItemID.SoulofSight, 6);
-			recipe.AddIngredient(ItemID.SoulofFright, 6);
+            recipe.AddIngredient(ItemID.SoulofMight, 6);
+            recipe.AddIngredient(ItemID.SoulofSight, 6);
+            recipe.AddIngredient(ItemID.SoulofFright, 6);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

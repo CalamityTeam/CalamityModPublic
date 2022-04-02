@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Soaring Potion");
             Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
-				"Restores a fraction of your wing flight time after a true melee strike\n" +
-				"The amount of flight time restored scales with your melee stats and weapon swing speed");
+                "Restores a fraction of your wing flight time after a true melee strike\n" +
+                "The amount of flight time restored scales with your melee stats and weapon swing speed");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.SetResult(this);
             recipe.AddRecipe();
-			// Blood orb recipes don't get the alchemy table effect
+            // Blood orb recipes don't get the alchemy table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);

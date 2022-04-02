@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
-			TileID.Sets.FramesOnKillWall[Type] = true;
+            TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -99,12 +99,12 @@ namespace CalamityMod.Tiles.Furniture
                 case 22:
                     item = ModContent.ItemType<RavagerTrophy>();
                     break;
-				case 23:
-					item = ModContent.ItemType<AquaticScourgeTrophy>();
-					break;
-				case 24:
-					item = ModContent.ItemType<OldDukeTrophy>();
-					break;
+                case 23:
+                    item = ModContent.ItemType<AquaticScourgeTrophy>();
+                    break;
+                case 24:
+                    item = ModContent.ItemType<OldDukeTrophy>();
+                    break;
                 case 25:
                     item = ModContent.ItemType<ProfanedGuardianTrophy>();
                     break;

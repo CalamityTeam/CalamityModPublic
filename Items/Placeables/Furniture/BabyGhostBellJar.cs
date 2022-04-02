@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-	public class BabyGhostBellJar : ModItem
+    public class BabyGhostBellJar : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.UseSound = SoundID.Item12;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<DeathhailBeam>();
             item.shootSpeed = 18f;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

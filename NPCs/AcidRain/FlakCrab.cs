@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (CalamityWorld.downedPolterghast)
             {
                 npc.lifeMax = 4125;
-				npc.DR_NERD(0.2f);
+                npc.DR_NERD(0.2f);
             }
 
             npc.knockBackResist = 0f;
@@ -54,11 +54,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.DD2_WitherBeastDeath;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -74,8 +74,8 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void AI()
         {
-			// Enables expert scaling, if damage is 0 in set defaults expert scaling will not happen.
-			npc.damage = 0;
+            // Enables expert scaling, if damage is 0 in set defaults expert scaling will not happen.
+            npc.damage = 0;
 
             ChasabilityTimer++;
             npc.defense = TotalHits < TotalHitsNeededToDoDamage ? 999999 : 20;
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<FlakToxicannon>(), 0.05f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<FlakToxicannon>(), 0.05f);
         }
 
         public override void FindFrame(int frameHeight)

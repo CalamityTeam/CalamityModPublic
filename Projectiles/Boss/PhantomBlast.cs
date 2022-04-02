@@ -17,17 +17,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 18;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 18;
             projectile.height = 18;
             projectile.hostile = true;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
+            projectile.ignoreWater = true;
+            projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -116,14 +116,14 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

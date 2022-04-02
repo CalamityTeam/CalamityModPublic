@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = ItemRarityID.Lime;
             item.defense = 10;
             item.accessory = true;
-		}
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

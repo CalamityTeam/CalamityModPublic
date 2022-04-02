@@ -33,8 +33,8 @@ namespace CalamityMod.Waters
 
             bool inYZone = Main.LocalPlayer.Center.Y < Main.rockLayer * 16f - 320 && Main.LocalPlayer.Center.Y >= 5800f;
 
-			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-			bool greenWater = (inXZone && inYZone) || modPlayer.ZoneSulphur;
+            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+            bool greenWater = (inXZone && inYZone) || modPlayer.ZoneSulphur;
             return greenWater;
         }
 

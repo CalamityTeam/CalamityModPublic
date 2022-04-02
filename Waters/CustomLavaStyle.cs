@@ -6,41 +6,41 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
-	public abstract class CustomLavaStyle
-	{
-		internal Texture2D LavaTexture;
-		internal Texture2D BlockTexture;
+    public abstract class CustomLavaStyle
+    {
+        internal Texture2D LavaTexture;
+        internal Texture2D BlockTexture;
 
-		internal void Load()
+        internal void Load()
         {
-			// Don't load textures serverside.
-			if (Main.netMode == NetmodeID.Server)
-				return;
+            // Don't load textures serverside.
+            if (Main.netMode == NetmodeID.Server)
+                return;
 
-			LavaTexture = ModContent.GetTexture(LavaTexturePath);
-			BlockTexture = ModContent.GetTexture(BlockTexturePath);
-		}
+            LavaTexture = ModContent.GetTexture(LavaTexturePath);
+            BlockTexture = ModContent.GetTexture(BlockTexturePath);
+        }
 
-		internal void Unload()
+        internal void Unload()
         {
-			LavaTexture = null;
-			BlockTexture = null;
-		}
+            LavaTexture = null;
+            BlockTexture = null;
+        }
 
-		public abstract string LavaTexturePath { get; }
+        public abstract string LavaTexturePath { get; }
 
-		public abstract string BlockTexturePath { get; }
+        public abstract string BlockTexturePath { get; }
 
-		public virtual bool ChooseLavaStyle() => false;
+        public virtual bool ChooseLavaStyle() => false;
 
-		public abstract int ChooseWaterfallStyle();
+        public abstract int ChooseWaterfallStyle();
 
-		public abstract int GetSplashDust();
+        public abstract int GetSplashDust();
 
-		public abstract int GetDropletGore();
+        public abstract int GetDropletGore();
 
-		public virtual void SelectLightColor(ref Color initialLightColor)
-		{
-		}
-	}
+        public virtual void SelectLightColor(ref Color initialLightColor)
+        {
+        }
+    }
 }

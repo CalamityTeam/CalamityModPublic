@@ -69,9 +69,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.scale = 1.1f;
 
             npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -583,12 +583,12 @@ namespace CalamityMod.NPCs.DesertScourge
                     DropHelper.WeightStack<StormSpray>(w),
                     DropHelper.WeightStack<SeaboundStaff>(w),
                     DropHelper.WeightStack<ScourgeoftheDesert>(w),
-					DropHelper.WeightStack<AeroStone>(w),
-					DropHelper.WeightStack<SandCloak>(w)
-				);
+                    DropHelper.WeightStack<AeroStone>(w),
+                    DropHelper.WeightStack<SandCloak>(w)
+                );
 
-				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<OceanCrest>(), true);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<OceanCrest>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);

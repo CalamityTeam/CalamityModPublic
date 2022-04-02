@@ -21,7 +21,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.BrimstoneElemental
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
     public class BrimstoneElemental : ModNPC
     {
         public override void SetStaticDefaults()
@@ -33,13 +33,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void SetDefaults()
         {
             npc.npcSlots = 64f;
-			npc.GetNPCDamage();
-			npc.width = 100;
+            npc.GetNPCDamage();
+            npc.width = 100;
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 40, 0, 0);
             npc.LifeMaxNERB(41000, 49200, 780000);
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
@@ -60,35 +60,35 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.DeathSound = SoundID.NPCDeath39;
             music = CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneElemental") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.chaseable);
-			writer.Write(npc.localAI[0]);
-			writer.Write(npc.localAI[1]);
-			writer.Write(npc.localAI[3]);
-			for (int i = 0; i < 4; i++)
+            writer.Write(npc.localAI[0]);
+            writer.Write(npc.localAI[1]);
+            writer.Write(npc.localAI[3]);
+            for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
-			npc.localAI[0] = reader.ReadSingle();
-			npc.localAI[1] = reader.ReadSingle();
-			npc.localAI[3] = reader.ReadSingle();
-			for (int i = 0; i < 4; i++)
+            npc.localAI[0] = reader.ReadSingle();
+            npc.localAI[1] = reader.ReadSingle();
+            npc.localAI[3] = reader.ReadSingle();
+            for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
-		}
+        }
 
         public override void AI()
         {
-			CalamityAI.BrimstoneElementalAI(npc, mod);
-		}
+            CalamityAI.BrimstoneElementalAI(npc, mod);
+        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
@@ -151,22 +151,22 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void NPCLoot()
         {
-			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
-			DropHelper.DropBags(npc);
+            DropHelper.DropBags(npc);
 
-			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
 
-			CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 
-			if (!Main.expertMode)
+            if (!Main.expertMode)
             {
-				//Materials
+                //Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
                 if (CalamityWorld.downedProvidence)
-				    DropHelper.DropItemSpray(npc, ModContent.ItemType<Bloodstone>(), 20, 30, 2);
+                    DropHelper.DropItemSpray(npc, ModContent.ItemType<Bloodstone>(), 20, 30, 2);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
@@ -174,16 +174,16 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     DropHelper.WeightStack<Brimlance>(w),
                     DropHelper.WeightStack<SeethingDischarge>(w),
                     DropHelper.WeightStack<DormantBrimseeker>(w),
-					DropHelper.WeightStack<RoseStone>(w)
-				);
+                    DropHelper.WeightStack<RoseStone>(w)
+                );
 
-				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>(), true);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<Gehenna>(), true);
                 DropHelper.DropItem(npc, ModContent.ItemType<Abaddon>(), true);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
 
-				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), !Main.expertMode, 0.1f);

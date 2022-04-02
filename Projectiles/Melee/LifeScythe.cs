@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 5;
             projectile.timeLeft = 240;
             projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
@@ -34,11 +34,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			float num395 = Main.mouseTextColor / 200f - 0.35f;
-			num395 *= 0.2f;
-			projectile.scale = num395 + 0.95f;
+            float num395 = Main.mouseTextColor / 200f - 0.35f;
+            num395 *= 0.2f;
+            projectile.scale = num395 + 0.95f;
 
-			Lighting.AddLight(projectile.Center, 0.1f, 0.5f, 0.15f);
+            Lighting.AddLight(projectile.Center, 0.1f, 0.5f, 0.15f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

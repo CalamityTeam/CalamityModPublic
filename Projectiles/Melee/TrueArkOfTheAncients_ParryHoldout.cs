@@ -12,7 +12,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueArkoftheAncientsParryHoldout : ModProjectile
+    public class TrueArkoftheAncientsParryHoldout : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
 

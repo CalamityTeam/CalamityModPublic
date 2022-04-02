@@ -53,22 +53,22 @@ namespace CalamityMod.Projectiles.Summon
                 int dustType = (int)CalamityDusts.Brimstone;
                 if (Main.rand.NextBool(2))
                 {
-					int brim = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-					Dust dust = Main.dust[brim];
-					if (Main.rand.NextBool(3))
-					{
-						dust.noGravity = true;
-						dust.scale *= 3f;
-						dust.velocity.X *= 2f;
-						dust.velocity.Y *= 2f;
-					}
-					else
-					{
-						dust.scale *= 1.5f;
-					}
-					dust.velocity.X *= 1.2f;
-					dust.velocity.Y *= 1.2f;
-					dust.scale *= scalar;
+                    int brim = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[brim];
+                    if (Main.rand.NextBool(3))
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 3f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
+                    }
+                    else
+                    {
+                        dust.scale *= 1.5f;
+                    }
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= scalar;
                 }
             }
             else

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class LostSoulFriendly : ModProjectile
+    public class LostSoulFriendly : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,15 +23,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
-			projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
-			projectile.alpha = 150;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            projectile.Calamity().rogue = true;
+            projectile.extraUpdates = 1;
+            projectile.alpha = 150;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
-		public override bool? CanHitNPC(NPC target) => (projectile.timeLeft < 210 || projectile.ai[0] == 2f) && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => (projectile.timeLeft < 210 || projectile.ai[0] == 2f) && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
@@ -46,28 +46,28 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-			if (projectile.ai[0] != 1f && (projectile.timeLeft < 210 || projectile.ai[0] == 2f))
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+            if (projectile.ai[0] != 1f && (projectile.timeLeft < 210 || projectile.ai[0] == 2f))
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
-		// Reduce damage of projectiles if more than the cap are active
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (!projectile.Calamity().rogue)
-			{
-				int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
-				int cap = 5;
-				int oldDamage = damage;
-				if (projectileCount > cap)
-				{
-					damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
-					if (damage < 1)
-						damage = 1;
-				}
-			}
-		}
+        // Reduce damage of projectiles if more than the cap are active
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (!projectile.Calamity().rogue)
+            {
+                int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+                int cap = 5;
+                int oldDamage = damage;
+                if (projectileCount > cap)
+                {
+                    damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+                    if (damage < 1)
+                        damage = 1;
+                }
+            }
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             for (int j = 0; j <= 10; j++)
             {

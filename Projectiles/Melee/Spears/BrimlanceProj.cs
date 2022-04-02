@@ -41,18 +41,18 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 7;
-			if (projectile.owner == Main.myPlayer)
-			{
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.65), knockback, Main.myPlayer);
-				for (int i = 0; i < 3; i++)
-				{
-					Vector2 fireVelocity = new Vector2(0f, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.TwoPi);
-					Projectile.NewProjectile(target.Center, fireVelocity, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 7;
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.65), knockback, Main.myPlayer);
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 fireVelocity = new Vector2(0f, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.TwoPi);
+                    Projectile.NewProjectile(target.Center, fireVelocity, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                }
+            }
+        }
     }
 }

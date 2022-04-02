@@ -31,24 +31,24 @@ namespace CalamityMod.Items.Potions
             item.buffTime = CalamityUtils.SecondsToFrames(360f);
         }
 
-		public override bool UseItem(Player player)
-		{
-			if (PlayerInput.Triggers.JustPressed.QuickBuff)
-			{
-				player.statMana += item.healMana;
-				if (player.statMana > player.statManaMax2)
-				{
-					player.statMana = player.statManaMax2;
-				}
-				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-				if (Main.myPlayer == player.whoAmI)
-				{
-					player.ManaEffect(item.healMana);
-				}
-			}
+        public override bool UseItem(Player player)
+        {
+            if (PlayerInput.Triggers.JustPressed.QuickBuff)
+            {
+                player.statMana += item.healMana;
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
+                player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.ManaEffect(item.healMana);
+                }
+            }
             player.AddBuff(BuffID.MagicPower, item.buffTime);
             player.AddBuff(BuffID.ManaRegeneration, item.buffTime);
-			return true;
-		}
+            return true;
+        }
     }
 }

@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Dormant Brimseeker");
             Tooltip.SetDefault("You could've sworn that they turned even scarier when you looked at their reflections in a mirror\n" +
                                "Summons a brimseeker to keep you company\n" +
-							   "Firing another brimseeker when all minion slots are filled summons a brimstone aura\n" +
-							   "The aura empowers your brimseeker summons and produces damaging fireballs\n" +
-							   "Only one aura can persist at a time");
+                               "Firing another brimseeker when all minion slots are filled summons a brimstone aura\n" +
+                               "The aura empowers your brimseeker summons and produces damaging fireballs\n" +
+                               "Only one aura can persist at a time");
         }
 
         public override void SetDefaults()

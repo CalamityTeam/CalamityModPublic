@@ -12,10 +12,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class GulperEelHead : ModNPC
+    public class GulperEelHead : ModNPC
     {
-		private Vector2 patrolSpot = Vector2.Zero;
-		public bool detectsPlayer = false;
+        private Vector2 patrolSpot = Vector2.Zero;
+        public bool detectsPlayer = false;
         public const int minLength = 20;
         public const int maxLength = 21;
         public float speed = 5f; //10
@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 135;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 135;
             npc.width = 66; //36
             npc.height = 86; //20
             npc.defense = 10;
@@ -47,23 +47,23 @@ namespace CalamityMod.NPCs.Abyss
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GulperEelBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-			writer.WriteVector2(patrolSpot);
-			writer.Write(detectsPlayer);
+            writer.WriteVector2(patrolSpot);
+            writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			patrolSpot = reader.ReadVector2();
-			detectsPlayer = reader.ReadBoolean();
+            patrolSpot = reader.ReadVector2();
+            detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
@@ -145,32 +145,32 @@ namespace CalamityMod.NPCs.Abyss
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 
-			if (patrolSpot == Vector2.Zero)
-				patrolSpot = Main.player[npc.target].Center;
+            if (patrolSpot == Vector2.Zero)
+                patrolSpot = Main.player[npc.target].Center;
 
-			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
-			float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+            float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+            float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
 
-			if (!detectsPlayer)
-			{
-				num192 += 500;
-				if (Math.Abs(npc.Center.X - num191) < 300f) //500
-				{
-					if (npc.velocity.X > 0f)
-					{
-						num191 += 400f;
-					}
-					else
-					{
-						num191 -= 400f;
-					}
-				}
-			}
-			else
-			{
-				num188 *= 1.5f;
-				num189 *= 1.5f;
-			}
+            if (!detectsPlayer)
+            {
+                num192 += 500;
+                if (Math.Abs(npc.Center.X - num191) < 300f) //500
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        num191 += 400f;
+                    }
+                    else
+                    {
+                        num191 -= 400f;
+                    }
+                }
+            }
+            else
+            {
+                num188 *= 1.5f;
+                num189 *= 1.5f;
+            }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
             float num50 = npc.velocity.Length();

@@ -13,8 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("It is not benevolent");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-			//Main.persistentBuff[Type] = true;
-		}
+            //Main.persistentBuff[Type] = true;
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {

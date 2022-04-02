@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.melee = false;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.timeLeft = 900;
+            projectile.timeLeft = 900;
         }
 
         // ai[0] is a time-dilated frame counter. ai[1] is whether the beam has already fired.

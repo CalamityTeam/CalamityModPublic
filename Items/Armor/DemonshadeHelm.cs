@@ -10,7 +10,7 @@ using static CalamityMod.CalPlayer.CalamityPlayer;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem, IExtendedHat
     {
         public override void SetStaticDefaults()

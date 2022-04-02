@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -108,11 +108,11 @@ namespace CalamityMod.Projectiles.Ranged
                         num518 += projectile.oldVelocity.X / 6f;
                         num519 += projectile.oldVelocity.Y / 6f;
                         int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 4), Main.player[projectile.owner].beeKB(0f), Main.myPlayer);
-						if (bee.WithinBounds(Main.maxProjectiles))
-						{
-							Main.projectile[bee].penetrate = 2;
-							Main.projectile[bee].Calamity().forceRanged = true;
-						}
+                        if (bee.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[bee].penetrate = 2;
+                            Main.projectile[bee].Calamity().forceRanged = true;
+                        }
                     }
                 }
             }
@@ -135,30 +135,30 @@ namespace CalamityMod.Projectiles.Ranged
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
 
-			// Construct a fake item to use with vanilla code for the sake of picking ammo.
-			if (FalseLauncher is null)
-				DefineFalseLauncher();
-			Player player = Main.player[projectile.owner];
-			int projID = ProjectileID.RocketI;
-			float shootSpeed = 0f;
-			bool canShoot = true;
-			int damage = 0;
-			float kb = 0f;
-			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
-			int blastRadius = 0;
-			if (projID == ProjectileID.RocketII)
-				blastRadius = 3;
-			else if (projID == ProjectileID.RocketIV)
-				blastRadius = 6;
+            // Construct a fake item to use with vanilla code for the sake of picking ammo.
+            if (FalseLauncher is null)
+                DefineFalseLauncher();
+            Player player = Main.player[projectile.owner];
+            int projID = ProjectileID.RocketI;
+            float shootSpeed = 0f;
+            bool canShoot = true;
+            int damage = 0;
+            float kb = 0f;
+            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+            int blastRadius = 0;
+            if (projID == ProjectileID.RocketII)
+                blastRadius = 3;
+            else if (projID == ProjectileID.RocketIV)
+                blastRadius = 6;
 
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
 
-			if (projectile.owner == Main.myPlayer && blastRadius > 0)
-			{
-				CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
-			}
+            if (projectile.owner == Main.myPlayer && blastRadius > 0)
+            {
+                CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

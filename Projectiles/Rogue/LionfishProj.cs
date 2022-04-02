@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
-			projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
+            projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
         }
 
         public override void AI()
@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.ai[0] == 0f)
             {
-				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
                 projectile.ai[1] += 1f;
                 if (projectile.ai[1] >= 45f)
                 {
@@ -51,18 +51,18 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity.X *= horizontalMult;
                     projectile.velocity.Y += fallSpeed;
                 }
-				if (projectile.Calamity().stealthStrike)
-				{
-					if (projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
-					{
-						Vector2 velocity = projectile.DirectionFrom(Main.player[projectile.owner].Center);
-						velocity *= Main.rand.NextFloat(4.5f, 6.5f);
-						velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * Math.PI * 0.5, default);
-						int spike = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
-						if (spike.WithinBounds(Main.maxProjectiles))
-							Main.projectile[spike].Calamity().forceRogue = true;
-					}
-				}
+                if (projectile.Calamity().stealthStrike)
+                {
+                    if (projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
+                    {
+                        Vector2 velocity = projectile.DirectionFrom(Main.player[projectile.owner].Center);
+                        velocity *= Main.rand.NextFloat(4.5f, 6.5f);
+                        velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * Math.PI * 0.5, default);
+                        int spike = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
+                        if (spike.WithinBounds(Main.maxProjectiles))
+                            Main.projectile[spike].Calamity().forceRogue = true;
+                    }
+                }
             }
             //Sticky Behaviour
             projectile.StickyProjAI(15);
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Dig, projectile.position);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 72);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 72);
             for (int d = 0; d < 3; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

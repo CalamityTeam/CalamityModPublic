@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			//does no damage. Explosion is visual
+            //does no damage. Explosion is visual
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			//does no damage. Explosion is visual
+            //does no damage. Explosion is visual
             int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
         }
     }

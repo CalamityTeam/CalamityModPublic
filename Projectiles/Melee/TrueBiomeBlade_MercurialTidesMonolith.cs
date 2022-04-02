@@ -13,7 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class MercurialTidesMonolith : ModProjectile
+    public class MercurialTidesMonolith : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesMonolith";
         public Player Owner => Main.player[projectile.owner];

@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (count == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -64,30 +64,30 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
             }
 
-			int num = 0;
-			for (int i = 0; i < Main.projectile.Length; i++)
-			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<LanternFlame>())
-				{
-					num++;
-				}
-			}
-			if (num < 20)
-			{
-				projectile.ai[1] += (float)Main.rand.Next(2,6) + 1f;
-				if (projectile.ai[1] >= 75f)
-				{
-					projectile.ai[1] = 0f;
-					projectile.netUpdate = true;
-					if (projectile.owner == Main.myPlayer)
-					{
-						float startOffsetX = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
-						float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
-						Vector2 startPos = new Vector2(projectile.position.X + startOffsetX, projectile.position.Y + startOffsetY);
-						Vector2 speed = new Vector2(0f, 0f);
-						Projectile.NewProjectile(startPos, speed, ModContent.ProjectileType<LanternFlame>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-				}
+            int num = 0;
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<LanternFlame>())
+                {
+                    num++;
+                }
+            }
+            if (num < 20)
+            {
+                projectile.ai[1] += (float)Main.rand.Next(2,6) + 1f;
+                if (projectile.ai[1] >= 75f)
+                {
+                    projectile.ai[1] = 0f;
+                    projectile.netUpdate = true;
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        float startOffsetX = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
+                        float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
+                        Vector2 startPos = new Vector2(projectile.position.X + startOffsetX, projectile.position.Y + startOffsetY);
+                        Vector2 speed = new Vector2(0f, 0f);
+                        Projectile.NewProjectile(startPos, speed, ModContent.ProjectileType<LanternFlame>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    }
+                }
             }
         }
 

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class StaffoftheMechworm : ModItem
+    public class StaffoftheMechworm : ModItem
     {
         // This value is also referenced by the God Slayer and Auric summoner helmets.
         public const int BaseDamage = 161; // originally 325
@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.UseSound = SoundID.Item113;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.UseSound = SoundID.Item113;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MechwormHead>();
             item.shootSpeed = 10f;

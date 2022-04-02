@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-	public class Akato : ModProjectile
+    public class Akato : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			projectile.FloatingPetAI(true, 0.02f);
+            projectile.FloatingPetAI(true, 0.02f);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

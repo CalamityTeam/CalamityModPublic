@@ -12,7 +12,7 @@ using CalamityMod.DataStructures;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ChainedMeatHook : ModProjectile
+    public class ChainedMeatHook : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedHook";
         public Player Owner => Main.player[projectile.owner];

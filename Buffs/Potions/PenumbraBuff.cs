@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.Potions
             DisplayName.SetDefault("Penumbra");
             Description.SetDefault("Stealth regenerates 15% faster while moving\n" +
                 "At night, stealth additionally regenerates 15% faster while standing still\n" +
-				"Both boosts increase to 20% during a solar eclipse");
+                "Both boosts increase to 20% during a solar eclipse");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

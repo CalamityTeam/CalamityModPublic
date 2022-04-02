@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = Lifetime;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < Lifetime - NoHomingFrames && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < Lifetime - NoHomingFrames && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             // Handle animation
             projectile.frameCounter++;

@@ -4,13 +4,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class TheObliterator : ModItem
+    public class TheObliterator : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Obliterator");
             Tooltip.SetDefault("Ruins nearby enemies with death lasers\n" +
-			"An exceptionally agile yoyo");
+            "An exceptionally agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<ObliteratorYoyo>();
             item.shootSpeed = 16f;
 
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-		}
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
     }
 }

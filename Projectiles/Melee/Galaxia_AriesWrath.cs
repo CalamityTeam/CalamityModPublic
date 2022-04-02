@@ -12,7 +12,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class AriesWrath : ModProjectile
+    public class AriesWrath : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";

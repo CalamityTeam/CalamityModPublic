@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 dust.fadeIn = 0.9473684f;
             }
 
-			for (int projectiles = 0; projectiles < 2; projectiles++)
-			{
-				float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
-				float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.7), knockBack, player.whoAmI);
-			}
+            for (int projectiles = 0; projectiles < 2; projectiles++)
+            {
+                float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.7), knockBack, player.whoAmI);
+            }
 
-			return false;
+            return false;
         }
     }
 }

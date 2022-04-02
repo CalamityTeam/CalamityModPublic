@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class ChaosAmulet : ModItem
+    public class ChaosAmulet : ModItem
     {
         public override void SetStaticDefaults()
         {

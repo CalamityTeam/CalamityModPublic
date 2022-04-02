@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class GiantTortoiseShell : ModItem
+    public class GiantTortoiseShell : ModItem
     {
         public override void SetStaticDefaults()
         {

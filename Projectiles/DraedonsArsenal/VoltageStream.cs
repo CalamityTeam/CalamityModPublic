@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-	public class VoltageStream : ModProjectile
+    public class VoltageStream : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Voltage Stream");
-		}
+        {
+            DisplayName.SetDefault("Voltage Stream");
+        }
 
         public override void SetDefaults()
         {
@@ -35,13 +35,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.melee = true;
             projectile.penetrate = 5;
             projectile.timeLeft = 180;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 12;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
+            Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
             if (!Target.active)
             {
                 projectile.Kill();
@@ -100,18 +100,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
 
-			if (projectile.damage <= 0)
-				projectile.Kill();
+            if (projectile.damage <= 0)
+                projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.damage = (int)(projectile.damage * 0.75);
-		}
+            projectile.damage = (int)(projectile.damage * 0.75);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			projectile.damage = (int)(projectile.damage * 0.75);
-		}
-	}
+            projectile.damage = (int)(projectile.damage * 0.75);
+        }
+    }
 }

@@ -8,11 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ProfanedSwordProj : ModProjectile
+    public class ProfanedSwordProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ProfanedSword";
 
-		private int explosionCount = 0;
+        private int explosionCount = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Sword");
@@ -45,10 +45,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -65,18 +65,18 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			if (Main.myPlayer == projectile.owner)
-			{
-				if (explosionCount < 3)
-				{
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
-					explosionCount++;
-				}
-			}
-			if (projectile.damage > 1)
-				projectile.damage = (int)(projectile.damage * 0.6);
-			if (projectile.damage <= 0)
-				projectile.damage = 1;
+            if (Main.myPlayer == projectile.owner)
+            {
+                if (explosionCount < 3)
+                {
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+                    explosionCount++;
+                }
+            }
+            if (projectile.damage > 1)
+                projectile.damage = (int)(projectile.damage * 0.6);
+            if (projectile.damage <= 0)
+                projectile.damage = 1;
         }
     }
 }

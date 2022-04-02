@@ -72,15 +72,15 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             {
                 float damageMult = 1f;
                 float kbMult = 1f;
-				if (Main.rand.NextBool(10))
-				{
-					type = ModContent.ProjectileType<ClamorNoctusWyvern>();
-				}
-				if (type == ModContent.ProjectileType<ClamorNoctusWyvern>())
-				{
-					damageMult = 25f;
-					kbMult = 1.5f;
-				}
+                if (Main.rand.NextBool(10))
+                {
+                    type = ModContent.ProjectileType<ClamorNoctusWyvern>();
+                }
+                if (type == ModContent.ProjectileType<ClamorNoctusWyvern>())
+                {
+                    damageMult = 25f;
+                    kbMult = 1.5f;
+                }
                 vector2 = new Vector2(player.Center.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.Center.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);

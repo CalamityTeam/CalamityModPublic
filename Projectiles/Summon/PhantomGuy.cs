@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class PhantomGuy : ModProjectile
+    public class PhantomGuy : ModProjectile
     {
         public override string Texture => "CalamityMod/NPCs/Polterghast/PhantomFuckYou";
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             float num633 = 3000f;
             float num634 = 3500f;
             float num635 = 4000f;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if (!flag25 && num646 < num633)
                     {
-						num633 = num646;
+                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (flag25)
             {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46), 0.1f);
+                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46), 0.1f);
             }
             else
             {

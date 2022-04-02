@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-			item.defense = 12;
+            item.defense = 12;
             item.width = 26;
             item.height = 26;
             item.accessory = true;
@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CelestialJewel>());
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
-			recipe.AddIngredient(ItemID.LunarBar, 5);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

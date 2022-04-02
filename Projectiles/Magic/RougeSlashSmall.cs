@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Magic
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-			if (projectile.alpha > 0)
-				projectile.alpha -= 17;
+            if (projectile.alpha > 0)
+                projectile.alpha -= 17;
 
-			projectile.localAI[1] += 1f;
+            projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 12f)
             {
                 projectile.localAI[1] = 0f;

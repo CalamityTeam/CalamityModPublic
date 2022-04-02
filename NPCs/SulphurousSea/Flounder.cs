@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class Flounder : ModNPC
+    public class Flounder : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -32,11 +32,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlounderBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -79,14 +79,14 @@ namespace CalamityMod.NPCs.SulphurousSea
             if (npc.ai[2] == 1f)
             {
                 npc.chaseable = true;
-				CalamityAI.PassiveSwimmingAI(npc, mod, 0, 0f, 0.1f, 0.1f, 2f, 1f, 0.1f);
+                CalamityAI.PassiveSwimmingAI(npc, mod, 0, 0f, 0.1f, 0.1f, 2f, 1f, 0.1f);
             }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-		}
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
 
         public override void FindFrame(int frameHeight)
         {

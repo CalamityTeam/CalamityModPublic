@@ -74,24 +74,24 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame++;
             }
-			if (RamCountdown > 0f || RamReboundCountdown > 0f)
-			{
-				if (projectile.frame < 6)
-				{
-					projectile.frame = 6;
-				}
-				if (projectile.frame >= Main.projFrames[projectile.type])
-				{
-					projectile.frame = 6;
-				}
-			}
-			else
-			{
-				if (projectile.frame >= 6)
-				{
-					projectile.frame = 0;
-				}
-			}
+            if (RamCountdown > 0f || RamReboundCountdown > 0f)
+            {
+                if (projectile.frame < 6)
+                {
+                    projectile.frame = 6;
+                }
+                if (projectile.frame >= Main.projFrames[projectile.type])
+                {
+                    projectile.frame = 6;
+                }
+            }
+            else
+            {
+                if (projectile.frame >= 6)
+                {
+                    projectile.frame = 0;
+                }
+            }
 
             NPC potentialTarget = projectile.Center.MinionHoming(2000f, Owner);
 

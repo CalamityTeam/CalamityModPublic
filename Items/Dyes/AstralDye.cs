@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Dyes
         }
 
         public override void SafeSetDefaults()
-		{
+        {
             item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 0, 65, 0);
         }

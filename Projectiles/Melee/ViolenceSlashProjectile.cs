@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()

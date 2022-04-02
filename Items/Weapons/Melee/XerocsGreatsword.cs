@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-				float damageMult = 0.5f;
+                float damageMult = 0.5f;
                 switch (index)
                 {
                     case 0:
@@ -54,11 +54,11 @@ namespace CalamityMod.Items.Weapons.Melee
                         break;
                     case 1:
                         type = ModContent.ProjectileType<MeldGreatswordMediumProjectile>();
-						damageMult = 0.65f;
+                        damageMult = 0.65f;
                         break;
                     case 2:
                         type = ModContent.ProjectileType<MeldGreatswordBigProjectile>();
-						damageMult = 0.8f;
+                        damageMult = 0.8f;
                         break;
                     default:
                         break;

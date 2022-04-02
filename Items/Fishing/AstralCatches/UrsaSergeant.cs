@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetDefaults()
         {
-			item.defense = 20;
+            item.defense = 20;
             item.width = 36;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;

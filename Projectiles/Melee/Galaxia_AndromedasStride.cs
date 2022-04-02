@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class AndromedasStride : ModProjectile
+    public class AndromedasStride : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra";
         private bool initialized = false;

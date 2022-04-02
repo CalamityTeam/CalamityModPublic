@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class BelladonnaSpiritStaff : ModItem
+    public class BelladonnaSpiritStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

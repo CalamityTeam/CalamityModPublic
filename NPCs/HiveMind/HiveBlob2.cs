@@ -28,52 +28,52 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 npc.lifeMax = 1300;
             }
-			npc.knockBackResist = 0f;
-			aiType = -1;
+            npc.knockBackResist = 0f;
+            aiType = -1;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-			int num750 = CalamityGlobalNPC.hiveMind;
-			if (num750 < 0 || !Main.npc[num750].active)
-			{
-				npc.active = false;
-				npc.netUpdate = true;
-				return;
-			}
+            int num750 = CalamityGlobalNPC.hiveMind;
+            if (num750 < 0 || !Main.npc[num750].active)
+            {
+                npc.active = false;
+                npc.netUpdate = true;
+                return;
+            }
 
-			if (npc.ai[3] > 0f)
+            if (npc.ai[3] > 0f)
                 num750 = (int)npc.ai[3] - 1;
 
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-			{
-				npc.localAI[0] -= 1f;
-				if (npc.localAI[0] <= 0f)
-				{
-					npc.localAI[0] = Main.rand.Next(180, 361);
-					npc.ai[0] = Main.rand.Next(-100, 101);
-					npc.ai[1] = Main.rand.Next(-100, 101);
-					npc.netUpdate = true;
-				}
-			}
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                npc.localAI[0] -= 1f;
+                if (npc.localAI[0] <= 0f)
+                {
+                    npc.localAI[0] = Main.rand.Next(180, 361);
+                    npc.ai[0] = Main.rand.Next(-100, 101);
+                    npc.ai[1] = Main.rand.Next(-100, 101);
+                    npc.netUpdate = true;
+                }
+            }
 
-			npc.TargetClosest(true);
+            npc.TargetClosest(true);
 
-			float num751 = death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
-			float num752 = 96f;
+            float num751 = death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
+            float num752 = 96f;
             Vector2 vector22 = new Vector2(npc.ai[0] * 16f + 8f, npc.ai[1] * 16f + 8f);
             float num189 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - (npc.width / 2) - vector22.X;
             float num190 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - (npc.height / 2) - vector22.Y;
@@ -114,17 +114,17 @@ namespace CalamityMod.NPCs.HiveMind
                     npc.velocity.Y = npc.velocity.Y * 0.8f;
             }
 
-			float velocityLimit = 8f;
-			if (npc.velocity.X > velocityLimit)
-				npc.velocity.X = velocityLimit;
-			if (npc.velocity.X < -velocityLimit)
-				npc.velocity.X = -velocityLimit;
-			if (npc.velocity.Y > velocityLimit)
-				npc.velocity.Y = velocityLimit;
-			if (npc.velocity.Y < -velocityLimit)
-				npc.velocity.Y = -velocityLimit;
+            float velocityLimit = 8f;
+            if (npc.velocity.X > velocityLimit)
+                npc.velocity.X = velocityLimit;
+            if (npc.velocity.X < -velocityLimit)
+                npc.velocity.X = -velocityLimit;
+            if (npc.velocity.Y > velocityLimit)
+                npc.velocity.Y = velocityLimit;
+            if (npc.velocity.Y < -velocityLimit)
+                npc.velocity.Y = -velocityLimit;
 
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     npc.localAI[1] = 180f;
@@ -136,34 +136,34 @@ namespace CalamityMod.NPCs.HiveMind
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-						float num941 = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3.5f;
-						Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
+                        float num941 = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3.5f;
+                        Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                         float num942 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector104.X;
                         float num943 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-						int type = ModContent.ProjectileType<VileClot>();
-						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        int type = ModContent.ProjectileType<VileClot>();
+                        int damage = npc.GetProjectileDamage(type);
+                        Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         npc.netUpdate = true;
                     }
                 }
             }
         }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-		}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+        }
 
-		public override bool CheckActive()
+        public override bool CheckActive()
         {
             return false;
         }

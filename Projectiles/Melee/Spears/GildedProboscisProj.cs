@@ -3,7 +3,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class GildedProboscisProj : BaseSpearProjectile
+    public class GildedProboscisProj : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 return;
 
             Player player = Main.player[projectile.owner];
-			player.statLife += 1;
-			player.HealEffect(1);
+            player.statLife += 1;
+            player.HealEffect(1);
         }
     }
 }

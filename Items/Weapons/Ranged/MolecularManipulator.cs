@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class MolecularManipulator : ModItem
+    public class MolecularManipulator : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,15 +27,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 8f;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = SoundID.Item33;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 25f;
             item.shoot = ModContent.ProjectileType<NullShot2>();
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {

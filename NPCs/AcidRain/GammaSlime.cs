@@ -34,14 +34,14 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 44;
 
-			npc.damage = 110;
-			npc.lifeMax = 5060;
-			npc.DR_NERD(0.15f);
-			npc.defense = 25;
+            npc.damage = 110;
+            npc.lifeMax = 5060;
+            npc.DR_NERD(0.15f);
+            npc.defense = 25;
 
             npc.aiStyle = aiType = -1;
 
-			npc.knockBackResist = 0f;
+            npc.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 8, 30);
             npc.alpha = 50;
@@ -52,11 +52,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GammaSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {

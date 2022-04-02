@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class Gnasher : ModNPC
+    public class Gnasher : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -17,12 +17,12 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 25;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 25;
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 35;
             npc.knockBackResist = 0.25f;
             npc.aiStyle = 3;
@@ -32,11 +32,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.DeathSound = SoundID.NPCDeath54;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-		}
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

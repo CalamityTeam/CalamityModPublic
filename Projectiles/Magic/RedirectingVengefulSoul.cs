@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class RedirectingVengefulSoul : ModProjectile
+    public class RedirectingVengefulSoul : ModProjectile
     {
         public ref float BurstIntensity => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];

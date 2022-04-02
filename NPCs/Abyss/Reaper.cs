@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class Reaper : ModNPC
+    public class Reaper : ModNPC
     {
         public bool hasBeenHit = false;
         public bool reset = false;

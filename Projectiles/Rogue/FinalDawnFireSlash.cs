@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
         public bool HasRegeneratedStealth = false;
         public const float StealthReturnRatio = 0.25f;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
+        {
+            DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[projectile.type] = 11;
         }
         public override void SetDefaults()
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 300;
             projectile.height = 398;
             projectile.friendly = false;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.ownerHitCheck = true;
@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[projectile.owner];
 
-			if (player is null || player.dead)
-				projectile.Kill();
+            if (player is null || player.dead)
+                projectile.Kill();
 
             player.direction = projectile.direction;
             player.heldProj = projectile.whoAmI;

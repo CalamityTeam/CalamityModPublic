@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SurgeDriverHoldout : ModProjectile
+    public class SurgeDriverHoldout : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public void ShootProjectiles(Vector2 armPosition)
-		{
+        {
             if (Main.myPlayer != projectile.owner)
                 return;
 
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public void ManipulatePlayerVariables()
-		{
+        {
             Owner.ChangeDir(projectile.direction);
             Owner.heldProj = projectile.whoAmI;
             Owner.itemTime = 2;

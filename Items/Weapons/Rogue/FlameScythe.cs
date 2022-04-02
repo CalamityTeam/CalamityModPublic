@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class FlameScythe : RogueWeapon
+    public class FlameScythe : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subduction Slicer");
             Tooltip.SetDefault("Throws a scythe that explodes on enemy hits\n" +
-			"Stealth strikes also summon an orange pillar of fire on enemy hits");
+            "Stealth strikes also summon an orange pillar of fire on enemy hits");
         }
 
         public override void SafeSetDefaults()
@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

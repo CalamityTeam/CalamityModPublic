@@ -34,38 +34,38 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 
-			//Stealth strike behavior
-			if (!projectile.Calamity().stealthStrike || projectile.owner != Main.myPlayer || projectile.Calamity().lineColor >= 2)
-				return;
-			projectile.localAI[0]++;
-			if (projectile.localAI[0] >= 30f)
-			{
-				Vector2 vector2 = new Vector2(20f, 20f);
-				for (int index1 = 0; index1 < 10; ++index1)
-				{
-					int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 87, 0f, 0f, 100, new Color(), 1.5f);
-					Dust dust = Main.dust[index2];
-					dust.velocity *= 1.4f;
-				}
-				for (int index1 = 0; index1 < 5; ++index1)
-				{
-					Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 144, 0f, 0f, 0, default, 1f);
-				}
+            //Stealth strike behavior
+            if (!projectile.Calamity().stealthStrike || projectile.owner != Main.myPlayer || projectile.Calamity().lineColor >= 2)
+                return;
+            projectile.localAI[0]++;
+            if (projectile.localAI[0] >= 30f)
+            {
+                Vector2 vector2 = new Vector2(20f, 20f);
+                for (int index1 = 0; index1 < 10; ++index1)
+                {
+                    int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 87, 0f, 0f, 100, new Color(), 1.5f);
+                    Dust dust = Main.dust[index2];
+                    dust.velocity *= 1.4f;
+                }
+                for (int index1 = 0; index1 < 5; ++index1)
+                {
+                    Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 144, 0f, 0f, 0, default, 1f);
+                }
 
-				int javelin = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
-				int javelin2 = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
-				if (javelin.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[javelin].Calamity().lineColor = projectile.Calamity().lineColor + 1;
-					Main.projectile[javelin].Calamity().stealthStrike = true;
-				}
-				if (javelin2.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[javelin2].Calamity().lineColor = projectile.Calamity().lineColor + 1;
-					Main.projectile[javelin2].Calamity().stealthStrike = true;
-				}
-				projectile.Kill();
-			}
+                int javelin = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+                int javelin2 = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+                if (javelin.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[javelin].Calamity().lineColor = projectile.Calamity().lineColor + 1;
+                    Main.projectile[javelin].Calamity().stealthStrike = true;
+                }
+                if (javelin2.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[javelin2].Calamity().lineColor = projectile.Calamity().lineColor + 1;
+                    Main.projectile[javelin2].Calamity().stealthStrike = true;
+                }
+                projectile.Kill();
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

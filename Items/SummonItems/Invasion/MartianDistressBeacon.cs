@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems.Invasion
 {
-	public class MartianDistressBeacon : ModItem
+    public class MartianDistressBeacon : ModItem
     {
         public override void SetStaticDefaults()
         {

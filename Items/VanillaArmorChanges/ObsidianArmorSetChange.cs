@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
-	public class ObsidianArmorSetChange : VanillaArmorChange
+    public class ObsidianArmorSetChange : VanillaArmorChange
     {
         public override int? HeadPieceID => ItemID.ObsidianHelm;
 

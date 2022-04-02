@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class Laserfish : ModNPC
+    public class Laserfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -35,11 +35,11 @@ namespace CalamityMod.NPCs.Abyss
             banner = npc.type;
             bannerItem = ModContent.ItemType<LaserfishBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -53,8 +53,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-			npc.damage = 0;
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            npc.damage = 0;
 
             CalamityAI.PassiveSwimmingAI(npc, mod, 0, Main.player[npc.target].Calamity().GetAbyssAggro(400f, 200f), 0.15f, 0.15f, 4f, 4f, 0.1f);
         }

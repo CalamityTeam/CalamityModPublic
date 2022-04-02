@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GaelSkull2 : ModProjectile
+    public class GaelSkull2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/GaelSkull";
 
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

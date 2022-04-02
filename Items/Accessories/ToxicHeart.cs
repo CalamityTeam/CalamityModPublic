@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class ToxicHeart : ModItem
+    public class ToxicHeart : ModItem
     {
         public override void SetStaticDefaults()
         {

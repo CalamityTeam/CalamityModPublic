@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Valaricicle2 : ModProjectile
+    public class Valaricicle2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,19 +20,19 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.aiStyle = 1;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.velocity.X *= 0.9995f;
             projectile.velocity.Y += 0.01f;
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 8f, 20f);
-		}
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 8f, 20f);
+        }
 
         public override void Kill(int timeLeft)
         {

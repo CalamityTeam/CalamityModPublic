@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-	public class BloomLineVFX : Particle
+    public class BloomLineVFX : Particle
     {
         public override string Texture => "CalamityMod/Particles/BloomLine";
         public override bool UseAdditiveBlend => true;

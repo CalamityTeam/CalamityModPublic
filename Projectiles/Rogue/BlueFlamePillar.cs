@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
             return false;

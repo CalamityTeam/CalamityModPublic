@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.magic = true;
             projectile.aiStyle = 93;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -37,10 +37,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-				projectile.timeLeft = 0;
-			}
-			return false;
-		}
+                projectile.timeLeft = 0;
+            }
+            return false;
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -49,12 +49,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 126, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-			int head = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f,  mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusHead"));
-			Main.gore[head].timeLeft /= 10;
-			int body = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusBody"));
-			Main.gore[body].timeLeft /= 10;
-			int tail = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f,  mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusTail"));
-			Main.gore[tail].timeLeft /= 10;
+            int head = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f,  mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusHead"));
+            Main.gore[head].timeLeft /= 10;
+            int body = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusBody"));
+            Main.gore[body].timeLeft /= 10;
+            int tail = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f,  mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusTail"));
+            Main.gore[tail].timeLeft /= 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

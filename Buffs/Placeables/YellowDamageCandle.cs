@@ -24,10 +24,10 @@ namespace CalamityMod.Buffs.Placeables
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().yellowCandle < npc.buffTime[buffIndex])
-				npc.Calamity().yellowCandle = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().yellowCandle < npc.buffTime[buffIndex])
+                npc.Calamity().yellowCandle = npc.buffTime[buffIndex];
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

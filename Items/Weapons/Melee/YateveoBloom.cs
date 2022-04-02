@@ -45,38 +45,38 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
             item.shootSpeed = ShootSpeed;
-			item.Calamity().trueMelee = true;
-		}
+            item.Calamity().trueMelee = true;
+        }
 
         public override bool AltFunctionUse(Player player) => true;
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse != 2)
-				return 1f;
-			return 0.66f;
-		}
+        public override float UseTimeMultiplier    (Player player)
+        {
+            if (player.altFunctionUse != 2)
+                return 1f;
+            return 0.66f;
+        }
 
         public override bool CanUseItem(Player player)
         {
-			// Spear
+            // Spear
             if (player.altFunctionUse == 2)
             {
                 item.channel = false;
                 item.autoReuse = true;
             }
-			// Flail
+            // Flail
             else
             {
                 item.channel = true;
                 item.autoReuse = false;
             }
-			return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<YateveoBloomSpear>()] <= 0;
+            return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<YateveoBloomSpear>()] <= 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			float speedMult = SpearSpeed / ShootSpeed;
+            float speedMult = SpearSpeed / ShootSpeed;
             if (player.altFunctionUse == 2)
                 Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<YateveoBloomSpear>(), (int)(damage * 0.666666f), knockBack, player.whoAmI);
             else

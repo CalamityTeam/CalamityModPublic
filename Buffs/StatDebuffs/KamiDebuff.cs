@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-	public class KamiDebuff : ModBuff
+    public class KamiDebuff : ModBuff
     {
         public const float MultiplicativeDamageReduction = 0.8f;
         // Hard-cap for npc speed when afflicted with this debuff. Does not affect certain NPCs and does not affect any bosses (Basically only works on boss minions).
@@ -22,12 +22,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().kamiFlu < npc.buffTime[buffIndex])
-				npc.Calamity().kamiFlu = npc.buffTime[buffIndex];
-			if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
-				npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().kamiFlu;
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().kamiFlu < npc.buffTime[buffIndex])
+                npc.Calamity().kamiFlu = npc.buffTime[buffIndex];
+            if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+                npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().kamiFlu;
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
 
         public override void Update(Player player, ref int buffIndex)

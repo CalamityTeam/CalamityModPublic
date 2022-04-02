@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.extraUpdates = 220;
             projectile.timeLeft = 200;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 3;
+            projectile.damage /= 3;
             projectile.Damage();
             int flowerPetalCount = Main.rand.Next(3, 5 + 1);
             float thetaDelta = projectile.velocity.ToRotation();

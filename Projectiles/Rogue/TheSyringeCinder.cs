@@ -24,24 +24,24 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Calamity().rogue = true;
-			projectile.alpha = 100;
+            projectile.alpha = 100;
         }
 
         public override void AI()
         {
-			//make it face the way it's going
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.rotation += projectile.velocity.X * 0.1f;
-				projectile.rotation = -projectile.velocity.X * 0.05f;
-			}
-			else
-			{
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + ((3 * MathHelper.Pi) / 2);
-				projectile.spriteDirection = ((projectile.velocity.X > 0f) ? -1 : 1);
-			}
+            //make it face the way it's going
+            if (projectile.ai[1] == 1f)
+            {
+                projectile.rotation += projectile.velocity.X * 0.1f;
+                projectile.rotation = -projectile.velocity.X * 0.05f;
+            }
+            else
+            {
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + ((3 * MathHelper.Pi) / 2);
+                projectile.spriteDirection = ((projectile.velocity.X > 0f) ? -1 : 1);
+            }
 
-			//frames
+            //frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame = 0;
             }
 
-			//movement
+            //movement
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 projectile.velocity.X = projectile.velocity.X * -0.1f;
@@ -81,16 +81,16 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             }
-			if (Main.rand.NextBool(4))
-			{
-				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
-				Dust dust = Main.dust[num199];
-				dust.position.X -= 2f;
-				dust.position.Y += 2f;
-				dust.scale += (float)Main.rand.Next(50) * 0.01f;
-				dust.noGravity = true;
-				dust.velocity.Y -= 2f;
-			}
+            if (Main.rand.NextBool(4))
+            {
+                int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
+                Dust dust = Main.dust[num199];
+                dust.position.X -= 2f;
+                dust.position.Y += 2f;
+                dust.scale += (float)Main.rand.Next(50) * 0.01f;
+                dust.noGravity = true;
+                dust.velocity.Y -= 2f;
+            }
             if (Main.rand.NextBool(10))
             {
                 int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			projectile.ai[1] = 1f;
+            projectile.ai[1] = 1f;
             return false;
         }
 

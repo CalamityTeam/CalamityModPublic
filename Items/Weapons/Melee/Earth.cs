@@ -89,8 +89,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
-			if (target.Calamity().miscDefenseLoss < target.defense)
-				target.Calamity().miscDefenseLoss += 1;
+            if (target.Calamity().miscDefenseLoss < target.defense)
+                target.Calamity().miscDefenseLoss += 1;
 
             if (!target.canGhostHeal || player.moonLeech)
                 return;

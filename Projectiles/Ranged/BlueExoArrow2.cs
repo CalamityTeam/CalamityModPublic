@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class BlueExoArrow2 : ModProjectile
+    public class BlueExoArrow2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 

@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
-	public class SunkenCrateTile : ModTile
+    public class SunkenCrateTile : ModTile
     {
         public override void SetDefaults()
         {

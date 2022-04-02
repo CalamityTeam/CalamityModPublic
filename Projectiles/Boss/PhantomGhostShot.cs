@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -70,19 +70,19 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
-		}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+        }
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             return new Color(100, 250, 250, projectile.alpha);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

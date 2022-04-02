@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class TeslaAura : ModProjectile
+    public class TeslaAura : ModProjectile
     {
         private const float radius = 98f;
         private const int framesX = 3;
@@ -39,9 +39,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			//Protect against other mod projectile reflection like emode Granite Golems
-			projectile.friendly = true;
-			projectile.hostile = false;
+            //Protect against other mod projectile reflection like emode Granite Golems
+            projectile.friendly = true;
+            projectile.hostile = false;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
@@ -61,12 +61,12 @@ namespace CalamityMod.Projectiles.Typeless
             Player player = Main.player[projectile.owner];
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             projectile.Center = player.Center;
-			if (player is null || player.dead)
-			{
+            if (player is null || player.dead)
+            {
                 player.ClearBuff(ModContent.BuffType<TeslaBuff>());
-				player.Calamity().tesla = false;
-				projectile.Kill();
-			}
+                player.Calamity().tesla = false;
+                projectile.Kill();
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(BuffID.Electrified, 180);
             target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 30);
 
-			if (target.knockBackResist <= 0f)
-				return;
+            if (target.knockBackResist <= 0f)
+                return;
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             target.AddBuff(BuffID.Electrified, 180);
             target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 30);
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -138,12 +138,12 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
 
         public override bool? CanHitNPC(NPC target)
-		{
-			if (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
-			{
-				return false;
-			}
-			return null;
-		}
+        {
+            if (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
+            {
+                return false;
+            }
+            return null;
+        }
     }
 }

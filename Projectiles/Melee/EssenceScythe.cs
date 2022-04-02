@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class EssenceScythe : ModProjectile
+    public class EssenceScythe : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.life <= 0)
             {
                 if (projectile.owner == Main.myPlayer)
-					CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 8, ModContent.ProjectileType<EssenceFlame>(), 1200f, 0f);
+                    CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 8, ModContent.ProjectileType<EssenceFlame>(), 1200f, 0f);
             }
         }
     }

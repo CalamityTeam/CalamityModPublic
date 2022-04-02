@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Blissful Bombardier");
             Tooltip.SetDefault("Fires flare rockets\n" +
-				"Rockets will destroy tiles with tile-destroying ammo");
+                "Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 7.5f;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = SoundID.Item11;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<Nuke>();

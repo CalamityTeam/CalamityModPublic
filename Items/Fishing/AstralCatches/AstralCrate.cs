@@ -48,12 +48,12 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             //Modded materials
             DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 5, 10);
             DropHelper.DropItem(player, ItemID.FallenStar, 5, 10);
-			DropHelper.DropItemChance(player, ItemID.Meteorite, 0.2f, 10, 20);
-			DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.1f, 1, 3);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralJelly>(), CalamityWorld.downedAstrageldon, 0.2f, 2, 5);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, 0.2f, 10, 20);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBar>(), CalamityWorld.downedStarGod, 0.1f, 1, 3);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<MeldBlob>(), CalamityWorld.downedStarGod, 0.25f, 5, 10);
+            DropHelper.DropItemChance(player, ItemID.Meteorite, 0.2f, 10, 20);
+            DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralJelly>(), CalamityWorld.downedAstrageldon, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, 0.2f, 10, 20);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBar>(), CalamityWorld.downedStarGod, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<MeldBlob>(), CalamityWorld.downedStarGod, 0.25f, 5, 10);
 
             // Weapons
             DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.1f,
@@ -83,26 +83,26 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralInjection>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<GravityNormalizerPotion>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
-			int healingPotID = ItemID.HealingPotion;
-			int manaPotID = ItemID.ManaPotion;
-			if (CalamityWorld.downedDoG)
-			{
-				healingPotID = ModContent.ItemType<SupremeHealingPotion>();
-				manaPotID = ModContent.ItemType<SupremeManaPotion>();
-			}
-			else if (CalamityWorld.downedProvidence)
-			{
-				healingPotID = ItemID.SuperHealingPotion;
-				manaPotID = ItemID.SuperManaPotion;
-			}
-			else if (NPC.downedMechBossAny)
-			{
-				healingPotID = ItemID.GreaterHealingPotion;
-				manaPotID = ItemID.GreaterManaPotion;
-			}
-			DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralInjection>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<GravityNormalizerPotion>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
+            int healingPotID = ItemID.HealingPotion;
+            int manaPotID = ItemID.ManaPotion;
+            if (CalamityWorld.downedDoG)
+            {
+                healingPotID = ModContent.ItemType<SupremeHealingPotion>();
+                manaPotID = ModContent.ItemType<SupremeManaPotion>();
+            }
+            else if (CalamityWorld.downedProvidence)
+            {
+                healingPotID = ItemID.SuperHealingPotion;
+                manaPotID = ItemID.SuperManaPotion;
+            }
+            else if (NPC.downedMechBossAny)
+            {
+                healingPotID = ItemID.GreaterHealingPotion;
+                manaPotID = ItemID.GreaterManaPotion;
+            }
+            DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);

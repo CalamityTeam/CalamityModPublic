@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 582;
             projectile.height = 304;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localNPCHitCooldown = 5;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             Player player = Main.player[projectile.owner];
             if (projectile.localAI[0] == 0f)
             {
@@ -54,18 +54,18 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame++;
             }
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
                 projectile.Kill();
-			}
-			projectile.direction = ((player.Center.X - projectile.Center.X) < 0).ToDirectionInt();
-			projectile.spriteDirection = projectile.direction;
-		}
+            }
+            projectile.direction = ((player.Center.X - projectile.Center.X) < 0).ToDirectionInt();
+            projectile.spriteDirection = projectile.direction;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
-			Vector2 startPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Vector2 startPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
             int frameY = frameHeight * projectile.frame;
             Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipVertically;
 
-			Main.spriteBatch.Draw(texture, startPos, rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, startPos, rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
             return false;
         }
     }

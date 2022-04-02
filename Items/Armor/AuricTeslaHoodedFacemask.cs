@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaHoodedFacemask : ModItem
     {
         public override void SetStaticDefaults()
@@ -58,9 +58,9 @@ namespace CalamityMod.Items.Armor
                 player.lifeRegen += 10;
             }
 
-			if (modPlayer.godSlayerDashHotKeyPressed)
-				modPlayer.dashMod = 9;
-		}
+            if (modPlayer.godSlayerDashHotKeyPressed)
+                modPlayer.dashMod = 9;
+        }
 
         public override void UpdateEquip(Player player)
         {

@@ -9,7 +9,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueAridGrandeurShot : ModProjectile
+    public class TrueAridGrandeurShot : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra";
         private bool initialized = false;

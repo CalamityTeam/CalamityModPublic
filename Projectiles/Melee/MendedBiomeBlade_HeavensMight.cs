@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class HeavensMight : ModProjectile
+    public class HeavensMight : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight";
         private bool initialized = false;

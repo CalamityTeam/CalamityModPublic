@@ -9,9 +9,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SandPoisonCloudOldDuke : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/Boss/SandPoisonCloud";
+        public override string Texture => "CalamityMod/Projectiles/Boss/SandPoisonCloud";
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[projectile.type] = 4;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 1800;
-			cooldownSlot = 1;
+            cooldownSlot = 1;
         }
 
         public override void AI()
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.timeLeft < 180)
             {
-				projectile.damage = 0;
+                projectile.damage = 0;
                 if (projectile.Opacity > 0f)
                 {
                     projectile.Opacity -= 0.02f;
@@ -79,17 +79,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 20f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.Opacity == 0.9f;
+        public override bool CanHitPlayer(Player target) => projectile.Opacity == 0.9f;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.Opacity == 0.9f)
-				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
-		}
+            if (projectile.Opacity == 0.9f)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
+        }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
-	}
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
+    }
 }

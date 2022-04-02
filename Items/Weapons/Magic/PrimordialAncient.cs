@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class PrimordialAncient : ModItem
+    public class PrimordialAncient : ModItem
     {
         public override void SetStaticDefaults()
         {

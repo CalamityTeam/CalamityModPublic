@@ -44,23 +44,23 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
         }
 
         public override bool CanUseItem(Player player)
-		{
-			//Stealth strikes ignore the proj cap
-			int terraDiskCount = 0;
-			for (int p = 0; p < Main.maxProjectiles; p++)
-			{
-				Projectile proj = Main.projectile[p];
-				if (!proj.active || proj.owner != player.whoAmI)
-					continue;
-				if (proj.type == item.shoot && !proj.Calamity().stealthStrike)
-				{
-					terraDiskCount++;
-				}
-				if (terraDiskCount >= 3)
-					break;
-			}
-			return terraDiskCount < 3;
-		}
+        {
+            //Stealth strikes ignore the proj cap
+            int terraDiskCount = 0;
+            for (int p = 0; p < Main.maxProjectiles; p++)
+            {
+                Projectile proj = Main.projectile[p];
+                if (!proj.active || proj.owner != player.whoAmI)
+                    continue;
+                if (proj.type == item.shoot && !proj.Calamity().stealthStrike)
+                {
+                    terraDiskCount++;
+                }
+                if (terraDiskCount >= 3)
+                    break;
+            }
+            return terraDiskCount < 3;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -71,10 +71,10 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
                 damage = (int)(damage * 0.9f);
             }
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
-			{
-				Main.projectile[proj].Calamity().stealthStrike = true;
-			}
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[proj].Calamity().stealthStrike = true;
+            }
             return false;
         }
 

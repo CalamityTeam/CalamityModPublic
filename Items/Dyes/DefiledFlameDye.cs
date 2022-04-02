@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Defiled Flame Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.LightRed;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
         }

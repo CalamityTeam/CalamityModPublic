@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class EidolonWyrmBodyAlt : ModNPC
+    public class EidolonWyrmBodyAlt : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -47,32 +47,32 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
-			// Check if other segments are still alive, if not, die
-			bool shouldDespawn = true;
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHead>())
-				{
-					shouldDespawn = false;
-					break;
-				}
-			}
-			if (!shouldDespawn)
-			{
-				if (npc.ai[1] <= 0f)
-					shouldDespawn = true;
-				else if (Main.npc[(int)npc.ai[1]].life <= 0)
-					shouldDespawn = true;
-			}
-			if (shouldDespawn)
-			{
-				npc.life = 0;
-				npc.HitEffect(0, 10.0);
-				npc.checkDead();
-				npc.active = false;
-			}
+            // Check if other segments are still alive, if not, die
+            bool shouldDespawn = true;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHead>())
+                {
+                    shouldDespawn = false;
+                    break;
+                }
+            }
+            if (!shouldDespawn)
+            {
+                if (npc.ai[1] <= 0f)
+                    shouldDespawn = true;
+                else if (Main.npc[(int)npc.ai[1]].life <= 0)
+                    shouldDespawn = true;
+            }
+            if (shouldDespawn)
+            {
+                npc.life = 0;
+                npc.HitEffect(0, 10.0);
+                npc.checkDead();
+                npc.active = false;
+            }
 
-			if (Main.npc[(int)npc.ai[1]].alpha < 128)
+            if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)

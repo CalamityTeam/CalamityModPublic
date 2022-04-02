@@ -9,10 +9,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class ReaverHeadgear : ModItem
     {
-		//Exploration and Mining Helm
+        //Exploration and Mining Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");
@@ -43,9 +43,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Causes nearby treasure to sparkle\n" +
-				"Increased item grab range and block placement range\n" +
-				"Mining tiles restores breath while underwater\n" +
-				"Summons a reaver orb to light up the area around you\n" +
+                "Increased item grab range and block placement range\n" +
+                "Mining tiles restores breath while underwater\n" +
+                "Summons a reaver orb to light up the area around you\n" +
                 "Reduces enemy aggression, even in the abyss\n" +
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
@@ -65,57 +65,57 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ReaverOrb>(), 0, 0f, player.whoAmI);
                 }
             }
-			if (player.miscCounter % 10 == 0)
-			{
-				int searchDist = 17;
-				int x = (int)player.Center.X / 16;
-				int y = (int)player.Center.Y / 16;
-				for (int i = x - searchDist; i <= x + searchDist; ++i)
-				{
-					for (int j = y - searchDist; j <= y + searchDist; ++j)
-					{
-						if (Main.rand.NextBool(4) && (new Vector2((float)(x - i), (float)(y - j)).Length() < (float)searchDist && i > 0 && (i < Main.maxTilesX - 1 && j > 0) && (j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].active())))
-						{
-							bool shouldSparkle = false;
-							//Check for the money piles
-							if (Main.tile[i, j].type == TileID.SmallPiles && Main.tile[i, j].frameY == 18)
-							{
-								if (Main.tile[i, j].frameX >= 576 && Main.tile[i, j].frameX <= 882)
-									shouldSparkle = true;
-							}
-							else if (Main.tile[i, j].type == TileID.LargePiles && Main.tile[i, j].frameX >= 864 && Main.tile[i, j].frameX <= 1170)
-								shouldSparkle = true;
+            if (player.miscCounter % 10 == 0)
+            {
+                int searchDist = 17;
+                int x = (int)player.Center.X / 16;
+                int y = (int)player.Center.Y / 16;
+                for (int i = x - searchDist; i <= x + searchDist; ++i)
+                {
+                    for (int j = y - searchDist; j <= y + searchDist; ++j)
+                    {
+                        if (Main.rand.NextBool(4) && (new Vector2((float)(x - i), (float)(y - j)).Length() < (float)searchDist && i > 0 && (i < Main.maxTilesX - 1 && j > 0) && (j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].active())))
+                        {
+                            bool shouldSparkle = false;
+                            //Check for the money piles
+                            if (Main.tile[i, j].type == TileID.SmallPiles && Main.tile[i, j].frameY == 18)
+                            {
+                                if (Main.tile[i, j].frameX >= 576 && Main.tile[i, j].frameX <= 882)
+                                    shouldSparkle = true;
+                            }
+                            else if (Main.tile[i, j].type == TileID.LargePiles && Main.tile[i, j].frameX >= 864 && Main.tile[i, j].frameX <= 1170)
+                                shouldSparkle = true;
 
-							if (shouldSparkle || Main.tileSpelunker[Main.tile[i, j].type] || Main.tileAlch[Main.tile[i, j].type] && Main.tile[i, j].type != TileID.ImmatureHerbs)
-							{
-								int sparkle = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 204, 0f, 0f, 150, new Color(), 0.3f);
-								Dust dust = Main.dust[sparkle];
-								dust.fadeIn = 0.75f;
-								dust.velocity = dust.velocity * 0.1f;
-								dust.noLight = true;
-							}
-						}
-					}
-				}
-			}
+                            if (shouldSparkle || Main.tileSpelunker[Main.tile[i, j].type] || Main.tileAlch[Main.tile[i, j].type] && Main.tile[i, j].type != TileID.ImmatureHerbs)
+                            {
+                                int sparkle = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 204, 0f, 0f, 150, new Color(), 0.3f);
+                                Dust dust = Main.dust[sparkle];
+                                dust.fadeIn = 0.75f;
+                                dust.velocity = dust.velocity * 0.1f;
+                                dust.noLight = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-			player.pickSpeed -= 0.1f;
+            player.pickSpeed -= 0.1f;
             player.tileSpeed += 0.2f;
             player.wallSpeed += 0.2f;
-			player.lavaMax += 420;
+            player.lavaMax += 420;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 6);
-			recipe.AddIngredient(ItemID.JungleSpores, 4);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.JungleSpores, 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

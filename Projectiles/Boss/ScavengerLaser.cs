@@ -59,23 +59,23 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.alpha < 0)
                 projectile.alpha = 0;
 
-			if (projectile.alpha < 40)
-			{
-				int num805 = Dust.NewDust(projectile.Center - Vector2.One * 5f, 10, 10, 244, -projectile.velocity.X / 3f, -projectile.velocity.Y / 3f, 150, Color.Transparent, 0.6f);
-				Main.dust[num805].noGravity = true;
-			}
+            if (projectile.alpha < 40)
+            {
+                int num805 = Dust.NewDust(projectile.Center - Vector2.One * 5f, 10, 10, 244, -projectile.velocity.X / 3f, -projectile.velocity.Y / 3f, 150, Color.Transparent, 0.6f);
+                Main.dust[num805].noGravity = true;
+            }
 
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			if (projectile.ai[1] == -1f)
-			{
-				if (projectile.velocity.Length() < 18f)
-					projectile.velocity *= 1.05f;
-				else
-					projectile.tileCollide = true;
+            if (projectile.ai[1] == -1f)
+            {
+                if (projectile.velocity.Length() < 18f)
+                    projectile.velocity *= 1.05f;
+                else
+                    projectile.tileCollide = true;
 
-				return;
-			}
+                return;
+            }
 
             if (projectile.ai[0] == 0f)
             {

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Seafood");
             Tooltip.SetDefault("Summons the Aquatic Scourge when used in the sulphur sea\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -37,12 +37,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<AquaticScourgeHead>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

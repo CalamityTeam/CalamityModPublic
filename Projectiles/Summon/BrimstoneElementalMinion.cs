@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class BrimstoneElementalMinion : ModProjectile
+    public class BrimstoneElementalMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             float num633 = 700f;
             float num636 = 400f; //150
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (projectile.ai[0] != 1f)

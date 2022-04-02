@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Empyrean Cloak");
             Tooltip.SetDefault("Armor of the cosmos\n" +
-				"+20 max life\n" +
+                "+20 max life\n" +
                 "7% increased rogue damage and critical strike chance");
         }
 

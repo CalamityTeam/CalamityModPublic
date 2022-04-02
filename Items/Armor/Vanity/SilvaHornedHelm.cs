@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Armor.Vanity
             item.height = 24;
             item.value = Item.buyPrice(0, 8, 0, 0);
             item.vanity = true;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-		}
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

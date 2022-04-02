@@ -10,7 +10,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs.AcidRain
 {
-	public class Radiator : ModNPC
+    public class Radiator : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -47,32 +47,32 @@ namespace CalamityMod.NPCs.AcidRain
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			aiType = NPCID.GlowingSnail;
+            aiType = NPCID.GlowingSnail;
             banner = npc.type;
             bannerItem = ModContent.ItemType<RadiatorBanner>();
             npc.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
-        {			
+        {            
             Lighting.AddLight(npc.Center, 0.3f, 1.5f, 0.3f);
 
             int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
-			Player player = Main.player[Main.myPlayer];
-			if (!player.dead && player.active && (double) (player.Center - npc.Center).Length() < auraSize)
-			{
-				player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
-				player.AddBuff(BuffID.Poisoned, 2, false);
-				if (CalamityWorld.downedPolterghast)
-				{
-					player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
-					player.AddBuff(BuffID.Venom, 2, false);
-				}
-			}
+            Player player = Main.player[Main.myPlayer];
+            if (!player.dead && player.active && (double) (player.Center - npc.Center).Length() < auraSize)
+            {
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
+                player.AddBuff(BuffID.Poisoned, 2, false);
+                if (CalamityWorld.downedPolterghast)
+                {
+                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
+                    player.AddBuff(BuffID.Venom, 2, false);
+                }
+            }
         }
 
         public override void FindFrame(int frameHeight)

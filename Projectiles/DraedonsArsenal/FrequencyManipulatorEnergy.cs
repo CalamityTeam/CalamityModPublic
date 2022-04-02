@@ -16,9 +16,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => projectile.ai[0] = value;
         }
         public const int Lifetime = 360;
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Energy");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Pulse Energy");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
         }
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 8;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = Lifetime;
             projectile.extraUpdates = 1;
         }

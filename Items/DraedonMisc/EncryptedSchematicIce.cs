@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-	public class EncryptedSchematicIce : ModItem
+    public class EncryptedSchematicIce : ModItem
     {
         public override void SetStaticDefaults()
         {

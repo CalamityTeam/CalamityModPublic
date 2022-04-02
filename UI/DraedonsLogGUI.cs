@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	public abstract class DraedonsLogGUI : PopupGUI
+    public abstract class DraedonsLogGUI : PopupGUI
     {
         public int Page = 0;
         public int ArrowClickCooldown;

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
             target.AddBuff(BuffID.OnFire, debuffTime);
 
             if (projectile.Calamity().stealthStrike)
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
             target.AddBuff(BuffID.OnFire, debuffTime);
 
             if (projectile.Calamity().stealthStrike)

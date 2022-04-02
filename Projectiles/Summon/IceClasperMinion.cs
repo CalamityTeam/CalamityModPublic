@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class IceClasperMinion : ModProjectile
+    public class IceClasperMinion : ModProjectile
     {
 
         private int dust = 3;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+            projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }

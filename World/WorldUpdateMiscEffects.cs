@@ -22,12 +22,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-	public partial class CalamityWorld : ModWorld
+    public partial class CalamityWorld : ModWorld
     {
         public override void PostUpdate()
         {
-			// Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
-			if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
+            // Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
+            if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
                 CalamityGlobalNPC.draedon = -1;
 
             // Reset the exo mech to summon if Draedon is absent.
@@ -400,8 +400,8 @@ namespace CalamityMod.World
                         spawnRate *= 1.43D;
                     if (Main.peaceCandles > 0)
                         spawnRate *= 1.25D;
-					if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
-						spawnRate *= 5D;
+                    if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
+                        spawnRate *= 5D;
 
                     int chance = (int)spawnRate;
                     if (Main.rand.NextBool(chance))

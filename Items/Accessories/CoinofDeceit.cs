@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Coin of Deceit");
             Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
-			"6% increased rogue crit chance");
+            "6% increased rogue crit chance");
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("AnyGoldBar", 4);
             recipe.AddRecipeGroup("AnyCopperBar", 8);
-			// So you make fake coins out of wood, nobody will judge you
+            // So you make fake coins out of wood, nobody will judge you
             recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

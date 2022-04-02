@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = NPCID.LavaSlime;
+            aiType = NPCID.LavaSlime;
             npc.damage = 40;
             npc.width = 40;
             npc.height = 30;
@@ -43,10 +43,10 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CharredSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -57,12 +57,12 @@ namespace CalamityMod.NPCs.Crags
             return spawnInfo.player.Calamity().ZoneCalamity ? 0.08f : 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

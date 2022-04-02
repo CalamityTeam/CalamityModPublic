@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 66;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
             item.shootSpeed = 20f;
         }
 
@@ -94,8 +94,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
-			if (player.moonLeech)
-				return;
+            if (player.moonLeech)
+                return;
 
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;

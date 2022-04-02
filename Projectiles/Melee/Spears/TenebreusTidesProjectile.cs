@@ -7,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class TenebreusTidesProjectile : BaseSpearProjectile
+    public class TenebreusTidesProjectile : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
             SwordSpam(target.Center);
-		}
+        }
 
         // Spawns a storm of water projectiles on-hit.
         public void SwordSpam(Vector2 targetPos)
@@ -62,10 +62,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
             int projAmt = 3;
             for (int i = 0; i < projAmt; ++i)
             {
-				int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
+                int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
                 if (projectile.owner == Main.myPlayer)
                 {
-					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
+                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
                 }
             }
         }

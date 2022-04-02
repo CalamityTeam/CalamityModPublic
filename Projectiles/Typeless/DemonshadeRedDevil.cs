@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Typeless
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if (!flag25 && num646 < num633)
                     {
-						num633 = num646;
+                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }
@@ -256,13 +256,13 @@ namespace CalamityMod.Projectiles.Typeless
                         velocity.Normalize();
                         velocity *= speed;
                         int trident = Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, Main.myPlayer);
-						if (trident.WithinBounds(Main.maxProjectiles))
-						{
-							Main.projectile[trident].timeLeft = 300;
-							Main.projectile[trident].usesLocalNPCImmunity = true;
-							Main.projectile[trident].localNPCHitCooldown = 10;
-							Main.projectile[trident].Calamity().forceTypeless = true; //typeless
-						}
+                        if (trident.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[trident].timeLeft = 300;
+                            Main.projectile[trident].usesLocalNPCImmunity = true;
+                            Main.projectile[trident].localNPCHitCooldown = 10;
+                            Main.projectile[trident].Calamity().forceTypeless = true; //typeless
+                        }
                         projectile.netUpdate = true;
                     }
                 }

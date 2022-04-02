@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
+            recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EutrophicSandWall>(), 4);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

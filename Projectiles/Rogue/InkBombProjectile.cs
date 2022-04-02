@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void CreateInk()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             Main.PlaySound(SoundID.Item14, projectile.position);
             for (int i = 0; i < 20; i++)
             {

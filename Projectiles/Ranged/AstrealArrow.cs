@@ -21,15 +21,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 18;
             projectile.height = 18;
             projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.friendly = true;
+            projectile.ignoreWater = true;
+            projectile.friendly = true;
             projectile.ranged = true;
             projectile.arrow = true;
             projectile.extraUpdates = 1;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -56,38 +56,38 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-			if (projectile.velocity.Length() < 16f)
-			{
-				switch ((int)projectile.ai[0])
-				{
-					case 0:
-						projectile.velocity.X *= 1.02f;
-						break;
-					case 1:
-						projectile.velocity.Y *= 1.02f;
-						break;
-					case 2:
-						projectile.velocity.X += 0.1f;
-						projectile.velocity.Y *= 1.01f;
-						break;
-					case 3:
-						projectile.velocity.Y += 0.1f;
-						projectile.velocity.X *= 1.01f;
-						break;
-					default:
+            if (projectile.velocity.Length() < 16f)
+            {
+                switch ((int)projectile.ai[0])
+                {
+                    case 0:
+                        projectile.velocity.X *= 1.02f;
                         break;
-				}
-			}
+                    case 1:
+                        projectile.velocity.Y *= 1.02f;
+                        break;
+                    case 2:
+                        projectile.velocity.X += 0.1f;
+                        projectile.velocity.Y *= 1.01f;
+                        break;
+                    case 3:
+                        projectile.velocity.Y += 0.1f;
+                        projectile.velocity.X *= 1.01f;
+                        break;
+                    default:
+                        break;
+                }
+            }
             
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			projectile.ai[1] += Main.rand.Next(2) + 1;
+            projectile.ai[1] += Main.rand.Next(2) + 1;
             if (projectile.ai[1] >= 135f)
             {
-				projectile.ai[1] = 0f;
-				projectile.netUpdate = true;
-				if (projectile.owner == Main.myPlayer)
+                projectile.ai[1] = 0f;
+                projectile.netUpdate = true;
+                if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<AstrealFlame>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 }

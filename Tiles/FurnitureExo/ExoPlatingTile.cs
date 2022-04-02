@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
-	public class ExoPlatingTile : ModTile
+    public class ExoPlatingTile : ModTile
     {
         internal static Texture2D GlowTexture;
 
@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.frameX;
-			int frameOffset = j % 2 * animationFrameHeight;
+            int frameOffset = j % 2 * animationFrameHeight;
             int yPos = tile.frameY + frameOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
@@ -67,5 +67,5 @@ namespace CalamityMod.Tiles.FurnitureExo
                 spriteBatch.Draw(GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
         }
-	}
+    }
 }

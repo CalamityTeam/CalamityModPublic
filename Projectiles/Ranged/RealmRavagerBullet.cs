@@ -11,9 +11,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosive Bullet");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -26,22 +26,22 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-			projectile.extraUpdates = 3;
+            projectile.extraUpdates = 3;
             projectile.penetrate = 1;
             projectile.timeLeft = 90;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            return false;
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
         }
     }

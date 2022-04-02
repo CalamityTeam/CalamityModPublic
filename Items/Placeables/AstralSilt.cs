@@ -29,18 +29,18 @@ namespace CalamityMod.Items.Placeables
         }
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
         {
-			/*
+            /*
                 Novae slag will give stardust, fallen stars, gems and HM ores always by default
                 When Astrum Deus has been defeated, it will give Astral Ore
             */
 
-			bool twoMechsDowned =
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) ||
-				(NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) ||
-				(NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) ||
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
+            bool twoMechsDowned =
+                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) ||
+                (NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) ||
+                (NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) ||
+                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
 
-			float val = Main.rand.NextFloat(100);
+            float val = Main.rand.NextFloat(100);
             if (val < 30f)
             {
                 resultType = ItemID.CopperCoin;
@@ -119,17 +119,17 @@ namespace CalamityMod.Items.Placeables
             else if (val < 83.03f)
             {
                 resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : ItemID.MythrilOre) : ItemID.MythrilOre;
-				resultStack = Main.rand.Next(1, 17);
+                resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 85.03f)
             {
                 resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : ItemID.OrichalcumOre) : ItemID.OrichalcumOre;
-				resultStack = Main.rand.Next(1, 17);
+                resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 86.78f)
             {
                 resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : !twoMechsDowned ? ItemID.MythrilOre : ItemID.AdamantiteOre) : ItemID.AdamantiteOre;
-				resultStack = Main.rand.Next(1, 17);
+                resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 88.53f)
             {

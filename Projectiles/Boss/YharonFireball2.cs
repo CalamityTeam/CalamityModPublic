@@ -22,16 +22,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 34;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 3600;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -56,14 +56,14 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.velocity.Y < -1f)
             {
-				// 129 frames to get from -50 to -1
+                // 129 frames to get from -50 to -1
                 projectile.velocity.Y *= 0.97f;
             }
             else
             {
-				// 85 frames to get from -1 to 16
-				projectile.velocity.Y += 0.2f;
-				if (projectile.velocity.Y > 16f)
+                // 85 frames to get from -1 to 16
+                projectile.velocity.Y += 0.2f;
+                if (projectile.velocity.Y > 16f)
                     projectile.velocity.Y = 16f;
             }
 
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.velocity.Y >= -16f;
+        public override bool CanHitPlayer(Player target) => projectile.velocity.Y >= -16f;
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14, 0.5f, 0f);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
@@ -122,15 +122,15 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Damage();
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			if (projectile.velocity.Y >= -16f)
-				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            if (projectile.velocity.Y >= -16f)
+                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

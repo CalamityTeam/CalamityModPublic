@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class ThunderBoltVFX : Particle //Also check out Split mod!
+    public class ThunderBoltVFX : Particle //Also check out Split mod!
     {
         public override string Texture => "CalamityMod/Particles/ThunderBolt";
         public override bool UseAdditiveBlend => true;

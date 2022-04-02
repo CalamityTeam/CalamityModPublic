@@ -35,12 +35,12 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 1;
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 1;
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

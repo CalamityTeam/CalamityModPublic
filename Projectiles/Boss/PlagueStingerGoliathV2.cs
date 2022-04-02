@@ -21,14 +21,14 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 10;
             projectile.height = 10;
-			projectile.scale = 1.5f;
+            projectile.scale = 1.5f;
             projectile.hostile = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-			Texture2D glow = ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow");
+            Texture2D glow = ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow");
             Vector2 origin = new Vector2(glow.Width / 2, glow.Height / Main.projFrames[projectile.type] / 2);
             Vector2 drawPos = projectile.Center - Main.screenPosition;
             drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[projectile.type]) * 1f / 2f;
@@ -63,17 +63,17 @@ namespace CalamityMod.Projectiles.Boss
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
 
-			if (projectile.owner == Main.myPlayer)
-			{
-				float scale = 1.5f + projectile.ai[0] * 0.015f;
-				int baseWidthAndHeight = 20;
-				int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
-				Main.projectile[proj].scale = scale;
-				Main.projectile[proj].width = (int)(baseWidthAndHeight * scale);
-				Main.projectile[proj].height = (int)(baseWidthAndHeight * scale);
-				Main.projectile[proj].position.X = projectile.Center.X - Main.projectile[proj].width * 0.5f;
-				Main.projectile[proj].position.Y = projectile.Center.Y - Main.projectile[proj].height * 0.5f;
-			}
+            if (projectile.owner == Main.myPlayer)
+            {
+                float scale = 1.5f + projectile.ai[0] * 0.015f;
+                int baseWidthAndHeight = 20;
+                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Main.projectile[proj].scale = scale;
+                Main.projectile[proj].width = (int)(baseWidthAndHeight * scale);
+                Main.projectile[proj].height = (int)(baseWidthAndHeight * scale);
+                Main.projectile[proj].position.X = projectile.Center.X - Main.projectile[proj].width * 0.5f;
+                Main.projectile[proj].position.Y = projectile.Center.Y - Main.projectile[proj].height * 0.5f;
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-	public class ProfanedSink : ModTile
+    public class ProfanedSink : ModTile
     {
         public override void SetDefaults()
         {

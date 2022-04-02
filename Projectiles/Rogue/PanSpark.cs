@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PanSpark : ModProjectile
+    public class PanSpark : ModProjectile
     {
-		private bool initialized = false;
+        private bool initialized = false;
 
         public override void SetStaticDefaults()
         {
@@ -28,28 +28,28 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {
-			//make it face the way it's going
-			if (projectile.ai[1] > 0f)
-			{
-				projectile.rotation = -projectile.velocity.X * 0.05f + MathHelper.PiOver2;
-			}
-			else
-			{
-				projectile.rotation = projectile.velocity.ToRotation();
-			}
-			projectile.ai[1]--;
+            //make it face the way it's going
+            if (projectile.ai[1] > 0f)
+            {
+                projectile.rotation = -projectile.velocity.X * 0.05f + MathHelper.PiOver2;
+            }
+            else
+            {
+                projectile.rotation = projectile.velocity.ToRotation();
+            }
+            projectile.ai[1]--;
 
-			//frames
-			if (!initialized)
-			{
-				initialized = true;
-				projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
-			}
+            //frames
+            if (!initialized)
+            {
+                initialized = true;
+                projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame = 0;
             }
 
-			//movement
+            //movement
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 projectile.velocity.X *= -0.1f;
@@ -98,17 +98,17 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.Y = 16f;
             }
 
-			//dust
-			if (Main.rand.NextBool(4))
-			{
-				int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
-				Dust dust = Main.dust[fire];
-				dust.position.X -= 2f;
-				dust.position.Y += 2f;
-				dust.scale += (float)Main.rand.Next(50) * 0.01f;
-				dust.noGravity = true;
-				dust.velocity.Y -= 2f;
-			}
+            //dust
+            if (Main.rand.NextBool(4))
+            {
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+                Dust dust = Main.dust[fire];
+                dust.position.X -= 2f;
+                dust.position.Y += 2f;
+                dust.scale += (float)Main.rand.Next(50) * 0.01f;
+                dust.noGravity = true;
+                dust.velocity.Y -= 2f;
+            }
             if (Main.rand.NextBool(10))
             {
                 int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			projectile.ai[1] = 10f;
+            projectile.ai[1] = 10f;
             return false;
         }
 

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Crystal Piercer");
             Tooltip.SetDefault("Throws a crystal javelin that pierces infinitely\n" +
-			"Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
+            "Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
         }
 
         public override void SafeSetDefaults()
@@ -43,13 +43,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-					Main.projectile[stealth].aiStyle = -1;
-					Main.projectile[stealth].tileCollide = false;
-					Main.projectile[stealth].usesLocalNPCImmunity = true;
-				}
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].aiStyle = -1;
+                    Main.projectile[stealth].tileCollide = false;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                }
                 return false;
             }
             return true;

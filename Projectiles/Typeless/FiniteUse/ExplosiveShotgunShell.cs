@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
-	public class ExplosiveShotgunShell : ModProjectile
+    public class ExplosiveShotgunShell : ModProjectile
     {
         public override void SetStaticDefaults()
         {

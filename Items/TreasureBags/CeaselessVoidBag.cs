@@ -38,20 +38,20 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 4, 6);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
             DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<TheEvolution>());
+            DropHelper.DropItem(player, ModContent.ItemType<TheEvolution>());
 
-			// Vanity
-			DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
-			if (Main.rand.NextBool(20))
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
-			}
+            // Vanity
+            DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
+            if (Main.rand.NextBool(20))
+            {
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+            }
         }
     }
 }

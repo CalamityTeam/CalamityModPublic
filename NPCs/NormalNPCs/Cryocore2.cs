@@ -17,22 +17,22 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-			npc.damage = 40;
-			npc.width = 66;
+            npc.damage = 40;
+            npc.width = 66;
             npc.height = 66;
             npc.defense = 10;
             npc.lifeMax = 300;
             npc.aiStyle = -1;
             aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
-			npc.knockBackResist = 0.5f;
+            npc.value = Item.buyPrice(0, 0, 5, 0);
+            npc.knockBackResist = 0.5f;
             npc.noGravity = true;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = false;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = false;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -87,17 +87,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rotation = npc.velocity.X * 0.15f;
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.ZoneSnow &&
-				spawnInfo.player.ZoneOverworldHeight &&
-				!spawnInfo.player.PillarZone() &&
-				!spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.InSunkenSea() &&
-				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.ZoneSnow &&
+                spawnInfo.player.ZoneOverworldHeight &&
+                !spawnInfo.player.PillarZone() &&
+                !spawnInfo.player.ZoneDungeon &&
+                !spawnInfo.player.InSunkenSea() &&
+                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);
@@ -119,9 +119,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-		public override void NPCLoot()
-		{
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
-		}
-	}
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
+        }
+    }
 }

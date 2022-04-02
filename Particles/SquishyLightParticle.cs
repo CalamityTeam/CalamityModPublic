@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-	public class SquishyLightParticle : Particle
+    public class SquishyLightParticle : Particle
     {
         public override string Texture => "CalamityMod/Particles/Light";
         public override bool UseAdditiveBlend => true;

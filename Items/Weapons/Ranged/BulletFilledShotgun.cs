@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class BulletFilledShotgun : ModItem
+    public class BulletFilledShotgun : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bullet-Filled Shotgun");
             Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
-							   "Consumes five bullets per-use\n" +
+                               "Consumes five bullets per-use\n" +
                                "Aim? What's that?");
         }
         public override void SetDefaults()
@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.Calamity().donorItem = true;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-7, 0);
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             type = item.shoot;
-			int bulletAmt = Main.rand.Next(25,35);
+            int bulletAmt = Main.rand.Next(25,35);
             for (int i = 0; i < bulletAmt; i++)
             {
                 float newSpeedX = speedX + Main.rand.NextFloat(-15f, 15f);

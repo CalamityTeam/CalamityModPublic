@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-	public class GrapeBeer : ModItem
+    public class GrapeBeer : ModItem
     {
         public override void SetStaticDefaults()
         {

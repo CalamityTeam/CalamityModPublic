@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeAstrumDeus : LoreItem
+    public class KnowledgeAstrumDeus : LoreItem
     {
         public override void SetStaticDefaults()
         {

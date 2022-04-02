@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ExecutionersBladeProj : ModProjectile
+    public class ExecutionersBladeProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
@@ -15,11 +15,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.myPlayer == projectile.owner)
             {
-				Main.PlaySound(SoundID.Item73, projectile.Center);
-				for (int i = 0; i < 20; i++)
-				{
-					Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 2.5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, projectile.owner);
-				}
+                Main.PlaySound(SoundID.Item73, projectile.Center);
+                for (int i = 0; i < 20; i++)
+                {
+                    Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 2.5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, projectile.owner);
+                }
             }
         }
 
@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 64;
             projectile.friendly = true;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 240;
             aiType = ProjectileID.ThrowingKnife;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {

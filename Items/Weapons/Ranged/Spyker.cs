@@ -26,10 +26,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = SoundID.Item108;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = SoundID.Item108;
             item.autoReuse = true;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<SpykerProj>();
@@ -43,12 +43,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.Bullet)
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI);
+            else
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
 
         public override void AddRecipes()

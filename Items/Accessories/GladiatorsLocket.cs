@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Accessories
                 if (player.FindBuffIndex(ModContent.BuffType<GladiatorSwords>()) == -1)
                     player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
 
-				int damage = 30;
-				int swordDmg = (int)(damage * player.AverageDamage());
+                int damage = 30;
+                int swordDmg = (int)(damage * player.AverageDamage());
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);

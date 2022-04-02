@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
 {
-	public class MarniteObliterator : ModItem
+    public class MarniteObliterator : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Tools
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
             item.shootSpeed = 40f;
-			item.Calamity().trueMelee = true;
-		}
+            item.Calamity().trueMelee = true;
+        }
 
         public override void AddRecipes()
         {

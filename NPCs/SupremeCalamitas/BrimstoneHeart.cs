@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class BrimstoneHeart : ModNPC
+    public class BrimstoneHeart : ModNPC
     {
         public PrimitiveTrail ChainDrawer = null;
         public int ChainHeartIndex => (int)npc.ai[0];
@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 24;
             npc.height = 24;
             npc.defense = 0;
-			npc.LifeMaxNERB(24550, 29440, 10000);
+            npc.LifeMaxNERB(24550, 29440, 10000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -39,9 +39,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.hide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -72,17 +72,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.alpha = 0;
         }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-		}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+        }
 
-		public float PrimitiveWidthFunction(float completionRatio)
+        public float PrimitiveWidthFunction(float completionRatio)
         {
             float widthInterpolant = Utils.InverseLerp(0f, 0.16f, completionRatio, true) * Utils.InverseLerp(1f, 0.84f, completionRatio, true);
             widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);
@@ -158,6 +158,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 damage = (int)(damage * 0.66);
         }
 
-		public override bool CheckActive() => false;
-	}
+        public override bool CheckActive() => false;
+    }
 }

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class Hiveling : ModProjectile
+    public class Hiveling : ModProjectile
     {
         public override string Texture => "CalamityMod/NPCs/Astral/Hiveling";
 
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {

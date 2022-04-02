@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Sun God Staff");
             Tooltip.SetDefault("Summons a solar god spirit to protect you\n" +
-				"There can only be one spirit");
+                "There can only be one spirit");
         }
 
         public override void SetDefaults()
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityUtils.KillShootProjectiles(true, type, player);
+            CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             return false;
         }

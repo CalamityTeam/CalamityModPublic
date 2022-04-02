@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class PrismaticBreaker : ModItem
+    public class PrismaticBreaker : ModItem
     {
         private int alpha = 50;
         public Color[] colors = new Color[]
@@ -134,9 +134,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
-			target.AddBuff(BuffID.Daybreak, 300);
-		}
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            target.AddBuff(BuffID.Daybreak, 300);
+        }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {

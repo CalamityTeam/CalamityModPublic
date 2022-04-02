@@ -37,22 +37,22 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
-			if (projectile.Calamity().stealthStrike)
-			{
-				if (projectile.timeLeft % 5f == 0f) //every 5 ticks
-				{
-					if (Main.rand.NextBool(2))
-					{
-						int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
-						for (int n = 0; n < energyAmt; n++)
-						{
-							CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner);
-						}
-					}
-				}
-			}
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (projectile.timeLeft % 5f == 0f) //every 5 ticks
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
+                        for (int n = 0; n < energyAmt; n++)
+                        {
+                            CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner);
+                        }
+                    }
+                }
+            }
 
             if (projectile.alpha > 0)
             {
@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int i = 0; i < 10; i++)

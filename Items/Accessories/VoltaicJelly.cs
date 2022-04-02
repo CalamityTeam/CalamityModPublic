@@ -4,13 +4,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class VoltaicJelly : ModItem
+    public class VoltaicJelly : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voltaic Jelly");
             Tooltip.SetDefault("+1 max minions\n" +
-							   "Minion attacks inflict Electrified");
+                               "Minion attacks inflict Electrified");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().voltaicJelly = true;
+            player.Calamity().voltaicJelly = true;
         }
     }
 }

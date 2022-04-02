@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class GildedDaggerProj : ModProjectile
+    public class GildedDaggerProj : ModProjectile
     {
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
+                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
                 //Rotating 90 degrees if shooting right
                 if (projectile.spriteDirection == 1)
                 {
@@ -138,6 +138,6 @@ namespace CalamityMod.Projectiles.Rogue
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 1f;
             }
-		}
+        }
     }
 }

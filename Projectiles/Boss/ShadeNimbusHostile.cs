@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 28;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.hostile = true;
+            projectile.hostile = true;
             projectile.timeLeft = 360;
             projectile.penetrate = -1;
         }
@@ -58,9 +58,9 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-		}
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
+        }
+    }
 }

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class VoidofExtinction : ModItem
+    public class VoidofExtinction : ModItem
     {
         public const int FireProjectiles = 2;
         public const float FireAngleSpread = 120;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
-			modPlayer.voidOfExtinction = true;
+            modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;
             player.allDamage += 0.15f;
@@ -66,12 +66,12 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						Projectile fire = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
-						if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							fire.usesLocalNPCImmunity = true;
-							fire.localNPCHitCooldown = 60;
-						}
+                        Projectile fire = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+                        if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            fire.usesLocalNPCImmunity = true;
+                            fire.localNPCHitCooldown = 60;
+                        }
                     }
                 }
             }

@@ -33,11 +33,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FearlessGoldfishWarriorBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -115,11 +115,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             float num65 = CalamityWorld.death ? 3f : 1f;
             float num66 = CalamityWorld.death ? 0.28f : 0.08f;
-			if (!CalamityWorld.death)
-			{
-				num65 += (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
-				num66 += (1f - (float)npc.life / (float)npc.lifeMax) * 0.2f;
-			}
+            if (!CalamityWorld.death)
+            {
+                num65 += (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
+                num66 += (1f - (float)npc.life / (float)npc.lifeMax) * 0.2f;
+            }
             if (npc.velocity.X < -num65 || npc.velocity.X > num65)
             {
                 if (npc.velocity.Y == 0f)
@@ -461,8 +461,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ItemID.TinHelmet);
-			DropHelper.DropItemCondition(npc, ItemID.MagicDagger, Main.hardMode);
+            DropHelper.DropItem(npc, ItemID.TinHelmet);
+            DropHelper.DropItemCondition(npc, ItemID.MagicDagger, Main.hardMode);
         }
     }
 }

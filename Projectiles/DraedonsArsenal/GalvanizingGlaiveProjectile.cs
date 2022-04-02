@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             return false;
         }
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float angle = projectile.rotation - MathHelper.PiOver4 * (projectile.spriteDirection == -1).ToInt();
             float _ = 0f;

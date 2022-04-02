@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-	public class TeslaFreeze : ModBuff
+    public class TeslaFreeze : ModBuff
     {
         public override void SetDefaults()
         {
@@ -18,12 +18,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().tesla < npc.buffTime[buffIndex])
-				npc.Calamity().tesla = npc.buffTime[buffIndex];
-			if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
-				npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().tesla;
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().tesla < npc.buffTime[buffIndex])
+                npc.Calamity().tesla = npc.buffTime[buffIndex];
+            if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+                npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().tesla;
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
 
         public override void Update(Player player, ref int buffIndex)

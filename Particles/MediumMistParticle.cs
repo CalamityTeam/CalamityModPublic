@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class MediumMistParticle : Particle 
+    public class MediumMistParticle : Particle 
     {
         public override string Texture => "CalamityMod/Particles/MediumMist";
         public override int FrameVariants => 3;

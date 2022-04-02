@@ -17,12 +17,12 @@ float2 uImageSize1;
 
 float4 Recolor(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
-	
+    
     float4 color = tex2D(uImage0, coords);
     float originalAlpha = color.a;
     color.rbg = lerp(color.rbg, uColor, uOpacity);
     return color * originalAlpha;
-	
+    
 }
 
 technique Technique1

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SparkSpreaderFire : ModProjectile
+    public class SparkSpreaderFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -57,26 +57,26 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 projectile.ai[0] += 1f;
                 int dustType = DustID.Fire;
-				for (int i = 0; i < 2; i++)
-				{
-					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 10, default, 0.75f);
-					Dust dust = Main.dust[fire];
-					if (Main.rand.Next(3) == 0)
-					{
-						dust.noGravity = true;
-						dust.scale *= 1.75f;
-						dust.velocity.X *= 2f;
-						dust.velocity.Y *= 2f;
-					}
-					else
-					{
-						dust.noGravity = true;
-						dust.scale *= 0.5f;
-					}
-					dust.velocity.X *= 1.2f;
-					dust.velocity.Y *= 1.2f;
-					dust.scale *= dustScaleSize;
-					dust.velocity += projectile.velocity;
+                for (int i = 0; i < 2; i++)
+                {
+                    int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 10, default, 0.75f);
+                    Dust dust = Main.dust[fire];
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 1.75f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
+                    }
+                    else
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 0.5f;
+                    }
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= dustScaleSize;
+                    dust.velocity += projectile.velocity;
                 }
             }
 
@@ -88,8 +88,8 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
         }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
             target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
         }
     }

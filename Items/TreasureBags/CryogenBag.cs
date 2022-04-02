@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class CryogenBag : ModItem
+    public class CryogenBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Cryogen>();
 
@@ -55,12 +55,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<EffluviumBow>(w),
                 DropHelper.WeightStack<SnowstormStaff>(w),
                 DropHelper.WeightStack<Icebreaker>(w),
-				DropHelper.WeightStack<CryoStone>(w),
-				DropHelper.WeightStack<FrostFlare>(w)
-			);
+                DropHelper.WeightStack<CryoStone>(w),
+                DropHelper.WeightStack<FrostFlare>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
             DropHelper.DropItemChance(player, ModContent.ItemType<ColdDivinity>(), 0.1f);
 
             // Vanity

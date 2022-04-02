@@ -53,69 +53,69 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (WorldGen.genRand.Next(20) == 0)
             {
-				int trueStartingPositionY = j;
-				while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].type))
-				{
-					trueStartingPositionY++;
-				}
-				Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
-				Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-				if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
-				{
-					return;
-				}
-				if (tileAbovePosition.wall != 0 || tileAbovePosition.liquid != 0)
-				{
-					return;
-				}
-				if (!WorldGen.EmptyTileCheck(i - 1, i + 1, trueStartingPositionY - 30, trueStartingPositionY - 1, 20))
-				{
-					return;
-				}
-				int treeHeight = WorldGen.genRand.Next(10, 21);
-				int frameYIdeal = WorldGen.genRand.Next(-8, 9);
-				frameYIdeal *= 2;
-				short frameY = 0;
-				for (int k = 0; k < treeHeight; k++)
-				{
-					tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
-					if (k == 0)
-					{
-						tileAtPosition.active(true);
-						tileAtPosition.type = TileID.PalmTree;
-						tileAtPosition.frameX = 66;
-						tileAtPosition.frameY = 0;
-					}
-					else if (k == treeHeight - 1)
-					{
-						tileAtPosition.active(true);
-						tileAtPosition.type = TileID.PalmTree;
-						tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(4, 7));
-						tileAtPosition.frameY = frameY;
-					}
-					else
-					{
-						if (frameY != frameYIdeal)
-						{
-							float heightRatio = k / (float)treeHeight;
-							bool increaseFrameY = heightRatio >= 0.25f && ((heightRatio < 0.5f && WorldGen.genRand.Next(13) == 0) || (heightRatio < 0.7f && WorldGen.genRand.Next(9) == 0) || heightRatio >= 0.95f || WorldGen.genRand.Next(5) != 0 || true);
-							if (increaseFrameY)
-							{
-								frameY += (short)(Math.Sign(frameYIdeal) * 2);
-							}
-						}
-						tileAtPosition.active(true);
-						tileAtPosition.type = TileID.PalmTree;
-						tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(0, 3));
-						tileAtPosition.frameY = frameY;
-					}
-				}
-				bool isPlayerNear = WorldGen.PlayerLOS(i, j);
-				WorldGen.RangeFrame(i - 2, trueStartingPositionY - treeHeight - 1, i + 2, trueStartingPositionY + 1);
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.SendTileSquare(-1, i, (int)((double)trueStartingPositionY - (double)treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
-				}
+                int trueStartingPositionY = j;
+                while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].type))
+                {
+                    trueStartingPositionY++;
+                }
+                Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
+                Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
+                if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
+                {
+                    return;
+                }
+                if (tileAbovePosition.wall != 0 || tileAbovePosition.liquid != 0)
+                {
+                    return;
+                }
+                if (!WorldGen.EmptyTileCheck(i - 1, i + 1, trueStartingPositionY - 30, trueStartingPositionY - 1, 20))
+                {
+                    return;
+                }
+                int treeHeight = WorldGen.genRand.Next(10, 21);
+                int frameYIdeal = WorldGen.genRand.Next(-8, 9);
+                frameYIdeal *= 2;
+                short frameY = 0;
+                for (int k = 0; k < treeHeight; k++)
+                {
+                    tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
+                    if (k == 0)
+                    {
+                        tileAtPosition.active(true);
+                        tileAtPosition.type = TileID.PalmTree;
+                        tileAtPosition.frameX = 66;
+                        tileAtPosition.frameY = 0;
+                    }
+                    else if (k == treeHeight - 1)
+                    {
+                        tileAtPosition.active(true);
+                        tileAtPosition.type = TileID.PalmTree;
+                        tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(4, 7));
+                        tileAtPosition.frameY = frameY;
+                    }
+                    else
+                    {
+                        if (frameY != frameYIdeal)
+                        {
+                            float heightRatio = k / (float)treeHeight;
+                            bool increaseFrameY = heightRatio >= 0.25f && ((heightRatio < 0.5f && WorldGen.genRand.Next(13) == 0) || (heightRatio < 0.7f && WorldGen.genRand.Next(9) == 0) || heightRatio >= 0.95f || WorldGen.genRand.Next(5) != 0 || true);
+                            if (increaseFrameY)
+                            {
+                                frameY += (short)(Math.Sign(frameYIdeal) * 2);
+                            }
+                        }
+                        tileAtPosition.active(true);
+                        tileAtPosition.type = TileID.PalmTree;
+                        tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(0, 3));
+                        tileAtPosition.frameY = frameY;
+                    }
+                }
+                bool isPlayerNear = WorldGen.PlayerLOS(i, j);
+                WorldGen.RangeFrame(i - 2, trueStartingPositionY - treeHeight - 1, i + 2, trueStartingPositionY + 1);
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendTileSquare(-1, i, (int)((double)trueStartingPositionY - (double)treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
+                }
                 if (isPlayerNear)
                 {
                     WorldGen.TreeGrowFXCheck(i, j);

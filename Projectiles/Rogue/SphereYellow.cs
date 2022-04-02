@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 300;
             aiType = ProjectileID.WoodenBoomerang;
@@ -34,22 +34,22 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100);
             }
-			if (projectile.ai[0] == 1f)
-			{
-				projectile.extraUpdates = 1;
-			}
-		}
+            if (projectile.ai[0] == 1f)
+            {
+                projectile.extraUpdates = 1;
+            }
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			if (projectile.velocity.X != oldVelocity.X)
-			{
-				projectile.velocity.X = -oldVelocity.X;
-			}
-			if (projectile.velocity.Y != oldVelocity.Y)
-			{
-				projectile.velocity.Y = -oldVelocity.Y;
-			}
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+            }
             return false;
         }
 

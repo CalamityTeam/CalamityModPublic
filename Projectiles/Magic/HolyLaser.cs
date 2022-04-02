@@ -42,24 +42,24 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     num249 = 246;
                 }
-				Vector2 vector33 = projectile.position;
-				vector33 -= projectile.velocity * 0.25f;
-				int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 0.25f);
-				Main.dust[num448].position = vector33;
-				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-				Main.dust[num448].velocity *= 0.1f;
-			}
+                Vector2 vector33 = projectile.position;
+                vector33 -= projectile.velocity * 0.25f;
+                int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 0.25f);
+                Main.dust[num448].position = vector33;
+                Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[num448].velocity *= 0.1f;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
-			if (projectile.owner == Main.myPlayer)
+            if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().forceMagic = true;
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().forceMagic = true;
             }
         }
     }

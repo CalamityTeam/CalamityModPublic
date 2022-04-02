@@ -5,33 +5,33 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class StratusSphereProj : ModProjectile
-	{
+    public class StratusSphereProj : ModProjectile
+    {
         int roundsGone = 0;
         int dust_nut = 0;
-		public override void SetStaticDefaults()
-		{
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Stratus Sphere");
             Main.projFrames[projectile.type] = 6;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.hostile = false;
+        public override void SetDefaults()
+        {
+            projectile.hostile = false;
             projectile.friendly = true;
-			projectile.aiStyle = -1;
-			projectile.width = 314;
-			projectile.height = 198;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.knockBack = 0;
+            projectile.aiStyle = -1;
+            projectile.width = 314;
+            projectile.height = 198;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
+            projectile.tileCollide = false;
+            projectile.knockBack = 0;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.magic = true;
-		}
+            projectile.magic = true;
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

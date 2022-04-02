@@ -36,43 +36,43 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-			{
-				for (int num246 = 0; num246 < 2; num246++)
-				{
-					float num247 = 0f;
-					float num248 = 0f;
-					if (num246 == 1)
-					{
-						num247 = projectile.velocity.X * 0.5f;
-						num248 = projectile.velocity.Y * 0.5f;
-					}
-					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-					Main.dust[num249].velocity *= 0.2f;
-					Main.dust[num249].noGravity = true;
-					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-					Main.dust[num249].velocity *= 0.05f;
-				}
-			}
-			if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
-			{
-				projectile.velocity *= 1.1f;
-			}
-			else if (Main.rand.NextBool(2))
-			{
-				int num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1f);
-				Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-				Main.rand.Next(2);
-				num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
-				Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-			}
+            if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
+            {
+                for (int num246 = 0; num246 < 2; num246++)
+                {
+                    float num247 = 0f;
+                    float num248 = 0f;
+                    if (num246 == 1)
+                    {
+                        num247 = projectile.velocity.X * 0.5f;
+                        num248 = projectile.velocity.Y * 0.5f;
+                    }
+                    int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
+                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num249].velocity *= 0.2f;
+                    Main.dust[num249].noGravity = true;
+                    num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[num249].velocity *= 0.05f;
+                }
+            }
+            if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
+            {
+                projectile.velocity *= 1.1f;
+            }
+            else if (Main.rand.NextBool(2))
+            {
+                int num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1f);
+                Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].noGravity = true;
+                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+                Main.rand.Next(2);
+                num252 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
+                Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].noGravity = true;
+                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+            }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -108,11 +108,11 @@ namespace CalamityMod.Projectiles.Ranged
                         num518 += projectile.oldVelocity.X / 6f;
                         num519 += projectile.oldVelocity.Y / 6f;
                         int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 3), Main.player[projectile.owner].beeKB(0f), Main.myPlayer);
-						if (bee.WithinBounds(Main.maxProjectiles))
-						{
-							Main.projectile[bee].penetrate = 2;
-							Main.projectile[bee].Calamity().forceRanged = true;
-						}
+                        if (bee.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[bee].penetrate = 2;
+                            Main.projectile[bee].Calamity().forceRanged = true;
+                        }
                     }
                 }
             }
@@ -135,30 +135,30 @@ namespace CalamityMod.Projectiles.Ranged
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
 
-			// Construct a fake item to use with vanilla code for the sake of picking ammo.
-			if (FalseLauncher is null)
-				DefineFalseLauncher();
-			Player player = Main.player[projectile.owner];
-			int projID = ProjectileID.RocketI;
-			float shootSpeed = 0f;
-			bool canShoot = true;
-			int damage = 0;
-			float kb = 0f;
-			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
-			int blastRadius = 0;
-			if (projID == ProjectileID.RocketII)
-				blastRadius = 4;
-			else if (projID == ProjectileID.RocketIV)
-				blastRadius = 7;
+            // Construct a fake item to use with vanilla code for the sake of picking ammo.
+            if (FalseLauncher is null)
+                DefineFalseLauncher();
+            Player player = Main.player[projectile.owner];
+            int projID = ProjectileID.RocketI;
+            float shootSpeed = 0f;
+            bool canShoot = true;
+            int damage = 0;
+            float kb = 0f;
+            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+            int blastRadius = 0;
+            if (projID == ProjectileID.RocketII)
+                blastRadius = 4;
+            else if (projID == ProjectileID.RocketIV)
+                blastRadius = 7;
 
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
 
-			if (projectile.owner == Main.myPlayer && blastRadius > 0)
-			{
-				CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
-			}
+            if (projectile.owner == Main.myPlayer && blastRadius > 0)
+            {
+                CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

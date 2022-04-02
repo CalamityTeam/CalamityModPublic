@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.penetrate = -1;
@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.timeLeft = 480;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -38,11 +38,11 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(200, 200, 200, projectile.alpha);
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.velocity.Length() >= projectile.ai[0];
+        public override bool CanHitPlayer(Player target) => projectile.velocity.Length() >= projectile.ai[0];
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 12f, targetHitbox);
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position.X = projectile.position.X + (projectile.width / 2);
@@ -71,18 +71,18 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			if (projectile.velocity.Length() >= projectile.ai[0])
-			{
-				target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
-				target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
-			}
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            if (projectile.velocity.Length() >= projectile.ai[0])
+            {
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+                target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+            }
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

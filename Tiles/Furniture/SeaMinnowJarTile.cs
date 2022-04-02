@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class SeaMinnowJarTile : ModTile
+    public class SeaMinnowJarTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -34,24 +34,24 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 12;
-			int timeNeeded = 6;
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 12;
+            int timeNeeded = 6;
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
         }
 
-		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-		{
-			frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, animationFrameHeight);
-		}
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, animationFrameHeight);
+        }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

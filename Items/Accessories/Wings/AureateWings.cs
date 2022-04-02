@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
                 player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-				player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+                player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
             {
                 player.moveSpeed += 0.1f;
             }

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class HowlsHeartCalcifer : ModProjectile
+    public class HowlsHeartCalcifer : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			if (!modPlayer.howlsHeartVanity)
-				Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
-			projectile.FloatingPetAI(false, 0.04f, true);
+            if (!modPlayer.howlsHeartVanity)
+                Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
+            projectile.FloatingPetAI(false, 0.04f, true);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

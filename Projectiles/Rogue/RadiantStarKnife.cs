@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 4;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 4;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float homingSpeed = 0.25f;
                 for (int num475 = 0; num475 < Main.npc.Length; num475++)
                 {
-					NPC npc = Main.npc[num475];
+                    NPC npc = Main.npc[num475];
                     if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1) && !npc.boss)
                     {
                         float num476 = npc.position.X + (float)(npc.width / 2);
@@ -92,13 +92,13 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     Main.PlaySound(SoundID.Item14, projectile.position);
                     int boomer = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner);
-					if (projectile.Calamity().stealthStrike && boomer.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[boomer].Calamity().stealthStrike = true;
-						Main.projectile[boomer].height = 300;
-						Main.projectile[boomer].width = 300;
-					}
-					Main.projectile[boomer].Center = projectile.Center;
+                    if (projectile.Calamity().stealthStrike && boomer.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[boomer].Calamity().stealthStrike = true;
+                        Main.projectile[boomer].height = 300;
+                        Main.projectile[boomer].width = 300;
+                    }
+                    Main.projectile[boomer].Center = projectile.Center;
                     projectile.active = false;
                 }
             }

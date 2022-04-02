@@ -39,9 +39,9 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.Calamity();
+            CalamityPlayer modPlayer = player.Calamity();
 
-			//If the correct minion, set bools
+            //If the correct minion, set bools
             bool correctMinion = projectile.type == ModContent.ProjectileType<HowlsHeartTurnipHead>();
             if (!modPlayer.howlsHeart && !modPlayer.howlsHeartVanity || !player.active)
             {
@@ -59,26 +59,26 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 6)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
-			}
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
             Vector2 vector46 = projectile.position;
             if (!fly)
             {
                 projectile.rotation = 0;
                 Vector2 playerVec = player.Center - projectile.Center;
                 float playerDistance = playerVec.Length();
-				if (projectile.velocity.Y == 0f)
-				{
-					projectile.velocity.Y = -3f;
-				}
+                if (projectile.velocity.Y == 0f)
+                {
+                    projectile.velocity.Y = -3f;
+                }
                 projectile.velocity.Y += 0.2f;
                 if (projectile.velocity.Y > 7f)
                 {
@@ -129,11 +129,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (fly)
             {
-				//still hopping
-				if (projectile.velocity.Y == 0f)
-				{
-					projectile.velocity.Y = -3f;
-				}
+                //still hopping
+                if (projectile.velocity.Y == 0f)
+                {
+                    projectile.velocity.Y = -3f;
+                }
                 projectile.velocity.Y += 0.2f;
                 if (projectile.velocity.Y > 7f)
                 {

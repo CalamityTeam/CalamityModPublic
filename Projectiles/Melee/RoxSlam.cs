@@ -28,18 +28,18 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
             }
             //Makes the projectiles track the player
-			float posX;
-			float posY = player.Center.Y + 63;
-			// Makes the projectile follow the proper position on the X axis
-			if (player.direction == 1)
-			{
-				posX = player.Center.X + 6;
-			}
-			else
-			{
-				posX = player.Center.X - 8;
-			}
-			projectile.Center = new Vector2(posX, posY - (player.height / 10f));
+            float posX;
+            float posY = player.Center.Y + 63;
+            // Makes the projectile follow the proper position on the X axis
+            if (player.direction == 1)
+            {
+                posX = player.Center.X + 6;
+            }
+            else
+            {
+                posX = player.Center.X - 8;
+            }
+            projectile.Center = new Vector2(posX, posY - (player.height / 10f));
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -50,8 +50,8 @@ namespace CalamityMod.Projectiles.Melee
                 Player player = Main.player[projectile.owner];
                 //Bounce
                 player.velocity.Y = -18f;
-				//reset player fall damage
-				player.fallStart = (int)(player.position.Y / 16f);
+                //reset player fall damage
+                player.fallStart = (int)(player.position.Y / 16f);
                 //Spawns the shockwave
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RoxShockwave>(), 300, 12, projectile.owner);
                 Main.PlaySound(SoundID.Item14, projectile.position);
@@ -71,14 +71,14 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Player player = Main.player[projectile.owner];
                 player.velocity.Y = -14f;
-				//reset player fall damage
-				player.fallStart = (int)(player.position.Y / 16f);
+                //reset player fall damage
+                player.fallStart = (int)(player.position.Y / 16f);
                 Main.PlaySound(SoundID.Tink, projectile.position);
                 projectile.Kill();
 
                 return false;
             }
-			return false;
+            return false;
         }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicBat : ModProjectile
+    public class MagicBat : ModProjectile
     {
         public override void SetStaticDefaults()
         {

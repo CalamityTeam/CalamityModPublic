@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ExoGladSpears : ModProjectile
+    public class ExoGladSpears : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
 
@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.timeLeft = 600;
             projectile.melee = true;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+            projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (potentialTarget != null)
                     projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 8f) / 21f;
-				else if (projectile.Distance(Main.player[projectile.owner].Center) > 1000f)
+                else if (projectile.Distance(Main.player[projectile.owner].Center) > 1000f)
                 {
                     float inertia = 25f * FlySpeedMultiplier;
                     Vector2 directionToOwner = (Main.player[projectile.owner].Center - projectile.Center).SafeNormalize(Vector2.UnitY);
@@ -99,11 +99,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.Damage();
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             int dustType = Utils.SelectRandom(Main.rand, new int[]
-			{
-				107,
-				234,
-				269
-			});
+            {
+                107,
+                234,
+                269
+            });
             for (int i = 0; i < 6; i++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0, 0);
@@ -122,12 +122,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
     }
 }

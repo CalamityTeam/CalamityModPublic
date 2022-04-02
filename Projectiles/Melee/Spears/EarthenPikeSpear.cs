@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.melee = true;  //Dictates whether projectile is a melee-class weapon.
             projectile.timeLeft = 90;
             projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-			projectile.scale = 1.5f;
+            projectile.scale = 1.5f;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.tileCollide = false;
@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
                         velocityY = 0.1f;
                     int proj = Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
                         projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().forceMelee = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
         }

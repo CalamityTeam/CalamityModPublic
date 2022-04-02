@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class ClaretCannonProj : ModProjectile
+    public class ClaretCannonProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

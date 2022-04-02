@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.value = Item.buyPrice(0, 54, 0, 0);
             item.defense = 39;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-		}
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
 
         public override void UpdateEquip(Player player)
         {

@@ -34,8 +34,8 @@ Right click to fire a burst of bullets");
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {

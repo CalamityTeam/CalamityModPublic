@@ -24,12 +24,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (setDamage)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();

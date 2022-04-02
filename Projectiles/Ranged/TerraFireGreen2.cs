@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class TerraFireGreen2 : ModProjectile
+    public class TerraFireGreen2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

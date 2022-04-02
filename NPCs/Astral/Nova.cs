@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 50;
             npc.damage = 45;
             npc.defense = 15;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 230;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
@@ -56,14 +56,14 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.4f;
                 npc.lifeMax = 350;
             }
-			if (CalamityWorld.death)
-			{
-				travelAcceleration = 0.3f;
-				targetTime = 60f;
-			}
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            if (CalamityWorld.death)
+            {
+                travelAcceleration = 0.3f;
+                targetTime = 60f;
+            }
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -119,9 +119,9 @@ namespace CalamityMod.NPCs.Astral
 
                 Vector2 between = target.Center - npc.Center;
 
-				//after locking target for x amount of time and being far enough away
-				int random = CalamityWorld.death ? 90 : 180;
-				if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.NextBool(random))
+                //after locking target for x amount of time and being far enough away
+                int random = CalamityWorld.death ? 90 : 180;
+                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.NextBool(random))
                 {
                     //set ai mode to target and travel
                     npc.ai[3] = -1f;

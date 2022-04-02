@@ -5,18 +5,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings)]
     public class ElysianWings : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Wings");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
-				"Horizontal speed: 9.75\n" +
+                "Horizontal speed: 9.75\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 240\n" +
-				"Temporary immunity to lava and 10% increased movement speed");
+                "Temporary immunity to lava and 10% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 36;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.accessory = true;
         }

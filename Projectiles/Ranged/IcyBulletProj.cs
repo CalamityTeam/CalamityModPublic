@@ -9,14 +9,14 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class IcyBulletProj : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icy Bullet");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Icy Bullet");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             projectile.width = 4;
             projectile.height = 4;
@@ -31,20 +31,20 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
             projectile.coldDamage = true;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				if (Main.rand.NextBool(3))
-				{
-					int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
-					Main.dust[index2].noGravity = true;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                if (Main.rand.NextBool(3))
+                {
+                    int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
+                    Main.dust[index2].noGravity = true;
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -53,13 +53,13 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            return false;
+        }
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             return new Color(200, 200, 200, projectile.alpha);
         }

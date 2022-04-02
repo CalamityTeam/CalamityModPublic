@@ -641,16 +641,16 @@ namespace CalamityMod.ILEditing
         /// Change the following code sequence in Wiring.HitWireSingle
         /// num8 = (int) Utils.SelectRandom<short>(Main.rand, new short[2]
         /// {
-        /// 	355,
-        /// 	358
+        ///     355,
+        ///     358
         /// });
         /// 
         /// to 
         /// 
         /// var arr = new short[2]
         /// {
-        /// 	355,
-        /// 	358
+        ///     355,
+        ///     358
         /// });
         /// arr = arr.ToList().Add(id).ToArray();
         /// num8 = Utils.SelectRandom(Main.rand, arr);

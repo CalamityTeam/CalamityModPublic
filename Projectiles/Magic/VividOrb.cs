@@ -1,7 +1,7 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class VividOrb : ModProjectile
+    public class VividOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<VividBolt>(), 1D, true);
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<VividBolt>(), 1D, true);
         }
     }
 }

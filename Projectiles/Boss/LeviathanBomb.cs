@@ -18,16 +18,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 172;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 172;
             projectile.height = 172;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 120;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -64,12 +64,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 80f, targetHitbox);
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
-		}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             for (int num621 = 0; num621 < 10; num621++)

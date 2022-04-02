@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernadoFriendly : ModProjectile
     {
-		bool intersectingSomething = false;
+        bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
@@ -24,17 +24,17 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.timeLeft = 500;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-			projectile.magic = true;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
+            projectile.magic = true;
         }
 
         public override void AI()
         {
-			if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-				intersectingSomething = true;
+            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                intersectingSomething = true;
 
-			float scaleBase = 44f;
+            float scaleBase = 44f;
             float scaleMult = 2.5f;
             float baseWidth = 320f;
             float baseHeight = 88f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.localAI[0] = 1f;
                 projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
-				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
                 projectile.netUpdate = true;
             }
             if (projectile.ai[1] != -1f)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.width = (int)(baseWidth * projectile.scale);
                 projectile.height = (int)(baseHeight * projectile.scale);
             }
-			if (!intersectingSomething)
+            if (!intersectingSomething)
             {
                 projectile.alpha -= 30;
                 if (projectile.alpha < 100)
@@ -98,17 +98,17 @@ namespace CalamityMod.Projectiles.Magic
                 float num618 = (scaleBase - projectile.ai[1] + 1f) * scaleMult / scaleBase;
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
-				Projectile segment = Projectile.NewProjectileDirect(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
-				//Defaults to magic
-				if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
-				{
-					segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
-					segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
-					segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
-					segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
-					segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
-					segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
-				}
+                Projectile segment = Projectile.NewProjectileDirect(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                //Defaults to magic
+                if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
+                {
+                    segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
+                    segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
+                    segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
+                    segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
+                    segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
+                    segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
+                }
             }
             if (projectile.ai[0] <= 0f)
             {
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             if (!intersectingSomething)
             {

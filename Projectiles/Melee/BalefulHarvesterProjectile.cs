@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
             projectile.tileCollide = false;
@@ -45,69 +45,69 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.alpha = 0;
             }
 
-			if (projectile.ai[0] >= 0f && projectile.ai[0] < 200f)
-			{
-				int num554 = (int)projectile.ai[0];
-				if (Main.npc[num554].active)
-				{
-					float num555 = 8f;
-					Vector2 vector44 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-					float num556 = Main.npc[num554].position.X - vector44.X;
-					float num557 = Main.npc[num554].position.Y - vector44.Y;
-					float num558 = (float)Math.Sqrt((double)(num556 * num556 + num557 * num557));
-					num558 = num555 / num558;
-					num556 *= num558;
-					num557 *= num558;
-					projectile.velocity.X = (projectile.velocity.X * 14f + num556) / 15f;
-					projectile.velocity.Y = (projectile.velocity.Y * 14f + num557) / 15f;
-				}
-				else
-				{
-					float num559 = 1000f;
-					int num3;
-					for (int num560 = 0; num560 < 200; num560 = num3 + 1)
-					{
-						if (Main.npc[num560].CanBeChasedBy(projectile, false))
-						{
-							float num561 = Main.npc[num560].position.X + (float)(Main.npc[num560].width / 2);
-							float num562 = Main.npc[num560].position.Y + (float)(Main.npc[num560].height / 2);
-							float num563 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num561) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num562);
-							if (num563 < num559 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num560].position, Main.npc[num560].width, Main.npc[num560].height))
-							{
-								num559 = num563;
-								projectile.ai[0] = (float)num560;
-							}
-						}
-						num3 = num560;
-					}
-				}
+            if (projectile.ai[0] >= 0f && projectile.ai[0] < 200f)
+            {
+                int num554 = (int)projectile.ai[0];
+                if (Main.npc[num554].active)
+                {
+                    float num555 = 8f;
+                    Vector2 vector44 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    float num556 = Main.npc[num554].position.X - vector44.X;
+                    float num557 = Main.npc[num554].position.Y - vector44.Y;
+                    float num558 = (float)Math.Sqrt((double)(num556 * num556 + num557 * num557));
+                    num558 = num555 / num558;
+                    num556 *= num558;
+                    num557 *= num558;
+                    projectile.velocity.X = (projectile.velocity.X * 14f + num556) / 15f;
+                    projectile.velocity.Y = (projectile.velocity.Y * 14f + num557) / 15f;
+                }
+                else
+                {
+                    float num559 = 1000f;
+                    int num3;
+                    for (int num560 = 0; num560 < 200; num560 = num3 + 1)
+                    {
+                        if (Main.npc[num560].CanBeChasedBy(projectile, false))
+                        {
+                            float num561 = Main.npc[num560].position.X + (float)(Main.npc[num560].width / 2);
+                            float num562 = Main.npc[num560].position.Y + (float)(Main.npc[num560].height / 2);
+                            float num563 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num561) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num562);
+                            if (num563 < num559 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num560].position, Main.npc[num560].width, Main.npc[num560].height))
+                            {
+                                num559 = num563;
+                                projectile.ai[0] = (float)num560;
+                            }
+                        }
+                        num3 = num560;
+                    }
+                }
 
-				if (projectile.velocity.X < 0f)
-				{
-					projectile.spriteDirection = -1;
-					projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
-				}
-				else
-				{
-					projectile.spriteDirection = 1;
-					projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-				}
+                if (projectile.velocity.X < 0f)
+                {
+                    projectile.spriteDirection = -1;
+                    projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                }
+                else
+                {
+                    projectile.spriteDirection = 1;
+                    projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                }
 
-				for (int num157 = 0; num157 < 2; num157++)
-				{
-					int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, Main.rand.NextBool(2) ? 5 : 6, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 2f);
-					Main.dust[num158].position -= projectile.velocity * 2f;
-					Main.dust[num158].noGravity = true;
-					Dust expr_7A4A_cp_0_cp_0 = Main.dust[num158];
-					expr_7A4A_cp_0_cp_0.velocity.X *= 0.3f;
-					Dust expr_7A65_cp_0_cp_0 = Main.dust[num158];
-					expr_7A65_cp_0_cp_0.velocity.Y *= 0.3f;
-				}
+                for (int num157 = 0; num157 < 2; num157++)
+                {
+                    int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, Main.rand.NextBool(2) ? 5 : 6, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 2f);
+                    Main.dust[num158].position -= projectile.velocity * 2f;
+                    Main.dust[num158].noGravity = true;
+                    Dust expr_7A4A_cp_0_cp_0 = Main.dust[num158];
+                    expr_7A4A_cp_0_cp_0.velocity.X *= 0.3f;
+                    Dust expr_7A65_cp_0_cp_0 = Main.dust[num158];
+                    expr_7A65_cp_0_cp_0.velocity.Y *= 0.3f;
+                }
 
-				return;
-			}
+                return;
+            }
 
-			projectile.Kill();
+            projectile.Kill();
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -14,7 +14,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PumplerHoldout : ModProjectile
+    public class PumplerHoldout : ModProjectile
     {
 
         public override void SetStaticDefaults()

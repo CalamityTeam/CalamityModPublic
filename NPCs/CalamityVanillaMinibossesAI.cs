@@ -8,7 +8,7 @@ namespace CalamityMod.NPCs
     public partial class CalamityGlobalAI
     {
         internal enum MothronAIState
-		{
+        {
             DespawnYeet = -1,
             NewAISelection = 0,
             FlyTowardsPlayer = 1,
@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs
             LayEgg = 8
         }
 
-		#region Buffed Mothron AI
-		public static bool BuffedMothronAI(NPC npc)
+        #region Buffed Mothron AI
+        public static bool BuffedMothronAI(NPC npc)
         {
             npc.noTileCollide = false;
             npc.noGravity = true;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs
             float chargeSpeed = 32f;
             Vector2 idealFlyVelocity;
             switch ((MothronAIState)(int)aiState)
-			{
+            {
                 case MothronAIState.DespawnYeet:
                     Vector2 idealVelocity = Vector2.UnitY * -34f;
                     npc.velocity = (npc.velocity * 4f + idealVelocity) / 5f;

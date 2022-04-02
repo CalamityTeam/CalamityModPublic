@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 2; // Can hit up to two enemies. Will explode extremely soon after hitting the first, though.
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool CanDamage() => projectile.timeLeft < Lifetime - 4;
 

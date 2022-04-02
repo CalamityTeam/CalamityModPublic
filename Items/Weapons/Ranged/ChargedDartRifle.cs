@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Charged Dart Blaster");
             Tooltip.SetDefault("Fires a shotgun spread of darts and a splitting energy blast\n" +
-			"Right click to fire a more powerful exploding energy blast that bounces");
+            "Right click to fire a more powerful exploding energy blast that bounces");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 22f;
             item.shoot = ModContent.ProjectileType<ChargedBlast>();
             item.useAmmo = AmmoID.Dart;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -56,13 +56,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-				int num6 = Main.rand.Next(2, 5);
-				for (int index = 0; index < num6; ++index)
-				{
-					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				}
+                int num6 = Main.rand.Next(2, 5);
+                for (int index = 0; index < num6; ++index)
+                {
+                    float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                }
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }

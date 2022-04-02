@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Jelly-Charged Battery");
             Tooltip.SetDefault("+1 max minions and 7% minion damage\n" +
-							   "Minion attacks spawn orbs of energy and inflict Electrified");
+                               "Minion attacks spawn orbs of energy and inflict Electrified");
         }
 
         public override void SetDefaults()
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().voltaicJelly = true;
-			player.Calamity().jellyChargedBattery = true;
+            player.Calamity().voltaicJelly = true;
+            player.Calamity().jellyChargedBattery = true;
             player.minionDamage += 0.07f;
         }
 

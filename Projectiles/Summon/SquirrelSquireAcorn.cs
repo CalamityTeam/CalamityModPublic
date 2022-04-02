@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SquirrelSquireAcorn : ModProjectile
+    public class SquirrelSquireAcorn : ModProjectile
     {
         public const float Gravity = 0.5f;
         public override void SetStaticDefaults()

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Cryon : ModNPC
+    public class Cryon : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 50;
             npc.height = 64;
             npc.defense = 10;
-			npc.DR_NERD(0.1f);
+            npc.DR_NERD(0.1f);
             npc.lifeMax = 300;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -31,11 +31,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath7;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
-			npc.coldDamage = true;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = false;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.coldDamage = true;
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = false;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {
@@ -78,8 +78,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 120, true);
-			player.AddBuff(BuffID.Chilled, 90, true);
-		}
+            player.AddBuff(BuffID.Chilled, 90, true);
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
         }
     }
 }

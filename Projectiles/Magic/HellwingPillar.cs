@@ -62,22 +62,22 @@ namespace CalamityMod.Projectiles.Magic
                 int num297 = 127;
                 if (Main.rand.NextBool(3))
                 {
-					int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-					Dust dust = Main.dust[num299];
-					if (Main.rand.NextBool(3))
-					{
-						dust.noGravity = true;
-						dust.scale *= 2f;
-						dust.velocity.X *= 2f;
-						dust.velocity.Y *= 2f;
-					}
-					else
-					{
-						dust.scale *= 1.5f;
-					}
-					dust.velocity.X *= 1.2f;
-					dust.velocity.Y *= 1.2f;
-					dust.scale *= scalar;
+                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[num299];
+                    if (Main.rand.NextBool(3))
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 2f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
+                    }
+                    else
+                    {
+                        dust.scale *= 1.5f;
+                    }
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= scalar;
                 }
             }
             else

@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class AuricTeslaBar : ModTile
+    public class AuricTeslaBar : ModTile
     {
         public override void SetDefaults()
         {
-			this.SetUpBar(new Color(255, 227, 81));
+            this.SetUpBar(new Color(255, 227, 81));
             dustType = ModContent.DustType<AuricBarDust>();
             drop = ModContent.ItemType<AuricBar>();
         }

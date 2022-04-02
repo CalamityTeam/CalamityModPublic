@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class BloodflareHornedMask : ModItem
     {
         public override void SetStaticDefaults()
@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMage = true;
             player.setBonus = "Greatly increases life regen\n" +
-				"Enemies below 50% life drop a heart when struck\n" +
-				"This effect has a 5 second cooldown\n" +
-				"Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+                "Enemies below 50% life drop a heart when struck\n" +
+                "This effect has a 5 second cooldown\n" +
+                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Magic weapons fire ghostly bolts every 1.67 seconds\n" +
                 "Magic critical strikes cause flame explosions every 2 seconds";
             player.crimsonRegen = true;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class CosmicElemental : ModNPC
+    public class CosmicElemental : ModNPC
     {
         public override void SetStaticDefaults()
         {

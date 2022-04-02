@@ -9,7 +9,7 @@ using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
         public override void SetStaticDefaults()

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Aurora Blazer");
             Tooltip.SetDefault("Spews astral flames that travel in a star-shaped patterns\n" +
-			"60% chance to not consume gel");
+            "60% chance to not consume gel");
         }
 
         public override void SetDefaults()
@@ -39,15 +39,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			float SpeedX = speedX + Main.rand.NextFloat(-15f, 15f) * 0.05f;
-			float SpeedY = speedY + Main.rand.NextFloat(-15f, 15f) * 0.05f;
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4, 11), 0f);
+            float SpeedX = speedX + Main.rand.NextFloat(-15f, 15f) * 0.05f;
+            float SpeedY = speedY + Main.rand.NextFloat(-15f, 15f) * 0.05f;
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4, 11), 0f);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow"));
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

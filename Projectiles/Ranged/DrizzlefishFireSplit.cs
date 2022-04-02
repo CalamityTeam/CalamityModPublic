@@ -42,22 +42,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			int dustType = 235;
-			if (projectile.ai[1] == 1f)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					dustType = 35;
-				}
-				else
-				{
-					dustType = 55;
-				}
-			}
-			else
-			{
-				dustType = 235;
-			}
+            int dustType = 235;
+            if (projectile.ai[1] == 1f)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    dustType = 35;
+                }
+                else
+                {
+                    dustType = 55;
+                }
+            }
+            else
+            {
+                dustType = 235;
+            }
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.timeLeft > 90)
             {
@@ -111,14 +111,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.ai[1] == 1f)
-			{
-				target.AddBuff(BuffID.OnFire, 120);
-			}
-			else
-			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			}
+            if (projectile.ai[1] == 1f)
+            {
+                target.AddBuff(BuffID.OnFire, 120);
+            }
+            else
+            {
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            }
         }
     }
 }

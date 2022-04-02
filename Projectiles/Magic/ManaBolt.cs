@@ -25,11 +25,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
             projectile.velocity *= 0.985f;
-			int randomDust = Utils.SelectRandom(Main.rand, new int[]
-			{
-				15,
-				107
-			});
+            int randomDust = Utils.SelectRandom(Main.rand, new int[]
+            {
+                15,
+                107
+            });
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 

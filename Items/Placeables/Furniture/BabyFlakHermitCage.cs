@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-	public class BabyFlakHermitCage : ModItem
+    public class BabyFlakHermitCage : ModItem
     {
         public override void SetStaticDefaults()
         {

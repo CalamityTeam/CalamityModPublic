@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts
 {
-	public class RosePiece : ModDust
+    public class RosePiece : ModDust
     {
         public override void OnSpawn(Dust dust)
         {

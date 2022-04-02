@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Consecrated Water");
             Tooltip.SetDefault("The bottle is surprisingly dusty\n" +
-							   "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
+                               "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
                                "The pillar is destroyed if there's no tiles below it\n" +
                                "Stealth strikes create three flame pillars instead of one on impact");
         }
@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 100);
-			recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-			recipe.AddIngredient(ItemID.CrystalShard, 10);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
+            recipe.AddIngredient(ItemID.CrystalShard, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

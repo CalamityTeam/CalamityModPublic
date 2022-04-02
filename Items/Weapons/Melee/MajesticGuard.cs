@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 100;
-			item.height = 100;
-			item.scale = 1.5f;
-			item.damage = 70;
+            item.height = 100;
+            item.scale = 1.5f;
+            item.damage = 70;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (target.Calamity().miscDefenseLoss < target.defense)
-				target.Calamity().miscDefenseLoss += 1;
+            if (target.Calamity().miscDefenseLoss < target.defense)
+                target.Calamity().miscDefenseLoss += 1;
 
-			// Healing effect does not trigger versus dummies
-			if (player.moonLeech)
+            // Healing effect does not trigger versus dummies
+            if (player.moonLeech)
                 return;
 
             if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal)

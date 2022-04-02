@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -60,8 +60,8 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-			if (projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            if (projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -93,9 +93,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             Player player = Main.player[projectile.owner];
 
-			int chance = 3;
-			if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
-				chance = 6;
+            int chance = 3;
+            if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
+                chance = 6;
 
             if (Main.rand.NextBool(chance))
             {

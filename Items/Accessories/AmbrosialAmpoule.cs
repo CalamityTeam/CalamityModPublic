@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class AmbrosialAmpoule : ModItem
+    public class AmbrosialAmpoule : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aAmpoule = true;
-			modPlayer.rOoze = true;
+            modPlayer.rOoze = true;
         }
 
         public override void AddRecipes()

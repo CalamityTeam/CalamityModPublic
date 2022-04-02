@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeMoonLord : LoreItem
+    public class KnowledgeMoonLord : LoreItem
     {
         public override void SetStaticDefaults()
         {

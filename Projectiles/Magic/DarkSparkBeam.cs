@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
-			projectile.Calamity().PierceResistHarshness = 0.06f;
-			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+            projectile.Calamity().PierceResistHarshness = 0.06f;
+            projectile.Calamity().PierceResistCap = 0.4f;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -133,13 +133,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy(num811);
             projectile.scale = 1.5f * (1.5f - num812);
 
-			// Takes 360 frames to reach normal damage
-			float amount = projectile2.ai[0] / 1200f;
-			if (amount > 1f)
-				amount = 1f;
-			projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.2f, amount));
+            // Takes 360 frames to reach normal damage
+            float amount = projectile2.ai[0] / 1200f;
+            if (amount > 1f)
+                amount = 1f;
+            projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.2f, amount));
 
-			if (projectile2.ai[0] >= 720f)
+            if (projectile2.ai[0] >= 720f)
                 vector71 = new Vector2?(projectile2.Center);
 
             if (!Collision.CanHitLine(Main.player[projectile.owner].Center, 0, 0, projectile2.Center, 0, 0))

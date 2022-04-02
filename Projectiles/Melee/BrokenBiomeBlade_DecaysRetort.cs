@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class DecaysRetort : ModProjectile
+    public class DecaysRetort : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort";
         private bool initialized = false;

@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
-			projectile.StickToTiles(false, false);
+            projectile.StickToTiles(false, false);
         }
 
         public override bool CanDamage() => false;

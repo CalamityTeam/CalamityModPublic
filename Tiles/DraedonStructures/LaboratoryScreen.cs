@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-	public class LaboratoryScreen : ModTile
+    public class LaboratoryScreen : ModTile
     {
         public override void SetDefaults()
         {

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class StatigelHood : ModItem
     {
         public override void SetStaticDefaults()
@@ -34,20 +34,20 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-			player.setBonus = "18% increased minion damage and +1 max minion\n" +
+            player.setBonus = "18% increased minion damage and +1 max minion\n" +
                 "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
                 "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height\n" +
-				"12% increased jump speed";
+                "12% increased jump speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
-			modPlayer.statigelJump = true;
-			Player.jumpHeight += 5;
-			player.jumpSpeedBoost += 0.6f;
-			player.minionDamage += 0.18f;
-			player.maxMinions++;
-			if (player.whoAmI == Main.myPlayer)
+            modPlayer.statigelJump = true;
+            Player.jumpHeight += 5;
+            player.jumpSpeedBoost += 0.6f;
+            player.minionDamage += 0.18f;
+            player.maxMinions++;
+            if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
                 {

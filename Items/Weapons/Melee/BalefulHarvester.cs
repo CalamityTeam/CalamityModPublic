@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 90;
             item.width = 66;
             item.height = 66;
-			item.scale = 1.5f;
+            item.scale = 1.5f;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -45,21 +45,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
+            int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
             CalamityPlayer.HorsemansBladeOnHit(player, target.whoAmI, (int)(damage * 1.5f), knockback, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
-			CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), item.knockBack, 0, type);
+            int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), item.knockBack, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
         }
     }

@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			if (projectile.owner != Main.myPlayer)
-				return;
+            if (projectile.owner != Main.myPlayer)
+                return;
 
             bool shoot = false;
             if (projectile.timeLeft % 30f == 0f)
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.velocity.X *= 0.99f;
                 projectile.velocity.Y += 0.25f;
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
                 if (shoot)
                 {
@@ -52,17 +52,17 @@ namespace CalamityMod.Projectiles.Rogue
                     vel.Normalize();
                     vel *= 30f;
                     int flare = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, ModContent.ProjectileType<FrostyFlareProj>(), projectile.damage, projectile.knockBack, projectile.owner);
-					Main.projectile[flare].alpha = 150;
+                    Main.projectile[flare].alpha = 150;
                 }
-				if (projectile.timeLeft % 10 == 0)
-				{
-					int snowflake = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, Main.rand.Next(3));
-					if (snowflake.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[snowflake].Calamity().forceRogue = true;
-						Main.projectile[snowflake].timeLeft = 300;
-					}
-				}
+                if (projectile.timeLeft % 10 == 0)
+                {
+                    int snowflake = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, Main.rand.Next(3));
+                    if (snowflake.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[snowflake].Calamity().forceRogue = true;
+                        Main.projectile[snowflake].timeLeft = 300;
+                    }
+                }
 
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172);
                 Main.dust[index2].noGravity = true;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
                         vel.Normalize();
                         vel *= 30f;
                         int flare = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostyFlareProj>(), projectile.damage, projectile.knockBack, projectile.owner);
-						Main.projectile[flare].alpha = 150;
+                        Main.projectile[flare].alpha = 150;
                     }
                 }
                 else

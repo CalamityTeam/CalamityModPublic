@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-	public class UeliaceBar : ModItem
+    public class UeliaceBar : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,19 +15,19 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-			item.createTile = ModContent.TileType<UelibloomBar>();
+            item.createTile = ModContent.TileType<UelibloomBar>();
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
             item.rare = ItemRarityID.Red;
             item.value = Item.sellPrice(gold: 3);
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.consumable = true;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTurn = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.autoReuse = true;
+            item.consumable = true;
         }
 
         public override void AddRecipes()

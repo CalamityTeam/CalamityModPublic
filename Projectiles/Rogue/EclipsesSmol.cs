@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class EclipsesSmol : ModProjectile
+    public class EclipsesSmol : ModProjectile
     {
         public override void SetStaticDefaults()
         {

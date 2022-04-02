@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CosmicBlast : ModProjectile
+    public class CosmicBlast : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -61,12 +61,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

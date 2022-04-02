@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-	public class DoGCartBuff : ModBuff
+    public class DoGCartBuff : ModBuff
     {
         public override void SetDefaults()
         {

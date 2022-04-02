@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TerratomereProjectile : ModProjectile
+    public class TerratomereProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 
             Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.75f / 255f, 0f);
         }

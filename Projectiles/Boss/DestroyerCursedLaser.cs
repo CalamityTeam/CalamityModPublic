@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.scale = 1.8f;
-			projectile.extraUpdates = 2;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.extraUpdates = 2;
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.localAI[1] == 0f)
             {
                 Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
-				projectile.localAI[1] = 1f;
-			}
+                projectile.localAI[1] = 1f;
+            }
             if (projectile.velocity.Length() < 12f)
             {
                 projectile.velocity *= 1.0025f;
@@ -58,9 +58,9 @@ namespace CalamityMod.Projectiles.Boss
             return Color.Transparent;
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.CursedInferno, 120);
-		}
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
+    }
 }

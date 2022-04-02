@@ -13,7 +13,7 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("It definitely wants something from you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-		}
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {

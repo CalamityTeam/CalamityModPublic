@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class WitherBolt : ModProjectile
+    public class WitherBolt : ModProjectile
     {
         public override void SetStaticDefaults()
         {

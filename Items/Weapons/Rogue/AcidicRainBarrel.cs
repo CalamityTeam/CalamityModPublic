@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Vector2 initialVelocity = new Vector2(speedX, speedY);
 
             int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockBack, player.whoAmI);
-			if (p.WithinBounds(Main.maxProjectiles))
-				Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (p.WithinBounds(Main.maxProjectiles))
+                Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
         public override void AddRecipes()

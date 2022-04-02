@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class Leviatitan : ModItem
+    public class Leviatitan : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AquaBlast>();
             item.shootSpeed = 12f;
-			item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.useAmmo = AmmoID.Bullet;
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -45,17 +45,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
 
-			if (type == ProjectileID.Bullet)
-			{
-				if (Main.rand.NextBool(3))
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)(damage * 1.5), knockBack, player.whoAmI);
-				else
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockBack, player.whoAmI);
-			}
-			else
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+            {
+                if (Main.rand.NextBool(3))
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)(damage * 1.5), knockBack, player.whoAmI);
+                else
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockBack, player.whoAmI);
+            }
+            else
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
     }
 }

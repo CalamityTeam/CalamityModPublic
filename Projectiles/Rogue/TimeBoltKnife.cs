@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TimeBolt";
 
-		private int maxPenetrate = 6;
+        private int maxPenetrate = 6;
         private int penetrationAmt = 6;
-		private bool initialized = false;
+        private bool initialized = false;
 
         public override void SetStaticDefaults()
         {
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 28;
             projectile.height = 28;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = penetrationAmt;
+            projectile.ignoreWater = true;
+            projectile.penetrate = penetrationAmt;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -48,15 +48,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			if (!initialized)
-			{
-				if (projectile.Calamity().stealthStrike)
-				{
-					maxPenetrate = 11;
-					penetrationAmt = maxPenetrate;
-				}
-				initialized = true;
-			}
+            if (!initialized)
+            {
+                if (projectile.Calamity().stealthStrike)
+                {
+                    maxPenetrate = 11;
+                    penetrationAmt = maxPenetrate;
+                }
+                initialized = true;
+            }
 
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.03f;
 
@@ -289,10 +289,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
                 int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
+                {
                     226,
                     229
-				});
+                });
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
                 Main.dust[dust].position = projectile.Center + dustOffset;
                 if (Main.rand.Next(6) != 0)
@@ -317,8 +317,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
+            if (projectile.Calamity().stealthStrike)
+                target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
         }
     }
 }

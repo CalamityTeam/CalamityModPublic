@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             bool flag24 = false;
             if (flag24)
             {
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
-			int targetIndex = -1;
+            int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         vector46 = npc.Center;
                         flag25 = true;
-						targetIndex = npc.whoAmI;
+                        targetIndex = npc.whoAmI;
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
                             num633 = num646;
                             vector46 = nPC2.Center;
                             flag25 = true;
-							targetIndex = num645;
+                            targetIndex = num645;
                         }
                     }
                 }

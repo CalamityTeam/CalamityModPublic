@@ -10,10 +10,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class PlaguebringerSummon : ModProjectile
+    public class PlaguebringerSummon : ModProjectile
     {
-		public const float auraRange = 960f;
-		private int auraCounter = 0;
+        public const float auraRange = 960f;
+        private int auraCounter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lil' Plaguebringer");
@@ -79,10 +79,10 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			if (!modPlayer.plaguebringerPatronSet)
-				projectile.Kill();
+            if (!modPlayer.plaguebringerPatronSet)
+                projectile.Kill();
 
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
 
             int buffType = ModContent.BuffType<Plague>();
             float range = auraRange;
@@ -90,23 +90,23 @@ namespace CalamityMod.Projectiles.Summon
             int dmg = projectile.damage;
             if (projectile.owner == Main.myPlayer)
             {
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= range)
-					{
-						if (npc.FindBuffIndex(buffType) == -1)
-						{
-							npc.AddBuff(buffType, 120, false);
-						}
-						if (dealDamage)
-						{
-							Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, projectile.owner, l);
-							if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
-								aura.Calamity().forceMinion = true;
-						}
-					}
-				}
+                for (int l = 0; l < Main.maxNPCs; l++)
+                {
+                    NPC npc = Main.npc[l];
+                    if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= range)
+                    {
+                        if (npc.FindBuffIndex(buffType) == -1)
+                        {
+                            npc.AddBuff(buffType, 120, false);
+                        }
+                        if (dealDamage)
+                        {
+                            Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, projectile.owner, l);
+                            if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
+                                aura.Calamity().forceMinion = true;
+                        }
+                    }
+                }
             }
 
             float passiveMvtFloat = 0.5f;
@@ -118,11 +118,11 @@ namespace CalamityMod.Projectiles.Summon
             yDist += Main.rand.NextFloat(-10f, 20f);
             xDist += Main.rand.NextFloat(-10f, 20f);
             yDist -= 70f;
-			Vector2 playerVector = new Vector2(xDist, yDist);
+            Vector2 playerVector = new Vector2(xDist, yDist);
             float playerDist = playerVector.Length();
             float returnSpeed = 18f;
 
-			//If player is close enough, resume normal
+            //If player is close enough, resume normal
             if (playerDist < safeDist && player.velocity.Y == 0f &&
                 projectile.position.Y + projectile.height <= player.position.Y + player.height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			//Teleport to player if too far
+            //Teleport to player if too far
             if (playerDist > 2000f)
             {
                 projectile.position.X = player.Center.X - projectile.width / 2;
@@ -195,18 +195,18 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity.Y -= passiveMvtFloat * 2f;
                 }
             }
-			if (projectile.velocity.X >= 0.25f)
-			{
-				projectile.direction = -1;
-			}
-			else if (projectile.velocity.X < -0.25f)
-			{
-				projectile.direction = 1;
-			}
-			//Tilting and change directions
-			projectile.spriteDirection = projectile.direction;
-			projectile.rotation = projectile.velocity.X * 0.01f;
-		}
+            if (projectile.velocity.X >= 0.25f)
+            {
+                projectile.direction = -1;
+            }
+            else if (projectile.velocity.X < -0.25f)
+            {
+                projectile.direction = 1;
+            }
+            //Tilting and change directions
+            projectile.spriteDirection = projectile.direction;
+            projectile.rotation = projectile.velocity.X * 0.01f;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 

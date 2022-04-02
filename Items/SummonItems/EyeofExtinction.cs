@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-	public class EyeofExtinction : ModItem
+    public class EyeofExtinction : ModItem
     {
         public override void SetStaticDefaults()
         {

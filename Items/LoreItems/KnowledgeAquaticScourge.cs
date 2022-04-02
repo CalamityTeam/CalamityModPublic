@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeAquaticScourge : LoreItem
+    public class KnowledgeAquaticScourge : LoreItem
     {
         public override void SetStaticDefaults()
         {

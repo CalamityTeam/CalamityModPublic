@@ -21,8 +21,8 @@ namespace CalamityMod.Items
 
         public override void UpdateInventory(Player player)
         {
-			if (item.favorited)
-				player.Calamity().disableHiveCystSpawns = true;
+            if (item.favorited)
+                player.Calamity().disableHiveCystSpawns = true;
         }
 
         public override void AddRecipes()

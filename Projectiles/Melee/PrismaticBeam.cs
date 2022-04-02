@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PrismaticBeam : BaseLaserbeamProjectile
+    public class PrismaticBeam : BaseLaserbeamProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         public override void DetermineScale()
-		{
+        {
             projectile.scale = Time < ChargeupTime ? 0f : Utils.InverseLerp(0f, 40f, projectile.timeLeft, true) * MaxScale;
         }
 

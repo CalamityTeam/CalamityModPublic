@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class MagnomalyBeam : ModProjectile
+    public class MagnomalyBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 5;
             projectile.timeLeft = 300;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {

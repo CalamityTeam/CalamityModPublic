@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class FrigidflashBolt : ModItem
+    public class FrigidflashBolt : ModItem
     {
         public override void SetStaticDefaults()
         {

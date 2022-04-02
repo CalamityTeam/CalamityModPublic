@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-	public class AgedLaboratoryDoorClosed : ModTile
+    public class AgedLaboratoryDoorClosed : ModTile
     {
         public override void SetDefaults()
         {

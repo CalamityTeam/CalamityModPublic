@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CircletMark : ModProjectile
+    public class CircletMark : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 900;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
-			projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;

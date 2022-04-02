@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Bloody Edge");
             Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
-				"Inflicts Burning Blood");
+                "Inflicts Burning Blood");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useTurn = true;
             item.height = 60;
-			item.scale = 1.25f;
+            item.scale = 1.25f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
         }
@@ -61,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
 
-			if (!target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(2) + 2;
@@ -73,9 +73,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
 
-			int healAmount = Main.rand.Next(2) + 2;
+            int healAmount = Main.rand.Next(2) + 2;
             if (!player.moonLeech)
             {
                 player.statLife += healAmount;

@@ -46,20 +46,20 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Guide;
         }
 
-		public override void AI()
-		{
-			if (!CalamityWorld.spawnedCirrus)
-			{
-				CalamityWorld.spawnedCirrus = true;
-			}
-		}
+        public override void AI()
+        {
+            if (!CalamityWorld.spawnedCirrus)
+            {
+                CalamityWorld.spawnedCirrus = true;
+            }
+        }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-				bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
+                bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
                 if (player.active && hasVodka)
                 {
                     return Main.hardMode || CalamityWorld.spawnedCirrus;
@@ -86,11 +86,11 @@ namespace CalamityMod.NPCs.TownNPCs
                     return "Have any spare rooms available? Preferably candle-lit with a hefty supply of booze?";
             }
 
-			int wife = NPC.FindFirstNPC(NPCID.Stylist);
-			bool wifeIsAround = wife != -1;
-			bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
+            int wife = NPC.FindFirstNPC(NPCID.Stylist);
+            bool wifeIsAround = wife != -1;
+            bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
 
-			if (Main.bloodMoon)
+            if (Main.bloodMoon)
             {
                 int random = Main.rand.Next(4);
                 if (random == 0)
@@ -114,31 +114,31 @@ namespace CalamityMod.NPCs.TownNPCs
 
             IList<string> dialogue = new List<string>();
 
-			if (wifeIsAround)
-			{
-				dialogue.Add("You can't stop me from trying to move in with " + Main.npc[wife].GivenName + ".");
-				dialogue.Add("I love it when " + Main.npc[wife].GivenName + "'s hands get sticky from all that... wax.");
-				dialogue.Add(Main.npc[wife].GivenName + " works wonders for my hair... among other things.");
-				dialogue.Add("Ever since " + Main.npc[wife].GivenName + " moved in I haven't been drinking as much... a strange but not unwelcome feeling.");
-			}
-
-			if (Main.dayTime)
+            if (wifeIsAround)
             {
-				if (beLessDrunk)
-					dialogue.Add(Main.npc[wife].GivenName + " helped me learn to accept my past. It's been rough, but I think I'm on the right track now.");
-				else
-					dialogue.Add("I drink to forget certain... things. What things, you might ask? Well, the point is to forget them, isn't it?");
+                dialogue.Add("You can't stop me from trying to move in with " + Main.npc[wife].GivenName + ".");
+                dialogue.Add("I love it when " + Main.npc[wife].GivenName + "'s hands get sticky from all that... wax.");
+                dialogue.Add(Main.npc[wife].GivenName + " works wonders for my hair... among other things.");
+                dialogue.Add("Ever since " + Main.npc[wife].GivenName + " moved in I haven't been drinking as much... a strange but not unwelcome feeling.");
+            }
+
+            if (Main.dayTime)
+            {
+                if (beLessDrunk)
+                    dialogue.Add(Main.npc[wife].GivenName + " helped me learn to accept my past. It's been rough, but I think I'm on the right track now.");
+                else
+                    dialogue.Add("I drink to forget certain... things. What things, you might ask? Well, the point is to forget them, isn't it?");
 
                 dialogue.Add("I'm literally balls drunk off my sass right now, what do you want?");
                 dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind, probably both.");
                 dialogue.Add("When I'm drunk I'm way happier... at least until the talking worms start to appear.");
                 dialogue.Add("I should reprogram the whole mod, while drunk, then send it back to the testers.");
 
-				if (beLessDrunk)
-					dialogue.Add("Might go out for a jog later with " + Main.npc[wife].GivenName + ". Nice day for it.");
-				else
-					dialogue.Add("What a great day! Might just drink so much that I get poisoned again.");
-			}
+                if (beLessDrunk)
+                    dialogue.Add("Might go out for a jog later with " + Main.npc[wife].GivenName + ". Nice day for it.");
+                else
+                    dialogue.Add("What a great day! Might just drink so much that I get poisoned again.");
+            }
             else
             {
                 dialogue.Add("A perfect night to light some candles, drink some wine and relax.");
@@ -147,16 +147,16 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("You lost or something? I don't mind company, but I'd rather be left alone at night.");
                 dialogue.Add("Are you sure you're 21? ...Alright, fine, but don't tell anyone I sold you these.");
 
-				if (wifeIsAround)
-					dialogue.Add("I should watch some movies with " + Main.npc[wife].GivenName + " tonight. You could come too, but only if you bring snacks for us.");
-			}
+                if (wifeIsAround)
+                    dialogue.Add("I should watch some movies with " + Main.npc[wife].GivenName + " tonight. You could come too, but only if you bring snacks for us.");
+            }
 
-			dialogue.Add("I HATE WALMART! ...Anyway, what do you want this time?");
-			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be just like me.");
+            dialogue.Add("I HATE WALMART! ...Anyway, what do you want this time?");
+            dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be just like me.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
-			dialogue.Add("Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!");
+            dialogue.Add("Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!");
 
-			if (BirthdayParty.PartyIsUp)
+            if (BirthdayParty.PartyIsUp)
                 dialogue.Add("You'll always find me at parties where booze is involved... well, you'll always find BOOZE where I'M involved!");
 
             if (Main.invasionType == InvasionID.MartianMadness)
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.downedMoonlord)
                 dialogue.Add("Ever wondered why the Moon Lord needed so many tentacles? Uh... on second thought, I won't answer that.");
 
-			if (CalamityWorld.rainingAcid)
+            if (CalamityWorld.rainingAcid)
                 dialogue.Add("I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!");
 
             if (CalamityWorld.downedPolterghast)
@@ -180,11 +180,11 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
-			int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
+            int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
-				dialogue.Add("I've had to tell baldie where my eyes are so many times that I've lost count.");
-				dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
+                dialogue.Add("I've had to tell baldie where my eyes are so many times that I've lost count.");
+                dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
                 dialogue.Add("My booze will always be better than " + Main.npc[tavernKeep].GivenName + "'s, and nobody can convince me otherwise.");
             }
 
@@ -192,11 +192,11 @@ namespace CalamityMod.NPCs.TownNPCs
             if (permadong != -1)
                 dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I'd ever seen.");
 
-			int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
-			if (witch != -1)
-				dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.");
+            int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+            if (witch != -1)
+                dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.");
 
-			if (Main.player[Main.myPlayer].Calamity().chibii)
+            if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
             if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
@@ -212,46 +212,46 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while in human form. Don't question my transformation preferences!");
             }
 
-			IList<string> donorList = new List<string>(CalamityLists.donatorList);
-			int maxDonorsListed = 15;
-			string[] donors = new string[maxDonorsListed];
-			for (int i = 0; i < maxDonorsListed; i++)
-			{
-				donors[i] = donorList[Main.rand.Next(donorList.Count)];
-				donorList.Remove(donors[i]);
-			}
+            IList<string> donorList = new List<string>(CalamityLists.donatorList);
+            int maxDonorsListed = 15;
+            string[] donors = new string[maxDonorsListed];
+            for (int i = 0; i < maxDonorsListed; i++)
+            {
+                donors[i] = donorList[Main.rand.Next(donorList.Count)];
+                donorList.Remove(donors[i]);
+            }
 
-			dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
-				", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + ", " + donors[11] + ", " + donors[12] + ", " + donors[13] +
-				" and " + donors[14] + "! You're all pretty good!");
+            dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
+                ", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + ", " + donors[11] + ", " + donors[12] + ", " + donors[13] +
+                " and " + donors[14] + "! You're all pretty good!");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
-		public string Death()
-		{
-			int deaths = Main.player[Main.myPlayer].Calamity().deathCount;
+        public string Death()
+        {
+            int deaths = Main.player[Main.myPlayer].Calamity().deathCount;
 
-			string text = "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
-				(Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
+            string text = "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
+                (Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
 
-			if (deaths > 10000)
-				text += " Congratulations! You are now, officially, the biggest loser in Terraria's history! Who was number two? Hell if I know.";
-			else if (deaths > 5000)
-				text += " I'm not sure what to say this time. That you're bad and should feel bad? That much was known already.";
-			else if (deaths > 2500)
-				text += " Bless your heart. I could dodge better than you even if I were drunk high.";
-			else if (deaths > 1000)
-				text += " It is said the average Terrarian has a lifespan of 2 minutes or less. ...Well, not really, but I feel like you'd be part of that statistic.";
-			else if (deaths > 500)
-				text += " Your inability to avoid dying to even the most basic of attacks is astonishing to me.";
-			else if (deaths > 250)
-				text += " I admire your tenacity. Keep it up, your enemies are racking up quite the kill count!";
-			else if (deaths > 100)
-				text += " Consider lowering the difficulty. If you found that statement irritating, good.";
+            if (deaths > 10000)
+                text += " Congratulations! You are now, officially, the biggest loser in Terraria's history! Who was number two? Hell if I know.";
+            else if (deaths > 5000)
+                text += " I'm not sure what to say this time. That you're bad and should feel bad? That much was known already.";
+            else if (deaths > 2500)
+                text += " Bless your heart. I could dodge better than you even if I were drunk high.";
+            else if (deaths > 1000)
+                text += " It is said the average Terrarian has a lifespan of 2 minutes or less. ...Well, not really, but I feel like you'd be part of that statistic.";
+            else if (deaths > 500)
+                text += " Your inability to avoid dying to even the most basic of attacks is astonishing to me.";
+            else if (deaths > 250)
+                text += " I admire your tenacity. Keep it up, your enemies are racking up quite the kill count!";
+            else if (deaths > 100)
+                text += " Consider lowering the difficulty. If you found that statement irritating, good.";
 
-			return text;
-		}
+            return text;
+        }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -263,8 +263,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-				Main.LocalPlayer.Calamity().newCirrusInventory = false;
-				shop = true;
+                Main.LocalPlayer.Calamity().newCirrusInventory = false;
+                shop = true;
             }
             else
             {
@@ -275,22 +275,22 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
         {
-			// All prices are manually set. This means the Discount Card does not work.
-			// Cirrus doesn't accept your card.
-			shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-			nextSlot++;
+            // All prices are manually set. This means the Discount Card does not work.
+            // Cirrus doesn't accept your card.
+            shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
-			int goldCost = NPC.downedMoonlord ? 8 : 4;
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
+            int goldCost = NPC.downedMoonlord ? 8 : 4;
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 30, 0);
             nextSlot++;
 
@@ -298,95 +298,95 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
             nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Whiskey>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Whiskey>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Rum>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Rum>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Tequila>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Tequila>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Fireball>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Fireball>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<FabsolsVodka>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FabsolsVodka>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
+            nextSlot++;
 
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Vodka>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-				nextSlot++;
+            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Vodka>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Screwdriver>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Screwdriver>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<WhiteWine>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-				nextSlot++;
-			}
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<WhiteWine>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
+                nextSlot++;
+            }
 
-			if (NPC.downedPlantBoss)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EvergreenGin>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-				nextSlot++;
+            if (NPC.downedPlantBoss)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EvergreenGin>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CaribbeanRum>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CaribbeanRum>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Margarita>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-				nextSlot++;
-			}
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Margarita>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
+                nextSlot++;
+            }
 
             if (CalamityWorld.downedAstrageldon)
             {
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+                nextSlot++;
 
-				if (Main.bloodMoon)
-				{
-					shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodyMary>());
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-					nextSlot++;
-				}
+                if (Main.bloodMoon)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodyMary>());
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
+                    nextSlot++;
+                }
 
-				if (!Main.dayTime)
-				{
-					shop.item[nextSlot].SetDefaults(ModContent.ItemType<StarBeamRye>());
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
-					nextSlot++;
-				}
-			}
+                if (!Main.dayTime)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<StarBeamRye>());
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 6, 0, 0);
+                    nextSlot++;
+                }
+            }
 
-			if (NPC.downedGolemBoss)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Moonshine>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-				nextSlot++;
+            if (NPC.downedGolemBoss)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Moonshine>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MoscowMule>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MoscowMule>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CinnamonRoll>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CinnamonRoll>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
+                nextSlot++;
 
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<TequilaSunrise>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-				nextSlot++;
-			}
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<TequilaSunrise>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+                nextSlot++;
+            }
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlueCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);

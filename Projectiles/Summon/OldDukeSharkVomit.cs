@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             //Homing
             if (projectile.ai[0] > 20f)
                 HomingAI();
-		}
+        }
 
         private void HomingAI()
         {

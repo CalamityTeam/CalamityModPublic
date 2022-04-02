@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 34;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame = 0;
             }
             projectile.rotation += MathHelper.Pi;
-		}
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                     speedX2 += 10f;
                 }
             }
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
@@ -124,14 +124,14 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class RainbowBlast : ModProjectile
+    public class RainbowBlast : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -43,15 +43,15 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].velocity = dspeed;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

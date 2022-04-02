@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class Bloatfish : ModNPC
+    public class Bloatfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -35,11 +35,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.9f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BloatfishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {

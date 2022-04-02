@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.light = 0.5f;
             projectile.alpha = 255;
             projectile.extraUpdates = 3;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -32,19 +32,19 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 600;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.frame >= 2)
-			{
-				projectile.frame = 0;
-			}
-		}
+            if (projectile.frame >= 2)
+            {
+                projectile.frame = 0;
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -55,15 +55,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 180);
-			if (projectile.ai[1] == 1f)
-				target.AddBuff(BuffID.Venom, 90);
+            if (projectile.ai[1] == 1f)
+                target.AddBuff(BuffID.Venom, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 180);
-			if (projectile.ai[1] == 1f)
-				target.AddBuff(BuffID.Venom, 90);
+            target.AddBuff(BuffID.Poisoned, 180);
+            if (projectile.ai[1] == 1f)
+                target.AddBuff(BuffID.Venom, 90);
         }
     }
 }

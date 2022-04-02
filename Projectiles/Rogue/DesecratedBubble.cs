@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class DesecratedBubble : ModProjectile
+    public class DesecratedBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -34,22 +34,22 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.alpha -= 20;
             }
-			if (projectile.timeLeft <= 100)
-			{
-				projectile.ai[1] = 0f;
-			}
-			else
-			{
-				projectile.velocity *= 0.995f;
-			}
+            if (projectile.timeLeft <= 100)
+            {
+                projectile.ai[1] = 0f;
+            }
+            else
+            {
+                projectile.velocity *= 0.995f;
+            }
             if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
             {
-				if (projectile.ai[1] == 0f)
-				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
-				}
+                if (projectile.ai[1] == 0f)
+                {
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
+                }
             }
-		}
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -66,32 +66,32 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.ai[0] == 1f)
-			{
-				target.AddBuff(BuffID.Ichor, 180);
-				target.AddBuff(BuffID.CursedInferno, 180);
-			}
+            if (projectile.ai[0] == 1f)
+            {
+                target.AddBuff(BuffID.Ichor, 180);
+                target.AddBuff(BuffID.CursedInferno, 180);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (projectile.ai[0] == 1f)
-			{
-				target.AddBuff(BuffID.Ichor, 180);
-				target.AddBuff(BuffID.CursedInferno, 180);
-			}
+            if (projectile.ai[0] == 1f)
+            {
+                target.AddBuff(BuffID.Ichor, 180);
+                target.AddBuff(BuffID.CursedInferno, 180);
+            }
         }
 
-		// Cannot deal damage for the first several frames of existence.
+        // Cannot deal damage for the first several frames of existence.
         public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft >= 100)
-			{
-				return false;
-			}
-			return null;
-		}
+        {
+            if (projectile.timeLeft >= 100)
+            {
+                return false;
+            }
+            return null;
+        }
 
-		public override bool CanHitPvp(Player target) => projectile.timeLeft < 100;
+        public override bool CanHitPvp(Player target) => projectile.timeLeft < 100;
     }
 }

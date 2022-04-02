@@ -29,18 +29,18 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = 2;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-		}
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+        }
 
-		public override void AI()
-		{
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 240f, 6f, 180f, 3, ModContent.ProjectileType<Blood2>(), 0.25);
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
-		}
+        public override void AI()
+        {
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 240f, 6f, 180f, 3, ModContent.ProjectileType<Blood2>(), 0.25);
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Perdition");
             Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
                 "When a target is manually selected via right click it releases torrents of souls from below onto the target\n" +
-				"Only one beacon may exist at a time");
+                "Only one beacon may exist at a time");
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-				CalamityUtils.OnlyOneSentry(player, type);
+                CalamityUtils.OnlyOneSentry(player, type);
                 Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                 player.UpdateMaxTurrets();
             }

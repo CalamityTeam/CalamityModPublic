@@ -36,11 +36,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.knockBackResist = 0.7f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SunskaterBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -105,8 +105,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-					npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -10f, 10f);
-					npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
+                    npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -10f, 10f);
+                    npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
                 }
                 else
                 {
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

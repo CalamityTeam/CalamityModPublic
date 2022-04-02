@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-	public class EssenceDust : ModProjectile
+    public class EssenceDust : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-			projectile.timeLeft = 60;
+            projectile.timeLeft = 60;
             cooldownSlot = 1;
         }
 
@@ -65,14 +65,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Damage();
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

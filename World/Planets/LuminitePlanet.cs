@@ -90,5 +90,5 @@ namespace CalamityMod.World.Planets
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendTileRange(-1, origin.X - radius - 16, origin.Y - radius - 16, radius * 2 + 16, radius * 2 + 16);
         }
-	}
+    }
 }

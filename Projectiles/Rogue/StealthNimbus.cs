@@ -27,13 +27,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
-			if (projectile.ai[0] == 1f)
-				texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/StealthNimbus2");
+            if (projectile.ai[0] == 1f)
+                texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/StealthNimbus2");
             int height = texture.Height / Main.projFrames[projectile.type];
             int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
             return false;
         }
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int projType = projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
-					Projectile proj = Main.projectile[projIndex];
+                    Projectile proj = Main.projectile[projIndex];
                     if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
                         projCount++;

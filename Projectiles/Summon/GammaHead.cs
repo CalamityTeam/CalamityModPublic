@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class GammaHead : ModProjectile
+    public class GammaHead : ModProjectile
     {
         public Vector2 CurrentPositionOffset;
         public Vector2 IdealPositionOffset;

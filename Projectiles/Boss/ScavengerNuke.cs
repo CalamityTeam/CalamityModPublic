@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 44;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 44;
             projectile.height = 44;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
             if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     }
 }

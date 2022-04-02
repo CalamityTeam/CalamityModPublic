@@ -46,9 +46,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Spawn crystal in phase 2
             if (phase3 && npc.Calamity().newAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
-				npc.Calamity().newAI[0] = 1f;
-				npc.SyncExtraAI();
-				Vector2 vector = npc.Center + new Vector2(-40f, -(float)npc.height / 2);
+                npc.Calamity().newAI[0] = 1f;
+                npc.SyncExtraAI();
+                Vector2 vector = npc.Center + new Vector2(-40f, -(float)npc.height / 2);
                 for (int num621 = 0; num621 < 20; num621++)
                 {
                     int num622 = Dust.NewDust(vector, npc.width / 2, npc.height / 2, 90, 0f, 0f, 100, default, 2f);

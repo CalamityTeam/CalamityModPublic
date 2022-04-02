@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class EternityBook : ModProjectile
+    public class EternityBook : ModProjectile
     {
         public float Time
         {

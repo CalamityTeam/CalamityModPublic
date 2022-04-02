@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Tundra Flame Blossoms Staff");
             Tooltip.SetDefault("Summons three unusual flowers over your head\n" +
-			"Each flower consumes one minion slot");
+            "Each flower consumes one minion slot");
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityUtils.KillShootProjectiles(false, type, player);
+            CalamityUtils.KillShootProjectiles(false, type, player);
             for (int i = 0; i < 3; i++)
             {
                 Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);

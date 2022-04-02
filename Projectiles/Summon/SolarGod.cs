@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SolarGod : ModProjectile
+    public class SolarGod : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[0] -= 1f;
                     return;
                 }
-				Vector2 targetPos = projectile.position;
+                Vector2 targetPos = projectile.position;
                 float maxDistance = 700f;
                 bool foundTarget = false;
                 if (player.HasMinionAttackTargetNPC)
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
-						float npcDist = Vector2.Distance(projectile.Center, npc.Center);
+                        float npcDist = Vector2.Distance(projectile.Center, npc.Center);
                         if (npcDist < maxDistance && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             targetPos = npc.Center;
@@ -110,14 +110,14 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
-						NPC npc = Main.npc[i];
+                        NPC npc = Main.npc[i];
                         if (npc.CanBeChasedBy(projectile, false))
                         {
-							float npcDist = Vector2.Distance(projectile.Center, npc.Center);
+                            float npcDist = Vector2.Distance(projectile.Center, npc.Center);
                             if (npcDist < maxDistance && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                             {
                                 maxDistance = npcDist;
-								targetPos = npc.Center;
+                                targetPos = npc.Center;
                                 foundTarget = true;
                             }
                         }
@@ -127,9 +127,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float shootSpeed = 15f;
                     Vector2 source = projectile.Center;
-					Vector2 velocity = targetPos - source;
-					velocity.Normalize();
-					velocity *= shootSpeed;
+                    Vector2 velocity = targetPos - source;
+                    velocity.Normalize();
+                    velocity *= shootSpeed;
                     Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SolarBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
                     projectile.ai[0] = 20f;
                 }

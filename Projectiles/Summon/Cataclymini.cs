@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class Cataclymini : ModProjectile
+    public class Cataclymini : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
@@ -94,13 +94,13 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDist = (npc.width / 2) + (npc.height / 2);
-					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-					bool canHit = true;
-					if (extraDist < maxDistance)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
-					if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
-					{
+                    float extraDist = (npc.width / 2) + (npc.height / 2);
+                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    bool canHit = true;
+                    if (extraDist < maxDistance)
+                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                    if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
+                    {
                         targetVec = npc.Center;
                         foundTarget = true;
                     }
@@ -113,13 +113,13 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[index];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
-						float extraDist = (npc.width / 2) + (npc.height / 2);
-						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						bool canHit = true;
-						if (extraDist < maxDistance)
-							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
-						if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
-						{
+                        float extraDist = (npc.width / 2) + (npc.height / 2);
+                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        bool canHit = true;
+                        if (extraDist < maxDistance)
+                            canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                        if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
+                        {
                             targetVec = npc.Center;
                             foundTarget = true;
                         }
@@ -197,15 +197,15 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			//Update rotation
-			if (foundTarget)
-			{
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
-			}
-			else
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-			}
+            //Update rotation
+            if (foundTarget)
+            {
+                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
+            }
+            else
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+            }
 
             if (projectile.ai[1] > 0f)
             {

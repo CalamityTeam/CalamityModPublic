@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Abyss
 {
-	public class DevilFish : ModNPC
+    public class DevilFish : ModNPC
     {
         public bool brokenMask = false;
         public int hitCounter = 0;
@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.lavaImmune = true;
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 90;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 90;
             npc.width = 126;
             npc.height = 66;
             npc.defense = 999999;
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.85f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<DevilFishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -127,8 +127,8 @@ namespace CalamityMod.NPCs.Abyss
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.5f : 0.25f) * speedBoost;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f) * speedBoost;
-					float velocity = CalamityWorld.death ? 12f : 6f;
-					if (npc.velocity.X > velocity * speedBoost)
+                    float velocity = CalamityWorld.death ? 12f : 6f;
+                    if (npc.velocity.X > velocity * speedBoost)
                     {
                         npc.velocity.X = velocity * speedBoost;
                     }

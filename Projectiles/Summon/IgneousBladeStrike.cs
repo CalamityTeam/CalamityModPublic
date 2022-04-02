@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
-		}
+        }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < Main.rand.Next(28, 41); i++)

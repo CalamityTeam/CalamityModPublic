@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Static Refiner");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-			//also counts as a Solidifier
+            //also counts as a Solidifier
             adjTiles = new int[] { TileID.Solidifier };
         }
 

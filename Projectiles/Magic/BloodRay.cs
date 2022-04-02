@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 10;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 10;
             projectile.extraUpdates = 100;
             projectile.timeLeft = Lifetime;
         }
@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Magic
             // The exponential base would be too small for a weapon like this, and the 
             // cast (which removes the fractional part) would overtake any increases before the damage can rise.
             if (InitialDamage == 0f)
-			{
+            {
                 InitialDamage = projectile.damage;
                 projectile.netUpdate = true;
-			}
+            }
 
             Time++;
             projectile.damage = (int)(InitialDamage * Math.Pow(ExponentialDamageBoost, Time));

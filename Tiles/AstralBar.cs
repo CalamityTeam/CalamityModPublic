@@ -9,14 +9,14 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-			this.SetUpBar(new Color(47, 66, 90));
+            this.SetUpBar(new Color(47, 66, 90));
             dustType = ModContent.DustType<AstralBlue>();
             drop = ModContent.ItemType<Items.Placeables.AstralBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-			type = Main.rand.NextBool() ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
+            type = Main.rand.NextBool() ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
             return true;
         }
     }

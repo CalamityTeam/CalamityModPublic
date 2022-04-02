@@ -69,28 +69,28 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             {
                 float damageMult = 1f;
                 float kbMult = 1f;
-				if (Main.rand.NextBool(10))
-				{
-					type = ModContent.ProjectileType<WyvernProjectile>();
-				}
-				else if (Main.rand.NextBool(3))
-				{
-					type = ModContent.ProjectileType<WyvernFeatherGreen>();
-				}
-				else if (Main.rand.NextBool(2))
-				{
-					type = ModContent.ProjectileType<WyvernFeatherPink>();
-				}
-				if (type == ModContent.ProjectileType<WyvernProjectile>())
-				{
-					damageMult = 20f;
-					kbMult = 1.5f;
-				}
-				if (type == ModContent.ProjectileType<WyvernFeatherPink>())
-				{
-					damageMult = 1.2f;
-					kbMult = 2f;
-				}
+                if (Main.rand.NextBool(10))
+                {
+                    type = ModContent.ProjectileType<WyvernProjectile>();
+                }
+                else if (Main.rand.NextBool(3))
+                {
+                    type = ModContent.ProjectileType<WyvernFeatherGreen>();
+                }
+                else if (Main.rand.NextBool(2))
+                {
+                    type = ModContent.ProjectileType<WyvernFeatherPink>();
+                }
+                if (type == ModContent.ProjectileType<WyvernProjectile>())
+                {
+                    damageMult = 20f;
+                    kbMult = 1.5f;
+                }
+                if (type == ModContent.ProjectileType<WyvernFeatherPink>())
+                {
+                    damageMult = 1.2f;
+                    kbMult = 2f;
+                }
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);

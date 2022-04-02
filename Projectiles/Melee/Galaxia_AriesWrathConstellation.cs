@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class AriesWrathConstellation : ModProjectile
+    public class AriesWrathConstellation : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[projectile.owner];

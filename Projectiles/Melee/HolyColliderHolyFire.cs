@@ -28,9 +28,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 90;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 75 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 75 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
@@ -44,9 +44,9 @@ namespace CalamityMod.Projectiles.Melee
             if (Math.Abs(projectile.velocity.X) < 7f)
                 projectile.velocity.X *= 1.05f;
 
-			if (projectile.timeLeft < 75)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 450f, 12f, 20f);
-		}
+            if (projectile.timeLeft < 75)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 450f, 12f, 20f);
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

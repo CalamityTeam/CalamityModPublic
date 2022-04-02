@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class HyperiusBulletProj : ModProjectile
+    public class HyperiusBulletProj : ModProjectile
     {
         private Color currentColor = Color.Black;
         
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -76,20 +76,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
-			if (projectile.owner == Main.myPlayer)
-			{
-				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(projectile.damage * 0.6), 1f, projectile.owner, true);
-			}
+        private void OnHitEffects(Vector2 targetPos)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(projectile.damage * 0.6), 1f, projectile.owner, true);
+            }
         }
 
         public override void Kill(int timeLeft)

@@ -17,7 +17,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class OmegaBiomeBlade : ModItem
+    public class OmegaBiomeBlade : ModItem
     {
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;

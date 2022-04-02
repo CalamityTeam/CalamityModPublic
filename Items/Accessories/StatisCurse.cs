@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Statis' Curse");
             Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
-				"10% increased minion damage\n" +
+                "10% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict holy flames and shadowflames on hit");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));

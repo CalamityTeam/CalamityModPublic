@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class WaterGlobParticle : Particle 
+    public class WaterGlobParticle : Particle 
     {
         public override string Texture => "CalamityMod/Particles/WaterGlob";
 

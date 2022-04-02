@@ -51,8 +51,8 @@ Stealth strikes are faster and explode into 5 bubbles");
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX + speedX / 3, speedY + speedY / 3), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

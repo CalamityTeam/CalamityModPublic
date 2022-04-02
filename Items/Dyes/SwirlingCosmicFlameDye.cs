@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Swirling Cosmic Flame Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.value = Item.sellPrice(0, 7, 50, 0);

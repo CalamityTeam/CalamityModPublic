@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-			projectile.minion = true;
+            projectile.minion = true;
             projectile.tileCollide = true;
             projectile.penetrate = 1;
         }
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

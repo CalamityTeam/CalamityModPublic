@@ -8,7 +8,7 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SputterCometBig : ModProjectile
+    public class SputterCometBig : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.PlaySound(SoundID.Item9, projectile.position);
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -68,8 +68,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.owner == Main.myPlayer)
             {
                 int flash = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-				Main.projectile[flash].usesLocalNPCImmunity = true;
-				Main.projectile[flash].localNPCHitCooldown = 10;
+                Main.projectile[flash].usesLocalNPCImmunity = true;
+                Main.projectile[flash].localNPCHitCooldown = 10;
             }
             for (int k = 0; k < 5; k++)
             {

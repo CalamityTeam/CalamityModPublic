@@ -26,13 +26,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.magic = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 16;
             projectile.timeLeft = 450;
-			projectile.Calamity().PierceResistHarshness = 0.06f;
-			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+            projectile.Calamity().PierceResistHarshness = 0.06f;
+            projectile.Calamity().PierceResistCap = 0.4f;
+        }
 
         public override void AI()
         {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-		}
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SeaDragonRocket : ModProjectile
+    public class SeaDragonRocket : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -76,12 +76,12 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int k = 0; k < projAmt; k++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<RocketFire>(), (int)(projectile.damage * 0.33), 0f, projectile.owner);
                 }
             }

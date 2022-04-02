@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ForbiddenSunProjectile : ModProjectile
+    public class ForbiddenSunProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
 

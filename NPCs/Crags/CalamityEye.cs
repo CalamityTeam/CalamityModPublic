@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-	public class CalamityEye : ModNPC
+    public class CalamityEye : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -38,62 +38,62 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CalamityEyeBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
-			if (npc.life < npc.lifeMax * 0.5)
-			{
-				if (npc.direction == -1 && npc.velocity.X > -6f)
-				{
-					npc.velocity.X -= 0.1f;
-					if (npc.velocity.X > 6f)
-						npc.velocity.X -= 0.1f;
-					else if (npc.velocity.X > 0f)
-						npc.velocity.X += 0.05f;
-					if (npc.velocity.X < -6f)
-						npc.velocity.X = -6f;
-				}
-				else if (npc.direction == 1 && npc.velocity.X < 6f)
-				{
-					npc.velocity.X += 0.1f;
-					if (npc.velocity.X < -6f)
-						npc.velocity.X += 0.1f;
-					else if (npc.velocity.X < 0f)
-						npc.velocity.X -= 0.05f;
-					if (npc.velocity.X > 6f)
-						npc.velocity.X = 6f;
-				}
-				if (npc.directionY == -1 && npc.velocity.Y > -4f)
-				{
-					npc.velocity.Y -= 0.1f;
-					if (npc.velocity.Y > 4f)
-						npc.velocity.Y -= 0.1f;
-					else if (npc.velocity.Y > 0f)
-						npc.velocity.Y += 0.05f;
-					if (npc.velocity.Y < -4f)
-						npc.velocity.Y = -4f;
-				}
-				else if (npc.directionY == 1 && npc.velocity.Y < 4f)
-				{
-					npc.velocity.Y += 0.1f;
-					if (npc.velocity.Y < -4f)
-						npc.velocity.Y += 0.1f;
-					else if (npc.velocity.Y < 0f)
-						npc.velocity.Y -= 0.05f;
-					if (npc.velocity.Y > 4f)
-						npc.velocity.Y = 4f;
-				}
-			}
-			if (Main.rand.NextBool(40))
-			{
-				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5), DustID.Blood, npc.velocity.X, 2f, 0, new Color(), 1f);
-				Main.dust[index].velocity.X *= 0.5f;
-				Main.dust[index].velocity.Y *= 0.1f;
-			}
+            if (npc.life < npc.lifeMax * 0.5)
+            {
+                if (npc.direction == -1 && npc.velocity.X > -6f)
+                {
+                    npc.velocity.X -= 0.1f;
+                    if (npc.velocity.X > 6f)
+                        npc.velocity.X -= 0.1f;
+                    else if (npc.velocity.X > 0f)
+                        npc.velocity.X += 0.05f;
+                    if (npc.velocity.X < -6f)
+                        npc.velocity.X = -6f;
+                }
+                else if (npc.direction == 1 && npc.velocity.X < 6f)
+                {
+                    npc.velocity.X += 0.1f;
+                    if (npc.velocity.X < -6f)
+                        npc.velocity.X += 0.1f;
+                    else if (npc.velocity.X < 0f)
+                        npc.velocity.X -= 0.05f;
+                    if (npc.velocity.X > 6f)
+                        npc.velocity.X = 6f;
+                }
+                if (npc.directionY == -1 && npc.velocity.Y > -4f)
+                {
+                    npc.velocity.Y -= 0.1f;
+                    if (npc.velocity.Y > 4f)
+                        npc.velocity.Y -= 0.1f;
+                    else if (npc.velocity.Y > 0f)
+                        npc.velocity.Y += 0.05f;
+                    if (npc.velocity.Y < -4f)
+                        npc.velocity.Y = -4f;
+                }
+                else if (npc.directionY == 1 && npc.velocity.Y < 4f)
+                {
+                    npc.velocity.Y += 0.1f;
+                    if (npc.velocity.Y < -4f)
+                        npc.velocity.Y += 0.1f;
+                    else if (npc.velocity.Y < 0f)
+                        npc.velocity.Y -= 0.05f;
+                    if (npc.velocity.Y > 4f)
+                        npc.velocity.Y = 4f;
+                }
+            }
+            if (Main.rand.NextBool(40))
+            {
+                int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5), DustID.Blood, npc.velocity.X, 2f, 0, new Color(), 1f);
+                Main.dust[index].velocity.X *= 0.5f;
+                Main.dust[index].velocity.Y *= 0.1f;
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

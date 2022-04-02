@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-			DisplayName.SetDefault("Sulphurous Skater Banner");
+            DisplayName.SetDefault("Sulphurous Skater Banner");
             Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Sulphurous Skater");
         }
 

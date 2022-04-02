@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Cinder Blossom Staff");
             Tooltip.SetDefault("Summons a really hot flower over your head\n" +
-				"There can only be one flower");
+                "There can only be one flower");
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityUtils.KillShootProjectiles(true, type, player);
+            CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

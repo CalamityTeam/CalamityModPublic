@@ -26,11 +26,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			projectile.ai[0]++;
+            projectile.ai[0]++;
             projectile.velocity.X *= 0.9f;
             projectile.velocity.Y *= 0.9f;
-			if (Main.rand.NextBool(5))
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            if (Main.rand.NextBool(5))
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 
         public override void Kill(int timeLeft)

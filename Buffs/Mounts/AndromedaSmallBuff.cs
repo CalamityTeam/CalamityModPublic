@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-	public class AndromedaSmallBuff : ModBuff
+    public class AndromedaSmallBuff : ModBuff
     {
         public override void SetDefaults()
         {

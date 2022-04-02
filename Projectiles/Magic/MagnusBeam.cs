@@ -134,22 +134,22 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.rand.NextBool(12))
             {
-				Vector2 value9 = -Vector2.UnitX.RotatedByRandom(0.2).RotatedBy((double)projectile.velocity.ToRotation(), default);
-				int num44 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, 0f, 0f, 100, default, 1f);
-				Main.dust[num44].velocity *= 0.1f;
-				Main.dust[num44].position = projectile.Center + value9 * (float)projectile.width / 2f + projectile.velocity * 2f;
-				Main.dust[num44].fadeIn = 0.9f;
+                Vector2 value9 = -Vector2.UnitX.RotatedByRandom(0.2).RotatedBy((double)projectile.velocity.ToRotation(), default);
+                int num44 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, 0f, 0f, 100, default, 1f);
+                Main.dust[num44].velocity *= 0.1f;
+                Main.dust[num44].position = projectile.Center + value9 * (float)projectile.width / 2f + projectile.velocity * 2f;
+                Main.dust[num44].fadeIn = 0.9f;
             }
             if (Main.rand.NextBool(64))
             {
-				Vector2 value10 = -Vector2.UnitX.RotatedByRandom(0.4).RotatedBy((double)projectile.velocity.ToRotation(), default);
-				int num46 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, 0f, 0f, 155, default, 0.8f);
-				Main.dust[num46].velocity *= 0.3f;
-				Main.dust[num46].position = projectile.Center + value10 * (float)projectile.width / 2f;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[num46].fadeIn = 1.4f;
-				}
+                Vector2 value10 = -Vector2.UnitX.RotatedByRandom(0.4).RotatedBy((double)projectile.velocity.ToRotation(), default);
+                int num46 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, 0f, 0f, 155, default, 0.8f);
+                Main.dust[num46].velocity *= 0.3f;
+                Main.dust[num46].position = projectile.Center + value10 * (float)projectile.width / 2f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[num46].fadeIn = 1.4f;
+                }
             }
             if (Main.rand.NextBool(4))
             {
@@ -202,16 +202,16 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
+        }
 
-			if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 480);
+
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;
 
             Player player = Main.player[projectile.owner];

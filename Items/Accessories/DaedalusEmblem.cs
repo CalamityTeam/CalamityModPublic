@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().rangedAmmoCost *= 0.8f;
+            player.Calamity().rangedAmmoCost *= 0.8f;
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.rangedDamage += 0.1f;

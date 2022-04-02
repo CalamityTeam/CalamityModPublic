@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Death Whistle");
             Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -33,17 +33,17 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-			Main.PlaySound(SoundID.Roar, player.position, 2);
+            Main.PlaySound(SoundID.Roar, player.position, 2);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<RavagerBody>(), 1);
-				Main.npc[npc].timeLeft *= 20;
-				CalamityUtils.BossAwakenMessage(npc);
+                Main.npc[npc].timeLeft *= 20;
+                CalamityUtils.BossAwakenMessage(npc);
             }
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-	public class OccultSofa : ModItem
+    public class OccultSofa : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             return false;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override void AddRecipes()
         {

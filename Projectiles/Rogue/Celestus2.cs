@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 48;
             projectile.friendly = true;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.extraUpdates = 4;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
@@ -51,12 +51,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AtlantisSpear2 : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
+        public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.magic = true;
+            projectile.ignoreWater = true;
+            projectile.magic = true;
             aiType = ProjectileID.CrystalVileShardShaft;
         }
 

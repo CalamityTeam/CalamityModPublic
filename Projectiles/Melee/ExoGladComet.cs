@@ -63,19 +63,19 @@ namespace CalamityMod.Projectiles.Melee
             }
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.5f);
             projectile.velocity *= 1.005f;
-			
+            
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

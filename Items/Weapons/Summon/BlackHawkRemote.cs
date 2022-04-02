@@ -37,13 +37,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					position = Main.MouseWorld;
-					speedX = 0;
-					speedY = 0;
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
-				}
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    position = Main.MouseWorld;
+                    speedX = 0;
+                    speedY = 0;
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                }
             }
             return false;
         }

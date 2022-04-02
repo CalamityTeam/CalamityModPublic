@@ -16,7 +16,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
-	public partial class CalamityGlobalAI
+    public partial class CalamityGlobalAI
     {
         #region Death Mode NPC AI
 

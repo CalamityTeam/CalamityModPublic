@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class HoneycombFragment : ModProjectile
+    public class HoneycombFragment : ModProjectile
     {
         public override void SetStaticDefaults()
         {

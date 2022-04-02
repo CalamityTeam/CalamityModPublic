@@ -53,64 +53,64 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
 
             Player player = Main.player[projectile.owner];
-			Vector2 center = projectile.Center;
-			float maxDistance = 800f;
-			bool homeIn = false;
+            Vector2 center = projectile.Center;
+            float maxDistance = 800f;
+            bool homeIn = false;
 
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+                    float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
             }
-			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
-			{
+            else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
+            {
                 NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+                    float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
-			}
-			if (!homeIn)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+            }
+            if (!homeIn)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
-			}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
-			if (homeIn)
-			{
-				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+            if (homeIn)
+            {
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
                 float homingInertia = 20f;
                 float homingVelocity = 20f;
-				projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
-			}
+                projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-					Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].scale = 0.5f;
                 }
                 if (Main.rand.NextBool(2))
                 {

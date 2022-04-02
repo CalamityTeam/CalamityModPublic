@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class FungiOrb2 : ModProjectile
+    public class FungiOrb2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 
@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-			projectile.timeLeft = 180;
+            projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
@@ -46,9 +46,9 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].velocity = dspeed;
             }
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
-		}
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
+        }
 
         public override void Kill(int timeLeft)
         {

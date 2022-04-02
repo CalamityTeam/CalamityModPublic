@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 2;
-			aiType = NPCID.TheHungryII;
+            aiType = NPCID.TheHungryII;
             npc.damage = 32;
             npc.width = 30;
             npc.height = 32;
@@ -29,10 +29,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BlightedEyeBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedLens>(), 0.5f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedLens>(), 0.5f);
         }
     }
 }

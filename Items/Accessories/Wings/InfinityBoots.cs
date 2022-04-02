@@ -8,14 +8,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
+    [AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
     public class InfinityBoots : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seraph Tracers");
             Tooltip.SetDefault("Ludicrous speed!\n" +
-				"Counts as wings\n" +
+                "Counts as wings\n" +
                 "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Good vertical speed\n" +

@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class BigCoral : ModProjectile
+    public class BigCoral : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,16 +21,16 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
             projectile.velocity.X *= 0.999f;
             projectile.velocity.Y = projectile.velocity.Y + 0.025f;
-			projectile.rotation = projectile.velocity.ToRotation();
-			if (projectile.direction == -1)
-				projectile.rotation += MathHelper.Pi;
+            projectile.rotation = projectile.velocity.ToRotation();
+            if (projectile.direction == -1)
+                projectile.rotation += MathHelper.Pi;
         }
 
         public override void Kill(int timeLeft)

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class DragonPow : ModItem
+    public class DragonPow : ModItem
     {
         public static float Speed = 13f;
         public static float ReturnSpeed = 20f;

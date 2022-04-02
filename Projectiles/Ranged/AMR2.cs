@@ -27,6 +27,6 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-		}
+        }
     }
 }

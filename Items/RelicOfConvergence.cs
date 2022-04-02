@@ -26,9 +26,9 @@ namespace CalamityMod.Items
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;

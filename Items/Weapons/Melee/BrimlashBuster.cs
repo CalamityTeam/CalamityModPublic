@@ -56,23 +56,23 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			float damageMult = 0f;
+        {
+            float damageMult = 0f;
             if (player.Calamity().brimlashBusterBoost)
-				damageMult = 2f;
-			mult += damageMult;
-		}
+                damageMult = 2f;
+            mult += damageMult;
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
+            player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
+            player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
         }
     }
 }

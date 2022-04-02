@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class FantasyTalismanStealth : ModProjectile
+    public class FantasyTalismanStealth : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
 
@@ -40,37 +40,37 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			if (projectile.ai[0] != 1f)
-			{
-				if (projectile.timeLeft % 10 == 0)
-				{
-					if (projectile.owner == Main.myPlayer)
+            if (projectile.ai[0] != 1f)
+            {
+                if (projectile.timeLeft % 10 == 0)
+                {
+                    if (projectile.owner == Main.myPlayer)
                     {
                         // Use a tiny velocity to ensure that rotation works correctly.
                         // The speed should be so low that it will make no meaningful mechanical difference.
                         Vector2 soulVelocity = projectile.velocity.SafeNormalize(Vector2.Zero) * 0.0001f;
                         Projectile.NewProjectile(projectile.Center, soulVelocity, ModContent.ProjectileType<LostSoulFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-				}
-			}
+                    }
+                }
+            }
             projectile.StickyProjAI(4);
             if (projectile.ai[0] == 1f)
             {
-				if (projectile.timeLeft % 4 == 0)
-				{
-					if (Main.rand.NextBool(2))
-					{
-						int spiritDamage = projectile.damage / 2;
-						Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-						if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							ghost.Calamity().forceRogue = true;
-							ghost.penetrate = 1;
-						}
-					}
-				}
+                if (projectile.timeLeft % 4 == 0)
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        int spiritDamage = projectile.damage / 2;
+                        Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                        if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            ghost.Calamity().forceRogue = true;
+                            ghost.penetrate = 1;
+                        }
+                    }
+                }
             }
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

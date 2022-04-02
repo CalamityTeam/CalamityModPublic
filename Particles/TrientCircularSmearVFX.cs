@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Particles
 {
-	public class TrientCircularSmear : Particle //Trient aka semi but for thirds
+    public class TrientCircularSmear : Particle //Trient aka semi but for thirds
     {
         public override string Texture => "CalamityMod/Particles/TrientCircularSmear";
         public override bool UseAdditiveBlend => true;

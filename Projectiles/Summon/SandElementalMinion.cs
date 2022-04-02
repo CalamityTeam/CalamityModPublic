@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SandElementalMinion : ModProjectile
+    public class SandElementalMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (projectile.ai[0] != 1f)

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MiniGuardianAttack : ModProjectile
+    public class MiniGuardianAttack : ModProjectile
     {
         private int ai = 3;
         private void updateDamage(int type)
@@ -242,7 +242,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 3000f;
@@ -324,15 +324,15 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.player[projectile.owner].Calamity().angelicAlliance)
-				target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
-		}
+        {
+            if (Main.player[projectile.owner].Calamity().angelicAlliance)
+                target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			if (Main.player[projectile.owner].Calamity().angelicAlliance)
-				target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
-		}
+        {
+            if (Main.player[projectile.owner].Calamity().angelicAlliance)
+                target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+        }
     }
 }

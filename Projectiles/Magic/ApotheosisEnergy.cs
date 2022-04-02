@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ApotheosisEnergy : ModProjectile
+    public class ApotheosisEnergy : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer = null;
 

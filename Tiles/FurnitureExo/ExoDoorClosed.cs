@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
-	public class ExoDoorClosed : ModTile
+    public class ExoDoorClosed : ModTile
     {
         public override void SetDefaults()
         {

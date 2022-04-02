@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class Mourningstar : ModItem
+    public class Mourningstar : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item116;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shootSpeed = 24f;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<MourningstarFlail>();
         }
 

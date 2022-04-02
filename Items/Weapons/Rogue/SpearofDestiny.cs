@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Spear of Destiny");
             Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
-			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
+            "Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
         }
 
         public override void SafeSetDefaults()
@@ -30,34 +30,34 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 52;
             item.value = CalamityGlobalItem.Rarity6BuyPrice;
             item.rare = ItemRarityID.LightPurple;
-			item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
+            item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int index = 7;
+            int index = 7;
             for (int i = -index; i <= index; i += index)
             {
-				int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
+                int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
                 int spear = Projectile.NewProjectile(position, perturbedSpeed, projType, damage, knockBack, player.whoAmI);
-				if (spear.WithinBounds(Main.maxProjectiles))
-					Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                if (spear.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.HallowedBar, 7);
-			recipe.AddIngredient(ItemID.SoulofLight, 5);
-			recipe.AddIngredient(ItemID.SoulofFright, 5);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.HallowedBar, 7);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

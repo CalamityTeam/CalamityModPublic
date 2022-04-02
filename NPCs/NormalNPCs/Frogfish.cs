@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Frogfish : ModNPC
+    public class Frogfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -31,11 +31,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<FrogfishBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.ai[2] == 1f)
             {
                 npc.chaseable = true;
-				CalamityAI.PassiveSwimmingAI(npc, mod, 0, 0f, 0.15f, 0.15f, 3.5f, 1.5f, 0.1f);
+                CalamityAI.PassiveSwimmingAI(npc, mod, 0, 0f, 0.15f, 0.15f, 3.5f, 1.5f, 0.1f);
             }
         }
 

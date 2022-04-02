@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CosmicViperSplittingRocket : ModProjectile
+    public class CosmicViperSplittingRocket : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -35,128 +35,128 @@ namespace CalamityMod.Projectiles.Summon
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             float colorScale = (float)projectile.alpha / 255f;
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
-			Vector2 center = projectile.Center;
+            Vector2 center = projectile.Center;
             float maxDistance = 800f;
             float explode = 16f;
             bool homeIn = false;
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+                    float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
-					{
-						int numProj = 4;
-						if (projectile.owner == Main.myPlayer)
-						{
-							for (int i = 0; i < numProj; i++)
-							{
-								Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								while (speed.X == 0f && speed.Y == 0f)
-								{
-									speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								}
-								speed.Normalize();
-								speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
-							}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
+                    {
+                        int numProj = 4;
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                while (speed.X == 0f && speed.Y == 0f)
+                                {
+                                    speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                }
+                                speed.Normalize();
+                                speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                            }
                         }
                         Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
                         projectile.Kill();
-						return;
-					}
-					else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                        return;
+                    }
+                    else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
             }
-			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
-			{
+            else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
+            {
                 NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+                    float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
-					{
-						int numProj = 4;
-						if (projectile.owner == Main.myPlayer)
-						{
-							for (int i = 0; i < numProj; i++)
-							{
-								Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								while (speed.X == 0f && speed.Y == 0f)
-								{
-									speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								}
-								speed.Normalize();
-								speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
-							}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
+                    {
+                        int numProj = 4;
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                while (speed.X == 0f && speed.Y == 0f)
+                                {
+                                    speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                }
+                                speed.Normalize();
+                                speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                            }
                         }
                         Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
                         projectile.Kill();
-						return;
-					}
-					else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                        return;
+                    }
+                    else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
-			}
-			if (!homeIn)
-			{
-				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
-				{
-					NPC npc = Main.npc[npcIndex];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+            }
+            if (!homeIn)
+            {
+                for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
+                {
+                    NPC npc = Main.npc[npcIndex];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
 
-						if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
-						{
-							int numProj = 4;
-							if (projectile.owner == Main.myPlayer)
-							{
-								for (int i = 0; i < numProj; i++)
-								{
-									Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-									while (speed.X == 0f && speed.Y == 0f)
-									{
-										speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-									}
-									speed.Normalize();
-									speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-									Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25f), projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
-								}
+                        if (Vector2.Distance(npc.Center, projectile.Center) < (explode + extraDistance))
+                        {
+                            int numProj = 4;
+                            if (projectile.owner == Main.myPlayer)
+                            {
+                                for (int i = 0; i < numProj; i++)
+                                {
+                                    Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                    while (speed.X == 0f && speed.Y == 0f)
+                                    {
+                                        speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                    }
+                                    speed.Normalize();
+                                    speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
+                                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25f), projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
+                                }
                             }
                             Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
                             projectile.Kill();
-							return;
-						}
-						else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = npc.Center;
-							homeIn = true;
-						}
-					}
-				}
-			}
-			if (homeIn)
-			{
+                            return;
+                        }
+                        else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = npc.Center;
+                            homeIn = true;
+                        }
+                    }
+                }
+            }
+            if (homeIn)
+            {
                 Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
                 float homingInertia = 15f;
                 float homingVelocity = 30f;
-				projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
-			}
+                projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
+            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {
@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-					Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].scale = 0.5f;
                 }
                 if (Main.rand.NextBool(2))
                 {

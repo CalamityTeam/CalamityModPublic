@@ -7,9 +7,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SandToothOldDuke : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/Boss/SandTooth";
+        public override string Texture => "CalamityMod/Projectiles/Boss/SandTooth";
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Tooth");
         }
@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 450;
-			cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            cooldownSlot = 1;
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -50,9 +50,9 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
-	}
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
+    }
 }

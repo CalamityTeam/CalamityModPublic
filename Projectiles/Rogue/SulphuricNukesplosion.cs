@@ -8,7 +8,7 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SulphuricNukesplosion : ModProjectile
+    public class SulphuricNukesplosion : ModProjectile
     {
         public int frameX = 0;
         public int frameY = 0;

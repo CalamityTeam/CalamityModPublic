@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Abyssal Amulet");
             Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
-				"Grants immunity to the Crush Depth debuff\n" +
+                "Grants immunity to the Crush Depth debuff\n" +
                 "While in the abyss you gain 10% increased max life");
         }
 
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalAmulet = true;
-			player.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
-		}
+            player.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
+        }
     }
 }

@@ -10,7 +10,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PurityProjection : ModProjectile //The boring plain one
+    public class PurityProjection : ModProjectile //The boring plain one
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_PurityProjection";
 

@@ -26,9 +26,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 160;
             npc.height = 80;
             npc.defense = 6;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.DR_NERD(0.05f);
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.DR_NERD(0.05f);
             npc.lifeMax = 280;
             npc.knockBackResist = 0.05f;
             aiType = -1;
@@ -38,26 +38,26 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CnidrionBanner>();
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.player.PillarZone() ||
-				spawnInfo.player.InAstral() ||
-				spawnInfo.player.ZoneCorrupt ||
-				spawnInfo.player.ZoneCrimson ||
-				spawnInfo.player.ZoneOldOneArmy ||
-				spawnInfo.player.ZoneSkyHeight ||
-				spawnInfo.playerSafe ||
-				!spawnInfo.player.ZoneDesert ||
-				!spawnInfo.player.ZoneOverworldHeight ||
-				Main.eclipse ||
-				Main.snowMoon ||
-				Main.pumpkinMoon ||
-				NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
+                spawnInfo.player.InAstral() ||
+                spawnInfo.player.ZoneCorrupt ||
+                spawnInfo.player.ZoneCrimson ||
+                spawnInfo.player.ZoneOldOneArmy ||
+                spawnInfo.player.ZoneSkyHeight ||
+                spawnInfo.playerSafe ||
+                !spawnInfo.player.ZoneDesert ||
+                !spawnInfo.player.ZoneOverworldHeight ||
+                Main.eclipse ||
+                Main.snowMoon ||
+                Main.pumpkinMoon ||
+                NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
             {
                 return 0f;
             }
@@ -81,8 +81,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.TargetClosest(true);
             bool flag51 = false;
             int offsetX = 80;
-			int projectileDamage = expertMode ? 9 : 12;
-			if (npc.life < npc.lifeMax * 0.33 || (CalamityWorld.death && npc.life < npc.lifeMax * 0.6))
+            int projectileDamage = expertMode ? 9 : 12;
+            if (npc.life < npc.lifeMax * 0.33 || (CalamityWorld.death && npc.life < npc.lifeMax * 0.6))
             {
                 num823 = 2f;
             }
@@ -248,9 +248,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (flag52)
             {
                 npc.velocity.Y += 0.5f;
-				if (npc.velocity.Y > 10f)
-					npc.velocity.Y = 10f;
-			}
+                if (npc.velocity.Y > 10f)
+                    npc.velocity.Y = 10f;
+            }
             else if (Collision.SolidCollision(position2, num854, num855))
             {
                 if (npc.velocity.Y > 0f)
@@ -274,9 +274,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                 else
                     npc.velocity.Y += 0.25f;
 
-				if (npc.velocity.Y > 2f)
-					npc.velocity.Y = 2f;
-			}
+                if (npc.velocity.Y > 2f)
+                    npc.velocity.Y = 2f;
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<AmidiasSpark>(), 4);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AmidiasSpark>(), 4);
         }
     }
 }

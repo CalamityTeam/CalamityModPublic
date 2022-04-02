@@ -20,9 +20,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 10;
             projectile.penetrate = -1;
             projectile.hostile = true;
-			projectile.timeLeft = 300;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.timeLeft = 300;
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -38,34 +38,34 @@ namespace CalamityMod.Projectiles.Boss
                 dust.velocity *= 0.3f;
             }
 
-			if (projectile.localAI[0] == 0f)
-			{
-				projectile.scale += 0.01f;
-				projectile.alpha -= 50;
-				if (projectile.alpha <= 0)
-				{
-					projectile.localAI[0] = 1f;
-					projectile.alpha = 0;
-				}
-			}
-			else
-			{
-				projectile.scale -= 0.01f;
-				projectile.alpha += 50;
-				if (projectile.alpha >= 255)
-				{
-					projectile.localAI[0] = 0f;
-					projectile.alpha = 255;
-				}
-			}
-		}
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.scale += 0.01f;
+                projectile.alpha -= 50;
+                if (projectile.alpha <= 0)
+                {
+                    projectile.localAI[0] = 1f;
+                    projectile.alpha = 0;
+                }
+            }
+            else
+            {
+                projectile.scale -= 0.01f;
+                projectile.alpha += 50;
+                if (projectile.alpha >= 255)
+                {
+                    projectile.localAI[0] = 0f;
+                    projectile.alpha = 255;
+                }
+            }
+        }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Main.dayTime ? new Color(50, 50, 255, projectile.alpha) : new Color(255, 255, 255, projectile.alpha);
-		}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Main.dayTime ? new Color(50, 50, 255, projectile.alpha) : new Color(255, 255, 255, projectile.alpha);
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             int num497 = 5;
             Main.PlaySound(SoundID.Item27, projectile.position);

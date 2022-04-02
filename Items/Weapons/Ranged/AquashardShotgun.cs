@@ -33,12 +33,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Aquashard>();
             item.shootSpeed = 22f;
-			item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.useAmmo = AmmoID.Bullet;
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
@@ -50,14 +50,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
 
-				if (type == ProjectileID.Bullet)
-				{
-					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockBack, player.whoAmI);
-					Main.projectile[projectile].timeLeft = 200;
-				}
-				else
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-			}
+                if (type == ProjectileID.Bullet)
+                {
+                    int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockBack, player.whoAmI);
+                    Main.projectile[projectile].timeLeft = 200;
+                }
+                else
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+            }
             return false;
         }
 
@@ -65,8 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Boomstick);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 15);
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
             recipe.AddTile(TileID.Anvils);

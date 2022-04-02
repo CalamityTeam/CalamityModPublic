@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
@@ -44,8 +44,8 @@ namespace CalamityMod.Projectiles.Rogue
                 else
                 {
                     int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().forceRogue = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().forceRogue = true;
                 }
             }
         }

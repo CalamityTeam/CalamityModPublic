@@ -39,11 +39,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.timeLeft = NPC.activeTime * 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EidolistBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -59,18 +59,18 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-			bool adultWyrmAlive = false;
-			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-					adultWyrmAlive = true;
-			}
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
 
-			npc.Opacity += 0.15f;
-			if (npc.Opacity > 1f)
-				npc.Opacity = 1f;
+            npc.Opacity += 0.15f;
+            if (npc.Opacity > 1f)
+                npc.Opacity = 1f;
 
-			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.4f, 0.5f);
+            Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.4f, 0.5f);
             if (npc.justHit || adultWyrmAlive)
             {
                 hasBeenHit = true;
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= Main.rand.Next(90, 601))
             {
                 npc.localAI[0] = -90f;
-				npc.netUpdate = true;
+                npc.netUpdate = true;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     float speed = adultWyrmAlive ? 10f : 5f;
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     float xDist = Main.player[npc.target].Center.X - vector.X + Main.rand.NextFloat(-10f, 10f);
                     float yDist = Main.player[npc.target].Center.Y - vector.Y + Main.rand.NextFloat(-10f, 10f);
                     Vector2 targetVec = new Vector2(yDist, yDist);
-					float targetDist = targetVec.Length();
+                    float targetDist = targetVec.Length();
                     targetDist = speed / targetDist;
                     targetVec.X *= targetDist;
                     targetVec.Y *= targetDist;
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0.05f;
             }
-			return 0f;
+            return 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -314,25 +314,25 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-		public override bool PreNPCLoot()
-		{
-			bool adultWyrmAlive = false;
-			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-					adultWyrmAlive = true;
-			}
-
-			return !adultWyrmAlive;
-		}
-
-		public override void NPCLoot()
+        public override bool PreNPCLoot()
         {
-			if (Main.rand.NextBool(10))
-			{
-				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
-				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
-			}
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
+
+            return !adultWyrmAlive;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(10))
+            {
+                DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
+                DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
+            }
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolonTablet>(), !NPC.LunarApocalypseIsUp, 0.25f);
             int minLumenyl = Main.expertMode ? 10 : 8;
             int maxLumenyl = Main.expertMode ? 14 : 10;

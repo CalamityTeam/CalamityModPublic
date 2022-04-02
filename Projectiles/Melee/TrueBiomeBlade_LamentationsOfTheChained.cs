@@ -13,7 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class LamentationsOfTheChained : ModProjectile
+    public class LamentationsOfTheChained : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
 

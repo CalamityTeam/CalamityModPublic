@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class TrueTyrantYharimsUltisword : ModItem
+    public class TrueTyrantYharimsUltisword : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 102;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
             item.shootSpeed = 12f;
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
-			Main.projectile[proj].extraUpdates += 1;
+            Main.projectile[proj].extraUpdates += 1;
             return false;
         }
 
@@ -81,15 +81,15 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
-			target.AddBuff(BuffID.Poisoned, 300);
-			target.AddBuff(BuffID.Venom, 150);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
-			target.AddBuff(BuffID.Poisoned, 300);
-			target.AddBuff(BuffID.Venom, 150);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
         }
     }
 }

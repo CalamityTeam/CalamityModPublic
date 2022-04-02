@@ -31,16 +31,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Main.PlaySound(SoundID.Item38, (int)player.Center.X, (int)player.Center.Y);
+            Main.PlaySound(SoundID.Item38, (int)player.Center.X, (int)player.Center.Y);
 
-			int bulletAmt = Main.rand.Next(25, 36);
+            int bulletAmt = Main.rand.Next(25, 36);
             for (int index = 0; index < bulletAmt; ++index)
             {
                 float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;

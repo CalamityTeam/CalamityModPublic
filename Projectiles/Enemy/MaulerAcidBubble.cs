@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-	public class MaulerAcidBubble : ModProjectile
+    public class MaulerAcidBubble : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";

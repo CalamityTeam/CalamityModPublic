@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class LightBlade : ModProjectile
-	{
+    {
         private const int Lifetime = 300;
         private const int NumAfterimages = 8;
         private const float LightBrightness = 0.7f;

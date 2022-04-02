@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TenebreusTidesWaterProjectile : ModProjectile
+    public class TenebreusTidesWaterProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             aiType = ProjectileID.LightBeam;
         }
 
@@ -44,8 +44,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft == 300)
-				return false;
+            if (projectile.timeLeft == 300)
+                return false;
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position.Y -= (float)(projectile.height / 2);
             for (int dustIndex = 0; dustIndex <= 30; dustIndex++)
             {
-				Vector2 dustVel = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
+                Vector2 dustVel = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                 float dustSpeed = (float)Main.rand.Next(3, 9);
                 float dist = dustVel.Length();
                 dist = dustSpeed / dist;
@@ -96,10 +96,10 @@ namespace CalamityMod.Projectiles.Melee
             int projAmt = 3;
             for (int i = 0; i < projAmt; ++i)
             {
-				int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
+                int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
                 if (projectile.owner == Main.myPlayer)
                 {
-					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
+                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
                 }
             }
         }

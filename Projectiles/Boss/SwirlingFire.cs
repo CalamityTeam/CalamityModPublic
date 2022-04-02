@@ -4,21 +4,21 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class SwirlingFire : ModProjectile
+    public class SwirlingFire : ModProjectile
     {
-		public ref float AngularTurnSpeed => ref projectile.ai[0];
-		public ref float Time => ref projectile.ai[1];
+        public ref float AngularTurnSpeed => ref projectile.ai[0];
+        public ref float Time => ref projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
-		}
+        }
 
         public override void SetDefaults()
         {
             projectile.width = projectile.height = 10;
             projectile.hostile = true;
-			projectile.ignoreWater = true;
+            projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;

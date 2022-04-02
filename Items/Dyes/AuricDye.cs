@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-	public class AuricDye : BaseDye
+    public class AuricDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/AuricDyeShader")), "DyePass").
             UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SharpNoise"));
@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Auric Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.value = Item.sellPrice(0, 9, 0, 0);

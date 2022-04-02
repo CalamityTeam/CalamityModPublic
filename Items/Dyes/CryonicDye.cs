@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-	public class CryonicDye : BaseDye
+    public class CryonicDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CryonicDyeShader")), "DyePass").
             UseColor(new Color(138, 225, 255)).UseSecondaryColor(new Color(90, 90, 204)).UseImage("Images/Misc/Perlin");
@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Cryonic Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(0, 0, 75, 0);
         }

@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod
 {
-	public static partial class CalamityUtils
+    public static partial class CalamityUtils
     {
         /// <summary>
         /// Generates clusters of ore across the world based on various requirements and with various strengths/frequencies.

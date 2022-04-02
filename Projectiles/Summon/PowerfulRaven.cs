@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class PowerfulRaven : ModProjectile
+    public class PowerfulRaven : ModProjectile
     {
         public const float DistanceToCheck = 3200f;
         public const float TeleportDistance = 2700f;

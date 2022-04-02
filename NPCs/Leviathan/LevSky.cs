@@ -34,12 +34,12 @@ namespace CalamityMod.NPCs.Leviathan
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[LevIndex].Center);
                 }
 
-				float spawnAnimationTimer = 180f;
-				float intensityScalar = 1f;
-				if (Main.npc[LevIndex].Calamity().newAI[3] < spawnAnimationTimer)
-					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[LevIndex].Calamity().newAI[3] / spawnAnimationTimer);
+                float spawnAnimationTimer = 180f;
+                float intensityScalar = 1f;
+                if (Main.npc[LevIndex].Calamity().newAI[3] < spawnAnimationTimer)
+                    intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[LevIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
-				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
             return 0f;
         }

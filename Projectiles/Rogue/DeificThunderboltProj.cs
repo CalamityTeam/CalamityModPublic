@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class DeificThunderboltProj : ModProjectile
+    public class DeificThunderboltProj : ModProjectile
     {
-		private bool playedSound = false;
+        private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -43,11 +43,11 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.frame = 0;
             }
-			if (!playedSound)
-			{
-				Main.PlaySound(SoundID.Item92, (int)projectile.position.X, (int)projectile.position.Y); //electrosphere launcher fire sound
-				playedSound = true;
-			}
+            if (!playedSound)
+            {
+                Main.PlaySound(SoundID.Item92, (int)projectile.position.X, (int)projectile.position.Y); //electrosphere launcher fire sound
+                playedSound = true;
+            }
             if (Main.rand.NextBool(8))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 132, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -73,33 +73,33 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 132, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
 
-			if (Main.myPlayer == projectile.owner)
-			{
-				bool stealthStrike = projectile.Calamity().stealthStrike;
-				if (stealthStrike)
-				{
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
-				}
-				int amt = stealthStrike ? 5 : 1;
-				float damageMult = stealthStrike ? 0.5f : 1f;
-				for (int n = 0; n < amt; n++)
-				{
-					Vector2 spawnPoint = new Vector2(projectile.Center.X + (float)Main.rand.Next(-100, 101), projectile.Center.Y - (float)Main.rand.Next(700, 801));
-					float randomVelocity = Main.rand.NextFloat() - 0.5f;
-					Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
-					Vector2 ai0 = fireTo - spawnPoint;
-					float ai = (float)Main.rand.Next(100);
-					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 9f;
-					int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, ai0.ToRotation(), ai);
-					Main.projectile[proj].extraUpdates += 9;
-					//Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
-					Main.projectile[proj].friendly = true;
-					Main.projectile[proj].hostile = false;
-					Main.projectile[proj].penetrate = -1;
-					Main.projectile[proj].usesLocalNPCImmunity = true;
-					Main.projectile[proj].localNPCHitCooldown = -1;
-				}
-			}
+            if (Main.myPlayer == projectile.owner)
+            {
+                bool stealthStrike = projectile.Calamity().stealthStrike;
+                if (stealthStrike)
+                {
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
+                }
+                int amt = stealthStrike ? 5 : 1;
+                float damageMult = stealthStrike ? 0.5f : 1f;
+                for (int n = 0; n < amt; n++)
+                {
+                    Vector2 spawnPoint = new Vector2(projectile.Center.X + (float)Main.rand.Next(-100, 101), projectile.Center.Y - (float)Main.rand.Next(700, 801));
+                    float randomVelocity = Main.rand.NextFloat() - 0.5f;
+                    Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
+                    Vector2 ai0 = fireTo - spawnPoint;
+                    float ai = (float)Main.rand.Next(100);
+                    Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 9f;
+                    int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, ai0.ToRotation(), ai);
+                    Main.projectile[proj].extraUpdates += 9;
+                    //Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
+                    Main.projectile[proj].friendly = true;
+                    Main.projectile[proj].hostile = false;
+                    Main.projectile[proj].penetrate = -1;
+                    Main.projectile[proj].usesLocalNPCImmunity = true;
+                    Main.projectile[proj].localNPCHitCooldown = -1;
+                }
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

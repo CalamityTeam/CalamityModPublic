@@ -13,7 +13,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GestureForTheDrownedOrb : ModProjectile
+    public class GestureForTheDrownedOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned";
         public Player Owner => Main.player[projectile.owner];

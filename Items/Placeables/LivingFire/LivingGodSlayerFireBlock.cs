@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.LivingFire
 {
-	public class LivingGodSlayerFireBlock : ModItem
+    public class LivingGodSlayerFireBlock : ModItem
     {
         public override void SetStaticDefaults()
         {

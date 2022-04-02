@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Parasea : ModNPC
+    public class Parasea : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -21,21 +21,21 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.aiStyle = -1;
             aiType = -1;
             npc.noGravity = true;
-			npc.damage = 50;
-			npc.width = npc.height = 30;
+            npc.damage = 50;
+            npc.width = npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 400;
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 6, 0);
-			npc.HitSound = SoundID.NPCHit1;
+            npc.value = Item.buyPrice(0, 0, 6, 0);
+            npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ParaseaBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -44,16 +44,16 @@ namespace CalamityMod.NPCs.NormalNPCs
             CalamityAI.DungeonSpiritAI(npc, mod, speed, MathHelper.Pi);
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
-			{
-				return 0f;
-			}
-			return SpawnCondition.OceanMonster.Chance * 0.06f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
+            {
+                return 0f;
+            }
+            return SpawnCondition.OceanMonster.Chance * 0.06f;
+        }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -66,14 +66,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             Texture2D texture = Main.npcTexture[npc.type];
             int height = texture.Height / Main.npcFrameCount[npc.type];
             int width = texture.Width;
-			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
-			if (npc.spriteDirection == -1)
-				spriteEffects = SpriteEffects.None;
+            SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
+            if (npc.spriteDirection == -1)
+                spriteEffects = SpriteEffects.None;
             Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2((float)width / 2f, (float)height / 2f), npc.scale, spriteEffects, 0f);
             return false;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 60, true);
         }

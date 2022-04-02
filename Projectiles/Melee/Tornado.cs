@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Tornado : ModProjectile
+    public class Tornado : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			//only 3 tornado can exist at a time
+            //only 3 tornado can exist at a time
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 10f)
             {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 int projType = projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
-					Projectile proj = Main.projectile[projIndex];
+                    Projectile proj = Main.projectile[projIndex];
                     if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[0] < 900f)
                     {
                         projCount++;

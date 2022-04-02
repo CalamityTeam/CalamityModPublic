@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgePlantera : LoreItem
+    public class KnowledgePlantera : LoreItem
     {
         public override void SetStaticDefaults()
         {

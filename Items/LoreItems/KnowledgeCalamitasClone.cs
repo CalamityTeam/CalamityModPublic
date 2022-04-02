@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeCalamitasClone : LoreItem
+    public class KnowledgeCalamitasClone : LoreItem
     {
         public override void SetStaticDefaults()
         {

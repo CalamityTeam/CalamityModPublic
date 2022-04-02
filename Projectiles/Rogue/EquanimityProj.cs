@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 28;
             projectile.height = 36;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;

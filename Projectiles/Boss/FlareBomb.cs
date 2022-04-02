@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 64;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 64;
             projectile.height = 66;
             projectile.hostile = true;
             projectile.scale = 1.5f;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 50;
             projectile.timeLeft = 180;
             cooldownSlot = 1;
-		}
+        }
 
         public override void AI()
         {
@@ -52,13 +52,13 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.alpha < 0)
                 projectile.alpha = 0;
 
-			if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
-				return;
+            if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
+                return;
 
-			float inertia = revenge ? 70f : 77f;
-			float num954 = 40f;
-			float scaleFactor12 = revenge ? 35f : 28f;
-			int num959 = (int)projectile.ai[0];
+            float inertia = revenge ? 70f : 77f;
+            float num954 = 40f;
+            float scaleFactor12 = revenge ? 35f : 28f;
+            int num959 = (int)projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
                 if (projectile.Distance(Main.player[num959].Center) > num954)
@@ -76,32 +76,32 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			if (projectile.timeLeft < 60)
-				return;
+            if (projectile.timeLeft < 60)
+                return;
 
-			float num1247 = 0.5f;
-			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
-			{
-				if (Main.projectile[num1248].active)
-				{
-					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
-					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 24f)
-						{
-							if (projectile.position.X < Main.projectile[num1248].position.X)
-								projectile.velocity.X -= num1247;
-							else
-								projectile.velocity.X += num1247;
+            float num1247 = 0.5f;
+            for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+            {
+                if (Main.projectile[num1248].active)
+                {
+                    if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
+                    {
+                        if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 24f)
+                        {
+                            if (projectile.position.X < Main.projectile[num1248].position.X)
+                                projectile.velocity.X -= num1247;
+                            else
+                                projectile.velocity.X += num1247;
 
-							if (projectile.position.Y < Main.projectile[num1248].position.Y)
-								projectile.velocity.Y -= num1247;
-							else
-								projectile.velocity.Y += num1247;
-						}
-					}
-				}
-			}
-		}
+                            if (projectile.position.Y < Main.projectile[num1248].position.Y)
+                                projectile.velocity.Y -= num1247;
+                            else
+                                projectile.velocity.Y += num1247;
+                        }
+                    }
+                }
+            }
+        }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
             for (int d = 0; d < 2; d++)
             {
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
@@ -136,20 +136,20 @@ namespace CalamityMod.Projectiles.Boss
                 idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
             projectile.Damage();
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 16f * projectile.scale, targetHitbox);
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Razorwind : ModProjectile
+    public class Razorwind : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 12f, 20f);
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 10; k++)
             {

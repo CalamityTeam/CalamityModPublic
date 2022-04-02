@@ -104,8 +104,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 return;
             }
-			target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-			projectile.Kill();
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            projectile.Kill();
         }
 
         public override void Kill(int timeLeft)

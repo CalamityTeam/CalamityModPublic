@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Body)]
+    [AutoloadEquip(EquipType.Body)]
     public class DesertProwlerShirt : ModItem
     {
         public override void SetStaticDefaults()
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
-			recipe.AddIngredient(ItemID.Silk, 10);
-			recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.Silk, 10);
+            recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

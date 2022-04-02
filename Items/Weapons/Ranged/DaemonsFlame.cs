@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

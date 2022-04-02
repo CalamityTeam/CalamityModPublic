@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicUmbrella : ModProjectile
+    public class MagicUmbrella : ModProjectile
     {
-		private int counter = 0;
+        private int counter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Umbrella");
@@ -31,24 +31,24 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.alpha = 255;
+            projectile.alpha = 255;
         }
 
         public override void AI()
         {
             projectile.rotation += 0.075f;
-			projectile.alpha -= 50;
-			counter++;
-			if (counter == 30)
-			{
-				projectile.netUpdate = true;
-			}
-			else if (counter < 30)
-			{
-				return;
-			}
+            projectile.alpha -= 50;
+            counter++;
+            if (counter == 30)
+            {
+                projectile.netUpdate = true;
+            }
+            else if (counter < 30)
+            {
+                return;
+            }
 
-			projectile.ChargingMinionAI(MagicHat.Range, 1600f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+            projectile.ChargingMinionAI(MagicHat.Range, 1600f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(75, 255, 255, projectile.alpha);
@@ -71,28 +71,28 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(4))
-			{
-				SpawnBaseballBats(target.Center);
-			}
+            if (Main.rand.NextBool(4))
+            {
+                SpawnBaseballBats(target.Center);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (Main.rand.NextBool(4))
-			{
-				SpawnBaseballBats(target.Center);
-			}
+            if (Main.rand.NextBool(4))
+            {
+                SpawnBaseballBats(target.Center);
+            }
         }
 
-		private void SpawnBaseballBats(Vector2 targetPos)
-		{
+        private void SpawnBaseballBats(Vector2 targetPos)
+        {
             for (int n = 0; n < Main.rand.Next(1, 3); n++) //1 to 2 baseball bats
             {
                 float x = targetPos.X + Main.rand.Next(-400, 401);
                 float y = targetPos.Y - Main.rand.Next(500, 801);
                 Vector2 source = new Vector2(x, y);
-				Vector2 velocity = targetPos - source;
+                Vector2 velocity = targetPos - source;
                 velocity.X += Main.rand.Next(-100, 101);
                 float speed = 29f;
                 float targetDist = velocity.Length();
@@ -101,6 +101,6 @@ namespace CalamityMod.Projectiles.Summon
                 velocity.Y *= targetDist;
                 Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
             }
-		}
+        }
     }
 }

@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 58;
-			item.height = 58;
-			item.scale = 1.5f;
-			item.damage = 112;
+            item.height = 58;
+            item.scale = 1.5f;
+            item.damage = 112;
             item.melee = true;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -68,9 +68,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Ichor, 90);
+            target.AddBuff(BuffID.Ichor, 90);
 
-			if (!target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(2) + 2;
@@ -80,10 +80,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Ichor, 90);
+            target.AddBuff(BuffID.Ichor, 90);
 
-			if (player.moonLeech)
-				return;
+            if (player.moonLeech)
+                return;
 
             int healAmount = Main.rand.Next(2) + 2;
             player.statLife += healAmount;

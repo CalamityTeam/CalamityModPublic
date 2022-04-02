@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             // Patron names
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
-	    "Freakish", // <@!750363283520749598> Freakish#0001
+        "Freakish", // <@!750363283520749598> Freakish#0001
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -63,20 +63,20 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.PartyGirl;
         }
 
-		public override void AI()
-		{
-			if (!CalamityWorld.spawnedBandit)
-			{
-				CalamityWorld.spawnedBandit = true;
-			}
-		}
+        public override void AI()
+        {
+            if (!CalamityWorld.spawnedBandit)
+            {
+                CalamityWorld.spawnedBandit = true;
+            }
+        }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
                 if (player.active && rich)
                 {
                     return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
@@ -232,8 +232,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-				Main.LocalPlayer.Calamity().newBanditInventory = false;
-				shop = true;
+                Main.LocalPlayer.Calamity().newBanditInventory = false;
+                shop = true;
             }
             else
             {
@@ -244,8 +244,8 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-			// All prices are manually set. This means the Discount Card does not work.
-			// The Bandit doesn't believe in discounts.
+            // All prices are manually set. This means the Discount Card does not work.
+            // The Bandit doesn't believe in discounts.
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
@@ -261,19 +261,19 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
             nextSlot++;
-			shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-			nextSlot++;
-			if (CalamityWorld.downedSlimeGod)
+            shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            if (CalamityWorld.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
                 nextSlot++;
             }
             if (Main.hardMode)
@@ -295,38 +295,38 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             if (NPC.downedMechBossAny)
-			{
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-				nextSlot++;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-				nextSlot++;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                nextSlot++;
             }
-			if (CalamityWorld.downedCalamitas)
-			{
+            if (CalamityWorld.downedCalamitas)
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-				nextSlot++;
-			}
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                nextSlot++;
+            }
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecision>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
-				shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
                 nextSlot++;
             }
             if (NPC.downedGolemBoss)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-				nextSlot++;
-			}
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
+                nextSlot++;
+            }
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
@@ -334,11 +334,11 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             if (CalamityWorld.downedProvidence)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
-				nextSlot++;
-			}
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+                nextSlot++;
+            }
             if (CalamityWorld.downedDoG)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
@@ -352,9 +352,9 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
-			shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
+            shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
+            nextSlot++;
         }
 
         public override void HitEffect(int hitDirection, double damage)

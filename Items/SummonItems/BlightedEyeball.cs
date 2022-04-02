@@ -36,12 +36,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasRun3>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasRun3>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class ElementalExcaliburBeam : ModProjectile
     {
         private int alpha = 50;
-		private bool playedSound = false;
+        private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             if (!playedSound)
             {
                 Main.PlaySound(SoundID.Item60, projectile.Center);
-				playedSound = true;
+                playedSound = true;
             }
             if (projectile.localAI[0] == 0f)
             {
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Melee
                     color = new Color(255, 128, 0, alpha);
 
                     int p = (int)Player.FindClosest(projectile.Center, 1, 1);
-					projectile.ai[1] += 1f;
+                    projectile.ai[1] += 1f;
                     if (projectile.ai[1] < 220f && projectile.ai[1] > 60f)
                     {
                         float homeSpeed = projectile.velocity.Length();
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
                 case 4: // Green, home in on enemies
                     color = new Color(0, 255, 0, alpha);
 
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 6f, 20f);
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 6f, 20f);
 
                     break;
 
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs(2f);
+            target.ExoDebuffs(2f);
 
             if (projectile.ai[0] == 7f)
             {
@@ -254,7 +254,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs(2f);
+            target.ExoDebuffs(2f);
 
             if (projectile.ai[0] == 7f)
             {
@@ -341,7 +341,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item10, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
             projectile.maxPenetrate = projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -373,13 +373,13 @@ namespace CalamityMod.Projectiles.Melee
 
                     for (int x = 0; x < 3; x++)
                     {
-						bool fromRight = x == 1;
-						if (x == 2)
-							fromRight = Main.rand.NextBool(2);
-						if (projectile.owner == Main.myPlayer)
-						{
-							CalamityUtils.ProjectileBarrage(projectile.Center, projectile.Center, fromRight, 500f, 500f, 0f, 500f, 5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(projectile.damage * 0.2), projectile.knockBack * 0.2f, projectile.owner, false, 0f).ai[0] = 5f;
-						}
+                        bool fromRight = x == 1;
+                        if (x == 2)
+                            fromRight = Main.rand.NextBool(2);
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            CalamityUtils.ProjectileBarrage(projectile.Center, projectile.Center, fromRight, 500f, 500f, 0f, 500f, 5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(projectile.damage * 0.2), projectile.knockBack * 0.2f, projectile.owner, false, 0f).ai[0] = 5f;
+                        }
                     }
 
                     break;

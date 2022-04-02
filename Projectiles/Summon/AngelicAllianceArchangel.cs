@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AngelicAllianceArchangel : ModProjectile
     {
-		private int lifeSpan = 900;
+        private int lifeSpan = 900;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Archangel");
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(lifeSpan);
@@ -44,12 +44,12 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (!modPlayer.divineBless || player.dead || !player.active)
-			{
-				lifeSpan = 0;
-			}
+            if (!modPlayer.divineBless || player.dead || !player.active)
+            {
+                lifeSpan = 0;
+            }
 
-			// Initialization and dust
+            // Initialization and dust
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			// Rotate around the player
+            // Rotate around the player
             double deg = projectile.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;
@@ -76,71 +76,71 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
             projectile.ai[1] += 1f;
 
-			if (!projectile.FinalExtraUpdate())
-				return;
+            if (!projectile.FinalExtraUpdate())
+                return;
 
-			lifeSpan--;
-			if (lifeSpan <= 0)
-			{
-				projectile.alpha += 30;
-				if (projectile.alpha >= 255)
-				{
-					projectile.Kill();
-					return;
-				}
-			}
+            lifeSpan--;
+            if (lifeSpan <= 0)
+            {
+                projectile.alpha += 30;
+                if (projectile.alpha >= 255)
+                {
+                    projectile.Kill();
+                    return;
+                }
+            }
 
-			// Give off some light
+            // Give off some light
             float lightScalar = Main.rand.NextFloat(0.9f, 1.1f) * Main.essScale;
             Lighting.AddLight(projectile.Center, 0.3f * lightScalar, 0.26f * lightScalar, 0.15f * lightScalar);
 
-			// Get a target
-			NPC target = projectile.Center.MinionHoming(2000f, player, false, true);
+            // Get a target
+            NPC target = projectile.Center.MinionHoming(2000f, player, false, true);
 
-			// Shoot the target
-			if (target != null)
-			{
-				Vector2 direction = target.Center - projectile.Center;
-				direction.Normalize();
-				direction *= 6f;
-				if (direction.X >= 0.25f)
-				{
-					projectile.direction = -1;
-				}
-				else if (direction.X < -0.25f)
-				{
-					projectile.direction = 1;
-				}
-				projectile.ai[0]++;
-				int timerLimit = 120;
-				if (projectile.ai[0] > timerLimit && projectile.alpha < 50)
-				{
-					if (Main.myPlayer == projectile.owner)
-					{
-						int type = ModContent.ProjectileType<AngelRay>();
-						Projectile.NewProjectile(projectile.Center, direction * 0.5f, type, projectile.damage, projectile.knockBack, projectile.owner);
-					}
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
-			}
-			else
+            // Shoot the target
+            if (target != null)
             {
-				Vector2 direction = player.Center - projectile.Center;
-				direction.Normalize();
-				direction *= 6f;
-				if (direction.X >= 0.25f)
-				{
-					projectile.direction = -1;
-				}
-				else if (direction.X < -0.25f)
-				{
-					projectile.direction = 1;
-				}
+                Vector2 direction = target.Center - projectile.Center;
+                direction.Normalize();
+                direction *= 6f;
+                if (direction.X >= 0.25f)
+                {
+                    projectile.direction = -1;
+                }
+                else if (direction.X < -0.25f)
+                {
+                    projectile.direction = 1;
+                }
+                projectile.ai[0]++;
+                int timerLimit = 120;
+                if (projectile.ai[0] > timerLimit && projectile.alpha < 50)
+                {
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        int type = ModContent.ProjectileType<AngelRay>();
+                        Projectile.NewProjectile(projectile.Center, direction * 0.5f, type, projectile.damage, projectile.knockBack, projectile.owner);
+                    }
+                    projectile.ai[0] = 0f;
+                    projectile.netUpdate = true;
+                }
             }
-			projectile.spriteDirection = projectile.direction;
+            else
+            {
+                Vector2 direction = player.Center - projectile.Center;
+                direction.Normalize();
+                direction *= 6f;
+                if (direction.X >= 0.25f)
+                {
+                    projectile.direction = -1;
+                }
+                else if (direction.X < -0.25f)
+                {
+                    projectile.direction = 1;
+                }
+            }
+            projectile.spriteDirection = projectile.direction;
 
-			// Frames
+            // Frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 7)
             {

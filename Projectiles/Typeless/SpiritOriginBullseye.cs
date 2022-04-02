@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class SpiritOriginBullseye : ModProjectile
+    public class SpiritOriginBullseye : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public NPC Target => Main.npc[(int)projectile.ai[0]];

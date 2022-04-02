@@ -43,11 +43,11 @@ Stealth strikes can bounce off walls and enemies");
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-					Main.projectile[stealth].penetrate = 3;
-				}
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].penetrate = 3;
+                }
                 return false;
             }
             return true;

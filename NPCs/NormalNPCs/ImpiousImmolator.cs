@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class ImpiousImmolator : ModNPC
+    public class ImpiousImmolator : ModNPC
     {
         public bool hasBeenHit = false;
 
@@ -39,11 +39,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.knockBackResist = 0.2f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ImpiousImmolatorBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -108,8 +108,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.2f;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.2f;
-					float velocityMax = CalamityWorld.death ? 16f : 12f;
-					if (npc.velocity.X > velocityMax)
+                    float velocityMax = CalamityWorld.death ? 16f : 12f;
+                    if (npc.velocity.X > velocityMax)
                     {
                         npc.velocity.X = velocityMax;
                     }
@@ -263,8 +263,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EnergyStaff>(), 15);
+            DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EnergyStaff>(), 15);
         }
 
         public override void HitEffect(int hitDirection, double damage)

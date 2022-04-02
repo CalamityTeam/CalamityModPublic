@@ -52,29 +52,29 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-				int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-				Main.dust[brimstone].noGravity = true;
-				Main.dust[brimstone].velocity *= 0f;
+                int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                Main.dust[brimstone].noGravity = true;
+                Main.dust[brimstone].velocity *= 0f;
             }
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] > 5f)
-			{
-				projectile.ai[0] = 5f;
-				if (projectile.velocity.Y == 0.0 && projectile.velocity.X != 0.0)
-				{
-					projectile.velocity.X *= 0.97f;
-					if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
-					{
-						projectile.velocity.X = 0f;
-						projectile.netUpdate = true;
-					}
-				}
-				projectile.velocity.Y += 0.2f;
-				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
-			}
-			if (projectile.velocity.Y <= 16f)
-				return;
-			projectile.velocity.Y = 16f;
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] > 5f)
+            {
+                projectile.ai[0] = 5f;
+                if (projectile.velocity.Y == 0.0 && projectile.velocity.X != 0.0)
+                {
+                    projectile.velocity.X *= 0.97f;
+                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+                    {
+                        projectile.velocity.X = 0f;
+                        projectile.netUpdate = true;
+                    }
+                }
+                projectile.velocity.Y += 0.2f;
+                projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
+            }
+            if (projectile.velocity.Y <= 16f)
+                return;
+            projectile.velocity.Y = 16f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

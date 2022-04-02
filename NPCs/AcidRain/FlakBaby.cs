@@ -10,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
-	public class FlakBaby : ModNPC
+    public class FlakBaby : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -44,25 +44,25 @@ namespace CalamityMod.NPCs.AcidRain
         {
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
-				if (Main.rand.NextBool(20))
-					npc.catchItem = (short)ModContent.ItemType<GeyserShell>();
+                if (Main.rand.NextBool(20))
+                    npc.catchItem = (short)ModContent.ItemType<GeyserShell>();
                 npc.localAI[0] = 1f;
                 npc.velocity.Y = -3f;
                 npc.netUpdate = true;
             }
             if (Main.rand.NextBool(8) && npc.catchItem == (short)ModContent.ItemType<GeyserShell>())
-			{
-				int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.SulfurousSeaAcid, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 1.1f;
-				Main.dust[dust].velocity.Y += 0.25f;
-				Main.dust[dust].noLight = true;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[dust].noGravity = false;
-					Main.dust[dust].scale *= 0.5f;
-				}
-			}
+            {
+                int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.SulfurousSeaAcid, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 1.1f;
+                Main.dust[dust].velocity.Y += 0.25f;
+                Main.dust[dust].noLight = true;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[dust].noGravity = false;
+                    Main.dust[dust].scale *= 0.5f;
+                }
+            }
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
             if (Math.Abs(closest.Center.X - npc.Center.X) > 600f)
             {

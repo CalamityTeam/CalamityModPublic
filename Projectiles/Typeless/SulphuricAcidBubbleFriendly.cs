@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
             projectile.Kill();
-		}
+        }
 
         public override void Kill(int timeLeft)
         {

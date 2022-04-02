@@ -13,7 +13,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class MercurialTides : ModProjectile
+    public class MercurialTides : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTides";
         private bool initialized = false;

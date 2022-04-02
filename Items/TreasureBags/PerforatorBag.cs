@@ -46,7 +46,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.CrimtaneBar, 15, 20);
             DropHelper.DropItem(player, ItemID.Vertebrae, 15, 20);
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
-			DropHelper.DropItem(player, ItemID.CrimsonSeeds, 10, 15);
+            DropHelper.DropItem(player, ItemID.CrimsonSeeds, 10, 15);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -59,11 +59,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<BloodBath>(w),
                 DropHelper.WeightStack<BloodClotStaff>(w),
                 DropHelper.WeightStack<ToothBall>(w, 50, 75),
-				DropHelper.WeightStack<BloodstainedGlove>(w)
-			);
+                DropHelper.WeightStack<BloodstainedGlove>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);

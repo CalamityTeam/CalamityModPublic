@@ -57,12 +57,12 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-			recipe.AddIngredient(ItemID.OrangeBloodroot);
+            recipe.AddIngredient(ItemID.OrangeBloodroot);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.SoulofSight, 5);
-			recipe.AddIngredient(ItemID.SoulofFright, 5);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

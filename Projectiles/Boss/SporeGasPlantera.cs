@@ -18,15 +18,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 32;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -42,10 +42,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.ai[1] += 1f;
             if (projectile.ai[1] > 1800f)
-			{
+            {
                 projectile.localAI[0] += 10f;
-				projectile.damage = 0;
-			}
+                projectile.damage = 0;
+            }
 
             if (projectile.localAI[0] > 255f)
             {
@@ -63,20 +63,20 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity *= 0.98f;
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.ai[1] <= 1800f && projectile.ai[1] > 120f;
+        public override bool CanHitPlayer(Player target) => projectile.ai[1] <= 1800f && projectile.ai[1] > 120f;
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			if (projectile.ai[1] > 1800f)
-			{
-				byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
-				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
-				return new Color(b2, b2, b2, a2);
-			}
-			return new Color(255, 255, 255, projectile.alpha);
-		}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            if (projectile.ai[1] > 1800f)
+            {
+                byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
+                byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
+            }
+            return new Color(255, 255, 255, projectile.alpha);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];
@@ -99,8 +99,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.ai[1] <= 1800f && projectile.ai[1] > 120f)
-				target.AddBuff(BuffID.Poisoned, 240);
+            if (projectile.ai[1] <= 1800f && projectile.ai[1] > 120f)
+                target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

@@ -5,7 +5,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class FlurrystormIceChunk : ModProjectile
+    public class FlurrystormIceChunk : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.coldDamage = true;
             projectile.penetrate = 1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -50,26 +50,26 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[index2].velocity *= 1.5f;
                 Main.dust[index2].scale *= 0.9f;
             }
-			int split = 0;
-			while (split < 3)
-			{
-				//Calculate the velocity of the projectile
-				float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
-				float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
-				//Prevents the projectile speed from being too low
-				if (shardspeedX < 2f && shardspeedX > -2f)
-				{
-					shardspeedX += -projectile.velocity.X;
-				}
-				if (shardspeedY > 2f && shardspeedY < 2f)
-				{
-					shardspeedY += -projectile.velocity.Y;
-				}
+            int split = 0;
+            while (split < 3)
+            {
+                //Calculate the velocity of the projectile
+                float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
+                float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
+                //Prevents the projectile speed from being too low
+                if (shardspeedX < 2f && shardspeedX > -2f)
+                {
+                    shardspeedX += -projectile.velocity.X;
+                }
+                if (shardspeedY > 2f && shardspeedY < 2f)
+                {
+                    shardspeedY += -projectile.velocity.Y;
+                }
 
-				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<FlurrystormIceShard>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
-				split += 1;
-			}
+                //Spawn the projectile
+                Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<FlurrystormIceShard>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+                split += 1;
+            }
         }
     }
 }

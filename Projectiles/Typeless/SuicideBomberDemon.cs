@@ -252,7 +252,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 float flameOrbGlowIntensity = Utils.InverseLerp(90f, 98f, Time, true);
                 for (int i = 0; i < 12; i++)
-				{
+                {
                     Color flameOrbColor = Color.LightCyan * flameOrbGlowIntensity * 0.125f;
                     flameOrbColor.A = 0;
                     Vector2 flameOrbDrawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTime * 2f).ToRotationVector2();

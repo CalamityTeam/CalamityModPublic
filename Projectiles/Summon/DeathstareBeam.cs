@@ -30,10 +30,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             if (!Main.projectile.IndexInRange((int)OwnerUUID))
-			{
+            {
                 projectile.Kill();
                 return;
-			}
+            }
 
             projectile.Opacity = Utils.InverseLerp(1f, 0f, 1f - projectile.timeLeft / 10f, true);
             projectile.Center = Main.projectile[(int)OwnerUUID].Center - projectile.velocity;

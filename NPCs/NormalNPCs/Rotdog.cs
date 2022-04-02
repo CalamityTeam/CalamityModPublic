@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Rotdog : ModNPC
+    public class Rotdog : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -29,10 +29,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PitbullBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

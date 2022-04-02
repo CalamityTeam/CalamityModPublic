@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
                     projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
                     return;
                 }
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 11f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 11f, 20f);
             }
             else
             {

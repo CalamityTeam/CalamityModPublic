@@ -56,23 +56,23 @@ namespace CalamityMod.Items.Fishing
             DropHelper.DropItemCondition(player, ItemID.HallowedSeeds, Main.hardMode, 0.05f, seedMin, seedMax);
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
-			{
-				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
-				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
-			}
+            {
+                DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
+                DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
+            }
             Mod soa = CalamityMod.Instance.soa;
             if (soa != null)
-			{
-				DropHelper.DropItemChance(player, soa.ItemType("Welkinbell"), 0.25f, herbMin, herbMax);
-				DropHelper.DropItemChance(player, soa.ItemType("WelkinbellSeeds"), 0.1f, seedMin, seedMax);
-				DropHelper.DropItemCondition(player, soa.ItemType("Illumifern"), Main.hardMode, 0.25f, herbMin, herbMax);
-				DropHelper.DropItemCondition(player, soa.ItemType("IllumifernSeeds"), Main.hardMode, 0.1f, seedMin, seedMax);
+            {
+                DropHelper.DropItemChance(player, soa.ItemType("Welkinbell"), 0.25f, herbMin, herbMax);
+                DropHelper.DropItemChance(player, soa.ItemType("WelkinbellSeeds"), 0.1f, seedMin, seedMax);
+                DropHelper.DropItemCondition(player, soa.ItemType("Illumifern"), Main.hardMode, 0.25f, herbMin, herbMax);
+                DropHelper.DropItemCondition(player, soa.ItemType("IllumifernSeeds"), Main.hardMode, 0.1f, seedMin, seedMax);
 
-				// TODO -- There is no way to determine if SoA's Abaddon is dead without reflection.
+                // TODO -- There is no way to determine if SoA's Abaddon is dead without reflection.
                 // Dan Yami has confirmed that downed calls will be added to SoA eventually.
-				//DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("Enduflora"), SacredTools.ModdedWorld.downedAbaddon, 0.25f, herbMin, herbMax);
-				//DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("EndufloraSeeds"), SacredTools.ModdedWorld.downedAbaddon, 0.1f, seedMin, seedMax);
-			}
+                //DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("Enduflora"), SacredTools.ModdedWorld.downedAbaddon, 0.25f, herbMin, herbMax);
+                //DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("EndufloraSeeds"), SacredTools.ModdedWorld.downedAbaddon, 0.1f, seedMin, seedMax);
+            }
         }
     }
 }

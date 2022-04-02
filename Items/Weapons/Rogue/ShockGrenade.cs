@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class ShockGrenade : RogueWeapon
+    public class ShockGrenade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-				if (p.WithinBounds(Main.maxProjectiles))
-					Main.projectile[p].Calamity().stealthStrike = true;
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"));
         }
 
         public override void AddRecipes()

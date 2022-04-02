@@ -8,7 +8,7 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class HeresyProj : ModProjectile
+    public class HeresyProj : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 275f, Time, true));

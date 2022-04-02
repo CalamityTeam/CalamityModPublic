@@ -37,10 +37,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 11f;
             item.useAmmo = AmmoID.Gel;
 
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-		}
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
 

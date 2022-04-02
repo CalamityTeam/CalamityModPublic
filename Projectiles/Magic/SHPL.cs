@@ -66,12 +66,12 @@ namespace CalamityMod.Projectiles.Magic
             int dustAmt = Main.rand.Next(3, 7);
             for (int d = 0; d < dustAmt; d++)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					246,
-					73,
-					187
-				});
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    246,
+                    73,
+                    187
+                });
                 int idx = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, dustType, 0f, 0f, 100, default, 2.1f);
                 Main.dust[idx].velocity *= 2f;
                 Main.dust[idx].noGravity = true;

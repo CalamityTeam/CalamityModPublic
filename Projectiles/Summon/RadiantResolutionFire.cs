@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.light = 1f;
             projectile.timeLeft = 300;
-			projectile.minion = true;
-			projectile.tileCollide = false;
+            projectile.minion = true;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -38,11 +38,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 60);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 60);
             projectile.maxPenetrate = projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 3;
+            projectile.damage /= 3;
             projectile.Damage();
             Main.PlaySound(SoundID.Item14, projectile.Center);
             for (int i = 0; i < 20; i++)

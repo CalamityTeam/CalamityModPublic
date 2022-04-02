@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
             item.height = 58;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<GalacticaComet>();
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<GalacticaComet>();
             item.shootSpeed = 23f;
         }
 

@@ -52,13 +52,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.3f, ModContent.ProjectileType<WulfrumKnifeProj>(), damage, knockBack, player.whoAmI);
                 Projectile proj = Main.projectile[p];
-				if (p.WithinBounds(Main.maxProjectiles))
-				{
-					proj.Calamity().stealthStrike = true;
-					proj.penetrate = 4;
-					proj.usesLocalNPCImmunity = true;
-					proj.localNPCHitCooldown = 1;
-				}
+                if (p.WithinBounds(Main.maxProjectiles))
+                {
+                    proj.Calamity().stealthStrike = true;
+                    proj.penetrate = 4;
+                    proj.usesLocalNPCImmunity = true;
+                    proj.localNPCHitCooldown = 1;
+                }
                 return false;
             }
             return true;

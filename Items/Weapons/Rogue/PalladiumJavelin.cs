@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons.Rogue
                 damage = (int)(damage * 1.425f);
 
             int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (javelin.WithinBounds(Main.maxProjectiles))
-			{
-				Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-				if (!player.Calamity().StealthStrikeAvailable())
-					Main.projectile[javelin].usesLocalNPCImmunity = false;
-			}
-			return false;
+            if (javelin.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                if (!player.Calamity().StealthStrikeAvailable())
+                    Main.projectile[javelin].usesLocalNPCImmunity = false;
+            }
+            return false;
         }
 
         public override void AddRecipes()

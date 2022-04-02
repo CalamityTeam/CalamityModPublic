@@ -10,7 +10,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TruePurityProjection : ModProjectile //The boring plain one. With cool homing now
+    public class TruePurityProjection : ModProjectile //The boring plain one. With cool homing now
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];

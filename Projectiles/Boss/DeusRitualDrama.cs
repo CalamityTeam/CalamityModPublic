@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class DeusRitualDrama : ModProjectile
+    public class DeusRitualDrama : ModProjectile
     {
         public float Time
         {
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
             }
 
             DrawStars(spriteBatch, offset);

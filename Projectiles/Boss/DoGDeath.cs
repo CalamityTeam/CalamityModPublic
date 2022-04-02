@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 10;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 10;
             projectile.height = 10;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.extraUpdates = 1;
             projectile.timeLeft = 450;
             cooldownSlot = 1;
-		}
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -96,8 +96,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (TelegraphDelay > TelegraphTotalTime)
-				target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+            if (TelegraphDelay > TelegraphTotalTime)
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -105,10 +105,10 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255, 255, 255, projectile.alpha);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

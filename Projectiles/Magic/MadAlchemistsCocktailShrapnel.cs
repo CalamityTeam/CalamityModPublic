@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class MadAlchemistsCocktailShrapnel : ModProjectile
+    public class MadAlchemistsCocktailShrapnel : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -24,9 +24,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             Vector2 value7 = new Vector2(6f, 12f);
             projectile.localAI[0] += 1f;
@@ -50,8 +50,8 @@ namespace CalamityMod.Projectiles.Magic
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
             Main.dust[num458].noGravity = true;
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
         }
     }
 }

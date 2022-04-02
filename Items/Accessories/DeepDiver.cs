@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 24;
             item.height = 28;
-			item.value = CalamityGlobalItem.Rarity5BuyPrice;
-			item.rare = ItemRarityID.Pink;
-			item.defense = 8;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
+            item.defense = 8;
             item.accessory = true;
-		}
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;
                 modPlayer.dashMod = 5;
-				player.dash = 0;
+                player.dash = 0;
             }
         }
     }

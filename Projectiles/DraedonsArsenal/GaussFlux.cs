@@ -20,9 +20,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => projectile.ai[1] = value.whoAmI;
         }
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gauss Flux");
-		}
+        {
+            DisplayName.SetDefault("Gauss Flux");
+        }
 
         public override void SetDefaults()
         {
@@ -32,13 +32,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 180;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.Center, Color.Lime.ToVector3());
+            Lighting.AddLight(projectile.Center, Color.Lime.ToVector3());
             if (!Target.active)
             {
                 projectile.Kill();
@@ -79,5 +79,5 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
         }
-	}
+    }
 }

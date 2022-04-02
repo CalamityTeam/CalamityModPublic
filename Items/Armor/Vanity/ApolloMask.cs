@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class ApolloMask : ModItem, IExtendedHat
     {
         public override void SetStaticDefaults()

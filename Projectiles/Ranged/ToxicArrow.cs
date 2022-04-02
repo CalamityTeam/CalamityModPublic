@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(SoundID.Item92, projectile.position);
             int count = Main.rand.Next(6, 15);
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
         }
     }
 }

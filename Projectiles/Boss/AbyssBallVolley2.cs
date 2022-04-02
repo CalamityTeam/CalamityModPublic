@@ -16,29 +16,29 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.penetrate = 1;
-			projectile.alpha = 60;
-			projectile.tileCollide = false;
-			projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.alpha = 60;
+            projectile.tileCollide = false;
+            projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
-			if (projectile.velocity.Length() < 18f && (Main.expertMode || BossRushEvent.BossRushActive))
-			{
-				float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
-				projectile.velocity *= velocityMult;
-			}
+            if (projectile.velocity.Length() < 18f && (Main.expertMode || BossRushEvent.BossRushActive))
+            {
+                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
+                projectile.velocity *= velocityMult;
+            }
 
-			if (projectile.timeLeft < 60)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+            if (projectile.timeLeft < 60)
+                projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 
-			if (projectile.ai[1] == 0f)
+            if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 33);
@@ -53,14 +53,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 12f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 60;
+        public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 60;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.timeLeft < 60)
-				return;
+            if (projectile.timeLeft < 60)
+                return;
 
-			target.AddBuff(BuffID.Darkness, 120);
+            target.AddBuff(BuffID.Darkness, 120);
         }
     }
 }

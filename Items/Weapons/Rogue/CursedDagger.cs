@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Cursed Dagger");
             Tooltip.SetDefault("Throws bouncing daggers\n" +
-			"Stealth strikes are showered in cursed fireballs");
+            "Stealth strikes are showered in cursed fireballs");
         }
 
         public override void SafeSetDefaults()
@@ -40,11 +40,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-					Main.projectile[stealth].usesLocalNPCImmunity = true;
-				}
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                }
                 return false;
             }
             return true;

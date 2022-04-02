@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.ranged = true;
             projectile.ignoreWater = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -125,34 +125,34 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     projectile.velocity = speedMult * 0.55f;
 
-					Vector2 snowballVel = Vector2.Normalize(projectile.velocity) * speedMult2 * (0.6f + Main.rand.NextFloat(0f, 0.15f));
-					if (float.IsNaN(snowballVel.X) || float.IsNaN(snowballVel.Y))
-					{
-						snowballVel = -Vector2.UnitY;
-					}
-					Vector2 sourceS = source + Utils.RandomVector2(Main.rand, -5f, 5f);
-					snowballVel.X += Main.rand.NextFloat(-2.25f, 2.25f);
-					snowballVel.Y += Main.rand.NextFloat(-2.25f, 2.25f);
-					int snowball = Projectile.NewProjectile(sourceS, snowballVel, projType, dmg, kBack, projectile.owner);
-					if (snowball.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[snowball].noDropItem = true;
-						Main.projectile[snowball].Calamity().forceRanged = true;
-						Main.projectile[snowball].thrown = false;
-						Main.projectile[snowball].extraUpdates += Main.rand.Next(0,2);
-					}
+                    Vector2 snowballVel = Vector2.Normalize(projectile.velocity) * speedMult2 * (0.6f + Main.rand.NextFloat(0f, 0.15f));
+                    if (float.IsNaN(snowballVel.X) || float.IsNaN(snowballVel.Y))
+                    {
+                        snowballVel = -Vector2.UnitY;
+                    }
+                    Vector2 sourceS = source + Utils.RandomVector2(Main.rand, -5f, 5f);
+                    snowballVel.X += Main.rand.NextFloat(-2.25f, 2.25f);
+                    snowballVel.Y += Main.rand.NextFloat(-2.25f, 2.25f);
+                    int snowball = Projectile.NewProjectile(sourceS, snowballVel, projType, dmg, kBack, projectile.owner);
+                    if (snowball.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[snowball].noDropItem = true;
+                        Main.projectile[snowball].Calamity().forceRanged = true;
+                        Main.projectile[snowball].thrown = false;
+                        Main.projectile[snowball].extraUpdates += Main.rand.Next(0,2);
+                    }
 
-					if (Main.rand.NextBool(5)) //ice chunk
-					{
-						Vector2 chunkVel = Vector2.Normalize(projectile.velocity) * speedMult2 * (0.6f + Main.rand.NextFloat() * 0.8f);
-						if (float.IsNaN(chunkVel.X) || float.IsNaN(chunkVel.Y))
-						{
-							chunkVel = -Vector2.UnitY;
-						}
-						Vector2 sourceC = source + Utils.RandomVector2(Main.rand, -15f, 15f);
-						int iceChunk = Projectile.NewProjectile(sourceC, chunkVel, ModContent.ProjectileType<FlurrystormIceChunk>(), (int)(dmg * 1.5), (int)(kBack * 1.5), projectile.owner, 0f, chunkVel.Y);
-						Main.projectile[iceChunk].extraUpdates += fireRate / 2; //0 to 2
-					}
+                    if (Main.rand.NextBool(5)) //ice chunk
+                    {
+                        Vector2 chunkVel = Vector2.Normalize(projectile.velocity) * speedMult2 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                        if (float.IsNaN(chunkVel.X) || float.IsNaN(chunkVel.Y))
+                        {
+                            chunkVel = -Vector2.UnitY;
+                        }
+                        Vector2 sourceC = source + Utils.RandomVector2(Main.rand, -15f, 15f);
+                        int iceChunk = Projectile.NewProjectile(sourceC, chunkVel, ModContent.ProjectileType<FlurrystormIceChunk>(), (int)(dmg * 1.5), (int)(kBack * 1.5), projectile.owner, 0f, chunkVel.Y);
+                        Main.projectile[iceChunk].extraUpdates += fireRate / 2; //0 to 2
+                    }
                 }
                 else
                 {

@@ -13,30 +13,30 @@ using System.IO;
 
 namespace CalamityMod.NPCs.Calamitas
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
     public class CalamitasRun2 : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Catastrophe");
             Main.npcFrameCount[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
+            npc.npcSlots = 5f;
             npc.width = 120;
             npc.height = 120;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
-				npc.scale = 1.2f;
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+                npc.scale = 1.2f;
 
-			npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 15 : 10;
-			npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.225f : 0.15f);
-			npc.LifeMaxNERB(9200, 11025, 80000);
+            npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 15 : 10;
+            npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.225f : 0.15f);
+            npc.LifeMaxNERB(9200, 11025, 80000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
@@ -53,24 +53,24 @@ namespace CalamityMod.NPCs.Calamitas
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			for (int i = 0; i < 4; i++)
-				writer.Write(npc.Calamity().newAI[i]);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            for (int i = 0; i < 4; i++)
+                writer.Write(npc.Calamity().newAI[i]);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			for (int i = 0; i < 4; i++)
-				npc.Calamity().newAI[i] = reader.ReadSingle();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            for (int i = 0; i < 4; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
+        }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -80,80 +80,80 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void AI()
         {
-			CalamityAI.CatastropheAI(npc, mod);
+            CalamityAI.CatastropheAI(npc, mod);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 7;
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 7;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun2Glow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun2Glow");
+            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 *= (float)(num153 - num163) / 15f;
+                    Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override bool CheckActive()
-		{
-			return npc.Calamity().newAI[0] == 1f;
-		}
+        public override bool CheckActive()
+        {
+            return npc.Calamity().newAI[0] == 1f;
+        }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int heartAmt = Main.rand.Next(3) + 3;
-				for (int i = 0; i < heartAmt; i++)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int heartAmt = Main.rand.Next(3) + 3;
+                for (int i = 0; i < heartAmt; i++)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
 
-			DropHelper.DropItemChance(npc, ModContent.ItemType<CatastropheTrophy>(), 10);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 4 : 5);
-		}
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CatastropheTrophy>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 4 : 5);
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

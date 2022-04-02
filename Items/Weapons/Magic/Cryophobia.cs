@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Cryophobia");
             Tooltip.SetDefault("Chill\n" +
-				"Fires an icy wave that splits multiple times and explodes into shards");
+                "Fires an icy wave that splits multiple times and explodes into shards");
         }
 
         public override void SetDefaults()
@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-			item.value = CalamityGlobalItem.Rarity6BuyPrice;
-			item.rare = ItemRarityID.LightPurple;
-			item.UseSound = SoundID.Item117;
+            item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            item.rare = ItemRarityID.LightPurple;
+            item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<CryoBlast>();
-		}
+        }
 
         public override Vector2? HoldoutOffset()
         {

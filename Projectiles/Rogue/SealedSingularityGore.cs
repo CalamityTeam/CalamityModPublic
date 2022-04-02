@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.width = projectile.height = 25;
             projectile.Calamity().rogue = true;
-			projectile.timeLeft = 300;
+            projectile.timeLeft = 300;
         }
 
         public override void AI()

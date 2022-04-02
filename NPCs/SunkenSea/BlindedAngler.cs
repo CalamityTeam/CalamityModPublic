@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-	public class BlindedAngler : ModNPC
+    public class BlindedAngler : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 56;
             npc.height = 44;
             npc.defense = 30;
-			npc.DR_NERD(0.2f);
+            npc.DR_NERD(0.2f);
             npc.lifeMax = 750;
             npc.aiStyle = -1;
             aiType = -1;
@@ -34,12 +34,12 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.1f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BlindedAnglerBanner>();
-			npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.chaseable = false;
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void AI()
         {
             Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.75f / 255f, (255 - npc.alpha) * 0.75f / 255f);
-			CalamityAI.PassiveSwimmingAI(npc, mod, 1, 100f, 0.1f, 0.1f, 3f, 3f, 0.1f);
+            CalamityAI.PassiveSwimmingAI(npc, mod, 1, 100f, 0.1f, 0.1f, 3f, 3f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -102,8 +102,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicScimitar>(), 0.25f);
-			DropHelper.DropItem(npc, ModContent.ItemType<PrismShard>(), 5, 9);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicScimitar>(), 0.25f);
+            DropHelper.DropItem(npc, ModContent.ItemType<PrismShard>(), 5, 9);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 34;
             projectile.height = 34;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
             DeltaPositionRelativetoTarget = reader.ReadVector2();
         }
         public override void AI()
-		{
+        {
             if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.projectile.Length || projectile.ai[1] < 0 || projectile.ai[1] >= Main.npc.Length)
             {
                 projectile.Kill();

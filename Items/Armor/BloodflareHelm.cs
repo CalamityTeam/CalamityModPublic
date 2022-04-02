@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class BloodflareHelm : ModItem
     {
         public override void SetStaticDefaults()
@@ -43,9 +43,9 @@ namespace CalamityMod.Items.Armor
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Greatly increases life regen\n" +
-				"Enemies below 50% life drop a heart when struck\n" +
-				"This effect has a 5 second cooldown\n" +
-				"Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+                "Enemies below 50% life drop a heart when struck\n" +
+                "This effect has a 5 second cooldown\n" +
+                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
                 "Being below 80% life boosts your rogue damage by 10%\n" +
                 "Rogue critical strikes have a 50% chance to heal you\n" +
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

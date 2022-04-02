@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class CrawlerTopaz : ModNPC
+    public class CrawlerTopaz : ModNPC
     {
         private bool detected = false;
 
@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
             bannerItem = ModContent.ItemType<TopazCrawlerBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CosmicScythe : ModProjectile
+    public class CosmicScythe : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/SignusScythe";
 
@@ -51,14 +51,14 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.timeLeft > 350)
                     projectile.velocity *= 1.06f;
                 projectile.damage = (int)(originalDamage * 1.25);
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int buffType = projectile.ai[0] == 1f ? BuffID.ShadowFlame : ModContent.BuffType<GodSlayerInferno>();
-			target.AddBuff(buffType, 60, false);
+            int buffType = projectile.ai[0] == 1f ? BuffID.ShadowFlame : ModContent.BuffType<GodSlayerInferno>();
+            target.AddBuff(buffType, 60, false);
             projectile.Kill();
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
             for (int d = 0; d < 4; d++)
             {
                 int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, default, 2f);

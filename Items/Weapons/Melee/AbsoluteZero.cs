@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, knockBack * 3f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, knockBack * 3f, player.whoAmI);
             Main.projectile[p].Kill();
         }
 
@@ -50,10 +50,10 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, 12f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, 12f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }

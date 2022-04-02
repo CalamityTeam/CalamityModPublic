@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.EnchantedSword);
-			item.useTime = 30;
+            item.useTime = 30;
             item.damage = 26;
             item.melee = true;
             item.value = Item.buyPrice(0, 2, 0, 0);

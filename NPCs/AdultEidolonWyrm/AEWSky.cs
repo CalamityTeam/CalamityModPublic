@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 if (AEWIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[AEWIndex].Center);
 
-				return 1f - Utils.SmoothStep(3000f, 6000f, x);
+                return 1f - Utils.SmoothStep(3000f, 6000f, x);
             }
             return 0f;
         }

@@ -30,11 +30,11 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
-			int randomDust = Utils.SelectRandom(Main.rand, new int[]
-			{
-				33,
-				89
-			});
+            int randomDust = Utils.SelectRandom(Main.rand, new int[]
+            {
+                33,
+                89
+            });
             if (projectile.localAI[0] == 0f)
             {
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21);

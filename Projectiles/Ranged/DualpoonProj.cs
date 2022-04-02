@@ -20,13 +20,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.ranged = true;
             projectile.extraUpdates = 0;
-			projectile.timeLeft = 300;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.timeLeft = 300;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (player.dead)
             {
                 projectile.Kill();
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.extraUpdates = 1;
             }
-			Vector2 playerVector = player.Center - projectile.Center;
+            Vector2 playerVector = player.Center - projectile.Center;
             float playerDist = playerVector.Length();
             if (projectile.ai[0] == 0f)
             {

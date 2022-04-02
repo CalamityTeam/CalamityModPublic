@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	public static class DefenseDamageDisplayUI
+    public static class DefenseDamageDisplayUI
     {
         public static void Draw(SpriteBatch spriteBatch)
         {

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 5;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

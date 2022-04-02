@@ -7,14 +7,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class EventHorizon : ModItem
+    public class EventHorizon : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Event Horizon");
             Tooltip.SetDefault("Nothing, not even light, can return.\n" +
-			"Fires a ring of stars to home in on nearby enemies\n" +
-			"Stars spawn black holes on enemy hits");
+            "Fires a ring of stars to home in on nearby enemies\n" +
+            "Stars spawn black holes on enemy hits");
         }
 
         public override void SetDefaults()
@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
 
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
 
-			item.UseSound = SoundID.Item84;
+            item.UseSound = SoundID.Item84;
             item.shoot = ModContent.ProjectileType<EventHorizonStar>();
             item.shootSpeed = 25f;
         }

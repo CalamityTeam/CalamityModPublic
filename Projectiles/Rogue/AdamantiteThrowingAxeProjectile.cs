@@ -45,24 +45,24 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects();
-		}
+            OnHitEffects();
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects();
-		}
+            OnHitEffects();
+        }
 
-		private void OnHitEffects()
-		{
-			if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
-			{
-				for (int n = 0; n < 3; n++)
-				{
-					Projectile lightning = CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
-					lightning.ai[0] = Main.rand.Next(2);
-				}
-			}
-		}
+        private void OnHitEffects()
+        {
+            if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
+            {
+                for (int n = 0; n < 3; n++)
+                {
+                    Projectile lightning = CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    lightning.ai[0] = Main.rand.Next(2);
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.DataStructures
 {
-	public class DeadMinionProperties
+    public class DeadMinionProperties
     {
         public int Type;
         public int OriginalDamage;

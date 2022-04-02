@@ -24,22 +24,22 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 8;
             projectile.alpha = 255;
             projectile.melee = true;
-			projectile.extraUpdates = 2;
+            projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20 * projectile.extraUpdates;
-			projectile.tileCollide = true;
+            projectile.tileCollide = true;
         }
 
         public override void AI()
         {
-			if (projectile.alpha > 0)
-			{
-				projectile.alpha -= 25;
-			}
-			if (projectile.alpha < 0)
-				projectile.alpha = 0;
+            if (projectile.alpha > 0)
+            {
+                projectile.alpha -= 25;
+            }
+            if (projectile.alpha < 0)
+                projectile.alpha = 0;
 
-			int num297 = 171;
+            int num297 = 171;
             if (Main.rand.Next(3) == 0)
             {
                 num297 = 46;
@@ -48,18 +48,18 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, num297, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			if (projectile.ai[0] == 0f)
-			{
-				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-				projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
-			}
+            if (projectile.ai[0] == 0f)
+            {
+                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
+            }
             //Sticky Behaviour
             projectile.StickyProjAI(15);
-			if (projectile.ai[0] == 2f)
-			{
-				projectile.velocity *= 0f;
-			}
+            if (projectile.ai[0] == 2f)
+            {
+                projectile.velocity *= 0f;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -70,13 +70,13 @@ namespace CalamityMod.Projectiles.Melee
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.ai[0] = 2f;
-			projectile.timeLeft = 300;
+            projectile.timeLeft = 300;
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-			int num297 = 171;
+            int num297 = 171;
             if (Main.rand.Next(3) == 0)
             {
                 num297 = 46;
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 50;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.Damage();
+            projectile.Damage();
             for (int num621 = 0; num621 < 15; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 1.2f);

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SeasSearingSecondary : ModProjectile
+    public class SeasSearingSecondary : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.owner == Main.myPlayer)
             {
                 int endoftime = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TyphoonBubble>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[endoftime].localAI[1] = 1f;
+                Main.projectile[endoftime].localAI[1] = 1f;
             }
         }
 

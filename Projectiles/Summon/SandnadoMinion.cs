@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump(0.1f);
+            projectile.MinionAntiClump(0.1f);
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha += 20;
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (playerDist > 2000f)
                 {
                     projectile.position = player.position;
-					projectile.netUpdate = true;
+                    projectile.netUpdate = true;
                 }
                 if (Math.Abs(playerVec.X) > 40f || Math.Abs(playerVec.Y) > 10f)
                 {

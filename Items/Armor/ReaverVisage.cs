@@ -6,10 +6,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class ReaverVisage : ModItem
     {
-		//Jump/Flight Boosts and Movement Speed Helm
+        //Jump/Flight Boosts and Movement Speed Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Visage");
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
             item.defense = 13; //46
         }
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
+        public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<ReaverScaleMail>() && legs.type == ModContent.ItemType<ReaverCuisses>();
         }
@@ -43,12 +43,12 @@ namespace CalamityMod.Items.Armor
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Grants immunity to fall damage and allows constant jumping\n" +
                 "10% increased flight time and horizontal wing speed\n" +
-				"Hooks fly out and retract 10% faster\n" +
-				"Reduces the cooldown of dashes";
+                "Hooks fly out and retract 10% faster\n" +
+                "Reduces the cooldown of dashes";
             player.noFallDmg = true;
             player.autoJump = true;
-			if (player.miscCounter % 3 == 2 && player.dashDelay > 0)
-				player.dashDelay--;
+            if (player.miscCounter % 3 == 2 && player.dashDelay > 0)
+                player.dashDelay--;
         }
 
         public override void UpdateEquip(Player player)
@@ -61,9 +61,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 6);
-			recipe.AddIngredient(ItemID.JungleSpores, 4);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.JungleSpores, 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -11,7 +11,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueAncientBeam : ModProjectile //The boring plain one
+    public class TrueAncientBeam : ModProjectile //The boring plain one
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow";
 

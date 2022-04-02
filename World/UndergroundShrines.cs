@@ -184,9 +184,9 @@ namespace CalamityMod.World
             int genLimit = x / 2;
             int generateBack = genLimit - 80; //Small = 2020
             int generateForward = genLimit + 80; //Small = 2180
-			double shrineChance = 100E-05;
+            double shrineChance = 100E-05;
 
-			for (int k = 0; k < (int)(x * y * shrineChance); k++) //Surface Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Surface Shrine
             {
                 int tilesX = WorldGen.genRand.Next((int)(x * 0.35), generateBack);
                 int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.65));

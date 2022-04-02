@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls
 {
-	public class AstralFossilWall : ModWall
+    public class AstralFossilWall : ModWall
     {
 
         public override void SetDefaults()

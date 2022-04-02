@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeSulphurSea : LoreItem
+    public class KnowledgeSulphurSea : LoreItem
     {
         public override void SetStaticDefaults()
         {

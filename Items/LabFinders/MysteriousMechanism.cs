@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LabFinders
 {
-	public class MysteriousMechanism : ModItem
+    public class MysteriousMechanism : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.LabFinders
         {
             item.width = 24;
             item.height = 26;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
         }
 
         public override void AddRecipes()

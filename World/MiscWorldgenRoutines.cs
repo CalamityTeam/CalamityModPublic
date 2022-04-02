@@ -828,52 +828,52 @@ namespace CalamityMod.World
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region Smart Gem Gen
-		public static void SmartGemGen()
-		{
-			double oneThirdOfUnderground = (Main.maxTilesY - 200 - Main.worldSurface) / 3D;
-			double verticalStartFactor_Layer1 = Main.worldSurface;
-			double verticalStartFactor_Layer2 = verticalStartFactor_Layer1 + oneThirdOfUnderground;
-			double verticalStartFactor_Layer3 = verticalStartFactor_Layer1 + oneThirdOfUnderground * 2D;
-			for (int x = 0; x < Main.maxTilesX; x++)
-			{
-				for (int y = 0; y < Main.maxTilesY; y++)
-				{
-					if (y > verticalStartFactor_Layer3)
-					{
-						if (Main.tile[x, y] != null)
-						{
-							if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
-								Main.tile[x, y].type = TileID.Diamond;
-							else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
-								Main.tile[x, y].type = TileID.Ruby;
-						}
-					}
-					else if (y > verticalStartFactor_Layer2)
-					{
-						if (Main.tile[x, y] != null)
-						{
-							if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
-								Main.tile[x, y].type = TileID.Emerald;
-							else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
-								Main.tile[x, y].type = TileID.Sapphire;
-						}
-					}
-					else if (y > verticalStartFactor_Layer1)
-					{
-						if (Main.tile[x, y] != null)
-						{
-							if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
-								Main.tile[x, y].type = TileID.Topaz;
-							else if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
-								Main.tile[x, y].type = TileID.Amethyst;
-						}
-					}
-				}
-			}
-		}
-		#endregion
-	}
+        #region Smart Gem Gen
+        public static void SmartGemGen()
+        {
+            double oneThirdOfUnderground = (Main.maxTilesY - 200 - Main.worldSurface) / 3D;
+            double verticalStartFactor_Layer1 = Main.worldSurface;
+            double verticalStartFactor_Layer2 = verticalStartFactor_Layer1 + oneThirdOfUnderground;
+            double verticalStartFactor_Layer3 = verticalStartFactor_Layer1 + oneThirdOfUnderground * 2D;
+            for (int x = 0; x < Main.maxTilesX; x++)
+            {
+                for (int y = 0; y < Main.maxTilesY; y++)
+                {
+                    if (y > verticalStartFactor_Layer3)
+                    {
+                        if (Main.tile[x, y] != null)
+                        {
+                            if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
+                                Main.tile[x, y].type = TileID.Diamond;
+                            else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
+                                Main.tile[x, y].type = TileID.Ruby;
+                        }
+                    }
+                    else if (y > verticalStartFactor_Layer2)
+                    {
+                        if (Main.tile[x, y] != null)
+                        {
+                            if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
+                                Main.tile[x, y].type = TileID.Emerald;
+                            else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
+                                Main.tile[x, y].type = TileID.Sapphire;
+                        }
+                    }
+                    else if (y > verticalStartFactor_Layer1)
+                    {
+                        if (Main.tile[x, y] != null)
+                        {
+                            if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
+                                Main.tile[x, y].type = TileID.Topaz;
+                            else if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
+                                Main.tile[x, y].type = TileID.Amethyst;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+    }
 }

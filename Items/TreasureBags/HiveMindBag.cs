@@ -46,7 +46,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
             DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
             DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
-			DropHelper.DropItem(player, ItemID.CorruptSeeds, 10, 15);
+            DropHelper.DropItem(player, ItemID.CorruptSeeds, 10, 15);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -58,11 +58,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<ShaderainStaff>(w),
                 DropHelper.WeightStack<DankStaff>(w),
                 DropHelper.WeightStack<RotBall>(w, 50, 75),
-				DropHelper.WeightStack<FilthyGlove>(w)
-			);
+                DropHelper.WeightStack<FilthyGlove>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);

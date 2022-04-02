@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class SCalWormArm : ModNPC
+    public class SCalWormArm : ModNPC
     {
         public class SepulcherArmLimb
         {
@@ -72,8 +72,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-			npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
-			npc.aiStyle = aiType = -1;
+            npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+            npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
             npc.scale = Main.expertMode ? 1.35f : 1.2f;
             npc.dontTakeDamage = true;
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        {
             Texture2D armTexture = Main.npcTexture[npc.type];
             Texture2D foreArmTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormForeArm");
             Texture2D handTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormHand");
@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spriteBatch.Draw(handTexture, handDrawPosition, null, drawColor, Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), npc.scale, handDirection, 0f);
 
             return false;
-		}
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

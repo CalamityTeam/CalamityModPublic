@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 22;
             projectile.height = 22;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = 125;
             projectile.ranged = true;
         }
@@ -67,24 +67,24 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 flarePowderTimer = 12;
             }
-			if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-			{
-				float num247 = projectile.velocity.X * 0.5f;
-				float num248 = projectile.velocity.Y * 0.5f;
-				int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
-				Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-				Main.dust[num249].velocity *= 0.2f;
-				Main.dust[num249].noGravity = true;
-				num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
-				Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num249].velocity *= 0.05f;
-				
-			}
+            if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
+            {
+                float num247 = projectile.velocity.X * 0.5f;
+                float num248 = projectile.velocity.Y * 0.5f;
+                int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                Main.dust[num249].velocity *= 0.2f;
+                Main.dust[num249].noGravity = true;
+                num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
+                Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num249].velocity *= 0.05f;
+                
+            }
         }
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -109,30 +109,30 @@ namespace CalamityMod.Projectiles.Ranged
                 idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 10);
+            CalamityUtils.ExplosionGores(projectile.Center, 10);
 
-			// Construct a fake item to use with vanilla code for the sake of picking ammo.
-			if (FalseLauncher is null)
-				DefineFalseLauncher();
-			Player player = Main.player[projectile.owner];
-			int projID = ProjectileID.RocketI;
-			float shootSpeed = 0f;
-			bool canShoot = true;
-			int damage = 0;
-			float kb = 0f;
-			player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
-			int blastRadius = 0;
-			if (projID == ProjectileID.RocketII)
-				blastRadius = 6;
-			else if (projID == ProjectileID.RocketIV)
-				blastRadius = 12;
+            // Construct a fake item to use with vanilla code for the sake of picking ammo.
+            if (FalseLauncher is null)
+                DefineFalseLauncher();
+            Player player = Main.player[projectile.owner];
+            int projID = ProjectileID.RocketI;
+            float shootSpeed = 0f;
+            bool canShoot = true;
+            int damage = 0;
+            float kb = 0f;
+            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+            int blastRadius = 0;
+            if (projID == ProjectileID.RocketII)
+                blastRadius = 6;
+            else if (projID == ProjectileID.RocketIV)
+                blastRadius = 12;
 
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 22);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 22);
 
-			if (projectile.owner == Main.myPlayer && blastRadius > 0)
-			{
-				CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
-			}
+            if (projectile.owner == Main.myPlayer && blastRadius > 0)
+            {
+                CalamityUtils.ExplodeandDestroyTiles(projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

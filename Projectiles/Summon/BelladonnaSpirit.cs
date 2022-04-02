@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 TargetNPC(potentialTarget);
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
         }
         public void Initialize(Player player)
         {

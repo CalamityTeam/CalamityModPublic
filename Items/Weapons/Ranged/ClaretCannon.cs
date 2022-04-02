@@ -28,16 +28,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = SoundID.Item40;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ClaretCannonProj>();
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
@@ -52,12 +52,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.Bullet)
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI);
+            else
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
     }
 }

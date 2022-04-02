@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.endurance += 0.05f;
+            player.endurance += 0.05f;
             player.moveSpeed -= 0.15f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gShell = true;

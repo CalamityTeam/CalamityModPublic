@@ -26,17 +26,17 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.Calamity().AllCritBoost(5);
-			player.moveSpeed += 0.1f;
+            player.Calamity().AllCritBoost(5);
+            player.moveSpeed += 0.1f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 10);
-			recipe.AddIngredient(ItemID.HellstoneBar, 5);
-			recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 2);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 2);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

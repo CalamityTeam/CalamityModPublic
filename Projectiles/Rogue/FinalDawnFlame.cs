@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.Rogue
         private Flame[] Flames;
         public const int TotalFlames = 120;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
+        {
+            DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[projectile.type] = 8;
         }
         public override void SetDefaults()
         {
-			projectile.scale = 1f;
+            projectile.scale = 1f;
             projectile.width = 1000;
             projectile.height = 100;
             projectile.penetrate = -1;

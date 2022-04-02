@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 55;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 55;
             npc.width = 60;
             npc.height = 58;
             npc.aiStyle = -1;
             npc.defense = 6;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 340;
             npc.knockBackResist = 0.2f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
@@ -48,9 +48,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.1f;
                 npc.lifeMax = 510;
             }
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {

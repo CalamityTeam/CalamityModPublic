@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class BossRushFailureEffectThing : ModProjectile
+    public class BossRushFailureEffectThing : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             MoonlordDeathDrama.RequestLight(Utils.InverseLerp(0f, 8f, Time, true), Main.LocalPlayer.Center);
             if (Time >= 45f)
             {
@@ -33,5 +33,5 @@ namespace CalamityMod.Projectiles.Typeless
             }
             Time++;
         }
-	}
+    }
 }

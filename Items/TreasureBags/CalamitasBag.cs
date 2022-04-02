@@ -13,7 +13,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class CalamitasBag : ModItem
+    public class CalamitasBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<CalamitasRun3>();
 
@@ -55,8 +55,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Animosity>(w),
                 DropHelper.WeightStack<CalamitasInferno>(w),
                 DropHelper.WeightStack<BlightedEyeStaff>(w),
-				DropHelper.WeightStack<ChaosStone>(w)
-			);
+                DropHelper.WeightStack<ChaosStone>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());
@@ -64,11 +64,11 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);
-			if (Main.rand.NextBool(10))
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<CalamityHood>());
-				DropHelper.DropItem(player, ModContent.ItemType<CalamityRobes>());
-			}
+            if (Main.rand.NextBool(10))
+            {
+                DropHelper.DropItem(player, ModContent.ItemType<CalamityHood>());
+                DropHelper.DropItem(player, ModContent.ItemType<CalamityRobes>());
+            }
         }
     }
 }

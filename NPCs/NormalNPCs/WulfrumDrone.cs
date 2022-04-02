@@ -68,9 +68,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(FlyAwayTimer);
 
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
                     if (FlyAwayTimer > 360)
-					{
+                    {
                         npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
                         npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
                         npc.noTileCollide = true;
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
+            float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 1, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<WulfrumShard>(), Main.expertMode);
             DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
         }
     }
 }

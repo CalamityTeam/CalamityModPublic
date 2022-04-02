@@ -9,7 +9,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SanguineFuryDash : ModProjectile
+    public class SanguineFuryDash : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[projectile.owner];

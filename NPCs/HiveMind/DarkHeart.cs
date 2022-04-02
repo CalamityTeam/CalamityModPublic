@@ -36,10 +36,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath21;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -116,24 +116,24 @@ namespace CalamityMod.NPCs.HiveMind
                     npc.ai[0] = 0f;
                     int num1169 = (int)(npc.position.X + 10f + Main.rand.Next(npc.width - 20));
                     int num1170 = (int)(npc.position.Y + npc.height + 4f);
-					int type = ModContent.ProjectileType<ShaderainHostile>();
-					int damage = npc.GetProjectileDamage(type);
-					Projectile.NewProjectile(num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    int type = ModContent.ProjectileType<ShaderainHostile>();
+                    int damage = npc.GetProjectileDamage(type);
+                    Projectile.NewProjectile(num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-		}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {

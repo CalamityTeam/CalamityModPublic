@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
                                 vector145 = center13;
                                 flag59 = true;
                                 num1016 = num1017;
-								break;
+                                break;
                             }
                         }
                         num3 = num1017;

@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Shadow Potion");
             Tooltip.SetDefault("Causes the player to disappear while not attacking\n" +
-			"Holding different types of rogue weapons give the player boosts\n" +
-			"Different types of rogue weapons spawn different projectiles on hit\n" +
-			"Stealth generation is increased by 10%");
+            "Holding different types of rogue weapons give the player boosts\n" +
+            "Different types of rogue weapons spawn different projectiles on hit\n" +
+            "Stealth generation is increased by 10%");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.SetResult(this, 2);
             recipe.AddRecipe();
-			// blood orb recipes no alch table effect
+            // blood orb recipes no alch table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);

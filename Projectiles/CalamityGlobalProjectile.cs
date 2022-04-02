@@ -58,18 +58,18 @@ namespace CalamityMod.Projectiles
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
-		// Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
-		// For every 100% critical strike chance over 100%, "supercrit" projectiles do a guaranteed +100% damage.
-		// They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
-		// For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
-		// These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
-		public bool canSupercrit = false;
+        // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
+        // For every 100% critical strike chance over 100%, "supercrit" projectiles do a guaranteed +100% damage.
+        // They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
+        // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
+        // These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
+        public bool canSupercrit = false;
 
-		// If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
-		public bool appliesSomaShred = false;
+        // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
+        public bool appliesSomaShred = false;
 
-		// Amount of extra updates that are set in SetDefaults.
-		public int defExtraUpdates = -1;
+        // Amount of extra updates that are set in SetDefaults.
+        public int defExtraUpdates = -1;
 
         // How many times this projectile has pierced.
         public int timesPierced = 0;
@@ -78,17 +78,17 @@ namespace CalamityMod.Projectiles
         public int pointBlankShotDuration = 0;
         public const int basePointBlankShotDuration = 12;
 
-		// Temporary damage reduction effects.
-		public int damageReductionTimer = 0;
-		/// <summary>
-		/// The amount of damage substracted from the projectile's own damage count when hitting the player. Resets to 0 if the damageReductionTimer variable drops to 0
-		/// </summary>
-		public int damageReduction = 0;
+        // Temporary damage reduction effects.
+        public int damageReductionTimer = 0;
+        /// <summary>
+        /// The amount of damage substracted from the projectile's own damage count when hitting the player. Resets to 0 if the damageReductionTimer variable drops to 0
+        /// </summary>
+        public int damageReduction = 0;
 
-		/// <summary>
-		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
-		/// </summary>
-		public bool canBreakPlayerDefense = false;
+        /// <summary>
+        /// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
+        /// </summary>
+        public bool canBreakPlayerDefense = false;
 
         // Rogue Stuff
         public bool stealthStrike = false; // Update all existing rogue weapons with this
@@ -123,9 +123,9 @@ namespace CalamityMod.Projectiles
             ProjectileType<ScavengerLaser>()
         };
 
-		// Boss projectile velocity multiplier in Malice Mode
-		public bool affectedByMaliceModeVelocityMultiplier = false;
-		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
+        // Boss projectile velocity multiplier in Malice Mode
+        public bool affectedByMaliceModeVelocityMultiplier = false;
+        public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
 
         // Enchantment variables.
         public int ExplosiveEnchantCountdown = 0;
@@ -332,13 +332,13 @@ namespace CalamityMod.Projectiles
                     projectile.penetrate = 2;
                     break;
 
-				case ProjectileID.CrystalVileShardHead:
-				case ProjectileID.CrystalVileShardShaft:
-				case ProjectileID.PoisonFang:
-				case ProjectileID.VenomFang:
-					projectile.usesLocalNPCImmunity = true;
-					projectile.localNPCHitCooldown = 10;
-					break;
+                case ProjectileID.CrystalVileShardHead:
+                case ProjectileID.CrystalVileShardShaft:
+                case ProjectileID.PoisonFang:
+                case ProjectileID.VenomFang:
+                    projectile.usesLocalNPCImmunity = true;
+                    projectile.localNPCHitCooldown = 10;
+                    break;
 
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
@@ -1034,7 +1034,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (projectile.type == ProjectileID.DemonSickle)
                 {
@@ -1659,10 +1659,10 @@ namespace CalamityMod.Projectiles
                             return false;
                         }
 
-						float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
-						if (projectile.velocity.Length() < velocityLimit)
-							projectile.velocity *= 1.01f;
-					}
+                        float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
+                        if (projectile.velocity.Length() < velocityLimit)
+                            projectile.velocity *= 1.01f;
+                    }
 
                     if (projectile.alpha < 40)
                     {
@@ -1675,12 +1675,12 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
-				// Moon Lord big eye spheres
-				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
-				{
-					float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
-					if (projectile.velocity.Length() < velocityLimit)
-						projectile.velocity *= 1.0075f;
+                // Moon Lord big eye spheres
+                else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
+                {
+                    float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
+                    if (projectile.velocity.Length() < velocityLimit)
+                        projectile.velocity *= 1.0075f;
 
                     return true;
                 }
@@ -1779,9 +1779,9 @@ namespace CalamityMod.Projectiles
                         DelegateMethods.v3_1 = new Vector3(0.3f, 0.65f, 0.7f);
                         Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
 
-						return false;
-					}
-				}
+                        return false;
+                    }
+                }
             }
 
             return true;
@@ -1794,12 +1794,12 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (defDamage == 0)
-			{
-				if (projectile.hostile)
-				{
-					if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
-						projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
+            if (defDamage == 0)
+            {
+                if (projectile.hostile)
+                {
+                    if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+                        projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
 
                     // Reduce Nail damage from Nailheads because they're stupid
                     if (projectile.type == ProjectileID.Nail && Main.expertMode)
@@ -2243,15 +2243,15 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (projectile.FinalExtraUpdate() && damageReductionTimer > 0)
-			{
-				damageReductionTimer--;
-				if (damageReductionTimer <= 0)
-					damageReduction = 0;
-			}
+            if (projectile.FinalExtraUpdate() && damageReductionTimer > 0)
+            {
+                damageReductionTimer--;
+                if (damageReductionTimer <= 0)
+                    damageReduction = 0;
+            }
 
-			// optimization to remove conversion X/Y loop for irrelevant projectiles
-			bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+            // optimization to remove conversion X/Y loop for irrelevant projectiles
+            bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
                 || projectile.type == ProjectileID.PureSpray
                 || projectile.type == ProjectileID.CorruptSpray
                 || projectile.type == ProjectileID.CrimsonSpray
@@ -2346,22 +2346,22 @@ namespace CalamityMod.Projectiles
                     damage = (int)(damage * 2f / 3f);
             }
         }
-		#endregion
+        #endregion
 
-		#region ModifyHitPlayer
-		public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
-		{
-			damage -= (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f));
-			if (damage < 0)
-				damage = 0;
-		}
-		#endregion
-
-		#region CanDamage
-		public override bool CanDamage(Projectile projectile)
+        #region ModifyHitPlayer
+        public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
         {
-			if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
-				return false;
+            damage -= (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f));
+            if (damage < 0)
+                damage = 0;
+        }
+        #endregion
+
+        #region CanDamage
+        public override bool CanDamage(Projectile projectile)
+        {
+            if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
+                return false;
 
             switch (projectile.type)
             {
@@ -2559,9 +2559,9 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-		// TODO -- this entire region needs to go to Projectile Utilities
-		#region AI Shortcuts
-		public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
+        // TODO -- this entire region needs to go to Projectile Utilities
+        #region AI Shortcuts
+        public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();

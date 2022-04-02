@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 360;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
+            projectile.tileCollide = false;
         }
         public override void AI()
         {
@@ -52,43 +52,43 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			Player player = Main.player[projectile.owner];
-			if ((player.ActiveItem().summon &&
-				!player.ActiveItem().melee &&
-				!player.ActiveItem().ranged &&
-				!player.ActiveItem().magic &&
-				!player.ActiveItem().Calamity().rogue) ||
-				player.ActiveItem().hammer > 0 ||
-				player.ActiveItem().pick > 0 ||
-				player.ActiveItem().axe > 0)
-			{
-				int duration = Main.rand.Next(60, 181); // Anywhere between 1 and 3 seconds
-				switch ((int)projectile.ai[0])
-				{
-					case 0:
-						if (target.Calamity().marked <= 0)
-							target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
-						break;
-					case 1:
-						if (!target.ichor)
-							target.AddBuff(BuffID.Ichor, duration);
-						break;
-					case 2:
-						if (!target.venom)
-							target.AddBuff(BuffID.Venom, duration);
-						break;
-					case 3:
-						if (!target.onFire2)
-							target.AddBuff(BuffID.CursedInferno, duration);
-						break;
-					case 4:
-						if (!target.onFire)
-							target.AddBuff(BuffID.OnFire, duration);
-						break;
-					default:
-						break;
-				}
-			}
+            Player player = Main.player[projectile.owner];
+            if ((player.ActiveItem().summon &&
+                !player.ActiveItem().melee &&
+                !player.ActiveItem().ranged &&
+                !player.ActiveItem().magic &&
+                !player.ActiveItem().Calamity().rogue) ||
+                player.ActiveItem().hammer > 0 ||
+                player.ActiveItem().pick > 0 ||
+                player.ActiveItem().axe > 0)
+            {
+                int duration = Main.rand.Next(60, 181); // Anywhere between 1 and 3 seconds
+                switch ((int)projectile.ai[0])
+                {
+                    case 0:
+                        if (target.Calamity().marked <= 0)
+                            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
+                        break;
+                    case 1:
+                        if (!target.ichor)
+                            target.AddBuff(BuffID.Ichor, duration);
+                        break;
+                    case 2:
+                        if (!target.venom)
+                            target.AddBuff(BuffID.Venom, duration);
+                        break;
+                    case 3:
+                        if (!target.onFire2)
+                            target.AddBuff(BuffID.CursedInferno, duration);
+                        break;
+                    case 4:
+                        if (!target.onFire)
+                            target.AddBuff(BuffID.OnFire, duration);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

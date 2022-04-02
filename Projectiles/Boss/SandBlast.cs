@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 600;
             projectile.Opacity = 0f;
             projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+        }
 
         public override void AI()
         {
@@ -46,20 +46,20 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21);
             }
 
-			if (projectile.ai[0] == 1f)
-			{
-				int num103 = Player.FindClosest(projectile.Center, 1, 1);
-				float inertia = 60f;
-				float scaleFactor2 = projectile.velocity.Length();
-				Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-				vector11.Normalize();
-				vector11 *= scaleFactor2;
-				projectile.velocity = (projectile.velocity * (inertia - 1f) + vector11) / inertia;
-				projectile.velocity.Normalize();
-				projectile.velocity *= scaleFactor2;
-			}
+            if (projectile.ai[0] == 1f)
+            {
+                int num103 = Player.FindClosest(projectile.Center, 1, 1);
+                float inertia = 60f;
+                float scaleFactor2 = projectile.velocity.Length();
+                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+                vector11.Normalize();
+                vector11 *= scaleFactor2;
+                projectile.velocity = (projectile.velocity * (inertia - 1f) + vector11) / inertia;
+                projectile.velocity.Normalize();
+                projectile.velocity *= scaleFactor2;
+            }
 
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
             projectile.Opacity += 0.2f;
             if (projectile.Opacity > 1f)
@@ -72,8 +72,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(SoundID.Item14, projectile.position);
-			for (int dust = 0; dust <= 3; dust++)
+            Main.PlaySound(SoundID.Item14, projectile.position);
+            for (int dust = 0; dust <= 3; dust++)
             {
                 float num463 = Main.rand.Next(-10, 11);
                 float num464 = Main.rand.Next(-10, 11);

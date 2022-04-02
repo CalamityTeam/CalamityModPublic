@@ -13,7 +13,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class ArkoftheElements : ModItem
+    public class ArkoftheElements : ModItem
     {
         public float Combo = 0f;
         public float Charge = 0f;
@@ -88,14 +88,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8.5f;
             item.UseSound = null;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ProjectileID.PurificationPowder;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 16f;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override bool AltFunctionUse(Player player) => true;
 

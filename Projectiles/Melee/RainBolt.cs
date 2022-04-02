@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class RainBolt : ModProjectile
+    public class RainBolt : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             if (projectile.localAI[0] == 0f)
             {
@@ -37,13 +37,13 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
-			else
-				projectile.velocity *= 0.95f;
-		}
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+            else
+                projectile.velocity *= 0.95f;
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int k = 0; k < 5; k++)

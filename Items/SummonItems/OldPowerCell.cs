@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Old Power Cell");
             Tooltip.SetDefault("Summons the Golem when used in the temple\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -43,12 +43,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

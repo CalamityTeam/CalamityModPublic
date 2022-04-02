@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class AlphaVirusProjectile : ModProjectile
+    public class AlphaVirusProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/AlphaVirus";
 
@@ -27,13 +27,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 5;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 5;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			if (target.type == ModContent.NPCType<StormWeaverHead>() || target.type == ModContent.NPCType<StormWeaverBody>() || target.type == ModContent.NPCType<StormWeaverTail>())
+            if (target.type == ModContent.NPCType<StormWeaverHead>() || target.type == ModContent.NPCType<StormWeaverBody>() || target.type == ModContent.NPCType<StormWeaverTail>())
             {
                 damage /= 5;
             }
@@ -221,5 +221,5 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
-	}
+    }
 }

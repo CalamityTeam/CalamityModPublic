@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
             bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || target.type == ModContent.NPCType<DevourerofGodsBody2>();
             if (!isDoGSegment || Main.rand.NextBool(3))
@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
             CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
             CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 1);

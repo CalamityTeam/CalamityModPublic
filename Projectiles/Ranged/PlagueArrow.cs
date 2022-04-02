@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -50,11 +50,11 @@ namespace CalamityMod.Projectiles.Ranged
                         num518 += projectile.oldVelocity.X / 6f;
                         num519 += projectile.oldVelocity.Y / 6f;
                         int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 2), Main.player[projectile.owner].beeKB(0f), Main.myPlayer);
-						if (bee.WithinBounds(Main.maxProjectiles))
-						{
-							Main.projectile[bee].penetrate = 2;
-							Main.projectile[bee].Calamity().forceRanged = true;
-						}
+                        if (bee.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[bee].penetrate = 2;
+                            Main.projectile[bee].Calamity().forceRanged = true;
+                        }
                     }
                 }
             }

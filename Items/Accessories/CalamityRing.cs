@@ -6,14 +6,14 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class CalamityRing : ModItem
+    public class CalamityRing : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void of Calamity");
             Tooltip.SetDefault("Cursed? Reduces damage reduction by 10%\n" +
-			"15% increase to all damage\n" +
-			"Brimstone fire rains down while invincibility is active");
+            "15% increase to all damage\n" +
+            "Brimstone fire rains down while invincibility is active");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+                        CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
                     }
                 }
             }

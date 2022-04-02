@@ -8,10 +8,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AstralProbeSummon : ModProjectile
+    public class AstralProbeSummon : ModProjectile
     {
         private double rotation = 0;
-		private double rotationVariation = 0;
+        private double rotationVariation = 0;
 
         public override void SetStaticDefaults()
         {
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 
-				rotationVariation = Main.rand.NextDouble() * 0.015;
+                rotationVariation = Main.rand.NextDouble() * 0.015;
 
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
@@ -76,18 +76,18 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			NPC target = projectile.Center.MinionHoming(1000f, player, true, true);
+            NPC target = projectile.Center.MinionHoming(1000f, player, true, true);
             Vector2 vector = player.Center - projectile.Center;
             if (target != null)
             {
-				projectile.spriteDirection = projectile.direction = ((target.Center.X - projectile.Center.X) > 0).ToDirectionInt();
+                projectile.spriteDirection = projectile.direction = ((target.Center.X - projectile.Center.X) > 0).ToDirectionInt();
                 projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(target.Center) + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
             }
-			else
-			{
-				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            else
+            {
+                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
                 projectile.rotation = projectile.rotation.AngleLerp(vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi * projectile.direction), 0.1f);
-			}
+            }
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
             rotation += 0.03 + rotationVariation;
             if (rotation >= 360)
@@ -105,21 +105,21 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
-			float speedMult = 6f;
-			int projType = ModContent.ProjectileType<AstralProbeRound>();
-			if (target != null && projectile.ai[1] == 0f)
-			{
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
-				projectile.ai[1] += 1f;
-				if (Main.myPlayer == projectile.owner)
-				{
-					Vector2 velocity = target.Center - projectile.Center;
-					velocity.Normalize();
-					velocity *= speedMult;
-					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, target.whoAmI, 0f);
-					projectile.netUpdate = true;
-				}
-			}
+            float speedMult = 6f;
+            int projType = ModContent.ProjectileType<AstralProbeRound>();
+            if (target != null && projectile.ai[1] == 0f)
+            {
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
+                projectile.ai[1] += 1f;
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Vector2 velocity = target.Center - projectile.Center;
+                    velocity.Normalize();
+                    velocity *= speedMult;
+                    Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, target.whoAmI, 0f);
+                    projectile.netUpdate = true;
+                }
+            }
         }
 
         public override bool CanDamage() => false;

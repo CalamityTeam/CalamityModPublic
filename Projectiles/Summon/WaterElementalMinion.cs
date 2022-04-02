@@ -99,9 +99,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.Y = (int)projectile.position.Y;
             if (projectile.owner == Main.myPlayer)
             {
-				// Prevent firing immediately
-				if (projectile.localAI[0] < 120f)
-					projectile.localAI[0] += 1f;
+                // Prevent firing immediately
+                if (projectile.localAI[0] < 120f)
+                    projectile.localAI[0] += 1f;
 
                 if (projectile.ai[0] != 0f)
                 {

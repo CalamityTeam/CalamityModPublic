@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class WulfrumDroid : ModProjectile
+    public class WulfrumDroid : ModProjectile
     {
         public float dust = 0f;
 
@@ -84,131 +84,131 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump();
-			Vector2 targetVector = projectile.position;
-			float range = 450f;
-			bool foundTarget = false;
-			int targetIndex = -1;
-			if (player.HasMinionAttackTargetNPC)
+            projectile.MinionAntiClump();
+            Vector2 targetVector = projectile.position;
+            float range = 450f;
+            bool foundTarget = false;
+            int targetIndex = -1;
+            if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				if (npc.CanBeChasedBy((object) this, false))
-				{
-					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-					if ((!foundTarget && targetDist < range) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-					{
-						range = targetDist;
-						targetVector = npc.Center;
-						foundTarget = true;
-						targetIndex = npc.whoAmI;
-					}
-				}
-			}
-			if (!foundTarget)
-			{
-				for (int npcIndex = 0; npcIndex < Main.npc.Length; ++npcIndex)
-				{
-					NPC npc = Main.npc[npcIndex];
-					if (npc.CanBeChasedBy((object) this, false))
-					{
-						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						if ((!foundTarget && targetDist < range) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							range = targetDist;
-							targetVector = npc.Center;
-							foundTarget = true;
-							targetIndex = npcIndex;
-						}
-					}
-				}
-			}
-			float separationAnxietyDist = 500f;
-			if (foundTarget)
-				separationAnxietyDist = 1000f;
-			if (Vector2.Distance(player.Center, projectile.Center) > separationAnxietyDist)
-			{
-				projectile.ai[0] = 1f;
-				projectile.netUpdate = true;
-			}
-			if (projectile.ai[0] == 1f)
-				projectile.tileCollide = false;
-			if (foundTarget && projectile.ai[0] == 0f)
-			{
-				Vector2 targetPos = targetVector - projectile.Center;
-				float targetDist = targetPos.Length();
-				targetPos.Normalize();
-				if (targetDist > 200f)
-				{
-					float speed = 6f;
-					Vector2 goToTarget = targetPos * speed;
-					projectile.velocity.X = (projectile.velocity.X * 40f + goToTarget.X) / 41f;
-					projectile.velocity.Y = (projectile.velocity.Y * 40f + goToTarget.Y) / 41f;
-				}
-				else if (projectile.velocity.Y > -1f)
-					projectile.velocity.Y -= 0.1f;
-			}
-			else
-			{
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
-					projectile.ai[0] = 1f;
-				float returnSpeed = 6f;
-				if (projectile.ai[0] == 1f)
-					returnSpeed = 15f;
-				Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
-				float playerDist = playerVec.Length();
-				if (playerDist > 200f && returnSpeed < 9f)
-					returnSpeed = 9f;
-				if (playerDist < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-				{
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
-				if (playerDist > 2000f)
-				{
-					projectile.position.X = player.Center.X - (float) (projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
-					projectile.netUpdate = true;
-				}
-				else if (playerDist > 70f)
-				{
-					playerVec.Normalize();
-					projectile.velocity = (projectile.velocity * 20f + playerVec * returnSpeed) / 21f;
-				}
-				else
-				{
-					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-					{
-						projectile.velocity.X = -0.15f;
-						projectile.velocity.Y = -0.05f;
-					}
-					projectile.velocity *= 1.01f;
-				}
-			}
-			projectile.rotation = projectile.velocity.X * 0.05f;
-			if (projectile.velocity.X > 0f)
-				projectile.spriteDirection = projectile.direction = 1;
-			else if (projectile.velocity.X < 0f)
-				projectile.spriteDirection = projectile.direction = -1;
-			if (projectile.ai[1] > 0f)
-				projectile.ai[1] += (float) Main.rand.Next(1, 4);
-			if (projectile.ai[1] > 90f)
-			{
-				projectile.ai[1] = 0.0f;
-				projectile.netUpdate = true;
-			}
-			if (projectile.ai[1] != 0f)
-				return;
-			++projectile.ai[1];
-			if (Main.myPlayer != projectile.owner)
-				return;
-			if (!foundTarget)
-				return;
-			Vector2 velocity = targetVector - projectile.Center;
-			velocity.Normalize();
-			velocity *= 10f;
-			int bolt = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), projectile.damage, projectile.knockBack, projectile.owner);
-			Main.projectile[bolt].netUpdate = true;
-			projectile.netUpdate = true;
+                if (npc.CanBeChasedBy((object) this, false))
+                {
+                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    if ((!foundTarget && targetDist < range) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    {
+                        range = targetDist;
+                        targetVector = npc.Center;
+                        foundTarget = true;
+                        targetIndex = npc.whoAmI;
+                    }
+                }
+            }
+            if (!foundTarget)
+            {
+                for (int npcIndex = 0; npcIndex < Main.npc.Length; ++npcIndex)
+                {
+                    NPC npc = Main.npc[npcIndex];
+                    if (npc.CanBeChasedBy((object) this, false))
+                    {
+                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        if ((!foundTarget && targetDist < range) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        {
+                            range = targetDist;
+                            targetVector = npc.Center;
+                            foundTarget = true;
+                            targetIndex = npcIndex;
+                        }
+                    }
+                }
+            }
+            float separationAnxietyDist = 500f;
+            if (foundTarget)
+                separationAnxietyDist = 1000f;
+            if (Vector2.Distance(player.Center, projectile.Center) > separationAnxietyDist)
+            {
+                projectile.ai[0] = 1f;
+                projectile.netUpdate = true;
+            }
+            if (projectile.ai[0] == 1f)
+                projectile.tileCollide = false;
+            if (foundTarget && projectile.ai[0] == 0f)
+            {
+                Vector2 targetPos = targetVector - projectile.Center;
+                float targetDist = targetPos.Length();
+                targetPos.Normalize();
+                if (targetDist > 200f)
+                {
+                    float speed = 6f;
+                    Vector2 goToTarget = targetPos * speed;
+                    projectile.velocity.X = (projectile.velocity.X * 40f + goToTarget.X) / 41f;
+                    projectile.velocity.Y = (projectile.velocity.Y * 40f + goToTarget.Y) / 41f;
+                }
+                else if (projectile.velocity.Y > -1f)
+                    projectile.velocity.Y -= 0.1f;
+            }
+            else
+            {
+                if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+                    projectile.ai[0] = 1f;
+                float returnSpeed = 6f;
+                if (projectile.ai[0] == 1f)
+                    returnSpeed = 15f;
+                Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+                float playerDist = playerVec.Length();
+                if (playerDist > 200f && returnSpeed < 9f)
+                    returnSpeed = 9f;
+                if (playerDist < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                {
+                    projectile.ai[0] = 0f;
+                    projectile.netUpdate = true;
+                }
+                if (playerDist > 2000f)
+                {
+                    projectile.position.X = player.Center.X - (float) (projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
+                    projectile.netUpdate = true;
+                }
+                else if (playerDist > 70f)
+                {
+                    playerVec.Normalize();
+                    projectile.velocity = (projectile.velocity * 20f + playerVec * returnSpeed) / 21f;
+                }
+                else
+                {
+                    if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                    {
+                        projectile.velocity.X = -0.15f;
+                        projectile.velocity.Y = -0.05f;
+                    }
+                    projectile.velocity *= 1.01f;
+                }
+            }
+            projectile.rotation = projectile.velocity.X * 0.05f;
+            if (projectile.velocity.X > 0f)
+                projectile.spriteDirection = projectile.direction = 1;
+            else if (projectile.velocity.X < 0f)
+                projectile.spriteDirection = projectile.direction = -1;
+            if (projectile.ai[1] > 0f)
+                projectile.ai[1] += (float) Main.rand.Next(1, 4);
+            if (projectile.ai[1] > 90f)
+            {
+                projectile.ai[1] = 0.0f;
+                projectile.netUpdate = true;
+            }
+            if (projectile.ai[1] != 0f)
+                return;
+            ++projectile.ai[1];
+            if (Main.myPlayer != projectile.owner)
+                return;
+            if (!foundTarget)
+                return;
+            Vector2 velocity = targetVector - projectile.Center;
+            velocity.Normalize();
+            velocity *= 10f;
+            int bolt = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), projectile.damage, projectile.knockBack, projectile.owner);
+            Main.projectile[bolt].netUpdate = true;
+            projectile.netUpdate = true;
         }
 
         public override bool CanDamage() => false;

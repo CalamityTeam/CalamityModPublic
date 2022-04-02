@@ -53,9 +53,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.Calamity().PierceResistHarshness = 0.06f;
-			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+            projectile.Calamity().PierceResistHarshness = 0.06f;
+            projectile.Calamity().PierceResistCap = 0.4f;
+        }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.localAI[1]);
         public override void ReceiveExtraAI(BinaryReader reader) => projectile.localAI[1] = reader.ReadSingle();

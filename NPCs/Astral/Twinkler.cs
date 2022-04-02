@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Astral
 {
-	public class Twinkler : ModNPC
+    public class Twinkler : ModNPC
     {
         public override void SetStaticDefaults()
         {

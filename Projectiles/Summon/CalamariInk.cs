@@ -60,8 +60,8 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
-			{
+            else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
+            {
                 NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
                         hasHomingTarget = true;
                     }
                 }
-			}
+            }
             if (!hasHomingTarget)
             {
                 for (int i = 0; i < Main.npc.Length; ++i)

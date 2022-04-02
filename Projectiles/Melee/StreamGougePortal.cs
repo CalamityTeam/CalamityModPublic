@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class StreamGougePortal : ModProjectile
+    public class StreamGougePortal : ModProjectile
     {
         public Vector2 SpearCenter => Vector2.Lerp(projectile.Center + projectile.velocity + projectile.velocity.SafeNormalize(Vector2.Zero) * 42f, projectile.Center, 1f - projectile.scale);
         public ref float Time => ref projectile.ai[0];

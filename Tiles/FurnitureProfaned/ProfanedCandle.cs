@@ -75,7 +75,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX < 18)
-				CalamityUtils.DrawFlameSparks(246, 5, i, j);
+                CalamityUtils.DrawFlameSparks(246, 5, i, j);
         }
     }
 }

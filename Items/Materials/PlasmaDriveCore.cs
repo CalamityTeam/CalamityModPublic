@@ -8,7 +8,7 @@ using System;
 
 namespace CalamityMod.Items.Materials
 {
-	public class PlasmaDriveCore : ModItem
+    public class PlasmaDriveCore : ModItem
     {
         public override void SetStaticDefaults()
         {

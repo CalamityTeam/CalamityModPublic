@@ -6,7 +6,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PumplerGrenadeExplosion : ModProjectile
+    public class PumplerGrenadeExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

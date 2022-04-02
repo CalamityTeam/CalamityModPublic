@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class AngryDog : ModNPC
+    public class AngryDog : ModNPC
     {
         private bool reset = false;
 
@@ -39,11 +39,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
-			npc.coldDamage = true;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = false;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.coldDamage = true;
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = false;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -75,10 +75,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.ai[1] += 1f;
                 }
-				CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+                CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
                 return;
             }
-			CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
+            CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
         }
 
         public override void FindFrame(int frameHeight)

@@ -19,19 +19,19 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 40;
-			projectile.Calamity().rogue = true;
-			projectile.usesLocalNPCImmunity = true;
+            projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			projectile.velocity *= 0f;
+            projectile.velocity *= 0f;
 
             if (Main.rand.NextBool(5) && projectile.frame < 3)
             {
                 int crystalDust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 87, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[crystalDust].noGravity = true;
+                Main.dust[crystalDust].noGravity = true;
             }
 
             projectile.frameCounter++;

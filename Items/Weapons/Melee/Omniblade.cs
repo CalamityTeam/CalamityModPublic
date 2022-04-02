@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<OmnibladeSwing>();
             item.shootSpeed = 24f;
             item.rare = ItemRarityID.Yellow;
-			item.Calamity().trueMelee = true;
-		}
+            item.Calamity().trueMelee = true;
+        }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 45;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 45;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

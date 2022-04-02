@@ -7,7 +7,7 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Items.Dyes
 {
-	public class DragonSoulDye : BaseDye
+    public class DragonSoulDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/DragonSoulDyeShader")), "DyePass");
         public override void SafeSetStaticDefaults()
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Dragon Soul Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.value = Item.sellPrice(0, 8, 0, 0);

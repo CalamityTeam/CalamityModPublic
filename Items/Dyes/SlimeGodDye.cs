@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Slime God Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 0, 65, 0);
         }

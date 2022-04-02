@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-				float damageMult = 0.5f;
+                float damageMult = 0.5f;
                 switch (index)
                 {
                     case 0:
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         break;
                     case 2:
                         type = ModContent.ProjectileType<ChaosFlameLarge>();
-						damageMult = 0.75f;
+                        damageMult = 0.75f;
                         break;
                     default:
                         break;
@@ -77,8 +77,8 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             if (Main.rand.NextBool(5))
             {
-				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
-				Main.gore[smoke].behindTiles = true;
+                int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+                Main.gore[smoke].behindTiles = true;
             }
         }
 

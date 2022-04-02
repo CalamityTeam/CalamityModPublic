@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class ReaverHealOrb : ModProjectile
+    public class ReaverHealOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
@@ -22,14 +22,14 @@ namespace CalamityMod.Projectiles.Healing
             projectile.extraUpdates = 3;
         }
 
-		public override void AI()
-		{
-			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5.5f, 15f);
-			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 74, 0f, 0f, 100, default, 2f);
-			Dust dust = Main.dust[dusty];
-			dust.noGravity = true;
-			dust.position.X -= projectile.velocity.X * 0.2f;
-			dust.position.Y += projectile.velocity.Y * 0.2f;
-		}
+        public override void AI()
+        {
+            projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5.5f, 15f);
+            int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 74, 0f, 0f, 100, default, 2f);
+            Dust dust = Main.dust[dusty];
+            dust.noGravity = true;
+            dust.position.X -= projectile.velocity.X * 0.2f;
+            dust.position.Y += projectile.velocity.Y * 0.2f;
+        }
     }
 }

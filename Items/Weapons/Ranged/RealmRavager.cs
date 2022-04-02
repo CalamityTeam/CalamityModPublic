@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Realm Ravager");
             Tooltip.SetDefault("Shoots a burst of 3 to 4 bullets\n" +
-				"Converts musket balls into explosive bullets");
+                "Converts musket balls into explosive bullets");
         }
 
         public override void SetDefaults()
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 30f;
             item.shoot = ModContent.ProjectileType<RealmRavagerBullet>();
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
@@ -46,11 +46,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedX = speedX + Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + Main.rand.Next(-75, 76) * 0.05f;
 
-				if (type == ProjectileID.Bullet)
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI);
-				else
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-			}
+                if (type == ProjectileID.Bullet)
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI);
+                else
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+            }
             return false;
         }
     }

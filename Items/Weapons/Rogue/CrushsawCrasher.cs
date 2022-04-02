@@ -8,13 +8,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class CrushsawCrasher : RogueWeapon
+    public class CrushsawCrasher : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crushsaw Crasher");
             Tooltip.SetDefault("Throws bouncing axes\n" +
-			"Stealth strikes throw five at once");
+            "Stealth strikes throw five at once");
         }
 
         public override void SafeSetDefaults()
@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position, perturbedspeed, type, Math.Max(damage / 5, 1), knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[proj].Calamity().stealthStrike = true;
-						Main.projectile[proj].usesLocalNPCImmunity = true;
-						Main.projectile[proj].localNPCHitCooldown = 10;
-					}
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                        Main.projectile[proj].usesLocalNPCImmunity = true;
+                        Main.projectile[proj].localNPCHitCooldown = 10;
+                    }
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

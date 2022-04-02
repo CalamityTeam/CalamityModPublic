@@ -7,7 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings)]
     public class SoulofCryogen : ModItem
     {
         public override void SetStaticDefaults()
@@ -62,19 +62,19 @@ namespace CalamityMod.Items.Accessories.Wings
             player.allDamage += 0.07f;
             player.wingTimeMax = 120;
             player.noFallDmg = true;
-			if (modPlayer.icicleCooldown <= 0)
-			{
-				if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
-				{
-					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
-					if (p.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[p].Calamity().forceTypeless = true;
-						Main.projectile[p].frame = Main.rand.Next(5);
-					}
-					modPlayer.icicleCooldown = 10;
-				}
-			}
+            if (modPlayer.icicleCooldown <= 0)
+            {
+                if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
+                {
+                    int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].Calamity().forceTypeless = true;
+                        Main.projectile[p].frame = Main.rand.Next(5);
+                    }
+                    modPlayer.icicleCooldown = 10;
+                }
+            }
         }
     }
 }

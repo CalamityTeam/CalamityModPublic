@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class MagnomalyExplosion : ModProjectile
+    public class MagnomalyExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -23,17 +23,17 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 5;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
-			projectile.alpha = 255;
+            projectile.alpha = 255;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CalamityMod.Waters
     {
         public override bool ChooseWaterStyle()
         {
-			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
             return modPlayer.ZoneSunkenSea;
         }
 

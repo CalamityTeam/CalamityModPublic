@@ -26,36 +26,36 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 10;
             projectile.hostile = true;
             projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
-			if (projectile.ai[0] == 1f)
-			{
-				projectile.extraUpdates = 2;
-				bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-				float maxVelocity = malice ? 3.75f : 3f;
-				if (projectile.velocity.Length() < maxVelocity)
-				{
-					projectile.velocity *= malice ? 1.02f : 1.015f;
-					if (projectile.velocity.Length() > maxVelocity)
-					{
-						projectile.velocity.Normalize();
-						projectile.velocity *= maxVelocity;
-					}
-				}
-			}
-			else
-			{
-				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-					projectile.tileCollide = true;
-			}
+            if (projectile.ai[0] == 1f)
+            {
+                projectile.extraUpdates = 2;
+                bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+                float maxVelocity = malice ? 3.75f : 3f;
+                if (projectile.velocity.Length() < maxVelocity)
+                {
+                    projectile.velocity *= malice ? 1.02f : 1.015f;
+                    if (projectile.velocity.Length() > maxVelocity)
+                    {
+                        projectile.velocity.Normalize();
+                        projectile.velocity *= maxVelocity;
+                    }
+                }
+            }
+            else
+            {
+                Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+                if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+                    projectile.tileCollide = true;
+            }
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)

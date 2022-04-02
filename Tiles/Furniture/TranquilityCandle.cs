@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class TranquilityCandle : ModTile
+    public class TranquilityCandle : ModTile
     {
         public override void SetDefaults()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Tiles.Furniture
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX < 18)
-				CalamityUtils.DrawFlameSparks(62, 5, i, j);
+                CalamityUtils.DrawFlameSparks(62, 5, i, j);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -69,9 +69,9 @@ namespace CalamityMod.Tiles.Furniture
         }
 
         public override bool NewRightClick(int i, int j)
-		{
+        {
             CalamityUtils.RightClickBreak(i, j);
-			return true;
-		}
+            return true;
+        }
     }
 }

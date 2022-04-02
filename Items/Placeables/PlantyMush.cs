@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Placeables
             item.rare = ItemRarityID.Orange;
         }
 
-		public override void CaughtFishStack(ref int stack)
-		{
-			stack = Main.rand.Next(5,16);
-		}
+        public override void CaughtFishStack(ref int stack)
+        {
+            stack = Main.rand.Next(5,16);
+        }
     }
 }

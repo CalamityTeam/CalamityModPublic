@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Astral Swirl Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Cyan;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }

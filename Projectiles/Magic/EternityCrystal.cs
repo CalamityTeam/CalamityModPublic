@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             // Delete the crystal if any necessary components are incorrect/would cause errors.
             if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)

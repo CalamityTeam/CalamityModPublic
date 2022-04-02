@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class Cuttlefish : ModNPC
+    public class Cuttlefish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -35,11 +35,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.3f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CuttlefishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -58,82 +58,82 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[2] = -16f;
                 }
-				if (npc.collideX)
-				{
-					npc.velocity.X = npc.velocity.X * -1f;
-					npc.direction *= -1;
-				}
-				if (npc.collideY)
-				{
-					if (npc.velocity.Y > 0f)
-					{
-						npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-						npc.directionY = -1;
-						npc.ai[0] = -1f;
-					}
-					else if (npc.velocity.Y < 0f)
-					{
-						npc.velocity.Y = Math.Abs(npc.velocity.Y);
-						npc.directionY = 1;
-						npc.ai[0] = 1f;
-					}
-				}
-				npc.velocity.X = npc.velocity.X + npc.direction * 0.02f;
-				npc.rotation = npc.velocity.X * 0.4f;
-				if (npc.velocity.X < -1f || npc.velocity.X > 1f)
-				{
-					npc.velocity.X = npc.velocity.X * 0.95f;
-				}
-				if (npc.ai[0] == -1f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 0.01f;
-					if (npc.velocity.Y < -1f)
-					{
-						npc.ai[0] = 1f;
-					}
-				}
-				else
-				{
-					npc.velocity.Y = npc.velocity.Y + 0.01f;
-					if (npc.velocity.Y > 1f)
-					{
-						npc.ai[0] = -1f;
-					}
-				}
-				int num268 = (int)(npc.position.X + (npc.width / 2)) / 16;
-				int num269 = (int)(npc.position.Y + (npc.height / 2)) / 16;
-				if (Main.tile[num268, num269 - 1] == null)
-				{
-					Main.tile[num268, num269 - 1] = new Tile();
-				}
-				if (Main.tile[num268, num269 + 1] == null)
-				{
-					Main.tile[num268, num269 + 1] = new Tile();
-				}
-				if (Main.tile[num268, num269 + 2] == null)
-				{
-					Main.tile[num268, num269 + 2] = new Tile();
-				}
-				if (Main.tile[num268, num269 - 1].liquid > 128)
-				{
-					if (Main.tile[num268, num269 + 1].active())
-					{
-						npc.ai[0] = -1f;
-					}
-					else if (Main.tile[num268, num269 + 2].active())
-					{
-						npc.ai[0] = -1f;
-					}
-				}
-				else
-				{
-					npc.ai[0] = 1f;
-				}
-				if (npc.velocity.Y > 1.2 || npc.velocity.Y < -1.2)
-				{
-					npc.velocity.Y = npc.velocity.Y * 0.99f;
-				}
-				return;
+                if (npc.collideX)
+                {
+                    npc.velocity.X = npc.velocity.X * -1f;
+                    npc.direction *= -1;
+                }
+                if (npc.collideY)
+                {
+                    if (npc.velocity.Y > 0f)
+                    {
+                        npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
+                        npc.directionY = -1;
+                        npc.ai[0] = -1f;
+                    }
+                    else if (npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.Y = Math.Abs(npc.velocity.Y);
+                        npc.directionY = 1;
+                        npc.ai[0] = 1f;
+                    }
+                }
+                npc.velocity.X = npc.velocity.X + npc.direction * 0.02f;
+                npc.rotation = npc.velocity.X * 0.4f;
+                if (npc.velocity.X < -1f || npc.velocity.X > 1f)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.95f;
+                }
+                if (npc.ai[0] == -1f)
+                {
+                    npc.velocity.Y = npc.velocity.Y - 0.01f;
+                    if (npc.velocity.Y < -1f)
+                    {
+                        npc.ai[0] = 1f;
+                    }
+                }
+                else
+                {
+                    npc.velocity.Y = npc.velocity.Y + 0.01f;
+                    if (npc.velocity.Y > 1f)
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                }
+                int num268 = (int)(npc.position.X + (npc.width / 2)) / 16;
+                int num269 = (int)(npc.position.Y + (npc.height / 2)) / 16;
+                if (Main.tile[num268, num269 - 1] == null)
+                {
+                    Main.tile[num268, num269 - 1] = new Tile();
+                }
+                if (Main.tile[num268, num269 + 1] == null)
+                {
+                    Main.tile[num268, num269 + 1] = new Tile();
+                }
+                if (Main.tile[num268, num269 + 2] == null)
+                {
+                    Main.tile[num268, num269 + 2] = new Tile();
+                }
+                if (Main.tile[num268, num269 - 1].liquid > 128)
+                {
+                    if (Main.tile[num268, num269 + 1].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                    else if (Main.tile[num268, num269 + 2].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                }
+                else
+                {
+                    npc.ai[0] = 1f;
+                }
+                if (npc.velocity.Y > 1.2 || npc.velocity.Y < -1.2)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.99f;
+                }
+                return;
             }
             if (npc.ai[2] < 0f)
             {
@@ -148,8 +148,8 @@ namespace CalamityMod.NPCs.Abyss
                 npc.ai[2] += 1f;
                 if (npc.ai[2] == 0f)
                 {
-					npc.ai[0] = 0f;
-					npc.ai[2] = 1f;
+                    npc.ai[0] = 0f;
+                    npc.ai[2] = 1f;
                     npc.velocity.X = npc.direction * 2;
                 }
                 return;

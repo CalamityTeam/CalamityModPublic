@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class RadiantResolutionOrb : ModProjectile
+    public class RadiantResolutionOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 62;
             projectile.height = 64;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localNPCHitCooldown = 4;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 9;
@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
-			}
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
             if (projectile.ai[0]++ < 30f)
             {
                 projectile.velocity *= 1.01f;
@@ -57,6 +57,6 @@ namespace CalamityMod.Projectiles.Summon
                 if (potentialTarget != null)
                     projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 8f;
             }
-		}
+        }
     }
 }

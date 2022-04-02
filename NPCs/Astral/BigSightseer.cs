@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 56;
             npc.damage = 50;
             npc.defense = 20;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 430;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
@@ -46,9 +46,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.7f;
                 npc.lifeMax = 640;
             }
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {

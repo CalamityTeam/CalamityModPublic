@@ -30,65 +30,65 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;
 
-			Vector2 center = projectile.Center;
-			float maxDistance = 400f;
-			bool homeIn = false;
+            Vector2 center = projectile.Center;
+            float maxDistance = 400f;
+            bool homeIn = false;
 
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
                 {
-					float extraDistance = (npc.width / 2) + (npc.height / 2);
+                    float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
-			}
+            }
             else if (projectile.ai[0] != -1f)
             {
                 NPC npc = Main.npc[(int)projectile.ai[0]];
                 if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
                 {
-					float extraDistance = (npc.width / 2) + (npc.height / 2);
+                    float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-						center = npc.Center;
-						homeIn = true;
-					}
+                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                    {
+                        center = npc.Center;
+                        homeIn = true;
+                    }
                 }
-			}
-			if (!homeIn)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if ((npc.CanBeChasedBy(projectile, false) || (npc.type == NPCID.DukeFishron && (!npc.dontTakeDamage || npc.ai[0] > 9f))) && npc.active)
-					{
-						float extraDistance = (npc.width / 2) + (npc.height / 2);
+            }
+            if (!homeIn)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if ((npc.CanBeChasedBy(projectile, false) || (npc.type == NPCID.DukeFishron && (!npc.dontTakeDamage || npc.ai[0] > 9f))) && npc.active)
+                    {
+                        float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-						if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = npc.Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
-			}
+                        if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = npc.Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
-			if (homeIn)
-			{
-				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-				projectile.velocity = (projectile.velocity * 20f + moveDirection * 11f) / (21f);
-			}
+            if (homeIn)
+            {
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * 20f + moveDirection * 11f) / (21f);
+            }
 
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 0.6f);
             Main.dust[num458].noGravity = true;

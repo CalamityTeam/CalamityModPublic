@@ -22,15 +22,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.8f);
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
-		}
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

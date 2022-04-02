@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class OldLordOathswordProj : BaseIdleHoldoutProjectile
+    public class OldLordOathswordProj : BaseIdleHoldoutProjectile
     {
         public enum SwingState
         {

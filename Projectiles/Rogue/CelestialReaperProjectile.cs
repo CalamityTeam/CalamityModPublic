@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 66;
             projectile.height = 76;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 6;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 6;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;

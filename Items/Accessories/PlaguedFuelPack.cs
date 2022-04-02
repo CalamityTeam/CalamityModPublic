@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class PlaguedFuelPack : ModItem
+    public class PlaguedFuelPack : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().hasJetpack = true;
+            player.Calamity().hasJetpack = true;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;

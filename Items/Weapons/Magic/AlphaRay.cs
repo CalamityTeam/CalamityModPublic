@@ -47,15 +47,15 @@ namespace CalamityMod.Items.Weapons.Magic
             if (player.altFunctionUse == 2)
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockBack, player.whoAmI);
-				int laserAmt = 3;
-				float SpeedX = speedX + Main.rand.NextFloat(-1f, 1f);
-				float SpeedY = speedY + Main.rand.NextFloat(-1f, 1f);
-				for (int i = 0; i < laserAmt; ++i)
-				{
-					int laser = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.15f, SpeedY * 1.15f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack * 0.4f, player.whoAmI);
-					Main.projectile[laser].timeLeft = 120;
+                int laserAmt = 3;
+                float SpeedX = speedX + Main.rand.NextFloat(-1f, 1f);
+                float SpeedY = speedY + Main.rand.NextFloat(-1f, 1f);
+                for (int i = 0; i < laserAmt; ++i)
+                {
+                    int laser = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.15f, SpeedY * 1.15f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack * 0.4f, player.whoAmI);
+                    Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
-				}
+                }
             }
             else
             {

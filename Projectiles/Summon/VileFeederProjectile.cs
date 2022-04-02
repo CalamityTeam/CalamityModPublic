@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class VileFeederProjectile : ModProjectile
+    public class VileFeederProjectile : ModProjectile
     {
         private int bounce = 3;
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 50;
@@ -71,11 +71,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)
             {
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
                         float num377 = npc.position.X + (float)(npc.width / 2);
                         float num378 = npc.position.Y + (float)(npc.height / 2);
                         float num379 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num377) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num378);
@@ -86,28 +86,28 @@ namespace CalamityMod.Projectiles.Summon
                             num374 = num378;
                             flag10 = true;
                         }
-					}
-				}
-				if (!flag10)
-				{
-					for (int num376 = 0; num376 < Main.maxNPCs; num376++)
-					{
-						NPC npc = Main.npc[num376];
-						if (npc.CanBeChasedBy(projectile, false))
-						{
-							float num377 = npc.position.X + (float)(npc.width / 2);
-							float num378 = npc.position.Y + (float)(npc.height / 2);
-							float num379 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num377) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num378);
-							if (num379 < 640f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-							{
-								num375 = num379;
-								num373 = num377;
-								num374 = num378;
-								flag10 = true;
-							}
-						}
-					}
-				}
+                    }
+                }
+                if (!flag10)
+                {
+                    for (int num376 = 0; num376 < Main.maxNPCs; num376++)
+                    {
+                        NPC npc = Main.npc[num376];
+                        if (npc.CanBeChasedBy(projectile, false))
+                        {
+                            float num377 = npc.position.X + (float)(npc.width / 2);
+                            float num378 = npc.position.Y + (float)(npc.height / 2);
+                            float num379 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num377) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num378);
+                            if (num379 < 640f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                            {
+                                num375 = num379;
+                                num373 = num377;
+                                num374 = num378;
+                                flag10 = true;
+                            }
+                        }
+                    }
+                }
             }
             if (!flag10)
             {
@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-				projectile.ai[0] += 15f;
+                projectile.ai[0] += 15f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

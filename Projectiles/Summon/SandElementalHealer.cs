@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SandElementalHealer : ModProjectile
+    public class SandElementalHealer : ModProjectile
     {
         public int dust = 3;
 
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             lightScalar *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
 
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
 
             if (Vector2.Distance(player.Center, projectile.Center) > 400f)
             {

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class DrataliornusExoArrow : ModProjectile
+    public class DrataliornusExoArrow : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             target.AddBuff(BuffID.Daybreak, 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 25, 0, projectile.alpha);

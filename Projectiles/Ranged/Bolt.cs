@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class Bolt : ModProjectile
+    public class Bolt : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-			projectile.timeLeft = 600;
+            projectile.timeLeft = 600;
         }
 
         public override void AI()

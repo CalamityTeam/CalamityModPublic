@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class SeaFoamParticle : Particle 
+    public class SeaFoamParticle : Particle 
     {
         public override string Texture => "CalamityMod/Particles/SeaFoam";
         public override int FrameVariants => 3;

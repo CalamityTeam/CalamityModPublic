@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing
 {
-	public class Xerocodile : ModItem
+    public class Xerocodile : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -34,15 +34,15 @@ namespace CalamityMod.Items.Fishing
 
         /*public override void RightClick(Player player)
         {
-			if (Main.rand.NextBool(3))
-				DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-			else if (Main.rand.NextBool(2))
-				DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-			else
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-				DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-			}
+            if (Main.rand.NextBool(3))
+                DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
+            else if (Main.rand.NextBool(2))
+                DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
+            else
+            {
+                DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
+                DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
+            }
         }*/
     }
 }

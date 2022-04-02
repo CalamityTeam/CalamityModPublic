@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class SandCloakVeil : ModProjectile
+    public class SandCloakVeil : ModProjectile
     {
         private const float radius = 225f;
         private const int duration = 900;
@@ -91,8 +91,8 @@ namespace CalamityMod.Projectiles.Typeless
         {
             // Knockback has to be done manually to ensure the enemies are repelled from the aura as opposed to thrown to one side of it
 
-			if (target.knockBackResist <= 0f)
-				return;
+            if (target.knockBackResist <= 0f)
+                return;
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class ApexShark : ModProjectile
+    public class ApexShark : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/SandyWaifuShark";
 
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             bool flag24 = false;
             if (projectile.ai[0] == 2f)
             {

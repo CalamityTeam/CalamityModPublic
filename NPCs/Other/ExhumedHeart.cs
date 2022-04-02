@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Other
 {
-	public class ExhumedHeart : ModNPC
+    public class ExhumedHeart : ModNPC
     {
         public ref float Time => ref npc.ai[0];
         public Player Owner
@@ -41,10 +41,10 @@ namespace CalamityMod.NPCs.Other
             npc.aiStyle = -1;
             npc.Calamity().DoesNotGenerateRage = true;
             npc.Calamity().DoesNotDisappearInBossRush = true;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 51740;
 

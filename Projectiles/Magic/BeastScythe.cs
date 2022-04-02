@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class BeastScythe : ModProjectile
+    public class BeastScythe : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.magic = true;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -52,10 +52,10 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             projectile.ai[0] += 1f;
-			if (projectile.ai[0] <= 30f)
-			{
-				projectile.velocity *= 0.999f;
-			}
+            if (projectile.ai[0] <= 30f)
+            {
+                projectile.velocity *= 0.999f;
+            }
             if (Main.myPlayer == projectile.owner && projectile.ai[0] == 30f)
             {
                 if (Main.player[projectile.owner].channel)
@@ -126,29 +126,29 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.velocity.Y = num129;
                 }
             }
-			if (projectile.ai[0] >= 30f)
-			{
-				projectile.velocity *= 1.001f;
+            if (projectile.ai[0] >= 30f)
+            {
+                projectile.velocity *= 1.001f;
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
-			}
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 180);
-			if (Main.rand.NextBool(3))
-			{
-				target.AddBuff(BuffID.ShadowFlame, 90);
-			}
-			else if (Main.rand.NextBool(2))
-			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			}
-			else
-			{
-				target.AddBuff(BuffID.Frostburn, 150);
-			}
+            if (Main.rand.NextBool(3))
+            {
+                target.AddBuff(BuffID.ShadowFlame, 90);
+            }
+            else if (Main.rand.NextBool(2))
+            {
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            }
+            else
+            {
+                target.AddBuff(BuffID.Frostburn, 150);
+            }
         }
 
         public override void Kill(int timeLeft)

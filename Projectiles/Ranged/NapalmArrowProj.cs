@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class NapalmArrowProj : ModProjectile
+    public class NapalmArrowProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Ammo/NapalmArrow";
 
@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             Main.PlaySound(SoundID.Item14, projectile.position);
             for (int j = 0; j < 5; j++)
             {
@@ -58,21 +58,21 @@ namespace CalamityMod.Projectiles.Ranged
                 fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f, 0.1f);
                     int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.3), 0f, projectile.owner);
-					if (flames.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[flames].Calamity().forceRanged = true;
-						Main.projectile[flames].penetrate = 3;
-						Main.projectile[flames].usesLocalNPCImmunity = false;
-						Main.projectile[flames].usesIDStaticNPCImmunity = true;
-						Main.projectile[flames].idStaticNPCHitCooldown = 10;
-					}
+                    if (flames.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[flames].Calamity().forceRanged = true;
+                        Main.projectile[flames].penetrate = 3;
+                        Main.projectile[flames].usesLocalNPCImmunity = false;
+                        Main.projectile[flames].usesIDStaticNPCImmunity = true;
+                        Main.projectile[flames].idStaticNPCHitCooldown = 10;
+                    }
                 }
             }
         }

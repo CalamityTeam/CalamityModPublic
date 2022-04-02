@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class Viperfish : ModNPC
+    public class Viperfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -36,11 +36,11 @@ namespace CalamityMod.NPCs.Abyss
             banner = npc.type;
             bannerItem = ModContent.ItemType<ViperfishBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -5,14 +5,14 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PartisanExplosion : ModProjectile
+    public class PartisanExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Profaned Explosion");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Profaned Explosion");
+        }
 
         public override void SetDefaults()
         {

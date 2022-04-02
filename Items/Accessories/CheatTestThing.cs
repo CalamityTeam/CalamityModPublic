@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class CheatTestThing : ModItem
+    public class CheatTestThing : ModItem
     {
         public override void SetStaticDefaults()
         {

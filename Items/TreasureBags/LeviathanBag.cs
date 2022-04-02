@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class LeviathanBag : ModItem
+    public class LeviathanBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Siren>();
 
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GastricBelcherStaff>(w),
                 DropHelper.WeightStack<BrackishFlask>(w),
                 DropHelper.WeightStack<LeviathanTeeth>(w),
-				DropHelper.WeightStack<LureofEnthrallment>(w)
-			);
+                DropHelper.WeightStack<LureofEnthrallment>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());

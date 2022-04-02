@@ -21,18 +21,18 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             DisplayName.SetDefault("Plaguebringer");
             Main.npcFrameCount[npc.type] = 12;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 70;
-			npc.npcSlots = 8f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 70;
+            npc.npcSlots = 8f;
             npc.width = 66;
             npc.height = 66;
             npc.defense = 24;
-			npc.DR_NERD(0.2f);
+            npc.DR_NERD(0.2f);
             npc.lifeMax = 3000;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.knockBackResist = 0f;
@@ -45,9 +45,9 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PlaguebringerBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void AI()
         {
@@ -441,13 +441,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
-						bool fireRocket = Main.rand.NextBool(15);
+                        bool fireRocket = Main.rand.NextBool(15);
                         int type = fireRocket ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
-						int damage = fireRocket ? 72 : 52;
+                        int damage = fireRocket ? 72 : 52;
                         if (Main.expertMode)
                             damage = fireRocket ? 50 : 35;
 
-						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -541,44 +541,44 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 7;
-			if (npc.ai[0] != 0f)
-				num153 = 5;
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 7;
+            if (npc.ai[0] != 0f)
+                num153 = 5;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !NPC.downedGolemBoss || NPC.AnyNPCs(ModContent.NPCType<PlaguebringerShade>()))
             {
@@ -629,17 +629,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-			if (!CalamityWorld.revenge)
-			{
-				int heartAmt = Main.rand.Next(3) + 3;
-				for (int i = 0; i < heartAmt; i++)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+            if (!CalamityWorld.revenge)
+            {
+                int heartAmt = Main.rand.Next(3) + 3;
+                for (int i = 0; i < heartAmt; i++)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
 
-			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
-			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 50);
+            DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 50);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

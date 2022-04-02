@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class TerracottaProj : ModProjectile
+    public class TerracottaProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -23,19 +23,19 @@ namespace CalamityMod.Projectiles.Healing
             projectile.timeLeft = 360;
         }
 
-		public override void AI()
-		{
-			projectile.velocity *= 0.99f;
+        public override void AI()
+        {
+            projectile.velocity *= 0.99f;
 
-			projectile.HealingProjectile(9, (int)projectile.ai[0], 8f, 15f, false, 300);
-			float num498 = projectile.velocity.X * 0.2f;
-			float num499 = -(projectile.velocity.Y * 0.2f);
-			int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
-			Dust dust = Main.dust[num500];
-			dust.noGravity = true;
-			dust.position.X -= num498;
-			dust.position.Y -= num499;
-		}
+            projectile.HealingProjectile(9, (int)projectile.ai[0], 8f, 15f, false, 300);
+            float num498 = projectile.velocity.X * 0.2f;
+            float num499 = -(projectile.velocity.Y * 0.2f);
+            int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
+            Dust dust = Main.dust[num500];
+            dust.noGravity = true;
+            dust.position.X -= num498;
+            dust.position.Y -= num499;
+        }
 
         public override void Kill(int timeLeft)
         {

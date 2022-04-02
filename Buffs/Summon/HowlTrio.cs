@@ -13,15 +13,15 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("Howl protects you, Calcifer lights your way, Turnip-Head stalks you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-			//Main.persistentBuff[Type] = true;
-		}
+            //Main.persistentBuff[Type] = true;
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			int howl = ModContent.ProjectileType<HowlsHeartHowl>();
-			int calcifer = ModContent.ProjectileType<HowlsHeartCalcifer>();
-			int turnip = ModContent.ProjectileType<HowlsHeartTurnipHead>();
+            int howl = ModContent.ProjectileType<HowlsHeartHowl>();
+            int calcifer = ModContent.ProjectileType<HowlsHeartCalcifer>();
+            int turnip = ModContent.ProjectileType<HowlsHeartTurnipHead>();
             if (player.ownedProjectileCounts[howl] > 0 || player.ownedProjectileCounts[calcifer] > 0 || player.ownedProjectileCounts[turnip] > 0)
             {
                 modPlayer.howlTrio = true;

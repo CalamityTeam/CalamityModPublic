@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -54,13 +54,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 item.useTime = 30;
                 item.useAnimation = 30;
-				item.reuseDelay = 0;
+                item.reuseDelay = 0;
             }
             else
             {
                 item.useTime = 5;
                 item.useAnimation = 15;
-				item.reuseDelay = 20;
+                item.reuseDelay = 20;
             }
             return base.CanUseItem(player);
         }
@@ -69,13 +69,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingSecondary>(), (int)(damage * 1.22f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingSecondary>(), (int)(damage * 1.22f), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingBubble>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingBubble>(), damage, knockBack, player.whoAmI, 1f, 0f);
             }
-			return false;
+            return false;
         }
     }
 }

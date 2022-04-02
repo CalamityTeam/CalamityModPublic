@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class YharimsInsignia : ModItem
+    public class YharimsInsignia : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 38;
-			item.rare = ItemRarityID.Purple;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.WarriorEmblem);
             recipe.AddIngredient(ModContent.ItemType<NecklaceofVexation>());
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

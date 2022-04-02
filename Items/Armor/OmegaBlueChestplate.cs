@@ -34,7 +34,7 @@ No positive life regen");
             player.allDamage += 0.12f;
             modPlayer.AllCritBoost(8);
             modPlayer.omegaBlueChestplate = true;
-			modPlayer.noLifeRegen = true;
+            modPlayer.noLifeRegen = true;
         }
 
         public override void AddRecipes()

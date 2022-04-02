@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PlagueshellBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
         }
     }
 }

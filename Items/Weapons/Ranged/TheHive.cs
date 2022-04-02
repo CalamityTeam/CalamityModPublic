@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("The Hive");
             Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death\n" +
-				"Rockets will destroy tiles with tile-destroying ammo");
+                "Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()

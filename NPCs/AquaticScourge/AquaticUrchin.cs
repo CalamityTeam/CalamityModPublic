@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-	public class AquaticUrchin : ModNPC
+    public class AquaticUrchin : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -30,11 +30,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AquaticUrchinBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {

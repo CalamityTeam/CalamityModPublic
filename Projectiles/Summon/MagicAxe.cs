@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicAxe : ModProjectile
+    public class MagicAxe : ModProjectile
     {
-		private int counter = 0;
+        private int counter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Axe");
@@ -33,24 +33,24 @@ namespace CalamityMod.Projectiles.Summon
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
-			projectile.alpha = 255;
+            projectile.alpha = 255;
         }
 
         public override void AI()
         {
             projectile.rotation += 0.075f;
-			projectile.alpha -= 50;
-			counter++;
-			if (counter == 30)
-			{
-				projectile.netUpdate = true;
-			}
-			else if (counter < 30)
-			{
-				return;
-			}
+            projectile.alpha -= 50;
+            counter++;
+            if (counter == 30)
+            {
+                projectile.netUpdate = true;
+            }
+            else if (counter < 30)
+            {
+                return;
+            }
 
-			projectile.ChargingMinionAI(MagicHat.Range, 1200f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true, 3);
+            projectile.ChargingMinionAI(MagicHat.Range, 1200f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true, 3);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(0, 255, 111, projectile.alpha);
@@ -63,17 +63,17 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
 
         public override void Kill(int timeLeft)
         {

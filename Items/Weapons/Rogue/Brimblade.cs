@@ -8,13 +8,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Brimblade : RogueWeapon
+    public class Brimblade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimblade");
             Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
-			"Stealth strikes split further and cause the player to launch a barrage of brimstone darts");
+            "Stealth strikes split further and cause the player to launch a barrage of brimstone darts");
         }
 
         public override void SafeSetDefaults()
@@ -39,22 +39,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				int blade = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (blade.WithinBounds(Main.maxProjectiles))
-					Main.projectile[blade].Calamity().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int blade = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                if (blade.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[blade].Calamity().stealthStrike = true;
 
-				for (int i = -6; i <= 6; i += 4)
-				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int dart = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage, knockBack * 0.5f, player.whoAmI);
-					if (dart.WithinBounds(Main.maxProjectiles))
-						Main.projectile[dart].Calamity().forceRogue = true;
-				}
-				return false;
-			}
-			return true;
+                for (int i = -6; i <= 6; i += 4)
+                {
+                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+                    int dart = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage, knockBack * 0.5f, player.whoAmI);
+                    if (dart.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[dart].Calamity().forceRogue = true;
+                }
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()

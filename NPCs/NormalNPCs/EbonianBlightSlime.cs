@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = NPCID.DungeonSlime;
-			npc.damage = 30;
+            aiType = NPCID.DungeonSlime;
+            npc.damage = 30;
             npc.width = 60;
             npc.height = 42;
             npc.defense = 8;
@@ -33,9 +33,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EbonianBlightSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

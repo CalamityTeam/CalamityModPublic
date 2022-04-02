@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class WebBallBol : ModProjectile
+    public class WebBallBol : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/WebBall";
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 3;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
-			projectile.aiStyle = 14;
+            projectile.aiStyle = 14;
         }
 
         public override void AI()
@@ -29,31 +29,31 @@ namespace CalamityMod.Projectiles.Rogue
             if (Main.rand.NextBool(12))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 30, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			}
-		}
+            }
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.Calamity().stealthStrike)
-			{
-				target.AddBuff(BuffID.Webbed, 120);
-			}
-			else
-			{
-				target.AddBuff(BuffID.Webbed, 60);
-			}
+            if (projectile.Calamity().stealthStrike)
+            {
+                target.AddBuff(BuffID.Webbed, 120);
+            }
+            else
+            {
+                target.AddBuff(BuffID.Webbed, 60);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (projectile.Calamity().stealthStrike)
-			{
-				target.AddBuff(BuffID.Webbed, 120);
-			}
-			else
-			{
-				target.AddBuff(BuffID.Webbed, 60);
-			}
+            if (projectile.Calamity().stealthStrike)
+            {
+                target.AddBuff(BuffID.Webbed, 120);
+            }
+            else
+            {
+                target.AddBuff(BuffID.Webbed, 60);
+            }
         }
     }
 }

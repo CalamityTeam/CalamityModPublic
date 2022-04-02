@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class AntumbraShardProjectile : ModProjectile
+    public class AntumbraShardProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/XerocPitchfork";
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
@@ -43,17 +43,17 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			if (projectile.timeLeft % 12 == 0)
-			{
-				if (projectile.owner == Main.myPlayer)
-				{
-					if (projectile.Calamity().stealthStrike)
-					{
-						int star = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-						Main.projectile[star].Calamity().rogue = true;
-					}
-				}
-			}
+            if (projectile.timeLeft % 12 == 0)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    if (projectile.Calamity().stealthStrike)
+                    {
+                        int star = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Main.projectile[star].Calamity().rogue = true;
+                    }
+                }
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

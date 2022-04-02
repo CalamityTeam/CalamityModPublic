@@ -22,11 +22,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.melee = true;
-			projectile.penetrate = -1;
+            projectile.penetrate = -1;
             projectile.timeLeft = 5;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-		}
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
+        }
 
         public override void AI()
         {
@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 6;
-		}
-	}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 6;
+        }
+    }
 }

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class FungalClump : ModItem
     {
-		public const int FungalClumpDamage = 10;
+        public const int FungalClumpDamage = 10;
 
         public override void SetStaticDefaults()
         {

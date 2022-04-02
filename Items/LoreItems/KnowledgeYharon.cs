@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeYharon : LoreItem
+    public class KnowledgeYharon : LoreItem
     {
         public override void SetStaticDefaults()
         {

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class AtaxiaMask : ModItem
     {
         public override void SetStaticDefaults()
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
-			player.Calamity().hydrothermalSmoke = true;
+            player.Calamity().hydrothermalSmoke = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -62,9 +62,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 7);
-			recipe.AddIngredient(ItemID.HellstoneBar, 4);
-			recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.HellstoneBar, 4);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

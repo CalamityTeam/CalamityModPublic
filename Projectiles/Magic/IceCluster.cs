@@ -25,41 +25,41 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 100;
             projectile.tileCollide = false;
             projectile.magic = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
-		public override void AI()
-		{
-			projectile.rotation += 0.5f;
+        public override void AI()
+        {
+            projectile.rotation += 0.5f;
 
-			if (projectile.localAI[1] == 0f)
-			{
-				projectile.localAI[1] = 1f;
-				Main.PlaySound(SoundID.Item120, projectile.position);
-			}
+            if (projectile.localAI[1] == 0f)
+            {
+                projectile.localAI[1] = 1f;
+                Main.PlaySound(SoundID.Item120, projectile.position);
+            }
 
-			projectile.ai[0] += 1f;
-			if (projectile.ai[1] == 1f)
-			{
-				if (projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					Vector2 vector80 = projectile.rotation.ToRotationVector2();
-					Projectile.NewProjectile(projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner);
-				}
+            projectile.ai[0] += 1f;
+            if (projectile.ai[1] == 1f)
+            {
+                if (projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 vector80 = projectile.rotation.ToRotationVector2();
+                    Projectile.NewProjectile(projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner);
+                }
 
-				Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
-			}
+                Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
+            }
 
-			if (projectile.ai[0] >= 90f)
-				projectile.alpha += 25;
-			else
-				projectile.alpha -= 15;
+            if (projectile.ai[0] >= 90f)
+                projectile.alpha += 25;
+            else
+                projectile.alpha -= 15;
 
-			if (projectile.alpha < 0)
-				projectile.alpha = 0;
-			if (projectile.alpha > 255)
-				projectile.alpha = 255;
-		}
+            if (projectile.alpha < 0)
+                projectile.alpha = 0;
+            if (projectile.alpha > 255)
+                projectile.alpha = 255;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

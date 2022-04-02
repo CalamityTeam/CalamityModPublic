@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 2;
             projectile.aiStyle = 1;
             aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

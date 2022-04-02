@@ -26,10 +26,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.position.Y > projectile.ai[1])
-				projectile.tileCollide = true;
+            if (projectile.position.Y > projectile.ai[1])
+                projectile.tileCollide = true;
 
-			projectile.frameCounter++;
+            projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
@@ -53,9 +53,9 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(BuffID.Ichor, 180);
         }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 50, projectile.alpha);
-		}
-	}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 200, 50, projectile.alpha);
+        }
+    }
 }

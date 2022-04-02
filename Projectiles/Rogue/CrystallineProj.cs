@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CrystallineProj : ModProjectile
+    public class CrystallineProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Crystalline";
 

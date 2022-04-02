@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int shrapnelAmt = Main.rand.Next(4, 7);
                 for (int s = 0; s < shrapnelAmt; s++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<GodSlayerShrapnel>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 }
             }

@@ -34,23 +34,23 @@ Reduces defense by 6% and life regen by 1");
             item.value = Item.buyPrice(0, 4, 0, 0);
         }
 
-		public override bool UseItem(Player player)
-		{
-			if (PlayerInput.Triggers.JustPressed.QuickBuff)
-			{
-				player.statMana += item.healMana;
-				if (player.statMana > player.statManaMax2)
-				{
-					player.statMana = player.statManaMax2;
-				}
-				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-				if (Main.myPlayer == player.whoAmI)
-				{
-					player.ManaEffect(item.healMana);
-				}
-			}
+        public override bool UseItem(Player player)
+        {
+            if (PlayerInput.Triggers.JustPressed.QuickBuff)
+            {
+                player.statMana += item.healMana;
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
+                player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.ManaEffect(item.healMana);
+                }
+            }
             player.AddBuff(item.buffType, item.buffTime);
-			return true;
-		}
+            return true;
+        }
     }
 }

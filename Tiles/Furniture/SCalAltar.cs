@@ -14,7 +14,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class SCalAltar : ModTile
+    public class SCalAltar : ModTile
     {
         public const int Width = 4;
         public const int Height = 3;

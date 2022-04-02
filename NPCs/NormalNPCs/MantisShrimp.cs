@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 40;
             npc.height = 24;
             npc.defense = 10;
-			npc.DR_NERD(0.1f);
+            npc.DR_NERD(0.1f);
             npc.lifeMax = 30;
             npc.aiStyle = 3;
             aiType = NPCID.Crab;
@@ -31,11 +31,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MantisShrimpBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<MantisClaws>(), NPC.downedPlantBoss, 0.2f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<MantisClaws>(), NPC.downedPlantBoss, 0.2f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

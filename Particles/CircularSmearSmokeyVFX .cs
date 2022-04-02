@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Particles
 {
-	public class CircularSmearSmokeyVFX : Particle //Also check out random noise generation!
+    public class CircularSmearSmokeyVFX : Particle //Also check out random noise generation!
     {
         public override string Texture => "CalamityMod/Particles/CircularSmearSmokey";
         public override bool UseAdditiveBlend => true;

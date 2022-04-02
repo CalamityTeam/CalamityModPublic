@@ -59,14 +59,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 14);
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+        }
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-		}
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+        }
     }
 }

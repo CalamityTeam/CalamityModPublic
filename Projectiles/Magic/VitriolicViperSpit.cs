@@ -45,6 +45,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
-		}
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(800f, false);
                 if (potentialTarget != null)
                 {
-					float destinationDeltaAngle = MathHelper.WrapAngle(projectile.AngleTo(potentialTarget.Center) - projectile.velocity.ToRotation());
+                    float destinationDeltaAngle = MathHelper.WrapAngle(projectile.AngleTo(potentialTarget.Center) - projectile.velocity.ToRotation());
                     
                     // If the angle is <0, meaning it's to the left, the sine will return a negative number,
                     // and a positive number if >0, because WrapAngle constricts to angle to a bound of
@@ -73,11 +73,11 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 drawPosition;
             Texture2D starTexture = Main.projectileTexture[projectile.type];
             for (int i = 1; i < projectile.oldPos.Length; i++)
-			{
+            {
                 float scale = projectile.scale * MathHelper.Lerp(0.9f, 0.6f, i / (float)projectile.oldPos.Length) * 0.56f;
                 drawPosition = projectile.oldPos[i] + projectile.Size * 0.5f - Main.screenPosition;
                 spriteBatch.Draw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-			}
+            }
 
             drawPosition = projectile.Center - Main.screenPosition;
             spriteBatch.Draw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);

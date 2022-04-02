@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-	public static class GeneralParticleHandler
+    public static class GeneralParticleHandler
     {
         private static List<Particle> particles;
         //List containing the particles to delete

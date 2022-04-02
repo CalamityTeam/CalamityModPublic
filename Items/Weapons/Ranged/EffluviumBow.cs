@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Effluvium Bow");
             Tooltip.SetDefault("Fires two arrows at once\n" +
-				"Converts wooden arrows into mist arrows");
+                "Converts wooden arrows into mist arrows");
         }
 
         public override void SetDefaults()
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<MistArrow>();
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
 
-				if (type == ProjectileID.WoodenArrowFriendly)
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MistArrow>(), damage, knockBack, player.whoAmI);
-				else
-				{
-					int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-					Main.projectile[proj].noDropItem = true;
-				}
-			}
+                if (type == ProjectileID.WoodenArrowFriendly)
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MistArrow>(), damage, knockBack, player.whoAmI);
+                else
+                {
+                    int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
+                }
+            }
             return false;
         }
     }

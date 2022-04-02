@@ -130,6 +130,6 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
         }
 
-		public override bool CanDamage() => false;
-	}
+        public override bool CanDamage() => false;
+    }
 }

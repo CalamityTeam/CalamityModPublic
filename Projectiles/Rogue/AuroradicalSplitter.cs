@@ -8,13 +8,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class AuroradicalSplitter : ModProjectile
+    public class AuroradicalSplitter : ModProjectile
     {
-		public int[] dustTypes = new int[]
-		{
-			ModContent.DustType<AstralBlue>(),
-			ModContent.DustType<AstralOrange>()
-		};
+        public int[] dustTypes = new int[]
+        {
+            ModContent.DustType<AstralBlue>(),
+            ModContent.DustType<AstralOrange>()
+        };
 
         public override string Texture => "CalamityMod/Projectiles/Rogue/AuroradicalStar";
 
@@ -35,20 +35,20 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 100;
             projectile.penetrate = -1;
             projectile.timeLeft = 50;
-			projectile.Calamity().rogue = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.usesLocalNPCImmunity = true;
+            projectile.Calamity().rogue = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
         }
 
         public override void AI()
         {
-			//Rotation
+            //Rotation
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			//Lighting
+            //Lighting
             Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
 
-			//sound effects
+            //sound effects
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 20 + Main.rand.Next(40);
@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-			//Change the scale size a little bit to make it pulse in and out
+            //Change the scale size a little bit to make it pulse in and out
             float scaleAmt = (float)Main.mouseTextColor / 200f - 0.35f;
             scaleAmt *= 0.2f;
             projectile.scale = scaleAmt + 0.95f;
 
-			//Spawn dust
+            //Spawn dust
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 0f;
             }
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -93,14 +93,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			if (Main.myPlayer != projectile.owner)
-				return;
+            if (Main.myPlayer != projectile.owner)
+                return;
             Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
             for (float i = 0; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i;
                 int star = Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 5f, ModContent.ProjectileType<AuroradicalStar>(), (int)(projectile.damage * 0.87), projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[star].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+                Main.projectile[star].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
             }
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 96;

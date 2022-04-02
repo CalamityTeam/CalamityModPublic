@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.magic = true;
-			projectile.timeLeft = 30;
-		}
+            projectile.timeLeft = 30;
+        }
 
         public override void AI()
         {
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
             if (num745 > MathHelper.Pi)
                 num745 -= MathHelper.TwoPi;
             if (num745 < -MathHelper.Pi)
-				num745 -= -MathHelper.TwoPi;
+                num745 -= -MathHelper.TwoPi;
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }

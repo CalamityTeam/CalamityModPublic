@@ -9,7 +9,7 @@ using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class BoxJellyfish : ModNPC
+    public class BoxJellyfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -33,11 +33,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BoxJellyfishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -215,9 +215,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-			int abyssShockerChance = Main.expertMode ? 40 : 50;
+            int abyssShockerChance = Main.expertMode ? 40 : 50;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
-			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
-		}
+            DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
+        }
     }
 }

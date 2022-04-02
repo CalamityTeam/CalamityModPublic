@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Sigil of Calamitas");
             Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
                 "+100 max mana\n" +
-				"Increases pickup range for mana stars");
+                "Increases pickup range for mana stars");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.manaMagnet = true;
+            player.manaMagnet = true;
             player.statManaMax2 += 100;
             player.magicDamage += 0.15f;
             player.manaCost *= 0.9f;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.CelestialEmblem);
+            recipe.AddIngredient(ItemID.CelestialEmblem);
             recipe.AddRecipeGroup("AnyEvilWater", 10);
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);

@@ -6,7 +6,7 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Skies
 {
-	public class AstralScreenShaderData : ScreenShaderData
+    public class AstralScreenShaderData : ScreenShaderData
     {
         public AstralScreenShaderData(Ref<Effect> shader, string passName) : base(shader, passName) { }
 

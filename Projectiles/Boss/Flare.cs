@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -41,43 +41,43 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[0] = reader.ReadSingle();
         }
 
-		public override void AI()
-		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 4)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-				projectile.frame = 0;
-			}
+        public override void AI()
+        {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
 
-			float num630 = 0.209439516f;
-			float num631 = 4f;
-			float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-			projectile.velocity.Y = projectile.velocity.Y - num632;
-			projectile.ai[0] += 1f;
-			num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-			projectile.velocity.Y = projectile.velocity.Y + num632;
+            float num630 = 0.209439516f;
+            float num631 = 4f;
+            float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+            projectile.velocity.Y = projectile.velocity.Y - num632;
+            projectile.ai[0] += 1f;
+            num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+            projectile.velocity.Y = projectile.velocity.Y + num632;
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 10f)
-			{
-				projectile.alpha -= 5;
-				if (projectile.alpha < 100)
-				{
-					projectile.alpha = 100;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 10f)
+            {
+                projectile.alpha -= 5;
+                if (projectile.alpha < 100)
+                {
+                    projectile.alpha = 100;
+                }
+            }
 
-			if (projectile.wet)
-			{
-				projectile.position.Y = projectile.position.Y - 16f;
-				projectile.Kill();
-			}
-		}
+            if (projectile.wet)
+            {
+                projectile.position.Y = projectile.position.Y - 16f;
+                projectile.Kill();
+            }
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -135,12 +135,12 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-				int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 25;
-				if (num231 > spawnLimitY)
-				{
-					num231 = spawnLimitY;
-				}
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
+                int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 25;
+                if (num231 > spawnLimitY)
+                {
+                    num231 = spawnLimitY;
+                }
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

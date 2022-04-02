@@ -9,24 +9,24 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-	public class CosmiliteBasinTile : ModTile
-	{
+    public class CosmiliteBasinTile : ModTile
+    {
         int animationFrame = 0;
 
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileLavaDeath[Type] = false;
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Cosmilite Basin");
-			AddMapEntry(new Color(238, 145, 105), name);
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Cosmilite Basin");
+            AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 54;
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -65,8 +65,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<CosmiliteBasin>());
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<CosmiliteBasin>());
         }
 
         public override void HitWire(int i, int j)

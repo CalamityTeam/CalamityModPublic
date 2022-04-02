@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	public static class ExoMechSelectionUI
+    public static class ExoMechSelectionUI
     {
         public static float DestroyerIconScale = 1f;
         public static float PrimeIconScale = 1f;
@@ -66,7 +66,7 @@ namespace CalamityMod.UI
 
                 // Make the selection known if a click is done.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
-				{
+                {
                     CalamityWorld.DraedonMechToSummon = exoMech;
 
                     if (Main.netMode != NetmodeID.SinglePlayer)

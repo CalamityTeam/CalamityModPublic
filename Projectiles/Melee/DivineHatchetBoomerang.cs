@@ -35,14 +35,14 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 4;
             projectile.timeLeft = Lifetime;
             projectile.melee = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			//holy dust
+            //holy dust
             if (Main.rand.NextBool(8))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -112,37 +112,37 @@ namespace CalamityMod.Projectiles.Melee
                     if (projectile.Hitbox.Intersects(owner.Hitbox))
                         projectile.Kill();
 
-				//home in on nearby NPCs if not returning to player
-				if (projectile.penetrate != -1)
-				{
-					if (!hasHitEnemy)
-					{
-						float range = 999f;
-						for (int a = 0; a < Main.npc.Length; a++)
-						{
-							if (Main.npc[a].CanBeChasedBy(projectile, false))
-							{
-								if (Vector2.Distance(Main.npc[a].Center, projectile.Center) < range)
-								{
-									Vector2 newVelocity = Main.npc[a].Center - projectile.Center;
-									newVelocity.Normalize();
-									newVelocity *= 15f;
-									projectile.velocity = newVelocity;
-								}
-							}
-						}
-					}
-					else
-					{
-						if (targetNPC >= 0)
-						{
-							Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
-							newVelocity.Normalize();
-							newVelocity *= 15f;
-							projectile.velocity = newVelocity;
-						}
-					}
-				}
+                //home in on nearby NPCs if not returning to player
+                if (projectile.penetrate != -1)
+                {
+                    if (!hasHitEnemy)
+                    {
+                        float range = 999f;
+                        for (int a = 0; a < Main.npc.Length; a++)
+                        {
+                            if (Main.npc[a].CanBeChasedBy(projectile, false))
+                            {
+                                if (Vector2.Distance(Main.npc[a].Center, projectile.Center) < range)
+                                {
+                                    Vector2 newVelocity = Main.npc[a].Center - projectile.Center;
+                                    newVelocity.Normalize();
+                                    newVelocity *= 15f;
+                                    projectile.velocity = newVelocity;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (targetNPC >= 0)
+                        {
+                            Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
+                            newVelocity.Normalize();
+                            newVelocity *= 15f;
+                            projectile.velocity = newVelocity;
+                        }
+                    }
+                }
             }
         }
 
@@ -152,70 +152,70 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-		//glowmask effect
+        //glowmask effect
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			//inflict Holy Flames for 6 seconds
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+            //inflict Holy Flames for 6 seconds
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
-			if (projectile.penetrate != -1)
-			{
-				//find a nearby NPC to track
-				float minDist = 999f;
-				int index = 0;
-				for (int i = 0; i < Main.npc.Length; i++)
-				{
-					bool hasHitNPC = false;
-					for (int j = 0; j < previousNPCs.Count; j++)
-					{
-						if (previousNPCs[j] == i)
-						{
-							hasHitNPC = true;
-						}
-					}
+            if (projectile.penetrate != -1)
+            {
+                //find a nearby NPC to track
+                float minDist = 999f;
+                int index = 0;
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    bool hasHitNPC = false;
+                    for (int j = 0; j < previousNPCs.Count; j++)
+                    {
+                        if (previousNPCs[j] == i)
+                        {
+                            hasHitNPC = true;
+                        }
+                    }
 
-					NPC npc = Main.npc[i];
-					if (npc == target)
-					{
-						previousNPCs.Add(i);
-					}
-					if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
-					{
-						float dist = (projectile.Center - npc.Center).Length();
-						if (dist < minDist)
-						{
-							minDist = dist;
-							index = i;
-						}
-					}
-				}
+                    NPC npc = Main.npc[i];
+                    if (npc == target)
+                    {
+                        previousNPCs.Add(i);
+                    }
+                    if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
+                    {
+                        float dist = (projectile.Center - npc.Center).Length();
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            index = i;
+                        }
+                    }
+                }
 
-				Vector2 velocityNew;
-				if (minDist < 999f)
-				{
-					hasHitEnemy = true;
-					targetNPC = index;
-					velocityNew = Main.npc[index].Center - projectile.Center;
-					velocityNew.Normalize();
-					velocityNew *= 15f;
-					projectile.velocity = velocityNew;
-				}
-				else
-				{
-					projectile.penetrate = -1;
-					projectile.ai[0] = 1f;
-					targetNPC = -1;
-				}
-			}
+                Vector2 velocityNew;
+                if (minDist < 999f)
+                {
+                    hasHitEnemy = true;
+                    targetNPC = index;
+                    velocityNew = Main.npc[index].Center - projectile.Center;
+                    velocityNew.Normalize();
+                    velocityNew *= 15f;
+                    projectile.velocity = velocityNew;
+                }
+                else
+                {
+                    projectile.penetrate = -1;
+                    projectile.ai[0] = 1f;
+                    targetNPC = -1;
+                }
+            }
 
             // After its last hit, starts returning instead of vanishing. Can pierce infinitely on the way back.
             if (projectile.penetrate == 1)
             {
                 projectile.penetrate = -1;
                 projectile.ai[0] = 1f;
-				targetNPC = -1;
+                targetNPC = -1;
             }
         }
     }

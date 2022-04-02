@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class ProfanedEnergyLantern : ModNPC
+    public class ProfanedEnergyLantern : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         drawPositionY = Main.npc[CalamityGlobalNPC.energyFlame].Center.Y - center.Y;
                         drawPositionY -= 10f;
                         Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-						Texture2D chain = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment");
+                        Texture2D chain = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment");
                         Main.spriteBatch.Draw(chain, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                             new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, chain.Width, chain.Height)), color, rotation,
                             new Vector2((float)chain.Width * 0.5f, (float)chain.Height * 0.5f), 1f, SpriteEffects.None, 0f);
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return true;
         }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

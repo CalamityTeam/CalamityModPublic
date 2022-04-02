@@ -16,11 +16,11 @@ namespace CalamityMod.NPCs.AcidRain
     public class NuclearTerror : ModNPC
     {
         public enum SpecialAttackState
-		{
+        {
             DivergingBullets,
             ConeStreamOfBullets,
             ShotgunBurstOfBullets
-		}
+        }
 
         public int AttackIndex = 0;
         public int DelayTime = 0;
@@ -32,13 +32,13 @@ namespace CalamityMod.NPCs.AcidRain
         public ref float AttackTime => ref npc.ai[0];
         public ref float TeleportCountdown => ref npc.ai[1];
         public Vector2 TeleportLocation
-		{
+        {
             get => new Vector2(npc.ai[2], npc.ai[3]);
-			set
-			{
+            set
+            {
                 npc.ai[2] = value.X;
                 npc.ai[3] = value.Y;
-			}
+            }
         }
         public ref float HorizontalCollisionCounterDelay => ref npc.localAI[0];
         public ref float HorizontalCollisionSpamCounter => ref npc.localAI[1];
@@ -77,9 +77,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
+            npc.Calamity().canBreakPlayerDefense = true;
 
-			npc.width = 176;
+            npc.width = 176;
             npc.height = 138;
             npc.aiStyle = aiType = -1;
 
@@ -88,17 +88,17 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 135;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 20, 0, 0);
-			npc.DR_NERD(0.3f);
+            npc.DR_NERD(0.3f);
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
@@ -352,7 +352,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
 
         public void PerformSpecialAttack(float wrappedAttackTime)
-		{
+        {
             Vector2 mouthPosition = npc.Center - Vector2.UnitY * 26f;
             mouthPosition.X += npc.spriteDirection * -54f;
 

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class VeneratedKnife : ModProjectile
+    public class VeneratedKnife : ModProjectile
     {
         int lifetime = 150;
 

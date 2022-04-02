@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Cooldowns
 {
-	public class RelicOfResilience : CooldownHandler
+    public class RelicOfResilience : CooldownHandler
     {
         public static new string ID => "RelicOfResilience";
         public override bool ShouldDisplay => true;

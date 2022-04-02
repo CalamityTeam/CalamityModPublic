@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Potions
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-			item.rare = ItemRarityID.Purple;
-			item.value = Item.buyPrice(0, 6, 50, 0);
+            item.rare = ItemRarityID.Purple;
+            item.value = Item.buyPrice(0, 6, 50, 0);
         }
 
         public override void AddRecipes()

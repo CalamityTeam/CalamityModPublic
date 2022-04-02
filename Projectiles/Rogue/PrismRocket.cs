@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PrismRocket : ModProjectile
+    public class PrismRocket : ModProjectile
     {
         public float ExponentialAccelerationFactor => projectile.Calamity().stealthStrike ? 1.027f : 1.015f;
         public float MaxHomingSpeed => projectile.Calamity().stealthStrike ? 26f : 21f;
@@ -32,17 +32,17 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void AI()
-		{
+        {
             NPC potentialTarget = projectile.Center.ClosestNPCAt(800f, true);
             if (potentialTarget != null)
                 AttackTarget(potentialTarget);
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             EmitDust();
-		}
+        }
 
         public void AttackTarget(NPC target)
-		{
+        {
             float newSpeed = projectile.velocity.Length() * ExponentialAccelerationFactor;
             if (newSpeed > MaxHomingSpeed)
                 newSpeed = MaxHomingSpeed;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity = (projectile.velocity * 5f + projectile.SafeDirectionTo(target.Center) * newSpeed) / 6f;
                 projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(target.Center), 0.15f).ToRotationVector2() * newSpeed;
             }
-		}
+        }
 
         public void EmitDust()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             for (int i = 0; i < 2; i++)
-			{
+            {
                 if (!Main.rand.NextBool(3))
                     continue;
 
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                 dust.velocity = Main.rand.NextVector2Unit();
                 dust.scale = Main.rand.NextFloat(0.75f, 1.05f);
                 dust.noGravity = true;
-			}
+            }
         }
     }
 }

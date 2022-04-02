@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

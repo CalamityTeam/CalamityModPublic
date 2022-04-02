@@ -13,8 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("The hat carries your soul, bound by a contract");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-			//Main.persistentBuff[Type] = true;
-		}
+            //Main.persistentBuff[Type] = true;
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {

@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class UltimusCleaverDust : ModProjectile
+    public class UltimusCleaverDust : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 2;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 2;
             projectile.timeLeft = 90;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.Y = 16f;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 12f, 20f);
         }
     }
 }

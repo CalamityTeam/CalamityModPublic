@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
-	public class AstralIce : ModTile
+    public class AstralIce : ModTile
     {
         public override void SetDefaults()
         {

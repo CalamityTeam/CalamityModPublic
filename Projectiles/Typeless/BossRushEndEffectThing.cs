@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             if (Time == 25f)
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BossRushEnd"), Main.LocalPlayer.Center);
 
@@ -40,10 +40,10 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             BossRushEvent.End();
             DropHelper.DropItem(Main.LocalPlayer, ModContent.ItemType<Rock>());
             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", BossRushEvent.XerocTextColor);
         }
-	}
+    }
 }

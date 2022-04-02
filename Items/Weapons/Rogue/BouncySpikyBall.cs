@@ -28,8 +28,8 @@ Stealth strikes provide a bigger boost after richocheting");
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.consumable = true;
-			item.maxStack = 999;
+            item.consumable = true;
+            item.maxStack = 999;
             item.height = 14;
             item.value = Item.buyPrice(0, 0, 1, 0);
             item.rare = ItemRarityID.Blue;
@@ -43,8 +43,8 @@ Stealth strikes provide a bigger boost after richocheting");
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

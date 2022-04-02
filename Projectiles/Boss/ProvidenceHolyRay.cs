@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 48;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 48;
             projectile.height = 48;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
+            bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -59,8 +59,8 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + 32f);
                 projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
-			else
-				projectile.Kill();
+            else
+                projectile.Kill();
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
             {
@@ -110,8 +110,8 @@ namespace CalamityMod.Projectiles.Boss
                 num807 = 2400f;
             }
 
-			int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			float amount = 0.5f; //0.5f
+            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
             for (int num809 = 0; num809 < 2; num809++)
@@ -143,8 +143,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-			bool dayTime = Main.dayTime && !CalamityWorld.malice;
-			Texture2D texture2D19 = dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
+            bool dayTime = Main.dayTime && !CalamityWorld.malice;
+            Texture2D texture2D19 = dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
             Texture2D texture2D20 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
             Texture2D texture2D21 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
             float num223 = projectile.localAI[1]; //length of laser
@@ -204,15 +204,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 420);
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
+        public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

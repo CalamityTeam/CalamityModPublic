@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PrecisionBolt : ModProjectile
+    public class PrecisionBolt : ModProjectile
     {
         NPC potentialTarget = null;
         public override void SetStaticDefaults()

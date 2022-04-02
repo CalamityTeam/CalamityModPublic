@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-	public static class EyeOfCthulhuAI
+    public static class EyeOfCthulhuAI
     {
         // Master Mode changes
         /* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)
@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-			
+            
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.75f;

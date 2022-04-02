@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-			item.defense = 8;
+            item.defense = 8;
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
-			recipe.AddIngredient(ItemID.TeleportationPotion, 3);
-			recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
+            recipe.AddIngredient(ItemID.TeleportationPotion, 3);
+            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
             recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

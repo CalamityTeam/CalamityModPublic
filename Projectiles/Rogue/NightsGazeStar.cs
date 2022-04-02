@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 5;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 5;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
             projectile.localAI[0] = 10f;
@@ -48,12 +48,12 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < 3; i++)
                     {
                         float dustVelocity = Main.rand.NextFloat(0f, 0.5f);
-						int dustType = Utils.SelectRandom(Main.rand, new int[]
-						{
-							109,
-							111,
-							132
-						});
+                        int dustType = Utils.SelectRandom(Main.rand, new int[]
+                        {
+                            109,
+                            111,
+                            132
+                        });
 
                         int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                         Main.dust[dust].noGravity = true;
@@ -124,12 +124,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					109,
-					111,
-					132
-				});
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    109,
+                    111,
+                    132
+                });
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

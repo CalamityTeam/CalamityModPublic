@@ -20,13 +20,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.width = projectile.height = 120;
+            projectile.width = projectile.height = 120;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 60000;
             projectile.hide = true;
-		}
+        }
 
         public override void AI()
         {
@@ -66,6 +66,6 @@ namespace CalamityMod.Projectiles.Boss
             spriteBatch.ExitShaderRegion();
 
             return false;
-		}
-	}
+        }
+    }
 }

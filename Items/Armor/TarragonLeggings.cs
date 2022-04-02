@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Leggings");
             Tooltip.SetDefault("Leggings of a fabled explorer\n" +
-				"10% increased movement speed\n" +
+                "10% increased movement speed\n" +
                 "8% increased damage and critical strike chance");
         }
 

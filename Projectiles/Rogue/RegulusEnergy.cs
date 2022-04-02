@@ -6,7 +6,7 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class RegulusEnergy : ModProjectile
+    public class RegulusEnergy : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -19,11 +19,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 8;
             projectile.height = 8;
-			projectile.ignoreWater = true;
-			projectile.friendly = true;
+            projectile.ignoreWater = true;
+            projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-			projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -54,30 +54,30 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.extraUpdates = 1;
 
-				Vector2 center = projectile.Center;
-				float maxDistance = 500f;
-				bool homeIn = false;
+                Vector2 center = projectile.Center;
+                float maxDistance = 500f;
+                bool homeIn = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
+                if (homeIn)
                 {
                     Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
                     projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
-				}
+                }
                 else
                     projectile.Kill();
             }

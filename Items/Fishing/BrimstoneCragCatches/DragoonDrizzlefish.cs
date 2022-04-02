@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-	public class DragoonDrizzlefish : ModItem
+    public class DragoonDrizzlefish : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -43,19 +43,19 @@ Revenge is a dish best served flaming hot");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Vector2 rotated = new Vector2(speedX, speedY);
-			rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
-			speedX = rotated.X;
-			speedY = rotated.Y;
-			int shotType = ModContent.ProjectileType<DrizzlefishFireball>();
-			if (Main.rand.NextBool(2))
-			{
-				shotType = ModContent.ProjectileType<DrizzlefishFire>();
-			}
-			else
-			{
-				shotType = ModContent.ProjectileType<DrizzlefishFireball>();
-			}
+            Vector2 rotated = new Vector2(speedX, speedY);
+            rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
+            speedX = rotated.X;
+            speedY = rotated.Y;
+            int shotType = ModContent.ProjectileType<DrizzlefishFireball>();
+            if (Main.rand.NextBool(2))
+            {
+                shotType = ModContent.ProjectileType<DrizzlefishFire>();
+            }
+            else
+            {
+                shotType = ModContent.ProjectileType<DrizzlefishFireball>();
+            }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, shotType, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(2));
             return false;
         }

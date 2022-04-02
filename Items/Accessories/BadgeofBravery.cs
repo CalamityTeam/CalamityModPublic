@@ -12,15 +12,15 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Badge of Bravery");
             Tooltip.SetDefault("15% increased melee speed\n" +
-							   "Increases melee damage and melee crit by 5%\n" +
-							   "+5 armor penetration");
+                               "Increases melee damage and melee crit by 5%\n" +
+                               "+5 armor penetration");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
             item.height = 30;
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;

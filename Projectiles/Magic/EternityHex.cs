@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public Color PrimitiveColorFunction(float completionRatio)
-		{
+        {
             float leftoverTimeScale = (float)Math.Sin(Main.GlobalTime * 4f) * 0.5f + 0.5f;
             leftoverTimeScale *= 0.5f;
 
@@ -226,22 +226,22 @@ namespace CalamityMod.Projectiles.Magic
             float fadeToMagenta = MathHelper.SmoothStep(0f, 1f, (float)Math.Pow(completionRatio, 0.6D));
 
             return Color.Lerp(headColor, tailColor, fadeToMagenta) * opacity;
-		}
+        }
 
         public float PrimitiveWidthFunction(float completionRatio)
-		{
+        {
             float widthInterpolant = Utils.InverseLerp(0f, 0.12f, completionRatio, true);
             return MathHelper.SmoothStep(1f, 10f, widthInterpolant);
-		}
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             if (LemniscateDrawer is null)
                 LemniscateDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/EternityStreak"));
             LemniscateDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 84);
             return false;
-		}
-	}
+        }
+    }
 }

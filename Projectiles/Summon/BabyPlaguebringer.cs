@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
             float num635 = 3000f;
             float num636 = 500f;
 
-			//lighting
+            //lighting
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0f * num, 0.75f * num, 0f * num);
@@ -226,10 +226,10 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.NPCHit4, projectile.position);
-		}
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(SoundID.NPCHit4, projectile.position);
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

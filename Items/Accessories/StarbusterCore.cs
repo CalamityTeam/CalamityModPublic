@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class StarbusterCore : ModItem
+    public class StarbusterCore : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class DragonRageFireball : ModProjectile
+    public class DragonRageFireball : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Rogue/DragonShit";
         public NPC target;
-		private int lifeTime = 420;
+        private int lifeTime = 420;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -31,11 +31,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			if (projectile.ai[0] == 0f)
-			{
-				projectile.ai[0] = Main.rand.NextFloat(40f, 70f);
-				projectile.ai[1] = Main.rand.NextFloat(35f, 55f);
-			}
+            if (projectile.ai[0] == 0f)
+            {
+                projectile.ai[0] = Main.rand.NextFloat(40f, 70f);
+                projectile.ai[1] = Main.rand.NextFloat(35f, 55f);
+            }
             target = projectile.Center.ClosestNPCAt(1200f);
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -48,15 +48,15 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.frame = 0;
             }
 
-			projectile.velocity *= 1.01f;
+            projectile.velocity *= 1.01f;
 
-			if (target != null && projectile.timeLeft < lifeTime - 10)
-			{
-				float inertia = projectile.ai[0];
-				float speed = projectile.ai[1];
-				Vector2 moveDirection = projectile.SafeDirectionTo(target.Center, Vector2.UnitY);
-				projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
-			}
+            if (target != null && projectile.timeLeft < lifeTime - 10)
+            {
+                float inertia = projectile.ai[0];
+                float speed = projectile.ai[1];
+                Vector2 moveDirection = projectile.SafeDirectionTo(target.Center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
+            }
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
             for (int d = 0; d < 5; d++)
             {
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                 idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();

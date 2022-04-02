@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Neck)]
+    [AutoloadEquip(EquipType.Neck)]
     public class CounterScarf : ModItem
     {
         public override void SetStaticDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.accessory = true;
-		}
+        }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
 
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
             modPlayer.dashMod = 1;
-			player.dash = 0;
+            player.dash = 0;
         }
     }
 }

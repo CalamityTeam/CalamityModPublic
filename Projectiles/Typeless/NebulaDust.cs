@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.width = 32;
             projectile.height = 32;
             projectile.friendly = true;
-			projectile.Opacity = 0f;
-			projectile.penetrate = -1;
+            projectile.Opacity = 0f;
+            projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 3600;
@@ -59,13 +59,13 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			lightColor.R = (byte)(255 * projectile.Opacity);
-			lightColor.G = (byte)(255 * projectile.Opacity);
-			lightColor.B = (byte)(255 * projectile.Opacity);
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            lightColor.R = (byte)(255 * projectile.Opacity);
+            lightColor.G = (byte)(255 * projectile.Opacity);
+            lightColor.B = (byte)(255 * projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            return false;
+        }
+    }
 }

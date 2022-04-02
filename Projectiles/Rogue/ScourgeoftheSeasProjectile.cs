@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 26;
             projectile.height = 26;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = 113;
+            projectile.ignoreWater = true;
+            projectile.aiStyle = 113;
             aiType = ProjectileID.BoneJavelin;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             projectile.velocity.X *= 1.015f;
             projectile.velocity.Y *= 1.015f;
-			projectile.velocity.X = Math.Min(16f, projectile.velocity.X);
-			projectile.velocity.Y = Math.Min(16f, projectile.velocity.Y);
+            projectile.velocity.X = Math.Min(16f, projectile.velocity.X);
+            projectile.velocity.Y = Math.Min(16f, projectile.velocity.Y);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -51,8 +51,8 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 180);
             if (projectile.Calamity().stealthStrike) //stealth strike attack
             {
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-			}
+                target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -60,8 +60,8 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 180);
             if (projectile.Calamity().stealthStrike) //stealth strike attack
             {
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-			}
+                target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-				int cloudNumber = Main.rand.Next(2, 6);
-				for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, projectile.Calamity().stealthStrike ? 1f : 0f);
-				}
+                int cloudNumber = Main.rand.Next(2, 6);
+                for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, projectile.Calamity().stealthStrike ? 1f : 0f);
+                }
             }
         }
 

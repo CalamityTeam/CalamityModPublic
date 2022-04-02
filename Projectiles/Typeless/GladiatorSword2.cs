@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
 
-			// Values are slightly different from the other sword to make this sword marginally slower so the intersection point isn't always at the same spot
+            // Values are slightly different from the other sword to make this sword marginally slower so the intersection point isn't always at the same spot
             rotation -= 0.09;
             if (rotation <= 0D)
                 rotation = 360D;

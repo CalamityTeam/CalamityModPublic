@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class TruePaladinsHammerMelee : ModItem
+    public class TruePaladinsHammerMelee : ModItem
     {
         public override void SetStaticDefaults()
         {

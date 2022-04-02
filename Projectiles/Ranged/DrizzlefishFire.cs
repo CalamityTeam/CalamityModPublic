@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class DrizzlefishFire : ModProjectile
     {
         private int splitTimer = 30;
-		
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drizzlefish Flames");
@@ -43,22 +43,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			int dustType = 235;
-			if (projectile.ai[1] == 1f)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					dustType = 35;
-				}
-				else
-				{
-					dustType = 55;
-				}
-			}
-			else
-			{
-				dustType = 235;
-			}
+            int dustType = 235;
+            if (projectile.ai[1] == 1f)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    dustType = 35;
+                }
+                else
+                {
+                    dustType = 55;
+                }
+            }
+            else
+            {
+                dustType = 235;
+            }
             splitTimer--;
             if (splitTimer <= 0)
             {
@@ -66,22 +66,22 @@ namespace CalamityMod.Projectiles.Ranged
                 float rotation = MathHelper.ToRadians(Main.rand.Next(15,26));
                 if (projectile.owner == Main.myPlayer)
                 {
-					if (projectile.ai[1] == 1f)
-					{
-						for (int i = 0; i < numProj + 1; i++)
-						{
-							Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DrizzlefishFireSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
-						}
-					}
-					else
-					{
-						for (int i = 0; i < numProj + 1; i++)
-						{
-							Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DrizzlefishFireSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-						}
-					}
+                    if (projectile.ai[1] == 1f)
+                    {
+                        for (int i = 0; i < numProj + 1; i++)
+                        {
+                            Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DrizzlefishFireSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < numProj + 1; i++)
+                        {
+                            Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DrizzlefishFireSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        }
+                    }
                 }
                 projectile.Kill();
             }
@@ -138,14 +138,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.ai[1] == 1f)
-			{
-				target.AddBuff(BuffID.OnFire, 180);
-			}
-			else
-			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			}
+            if (projectile.ai[1] == 1f)
+            {
+                target.AddBuff(BuffID.OnFire, 180);
+            }
+            else
+            {
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            }
         }
     }
 }

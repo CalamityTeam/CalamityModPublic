@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
-	public class AbyssCandle : ModTile
+    public class AbyssCandle : ModTile
     {
         public override void SetDefaults()
         {
-			this.SetUpCandle(true, 0);
+            this.SetUpCandle(true, 0);
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");

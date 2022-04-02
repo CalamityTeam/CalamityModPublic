@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class Alluvion : ModItem
+    public class Alluvion : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -58,28 +58,28 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-					int newType = type;
-					switch (i)
-					{
-						case 0:
-						case 5:
-							newType = ModContent.ProjectileType<TyphoonArrow>();
-							break;
-						case 1:
-						case 4:
-							newType = ModContent.ProjectileType<MiniSharkron>();
-							break;
-						case 2:
-						case 3:
-							newType = ModContent.ProjectileType<TorrentialArrow>();
-							break;
-					}
+                    int newType = type;
+                    switch (i)
+                    {
+                        case 0:
+                        case 5:
+                            newType = ModContent.ProjectileType<TyphoonArrow>();
+                            break;
+                        case 1:
+                        case 4:
+                            newType = ModContent.ProjectileType<MiniSharkron>();
+                            break;
+                        case 2:
+                        case 3:
+                            newType = ModContent.ProjectileType<TorrentialArrow>();
+                            break;
+                    }
                     int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, newType, damage, knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[proj].arrow = true;
-						Main.projectile[proj].extraUpdates += 1;
-					}
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].arrow = true;
+                        Main.projectile[proj].extraUpdates += 1;
+                    }
                 }
                 else
                 {

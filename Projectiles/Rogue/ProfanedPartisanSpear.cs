@@ -6,14 +6,14 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ProfanedPartisanSpear : ModProjectile
+    public class ProfanedPartisanSpear : ModProjectile
     {
-		public int timer = 0;
+        public int timer = 0;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Profaned Spear");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Profaned Spear");
+        }
 
         public override void SetDefaults()
         {
@@ -31,64 +31,64 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			if (projectile.ai[1] != 1f)
-			{
-				if (projectile.velocity.X != oldVelocity.X)
-				{
-					projectile.velocity.X = -oldVelocity.X;
-				}
-				if (projectile.velocity.Y != oldVelocity.Y)
-				{
-					projectile.velocity.Y = -oldVelocity.Y;
-				}
-				projectile.ai[1] = 1f;
-				projectile.ai[0] = 1f;
-				projectile.extraUpdates = 2;
-				if (projectile.timeLeft > 280)
-					projectile.timeLeft = 280;
-			}
+            if (projectile.ai[1] != 1f)
+            {
+                if (projectile.velocity.X != oldVelocity.X)
+                {
+                    projectile.velocity.X = -oldVelocity.X;
+                }
+                if (projectile.velocity.Y != oldVelocity.Y)
+                {
+                    projectile.velocity.Y = -oldVelocity.Y;
+                }
+                projectile.ai[1] = 1f;
+                projectile.ai[0] = 1f;
+                projectile.extraUpdates = 2;
+                if (projectile.timeLeft > 280)
+                    projectile.timeLeft = 280;
+            }
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-			OnHitEffects();
+            OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-			OnHitEffects();
+            OnHitEffects();
         }
 
-		private void OnHitEffects()
-		{
-			if (projectile.ai[1] != 1f)
-			{
-				projectile.velocity.X *= -1f;
-				projectile.velocity.Y *= -1f;
-				projectile.ai[1] = 1f;
-				projectile.ai[0] = 1f;
-				projectile.extraUpdates = 2;
-				if (projectile.timeLeft > 280)
-					projectile.timeLeft = 280;
-			}
-		}
+        private void OnHitEffects()
+        {
+            if (projectile.ai[1] != 1f)
+            {
+                projectile.velocity.X *= -1f;
+                projectile.velocity.Y *= -1f;
+                projectile.ai[1] = 1f;
+                projectile.ai[0] = 1f;
+                projectile.extraUpdates = 2;
+                if (projectile.timeLeft > 280)
+                    projectile.timeLeft = 280;
+            }
+        }
 
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			if (projectile.ai[0] == 1f)
-				timer++;
-			if (timer >= 5)
-				projectile.penetrate = 1;
-			if (timer >= 10)
-			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 7f, 20f);
-			}
-		}
+            if (projectile.ai[0] == 1f)
+                timer++;
+            if (timer >= 5)
+                projectile.penetrate = 1;
+            if (timer >= 10)
+            {
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 7f, 20f);
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

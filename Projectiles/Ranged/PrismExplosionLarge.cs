@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.Opacity = Utils.InverseLerp(5f, 36f, projectile.timeLeft, true);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D texture = Main.projectileTexture[projectile.type];
             Texture2D lightTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PhotovisceratorLight");
             Rectangle frame = texture.Frame(3, 6, projectile.frame / 6, projectile.frame % 6);
@@ -55,6 +55,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0f);
             return false;
-		}
-	}
+        }
+    }
 }

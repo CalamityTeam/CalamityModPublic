@@ -33,17 +33,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.WoodenArrowFriendly)
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ToxicArrow>(), damage, 0f, player.whoAmI);
-			else
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.WoodenArrowFriendly)
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ToxicArrow>(), damage, 0f, player.whoAmI);
+            else
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
 
         public override void AddRecipes()

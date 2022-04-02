@@ -20,13 +20,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()

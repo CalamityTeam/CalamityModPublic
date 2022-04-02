@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
-			int num154 = 14;
-			int num155 = Dust.NewDust(projectile.Center, projectile.width - num154 * 2, projectile.height - num154 * 2, 68, 0f, 0f, 100, default, 1.5f);
-			Main.dust[num155].noGravity = true;
-			Main.dust[num155].velocity *= 0.1f;
-			Main.dust[num155].velocity += projectile.velocity * 0.5f;
+            int num154 = 14;
+            int num155 = Dust.NewDust(projectile.Center, projectile.width - num154 * 2, projectile.height - num154 * 2, 68, 0f, 0f, 100, default, 1.5f);
+            Main.dust[num155].noGravity = true;
+            Main.dust[num155].velocity *= 0.1f;
+            Main.dust[num155].velocity += projectile.velocity * 0.5f;
             if (Main.rand.NextBool(16))
             {
                 int num156 = 16;

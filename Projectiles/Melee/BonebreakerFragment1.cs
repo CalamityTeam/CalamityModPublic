@@ -15,14 +15,14 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         public override void SetDefaults()
-		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.aiStyle = 24;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.alpha = 50;
-			projectile.timeLeft = 600;
+        {
+            projectile.width = 6;
+            projectile.height = 6;
+            projectile.aiStyle = 24;
+            projectile.friendly = true;
+            projectile.penetrate = 1;
+            projectile.alpha = 50;
+            projectile.timeLeft = 600;
             projectile.melee = true;
         }
 

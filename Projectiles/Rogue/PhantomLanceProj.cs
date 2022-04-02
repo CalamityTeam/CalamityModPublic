@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PhantomLanceProj : ModProjectile
+    public class PhantomLanceProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantomLance";
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 1;
@@ -39,36 +39,36 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			if (!projectile.Calamity().stealthStrike)
-			{
-				if (projectile.timeLeft <= 255)
-					projectile.alpha += 1;
-				if (projectile.timeLeft >= 75)
-				{
-					projectile.velocity.X *= 0.995f;
-					projectile.velocity.Y *= 0.995f;
-				}
-			}
+            if (!projectile.Calamity().stealthStrike)
+            {
+                if (projectile.timeLeft <= 255)
+                    projectile.alpha += 1;
+                if (projectile.timeLeft >= 75)
+                {
+                    projectile.velocity.X *= 0.995f;
+                    projectile.velocity.Y *= 0.995f;
+                }
+            }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default, 0.85f);
-			projectile.ai[0]++;
-			if (projectile.ai[0] % 18f == 0f)
-			{
-				if (projectile.owner == Main.myPlayer)
-				{
-					float damageMult = projectile.timeLeft * 0.7f / 300f;
-					if (projectile.Calamity().stealthStrike)
+            projectile.ai[0]++;
+            if (projectile.ai[0] % 18f == 0f)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    float damageMult = projectile.timeLeft * 0.7f / 300f;
+                    if (projectile.Calamity().stealthStrike)
                         damageMult = 0.7f;
-					int soulDamage = (int)(projectile.damage * damageMult);
-					int soul = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, projectile.knockBack, projectile.owner);
-					if (soul.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[soul].Calamity().forceRogue = true;
-						Main.projectile[soul].usesLocalNPCImmunity = true;
-						Main.projectile[soul].localNPCHitCooldown = -2;
-					}
-				}
-			}
+                    int soulDamage = (int)(projectile.damage * damageMult);
+                    int soul = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, projectile.knockBack, projectile.owner);
+                    if (soul.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[soul].Calamity().forceRogue = true;
+                        Main.projectile[soul].usesLocalNPCImmunity = true;
+                        Main.projectile[soul].localNPCHitCooldown = -2;
+                    }
+                }
+            }
         }
 
         public override void Kill(int timeLeft)

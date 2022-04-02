@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-			projectile.magic = true;
+            projectile.magic = true;
         }
 
         public override void AI()
@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-			Player player = Main.player[projectile.owner];
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), (int)(TheWand.BaseDamage * (player.allDamage + player.magicDamage - 1f)), projectile.knockBack, projectile.owner, 0f, 0f);
+            Player player = Main.player[projectile.owner];
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), (int)(TheWand.BaseDamage * (player.allDamage + player.magicDamage - 1f)), projectile.knockBack, projectile.owner, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

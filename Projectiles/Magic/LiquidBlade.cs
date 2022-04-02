@@ -122,26 +122,26 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
             target.AddBuff(BuffID.Ichor, 90);
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			target.AddBuff(BuffID.CursedInferno, 90);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(BuffID.CursedInferno, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
             target.AddBuff(BuffID.Ichor, 90);
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			target.AddBuff(BuffID.CursedInferno, 90);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(BuffID.CursedInferno, 90);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
-			if (projectile.owner == Main.myPlayer)
-			{
-				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner, true);
-			}
+        private void OnHitEffects(Vector2 targetPos)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner, true);
+            }
         }
     }
 }

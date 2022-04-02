@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class CosmicBolter : ModItem
+    public class CosmicBolter : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
             Tooltip.SetDefault("Fires three arrows at once\n" +
-				"Converts wooden arrows into sliding energy bolts");
+                "Converts wooden arrows into sliding energy bolts");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<LunarBolt2>();
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (!canHit)
                     offset -= velocity;
 
-				if (type == ProjectileID.WoodenArrowFriendly)
-					Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
-				else
-				{
-					int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-					Main.projectile[proj].noDropItem = true;
-				}
-			}
+                if (type == ProjectileID.WoodenArrowFriendly)
+                    Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
+                else
+                {
+                    int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
+                }
+            }
             return false;
         }
 

@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 32;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.penetrate = 3;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Enemy
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 8, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

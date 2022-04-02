@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.height = 28;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.hostile = true;
+            projectile.hostile = true;
             projectile.timeLeft = 180;
             projectile.Opacity = 0f;
             projectile.penetrate = -1;

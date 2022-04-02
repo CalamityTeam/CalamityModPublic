@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.rotation = projectile.rotation.AngleLerp(0f, MathHelper.TwoPi / 50f);
             }
 
-			projectile.StickToTiles(false, false);
+            projectile.StickToTiles(false, false);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -5,7 +5,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SkyBomberGas : ModProjectile
+    public class SkyBomberGas : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.timeLeft < 50)
                 projectile.alpha += 5;
             if (projectile.timeLeft < 75)
-			{
+            {
                 projectile.velocity *= 0.95f;
-				projectile.scale += 0.002f;
-			}
+                projectile.scale += 0.002f;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

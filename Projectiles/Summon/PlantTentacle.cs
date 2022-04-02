@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class PlantTentacle : ModProjectile
+    public class PlantTentacle : ModProjectile
     {
-		private bool initialized = false;
-		private int counter = 0;
-		private float desiredDistance = 150f;
+        private bool initialized = false;
+        private int counter = 0;
+        private float desiredDistance = 150f;
 
         public override void SetStaticDefaults()
         {
@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				initialized = true;
-			}
+                initialized = true;
+            }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
@@ -76,73 +76,73 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = trueDamage;
             }
 
-			if (player.Calamity().plantera)
-			{
-				projectile.timeLeft = 2;
-			}
+            if (player.Calamity().plantera)
+            {
+                projectile.timeLeft = 2;
+            }
 
-			projectile.rotation = (projectile.Center - hostPlant.Center).ToRotation() + MathHelper.Pi;
+            projectile.rotation = (projectile.Center - hostPlant.Center).ToRotation() + MathHelper.Pi;
 
-			projectile.MinionAntiClump(1f);
+            projectile.MinionAntiClump(1f);
 
-			counter++;
-			if (counter % 30 == 0) //changes every half second
-			{
-				desiredDistance = Main.rand.NextFloat(175f, 225f);
-			}
-			Vector2 targetPos = hostPlant.Center - projectile.Center;
-			float targetDist = targetPos.Length();
-			targetPos.Normalize();
-			if (targetDist > desiredDistance)
-			{
-				float speedMult = 10f;
-				speedMult += (targetDist - desiredDistance) * 0.2f; //+0.2f for every 1f away from the desired distance
-				targetPos *= speedMult;
-				projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
-			}
-			else
-			{
-				float reverseSpeedMult = 5f;
-				targetPos *= -reverseSpeedMult;
-				projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
-			}
+            counter++;
+            if (counter % 30 == 0) //changes every half second
+            {
+                desiredDistance = Main.rand.NextFloat(175f, 225f);
+            }
+            Vector2 targetPos = hostPlant.Center - projectile.Center;
+            float targetDist = targetPos.Length();
+            targetPos.Normalize();
+            if (targetDist > desiredDistance)
+            {
+                float speedMult = 10f;
+                speedMult += (targetDist - desiredDistance) * 0.2f; //+0.2f for every 1f away from the desired distance
+                targetPos *= speedMult;
+                projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
+            }
+            else
+            {
+                float reverseSpeedMult = 5f;
+                targetPos *= -reverseSpeedMult;
+                projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
+            }
 
-			if (targetDist > 2000f)
-			{
-				projectile.position.X = hostPlant.Center.X - (float)(projectile.width / 2);
-				projectile.position.Y = hostPlant.Center.Y - (float)(projectile.height / 2);
-				projectile.netUpdate = true;
-			}
+            if (targetDist > 2000f)
+            {
+                projectile.position.X = hostPlant.Center.X - (float)(projectile.width / 2);
+                projectile.position.Y = hostPlant.Center.Y - (float)(projectile.height / 2);
+                projectile.netUpdate = true;
+            }
 
-			if (projectile.ai[0] >= 3f)
-			{
-				if (hostPlant.Center.X - projectile.Center.X > 0)
-				{
-					projectile.velocity.X += 0.05f;
-				}
-			}
-			else
-			{
-				if (hostPlant.Center.X - projectile.Center.X < 0)
-				{
-					projectile.velocity.X -= 0.05f;
-				}
-			}
+            if (projectile.ai[0] >= 3f)
+            {
+                if (hostPlant.Center.X - projectile.Center.X > 0)
+                {
+                    projectile.velocity.X += 0.05f;
+                }
+            }
+            else
+            {
+                if (hostPlant.Center.X - projectile.Center.X < 0)
+                {
+                    projectile.velocity.X -= 0.05f;
+                }
+            }
 
-			if (projectile.ai[0] % 2f == 0f)
-			{
-				if (hostPlant.Center.Y - projectile.Center.Y > 0)
-				{
-					projectile.velocity.Y += 0.05f;
-				}
-			}
-			else
-			{
-				if (hostPlant.Center.Y - projectile.Center.Y < 0)
-				{
-					projectile.velocity.Y -= 0.05f;
-				}
-			}
+            if (projectile.ai[0] % 2f == 0f)
+            {
+                if (hostPlant.Center.Y - projectile.Center.Y > 0)
+                {
+                    projectile.velocity.Y += 0.05f;
+                }
+            }
+            else
+            {
+                if (hostPlant.Center.Y - projectile.Center.Y < 0)
+                {
+                    projectile.velocity.Y -= 0.05f;
+                }
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -203,10 +203,10 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-		//It draws the host plant in here in order to have it draw over the tentacles
+        //It draws the host plant in here in order to have it draw over the tentacles
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			//Only 1 tentacle needs to draw this, the last one spawned because it's latest in the projectile array.
+            //Only 1 tentacle needs to draw this, the last one spawned because it's latest in the projectile array.
             if (projectile.ai[0] < 5)
             {
                 return;
@@ -227,10 +227,10 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D texture = Main.projectileTexture[hostPlant.type];
             int height = texture.Height / Main.projFrames[hostPlant.type];
             int frameHeight = height * hostPlant.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (hostPlant.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-			Color color = Lighting.GetColor((int)hostPlant.Center.X / 16, (int)(hostPlant.Center.Y / 16f));
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (hostPlant.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Color color = Lighting.GetColor((int)hostPlant.Center.X / 16, (int)(hostPlant.Center.Y / 16f));
 
             Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, spriteEffects, 0f);
         }
@@ -238,13 +238,13 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 120);
-			target.AddBuff(BuffID.Venom, 60);
+            target.AddBuff(BuffID.Venom, 60);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 120);
-			target.AddBuff(BuffID.Venom, 60);
+            target.AddBuff(BuffID.Venom, 60);
         }
     }
 }

@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Shadowspec Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.HotPink;
             item.value = Item.sellPrice(0, 10, 0, 0);

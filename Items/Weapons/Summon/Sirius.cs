@@ -10,13 +10,13 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Sirius : ModItem
     {
-		int siriusSlots;
+        int siriusSlots;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sirius");
             Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
                                "Consumes all of the remaining minion slots on use\n" +
-							   "Must be used from the hotbar\n" +
+                               "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
         }
 
@@ -41,28 +41,28 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-		public override void HoldItem(Player player)
+        public override void HoldItem(Player player)
         {
-			double minionCount = 0;
-			for (int j = 0; j < Main.projectile.Length; j++)
-			{
+            double minionCount = 0;
+            for (int j = 0; j < Main.projectile.Length; j++)
+            {
                 Projectile proj = Main.projectile[j];
-				if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
-				{
-					minionCount += proj.minionSlots;
-				}
-			}
-			siriusSlots = (int)(player.maxMinions - minionCount);
-		}
+                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
+                {
+                    minionCount += proj.minionSlots;
+                }
+            }
+            siriusSlots = (int)(player.maxMinions - minionCount);
+        }
 
         public override bool CanUseItem(Player player)
-		{
-			return siriusSlots >= 1;
-		}
+        {
+            return siriusSlots >= 1;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityUtils.KillShootProjectiles(true, type, player);
+            CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, siriusSlots, 30f);
             return false;
         }

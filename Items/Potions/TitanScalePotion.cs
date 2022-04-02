@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Titan Scale Potion");
             Tooltip.SetDefault("Increases knockback, defense by 5 and damage reduction by 5%\n" +
-				"Increases defense by 25 and damage reduction by 10% for a few seconds after a true melee strike");
+                "Increases defense by 25 and damage reduction by 10% for a few seconds after a true melee strike");
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
-			// Alch table effect not on blood orb recipes
+            // Alch table effect not on blood orb recipes
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater, 4);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);

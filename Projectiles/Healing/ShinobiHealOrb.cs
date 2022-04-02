@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class ShinobiHealOrb : ModProjectile
+    public class ShinobiHealOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-			projectile.HealingProjectile((int)projectile.ai[1], projectile.owner, 6f, 15f);
+            projectile.HealingProjectile((int)projectile.ai[1], projectile.owner, 6f, 15f);
 
             for (int num468 = 0; num468 < 3; num468++)
             {

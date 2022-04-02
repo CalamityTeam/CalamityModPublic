@@ -6,18 +6,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PristineSecondary : ModProjectile
+    public class PristineSecondary : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		private int dust1 = (int)CalamityDusts.ProfanedFire;
-		private int dust2 = ModContent.DustType<HolyFireDust>();
+        private int dust1 = (int)CalamityDusts.ProfanedFire;
+        private int dust2 = ModContent.DustType<HolyFireDust>();
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Fire");
-		}
-    	
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fire");
+        }
+        
         public override void SetDefaults()
         {
             projectile.width = 50;
@@ -25,21 +25,21 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-			projectile.ranged = true;
-			projectile.penetrate = -1;
+            projectile.ranged = true;
+            projectile.penetrate = -1;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 3;
             projectile.timeLeft = 150;
         }
 
-		public override void AI()
-		{
-			projectile.velocity *= 0.98f;
-			int dustType = Utils.SelectRandom(Main.rand, new int[]
-			{
-				dust1,
-				dust2
-			});
+        public override void AI()
+        {
+            projectile.velocity *= 0.98f;
+            int dustType = Utils.SelectRandom(Main.rand, new int[]
+            {
+                dust1,
+                dust2
+            });
             Lighting.AddLight(projectile.Center, 1f, 1f, 0.25f);
             if (projectile.ai[0] > 7f)
             {
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
                         dust.velocity.Y *= 1.2f;
                         dust.scale *= num296;
                         dust.noLight = true;
-						dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                        dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                     }
                 }
             }

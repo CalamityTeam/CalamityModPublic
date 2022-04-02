@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (start)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();

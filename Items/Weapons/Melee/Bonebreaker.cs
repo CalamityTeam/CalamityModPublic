@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class Bonebreaker : ModItem
+    public class Bonebreaker : ModItem
     {
-		public const int BaseDamage = 60;
+        public const int BaseDamage = 60;
 
         public override void SetStaticDefaults()
         {

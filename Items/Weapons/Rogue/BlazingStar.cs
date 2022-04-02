@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<BlazingStarProj>();
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -53,15 +53,15 @@ namespace CalamityMod.Items.Weapons.Rogue
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
                         Projectile proj = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
-						if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
-							proj.Calamity().stealthStrike = true;
+                        if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
+                            proj.Calamity().stealthStrike = true;
 
                         Projectile projectile = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
-						if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							projectile.penetrate = -1;
-							projectile.Calamity().stealthStrike = true;
-						}
+                        if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            projectile.penetrate = -1;
+                            projectile.Calamity().stealthStrike = true;
+                        }
 
                     }
                     return false;

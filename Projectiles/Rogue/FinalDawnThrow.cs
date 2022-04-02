@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
         public const float DesiredSpeed = 38;
         public const float InterpolationTime = 15;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
+        {
+            DisplayName.SetDefault("The Final Dawn");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -24,20 +24,20 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 80;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.light = 0.0f;
             projectile.extraUpdates = 2;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
-		public override void AI()
-		{
-			Player player = Main.player[projectile.owner];
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
 
-			if (player is null || player.dead)
-				projectile.Kill();
+            if (player is null || player.dead)
+                projectile.Kill();
 
             if (projectile.localAI[0] == 0)
             {
@@ -49,23 +49,23 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation += 0.25f * projectile.direction;
 
             projectile.ai[0]++;
-			if (projectile.ai[0] >= 30)
-			{
-				Vector2 desiredVelocity = projectile.SafeDirectionTo(player.Center) * DesiredSpeed;
-				projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
-				
-				float distance = projectile.Distance(player.Center);
-				if (distance < 64)
-					projectile.Kill();
-			}
+            if (projectile.ai[0] >= 30)
+            {
+                Vector2 desiredVelocity = projectile.SafeDirectionTo(player.Center) * DesiredSpeed;
+                projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
+                
+                float distance = projectile.Distance(player.Center);
+                if (distance < 64)
+                    projectile.Kill();
+            }
 
-			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
+            int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
             Main.dust[idx].velocity *= 0.5f;
             Main.dust[idx].velocity += projectile.velocity * 0.5f;
             Main.dust[idx].noGravity = true;
             Main.dust[idx].noLight = false;
             Main.dust[idx].scale = 1.0f;
-		}
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D scytheTexture = Main.projectileTexture[projectile.type];

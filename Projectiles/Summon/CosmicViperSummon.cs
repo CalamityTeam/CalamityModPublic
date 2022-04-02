@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CosmicViperSummon : ModProjectile
+    public class CosmicViperSummon : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-					int dustType = Main.rand.NextBool(3) ? 56 : 242;
+                    int dustType = Main.rand.NextBool(3) ? 56 : 242;
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
                     vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
@@ -91,26 +91,26 @@ namespace CalamityMod.Projectiles.Summon
             float colorScale = (float)projectile.alpha / 255f;
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
 
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
 
             float detectRange = 1100f;
             Vector2 targetVec = projectile.position;
             bool foundTarget = false;
-			int targetIndex = -1;
+            int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float extraDist = (npc.width / 2) + (npc.height / 2);
-					//Calculate distance between target and the projectile to know if it's too far or not
-					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-					if (!foundTarget && targetDist < (detectRange + extraDist))
-					{
+                    float extraDist = (npc.width / 2) + (npc.height / 2);
+                    //Calculate distance between target and the projectile to know if it's too far or not
+                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    if (!foundTarget && targetDist < (detectRange + extraDist))
+                    {
                         detectRange = targetDist;
                         targetVec = npc.Center;
                         foundTarget = true;
-						targetIndex = npc.whoAmI;
+                        targetIndex = npc.whoAmI;
                     }
                 }
             }
@@ -121,15 +121,15 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[npcIndex];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
-						float extraDist = (npc.width / 2) + (npc.height / 2);
-						//Calculate distance between target and the projectile to know if it's too far or not
-						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						if (!foundTarget && targetDist < (detectRange + extraDist))
-						{
+                        float extraDist = (npc.width / 2) + (npc.height / 2);
+                        //Calculate distance between target and the projectile to know if it's too far or not
+                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        if (!foundTarget && targetDist < (detectRange + extraDist))
+                        {
                             detectRange = targetDist;
                             targetVec = npc.Center;
                             foundTarget = true;
-							targetIndex = npcIndex;
+                            targetIndex = npcIndex;
                         }
                     }
                 }
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-				float safeDist = 600f;
+                float safeDist = 600f;
                 bool returnToPlayer = false;
                 if (!returnToPlayer)
                 {
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (playerDist > 2000f)
                 {
-					projectile.Center = player.Center;
+                    projectile.Center = player.Center;
                     projectile.netUpdate = true;
                 }
                 if (playerDist > 70f)
@@ -204,20 +204,20 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (foundTarget)
             {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
+                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
             }
             else
             {
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-				int dustType = Main.rand.NextBool(3) ? 56 : 242;
-				float xVelOffset = projectile.velocity.X / 3f;
-				float yVelOffset = projectile.velocity.Y / 3f;
-				int trail = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
-				Dust dust = Main.dust[trail];
-				dust.position.X = projectile.Center.X - xVelOffset;
-				dust.position.Y = projectile.Center.Y - yVelOffset;
-				dust.velocity *= 0f;
-				dust.scale = 0.5f;
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
+                float xVelOffset = projectile.velocity.X / 3f;
+                float yVelOffset = projectile.velocity.Y / 3f;
+                int trail = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[trail];
+                dust.position.X = projectile.Center.X - xVelOffset;
+                dust.position.Y = projectile.Center.Y - yVelOffset;
+                dust.velocity *= 0f;
+                dust.scale = 0.5f;
             }
             if (projectile.ai[1] > 0f)
             {
@@ -238,31 +238,31 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[1] += 2f;
                     if (Main.myPlayer == projectile.owner)
                     {
-						int projType;
-						float dmgMult;
-						if (Main.rand.NextBool(5))
-						{
-							projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
-							dmgMult = 0.75f;
-						}
-						else if (Main.rand.NextBool(3))
-						{
-							projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
-							dmgMult = 1f;
-						}
-						else
-						{
-							projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
-							dmgMult = 1.5f;
-						}
+                        int projType;
+                        float dmgMult;
+                        if (Main.rand.NextBool(5))
+                        {
+                            projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
+                            dmgMult = 0.75f;
+                        }
+                        else if (Main.rand.NextBool(3))
+                        {
+                            projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
+                            dmgMult = 1f;
+                        }
+                        else
+                        {
+                            projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
+                            dmgMult = 1.5f;
+                        }
 
                         Vector2 velocity = targetVec - projectile.Center;
                         velocity.Normalize();
                         velocity *= speedMult;
 
-						//add some inaccuracy
-						velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
-						velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
+                        //add some inaccuracy
+                        velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
+                        velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
                         Projectile.NewProjectile(projectile.Center, velocity, projType, (int)(projectile.damage * dmgMult), projectile.knockBack, projectile.owner, targetIndex, 0f);
                         projectile.netUpdate = true;
@@ -271,31 +271,31 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override bool CanDamage() => false;
+        public override bool CanDamage() => false;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int y6 = frameHeight * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[projectile.type];
+            int y6 = frameHeight * projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
-			return false;
-		}
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            return false;
+        }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/CosmicViperGlow");
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int y6 = frameHeight * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/CosmicViperGlow");
+            int frameHeight = texture.Height / Main.projFrames[projectile.type];
+            int y6 = frameHeight * projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
-		}
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+        }
     }
 }

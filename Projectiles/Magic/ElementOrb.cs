@@ -1,7 +1,7 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ElementOrb : ModProjectile
+    public class ElementOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -19,12 +19,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 30;
             projectile.magic = true;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<ElementBolt>());
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<ElementBolt>());
         }
     }
 }

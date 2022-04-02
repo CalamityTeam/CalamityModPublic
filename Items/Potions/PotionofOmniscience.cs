@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Potion of Omniscience");
             Tooltip.SetDefault("Highlights nearby creatures, enemy projectiles,\n" +
-				"danger sources, and treasure");
+                "danger sources, and treasure");
         }
 
         public override void SetDefaults()

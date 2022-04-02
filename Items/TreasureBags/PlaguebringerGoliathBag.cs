@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class PlaguebringerGoliathBag : ModItem
+    public class PlaguebringerGoliathBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<PlaguebringerGoliath>();
 
@@ -59,10 +59,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<FuelCellBundle>(w),
                 DropHelper.WeightStack<InfectedRemote>(w),
                 DropHelper.WeightStack<TheSyringe>(w)
-			);
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
             DropHelper.DropItemChance(player, ModContent.ItemType<Malachite>(), 0.1f);
 
             // Vanity

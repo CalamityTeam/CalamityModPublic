@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 26;
             projectile.height = 26;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 180;
             aiType = ProjectileID.WoodenBoomerang;

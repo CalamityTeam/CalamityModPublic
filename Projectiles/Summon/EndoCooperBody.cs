@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EndoCooperBody : ModProjectile
+    public class EndoCooperBody : ModProjectile
     {
         private int AttackMode = 0;
         private int LimbID = 0;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.extraUpdates = 1;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Summon
             if (limbs.type != ModContent.ProjectileType<EndoCooperLimbs>() || !limbs.active)
                 projectile.Kill();
 
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             bool flag24 = false;
             if (projectile.ai[0] == 2f)
             {

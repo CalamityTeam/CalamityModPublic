@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class AuricOrb : ModProjectile
+    public class AuricOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Healing
                 }
             }
 
-			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 6f, 15f);
+            projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 6f, 15f);
             return;
         }
 

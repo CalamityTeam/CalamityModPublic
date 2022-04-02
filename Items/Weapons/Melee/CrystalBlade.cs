@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class CrystalBlade : ModItem
+    public class CrystalBlade : ModItem
     {
         public override void SetStaticDefaults()
         {

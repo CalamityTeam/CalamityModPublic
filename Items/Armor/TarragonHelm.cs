@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class TarragonHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Helm");
             Tooltip.SetDefault("Helm of the disciple of ancients\n" +
-				"Temporary immunity to lava\n" +
+                "Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
                 "5% increased damage reduction\n" +
                 "10% increased melee damage and critical strike chance");

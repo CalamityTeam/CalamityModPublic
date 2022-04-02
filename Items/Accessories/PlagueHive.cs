@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class PlagueHive : ModItem
+    public class PlagueHive : ModItem
     {
         public override void SetStaticDefaults()
         {

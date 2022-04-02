@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class PolypLauncherSentry : ModProjectile
+    public class PolypLauncherSentry : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             if (projectile.localAI[0] == 0f)
             {
@@ -60,22 +60,22 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
-			projectile.StickToTiles(false, false);
+            projectile.StickToTiles(false, false);
 
-			if (projectile.ai[0] > 0f)
-			{
-				projectile.ai[0] -= 1f;
-				return;
-			}
-			projectile.ai[1] += Main.rand.Next(1,3);
+            if (projectile.ai[0] > 0f)
+            {
+                projectile.ai[0] -= 1f;
+                return;
+            }
+            projectile.ai[1] += Main.rand.Next(1,3);
 
-			NPC potentialTarget = projectile.Center.MinionHoming(800f, player, false);
+            NPC potentialTarget = projectile.Center.MinionHoming(800f, player, false);
 
-			if (projectile.owner == Main.myPlayer && potentialTarget != null)
+            if (projectile.owner == Main.myPlayer && potentialTarget != null)
             {
                 if (projectile.ai[1] > 40f)
                 {
-					Vector2 spawnPosition = new Vector2(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2));
+                    Vector2 spawnPosition = new Vector2(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2));
 
                     float shootSpeed = 16f;
                     float gravity = -PolypLauncherProjectile.Gravity;
@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
                     velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
 
-					Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
-					projectile.ai[1] = 0f;
-					projectile.netUpdate = true;
+                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    projectile.ai[1] = 0f;
+                    projectile.netUpdate = true;
                 }
             }
         }

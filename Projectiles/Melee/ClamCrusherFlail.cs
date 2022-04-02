@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ClamCrusherFlail : ModProjectile
+    public class ClamCrusherFlail : ModProjectile
     {
         public int finalDamage;
 
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
                 for (int num105 = 0; num105 < 50; num105++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int waterDust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width / 2, projectile.height / 2, 33, velocity.X, velocity.Y, 0, new Color(0, 142, 255), 1.5f);
                     Main.dust[waterDust].velocity *= 2f;
                 }
@@ -176,12 +176,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
-			else
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
+            if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
+                target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
+            else
+                target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
 
-			projectile.ai[0] = 1f;
+            projectile.ai[0] = 1f;
             projectile.netUpdate = true;
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
         }

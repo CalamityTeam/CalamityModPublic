@@ -5,28 +5,28 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-	public class CosmiliteBasin : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class CosmiliteBasin : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Cosmilite Basin");
-		}
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 8;
-			item.height = 10;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<CosmiliteBasinTile>();
-		}
+        public override void SetDefaults()
+        {
+            item.width = 8;
+            item.height = 10;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.consumable = true;
+            item.createTile = ModContent.TileType<CosmiliteBasinTile>();
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10);
@@ -36,5 +36,5 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
         }
-	}
+    }
 }

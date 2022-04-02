@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-			DisplayName.SetDefault("Lightning Arc");
+            DisplayName.SetDefault("Lightning Arc");
         }
 
         public override void SetDefaults()
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
             NPC npc = null;
             bool pastNPC = false;
             if (projectile.timeLeft < 18)
-			{ 
+            { 
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5 && !shockedbefore.Contains(Main.npc[k]))
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		private void AdjustMagnitude(ref Vector2 vector)
+        private void AdjustMagnitude(ref Vector2 vector)
         {
             float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             if (magnitude > 6f)

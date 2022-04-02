@@ -42,18 +42,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), item.knockBack, Main.myPlayer);
         }
     }
 }

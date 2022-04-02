@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Prismalline2 : ModProjectile
+    public class Prismalline2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
 
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 60;
             aiType = ProjectileID.BoneJavelin;

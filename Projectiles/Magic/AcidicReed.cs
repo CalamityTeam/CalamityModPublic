@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class AcidicReed : ModProjectile
+    public class AcidicReed : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,29 +16,29 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-			projectile.magic = true;
+            projectile.magic = true;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
-			projectile.penetrate = 1;
+            projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-			if (projectile.ai[0] == 1f)
-			{
+            if (projectile.ai[0] == 1f)
+            {
                 Terraria.Audio.LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
                 {
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax1"),
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax2"),
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax3"),
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax4"),
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax5"),
-					mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax6")
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax1"),
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax2"),
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax3"),
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax4"),
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax5"),
+                    mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax6")
                 });
-				Main.PlaySound(saxSound, projectile.position);
-				projectile.ai[0] = 0f;
-			}
+                Main.PlaySound(saxSound, projectile.position);
+                projectile.ai[0] = 0f;
+            }
             if (projectile.velocity.Y < 10f)
                 projectile.velocity.Y += 0.25f;
             projectile.rotation = projectile.velocity.ToRotation();

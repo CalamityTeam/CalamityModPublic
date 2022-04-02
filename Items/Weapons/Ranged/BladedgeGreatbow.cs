@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                     value9 -= vector7;
                 }
                 int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
-				if (projectile.WithinBounds(Main.maxProjectiles))
-					Main.projectile[projectile].Calamity().forceRanged = true;
+                if (projectile.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[projectile].Calamity().forceRanged = true;
             }
             return false;
         }

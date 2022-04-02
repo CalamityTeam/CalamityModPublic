@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.Calamity().AllCritBoost(5);
+            player.Calamity().AllCritBoost(5);
         }
 
         public override void AddRecipes()

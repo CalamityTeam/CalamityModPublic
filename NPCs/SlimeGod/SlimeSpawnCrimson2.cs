@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-	public class SlimeSpawnCrimson2 : ModNPC
+    public class SlimeSpawnCrimson2 : ModNPC
     {
         public float spikeTimer = 60f;
 
@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			npc.GetNPCDamage();
-			npc.width = 40;
+            npc.GetNPCDamage();
+            npc.width = 40;
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 130;
@@ -39,37 +39,37 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
-			int frameY = 1;
-			if (!Main.dedServ)
-			{
-				if (!Main.NPCLoaded[npc.type] || Main.npcTexture[npc.type] is null)
-					return;
-				frameY = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-			}
-			int aiState = 0;
-			if (npc.aiAction == 0)
-				aiState = npc.velocity.Y >= 0f ? (npc.velocity.Y <= 0f ? (npc.velocity.X == 0f ? 0 : 1) : 3) : 2;
-			else if (npc.aiAction == 1)
-				aiState = 4;
+            int frameY = 1;
+            if (!Main.dedServ)
+            {
+                if (!Main.NPCLoaded[npc.type] || Main.npcTexture[npc.type] is null)
+                    return;
+                frameY = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+            }
+            int aiState = 0;
+            if (npc.aiAction == 0)
+                aiState = npc.velocity.Y >= 0f ? (npc.velocity.Y <= 0f ? (npc.velocity.X == 0f ? 0 : 1) : 3) : 2;
+            else if (npc.aiAction == 1)
+                aiState = 4;
 
-			npc.frameCounter++;
-			if (aiState > 0)
-				npc.frameCounter++;
-			if (aiState == 4)
-				npc.frameCounter++;
-			if (npc.frameCounter >= 8f)
-			{
-				npc.frame.Y += frameY;
-				npc.frameCounter = 0f;
-			}
-			if (npc.frame.Y >= frameY * Main.npcFrameCount[npc.type])
-				npc.frame.Y = 0;
+            npc.frameCounter++;
+            if (aiState > 0)
+                npc.frameCounter++;
+            if (aiState == 4)
+                npc.frameCounter++;
+            if (npc.frameCounter >= 8f)
+            {
+                npc.frame.Y += frameY;
+                npc.frameCounter = 0f;
+            }
+            if (npc.frame.Y >= frameY * Main.npcFrameCount[npc.type])
+                npc.frame.Y = 0;
         }
 
         public override void AI()
@@ -77,9 +77,9 @@ namespace CalamityMod.NPCs.SlimeGod
             if (spikeTimer > 0f)
                 spikeTimer -= 1f;
 
-			int type = ModContent.ProjectileType<CrimsonSpike>();
-			int damage = npc.GetProjectileDamage(type);
-			if (!npc.wet)
+            int type = ModContent.ProjectileType<CrimsonSpike>();
+            int damage = npc.GetProjectileDamage(type);
+            if (!npc.wet)
             {
                 Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num14 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector3.X;
@@ -142,23 +142,23 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-		public override bool PreNPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+        public override bool PreNPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
 
-			DropHelper.DropItemChance(npc, ItemID.Blindfold, Main.expertMode ? 50 : 100);
+            DropHelper.DropItemChance(npc, ItemID.Blindfold, Main.expertMode ? 50 : 100);
 
-			return false;
-		}
+            return false;
+        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(BuffID.Darkness, 90, true);
-		}
+            player.AddBuff(BuffID.Darkness, 90, true);
+        }
     }
 }

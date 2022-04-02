@@ -7,7 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class LureofEnthrallment : ModItem
+    public class LureofEnthrallment : ModItem
     {
         public override void SetStaticDefaults()
         {

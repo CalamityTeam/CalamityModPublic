@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 116;
             npc.height = 36;
             npc.defense = Main.hardMode ? 15 : 5;
-			npc.DR_NERD(0.05f);
+            npc.DR_NERD(0.05f);
             npc.lifeMax = Main.hardMode ? 500 : 150;
             npc.aiStyle = -1;
             aiType = -1;
@@ -35,11 +35,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EutrophicRayBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {

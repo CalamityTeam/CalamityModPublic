@@ -27,17 +27,17 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.autoReuse = true;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			//CalamityUtils.OnlyOneSentry(player, type);
-			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 16f);
-			player.UpdateMaxTurrets();
+            //CalamityUtils.OnlyOneSentry(player, type);
+            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 16f);
+            player.UpdateMaxTurrets();
             return false;
         }
     }

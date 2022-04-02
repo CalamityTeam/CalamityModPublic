@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class PhantomSpiritM : ModNPC
+    public class PhantomSpiritM : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = ModContent.NPCType<PhantomSpirit>();
             bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 1, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 1, 3);
         }
     }
 }

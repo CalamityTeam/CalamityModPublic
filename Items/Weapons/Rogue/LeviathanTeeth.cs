@@ -61,17 +61,17 @@ namespace CalamityMod.Items.Weapons.Rogue
                 if (stealthStrike)
                 {
                     int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX * 1.5f, offsetSpeedY * 1.5f, type, damage, knockBack * 10f, player.whoAmI);
-					if (tooth.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[tooth].Calamity().stealthStrike = true;
-						Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
-					}
+                    if (tooth.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[tooth].Calamity().stealthStrike = true;
+                        Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
+                    }
                 }
                 else
                 {
                     int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX, offsetSpeedY, type, damage, knockBack, player.whoAmI);
-					if (tooth.WithinBounds(Main.maxProjectiles))
-						Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
+                    if (tooth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
                 }
             }
             return false;

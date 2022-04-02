@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 56;
             npc.height = 38;
             npc.defense = 9999;
-			npc.DR_NERD(0.25f);
+            npc.DR_NERD(0.25f);
             npc.lifeMax = Main.hardMode ? 300 : 150;
             if (Main.expertMode)
             {
@@ -38,11 +38,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.05f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ClamBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 if (!statChange)
                 {
-					npc.buffImmune[BuffID.Confused] = false;
+                    npc.buffImmune[BuffID.Confused] = false;
                     npc.defense = 6;
                     npc.damage = Main.expertMode ? 60 : 30;
                     if (Main.hardMode)
@@ -223,8 +223,8 @@ namespace CalamityMod.NPCs.SunkenSea
         }
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 8, 12);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 0.5f);
+            DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 8, 12);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 0.5f);
         }
     }
 }

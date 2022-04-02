@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
         public override float MaxScale => 1f;
         public override float MaxLaserLength => 1200f;
         public override float Lifetime => 30f;
-		public override Color LightCastColor => Color.White;
+        public override Color LightCastColor => Color.White;
         public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
         public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
         public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
@@ -36,11 +36,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = (int)Lifetime;
         }
 
-		public override void ExtraBehavior()
-		{
+        public override void ExtraBehavior()
+        {
             // Generate a star-like and circular burst of terra dust.
             if (!Main.dedServ && Time == 5f)
-			{
+            {
                 int starPoints = 6;
                 for (int i = 0; i < starPoints; i++)
                 {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 int ovalPoints = 42;
                 for (int i = 0; i < ovalPoints; i++)
-				{
+                {
                     float angle = MathHelper.TwoPi * i / ovalPoints;
                     Dust terraMagic = Dust.NewDustPerfect(projectile.Center, 107);
                     terraMagic.velocity = angle.ToRotationVector2() * 6f;
@@ -77,14 +77,14 @@ namespace CalamityMod.Projectiles.Magic
         public override void DetermineScale() => projectile.scale = projectile.timeLeft / Lifetime * MaxScale;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        {
             DrawBeamWithColor(spriteBatch, Color.Lime * 1.1f, projectile.scale);
             DrawBeamWithColor(spriteBatch, Color.Yellow * 1.1f, projectile.scale * 0.5f);
             return false;
-		}
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             if (ShardCooldown > 0f)
                 return;
 
@@ -113,5 +113,5 @@ namespace CalamityMod.Projectiles.Magic
             ShardCooldown = 3f;
             projectile.netUpdate = true;
         }
-	}
+    }
 }

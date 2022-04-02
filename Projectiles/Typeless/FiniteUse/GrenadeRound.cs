@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
-	public class GrenadeRound : ModProjectile
+    public class GrenadeRound : ModProjectile
     {
         public override void SetStaticDefaults()
         {

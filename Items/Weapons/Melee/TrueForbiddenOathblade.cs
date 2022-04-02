@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int index = 8;
+            int index = 8;
             for (int i = -index; i <= index; i += index)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
@@ -120,7 +120,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
                 target.AddBuff(BuffID.OnFire, 900);
                 Main.PlaySound(SoundID.Item14, target.position);
-			}
+            }
         }
     }
 }

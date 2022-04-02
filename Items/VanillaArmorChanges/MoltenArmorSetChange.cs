@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
-	public class MoltenArmorSetChange : VanillaArmorChange
+    public class MoltenArmorSetChange : VanillaArmorChange
     {
         public override int? HeadPieceID => ItemID.MoltenHelmet;
 

@@ -31,10 +31,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<PiggyBanner>();
             npc.catchItem = (short)ModContent.ItemType<PiggyItem>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

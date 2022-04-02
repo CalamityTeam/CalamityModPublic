@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
+    [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class GloveOfPrecision : ModItem
     {
         public override void SetStaticDefaults()

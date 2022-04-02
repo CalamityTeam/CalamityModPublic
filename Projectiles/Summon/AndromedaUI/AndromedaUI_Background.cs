@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
-	public class AndromedaUI_Background : ModProjectile
+    public class AndromedaUI_Background : ModProjectile
     {
         public int FadeoutTime = -1;
         public Vector2 PlayerOffset = Vector2.Zero;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         }
 
         public override void AI()
-		{
+        {
             // Death fade-out effect
             if (FadeoutTime > 0)
             {
@@ -111,15 +111,15 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             }
 
             // Adjust the position of the UI.
-			if (Main.myPlayer == projectile.owner)
-			{
+            if (Main.myPlayer == projectile.owner)
+            {
                 if (PlayerOffset == Vector2.Zero)
                 {
                     PlayerOffset = Main.player[projectile.owner].Center - projectile.Center;
                 }
                 projectile.Center = Main.player[projectile.owner].Center - PlayerOffset;
             }
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

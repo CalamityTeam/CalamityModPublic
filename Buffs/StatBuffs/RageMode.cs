@@ -32,7 +32,7 @@ namespace CalamityMod.Buffs.StatBuffs
             // Otherwise, Rage Mode ends instantly.
             else
             {
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
                 player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
                 mp.rageModeActive = false;
                 mp.rage = 0f;

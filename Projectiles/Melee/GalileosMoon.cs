@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GalileosMoon : ModProjectile
+    public class GalileosMoon : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
 
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                     Main.PlaySound(SoundID.Item9, projectile.position);
                 }
             }
-			projectile.rotation += projectile.direction * 0.55f;
+            projectile.rotation += projectile.direction * 0.55f;
             CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 10f, 25f);
         }
 

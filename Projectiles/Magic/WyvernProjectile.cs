@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-				projectile.timeLeft = 0;
-			}
-			return false;
-		}
+                projectile.timeLeft = 0;
+            }
+            return false;
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -48,12 +48,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-			int head = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernHead"));
-			Main.gore[head].timeLeft /= 10;
-			int body = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernBody"));
-			Main.gore[body].timeLeft /= 10;
-			int tail = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernTail"));
-			Main.gore[tail].timeLeft /= 10;
+            int head = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernHead"));
+            Main.gore[head].timeLeft /= 10;
+            int body = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernBody"));
+            Main.gore[body].timeLeft /= 10;
+            int tail = Gore.NewGore(projectile.Center, projectile.velocity * 0.8f, mod.GetGoreSlot("Gores/WyvernWeapons/WyvernTail"));
+            Main.gore[tail].timeLeft /= 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

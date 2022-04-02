@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 600;
+            projectile.ignoreWater = true;
+            projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
 
             SineFrequency = 0.15f;

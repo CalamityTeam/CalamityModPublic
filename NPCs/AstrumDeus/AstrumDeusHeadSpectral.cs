@@ -29,20 +29,20 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrum Deus");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
+            npc.npcSlots = 5f;
             npc.width = 56;
             npc.height = 56;
             npc.defense = 20;
-			npc.DR_NERD(0.1f);
-			npc.LifeMaxNERB(200000, 240000, 650000);
-			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.DR_NERD(0.1f);
+            npc.LifeMaxNERB(200000, 240000, 650000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -68,9 +68,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.netAlways = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrumDeusBag>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void AI()
         {
-			CalamityAI.AstrumDeusAI(npc, mod, true);
-		}
+            CalamityAI.AstrumDeusAI(npc, mod, true);
+        }
 
         public override bool CheckActive()
         {
@@ -98,82 +98,82 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			bool drawCyan = npc.Calamity().newAI[3] >= 600f;
+            bool drawCyan = npc.Calamity().newAI[3] >= 600f;
             bool deathModeEnragePhase = npc.Calamity().newAI[0] == 3f;
             bool doubleWormPhase = npc.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
             Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2");
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = deathModeEnragePhase ? 10 : 5;
+            Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2");
+            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = deathModeEnragePhase ? 10 : 5;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow");
-			Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
-			if (doubleWormPhase)
-			{
-				texture2D15 = drawCyan ? texture2D15 : ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow3");
-				texture2D16 = drawCyan ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow4") : texture2D16;
-			}
-			Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Cyan, 0.5f) * (deathModeEnragePhase ? 1f : npc.Opacity);
-			Color color42 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : npc.Opacity);
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow");
+            Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
+            if (doubleWormPhase)
+            {
+                texture2D15 = drawCyan ? texture2D15 : ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow3");
+                texture2D16 = drawCyan ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow4") : texture2D16;
+            }
+            Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Cyan, 0.5f) * (deathModeEnragePhase ? 1f : npc.Opacity);
+            Color color42 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : npc.Opacity);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 *= (num153 - num163) / 15f;
+                    Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-					Color color43 = color42;
-					color43 = Color.Lerp(color43, color36, amount9);
-					color43 *= (num153 - num163) / 15f;
-					spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+                    Color color43 = color42;
+                    color43 = Color.Lerp(color43, color36, amount9);
+                    color43 *= (num153 - num163) / 15f;
+                    spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
-			for (int i = 0; i < timesToDraw; i++)
-				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
+            for (int i = 0; i < timesToDraw; i++)
+                spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
-			for (int i = 0; i < timesToDraw; i++)
-				spriteBatch.Draw(texture2D16, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
+            for (int i = 0; i < timesToDraw; i++)
+                spriteBatch.Draw(texture2D16, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
+            return false;
         }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {
@@ -208,10 +208,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool SpecialNPCLoot()
         {
-			if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
-				return false;
+            if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
+                return false;
 
-			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
                 ModContent.NPCType<AstrumDeusHeadSpectral>(),
                 ModContent.NPCType<AstrumDeusBodySpectral>(),
                 ModContent.NPCType<AstrumDeusTailSpectral>());
@@ -220,15 +220,15 @@ namespace CalamityMod.NPCs.AstrumDeus
             return false;
         }
 
-		public override bool PreNPCLoot()
+        public override bool PreNPCLoot()
         {
-			// Unsplit Deus does not drop anything when killed/despawned.
-			if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
-				return false;
+            // Unsplit Deus does not drop anything when killed/despawned.
+            if (npc.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.Calamity().newAI[0] != 3f))
+                return false;
 
             // Killing ANY split Deus makes all other Deus heads die immediately.
             for (int i = 0; i < Main.maxNPCs; ++i)
-			{
+            {
                 NPC otherWormHead = Main.npc[i];
                 if (otherWormHead.active && otherWormHead.type == npc.type)
                 {
@@ -238,18 +238,18 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.checkDead();
                     otherWormHead.netUpdate = true;
                 }
-			}
+            }
 
             return true;
         }
 
         public override void NPCLoot()
         {
-			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
-			DropHelper.DropBags(npc);
+            DropHelper.DropBags(npc);
 
-			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
+            DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
@@ -276,11 +276,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                     DropHelper.WeightStack<Starfall>(w),
                     DropHelper.WeightStack<GodspawnHelixStaff>(w),
                     DropHelper.WeightStack<RegulusRiot>(w)
-				);
+                );
 
-				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<HideofAstrumDeus>(), true);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<HideofAstrumDeus>(), true);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);

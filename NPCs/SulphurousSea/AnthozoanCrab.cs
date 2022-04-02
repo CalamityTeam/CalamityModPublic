@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class AnthozoanCrab : ModNPC
+    public class AnthozoanCrab : ModNPC
     {
         public int boulderIndex;
         public override void SetStaticDefaults()
@@ -37,11 +37,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0.04f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(boulderIndex);
@@ -196,12 +196,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

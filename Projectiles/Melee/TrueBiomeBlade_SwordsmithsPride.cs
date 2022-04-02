@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SwordsmithsPride : ModProjectile
+    public class SwordsmithsPride : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride";
         private bool initialized = false;

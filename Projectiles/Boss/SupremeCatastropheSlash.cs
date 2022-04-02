@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class SupremeCatastropheSlash : ModProjectile
+    public class SupremeCatastropheSlash : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
 
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
             target.Calamity().lastProjectileHit = projectile;
         }

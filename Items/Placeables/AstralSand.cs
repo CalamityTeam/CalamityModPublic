@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Placeables
             // item.notAmmo = true;
             // item.shootSpeed = 15f;
             item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.consumable = true;
+            item.useTurn = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.autoReuse = true;
+            item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.AstralDesert.AstralSand>();
-			item.noMelee = true;
+            item.noMelee = true;
         }
     }
 }

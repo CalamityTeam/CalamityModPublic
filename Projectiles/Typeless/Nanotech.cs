@@ -21,9 +21,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.ai[1] >= 30f && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.ai[1] >= 30f && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.4f, 0.15f));
 
@@ -45,25 +45,25 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
-			if (projectile.ai[1] >= 30f)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            if (projectile.ai[1] >= 30f)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
-		// Reduce damage of projectiles if more than the cap are active
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
-			int cap = 5;
-			int oldDamage = damage;
-			if (projectileCount > cap)
-			{
-				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
-				if (damage < 1)
-					damage = 1;
-			}
-		}
+        // Reduce damage of projectiles if more than the cap are active
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+            int cap = 5;
+            int oldDamage = damage;
+            if (projectileCount > cap)
+            {
+                damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+                if (damage < 1)
+                    damage = 1;
+            }
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             int num3;
             for (int num191 = 0; num191 < 2; num191 = num3 + 1)

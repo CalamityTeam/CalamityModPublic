@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
             adjTiles = new int[] { TileID.Torches };
             torch = true;
-			TileID.Sets.FramesOnKillWall[Type] = true;
+            TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX < 66)
-				CalamityUtils.DrawFlameSparks(187, 5, i, j);
+                CalamityUtils.DrawFlameSparks(187, 5, i, j);
         }
 
         public override bool NewRightClick(int i, int j)

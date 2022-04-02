@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shield)]
+    [AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
         public override void SetStaticDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dAmulet = true;
             modPlayer.rampartOfDeities = true;
             modPlayer.fBulwark = true;
-			player.longInvince = true;
+            player.longInvince = true;
             player.lifeRegen += 1;
         }
 

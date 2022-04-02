@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class SnapClam : RogueWeapon
+    public class SnapClam : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snap Clam");
             Tooltip.SetDefault("Can latch on enemies and deal damage over time\n" +
-			"Stealth strikes throw five clams at once that cause increased damage over time");
+            "Stealth strikes throw five clams at once that cause increased damage over time");
         }
 
         public override void SafeSetDefaults()
@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position, perturbedspeed, ModContent.ProjectileType<SnapClamStealth>(), Math.Max(damage / 5, 1), knockBack / 5f, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().stealthStrike = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,3);
                 }
                 return false;

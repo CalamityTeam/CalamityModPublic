@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int duration = 120;
+            int duration = 120;
             target.AddBuff(ModContent.BuffType<CrushDepth>(), duration);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
             target.AddBuff(ModContent.BuffType<Nightwither>(), duration);

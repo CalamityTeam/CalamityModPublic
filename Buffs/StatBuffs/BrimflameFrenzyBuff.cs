@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-	public class BrimflameFrenzyBuff : ModBuff
+    public class BrimflameFrenzyBuff : ModBuff
     {
         public override void SetDefaults()
         {

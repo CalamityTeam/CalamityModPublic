@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-			
+            
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             if (calamityGlobalNPC.newAI[0] % 30f == 0f)
-							{
+                            {
                                 Vector2 vectorCenter = npc.Center;
                                 float num742 = npc.velocity.Length() * 0.33f + 1f;
                                 float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
@@ -711,8 +711,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     for (int i = 0; i < totalProjectiles; i++)
                     {
                         float velocityMultiplier = 1f;
-						switch (i)
-						{
+                        switch (i)
+                        {
                             case 0:
                                 break;
                             case 1:
@@ -722,7 +722,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 velocityMultiplier = 0.8f;
                                 break;
                         }
-						Projectile.NewProjectile(vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
                     }
 
                     npc.netUpdate = true;

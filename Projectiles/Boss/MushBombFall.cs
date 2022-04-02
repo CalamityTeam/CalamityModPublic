@@ -49,36 +49,36 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(projectile.Center, 0f, 0.15f, 0.3f);
 
-			if (Math.Abs(projectile.velocity.X) > 2f)
-				projectile.velocity.X *= 0.99f;
+            if (Math.Abs(projectile.velocity.X) > 2f)
+                projectile.velocity.X *= 0.99f;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int height = texture.Height / Main.projFrames[projectile.type];
-			int drawStart = height * projectile.frame;
-			Vector2 origin = projectile.Size / 2;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int height = texture.Height / Main.projFrames[projectile.type];
+            int drawStart = height * projectile.frame;
+            Vector2 origin = projectile.Size / 2;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-			return false;
-		}
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            return false;
+        }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int height = texture.Height / Main.projFrames[projectile.type];
-			int drawStart = height * projectile.frame;
-			Vector2 origin = projectile.Size / 2;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int height = texture.Height / Main.projFrames[projectile.type];
+            int drawStart = height * projectile.frame;
+            Vector2 origin = projectile.Size / 2;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/MushBombGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-		}
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/MushBombGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+        }
 
         public override void Kill(int timeLeft)
         {

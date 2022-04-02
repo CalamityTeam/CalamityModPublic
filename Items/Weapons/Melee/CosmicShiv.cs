@@ -9,7 +9,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class CosmicShiv : ModItem
+    public class CosmicShiv : ModItem
     {
         public override void SetStaticDefaults()
         {

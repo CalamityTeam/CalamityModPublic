@@ -38,7 +38,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Events
 {
-	public class BossRushEvent
+    public class BossRushEvent
     {
         public enum TimeChangeContext
         {
@@ -336,11 +336,11 @@ namespace CalamityMod.Events
             BossIDsAfterDeath = null;
             BossDeathEffects = null;
         }
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
         public static int CurrentTier
-		{
+        {
             get
             {
                 if (BossRushStage > Bosses.FindIndex(boss => boss.EntityID == NPCID.CultistBoss))
@@ -349,7 +349,7 @@ namespace CalamityMod.Events
                     return 2;
                 return 1;
             }
-		}
+        }
 
         public static int MusicToPlay
         {
@@ -374,10 +374,10 @@ namespace CalamityMod.Events
                 return 0;
             }
         }
-		#endregion Properties
+        #endregion Properties
 
-		#region Updates
-		internal static void MiscUpdateEffects()
+        #region Updates
+        internal static void MiscUpdateEffects()
         {
             if (!BossRushActive)
                 return;
@@ -460,7 +460,7 @@ namespace CalamityMod.Events
 
             // Change dimness.
             if (BossRushStage >= 0 && BossRushStage < Bosses.Count)
-			{
+            {
                 WhiteDimness = MathHelper.Lerp(WhiteDimness, Bosses[BossRushStage].DimnessFactor, 0.1f);
                 if (MathHelper.Distance(WhiteDimness, Bosses[BossRushStage].DimnessFactor) < 0.004f)
                     WhiteDimness = Bosses[BossRushStage].DimnessFactor;
@@ -485,7 +485,7 @@ namespace CalamityMod.Events
         }
 
         internal static void EndEffects()
-		{
+        {
             for (int doom = 0; doom < Main.maxNPCs; doom++)
             {
                 NPC n = Main.npc[doom];

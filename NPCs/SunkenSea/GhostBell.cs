@@ -37,11 +37,11 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GhostBellBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = false;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = false;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<VoltaicJelly>(), CalamityWorld.downedDesertScourge, 0.2f);
-			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
+            DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
         }
     }
 }

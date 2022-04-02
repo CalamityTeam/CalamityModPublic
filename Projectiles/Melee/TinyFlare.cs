@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TinyFlare : ModProjectile
+    public class TinyFlare : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,9 +25,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             for (int num468 = 0; num468 < 3; num468++)
             {
@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num469].velocity *= 0f;
             }
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

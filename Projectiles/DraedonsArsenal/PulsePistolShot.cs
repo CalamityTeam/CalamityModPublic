@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-	public class PulsePistolShot : ModProjectile
+    public class PulsePistolShot : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => projectile.ai[1] = value;
         }
         public List<NPC> NPCsAlreadyHit = new List<NPC>();
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Bolt");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Pulse Bolt");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
         }
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.timeLeft = 120 * (1 + projectile.extraUpdates);
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             Time++;
             if (Time >= 10f || NPCsAlreadyHit.Count > 0)
             {

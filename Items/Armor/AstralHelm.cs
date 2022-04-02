@@ -44,8 +44,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.astralStarRain = true;
             player.moveSpeed += 0.05f;
             player.allDamage += 0.35f;
-			player.maxMinions += 3;
-			modPlayer.AllCritBoost(25);
+            player.maxMinions += 3;
+            modPlayer.AllCritBoost(25);
             player.Calamity().wearingRogueArmor = true;
         }
 
@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 8);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 6);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

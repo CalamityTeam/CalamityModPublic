@@ -182,18 +182,18 @@ namespace CalamityMod.Projectiles.Melee
             float petalKB = 0f;
             for (int i = 0; i < numPetals; ++i)
             {
-				if (projectile.owner == Main.myPlayer)
-				{
-					float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, projectile.owner);
-					if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
-					{
-						petal.Calamity().forceMelee = true;
-						petal.rotation = angle;
-						petal.usesLocalNPCImmunity = true;
-						petal.localNPCHitCooldown = -1;
-					}
-				}
+                if (projectile.owner == Main.myPlayer)
+                {
+                    float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+                    Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, projectile.owner);
+                    if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
+                    {
+                        petal.Calamity().forceMelee = true;
+                        petal.rotation = angle;
+                        petal.usesLocalNPCImmunity = true;
+                        petal.localNPCHitCooldown = -1;
+                    }
+                }
             }
         }
 

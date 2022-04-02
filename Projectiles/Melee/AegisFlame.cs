@@ -91,6 +91,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-	}
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+    }
 }

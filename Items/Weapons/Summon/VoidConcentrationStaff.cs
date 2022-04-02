@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	class VoidConcentrationStaff : ModItem
+    class VoidConcentrationStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Concentration Staff");
             Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" + //If you have flavour text ideas, feel free to implement, my brain is still like nonexistant as per usual yeah.
-							   "Minion damage is increased by 5% while the aura is active\n" +
+                               "Minion damage is increased by 5% while the aura is active\n" +
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
                                "Right click to launch a black hole that grows in size");

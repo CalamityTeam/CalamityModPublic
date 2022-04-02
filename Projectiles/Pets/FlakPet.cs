@@ -9,8 +9,8 @@ namespace CalamityMod.Projectiles.Pets
     {
         private int playerStill = 0;
         private bool fly = false;
-		private int idleTimer = 0;
-		private bool hiding = false;
+        private int idleTimer = 0;
+        private bool hiding = false;
 
         public override void SetStaticDefaults()
         {
@@ -116,53 +116,53 @@ namespace CalamityMod.Projectiles.Pets
                         }
                     }
                 }
-				if (projectile.position.X == projectile.oldPosition.X && projectile.position.Y == projectile.oldPosition.Y && projectile.velocity.X == 0)
-				{
-					if (!hiding)
-					{
-						idleTimer++;
-						projectile.frame = 2;
-					}
-					if (idleTimer > 300)
-					{
-						hiding = true;
-						if (projectile.frame > 0)
-						{
-							projectile.frameCounter++;
-							if (projectile.frameCounter > 3)
-							{
-								projectile.frame--;
-								projectile.frameCounter = 0;
-							}
-							if (projectile.frame < 0)
-							{
-								projectile.frame = 0;
-							}
-						}
-					}
-				}
-				else if (projectile.velocity.Y > 0.3f && projectile.position.Y != projectile.oldPosition.Y)
-				{
-					idleTimer = 0;
-					hiding = false;
-					projectile.frame = 2;
-					projectile.frameCounter = 0;
-				}
-				else
-				{
-					idleTimer = 0;
-					hiding = false;
-					projectile.frameCounter++;
-					if (projectile.frameCounter > 6)
-					{
-						projectile.frame++;
-						projectile.frameCounter = 0;
-					}
-					if (projectile.frame > 5)
-					{
-						projectile.frame = 2;
-					}
-				}
+                if (projectile.position.X == projectile.oldPosition.X && projectile.position.Y == projectile.oldPosition.Y && projectile.velocity.X == 0)
+                {
+                    if (!hiding)
+                    {
+                        idleTimer++;
+                        projectile.frame = 2;
+                    }
+                    if (idleTimer > 300)
+                    {
+                        hiding = true;
+                        if (projectile.frame > 0)
+                        {
+                            projectile.frameCounter++;
+                            if (projectile.frameCounter > 3)
+                            {
+                                projectile.frame--;
+                                projectile.frameCounter = 0;
+                            }
+                            if (projectile.frame < 0)
+                            {
+                                projectile.frame = 0;
+                            }
+                        }
+                    }
+                }
+                else if (projectile.velocity.Y > 0.3f && projectile.position.Y != projectile.oldPosition.Y)
+                {
+                    idleTimer = 0;
+                    hiding = false;
+                    projectile.frame = 2;
+                    projectile.frameCounter = 0;
+                }
+                else
+                {
+                    idleTimer = 0;
+                    hiding = false;
+                    projectile.frameCounter++;
+                    if (projectile.frameCounter > 6)
+                    {
+                        projectile.frame++;
+                        projectile.frameCounter = 0;
+                    }
+                    if (projectile.frame > 5)
+                    {
+                        projectile.frame = 2;
+                    }
+                }
             }
             else if (fly)
             {
@@ -255,10 +255,10 @@ namespace CalamityMod.Projectiles.Pets
                         projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
                     }
                 }
-				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
+                projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
                 projectile.frame = 6;
-				hiding = false;
-				idleTimer = 0;
+                hiding = false;
+                idleTimer = 0;
             }
             if (projectile.velocity.X > 0.25f)
             {

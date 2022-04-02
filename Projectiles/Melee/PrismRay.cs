@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.melee = true;
+            projectile.melee = true;
         }
 
         public override void AI()
@@ -97,13 +97,13 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
         }
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
             float _ = 0f;
-			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), StartingPosition, projectile.Center, projectile.scale * 22f, ref _);
-		}
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), StartingPosition, projectile.Center, projectile.scale * 22f, ref _);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 baseDrawPosition = projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture = Main.projectileTexture[projectile.type];

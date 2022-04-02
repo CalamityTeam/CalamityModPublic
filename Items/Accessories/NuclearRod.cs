@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class NuclearRod : ModItem
+    public class NuclearRod : ModItem
     {
         public override void SetStaticDefaults()
         {

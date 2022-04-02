@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class DesertTornado : ModProjectile
+    public class DesertTornado : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			//only 1 tornado can exist at a time
+            //only 1 tornado can exist at a time
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 10f)
             {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int projType = projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
-					Projectile proj = Main.projectile[projIndex];
+                    Projectile proj = Main.projectile[projIndex];
                     if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[0] < 900f)
                     {
                         projCount++;

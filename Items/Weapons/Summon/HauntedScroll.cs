@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class HauntedScroll : ModItem
+    public class HauntedScroll : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 speedX = 0;
                 speedY = 0;
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 30f);
-				//projectile.ai[1] is attack cooldown.  Setting it here prevents immediate attacks
+                //projectile.ai[1] is attack cooldown.  Setting it here prevents immediate attacks
             }
             return false;
         }

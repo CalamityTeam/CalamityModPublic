@@ -38,20 +38,20 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<TwistingNether>(), 3, 4);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);
-			DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), DropHelper.BagWeaponDropRateInt);
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());
 
             // Vanity
-			DropHelper.DropItemChance(player, ModContent.ItemType<SignusMask>(), 7);
-			if (Main.rand.NextBool(20))
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
-				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
-			}
+            DropHelper.DropItemChance(player, ModContent.ItemType<SignusMask>(), 7);
+            if (Main.rand.NextBool(20))
+            {
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
+                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+            }
         }
     }
 }

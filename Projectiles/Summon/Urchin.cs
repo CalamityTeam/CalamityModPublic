@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class Urchin : ModProjectile
+    public class Urchin : ModProjectile
     {
         public int dust = 3;
 
@@ -98,13 +98,13 @@ namespace CalamityMod.Projectiles.Summon
                 float maxDist = 300f;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-					NPC npc = Main.npc[i];
+                    NPC npc = Main.npc[i];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
                         if (Vector2.Distance(projectile.Center, npc.Center) < maxDist && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             foundTarget = true;
-							break;
+                            break;
                         }
                     }
                 }
@@ -113,8 +113,8 @@ namespace CalamityMod.Projectiles.Summon
                     int projAmt = Main.rand.Next(3, 7);
                     for (int u = 0; u < projAmt; u++)
                     {
-						Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y);
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                        Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y);
+                        Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int spore = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<UrchinSpike>(), projectile.damage, 1f, projectile.owner, 0f, 0f);
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;

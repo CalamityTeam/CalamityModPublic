@@ -68,20 +68,20 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 20f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.alpha == 80;
+        public override bool CanHitPlayer(Player target) => projectile.alpha == 80;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.alpha == 80)
-				target.AddBuff(BuffID.Poisoned, 120);
+            if (projectile.alpha == 80)
+                target.AddBuff(BuffID.Poisoned, 120);
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.alpha == 80;
+        public override bool? CanHitNPC(NPC target) => projectile.alpha == 80;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.alpha == 80)
-				target.AddBuff(BuffID.Poisoned, 120);
+            if (projectile.alpha == 80)
+                target.AddBuff(BuffID.Poisoned, 120);
         }
     }
 }

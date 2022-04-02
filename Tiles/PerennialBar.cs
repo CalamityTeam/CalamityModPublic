@@ -9,14 +9,14 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-			this.SetUpBar(new Color(157, 255, 0));
+            this.SetUpBar(new Color(157, 255, 0));
             dustType = 44;
             drop = ModContent.ItemType<DraedonBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-			type = Main.rand.NextBool() ? 44 : 157;
+            type = Main.rand.NextBool() ? 44 : 157;
             return true;
         }
     }

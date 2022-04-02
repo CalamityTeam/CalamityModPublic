@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.width = 62;
             item.height = 62;
             item.useTime = 4;
-			item.useAnimation = 16;
+            item.useAnimation = 16;
             item.reuseDelay = 14;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item60;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.shoot = 1;
             item.shootSpeed = 6f;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float offsetAngle = MathHelper.TwoPi * player.itemAnimation / player.itemAnimationMax;
             offsetAngle += MathHelper.PiOver4 + Main.rand.NextFloat(0f, 1.3f);
@@ -77,9 +77,9 @@ namespace CalamityMod.Items.Weapons.Magic
                 Main.projectile[beam].ai[1] = Main.rand.Next(100);
             }
             return false;
-		}
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<TerraRay>());

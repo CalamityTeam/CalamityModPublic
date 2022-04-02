@@ -62,8 +62,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, target.position);
-				player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
-				for (int num621 = 0; num621 < 10; num621++)
+                player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+                for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.statLife <= (target.statLifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, target.position);
-				for (int num621 = 0; num621 < 10; num621++)
+                for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;

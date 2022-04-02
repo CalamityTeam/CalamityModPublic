@@ -32,11 +32,11 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void AI()
         {
-			//Set up namespaces
+            //Set up namespaces
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			//If the player dies or something, kill thte projectile
+            //If the player dies or something, kill thte projectile
             if (!player.active)
             {
                 projectile.active = false;
@@ -47,13 +47,13 @@ namespace CalamityMod.Projectiles.Pets
                 modPlayer.bendyPet = false;
             }
 
-			//Prevent the projectile from losing its timeLeft
+            //Prevent the projectile from losing its timeLeft
             if (modPlayer.bendyPet)
             {
                 projectile.timeLeft = 2;
             }
 
-			//Update frames
+            //Update frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -65,25 +65,25 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.frame = 0;
             }
 
-			//Highlight nearby danger sources
-			player.dangerSense = true;
-			player.detectCreature = true;
+            //Highlight nearby danger sources
+            player.dangerSense = true;
+            player.detectCreature = true;
 
-			//Generate less light if returning to the player
-			if (projectile.localAI[0] == 0f)
-			{
-				Lighting.AddLight(projectile.Center, 0.8118f, 0.2529f, 1.3294f); //138, 43, 226
-			}
-			else
-			{
-				Lighting.AddLight(projectile.Center, 0.4329f, 0.1349f, 0.709f);
-			}
+            //Generate less light if returning to the player
+            if (projectile.localAI[0] == 0f)
+            {
+                Lighting.AddLight(projectile.Center, 0.8118f, 0.2529f, 1.3294f); //138, 43, 226
+            }
+            else
+            {
+                Lighting.AddLight(projectile.Center, 0.4329f, 0.1349f, 0.709f);
+            }
 
             float idleMvt = 0.2f;
             float projSpeed = 5f;
-			//Calculate where the pet should reside based on pressed controls
-			Vector2 projVec = player.Center - projectile.Center;
-			projVec.Y += player.gfxOffY;
+            //Calculate where the pet should reside based on pressed controls
+            Vector2 projVec = player.Center - projectile.Center;
+            projVec.Y += player.gfxOffY;
             if (player.controlLeft)
             {
                 projVec.X -= 120f;
@@ -111,16 +111,16 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.position.Y += projVec.Y;
             }
 
-			//Returning to player AI
+            //Returning to player AI
             if (projectile.localAI[0] == 1f)
             {
-				//If close enough, the player isn't moving too much, and isn't moving vertically, return to normal
+                //If close enough, the player isn't moving too much, and isn't moving vertically, return to normal
                 if (playerDist < 10f && Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y) < projSpeed && player.velocity.Y == 0f)
                 {
                     projectile.localAI[0] = 0f;
                 }
 
-				//Go faster
+                //Go faster
                 projSpeed = 12f;
                 if (playerDist < projSpeed)
                 {
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Pets
                     projectile.velocity.Y = projVec.Y * playerDist;
                 }
 
-				//Set projectile direction and rotation
+                //Set projectile direction and rotation
                 if (projectile.velocity.X > 0.5f)
                 {
                     projectile.direction = -1;
@@ -148,13 +148,13 @@ namespace CalamityMod.Projectiles.Pets
                 return;
             }
 
-			//If too far, return to the player
+            //If too far, return to the player
             if (playerDist > 200f)
             {
                 projectile.localAI[0] = 1f;
             }
 
-			//Set projectile direction and rotation
+            //Set projectile direction and rotation
             if (projectile.velocity.X > 0.5f)
             {
                 projectile.direction = -1;
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Pets
                 }
             }
 
-			//Rotation if moving
+            //Rotation if moving
             if (projectile.velocity.X != 0f || projectile.velocity.Y != 0f)
             {
                 projectile.rotation = projectile.velocity.X * 0.05f;
@@ -226,32 +226,32 @@ namespace CalamityMod.Projectiles.Pets
             Texture2D texture = Main.projectileTexture[projectile.type];
             int height = texture.Height / Main.projFrames[projectile.type];
             int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Pets/BendyPetGlow");
-			int height = texture.Height / Main.projFrames[projectile.type];
-			int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-			Color rainbow = CalamityUtils.MulticolorLerp(Main.GlobalTime / 2f % 1f, new Color[]
+            int height = texture.Height / Main.projFrames[projectile.type];
+            int frameHeight = height * projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Color rainbow = CalamityUtils.MulticolorLerp(Main.GlobalTime / 2f % 1f, new Color[]
             {
-				new Color(255, 0, 0, 50), //Red
-				new Color(255, 255, 0, 50), //Yellow
-				new Color(0, 255, 0, 50), //Green
-				new Color(0, 255, 255, 50), //Cyan
-				new Color(0, 0, 255, 50), //Blue
-				new Color(255, 0, 255, 50), //Fuschia
+                new Color(255, 0, 0, 50), //Red
+                new Color(255, 255, 0, 50), //Yellow
+                new Color(0, 255, 0, 50), //Green
+                new Color(0, 255, 255, 50), //Cyan
+                new Color(0, 0, 255, 50), //Blue
+                new Color(255, 0, 255, 50), //Fuschia
             });
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), rainbow, projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
-		}
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), rainbow, projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
+        }
     }
 }

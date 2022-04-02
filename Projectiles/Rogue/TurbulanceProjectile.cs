@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TurbulanceProjectile : ModProjectile
+    public class TurbulanceProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Turbulance";
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Turbulance");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Turbulance");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			projectile.ai[0]++;
-			projectile.tileCollide = projectile.ai[0] >= 2f;
+            projectile.ai[0]++;
+            projectile.tileCollide = projectile.ai[0] >= 2f;
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
@@ -45,12 +45,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             if (projectile.Calamity().stealthStrike) //Stealth strike
-			{
-				if (projectile.timeLeft % 14 == 0)
-				{
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage, projectile.knockBack / 2, projectile.owner, 1f, 1f);
-				}
-			}
+            {
+                if (projectile.timeLeft % 14 == 0)
+                {
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage, projectile.knockBack / 2, projectile.owner, 1f, 1f);
+                }
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -63,31 +63,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(crit);
-		}
+            OnHitEffects(crit);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(crit);
-		}
+            OnHitEffects(crit);
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			OnHitEffects(false);
-			return true;
-		}
+            OnHitEffects(false);
+            return true;
+        }
 
-		private void OnHitEffects(bool homeIn)
-		{
+        private void OnHitEffects(bool homeIn)
+        {
             if (projectile.owner == Main.myPlayer)
             {
-				for (int w = 0; w < 4; w++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, homeIn ? 1f : 0f);
-				}
-			}
-		}
+                for (int w = 0; w < 4; w++)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, homeIn ? 1f : 0f);
+                }
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class LanternFlame : ModProjectile
+    public class LanternFlame : ModProjectile
     {
-		private bool playSound = true;
+        private bool playSound = true;
 
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.alpha = 255;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -42,12 +42,12 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			if (projectile.alpha > 0)
-			{
-				projectile.alpha -= 10;
-			}
-			if (projectile.alpha <= 25)
-			{
+            if (projectile.alpha > 0)
+            {
+                projectile.alpha -= 10;
+            }
+            if (projectile.alpha <= 25)
+            {
                 NPC potentialTarget = projectile.Center.MinionHoming(700f, Main.player[projectile.owner]);
                 if (potentialTarget != null)
                     projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / 21f;
@@ -88,11 +88,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			if (playSound)
+            if (playSound)
             {
                 Main.PlaySound(SoundID.Item74, projectile.position);
             }
-			playSound = false;
-		}
+            playSound = false;
+        }
     }
 }

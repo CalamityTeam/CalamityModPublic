@@ -8,7 +8,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class UniverseSplitterSmallBeam : ModProjectile
+    public class UniverseSplitterSmallBeam : ModProjectile
     {
         // Pretty self explanatory
         public const int FadeinTime = 25;

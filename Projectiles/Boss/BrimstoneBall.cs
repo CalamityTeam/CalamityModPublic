@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity = dspeed;
             }
-		}
+        }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

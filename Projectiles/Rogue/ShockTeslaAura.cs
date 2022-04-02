@@ -96,8 +96,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(BuffID.Electrified, 180);
 
-			if (target.knockBackResist <= 0f)
-				return;
+            if (target.knockBackResist <= 0f)
+                return;
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {

@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 8f;
         }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);

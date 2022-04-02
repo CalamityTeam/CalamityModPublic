@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueArkoftheAncientsSwungBlade : ModProjectile
+    public class TrueArkoftheAncientsSwungBlade : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients";
 

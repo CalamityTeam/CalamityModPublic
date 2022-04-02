@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-			projectile.minion = true;
+            projectile.minion = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;

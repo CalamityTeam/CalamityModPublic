@@ -18,13 +18,13 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.minion = true;
             projectile.penetrate = 1;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frost Shard");
-			ProjectileID.Sets.SentryShot[projectile.type] = true;
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void AI()

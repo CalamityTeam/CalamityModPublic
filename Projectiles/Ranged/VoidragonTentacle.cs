@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class VoidragonTentacle : ModProjectile
+    public class VoidragonTentacle : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -26,9 +26,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 5;
             projectile.MaxUpdates = 3;
             projectile.ranged = true;
-			projectile.extraUpdates = 1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.extraUpdates = 1;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

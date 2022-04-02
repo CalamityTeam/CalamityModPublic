@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Bohldohr : ModNPC
+    public class Bohldohr : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -14,8 +14,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.aiStyle = -1;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 80;
             npc.width = 40;
@@ -29,9 +29,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {

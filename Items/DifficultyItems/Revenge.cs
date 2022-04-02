@@ -66,7 +66,7 @@ namespace CalamityMod.Items.DifficultyItems
             }
         }
 
-		// Can only be used in Expert worlds. The Revengeance check is a failsafe that allows you to disable rev in normal mode worlds if it gets enabled for whatever reason.
+        // Can only be used in Expert worlds. The Revengeance check is a failsafe that allows you to disable rev in normal mode worlds if it gets enabled for whatever reason.
         public override bool CanUseItem(Player player) => Main.expertMode || CalamityWorld.revenge;
 
         public override bool UseItem(Player player)
@@ -106,14 +106,14 @@ namespace CalamityMod.Items.DifficultyItems
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
-				if (CalamityWorld.malice)
-				{
-					CalamityWorld.malice = false;
-					key = "Mods.CalamityMod.MaliceText2";
-					messageColor = Color.Crimson;
-					CalamityUtils.DisplayLocalizedText(key, messageColor);
-				}
-				CalamityWorld.DoGSecondStageCountdown = 0;
+                if (CalamityWorld.malice)
+                {
+                    CalamityWorld.malice = false;
+                    key = "Mods.CalamityMod.MaliceText2";
+                    messageColor = Color.Crimson;
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                }
+                CalamityWorld.DoGSecondStageCountdown = 0;
                 CalamityNetcode.SyncWorld();
             }
             return true;

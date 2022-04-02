@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class Trasher : ModNPC
+    public class Trasher : ModNPC
     {
         private bool hasBeenHit = false;
 
@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.noGravity = true;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.noGravity = true;
             npc.damage = 50;
             npc.width = 150;
             npc.height = 40;
@@ -38,11 +38,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<TrasherBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -113,9 +113,9 @@ namespace CalamityMod.NPCs.SulphurousSea
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.6f : 0.3f);
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.2f : 0.1f);
-					float velocityX = CalamityWorld.death ? 20f : 10f;
-					float velocityY = CalamityWorld.death ? 10f : 5f;
-					if (npc.velocity.X > velocityX)
+                    float velocityX = CalamityWorld.death ? 20f : 10f;
+                    float velocityY = CalamityWorld.death ? 10f : 5f;
+                    if (npc.velocity.X > velocityX)
                     {
                         npc.velocity.X = velocityX;
                     }
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
             }
             npc.rotation = npc.velocity.Y * (float)npc.direction * 0.05f;
-			npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
+            npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -316,8 +316,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
-		}
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

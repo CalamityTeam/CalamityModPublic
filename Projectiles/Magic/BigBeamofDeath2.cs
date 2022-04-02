@@ -26,13 +26,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 80;
         }
 
-		public override void AI()
-		{
-			Vector2 vector33 = projectile.position;
-			vector33 -= projectile.velocity * 0.25f;
-			int num448 = Dust.NewDust(vector33, 1, 1, 206, 0f, 0f, 0, default, 3f);
-			Main.dust[num448].position = vector33;
-			Main.dust[num448].velocity *= 0.1f;
-		}
+        public override void AI()
+        {
+            Vector2 vector33 = projectile.position;
+            vector33 -= projectile.velocity * 0.25f;
+            int num448 = Dust.NewDust(vector33, 1, 1, 206, 0f, 0f, 0, default, 3f);
+            Main.dust[num448].position = vector33;
+            Main.dust[num448].velocity *= 0.1f;
+        }
     }
 }

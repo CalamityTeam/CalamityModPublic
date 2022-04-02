@@ -5,10 +5,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-	public class Margarita : ModItem
+    public class Margarita : ModItem
     {
-		public static int BuffType = ModContent.BuffType<MargaritaBuff>();
-		public static int BuffDuration = 10800;
+        public static int BuffType = ModContent.BuffType<MargaritaBuff>();
+        public static int BuffDuration = 10800;
 
         public override void SetStaticDefaults()
         {

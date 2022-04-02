@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-	public class MiracleFruit : ModItem
+    public class MiracleFruit : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -57,10 +57,10 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-			recipe.AddIngredient(ItemID.TealMushroom);
-			recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
+            recipe.AddIngredient(ItemID.TealMushroom);
+            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

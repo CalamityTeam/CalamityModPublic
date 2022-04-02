@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 72;
-			item.height = 72;
-			item.scale = 1.2f;
-			item.damage = 108;
+            item.height = 72;
+            item.scale = 1.2f;
+            item.damage = 108;
             item.melee = true;
             item.useAnimation = item.useTime = 15;
             item.useTurn = true;
@@ -56,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Melee
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse != 2)
-				return 1f;
-			return 0.75f;
-		}
+        public override float UseTimeMultiplier    (Player player)
+        {
+            if (player.altFunctionUse != 2)
+                return 1f;
+            return 0.75f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -77,18 +77,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, item.knockBack, Main.myPlayer);
         }
     }
 }

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class MangroveChakram : RogueWeapon
+    public class MangroveChakram : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 damage = (int)(damage * 1.25f);
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

@@ -13,8 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("A bit too bright, but it helps you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-			//Main.persistentBuff[Type] = true;
-		}
+            //Main.persistentBuff[Type] = true;
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-	public class SeaMinnowJar : ModItem
+    public class SeaMinnowJar : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class BouncingShotgunPellet : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/RealmRavagerBullet";
-		private int bounce = 2;
+        private int bounce = 2;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shotgun Pellet");
@@ -24,25 +24,25 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
             projectile.timeLeft = 180;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			bounce--;
-			if (bounce <= 0)
-				projectile.Kill();
-			else
-			{
-				if (projectile.velocity.X != oldVelocity.X)
-					projectile.velocity.X = -oldVelocity.X;
-				if (projectile.velocity.Y != oldVelocity.Y)
-					projectile.velocity.Y = -oldVelocity.Y;
+            bounce--;
+            if (bounce <= 0)
+                projectile.Kill();
+            else
+            {
+                if (projectile.velocity.X != oldVelocity.X)
+                    projectile.velocity.X = -oldVelocity.X;
+                if (projectile.velocity.Y != oldVelocity.Y)
+                    projectile.velocity.Y = -oldVelocity.Y;
                 Main.PlaySound(SoundID.Item10, projectile.Center);
-				projectile.damage /= 2;
-			}
-			return false;
-		}
+                projectile.damage /= 2;
+            }
+            return false;
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Main.PlaySound(SoundID.Item10, projectile.Center);
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);

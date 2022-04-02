@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Shinobi Blade");
             Tooltip.SetDefault("Throws a fast blade that spawns healing orbs when it kills an enemy\n" +
-				"Stealth strikes cause 3 blades to be thrown at once");
+                "Stealth strikes cause 3 blades to be thrown at once");
         }
 
         public override void SafeSetDefaults()
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Vector2 currentDirection = baseDirection.RotatedBy(spreadAngle * i);
 
                     int p = Projectile.NewProjectile(position, currentDirection, type, damage, knockBack, player.whoAmI);
-					if (p.WithinBounds(Main.maxProjectiles))
-						Main.projectile[p].Calamity().stealthStrike = true;
+                    if (p.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[p].Calamity().stealthStrike = true;
                 }
                 return false;
             }

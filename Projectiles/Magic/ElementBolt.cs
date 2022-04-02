@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.timeLeft = 30;
             projectile.magic = true;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {
@@ -32,16 +32,16 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ElementOrb2>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
             }
 
-			for (int num447 = 0; num447 < 2; num447++)
-			{
-				Vector2 vector33 = projectile.position;
-				vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-				int num448 = Dust.NewDust(vector33, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
-				Main.dust[num448].noGravity = true;
-				Main.dust[num448].position = vector33;
-				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-				Main.dust[num448].velocity *= 0.1f;
-			}
+            for (int num447 = 0; num447 < 2; num447++)
+            {
+                Vector2 vector33 = projectile.position;
+                vector33 -= projectile.velocity * ((float)num447 * 0.25f);
+                int num448 = Dust.NewDust(vector33, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
+                Main.dust[num448].noGravity = true;
+                Main.dust[num448].position = vector33;
+                Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[num448].velocity *= 0.1f;
+            }
         }
     }
 }

@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -56,25 +56,25 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-					int newType = type;
-					switch (p)
-					{
-						case 0:
-						case 1:
-						case 3:
-						case 4:
-							newType = ModContent.ProjectileType<MiniSharkron>();
-							break;
-						case 2:
-							newType = ModContent.ProjectileType<TyphoonArrow>();
-							break;
-					}
+                    int newType = type;
+                    switch (p)
+                    {
+                        case 0:
+                        case 1:
+                        case 3:
+                        case 4:
+                            newType = ModContent.ProjectileType<MiniSharkron>();
+                            break;
+                        case 2:
+                            newType = ModContent.ProjectileType<TyphoonArrow>();
+                            break;
+                    }
                     int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, newType, (int)(damage * 1.1), knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[proj].arrow = true;
-						Main.projectile[proj].extraUpdates += 1;
-					}
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].arrow = true;
+                        Main.projectile[proj].extraUpdates += 1;
+                    }
                 }
                 else
                 {

@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class AeroStone : ModItem
+    public class AeroStone : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().aeroStone = true;
+            player.Calamity().aeroStone = true;
             player.moveSpeed += 0.1f;
             player.jumpSpeedBoost += 0.5f;
         }

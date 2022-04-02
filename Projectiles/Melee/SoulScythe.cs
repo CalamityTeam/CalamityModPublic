@@ -40,13 +40,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
-			target.AddBuff(BuffID.CursedInferno, 90);
-			if (target.life <= (target.lifeMax * 0.15f))
+            target.AddBuff(BuffID.CursedInferno, 90);
+            if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, projectile.position);
                 if (projectile.owner == Main.myPlayer)
                 {
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }

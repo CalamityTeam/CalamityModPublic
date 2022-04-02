@@ -9,9 +9,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnHorizontalSlash : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("The Final Dawn");
             Main.projFrames[projectile.type] = 9;
         }
         public override void SetDefaults()
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 600;
             projectile.height = 156;
             projectile.friendly = false;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.ownerHitCheck = true;
@@ -29,10 +29,10 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
-			if (player is null || player.dead)
-				projectile.Kill();
+            if (player is null || player.dead)
+                projectile.Kill();
 
             projectile.Center = player.Center;
             player.heldProj = projectile.whoAmI;

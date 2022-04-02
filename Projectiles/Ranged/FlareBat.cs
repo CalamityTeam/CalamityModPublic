@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class FlareBat : ModProjectile
+    public class FlareBat : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.light = 0.25f;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

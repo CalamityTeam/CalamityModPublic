@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class StormMarkSummon : ModProjectile
+    public class StormMarkSummon : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

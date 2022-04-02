@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y += 0.16f;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             int totalSageSpirits = Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<SageSpirit>()];
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
             target.Calamity().sagePoisonDamage = sagePoisonDamage;
         }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             if (Main.dedServ)
                 return;

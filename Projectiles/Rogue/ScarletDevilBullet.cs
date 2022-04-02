@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ScarletDevilBullet : ModProjectile
+    public class ScarletDevilBullet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,30 +30,30 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-				Vector2 center = projectile.Center;
-				float maxDistance = 1000f;
-				bool homeIn = false;
+                Vector2 center = projectile.Center;
+                float maxDistance = 1000f;
+                bool homeIn = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
+                if (homeIn)
                 {
                     Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
                     projectile.velocity = (projectile.velocity * 10f + moveDirection * 30f) / (11f);
-				}
+                }
                 else
                 {
                     projectile.velocity.X = 0f;

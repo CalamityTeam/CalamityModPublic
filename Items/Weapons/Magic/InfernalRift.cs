@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class InfernalRift : ModItem
+    public class InfernalRift : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 16f;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 

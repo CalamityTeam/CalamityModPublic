@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class AlulaAustralis : ModItem
+    public class AlulaAustralis : ModItem
     {
         public override void SetStaticDefaults()
         {

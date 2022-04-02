@@ -56,38 +56,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffect(target.Center);
-		}
+            OnHitEffect(target.Center);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffect(target.Center);
-		}
+            OnHitEffect(target.Center);
+        }
 
-		private void OnHitEffect(Vector2 targetPos)
-		{
-			if (Main.myPlayer != projectile.owner || !projectile.Calamity().stealthStrike)
-				return;
+        private void OnHitEffect(Vector2 targetPos)
+        {
+            if (Main.myPlayer != projectile.owner || !projectile.Calamity().stealthStrike)
+                return;
 
-			for (int i = 0; i < 2; i++)
-			{
-				int direction = Main.player[projectile.owner].direction;
-				float xStart = Main.screenPosition.X;
-				if (direction < 0)
-					xStart += Main.screenWidth;
-				float yStart = Main.screenPosition.Y + Main.rand.Next(Main.screenHeight);
-				Vector2 startPos = new Vector2(xStart, yStart);
-				Vector2 pathToTravel = targetPos - startPos;
-				pathToTravel.X += Main.rand.NextFloat(-50f, 50f) * 0.1f;
-				pathToTravel.Y += Main.rand.NextFloat(-50f, 50f) * 0.1f;
-				float speedMult = 24f / pathToTravel.Length();
-				pathToTravel.X *= speedMult;
-				pathToTravel.Y *= speedMult;
-				int petal = Projectile.NewProjectile(startPos, pathToTravel, ProjectileID.FlowerPetal, projectile.damage, 0f, projectile.owner);
-				if (petal.WithinBounds(Main.maxProjectiles))
-					Main.projectile[petal].Calamity().forceRogue = true;
-			}
-		}
+            for (int i = 0; i < 2; i++)
+            {
+                int direction = Main.player[projectile.owner].direction;
+                float xStart = Main.screenPosition.X;
+                if (direction < 0)
+                    xStart += Main.screenWidth;
+                float yStart = Main.screenPosition.Y + Main.rand.Next(Main.screenHeight);
+                Vector2 startPos = new Vector2(xStart, yStart);
+                Vector2 pathToTravel = targetPos - startPos;
+                pathToTravel.X += Main.rand.NextFloat(-50f, 50f) * 0.1f;
+                pathToTravel.Y += Main.rand.NextFloat(-50f, 50f) * 0.1f;
+                float speedMult = 24f / pathToTravel.Length();
+                pathToTravel.X *= speedMult;
+                pathToTravel.Y *= speedMult;
+                int petal = Projectile.NewProjectile(startPos, pathToTravel, ProjectileID.FlowerPetal, projectile.damage, 0f, projectile.owner);
+                if (petal.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[petal].Calamity().forceRogue = true;
+            }
+        }
 
         public override void Kill(int timeLeft)
         {

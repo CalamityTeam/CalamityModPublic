@@ -12,9 +12,9 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-			Main.buffNoTimeDisplay[Type] = true;
-			longerExpertDebuff = false;
+            Main.buffNoTimeDisplay[Type] = true;
+            longerExpertDebuff = false;
             canBeCleared = false;
         }
-	}
+    }
 }

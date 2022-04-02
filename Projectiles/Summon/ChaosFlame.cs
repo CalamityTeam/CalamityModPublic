@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
             if (projectile.localAI[0] == 0f)
             {
-				projectile.scale = 1f - Main.rand.NextFloat() * 0.5f;
+                projectile.scale = 1f - Main.rand.NextFloat() * 0.5f;
                 projectile.localAI[0] += 1f;
             }
             if (Main.rand.NextBool(4))
@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft == 300)
-				return false;
+            if (projectile.timeLeft == 300)
+                return false;
 
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;

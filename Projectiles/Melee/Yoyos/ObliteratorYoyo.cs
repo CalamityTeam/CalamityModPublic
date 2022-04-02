@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-	public class ObliteratorYoyo : ModProjectile
+    public class ObliteratorYoyo : ModProjectile
     {
         private const int FramesPerShot = 5;
 
@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // localAI[1] counts up to 19 (4 x 5 - 1), then resets back to 0 for a 20-frame cycle.
         public override void AI()
         {
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
 
             // Only do stuff once per frame, despite the yoyo's extra updates.
             extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
@@ -104,8 +104,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().forceMelee = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The ultimate fishing accessory\n" +
                 "Increases fishing skill by 80\n" +
                 "Fishing line will never break and decreases chance of bait consumption\n" +
-				"Increases chance to catch crates\n" +
+                "Increases chance to catch crates\n" +
                 "Sonar potion effect");
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             player.fishingSkill += 80;
             player.accFishingLine = true;
             player.accTackleBox = true;
-			player.Calamity().fishingStation = true;
+            player.Calamity().fishingStation = true;
             player.sonarPotion = true;
         }
 

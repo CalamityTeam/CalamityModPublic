@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SummonBrimstoneExplosion : ModProjectile
+    public class SummonBrimstoneExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,10 +30,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)
-			{
+            {
                 CreateInitialDust();
                 projectile.localAI[0] = 1f;
-			}
+            }
 
             // Emit crimson light.
             Lighting.AddLight(projectile.Center, Color.Red.ToVector3() * 1.1f);
@@ -42,11 +42,11 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public void CreateInitialDust()
-		{
+        {
             float randomnessSmoothness = 3f;
             for (int i = 0; i < 10; i++)
             {
-				randomnessSmoothness += i;
+                randomnessSmoothness += i;
 
                 int offsetVariance = (int)(randomnessSmoothness * 4f);
                 for (int j = 0; j < 30; j++)
@@ -63,10 +63,10 @@ namespace CalamityMod.Projectiles.Summon
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
         }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
             // Prevent absurd quantities of damage to the player.
             damage = (int)(damage * 0.018);
         }
-	}
+    }
 }

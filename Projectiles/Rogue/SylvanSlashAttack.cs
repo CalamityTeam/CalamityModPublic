@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 68;
             projectile.height = 68;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			if (Main.myPlayer != projectile.owner)
-				return;
+            if (Main.myPlayer != projectile.owner)
+                return;
 
             Player player = Main.player[projectile.owner];
             float num = 0f;
@@ -50,30 +50,30 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(SoundID.Item15, projectile.Center);
                 projectile.soundDelay = 24;
             }
-			if (player.channel && !player.noItems && !player.CCed)
-			{
-				float scaleFactor6 = 1f;
-				if (player.ActiveItem().shoot == projectile.type)
-				{
-					scaleFactor6 = player.ActiveItem().shootSpeed * projectile.scale;
-				}
-				Vector2 vector13 = Main.MouseWorld - vector;
-				vector13.Normalize();
-				if (vector13.HasNaNs())
-				{
-					vector13 = Vector2.UnitX * (float)player.direction;
-				}
-				vector13 *= scaleFactor6;
-				if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
-				{
-					projectile.netUpdate = true;
-				}
-				projectile.velocity = vector13;
-			}
-			else
-			{
-				projectile.Kill();
-			}
+            if (player.channel && !player.noItems && !player.CCed)
+            {
+                float scaleFactor6 = 1f;
+                if (player.ActiveItem().shoot == projectile.type)
+                {
+                    scaleFactor6 = player.ActiveItem().shootSpeed * projectile.scale;
+                }
+                Vector2 vector13 = Main.MouseWorld - vector;
+                vector13.Normalize();
+                if (vector13.HasNaNs())
+                {
+                    vector13 = Vector2.UnitX * (float)player.direction;
+                }
+                vector13 *= scaleFactor6;
+                if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
+                {
+                    projectile.netUpdate = true;
+                }
+                projectile.velocity = vector13;
+            }
+            else
+            {
+                projectile.Kill();
+            }
             Vector2 vector14 = projectile.Center + projectile.velocity * 3f;
             Lighting.AddLight(vector14, 0.2f, 2f, 3f);
             if (Main.rand.NextBool(3))
@@ -92,68 +92,68 @@ namespace CalamityMod.Projectiles.Rogue
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
 
-			if (projectile.ai[0] > 0)
-				projectile.ai[0]--;
+            if (projectile.ai[0] > 0)
+                projectile.ai[0]--;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-			if (projectile.owner == Main.myPlayer)
-			{
-				if (projectile.ai[0] <= 0f)
-				{
-					if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
-					{
-						if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
-						{
-							if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
-							{
-								modPlayer.rogueStealth += 0.05f;
-								projectile.ai[0] = 3f;
-								if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
-									modPlayer.rogueStealth = modPlayer.rogueStealthMax;
-							}
-						}
-					}
-				}
-				if (Main.rand.NextBool(8))
-				{
-					float speedMult = Main.rand.NextFloat(3,6);
+            if (projectile.owner == Main.myPlayer)
+            {
+                if (projectile.ai[0] <= 0f)
+                {
+                    if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
+                    {
+                        if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
+                        {
+                            if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
+                            {
+                                modPlayer.rogueStealth += 0.05f;
+                                projectile.ai[0] = 3f;
+                                if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
+                                    modPlayer.rogueStealth = modPlayer.rogueStealthMax;
+                            }
+                        }
+                    }
+                }
+                if (Main.rand.NextBool(8))
+                {
+                    float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                }
+            }
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-			if (projectile.owner == Main.myPlayer)
-			{
-				if (projectile.ai[0] <= 0f)
-				{
-					if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
-					{
-						if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
-						{
-							modPlayer.rogueStealth += 0.05f;
-							if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
-								modPlayer.rogueStealth = modPlayer.rogueStealthMax;
-						}
-					}
-				}
-				if (Main.rand.NextBool(8))
-				{
-					float speedMult = Main.rand.NextFloat(3,6);
+            if (projectile.owner == Main.myPlayer)
+            {
+                if (projectile.ai[0] <= 0f)
+                {
+                    if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
+                    {
+                        if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
+                        {
+                            modPlayer.rogueStealth += 0.05f;
+                            if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
+                                modPlayer.rogueStealth = modPlayer.rogueStealthMax;
+                        }
+                    }
+                }
+                if (Main.rand.NextBool(8))
+                {
+                    float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                }
+            }
+        }
     }
 }

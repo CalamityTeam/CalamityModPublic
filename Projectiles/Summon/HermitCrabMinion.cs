@@ -93,10 +93,10 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.frameCounter++;
                 }
-				else
-				{
-					projectile.frame = 0;
-				}
+                else
+                {
+                    projectile.frame = 0;
+                }
                 if (projectile.frameCounter > 4)
                 {
                     projectile.frame++;
@@ -109,38 +109,38 @@ namespace CalamityMod.Projectiles.Summon
                 float num633 = 600f;
                 bool chaseNPC = false;
                 float npcPositionX = 0f;
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float num646 = Vector2.Distance(npc.Center, projectile.Center);
-						if (!chaseNPC && num646 < num633)
-						{
-							num633 = num646;
-							vector46 = npc.Center;
-							npcPositionX = npc.position.X;
-							chaseNPC = true;
-						}
-					}
-				}
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                        if (!chaseNPC && num646 < num633)
+                        {
+                            num633 = num646;
+                            vector46 = npc.Center;
+                            npcPositionX = npc.position.X;
+                            chaseNPC = true;
+                        }
+                    }
+                }
                 if (!chaseNPC)
-				{
-					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
-					{
-						NPC npcTarget = Main.npc[num645];
-						if (npcTarget.CanBeChasedBy(projectile, false))
-						{
-							float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-							if (!chaseNPC && num646 < num633)
-							{
-								num633 = num646;
-								vector46 = npcTarget.Center;
-								npcPositionX = npcTarget.position.X;
-								chaseNPC = true;
-							}
-						}
-					}
+                {
+                    for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+                    {
+                        NPC npcTarget = Main.npc[num645];
+                        if (npcTarget.CanBeChasedBy(projectile, false))
+                        {
+                            float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
+                            if (!chaseNPC && num646 < num633)
+                            {
+                                num633 = num646;
+                                vector46 = npcTarget.Center;
+                                npcPositionX = npcTarget.position.X;
+                                chaseNPC = true;
+                            }
+                        }
+                    }
                 }
                 if (chaseNPC)
                 {
@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (playerDistance > 1000f)
                     {
                         fly = true;
-						chaseNPC = false;
+                        chaseNPC = false;
                         projectile.velocity.X = 0f;
                         projectile.velocity.Y = 0f;
                         projectile.tileCollide = false;
@@ -369,6 +369,6 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-	}
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+    }
 }

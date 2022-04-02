@@ -15,10 +15,10 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public Player Target => Main.player[npc.target];
         public bool LatchingOntoTarget
-		{
+        {
             get => npc.ai[0] == 1f;
             set => npc.ai[0] = value.ToInt();
-		}
+        }
         public ref float LackOfWaterDeathTimer => ref npc.ai[2];
         public const float ChasePromptDistance = 55f;
         public const float ChaseMaxDistance = 140f;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 14;
 
             npc.lifeMax = 30;
-			npc.damage = 0;
+            npc.damage = 0;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -53,11 +53,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WaterLeechBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.dontTakeDamage);
 
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
 
         public void LatchOntoTarget()
-		{
+        {
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.dontTakeDamage)
             {
                 npc.dontTakeDamage = false;
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-			float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
+            float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
             DropHelper.DropItemChance(npc, ModContent.ItemType<ParasiticSceptor>(), dropChance);
         }
     }

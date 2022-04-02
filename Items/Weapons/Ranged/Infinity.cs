@@ -32,16 +32,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.UseSound = SoundID.Item31;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.UseSound = SoundID.Item31;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -112,14 +112,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Shredder>());
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Shredder>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

@@ -22,21 +22,21 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Calamitas
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
     public class CalamitasRun3 : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Calamitas");
             Main.npcFrameCount[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
-			npc.npcSlots = 14f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
+            npc.npcSlots = 14f;
             npc.width = 120;
             npc.height = 120;
 
@@ -45,9 +45,9 @@ namespace CalamityMod.NPCs.Calamitas
 
             npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 12 : 25;
             npc.value = Item.buyPrice(0, 50, 0, 0);
-			npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
-			npc.LifeMaxNERB(37500, 45000, 520000);
-			if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
+            npc.LifeMaxNERB(37500, 45000, 520000);
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
@@ -66,14 +66,14 @@ namespace CalamityMod.NPCs.Calamitas
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<CalamitasBag>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-			writer.Write(npc.dontTakeDamage);
+            writer.Write(npc.dontTakeDamage);
             writer.Write(npc.localAI[0]);
             writer.Write(npc.localAI[1]);
             writer.Write(npc.localAI[2]);
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			npc.dontTakeDamage = reader.ReadBoolean();
+            npc.dontTakeDamage = reader.ReadBoolean();
             npc.localAI[0] = reader.ReadSingle();
             npc.localAI[1] = reader.ReadSingle();
             npc.localAI[2] = reader.ReadSingle();
@@ -103,82 +103,82 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void AI()
         {
-			CalamityAI.CalamitasCloneAI(npc, mod);
+            CalamityAI.CalamitasCloneAI(npc, mod);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			Texture2D texture = Main.npcTexture[npc.type];
-			Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[npc.type] / 2));
-			Color white = Color.White;
-			float colorLerpAmt = 0.5f;
-			int afterimageAmt = 7;
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int i = 1; i < afterimageAmt; i += 2)
-				{
-					Color color1 = lightColor;
-					color1 = Color.Lerp(color1, white, colorLerpAmt);
-					color1 = npc.GetAlpha(color1);
-					color1 *= (float)(afterimageAmt - i) / 15f;
-					Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, offset, npc.frame, color1, npc.rotation, origin, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			Vector2 npcOffset = npc.Center - Main.screenPosition;
-			npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			npcOffset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture, npcOffset, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
-
-			texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
-			Color color = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int i = 1; i < afterimageAmt; i++)
-				{
-					Color color2 = color;
-					color2 = Color.Lerp(color2, white, colorLerpAmt);
-					color2 *= (float)(afterimageAmt - i) / 15f;
-					Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, offset, npc.frame, color2, npc.rotation, origin, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			spriteBatch.Draw(texture, npcOffset, npc.frame, color, npc.rotation, origin, npc.scale, spriteEffects, 0f);
-
-			return false;
-		}
-
-		public override void NPCLoot()
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			DropHelper.DropBags(npc);
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[npc.type] / 2));
+            Color white = Color.White;
+            float colorLerpAmt = 0.5f;
+            int afterimageAmt = 7;
 
-			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int i = 1; i < afterimageAmt; i += 2)
+                {
+                    Color color1 = lightColor;
+                    color1 = Color.Lerp(color1, white, colorLerpAmt);
+                    color1 = npc.GetAlpha(color1);
+                    color1 *= (float)(afterimageAmt - i) / 15f;
+                    Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture, offset, npc.frame, color1, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+                }
+            }
+
+            Vector2 npcOffset = npc.Center - Main.screenPosition;
+            npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+            npcOffset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture, npcOffset, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+
+            texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
+            Color color = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int i = 1; i < afterimageAmt; i++)
+                {
+                    Color color2 = color;
+                    color2 = Color.Lerp(color2, white, colorLerpAmt);
+                    color2 *= (float)(afterimageAmt - i) / 15f;
+                    Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture, offset, npc.frame, color2, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+                }
+            }
+
+            spriteBatch.Draw(texture, npcOffset, npc.frame, color, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+
+            return false;
+        }
+
+        public override void NPCLoot()
+        {
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
 
-			CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
-			if (!Main.expertMode)
+            if (!Main.expertMode)
             {
-				//Materials
+                //Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
                 DropHelper.DropItem(npc, ModContent.ItemType<CalamityDust>(), 9, 14);
                 DropHelper.DropItem(npc, ModContent.ItemType<BlightedLens>(), 1, 2);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
@@ -187,19 +187,19 @@ namespace CalamityMod.NPCs.Calamitas
                     DropHelper.WeightStack<Animosity>(w),
                     DropHelper.WeightStack<CalamitasInferno>(w),
                     DropHelper.WeightStack<BlightedEyeStaff>(w),
-					DropHelper.WeightStack<ChaosStone>(w)
-				);
+                    DropHelper.WeightStack<ChaosStone>(w)
+                );
 
-				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>(), true);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>(), true);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);
-				if (Main.rand.NextBool(10))
-				{
-					DropHelper.DropItem(npc, ModContent.ItemType<CalamityHood>());
-					DropHelper.DropItem(npc, ModContent.ItemType<CalamityRobes>());
-				}
+                if (Main.rand.NextBool(10))
+                {
+                    DropHelper.DropItem(npc, ModContent.ItemType<CalamityHood>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<CalamityRobes>());
+                }
             }
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), !Main.expertMode, 0.1f);
@@ -271,8 +271,8 @@ namespace CalamityMod.NPCs.Calamitas
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
-		}
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

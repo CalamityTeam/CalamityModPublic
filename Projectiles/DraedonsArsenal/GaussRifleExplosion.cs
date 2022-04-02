@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = projectile.height = 500;
             projectile.friendly = true;
             projectile.ranged = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 20;
             projectile.usesLocalNPCImmunity = true;

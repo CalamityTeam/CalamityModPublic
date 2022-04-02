@@ -20,20 +20,20 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 22;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 22;
             projectile.height = 22;
             projectile.hostile = true;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+            projectile.ignoreWater = true;
             projectile.penetrate = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
-			if (projectile.velocity.Length() < 18f)
-				projectile.velocity *= 1.01f + (projectile.ai[0] * 0.0002f);
+            if (projectile.velocity.Length() < 18f)
+                projectile.velocity *= 1.01f + (projectile.ai[0] * 0.0002f);
 
             if (projectile.position.Y > projectile.ai[1])
                 projectile.tileCollide = true;
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Mounts
             DisplayName.SetDefault("Exo Box");
             Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
                 "Replaced\n" +
-				"Also replaced\n" +
+                "Also replaced\n" +
                 "A comfortable gamer is a dangerous gamer");
         }
 

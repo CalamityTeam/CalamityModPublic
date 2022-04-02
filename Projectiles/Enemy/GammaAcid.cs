@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
             projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {

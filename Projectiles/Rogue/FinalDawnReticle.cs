@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FinalDawnReticle : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("The Final Dawn");
+        }
         public override void SetDefaults()
         {
             projectile.scale = 1.5f;
@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
-			if (projectile.ai[1] == 0)
-				projectile.ai[1] = 1;
+            if (projectile.ai[1] == 0)
+                projectile.ai[1] = 1;
             if (projectile.ai[0] == 0)
             {
                 int dustCount = 36;
@@ -47,16 +47,16 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 projectile.ai[0] = 1;
             }
-			projectile.alpha += 8;
-			projectile.scale *= 0.98f;
-			projectile.ai[1] *= 1.01f;
-			if(projectile.alpha >= 255)
-				projectile.Kill();
+            projectile.alpha += 8;
+            projectile.scale *= 0.98f;
+            projectile.ai[1] *= 1.01f;
+            if(projectile.alpha >= 255)
+                projectile.Kill();
         }
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D ring = Main.projectileTexture[projectile.type];
-			Texture2D symbol = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
+            Texture2D symbol = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
             spriteBatch.Draw(symbol,
                              projectile.Center - Main.screenPosition,
                              null,

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class StardustElementalBeam : BaseLaserbeamProjectile
+    public class StardustElementalBeam : BaseLaserbeamProjectile
     {
         public override float MaxScale => 0.85f;
         public override float MaxLaserLength => 1000f;
@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Magic
             int type = ModContent.ProjectileType<BeamStar>();
             damage = (int)(projectile.damage * 0.7);
             for (int i = 0; i < 4; i++)
-			{
+            {
                 float spawnOffsetAngle = MathHelper.Lerp(spawnOffsetSpread * -0.5f, spawnOffsetSpread * 0.5f, i / 4f) + baseOffsetAngle;
                 Vector2 spawnPosition = target.Top - Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 65f;
                 Projectile.NewProjectile(spawnPosition, -Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 2f, type, damage, knockback, projectile.owner);
-			}
+            }
         }
     }
 }

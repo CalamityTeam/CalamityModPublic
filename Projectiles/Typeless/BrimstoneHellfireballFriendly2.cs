@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.timeLeft = 50;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;

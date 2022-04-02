@@ -32,35 +32,35 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<DualpoonProj>();
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-			float piOverTen = MathHelper.Pi * 0.1f;
-			int projCount = 2;
-			Vector2 velocity = new Vector2(speedX, speedY);
-			velocity.Normalize();
-			velocity *= 40f;
-			bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
-			for (int projIndex = 0; projIndex < projCount; projIndex++)
-			{
-				float num120 = projIndex - (projCount - 1f) / 2f;
-				Vector2 offset = velocity.RotatedBy((double)(piOverTen * num120), default);
-				if (!canHit)
-				{
-					offset -= velocity;
-				}
-				Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
-			return false;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piOverTen = MathHelper.Pi * 0.1f;
+            int projCount = 2;
+            Vector2 velocity = new Vector2(speedX, speedY);
+            velocity.Normalize();
+            velocity *= 40f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int projIndex = 0; projIndex < projCount; projIndex++)
+            {
+                float num120 = projIndex - (projCount - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(piOverTen * num120), default);
+                if (!canHit)
+                {
+                    offset -= velocity;
+                }
+                Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            }
+            return false;
+        }
 
         public override void AddRecipes()
         {

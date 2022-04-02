@@ -14,8 +14,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use at your own risk\n" +
-			   "Summons the Brimstone Elemental when used in the brimstone crags\n" +
-			   "Not consumable");
+               "Summons the Brimstone Elemental when used in the brimstone crags\n" +
+               "Not consumable");
         }
 
         public override void SetDefaults()
@@ -38,12 +38,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()
@@ -51,8 +51,8 @@ namespace CalamityMod.Items.SummonItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 2);
-			recipe.AddTile(TileID.Hellforge);
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 2);
+            recipe.AddTile(TileID.Hellforge);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -34,10 +34,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.HitSound = SoundID.NPCHit22;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VirulingBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -55,11 +55,11 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
             float num = 6f; //2
             float num2 = 0.05f;
-			if (CalamityWorld.death)
-			{
-				num *= 1.5f;
-				num2 *= 1.5f;
-			}
+            if (CalamityWorld.death)
+            {
+                num *= 1.5f;
+                num2 *= 1.5f;
+            }
             Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
     }
 }

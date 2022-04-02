@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ShockGrenadeBolt : ModProjectile
+    public class ShockGrenadeBolt : ModProjectile
     {
         public static int frameWidth = 12;
         public static int frameHeight = 26;

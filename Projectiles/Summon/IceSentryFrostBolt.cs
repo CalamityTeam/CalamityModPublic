@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Ball");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			ProjectileID.Sets.SentryShot[projectile.type] = true;
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 2;
             projectile.timeLeft = 480;
             projectile.minion = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

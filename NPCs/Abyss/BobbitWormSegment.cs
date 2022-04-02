@@ -31,18 +31,18 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-			if (npc.ai[0] == 0f)
-			{
-				for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
-				{
-					if (CalamityGlobalNPC.bobbitWormBottom[i] == -1)
-					{
-						CalamityGlobalNPC.bobbitWormBottom[i] = npc.whoAmI;
-						npc.ai[0] = (float)i;
-						break;
-					}
-				}
-			}
+            if (npc.ai[0] == 0f)
+            {
+                for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
+                {
+                    if (CalamityGlobalNPC.bobbitWormBottom[i] == -1)
+                    {
+                        CalamityGlobalNPC.bobbitWormBottom[i] = npc.whoAmI;
+                        npc.ai[0] = (float)i;
+                        break;
+                    }
+                }
+            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -50,9 +50,9 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[1] = 1f;
                     int spawnedNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<BobbitWormHead>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-					Main.npc[spawnedNPC].ai[2] = (float)CalamityGlobalNPC.bobbitWormBottom[(int)npc.ai[0]];
-					npc.ai[2] = (float)spawnedNPC;
-				}
+                    Main.npc[spawnedNPC].ai[2] = (float)CalamityGlobalNPC.bobbitWormBottom[(int)npc.ai[0]];
+                    npc.ai[2] = (float)spawnedNPC;
+                }
             }
 
             if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)

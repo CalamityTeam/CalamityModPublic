@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "+3 defense and +1 max minion\n" +
                 "+5 defense when below 50% life";
             player.statDefense += 3; //8
-			player.maxMinions++;
-			if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
+            player.maxMinions++;
+            if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.statDefense += 5; //13
             }

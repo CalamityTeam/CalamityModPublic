@@ -18,7 +18,7 @@ using CrateTile = CalamityMod.Tiles.Abyss.AbyssalCrateTile;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-	public class AbyssalCrate : ModItem
+    public class AbyssalCrate : ModItem
     {
         public override void SetStaticDefaults()
         {

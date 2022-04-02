@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class IgneousBlade : ModProjectile
+    public class IgneousBlade : ModProjectile
     {
         public bool Firing = false;
         public override void SetStaticDefaults()
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] = 1f;
-			}
+            }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
@@ -84,8 +84,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-				if (projectile.penetrate == -1) //limit penetration for worm memes
-					projectile.penetrate = 3;
+                if (projectile.penetrate == -1) //limit penetration for worm memes
+                    projectile.penetrate = 3;
 
                 projectile.ai[0]--;
                 if (projectile.ai[0] == 1)

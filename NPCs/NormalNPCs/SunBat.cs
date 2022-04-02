@@ -30,27 +30,27 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath4;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SunBatBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
-		public override void AI()
-		{
-			CalamityGlobalAI.BuffedBatAI(npc, mod);
-		}
-
-		public override void FindFrame(int frameHeight)
+        public override void AI()
         {
-			if (npc.velocity.X > 0f)
-				npc.spriteDirection = 1;
-			if (npc.velocity.X < 0f)
-				npc.spriteDirection = -1;
+            CalamityGlobalAI.BuffedBatAI(npc, mod);
+        }
 
-			npc.rotation = npc.velocity.X * 0.1f;
+        public override void FindFrame(int frameHeight)
+        {
+            if (npc.velocity.X > 0f)
+                npc.spriteDirection = 1;
+            if (npc.velocity.X < 0f)
+                npc.spriteDirection = -1;
 
-			npc.frameCounter += 0.15f;
+            npc.rotation = npc.velocity.X * 0.1f;
+
+            npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), 3);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), 3);
         }
     }
 }

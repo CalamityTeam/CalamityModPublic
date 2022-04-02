@@ -13,7 +13,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueGrovetendersTouch : ModProjectile
+    public class TrueGrovetendersTouch : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchBlade";

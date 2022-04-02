@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 60;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -43,22 +43,22 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile proj = Main.projectile[i];
                 if (proj.type == ModContent.ProjectileType<IceBarrageMain>() && proj.owner == Main.myPlayer)
                 {
-					Vector2 pos1 = new Vector2(proj.Center.X, proj.Center.Y - (proj.height * 0.5f) - 44f);
-					Vector2 pos2 = new Vector2(proj.Center.X + (proj.width * 0.5f) + 48f, proj.Center.Y);
-					Vector2 pos3 = new Vector2(proj.Center.X, proj.Center.Y + (proj.height * 0.5f) + 44f);
-					Vector2 pos4 = new Vector2(proj.Center.X - (proj.width * 0.5f) - 49f, proj.Center.Y);
-					switch (projectile.ai[0])
-					{
-						case 0: projectile.Center = pos1;
-								break;
-						case 1: projectile.Center = pos2;
-								break;
-						case 2: projectile.Center = pos3;
-								break;
-						case 3: projectile.Center = pos4;
-								break;
-						default: break;
-					}
+                    Vector2 pos1 = new Vector2(proj.Center.X, proj.Center.Y - (proj.height * 0.5f) - 44f);
+                    Vector2 pos2 = new Vector2(proj.Center.X + (proj.width * 0.5f) + 48f, proj.Center.Y);
+                    Vector2 pos3 = new Vector2(proj.Center.X, proj.Center.Y + (proj.height * 0.5f) + 44f);
+                    Vector2 pos4 = new Vector2(proj.Center.X - (proj.width * 0.5f) - 49f, proj.Center.Y);
+                    switch (projectile.ai[0])
+                    {
+                        case 0: projectile.Center = pos1;
+                                break;
+                        case 1: projectile.Center = pos2;
+                                break;
+                        case 2: projectile.Center = pos3;
+                                break;
+                        case 3: projectile.Center = pos4;
+                                break;
+                        default: break;
+                    }
                 }
             }
             switch (projectile.ai[0])

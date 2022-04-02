@@ -45,10 +45,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
-			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), projectile.damage / 2, 0f, projectile.owner, 1f, 0f);
-			}
+            if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), projectile.damage / 2, 0f, projectile.owner, 1f, 0f);
+            }
         }
     }
 }

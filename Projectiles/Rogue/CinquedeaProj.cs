@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CinquedeaProj : ModProjectile
+    public class CinquedeaProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Cinquedea";
 
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Stealth strike
             if (stealthstrike)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 7f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else

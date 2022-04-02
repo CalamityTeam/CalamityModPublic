@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-	public class DespairStone : ModNPC
+    public class DespairStone : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Crags
             npc.width = 72;
             npc.height = 72;
             npc.defense = 38;
-			npc.DR_NERD(0.35f);
+            npc.DR_NERD(0.35f);
             npc.lifeMax = 120;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -39,10 +39,10 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
@@ -60,12 +60,12 @@ namespace CalamityMod.NPCs.Crags
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

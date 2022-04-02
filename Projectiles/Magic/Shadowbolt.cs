@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class Shadowbolt : ModProjectile
+    public class Shadowbolt : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -49,10 +49,10 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			projectile.damage = (int)(projectile.damage * 1.15);
-		}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            projectile.damage = (int)(projectile.damage * 1.15);
+        }
 
         public override void AI()
         {

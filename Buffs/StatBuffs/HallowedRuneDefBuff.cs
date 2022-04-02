@@ -12,14 +12,14 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-			Main.buffNoTimeDisplay[Type] = true;
+            Main.buffNoTimeDisplay[Type] = true;
             longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-			player.statDefense += 8;
-			player.endurance += 0.04f;
-		}
+            player.statDefense += 8;
+            player.endurance += 0.04f;
+        }
     }
 }

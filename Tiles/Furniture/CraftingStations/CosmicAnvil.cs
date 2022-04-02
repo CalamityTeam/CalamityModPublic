@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
-			Main.tileSolidTop[Type] = true;
-			Main.tileTable[Type] = true;
+            Main.tileSolidTop[Type] = true;
+            Main.tileTable[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };

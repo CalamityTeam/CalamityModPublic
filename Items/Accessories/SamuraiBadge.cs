@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Warbanner of the Sun");
             Tooltip.SetDefault("Increases melee damage, true melee damage and melee speed the closer you are to enemies\n" +
-				"Max boost is 20% increased melee damage, true melee damage and melee speed");
+                "Max boost is 20% increased melee damage, true melee damage and melee speed");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
 
@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 32;
             item.height = 78;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.accessory = true;
-		}
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.accessory = true;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

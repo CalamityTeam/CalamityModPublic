@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class HallowedRune : ModItem
+    public class HallowedRune : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.SoulofFright, 5);
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.SoulofSight, 5);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

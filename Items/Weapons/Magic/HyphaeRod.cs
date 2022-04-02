@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float xDist = (float)Main.mouseX + Main.screenPosition.X + source.X;
             float yDist = (float)Main.mouseY + Main.screenPosition.Y + source.Y;
-			Vector2 spawnVec = new Vector2(xDist, yDist);
+            Vector2 spawnVec = new Vector2(xDist, yDist);
             if (player.gravDir == -1f)
             {
                 spawnVec.Y = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + source.Y;
@@ -82,11 +82,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 spawnVec.X += (float)Main.rand.Next(-180, 181) * 0.02f;
                 spawnVec.Y += (float)Main.rand.Next(-180, 181) * 0.02f;
                 int proj = Projectile.NewProjectile(source, spawnVec, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
-				if (proj.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[proj].Calamity().forceMagic = true;
-					Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
-				}
+                if (proj.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[proj].Calamity().forceMagic = true;
+                    Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
+                }
             }
             return false;
         }

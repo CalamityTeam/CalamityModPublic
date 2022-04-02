@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class NastyCholla : RogueWeapon
+    public class NastyCholla : RogueWeapon
     {
         public static int BaseDamage = 9;
 
@@ -25,8 +25,8 @@ Stealth strikes throw five at once");
             item.damage = BaseDamage;
             item.noMelee = true;
             item.noUseGraphic = true;
-			item.maxStack = 999;
-			item.consumable = true;
+            item.maxStack = 999;
+            item.consumable = true;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
@@ -49,8 +49,8 @@ Stealth strikes throw five at once");
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().stealthStrike = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

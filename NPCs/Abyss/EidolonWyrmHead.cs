@@ -15,9 +15,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class EidolonWyrmHead : ModNPC
+    public class EidolonWyrmHead : ModNPC
     {
-		private Vector2 patrolSpot = Vector2.Zero;
+        private Vector2 patrolSpot = Vector2.Zero;
         public bool detectsPlayer = false;
         public const int minLength = 40;
         public const int maxLength = 41;
@@ -32,13 +32,13 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 8f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.npcSlots = 8f;
             npc.damage = 170;
             npc.width = 126; //36
             npc.height = 76; //20
             npc.defense = 70;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 160000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -53,35 +53,35 @@ namespace CalamityMod.NPCs.Abyss
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EidolonWyrmJuvenileBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-			writer.WriteVector2(patrolSpot);
+            writer.WriteVector2(patrolSpot);
             writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			patrolSpot = reader.ReadVector2();
+            patrolSpot = reader.ReadVector2();
             detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-			bool adultWyrmAlive = false;
-			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-					adultWyrmAlive = true;
-			}
-			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || adultWyrmAlive)
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || adultWyrmAlive)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.Abyss
                         int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
                         float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
-						int randomAmt = adultWyrmAlive ? 2 : 3;
+                        int randomAmt = adultWyrmAlive ? 2 : 3;
                         int random = Main.rand.Next(randomAmt);
                         if (random == 0)
                         {
@@ -215,24 +215,24 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.spriteDirection = 1;
             }
-			if (Main.player[npc.target].dead)
-			{
-				npc.TargetClosest(false);
+            if (Main.player[npc.target].dead)
+            {
+                npc.TargetClosest(false);
 
-				npc.velocity.Y += 3f;
-				if (npc.position.Y > Main.worldSurface * 16.0)
-					npc.velocity.Y += 3f;
+                npc.velocity.Y += 3f;
+                if (npc.position.Y > Main.worldSurface * 16.0)
+                    npc.velocity.Y += 3f;
 
-				if (npc.position.Y > (Main.maxTilesY - 200) * 16.0)
-				{
-					for (int a = 0; a < Main.maxNPCs; a++)
-					{
-						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTail>())
-							Main.npc[a].active = false;
-					}
-				}
-			}
-			npc.alpha -= 42;
+                if (npc.position.Y > (Main.maxTilesY - 200) * 16.0)
+                {
+                    for (int a = 0; a < Main.maxNPCs; a++)
+                    {
+                        if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTail>())
+                            Main.npc[a].active = false;
+                    }
+                }
+            }
+            npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
@@ -246,27 +246,27 @@ namespace CalamityMod.NPCs.Abyss
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 
-			if (patrolSpot == Vector2.Zero)
-				patrolSpot = Main.player[npc.target].Center;
+            if (patrolSpot == Vector2.Zero)
+                patrolSpot = Main.player[npc.target].Center;
 
-			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+            float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
             float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
 
-			if (!detectsPlayer)
-			{
-				num192 += 800;
-				if (Math.Abs(npc.Center.X - num191) < 400f) //500
-				{
-					if (npc.velocity.X > 0f)
-					{
-						num191 += 500f;
-					}
-					else
-					{
-						num191 -= 500f;
-					}
-				}
-			}
+            if (!detectsPlayer)
+            {
+                num192 += 800;
+                if (Math.Abs(npc.Center.X - num191) < 400f) //500
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        num191 += 500f;
+                    }
+                    else
+                    {
+                        num191 -= 500f;
+                    }
+                }
+            }
             else
             {
                 num188 = 7.5f;
@@ -276,14 +276,14 @@ namespace CalamityMod.NPCs.Abyss
                     num188 = 15f;
                     num189 = 0.25f;
                 }
-				if (adultWyrmAlive)
-				{
-					if (!Main.player[npc.target].Calamity().ZoneAbyssLayer4)
-					{
-						num188 = 22.5f;
-						num189 = 0.375f;
-					}
-				}
+                if (adultWyrmAlive)
+                {
+                    if (!Main.player[npc.target].Calamity().ZoneAbyssLayer4)
+                    {
+                        num188 = 22.5f;
+                        num189 = 0.375f;
+                    }
+                }
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
@@ -410,37 +410,37 @@ namespace CalamityMod.NPCs.Abyss
             npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
         }
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			bool adultWyrmAlive = false;
-			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-					adultWyrmAlive = true;
-			}
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
 
-			if (adultWyrmAlive)
-				cooldownSlot = 1;
+            if (adultWyrmAlive)
+                cooldownSlot = 1;
 
-			Rectangle targetHitbox = target.Hitbox;
+            Rectangle targetHitbox = target.Hitbox;
 
-			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
-			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
-			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
-			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+            float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
 
-			float minDist = dist1;
-			if (dist2 < minDist)
-				minDist = dist2;
-			if (dist3 < minDist)
-				minDist = dist3;
-			if (dist4 < minDist)
-				minDist = dist4;
+            float minDist = dist1;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
 
-			return minDist <= 40f;
-		}
+            return minDist <= 40f;
+        }
 
-		public override bool? CanBeHitByProjectile(Projectile projectile)
+        public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
@@ -480,24 +480,24 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-		public override bool PreNPCLoot()
-		{
-			bool adultWyrmAlive = false;
-			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-					adultWyrmAlive = true;
-			}
+        public override bool PreNPCLoot()
+        {
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
 
-			return !adultWyrmAlive;
-		}
+            return !adultWyrmAlive;
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<StardustStaff>(), CalamityWorld.downedPolterghast, 10, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<StardustStaff>(), CalamityWorld.downedPolterghast, 10, 1, 1);
             int minLumenyl = Main.expertMode ? 8 : 6;
             int maxLumenyl = Main.expertMode ? 11 : 8;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);

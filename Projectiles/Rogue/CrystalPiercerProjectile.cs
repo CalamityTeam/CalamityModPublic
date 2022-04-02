@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CrystalPiercerProjectile : ModProjectile
+    public class CrystalPiercerProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CrystalPiercer";
 
@@ -40,16 +40,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
 
-			if (projectile.Calamity().stealthStrike)
-			{
-				if (projectile.timeLeft % 4 == 0)
-				{
-					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<CrystalPiercerShard>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
-					}
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (projectile.timeLeft % 4 == 0)
+                {
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<CrystalPiercerShard>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
+                    }
                 }
-			}
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -58,14 +58,14 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-		//glowmask effect if stealth strike
+        //glowmask effect if stealth strike
         public override Color? GetAlpha(Color lightColor)
-		{
-			if (projectile.Calamity().stealthStrike)
-				return new Color(200, 200, 200, 200);
-			else
-				return null;
-		}
+        {
+            if (projectile.Calamity().stealthStrike)
+                return new Color(200, 200, 200, 200);
+            else
+                return null;
+        }
 
         public override void Kill(int timeLeft)
         {

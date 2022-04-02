@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class CardClubSplit : ModProjectile
+    public class CardClubSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
-			projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
-			projectile.spriteDirection = projectile.direction;
+            projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
+            projectile.spriteDirection = projectile.direction;
             if (Main.rand.NextBool(2))
             {
                 int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 30, 0f, 0f, 0, default, 0.5f);
@@ -41,10 +41,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num137].noGravity = true;
             }
 
-			if (projectile.alpha < 128)
-			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
-			}
+            if (projectile.alpha < 128)
+            {
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -73,9 +73,9 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-		public override bool CanDamage()
-		{
-			return projectile.alpha < 128;
-		}
+        public override bool CanDamage()
+        {
+            return projectile.alpha < 128;
+        }
     }
 }

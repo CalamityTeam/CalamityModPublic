@@ -9,7 +9,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PolarisGazeStar : ModProjectile
+    public class PolarisGazeStar : ModProjectile
     {
         public override string Texture => "CalamityMod/Particles/Sparkle";
         private bool initialized = false;

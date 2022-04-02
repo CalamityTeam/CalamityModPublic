@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity *= 0.985f;
             for (int dust = 0; dust < 2; dust++)
             {
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					64,
-					204
-				});
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    64,
+                    204
+                });
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
@@ -40,11 +40,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 5; k++)
             {
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					64,
-					204
-				});
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    64,
+                    204
+                });
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
             float spread = 90f * 0.0174f;

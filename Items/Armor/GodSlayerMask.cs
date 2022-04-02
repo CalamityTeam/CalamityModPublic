@@ -55,10 +55,10 @@ namespace CalamityMod.Items.Armor
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 
             if (modPlayer.godSlayerDashHotKeyPressed)
-			{
+            {
                 modPlayer.dashMod = 9;
-				player.dash = 0;
-			}
+                player.dash = 0;
+            }
         }
 
         public override void UpdateEquip(Player player)

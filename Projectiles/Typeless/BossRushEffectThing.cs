@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class BossRushEffectThing : ModProjectile
+    public class BossRushEffectThing : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             projectile.Center = Owner.Center;
             if (Time >= 70f)
                 MoonlordDeathDrama.RequestLight(Utils.InverseLerp(70f, 85f, Time, true), Main.LocalPlayer.Center);
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             BossRushEvent.SyncStartTimer(BossRushEvent.StartEffectTotalTime);
             for (int doom = 0; doom < 200; doom++)
             {
@@ -71,5 +71,5 @@ namespace CalamityMod.Projectiles.Typeless
                 netMessage.Send();
             }
         }
-	}
+    }
 }

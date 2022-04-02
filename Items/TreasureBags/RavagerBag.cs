@@ -14,7 +14,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class RavagerBag : ModItem
+    public class RavagerBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<RavagerBody>();
 
@@ -55,11 +55,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Hematemesis>(w),
                 DropHelper.WeightStack<SpikecragStaff>(w),
                 DropHelper.WeightStack<CraniumSmasher>(w)
-			);
+            );
             DropHelper.DropItemChance(player, ModContent.ItemType<CorpusAvertor>(), 0.05f);
 
-			// Equipment
-			DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
+            // Equipment
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
             DropHelper.DropItemChance(player, ModContent.ItemType<FleshTotem>(), 0.5f);
             DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
             DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge && !player.Calamity().rageBoostTwo);

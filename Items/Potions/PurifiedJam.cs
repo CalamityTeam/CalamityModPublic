@@ -35,16 +35,16 @@ namespace CalamityMod.Items.Potions
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Makes you immune to all damage and most debuffs for 5 seconds";
-					}
-				}
-			}
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Makes you immune to all damage and most debuffs for 5 seconds";
+                    }
+                }
+            }
         }
 
         public override bool CanUseItem(Player player)

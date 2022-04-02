@@ -20,8 +20,8 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().kamiBoost = true;
-			if (player.buffTime[buffIndex] == 1)
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
+            if (player.buffTime[buffIndex] == 1)
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
         }
     }
 }

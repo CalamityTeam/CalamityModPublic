@@ -57,8 +57,8 @@ namespace CalamityMod.Projectiles.Ranged
 
             Time++;
         }
-		public void ReleaseIdleDust()
-		{
+        public void ReleaseIdleDust()
+        {
             if (Main.dedServ)
                 return;
 
@@ -81,11 +81,11 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override Color? GetAlpha(Color lightColor)
-		{
+        {
             Color color = Color.Honeydew * projectile.Opacity;
             color.A = 0;
             return color;
-		}
+        }
 
         public override void Kill(int timeLeft)
         {

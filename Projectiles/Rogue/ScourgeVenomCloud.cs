@@ -38,17 +38,17 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.ai[0] < 219f) //255 - frameCounter tick * number of disippation frames
-			{
-				if (projectile.frame >= 4)
-				{
-					projectile.frame = 0;
-				}
-			}
-			else if (projectile.owner == Main.myPlayer && projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.Kill();
-			}
+            if (projectile.ai[0] < 219f) //255 - frameCounter tick * number of disippation frames
+            {
+                if (projectile.frame >= 4)
+                {
+                    projectile.frame = 0;
+                }
+            }
+            else if (projectile.owner == Main.myPlayer && projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.Kill();
+            }
             projectile.velocity *= 0.98f;
             if (projectile.alpha > 110)
             {
@@ -69,8 +69,8 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 120);
             if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer) //stealth strike attack
             {
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
-			}
+                target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -78,8 +78,8 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 120);
             if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer) //stealth strike attack
             {
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
-			}
+                target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);
+            }
         }
     }
 }

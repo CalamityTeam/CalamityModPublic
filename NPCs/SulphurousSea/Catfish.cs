@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class Catfish : ModNPC
+    public class Catfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -32,11 +32,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             banner = npc.type;
             bannerItem = ModContent.ItemType<CatfishBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -77,8 +77,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
-		}
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

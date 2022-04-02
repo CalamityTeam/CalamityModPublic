@@ -14,9 +14,9 @@ namespace CalamityMod.Events
             base.Apply();
         }
 
-		public override void Update(GameTime gameTime)
-		{
+        public override void Update(GameTime gameTime)
+        {
             UseColor(Color.Lerp(BossRushSky.GeneralColor, Color.Black, BossRushEvent.WhiteDimness));
         }
-	}
+    }
 }

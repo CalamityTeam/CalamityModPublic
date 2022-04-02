@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class NastyChollaNeedle : ModProjectile
+    public class NastyChollaNeedle : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,23 +27,23 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-			projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-			//Rotating 45 degrees if shooting right
-			if (projectile.spriteDirection == 1)
-			{
-				projectile.rotation += MathHelper.ToRadians(45f);
-			}
-			//Rotating 45 degrees if shooting right
-			if (projectile.spriteDirection == -1)
-			{
-				projectile.rotation -= MathHelper.ToRadians(45f);
-			}
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            //Rotating 45 degrees if shooting right
+            if (projectile.spriteDirection == 1)
+            {
+                projectile.rotation += MathHelper.ToRadians(45f);
+            }
+            //Rotating 45 degrees if shooting right
+            if (projectile.spriteDirection == -1)
+            {
+                projectile.rotation -= MathHelper.ToRadians(45f);
+            }
             projectile.velocity.X *= 0.9995f;
             projectile.velocity.Y = projectile.velocity.Y + 0.01f;
         }
 
-		//So you can stick a needle up the Tinkerer's ass
+        //So you can stick a needle up the Tinkerer's ass
         public override bool? CanHitNPC(NPC target) => target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TalonLargeProj : ModProjectile
+    public class TalonLargeProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,12 +20,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 10;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 10;
             projectile.tileCollide = false;
             projectile.timeLeft = 180;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 2;
+            projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

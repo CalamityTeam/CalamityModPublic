@@ -19,12 +19,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-	public class ThaumaticChair : ModItem
+    public class ThaumaticChair : ModItem
     {
         public override void SetStaticDefaults()
         {
-			DisplayName.SetDefault("Thaumatic Chair"); // for Deallly#3625 who apparently deleted their account.  how do I contact them??????
-			Tooltip.SetDefault("One of Chloe's finest creations"); // who is Chloe?
+            DisplayName.SetDefault("Thaumatic Chair"); // for Deallly#3625 who apparently deleted their account.  how do I contact them??????
+            Tooltip.SetDefault("One of Chloe's finest creations"); // who is Chloe?
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.consumable = true;
             item.createTile = ModContent.TileType<ThaumaticChairTile>();
             item.Calamity().customRarity = CalamityRarity.Violet;
-			item.Calamity().donorItem = true;
+            item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()

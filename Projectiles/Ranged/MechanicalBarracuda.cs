@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class MechanicalBarracuda : ModProjectile
+    public class MechanicalBarracuda : ModProjectile
     {
         public override void SetStaticDefaults()
         {

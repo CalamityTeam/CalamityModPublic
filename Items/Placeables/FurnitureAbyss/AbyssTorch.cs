@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             Lighting.AddLight((int)((item.position.X + item.width / 2) / 16f), (int)((item.position.Y + item.height / 2) / 16f), 1f, 1f, 1f);
         }
 
-		public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
-		{
-			wetTorch = true;
-		}
+        public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
+        {
+            wetTorch = true;
+        }
 
         public override void AddRecipes()
         {

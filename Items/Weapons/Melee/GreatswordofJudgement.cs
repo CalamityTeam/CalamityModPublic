@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class GreatswordofJudgement : ModItem
+    public class GreatswordofJudgement : ModItem
     {
         public override void SetStaticDefaults()
         {

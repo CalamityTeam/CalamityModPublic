@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AstralProbeRound : ModProjectile
+    public class AstralProbeRound : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
 
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-			projectile.extraUpdates = 2;
+            projectile.extraUpdates = 2;
         }
 
         public override void AI()
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(3))
             {
                 int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ModContent.DustType<AstralOrange>(),
-					ModContent.DustType<AstralBlue>()
+                {
+                    ModContent.DustType<AstralOrange>(),
+                    ModContent.DustType<AstralBlue>()
                 });
                 int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
                 Main.dust[astral].alpha = projectile.alpha;

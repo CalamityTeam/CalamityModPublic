@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SwordsplosionBlue : ModProjectile
+    public class SwordsplosionBlue : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -48,10 +48,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 195)
-				return false;
+            if (projectile.timeLeft > 195)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
     }
 }

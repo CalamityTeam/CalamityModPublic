@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class AllianceTriangle : ModProjectile
+    public class AllianceTriangle : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
-			projectile.alpha = 254;
+            projectile.alpha = 254;
         }
 
         public override void AI()
@@ -28,32 +28,32 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
             projectile.Center = player.Center;
 
-			projectile.ai[0]++;
-			if (projectile.ai[0] <= 5f)
-			{
-				projectile.alpha -= 75;
-				if (projectile.alpha < 0)
-					projectile.alpha = 0;
-			}
-			else
-			{
-				projectile.scale *= 1.06f;
-				projectile.alpha += 10;
-			}
+            projectile.ai[0]++;
+            if (projectile.ai[0] <= 5f)
+            {
+                projectile.alpha -= 75;
+                if (projectile.alpha < 0)
+                    projectile.alpha = 0;
+            }
+            else
+            {
+                projectile.scale *= 1.06f;
+                projectile.alpha += 10;
+            }
 
-			if (projectile.alpha >= 255 || player is null || player.dead)
-			{
-				projectile.Kill();
-			}
+            if (projectile.alpha >= 255 || player is null || player.dead)
+            {
+                projectile.Kill();
+            }
         }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			if (projectile.alpha <= 0)
-				return new Color(200, 200, 200, 200);
-			return null;
-		}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            if (projectile.alpha <= 0)
+                return new Color(200, 200, 200, 200);
+            return null;
+        }
 
-		public override bool CanDamage() => false;
+        public override bool CanDamage() => false;
     }
 }

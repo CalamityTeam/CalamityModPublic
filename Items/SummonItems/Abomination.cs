@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne abomination\n" +
-				"Summons the Plaguebringer Goliath when used in the jungle\n" +
+                "Summons the Plaguebringer Goliath when used in the jungle\n" +
                 "Not consumable");
         }
 
@@ -35,11 +35,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
 
             return true;
         }

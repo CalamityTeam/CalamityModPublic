@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			projectile.FloatingPetAI(true, 0.1f);
+            projectile.FloatingPetAI(true, 0.1f);
             //Animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)

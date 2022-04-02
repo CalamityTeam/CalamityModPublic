@@ -5,7 +5,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class HeavySmokeParticle : Particle
+    public class HeavySmokeParticle : Particle
     {
         public override bool SetLifetime => true;
         public override int FrameVariants => 7;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		private bool playedSound = false;
+        private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.width = 6;
             projectile.height = 6;
-			projectile.scale = 2f;
+            projectile.scale = 2f;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -35,11 +35,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			if (!playedSound)
-			{
+            if (!playedSound)
+            {
                 Main.PlaySound(SoundID.Item34, (int)projectile.position.X, (int)projectile.position.Y);
-				playedSound = true;
-			}
+                playedSound = true;
+            }
 
             if (projectile.scale <= 3f)
                 projectile.scale *= 1.01f;
@@ -97,14 +97,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
             projectile.rotation += 0.3f * (float)projectile.direction;
 
-			if (projectile.timeLeft == 160)
-				projectile.ai[1] = 1f;
+            if (projectile.timeLeft == 160)
+                projectile.ai[1] = 1f;
 
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.tileCollide = false;
+            if (projectile.ai[1] == 1f)
+            {
+                projectile.tileCollide = false;
 
-				projectile.extraUpdates = 2;
+                projectile.extraUpdates = 2;
 
                 Player player = Main.player[projectile.owner];
 
@@ -146,20 +146,20 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.velocity.Y -= 5f;
                 }
 
-				// Delete the projectile if it touches its owner. Has a chance to heal the player again
-				if (Main.myPlayer == projectile.owner)
-				{
-					if (projectile.Hitbox.Intersects(player.Hitbox))
-					{
-						if (Main.rand.NextBool(3) && !Main.player[projectile.owner].moonLeech)
-						{
-							player.statLife += 1;
-							player.HealEffect(1);
-						}
-						projectile.Kill();
-					}
-				}
-			}
+                // Delete the projectile if it touches its owner. Has a chance to heal the player again
+                if (Main.myPlayer == projectile.owner)
+                {
+                    if (projectile.Hitbox.Intersects(player.Hitbox))
+                    {
+                        if (Main.rand.NextBool(3) && !Main.player[projectile.owner].moonLeech)
+                        {
+                            player.statLife += 1;
+                            player.HealEffect(1);
+                        }
+                        projectile.Kill();
+                    }
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[projectile.owner];
             if (Main.rand.NextBool(2))
             {
-				int healAmt = Main.rand.Next(1, 4);
+                int healAmt = Main.rand.Next(1, 4);
                 player.statLife += healAmt;
                 player.HealEffect(healAmt);
             }

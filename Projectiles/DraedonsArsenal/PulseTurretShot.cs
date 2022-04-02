@@ -13,10 +13,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int SpiralPrecision = 36;
         public const int SpiralRings = 6;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Bolt");
+        {
+            DisplayName.SetDefault("Pulse Bolt");
             ProjectileID.Sets.SentryShot[projectile.type] = true;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.minion = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()

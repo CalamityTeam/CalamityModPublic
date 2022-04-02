@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class ElementalExcalibur : ModItem
+    public class ElementalExcalibur : ModItem
     {
         private static int BaseDamage = 2000;
         private int BeamType = 0;
@@ -143,10 +143,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-			target.AddBuff(BuffID.Frostburn, 300);
-			target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.OnFire, 360);
 
-			if (!target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(3) + 10;
@@ -157,11 +157,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-			target.AddBuff(BuffID.Frostburn, 300);
-			target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.OnFire, 360);
 
-			if (player.moonLeech)
+            if (player.moonLeech)
                 return;
 
             int healAmount = Main.rand.Next(3) + 10;

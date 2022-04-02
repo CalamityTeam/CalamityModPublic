@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class RelicofRuin : ModItem
+    public class RelicofRuin : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int totalProjectiles = 12;
-			float radians = MathHelper.TwoPi / totalProjectiles;
+            int totalProjectiles = 12;
+            float radians = MathHelper.TwoPi / totalProjectiles;
             for (int i = 0; i < totalProjectiles; i++)
             {
-				Vector2 vector = new Vector2(0f, -item.shootSpeed).RotatedBy(radians * i);
-				Projectile.NewProjectile(position, vector, type, damage, knockBack, Main.myPlayer);
+                Vector2 vector = new Vector2(0f, -item.shootSpeed).RotatedBy(radians * i);
+                Projectile.NewProjectile(position, vector, type, damage, knockBack, Main.myPlayer);
             }
             return false;
         }

@@ -35,6 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 8f;
         }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
-	}
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+    }
 }

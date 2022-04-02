@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeBrainofCthulhu : LoreItem
+    public class KnowledgeBrainofCthulhu : LoreItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,12 +27,12 @@ namespace CalamityMod.Items.LoreItems
             item.consumable = false;
         }
 
-		public override bool CanUseItem(Player player)
-		{
-			return false;
-		}
+        public override bool CanUseItem(Player player)
+        {
+            return false;
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);

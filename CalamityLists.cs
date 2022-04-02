@@ -75,7 +75,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
-	public class CalamityLists
+    public class CalamityLists
     {
         public static IList<string> donatorList;
         public static List<int> projectileDestroyExceptionList;

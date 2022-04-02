@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class VisceraBeam : ModProjectile
+    public class VisceraBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.Magic
                     int num448 = Dust.NewDust(vector33, 1, 1, 5, 0f, 0f, 0, default, 1f);
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.1f;
-				}
+                    Main.dust[num448].velocity *= 0.1f;
+                }
             }
         }
     }

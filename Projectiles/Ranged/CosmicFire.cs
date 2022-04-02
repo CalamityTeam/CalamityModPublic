@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class CosmicFire : ModProjectile
+    public class CosmicFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -50,27 +50,27 @@ namespace CalamityMod.Projectiles.Ranged
                 int dustType = Main.rand.NextBool(4) ? 61 : 62;
                 if (Main.rand.NextBool(2))
                 {
-					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-					Dust dust = Main.dust[fire];
-					if (Main.rand.NextBool(3))
-					{
-						dust.noGravity = true;
-						dust.scale *= 3f;
-						dust.velocity.X *= 2f;
-						dust.velocity.Y *= 2f;
-					}
-					else
-					{
-						dust.scale *= 1.5f;
-					}
-					dust.velocity.X *= 1.2f;
-					dust.velocity.Y *= 1.2f;
-					dust.scale *= scalar;
-					dust.velocity += projectile.velocity;
-					if (!dust.noGravity)
-					{
-						dust.velocity *= 0.5f;
-					}
+                    int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[fire];
+                    if (Main.rand.NextBool(3))
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 3f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
+                    }
+                    else
+                    {
+                        dust.scale *= 1.5f;
+                    }
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= scalar;
+                    dust.velocity += projectile.velocity;
+                    if (!dust.noGravity)
+                    {
+                        dust.velocity *= 0.5f;
+                    }
                 }
             }
             else

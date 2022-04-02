@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.umbraphileSet = true;
             modPlayer.rogueStealthMax += 1.1f;
             player.setBonus = "Rogue weapons have a chance to create explosions on hit\n" +
-				"Stealth strikes always create an explosion\n" +
-				"Penumbra potions always build stealth at max effectiveness\n" +
+                "Stealth strikes always create an explosion\n" +
+                "Penumbra potions always build stealth at max effectiveness\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 110\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
@@ -51,16 +51,16 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.Calamity().throwingDamage += 0.08f;
-			player.Calamity().throwingVelocity += 0.1f;
+            player.Calamity().throwingDamage += 0.08f;
+            player.Calamity().throwingVelocity += 0.1f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 12);
-			recipe.AddIngredient(ItemID.HallowedBar, 8);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.HallowedBar, 8);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

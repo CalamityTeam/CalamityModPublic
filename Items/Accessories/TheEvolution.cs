@@ -23,11 +23,11 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 58;
             item.height = 44;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.rare = ItemRarityID.Purple;
-			item.accessory = true;
-		}
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.rare = ItemRarityID.Purple;
+            item.accessory = true;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

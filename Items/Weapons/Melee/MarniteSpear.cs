@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
             item.shootSpeed = 5f;
-			item.Calamity().trueMelee = true;
-		}
+            item.Calamity().trueMelee = true;
+        }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("AnyGoldBar", 5);

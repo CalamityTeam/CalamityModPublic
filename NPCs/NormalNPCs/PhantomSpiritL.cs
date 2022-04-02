@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = ModContent.NPCType<PhantomSpirit>();
             bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -88,9 +88,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                 {
                     float num151 = 10f;
-					int type = ModContent.ProjectileType<PhantomGhostShot>();
-					int damage = npc.GetProjectileDamage(type);
-					num149 = num151 / num149;
+                    int type = ModContent.ProjectileType<PhantomGhostShot>();
+                    int damage = npc.GetProjectileDamage(type);
+                    num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;
                     Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 2, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 2, 4);
         }
     }
 }

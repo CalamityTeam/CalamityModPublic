@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Summon
             SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, direction, 0f);
             return false;
-		}
+        }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;
 
         public override bool CanDamage() => projectile.Opacity >= 1f;
     }

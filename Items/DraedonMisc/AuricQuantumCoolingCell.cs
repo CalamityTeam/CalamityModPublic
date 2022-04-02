@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-	public class AuricQuantumCoolingCell : ModItem
+    public class AuricQuantumCoolingCell : ModItem
     {
         public override void SetStaticDefaults()
         {

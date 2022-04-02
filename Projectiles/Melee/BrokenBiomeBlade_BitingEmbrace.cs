@@ -14,7 +14,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class BitingEmbrace : ModProjectile
+    public class BitingEmbrace : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_BitingEmbraceSmall";
 

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class BloodflareMask : ModItem
     {
         public override void SetStaticDefaults()
@@ -42,9 +42,9 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareMelee = true;
             player.setBonus = "Greatly increases life regen\n" +
                 "Enemies are more likely to target you\n" +
-				"Enemies below 50% life drop a heart when struck\n" +
-				"This effect has a 5 second cooldown\n" +
-				"Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+                "Enemies below 50% life drop a heart when struck\n" +
+                "This effect has a 5 second cooldown\n" +
+                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "True melee strikes will heal you\n" +
                 "After striking an enemy 15 times with true melee you will enter a blood frenzy for 5 seconds\n" +
                 "During this you will gain 25% increased melee damage, critical strike chance, and contact damage is halved\n" +
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

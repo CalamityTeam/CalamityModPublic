@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class StickyBol : ModProjectile
+    public class StickyBol : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/StickySpikyBall";
 
@@ -30,33 +30,33 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			Color color = new Color(0, 80, 255, 100);
-			if (Main.rand.NextBool(12))
-			{
-				Dust.NewDust(projectile.position + Vector2.One * 6f, projectile.width - 12, projectile.height - 12, 4, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 175, color, 1.2f);
-			}
+            Color color = new Color(0, 80, 255, 100);
+            if (Main.rand.NextBool(12))
+            {
+                Dust.NewDust(projectile.position + Vector2.One * 6f, projectile.width - 12, projectile.height - 12, 4, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 175, color, 1.2f);
+            }
             //Sticky Behaviour
             projectile.StickyProjAI(10);
-			if (projectile.ai[0] != 1f)
-			{
-				projectile.StickToTiles(true, false);
-				projectile.localAI[1] += 1f;
-				if (projectile.localAI[1] > 10f)
-				{
-					projectile.localAI[1] = 10f;
-					if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
-					{
-						projectile.velocity.X *= 0.97f;
-						if (Math.Abs(projectile.velocity.X) < 0.01f)
-						{
-							projectile.velocity.X = 0f;
-							projectile.netUpdate = true;
-						}
-					}
-					projectile.velocity.Y += 0.2f;
-				}
-				projectile.rotation += projectile.velocity.X * 0.1f;
-			}
+            if (projectile.ai[0] != 1f)
+            {
+                projectile.StickToTiles(true, false);
+                projectile.localAI[1] += 1f;
+                if (projectile.localAI[1] > 10f)
+                {
+                    projectile.localAI[1] = 10f;
+                    if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                    {
+                        projectile.velocity.X *= 0.97f;
+                        if (Math.Abs(projectile.velocity.X) < 0.01f)
+                        {
+                            projectile.velocity.X = 0f;
+                            projectile.netUpdate = true;
+                        }
+                    }
+                    projectile.velocity.Y += 0.2f;
+                }
+                projectile.rotation += projectile.velocity.X * 0.1f;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

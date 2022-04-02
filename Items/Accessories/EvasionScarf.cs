@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Neck)]
+    [AutoloadEquip(EquipType.Neck)]
     public class EvasionScarf : ModItem
     {
         public override void SetStaticDefaults()
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dodgeScarf = true;
             modPlayer.evasionScarf = true;
             modPlayer.dashMod = 1;
-			player.dash = 0;
+            player.dash = 0;
         }
 
         public override void AddRecipes()

@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BrackishSpear2 : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
+        public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
         public override void SetStaticDefaults()
         {

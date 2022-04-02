@@ -12,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralBeacon : ModTile
+    public class AstralBeacon : ModTile
     {
         public const int Width = 5;
         public const int Height = 4;

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class LuxorsGiftSummon : ModProjectile
+    public class LuxorsGiftSummon : ModProjectile
     {
         private int dust = 3;
 
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+            projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }

@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int f = 0; f < 3; f++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<FungiOrb2>(), (int)(projectile.damage * 0.4), 0f, projectile.owner);
                 }
             }

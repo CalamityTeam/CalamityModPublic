@@ -17,8 +17,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 14;
-			npc.GetNPCDamage();
-			npc.width = 40;
+            npc.GetNPCDamage();
+            npc.width = 40;
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 180;
@@ -35,13 +35,13 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
-		public override bool PreNPCLoot() => false;
+        public override bool PreNPCLoot() => false;
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0)
             {
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(BuffID.Weak, 90, true);
-		}
+            player.AddBuff(BuffID.Weak, 90, true);
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup("AnyFood");
+            recipe.AddRecipeGroup("AnyFood");
             recipe.AddIngredient(ItemID.EndurancePotion);
             recipe.AddIngredient(ItemID.IronskinPotion);
             recipe.AddIngredient(ItemID.SwiftnessPotion);

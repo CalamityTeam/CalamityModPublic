@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SandMark : ModProjectile
+    public class SandMark : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 900;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
-			projectile.minion = true;
+            projectile.minion = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30;

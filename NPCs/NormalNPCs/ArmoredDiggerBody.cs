@@ -20,9 +20,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 38;
             npc.height = 38;
             npc.defense = 20;
-			npc.DR_NERD(0.2f);
-			npc.lifeMax = 20000;
-			npc.knockBackResist = 0f;
+            npc.DR_NERD(0.2f);
+            npc.lifeMax = 20000;
+            npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.behindTiles = true;
@@ -34,9 +34,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.dontCountMe = true;
             banner = ModContent.NPCType<ArmoredDiggerHead>();
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

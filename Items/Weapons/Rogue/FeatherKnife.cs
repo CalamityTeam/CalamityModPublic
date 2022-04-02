@@ -35,7 +35,7 @@ Stealth strike throws a volley of knives");
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
 
-			item.value = Item.sellPrice(copper: 60);
+            item.value = Item.sellPrice(copper: 60);
             item.rare = ItemRarityID.Orange;
         }
 

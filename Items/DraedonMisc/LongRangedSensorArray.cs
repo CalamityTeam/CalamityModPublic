@@ -59,7 +59,7 @@ namespace CalamityMod.Items.DraedonMisc
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddRecipeGroup("AnyMythrilBar", 10);
-			recipe.AddIngredient(ItemID.Wire, 50);
+            recipe.AddIngredient(ItemID.Wire, 50);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

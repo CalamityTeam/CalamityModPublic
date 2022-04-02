@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.HitSound = SoundID.NPCHit1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MelterBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
     }
 }

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class VividBolt : ModProjectile
+    public class VividBolt : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.timeLeft = 30;
             projectile.magic = true;
-			projectile.ignoreWater = true;
-			projectile.usesLocalNPCImmunity = true;
+            projectile.ignoreWater = true;
+            projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
         }
 
@@ -58,19 +58,19 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[num448].noGravity = true;
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.01f;
-					Main.dust[num448].velocity *= 0.1f;
-				}
+                    Main.dust[num448].velocity *= 0.1f;
+                }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
     }
 }

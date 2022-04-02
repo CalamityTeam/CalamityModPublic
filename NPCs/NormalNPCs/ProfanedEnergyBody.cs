@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 72;
             npc.height = 36;
             npc.defense = 50;
-			npc.DR_NERD(0.1f);
+            npc.DR_NERD(0.1f);
             npc.lifeMax = 4500;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -32,11 +32,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ProfanedEnergyBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
         }
     }
 }

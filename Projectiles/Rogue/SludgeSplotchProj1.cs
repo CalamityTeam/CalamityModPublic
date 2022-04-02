@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SludgeSplotchProj1 : ModProjectile
+    public class SludgeSplotchProj1 : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -7,12 +7,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
-	public class SunkenSeaFountainTile : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class SunkenSeaFountainTile : ModTile
+    {
+        public override void SetDefaults()
+        {
             this.SetUpFountain();
-			AddMapEntry(new Color(104, 195, 255), Language.GetText("MapObject.WaterFountain"));
+            AddMapEntry(new Color(104, 195, 255), Language.GetText("MapObject.WaterFountain"));
             animationFrameHeight = 72;
         }
 
@@ -55,8 +55,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SunkenSeaFountain>());
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SunkenSeaFountain>());
         }
 
         public override void HitWire(int i, int j)

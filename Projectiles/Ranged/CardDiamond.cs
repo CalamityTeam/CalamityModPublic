@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
-			projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
-			projectile.spriteDirection = projectile.direction;
+            projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
+            projectile.spriteDirection = projectile.direction;
             if (Main.rand.NextBool(2))
             {
                 int num137 = Dust.NewDust(projectile.position, 1, 1, 30, 0f, 0f, 0, default, 0.5f);
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                 paper = Dust.NewDust(projectile.position, projectile.width, projectile.height, 30, 0f, 0f, 100, default, 2f);
                 Main.dust[paper].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
             npc.width = 42;
             npc.height = 42;
             npc.defense = 20;
@@ -34,19 +34,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void AI()
         {
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 
-			Lighting.AddLight(npc.Center, 0.03f, 0.2f, 0f);
+            Lighting.AddLight(npc.Center, 0.03f, 0.2f, 0f);
 
-			Player player = Main.player[npc.target];
+            Player player = Main.player[npc.target];
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -63,8 +63,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.timeLeft = 600;
 
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
-			float distanceRequiredForExplosion = 90f;
-			float timeBeforeExplosion = (malice ? 1000f : death ? 740f : revenge ? 520f : 400f) + npc.ai[3] * 4f;
+            float distanceRequiredForExplosion = 90f;
+            float timeBeforeExplosion = (malice ? 1000f : death ? 740f : revenge ? 520f : 400f) + npc.ai[3] * 4f;
             if (vector.Length() < distanceRequiredForExplosion || npc.ai[0] >= timeBeforeExplosion)
             {
                 CheckDead();
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float num1376 = velocity / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-			float inertia = (malice ? 35f : death ? 40f : revenge ? 45f : 50f) - npc.ai[3] * 0.25f;
+            float inertia = (malice ? 35f : death ? 40f : revenge ? 45f : 50f) - npc.ai[3] * 0.25f;
             npc.velocity.X = (npc.velocity.X * inertia + num1373) / (inertia + 1f);
             npc.velocity.Y = (npc.velocity.Y * inertia + num1374) / (inertia + 1f);
         }
@@ -104,35 +104,35 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlagueMineGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlagueMineGlow");
+            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override bool PreNPCLoot() => false;
+        public override bool PreNPCLoot() => false;
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
+        }
 
-		public override bool CheckDead()
+        public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);

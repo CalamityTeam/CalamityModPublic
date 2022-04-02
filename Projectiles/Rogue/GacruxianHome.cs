@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class GacruxianHome : ModProjectile
+    public class GacruxianHome : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Fishing/AstralCatches/GacruxianMollusk";
 
@@ -40,10 +40,10 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.timeLeft % 30 == 0 && projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().forceRogue = true;
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().forceRogue = true;
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

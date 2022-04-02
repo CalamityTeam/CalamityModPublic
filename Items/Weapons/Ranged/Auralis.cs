@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.Calamity().donorItem = true;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {

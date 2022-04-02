@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Light : ModProjectile
     {
-		private const int speedTimerMax = 60;
+        private const int speedTimerMax = 60;
         private int speedTimer = 0;
 
         public override void SetStaticDefaults()
@@ -31,13 +31,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             projectile.rotation += 0.5f;
-			speedTimer--;
-			if (speedTimer <= 0)
-			{
-				speedTimer = speedTimerMax;
-				projectile.velocity *= -1f;
-			}
-		}
+            speedTimer--;
+            if (speedTimer <= 0)
+            {
+                speedTimer = speedTimerMax;
+                projectile.velocity *= -1f;
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

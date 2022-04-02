@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 25;
             projectile.height = 25;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 300;
             aiType = ProjectileID.ThrowingKnife;
@@ -29,20 +29,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(SoundID.Shatter, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
-			Vector2 vector2 = new Vector2(20f, 20f);
-			for (int index = 0; index < 10; ++index)
-				Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f);
-			for (int index1 = 0; index1 < 20; ++index1)
-			{
-				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 179, 0.0f, 0.0f, 100, new Color(), 2.5f);
-				Main.dust[index2].noGravity = true;
-				Dust dust1 = Main.dust[index2];
-				dust1.velocity = dust1.velocity * 5f;
-				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 179, 0.0f, 0.0f, 100, new Color(), 1.5f);
-				Dust dust2 = Main.dust[index3];
-				dust2.velocity = dust2.velocity * 3f;
-			}
+            Main.PlaySound(SoundID.Shatter, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
+            Vector2 vector2 = new Vector2(20f, 20f);
+            for (int index = 0; index < 10; ++index)
+                Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f);
+            for (int index1 = 0; index1 < 20; ++index1)
+            {
+                int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 179, 0.0f, 0.0f, 100, new Color(), 2.5f);
+                Main.dust[index2].noGravity = true;
+                Dust dust1 = Main.dust[index2];
+                dust1.velocity = dust1.velocity * 5f;
+                int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 179, 0.0f, 0.0f, 100, new Color(), 1.5f);
+                Dust dust2 = Main.dust[index3];
+                dust2.velocity = dust2.velocity * 3f;
+            }
             int num220 = (projectile.Calamity().stealthStrike ? Main.rand.Next(10, 16) : Main.rand.Next(5, 11));
             if (projectile.owner == Main.myPlayer)
             {

@@ -5,7 +5,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class GenericBloom : Particle
+    public class GenericBloom : Particle
     {
         public override string Texture => "CalamityMod/Particles/Light";
         public override bool UseAdditiveBlend => true;

@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -49,8 +49,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().forceMelee = true;
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
 

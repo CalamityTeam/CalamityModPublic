@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Elemental Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Purple;
             item.value = Item.sellPrice(0, 2, 50, 0);
         }

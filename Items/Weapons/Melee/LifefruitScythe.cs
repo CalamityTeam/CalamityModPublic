@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.height = 72;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<LifeScythe>();
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<LifeScythe>();
             item.shootSpeed = 12f;
         }
 
@@ -61,8 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (player.moonLeech)
-				return;
+            if (player.moonLeech)
+                return;
 
             player.statLife += 5;
             player.HealEffect(5);

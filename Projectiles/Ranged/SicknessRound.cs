@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SicknessRound : ModProjectile
+    public class SicknessRound : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.light = 0.25f;
             projectile.extraUpdates = 4;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -38,19 +38,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreAI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				Vector2 dspeed = -projectile.velocity * 0.5f;
-				float x2 = projectile.Center.X - projectile.velocity.X / 10f;
-				float y2 = projectile.Center.Y - projectile.velocity.Y / 10f;
-				int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, dspeed.X, dspeed.Y, 0, default, 1f);
-				Main.dust[num137].alpha = projectile.alpha;
-				Main.dust[num137].position.X = x2;
-				Main.dust[num137].position.Y = y2;
-				Main.dust[num137].velocity = dspeed;
-				Main.dust[num137].noGravity = true;
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                Vector2 dspeed = -projectile.velocity * 0.5f;
+                float x2 = projectile.Center.X - projectile.velocity.X / 10f;
+                float y2 = projectile.Center.Y - projectile.velocity.Y / 10f;
+                int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, dspeed.X, dspeed.Y, 0, default, 1f);
+                Main.dust[num137].alpha = projectile.alpha;
+                Main.dust[num137].position.X = x2;
+                Main.dust[num137].position.Y = y2;
+                Main.dust[num137].velocity = dspeed;
+                Main.dust[num137].noGravity = true;
+            }
 
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();

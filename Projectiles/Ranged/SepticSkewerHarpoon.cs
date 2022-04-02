@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SepticSkewerHarpoon : ModProjectile
+    public class SepticSkewerHarpoon : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,18 +19,18 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.ranged = true;
+            projectile.ignoreWater = true;
+            projectile.ranged = true;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
-			projectile.timeLeft = 900;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.timeLeft = 900;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 171, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

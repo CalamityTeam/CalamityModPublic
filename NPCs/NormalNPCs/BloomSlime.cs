@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = NPCID.ToxicSludge;
-			npc.damage = 80;
+            aiType = NPCID.ToxicSludge;
+            npc.damage = 80;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 25;
@@ -35,9 +35,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BloomSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

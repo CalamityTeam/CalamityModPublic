@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class NullificationRifle : ModItem
+    public class NullificationRifle : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 25f;
             item.shoot = ModContent.ProjectileType<NullShot>();
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {

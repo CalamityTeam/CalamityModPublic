@@ -17,18 +17,18 @@ namespace CalamityMod.Projectiles.Boss
         public ref float Time => ref projectile.localAI[1];
         public const int Lifetime = 180;
         public const float TelegraphWidth = 3600f;
-		public const float BeamPosOffset = 16f;
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
+        public const float BeamPosOffset = 16f;
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
 
         public override void SetDefaults()
         {
-			projectile.width = projectile.height = 4;
+            projectile.width = projectile.height = 4;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = Lifetime;
-		}
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -51,20 +51,20 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-			// The direction of the host NPC.
-			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
+            // The direction of the host NPC.
+            Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
-			// Offset to move the beam forward so that it starts inside the NPC's mouth.
-			float beamStartForwardsOffset = -8f;
+            // Offset to move the beam forward so that it starts inside the NPC's mouth.
+            float beamStartForwardsOffset = -8f;
 
-			// Set the starting location of the beam to the center of the NPC.
-			projectile.Center = ThingToAttachTo.Center;
-			// Add a fixed offset to align with the NPC's spritesheet (?)
-			projectile.position += hostNPCDirection * BeamPosOffset + new Vector2(0f, -ThingToAttachTo.gfxOffY);
-			// Add the forwards offset, measured in pixels.
-			projectile.position += hostNPCDirection * beamStartForwardsOffset;
+            // Set the starting location of the beam to the center of the NPC.
+            projectile.Center = ThingToAttachTo.Center;
+            // Add a fixed offset to align with the NPC's spritesheet (?)
+            projectile.position += hostNPCDirection * BeamPosOffset + new Vector2(0f, -ThingToAttachTo.gfxOffY);
+            // Add the forwards offset, measured in pixels.
+            projectile.position += hostNPCDirection * beamStartForwardsOffset;
 
-			projectile.rotation = StartingRotationalOffset.AngleLerp(ConvergenceAngle, ConvergenceRatio) + ThingToAttachTo.velocity.ToRotation();
+            projectile.rotation = StartingRotationalOffset.AngleLerp(ConvergenceAngle, ConvergenceRatio) + ThingToAttachTo.velocity.ToRotation();
 
             Time++;
         }

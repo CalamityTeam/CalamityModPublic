@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class LuminousCorvina : ModNPC
+    public class LuminousCorvina : ModNPC
     {
         private bool hasBeenHit = false;
         private int screamTimer = 0;
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.85f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<LuminousCorvinaBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     ++screamTimer;
 
-					int screamLimit = CalamityWorld.death ? 120 : 180;
+                    int screamLimit = CalamityWorld.death ? 120 : 180;
                     if (screamTimer >= screamLimit)
                     {
                         if (screamTimer == screamLimit)
@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 8, 15);
+            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 8, 15);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
             int minCells = Main.expertMode ? 2 : 1;
             int maxCells = Main.expertMode ? 3 : 2;

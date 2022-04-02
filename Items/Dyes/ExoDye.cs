@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-	public class ExoDye : BaseDye
+    public class ExoDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind
         {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Exo Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.value = Item.sellPrice(0, 10, 0, 0);

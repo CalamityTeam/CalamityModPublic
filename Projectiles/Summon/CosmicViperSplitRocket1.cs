@@ -30,11 +30,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             float colorScale = (float)projectile.alpha / 255f;
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

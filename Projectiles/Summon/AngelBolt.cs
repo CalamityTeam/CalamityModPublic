@@ -25,23 +25,23 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 45;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
-		public override void AI()
-		{
-			if (projectile.timeLeft % 2f == 0f)
-			{
-				Vector2 vector33 = projectile.position;
-				vector33 -= projectile.velocity * 0.25f;
-				int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
-				Main.dust[num448].position = vector33;
-				Main.dust[num448].noGravity = true;
-				Main.dust[num448].noLight = true;
-				Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.013f;
-				Main.dust[num448].velocity *= 0.1f;
-			}
-		}
+        public override void AI()
+        {
+            if (projectile.timeLeft % 2f == 0f)
+            {
+                Vector2 vector33 = projectile.position;
+                vector33 -= projectile.velocity * 0.25f;
+                int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
+                Main.dust[num448].position = vector33;
+                Main.dust[num448].noGravity = true;
+                Main.dust[num448].noLight = true;
+                Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[num448].velocity *= 0.1f;
+            }
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
 

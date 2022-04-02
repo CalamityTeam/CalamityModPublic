@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PumplerGrenade : ModProjectile
+    public class PumplerGrenade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.ranged = true;
             projectile.ignoreWater = true;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 
         }
         public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerGrenade";

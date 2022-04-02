@@ -35,8 +35,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             float colorScale = (float)projectile.alpha / 255f;
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-					Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].scale = 0.5f;
                 }
                 if (Main.rand.NextBool(2))
                 {

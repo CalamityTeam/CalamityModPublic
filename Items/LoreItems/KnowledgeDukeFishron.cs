@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgeDukeFishron : LoreItem
+    public class KnowledgeDukeFishron : LoreItem
     {
         public override void SetStaticDefaults()
         {

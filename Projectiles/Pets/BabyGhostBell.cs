@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-	public class BabyGhostBell : ModProjectile
+    public class BabyGhostBell : ModProjectile
     {
         private bool underwater = false;
 
@@ -51,8 +51,8 @@ namespace CalamityMod.Projectiles.Pets
             else
             {
                 Lighting.AddLight(projectile.Center, 0.1f, 0.3f, 0.5f);
-			}
-			projectile.FloatingPetAI(false, 0.05f, true);
+            }
+            projectile.FloatingPetAI(false, 0.05f, true);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

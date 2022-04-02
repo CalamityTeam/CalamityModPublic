@@ -117,21 +117,21 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            // Difficulty modes
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			// Light
-			Lighting.AddLight(projectile.Center, 0f, 0.6f, 0f);
+            // Light
+            Lighting.AddLight(projectile.Center, 0f, 0.6f, 0f);
 
             // Get a target and calculate distance from it
             int target = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
 
-			// Set AI to stop homing, start accelerating
-			float stopHomingDistance = malice ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
+            // Set AI to stop homing, start accelerating
+            float stopHomingDistance = malice ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
             if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f || projectile.timeLeft < 480)
             {
                 projectile.ai[0] = 1f;
@@ -151,33 +151,33 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity.Normalize();
             projectile.velocity *= scaleFactor;
 
-			// Fly away from other rockets
-			float pushForce = malice ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
-			float pushDistance = malice ? 120f : death ? 100f : revenge ? 90f : expertMode ? 80f : 60f;
-			for (int k = 0; k < Main.maxProjectiles; k++)
-			{
-				Projectile otherProj = Main.projectile[k];
-				// Short circuits to make the loop as fast as possible
-				if (!otherProj.active || k == projectile.whoAmI)
-					continue;
+            // Fly away from other rockets
+            float pushForce = malice ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
+            float pushDistance = malice ? 120f : death ? 100f : revenge ? 90f : expertMode ? 80f : 60f;
+            for (int k = 0; k < Main.maxProjectiles; k++)
+            {
+                Projectile otherProj = Main.projectile[k];
+                // Short circuits to make the loop as fast as possible
+                if (!otherProj.active || k == projectile.whoAmI)
+                    continue;
 
-				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
-				bool sameProjType = otherProj.type == projectile.type;
-				float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
-				if (sameProjType && taxicabDist < pushDistance)
-				{
-					if (projectile.position.X < otherProj.position.X)
-						projectile.velocity.X -= pushForce;
-					else
-						projectile.velocity.X += pushForce;
+                // If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
+                bool sameProjType = otherProj.type == projectile.type;
+                float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
+                if (sameProjType && taxicabDist < pushDistance)
+                {
+                    if (projectile.position.X < otherProj.position.X)
+                        projectile.velocity.X -= pushForce;
+                    else
+                        projectile.velocity.X += pushForce;
 
-					if (projectile.position.Y < otherProj.position.Y)
-						projectile.velocity.Y -= pushForce;
-					else
-						projectile.velocity.Y += pushForce;
-				}
-			}
-		}
+                    if (projectile.position.Y < otherProj.position.Y)
+                        projectile.velocity.Y -= pushForce;
+                    else
+                        projectile.velocity.Y += pushForce;
+                }
+            }
+        }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Weapons.Magic
                     value9 -= vector7;
                 }
                 int rainbow = Projectile.NewProjectile(vector.X + value9.X, vector.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[rainbow].usesLocalNPCImmunity = true;
-				Main.projectile[rainbow].localNPCHitCooldown = 10;
+                Main.projectile[rainbow].usesLocalNPCImmunity = true;
+                Main.projectile[rainbow].localNPCHitCooldown = 10;
             }
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -111,8 +111,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 float speedX4 = num78 + (float)Main.rand.Next(-15, 16) * 0.01f;
                 float speedY5 = num79 + (float)Main.rand.Next(-15, 16) * 0.01f;
                 int rainbow2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[rainbow2].usesLocalNPCImmunity = true;
-				Main.projectile[rainbow2].localNPCHitCooldown = 10;
+                Main.projectile[rainbow2].usesLocalNPCImmunity = true;
+                Main.projectile[rainbow2].localNPCHitCooldown = 10;
             }
             return false;
         }

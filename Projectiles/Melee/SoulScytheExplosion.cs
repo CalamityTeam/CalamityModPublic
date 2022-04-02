@@ -6,15 +6,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SoulScytheExplosion : ModProjectile
+    public class SoulScytheExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-		}
-    	
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
+        
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -22,17 +22,17 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-			projectile.melee = true;
-			projectile.penetrate = -1;
+            projectile.melee = true;
+            projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.timeLeft = 5;
         }
 
-		public override void AI()
-		{
-			if (projectile.timeLeft == 5)
-			{
+        public override void AI()
+        {
+            if (projectile.timeLeft == 5)
+            {
                 for (int num621 = 0; num621 < 30; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
@@ -51,13 +51,13 @@ namespace CalamityMod.Projectiles.Melee
                     num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-			}
-		}
+            }
+        }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(ModContent.BuffType<Plague>(), 180);
-			target.AddBuff(BuffID.CursedInferno, 90);
-		}
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
+            target.AddBuff(BuffID.CursedInferno, 90);
+        }
     }
 }

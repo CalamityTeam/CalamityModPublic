@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
             {
@@ -142,11 +142,11 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         projectile.spriteDirection = -1;
                     }
-					int projectileType = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ModContent.ProjectileType<FlameBlast>(),
-						ModContent.ProjectileType<FlameBurst>()
-					});
+                    int projectileType = Utils.SelectRandom(Main.rand, new int[]
+                    {
+                        ModContent.ProjectileType<FlameBlast>(),
+                        ModContent.ProjectileType<FlameBurst>()
+                    });
                     float speed = 25f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num404 = num516 - vector29.X;

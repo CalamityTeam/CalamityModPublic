@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class ChaosFlare : ModProjectile
+    public class ChaosFlare : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -24,9 +24,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.extraUpdates = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 105 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 105 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
@@ -44,8 +44,8 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[d].velocity += projectile.velocity * 0.1f;
             }
 
-			if (projectile.timeLeft < 105)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 20f);
+            if (projectile.timeLeft < 105)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 180);
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
         }
     }
 }

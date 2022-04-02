@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class LeviathanTooth : ModProjectile
+    public class LeviathanTooth : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -65,10 +65,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-			if (projectile.Calamity().lineColor == 1)
-				tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/LeviathanTooth2");
-			if (projectile.Calamity().lineColor == 2)
-				tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/LeviathanTooth3");
+            if (projectile.Calamity().lineColor == 1)
+                tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/LeviathanTooth2");
+            if (projectile.Calamity().lineColor == 2)
+                tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/LeviathanTooth3");
 
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             if (projectile.Calamity().stealthStrike)

@@ -58,10 +58,10 @@ namespace CalamityMod.Items.Armor
                 }
             }
             player.minionDamage += 0.11f;
-			player.maxMinions++;
-		}
+            player.maxMinions++;
+        }
 
-		public override void UpdateEquip(Player player)
+        public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.05f;
             player.minionDamage += 0.05f;

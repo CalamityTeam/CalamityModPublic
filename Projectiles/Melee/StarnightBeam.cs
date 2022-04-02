@@ -32,17 +32,17 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
         }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 200, projectile.alpha);
-		}
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            return new Color(200, 200, 200, projectile.alpha);
+        }
 
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (projectile.timeLeft > 595)
+                return false;
+
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

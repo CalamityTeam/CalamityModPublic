@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ExtantAbhorrence : ModProjectile
+    public class ExtantAbhorrence : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence";
         private bool initialized = false;

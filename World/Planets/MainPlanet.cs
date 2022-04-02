@@ -11,7 +11,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World.Planets
 {
-	public class MainPlanet : Planetoid
+    public class MainPlanet : Planetoid
     {
         public override bool Place(Point origin, StructureMap structures)
         {

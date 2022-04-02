@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LabFinders
             item.Calamity().MaxCharge = 100;
             item.Calamity().ChargePerUse = 15;
             item.Calamity().UsesCharge = true;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && CalamityWorld.IceLabCenter != Vector2.Zero;

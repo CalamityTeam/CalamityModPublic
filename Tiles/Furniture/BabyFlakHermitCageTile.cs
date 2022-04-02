@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class BabyFlakHermitCageTile : ModTile
+    public class BabyFlakHermitCageTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -34,26 +34,26 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 34;
-			int timeNeeded = 6;
-			if (frame == 0 || frame == 16)
-			{
-				timeNeeded = 90;
-			}
-			if (frame == 28)
-			{
-				timeNeeded = 60;
-			}
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 34;
+            int timeNeeded = 6;
+            if (frame == 0 || frame == 16)
+            {
+                timeNeeded = 90;
+            }
+            if (frame == 28)
+            {
+                timeNeeded = 60;
+            }
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

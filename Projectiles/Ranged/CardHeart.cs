@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
-			projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
-			projectile.spriteDirection = projectile.direction;
+            projectile.rotation -= (MathHelper.ToRadians(90) * projectile.direction);
+            projectile.spriteDirection = projectile.direction;
             if (Main.rand.NextBool(2))
             {
                 int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 30, 0f, 0f, 0, default, 0.5f);
@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (player.moonLeech)
                 return;
 
-			player.statLife += 1;
-			player.HealEffect(1);
+            player.statLife += 1;
+            player.HealEffect(1);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

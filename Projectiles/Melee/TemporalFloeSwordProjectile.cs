@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TemporalFloeSwordProjectile : ModProjectile
+    public class TemporalFloeSwordProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -81,24 +81,24 @@ namespace CalamityMod.Projectiles.Melee
             if (intTime > 12)
                 intTime -= 12;
 
-			float projSpeed = 8f;
+            float projSpeed = 8f;
 
-			float hour = (float)intTime;
-			float hourAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 12f) * hour;
-			hourAngle *= -1f; //correction because lol
-			Vector2 hourVector = hourAngle.ToRotationVector2() * projSpeed;
+            float hour = (float)intTime;
+            float hourAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 12f) * hour;
+            hourAngle *= -1f; //correction because lol
+            Vector2 hourVector = hourAngle.ToRotationVector2() * projSpeed;
 
-			float minute = (float)deltaTime;
-			float minuteAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 60f) * minute;
-			minuteAngle *= -1f; //correction because pain
-			Vector2 minuteVector = minuteAngle.ToRotationVector2() * projSpeed;
+            float minute = (float)deltaTime;
+            float minuteAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 60f) * minute;
+            minuteAngle *= -1f; //correction because pain
+            Vector2 minuteVector = minuteAngle.ToRotationVector2() * projSpeed;
 
-			int projType = ModContent.ProjectileType<TemporalFloeNumberTwo>();
-			int dmg = projectile.damage / 2;
-			float kback = projectile.knockBack * 0.5f;
+            int projType = ModContent.ProjectileType<TemporalFloeNumberTwo>();
+            int dmg = projectile.damage / 2;
+            float kback = projectile.knockBack * 0.5f;
 
-			Projectile.NewProjectile(projectile.Center, hourVector, projType, dmg, kback, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center, minuteVector, projType, dmg, kback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center, hourVector, projType, dmg, kback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center, minuteVector, projType, dmg, kback, projectile.owner, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

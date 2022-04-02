@@ -15,24 +15,24 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Enables/disables Death Mode, can only be used in Revengeance Mode.\n" +
 
-				// Rev Mode line
-				"All effects from Revengeance Mode are enabled, including the following:\n" +
+                // Rev Mode line
+                "All effects from Revengeance Mode are enabled, including the following:\n" +
 
-				// Biome effect lines
+                // Biome effect lines
                 "Greatly boosts enemy spawn rates during the Blood Moon.\n" +
                 "Makes the Abyss more treacherous to navigate.\n" +
 
-				// General enemy lines
-				"Certain non-boss enemies and projectiles deal between 6% and 15% more damage.\n" +
+                // General enemy lines
+                "Certain non-boss enemies and projectiles deal between 6% and 15% more damage.\n" +
 
-				// Misc lines
-				"Nerfs the effectiveness of life steal a bit more.\n" +
-				"The Nurse no longer heals you while a boss is alive.\n" +
-				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
+                // Misc lines
+                "Nerfs the effectiveness of life steal a bit more.\n" +
+                "The Nurse no longer heals you while a boss is alive.\n" +
+                "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
 
-				// Boss lines
-				"Changes all boss AIs and most enemy AIs.\n" +
-				"Increases the damage of all bosses a bit more.");
+                // Boss lines
+                "Changes all boss AIs and most enemy AIs.\n" +
+                "Increases the damage of all bosses a bit more.");
         }
 
         public override void SetDefaults()

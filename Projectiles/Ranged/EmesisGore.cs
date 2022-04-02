@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 10;
             projectile.timeLeft = 600;
             projectile.ranged = true;
-			projectile.ignoreWater = true;
-			projectile.usesLocalNPCImmunity = true;
+            projectile.ignoreWater = true;
+            projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
         }
         public override void SendExtraAI(BinaryWriter writer)
@@ -87,6 +87,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
-		}
+        }
     }
 }

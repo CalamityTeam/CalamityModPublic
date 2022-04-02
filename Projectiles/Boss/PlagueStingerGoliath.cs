@@ -17,13 +17,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 10;
             projectile.height = 10;
-			projectile.scale = 1.5f;
-			projectile.hostile = true;
+            projectile.scale = 1.5f;
+            projectile.hostile = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {

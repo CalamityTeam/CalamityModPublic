@@ -18,8 +18,8 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Malice");
             Tooltip.SetDefault("Enables/disables Malice Mode, can only be used in Death Mode.\n" +
 
-			// Overall description and warning lines
-			"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
+            // Overall description and warning lines
+            "[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
 
             // Rev Mode line
             "All effects from Death Mode are enabled, including the following:\n" +
@@ -65,42 +65,42 @@ namespace CalamityMod.Items.DifficultyItems
             return false;
         }
 
-		// Can only be used in Death Mode.
+        // Can only be used in Death Mode.
         public override bool CanUseItem(Player player) => CalamityWorld.death || CalamityWorld.malice;
 
-		public override bool UseItem(Player player)
-		{
-			// This world syncing code should only be run by one entity- the server, to prevent a race condition
-			// with the packets.
-			if (Main.netMode == NetmodeID.MultiplayerClient)
-				return true;
+        public override bool UseItem(Player player)
+        {
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
 
-			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
-			{
-				string key = "Mods.CalamityMod.ChangingTheRules";
-				Color messageColor = Color.Crimson;
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-				return true;
-			}
-			if (!CalamityWorld.malice)
-			{
-				CalamityWorld.malice = true;
-				string key = "Mods.CalamityMod.MaliceText";
-				Color messageColor = Color.Crimson;
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-			}
-			else
-			{
-				CalamityWorld.malice = false;
-				string key = "Mods.CalamityMod.MaliceText2";
-				Color messageColor = Color.Crimson;
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-			}
-			CalamityWorld.DoGSecondStageCountdown = 0;
-			CalamityNetcode.SyncWorld();
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+            {
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                return true;
+            }
+            if (!CalamityWorld.malice)
+            {
+                CalamityWorld.malice = true;
+                string key = "Mods.CalamityMod.MaliceText";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+            }
+            else
+            {
+                CalamityWorld.malice = false;
+                string key = "Mods.CalamityMod.MaliceText2";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+            }
+            CalamityWorld.DoGSecondStageCountdown = 0;
+            CalamityNetcode.SyncWorld();
 
-			return true;
-		}
+            return true;
+        }
 
         public override void AddRecipes()
         {

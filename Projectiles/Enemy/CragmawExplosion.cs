@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-	public class CragmawExplosion : ModProjectile
+    public class CragmawExplosion : ModProjectile
     {
         public int FrameX = 0;
         public int FrameY = 0;

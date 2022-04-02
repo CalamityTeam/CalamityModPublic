@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.HiveMind
 {
-	public class DankCreeper : ModNPC
+    public class DankCreeper : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -18,9 +18,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
-			npc.width = 70;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
+            npc.width = 70;
             npc.height = 70;
             npc.defense = 6;
             npc.lifeMax = 90;
@@ -36,10 +36,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void AI()
         {
@@ -49,9 +49,9 @@ namespace CalamityMod.NPCs.HiveMind
             if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 18f;
 
-			if (npc.ai[1] < 90f)
-				npc.ai[1] += 1f;
-			speed = MathHelper.Lerp(3f, speed, npc.ai[1] / 90f);
+            if (npc.ai[1] < 90f)
+                npc.ai[1] += 1f;
+            speed = MathHelper.Lerp(3f, speed, npc.ai[1] / 90f);
 
             Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector167.X;
@@ -109,23 +109,23 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-		public override bool PreNPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+        public override bool PreNPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
 
-			if ((Main.expertMode || BossRushEvent.BossRushActive) && Main.netMode != NetmodeID.MultiplayerClient)
-			{
-				int type = ModContent.ProjectileType<ShadeNimbusHostile>();
-				int damage = npc.GetProjectileDamage(type);
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
-			}
+            if ((Main.expertMode || BossRushEvent.BossRushActive) && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+                int damage = npc.GetProjectileDamage(type);
+                Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+            }
 
-			return false;
-		}
+            return false;
+        }
     }
 }

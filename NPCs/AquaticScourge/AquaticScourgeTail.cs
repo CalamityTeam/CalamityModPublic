@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-	public class AquaticScourgeTail : ModNPC
+    public class AquaticScourgeTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -19,11 +19,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-			npc.GetNPCDamage();
-			npc.width = 32;
+            npc.GetNPCDamage();
+            npc.width = 32;
             npc.height = 32;
             npc.defense = 25;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -51,48 +51,48 @@ namespace CalamityMod.NPCs.AquaticScourge
                 npc.scale = 1.1f;
 
             npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.chaseable);
-			for (int i = 0; i < 4; i++)
-				writer.Write(npc.Calamity().newAI[i]);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.chaseable);
+            for (int i = 0; i < 4; i++)
+                writer.Write(npc.Calamity().newAI[i]);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.chaseable = reader.ReadBoolean();
-			for (int i = 0; i < 4; i++)
-				npc.Calamity().newAI[i] = reader.ReadSingle();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.chaseable = reader.ReadBoolean();
+            for (int i = 0; i < 4; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
+        }
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return false;
         }
 
         public override void AI()
         {
-			CalamityAI.AquaticScourgeAI(npc, mod, false);
-		}
+            CalamityAI.AquaticScourgeAI(npc, mod, false);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			Color color = npc.GetAlpha(lightColor);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            Color color = npc.GetAlpha(lightColor);
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
@@ -104,10 +104,10 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override bool? CanBeHitByProjectile(Projectile projectile)
+        public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion)
             {

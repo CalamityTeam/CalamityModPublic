@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class KingSlimeJewel : ModNPC
+    public class KingSlimeJewel : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,17 +22,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.damage = 0;
             npc.width = 22;
             npc.height = 22;
-			npc.defense = 10;
-			npc.DR_NERD(0.1f);
-			npc.lifeMax = 280;
+            npc.defense = 10;
+            npc.DR_NERD(0.1f);
+            npc.lifeMax = 280;
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit5;
-			npc.DeathSound = SoundID.NPCDeath15;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit5;
+            npc.DeathSound = SoundID.NPCDeath15;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {
@@ -110,10 +110,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                     float xDist = Main.player[npc.target].Center.X - npcPos.X;
                     float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
                     Vector2 projVector = new Vector2(xDist, yDist);
-					float projLength = projVector.Length();
+                    float projLength = projVector.Length();
 
                     float speed = 9f;
-					int type = ModContent.ProjectileType<JewelProjectile>();
+                    int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;
                     projVector.X *= projLength;
@@ -136,19 +136,19 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
 
                     Main.PlaySound(SoundID.Item8, npc.position);
-					int damage = npc.GetProjectileDamage(type);
-					if (CalamityWorld.death || BossRushEvent.BossRushActive)
-					{
-						int numProj = 2;
-						float rotation = MathHelper.ToRadians(9);
-						for (int i = 0; i < numProj + 1; i++)
-						{
-							Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-							Projectile.NewProjectile(npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-					else
-						Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    int damage = npc.GetProjectileDamage(type);
+                    if (CalamityWorld.death || BossRushEvent.BossRushActive)
+                    {
+                        int numProj = 2;
+                        float rotation = MathHelper.ToRadians(9);
+                        for (int i = 0; i < numProj + 1; i++)
+                        {
+                            Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                            Projectile.NewProjectile(npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        }
+                    }
+                    else
+                        Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
@@ -158,41 +158,41 @@ namespace CalamityMod.NPCs.NormalNPCs
             return new Color(255, 50, 50, 0);
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+        public override bool CheckActive()
+        {
+            return false;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			Dust.NewDust(npc.position, npc.width, npc.height, 90, hitDirection, -1f, 0, default, 1f);
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (npc.width / 2);
-				npc.position.Y = npc.position.Y + (npc.height / 2);
-				npc.width = 45;
-				npc.height = 45;
-				npc.position.X = npc.position.X - (npc.width / 2);
-				npc.position.Y = npc.position.Y - (npc.height / 2);
-				for (int num621 = 0; num621 < 2; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.NextBool(2))
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 10; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            Dust.NewDust(npc.position, npc.width, npc.height, 90, hitDirection, -1f, 0, default, 1f);
+            if (npc.life <= 0)
+            {
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
+                npc.width = 45;
+                npc.height = 45;
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
+                for (int num621 = 0; num621 < 2; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 10; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
+    }
 }

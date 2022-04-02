@@ -17,14 +17,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 34;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+            projectile.ignoreWater = true;
             projectile.timeLeft = 600;
             cooldownSlot = 1;
         }
@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
-				projectile.extraUpdates = 1;
+            if (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
+                projectile.extraUpdates = 1;
 
-			if (projectile.timeLeft < 300)
+            if (projectile.timeLeft < 300)
             {
                 projectile.tileCollide = true;
             }
@@ -203,9 +203,9 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

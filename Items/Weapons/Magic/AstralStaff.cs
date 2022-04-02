@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 15f;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 

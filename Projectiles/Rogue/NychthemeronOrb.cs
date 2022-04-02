@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else if (projectile.localAI[0] == 1f)
             {
-				if (projectile.timeLeft > 240 && projectile.Calamity().lineColor == 1)
-					projectile.timeLeft = 240;
+                if (projectile.timeLeft > 240 && projectile.Calamity().lineColor == 1)
+                    projectile.timeLeft = 240;
                 // Follow Enemy
                 float minDist = 999f;
                 int index = 0;

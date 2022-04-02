@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class ReaperToothNecklace : ModItem
+    public class ReaperToothNecklace : ModItem
     {
         public override void SetStaticDefaults()
         {

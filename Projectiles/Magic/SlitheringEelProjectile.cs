@@ -8,7 +8,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class SlitheringEelProjectile : ModProjectile
+    public class SlitheringEelProjectile : ModProjectile
     {
         public struct EelSegment
         {

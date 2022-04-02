@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useTurn = true;
             item.height = 60;
-			item.scale = 1.25f;
-			item.value = CalamityGlobalItem.Rarity4BuyPrice;
-			item.rare = ItemRarityID.LightRed;
-		}
+            item.scale = 1.25f;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
+        }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -42,12 +42,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(player, target.life <= 0, target.Center, target.width, target.height, knockback);
+            OnHitEffects(player, target.life <= 0, target.Center, target.width, target.height, knockback);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			OnHitEffects(player, target.statLife <= 0, target.Center, target.width, target.height, item.knockBack);
+            OnHitEffects(player, target.statLife <= 0, target.Center, target.width, target.height, item.knockBack);
         }
 
         private void OnHitEffects(Player player, bool health, Vector2 targetPos, int targetWidth, int targetHeight, float kBack)
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 int bloodAmt = Main.rand.Next(4, 6);
                 for (int i = 0; i < bloodAmt; i++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), kBack, player.whoAmI, 0f, 0f);
                 }
             }

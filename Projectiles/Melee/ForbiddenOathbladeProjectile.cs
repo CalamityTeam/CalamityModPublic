@@ -25,9 +25,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = true;
             projectile.penetrate = 3;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
-			aiType = ProjectileID.DemonScythe;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
+            aiType = ProjectileID.DemonScythe;
         }
 
         public override void AI()

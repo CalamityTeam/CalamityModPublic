@@ -208,9 +208,9 @@ namespace CalamityMod.UI
 
             // Draw the border of the Adrenaline Bar first
             spriteBatch.Draw(adrenBorderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
-			// Use a slightly different texture if Adrenaline is full or active
-			if (modPlayer.adrenaline >= modPlayer.adrenalineMax || modPlayer.adrenalineModeActive)
-				spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);				
+            // Use a slightly different texture if Adrenaline is full or active
+            if (modPlayer.adrenaline >= modPlayer.adrenalineMax || modPlayer.adrenalineModeActive)
+                spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);                
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.
@@ -236,7 +236,7 @@ namespace CalamityMod.UI
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
             {
-				float animOffset = 5f;
+                float animOffset = 5f;
                 float xOffset = (adrenBorderTex.Width - adrenAnimTex.Width) / 2f;
                 int frameHeight = (adrenAnimTex.Height / AdrenAnimFrames) - 1;
                 float yOffset = (adrenBorderTex.Height - frameHeight) / 2f + animOffset;

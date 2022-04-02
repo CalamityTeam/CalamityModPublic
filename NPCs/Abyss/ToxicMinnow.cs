@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class ToxicMinnow : ModNPC
+    public class ToxicMinnow : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -37,11 +37,11 @@ namespace CalamityMod.NPCs.Abyss
             banner = npc.type;
             bannerItem = ModContent.ItemType<ToxicMinnowBanner>();
             npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-			CalamityAI.PassiveSwimmingAI(npc, mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
+            CalamityAI.PassiveSwimmingAI(npc, mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)

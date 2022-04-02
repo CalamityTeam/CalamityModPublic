@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class StellarContemptMelee : ModItem
+    public class StellarContemptMelee : ModItem
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
 

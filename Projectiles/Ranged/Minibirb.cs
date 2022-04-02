@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(SoundID.NPCHit51, projectile.Center);
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.Pi : 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 10f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 10f, 20f);
         }
     }
 }

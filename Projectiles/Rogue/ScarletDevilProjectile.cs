@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ScarletDevilProjectile : ModProjectile
+    public class ScarletDevilProjectile : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
         public ref float ShootTimer => ref projectile.ai[0];
@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 108;
             projectile.height = 108;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 1;

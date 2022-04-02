@@ -6,7 +6,7 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class IrradiatedAura : ModProjectile
+    public class IrradiatedAura : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void AI()
         {
-			CalamityAI.PassiveSwimmingAI(npc, mod, 3, 150f, 0.25f, 0.15f, 6f, 6f, 0.05f);
+            CalamityAI.PassiveSwimmingAI(npc, mod, 3, 150f, 0.25f, 0.15f, 6f, 6f, 0.05f);
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             bool flag14 = false;

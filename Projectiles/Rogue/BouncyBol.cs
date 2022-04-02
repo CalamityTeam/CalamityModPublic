@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class BouncyBol : ModProjectile
+    public class BouncyBol : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/BouncySpikyBall";
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 8;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
-			projectile.aiStyle = 14;
+            projectile.aiStyle = 14;
         }
 
         public override void AI()
@@ -84,10 +84,10 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.damage = (int)(projectile.damage * 1.5f);
                 }
-				else
-				{
-					projectile.damage = (int)(projectile.damage * 1.1f);
-				}
+                else
+                {
+                    projectile.damage = (int)(projectile.damage * 1.1f);
+                }
                 hasHitEnemy = true;
                 targetNPC = index;
                 velocityNew = Main.npc[index].Center - projectile.Center;
@@ -99,14 +99,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			if (projectile.velocity.X != oldVelocity.X)
-			{
-				projectile.velocity.X = -oldVelocity.X * 1.001f;
-			}
-			if (projectile.velocity.Y != oldVelocity.Y)
-			{
-				projectile.velocity.Y = -oldVelocity.Y * 1.001f;
-			}
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X * 1.001f;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y * 1.001f;
+            }
             return false;
         }
     }

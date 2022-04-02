@@ -40,17 +40,17 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 1200;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
-			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-				projectile.tileCollide = true;
+            Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+            if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+                projectile.tileCollide = true;
 
-			// Very rapidly fade into existence.
-			if (projectile.alpha > 0)
+            // Very rapidly fade into existence.
+            if (projectile.alpha > 0)
                 projectile.alpha -= 25;
             if (projectile.alpha < 0)
                 projectile.alpha = 0;
@@ -83,14 +83,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity = projectile.velocity.RotatedBy(waveSign * WaveTheta);
             projectile.rotation = projectile.velocity.ToRotation();
 
-			// Emit light.
-			if (WaveFrameState < 0f)
-				Lighting.AddLight(projectile.Center, 0.87f, 0.65f, 0.1725f);
-			else
-				Lighting.AddLight(projectile.Center, 0.1725f, 0.87f, 0.65f);
+            // Emit light.
+            if (WaveFrameState < 0f)
+                Lighting.AddLight(projectile.Center, 0.87f, 0.65f, 0.1725f);
+            else
+                Lighting.AddLight(projectile.Center, 0.1725f, 0.87f, 0.65f);
 
-			// Laser length shenanigans. If the laser is still growing, increase localAI 0 to indicate it is getting longer.
-			projectile.localAI[0] += 10f; // LaserLengthChangeRate;
+            // Laser length shenanigans. If the laser is still growing, increase localAI 0 to indicate it is getting longer.
+            projectile.localAI[0] += 10f; // LaserLengthChangeRate;
 
             // Cap it at max length.
             if (projectile.localAI[0] > LaserLength)
@@ -105,20 +105,20 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-		}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+        }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			if (WaveFrameState < 0f)
-				return new Color(255, 100, 0, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor)
+        {
+            if (WaveFrameState < 0f)
+                return new Color(255, 100, 0, projectile.alpha);
 
-			return new Color(0, 255, 200, projectile.alpha);
-		}
+            return new Color(0, 255, 200, projectile.alpha);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
 
         public override void Kill(int timeLeft)
         {

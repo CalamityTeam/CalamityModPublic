@@ -73,13 +73,13 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
-				player.HeldItem.Calamity().timesUsed++;
-				for (int i = 0; i < Main.maxInventory; i++)
-				{
-					if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
-						player.inventory[i].Calamity().timesUsed++;
-				}
-			}
+                player.HeldItem.Calamity().timesUsed++;
+                for (int i = 0; i < Main.maxInventory; i++)
+                {
+                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+                        player.inventory[i].Calamity().timesUsed++;
+                }
+            }
 
             return false;
         }

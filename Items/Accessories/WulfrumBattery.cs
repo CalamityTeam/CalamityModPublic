@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class WulfrumBattery : ModItem
+    public class WulfrumBattery : ModItem
     {
         public override void SetStaticDefaults()
         {

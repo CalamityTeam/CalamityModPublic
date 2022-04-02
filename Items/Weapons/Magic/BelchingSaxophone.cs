@@ -9,14 +9,14 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class BelchingSaxophone : ModItem
     {
-		public const int BaseDamage = 32;
-		private int counter = 0;
+        public const int BaseDamage = 32;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belching Saxophone");
             Tooltip.SetDefault("Doot\n" +
-			"Fires an array of dirty reeds, music notes, and sulphuric bubbles");
+            "Fires an array of dirty reeds, music notes, and sulphuric bubbles");
         }
 
         public override void SetDefaults()
@@ -35,13 +35,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AcidicReed>();
-			//If a saxophone actually fired reeds, I'd be concerned.
+            //If a saxophone actually fired reeds, I'd be concerned.
             item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			counter++;
+            counter++;
 
             if (Main.rand.NextBool(2))
             {
@@ -58,19 +58,19 @@ namespace CalamityMod.Items.Weapons.Magic
 
             if (Main.rand.NextBool(2))
             {
-				int noteProj = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ProjectileID.QuarterNote,
-					ProjectileID.EighthNote,
-					ProjectileID.TiedEighthNote
-				});
+                int noteProj = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    ProjectileID.QuarterNote,
+                    ProjectileID.EighthNote,
+                    ProjectileID.TiedEighthNote
+                });
                 int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, (int)(damage * 0.75), knockBack, player.whoAmI);
-				if (note.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
-					Main.projectile[note].usesLocalNPCImmunity = true;
-					Main.projectile[note].localNPCHitCooldown = 10;
-				}
+                if (note.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
+                    Main.projectile[note].usesLocalNPCImmunity = true;
+                    Main.projectile[note].localNPCHitCooldown = 10;
+                }
             }
             return false;
         }

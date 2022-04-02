@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings)]
     public class TarragonWings : ModItem
     {
         public override void SetStaticDefaults()
@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 22;
             item.height = 20;
-			item.rare = ItemRarityID.Purple;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.accessory = true;
         }
 

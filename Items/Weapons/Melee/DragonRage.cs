@@ -4,13 +4,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class DragonRage : ModItem
+    public class DragonRage : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Rage");
             Tooltip.SetDefault("Twirls a baton that causes explosions on enemy hits\n" +
-			"Every ten hits will summon a ring of fireballs");
+            "Every ten hits will summon a ring of fireballs");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
-			item.Calamity().trueMelee = true;
-		}
+            item.Calamity().trueMelee = true;
+        }
     }
 }

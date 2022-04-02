@@ -99,22 +99,22 @@ namespace CalamityMod.Projectiles.Ranged
                         float variation = (1f + projectile.localAI[0]) * 3f;
                         Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
                         Vector2 speed = projectile.velocity * shootSpeed * Main.rand.NextFloat(0.6f, 1.2f);
-						type = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ModContent.ProjectileType<PlasmaBlast>(),
-							ModContent.ProjectileType<AstralStar>(),
-							ModContent.ProjectileType<GalacticaComet>(),
-							ModContent.ProjectileType<FallenStarProj>(),
-							ProjectileID.Starfury
-						});
+                        type = Utils.SelectRandom(Main.rand, new int[]
+                        {
+                            ModContent.ProjectileType<PlasmaBlast>(),
+                            ModContent.ProjectileType<AstralStar>(),
+                            ModContent.ProjectileType<GalacticaComet>(),
+                            ModContent.ProjectileType<FallenStarProj>(),
+                            ProjectileID.Starfury
+                        });
                         int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner);
-						if (star.WithinBounds(Main.maxProjectiles))
-						{
-							Main.projectile[star].penetrate = 1;
-							Main.projectile[star].timeLeft = 300;
-							Main.projectile[star].Calamity().forceRanged = true;
-							Main.projectile[star].netUpdate = true;
-						}
+                        if (star.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[star].penetrate = 1;
+                            Main.projectile[star].timeLeft = 300;
+                            Main.projectile[star].Calamity().forceRanged = true;
+                            Main.projectile[star].netUpdate = true;
+                        }
                         projectile.netUpdate = true;
                     }
                 }

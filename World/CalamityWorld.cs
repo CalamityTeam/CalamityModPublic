@@ -26,7 +26,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-	public partial class CalamityWorld : ModWorld
+    public partial class CalamityWorld : ModWorld
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
@@ -50,7 +50,7 @@ namespace CalamityMod.World
         // New Temple Altar
         public static int newAltarX = 0;
         public static int newAltarY = 0;
-		
+        
         // Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;
@@ -238,8 +238,8 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
             CalamityGlobalNPC.signus = -1;
-			CalamityGlobalNPC.draedonExoMechPrimePlasmaCannon = -1;
-			CalamityGlobalNPC.draedonExoMechPrime = -1;
+            CalamityGlobalNPC.draedonExoMechPrimePlasmaCannon = -1;
+            CalamityGlobalNPC.draedonExoMechPrime = -1;
             CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
             CalamityGlobalNPC.draedonExoMechTwinRed = -1;
             CalamityGlobalNPC.draedonExoMechWorm = -1;
@@ -751,7 +751,7 @@ namespace CalamityMod.World
                 downedAres = flags11[4];
                 downedThanatos = flags11[5];
                 downedArtemisAndApollo = flags11[6];
-				TalkedToDraedon = flags11[7];
+                TalkedToDraedon = flags11[7];
             }
             else
             {
@@ -1017,9 +1017,9 @@ namespace CalamityMod.World
             downedArtemisAndApollo = flags11[6];
             TalkedToDraedon = flags11[7];
 
-			RecipeUnlockHandler.ReceiveData(reader);
+            RecipeUnlockHandler.ReceiveData(reader);
 
-			abyssChasmBottom = reader.ReadInt32();
+            abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();

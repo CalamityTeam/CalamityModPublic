@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class SmallSmokeParticle : Particle 
+    public class SmallSmokeParticle : Particle 
     {
         public override string Texture => "CalamityMod/Particles/SmallSmoke";
 

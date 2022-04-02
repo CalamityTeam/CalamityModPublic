@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class RogueEmblem : ModItem
+    public class RogueEmblem : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class ChaosSpirit : ModProjectile
+    public class ChaosSpirit : ModProjectile
     {
         public int dust = 3;
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-			bool reversedGravity = player.gravDir == -1f;
+            bool reversedGravity = player.gravDir == -1f;
             projectile.position.X = player.Center.X - (float)(projectile.width / 2);
             projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
             if (reversedGravity)
@@ -108,89 +108,89 @@ namespace CalamityMod.Projectiles.Summon
                     return;
                 }
                 bool foundTarget = false;
-				Vector2 targetVec = projectile.Center;
-				Vector2 half = new Vector2(0.5f);
+                Vector2 targetVec = projectile.Center;
+                Vector2 half = new Vector2(0.5f);
                 float range = 1000f;
-				int targetIndex = -1;
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
-						float npcDist = Vector2.Distance(sizeCheck, targetVec);
-						if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							range = npcDist;
-							targetVec = sizeCheck;
-							foundTarget = true;
-							targetIndex = npc.whoAmI;
-						}
-					}
-				}
-				if (!foundTarget)
-				{
-					for (int k = 0; k < Main.maxNPCs; k++)
-					{
-						NPC npc = Main.npc[k];
-						if (npc.CanBeChasedBy(projectile, false))
-						{
-							Vector2 sizeCheck = npc.position + npc.Size * half;
-							float npcDist = Vector2.Distance(sizeCheck, targetVec);
-							if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-							{
-								range = npcDist;
-								targetVec = sizeCheck;
-								foundTarget = true;
-								targetIndex = k;
-							}
-						}
-					}
-				}
-				float yAdjust = player.gravDir == -1f ? 0f : 10f;
+                int targetIndex = -1;
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        Vector2 sizeCheck = npc.position + npc.Size * half;
+                        float npcDist = Vector2.Distance(sizeCheck, targetVec);
+                        if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        {
+                            range = npcDist;
+                            targetVec = sizeCheck;
+                            foundTarget = true;
+                            targetIndex = npc.whoAmI;
+                        }
+                    }
+                }
+                if (!foundTarget)
+                {
+                    for (int k = 0; k < Main.maxNPCs; k++)
+                    {
+                        NPC npc = Main.npc[k];
+                        if (npc.CanBeChasedBy(projectile, false))
+                        {
+                            Vector2 sizeCheck = npc.position + npc.Size * half;
+                            float npcDist = Vector2.Distance(sizeCheck, targetVec);
+                            if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                            {
+                                range = npcDist;
+                                targetVec = sizeCheck;
+                                foundTarget = true;
+                                targetIndex = k;
+                            }
+                        }
+                    }
+                }
+                float yAdjust = player.gravDir == -1f ? 0f : 10f;
                 if (foundTarget && targetIndex != -1)
                 {
-					int projectileType = ModContent.ProjectileType<ChaosFlame>();
-					//If the target is above the minion, fire directly at it at double speed
-					if (reversedGravity ? (Main.npc[targetIndex].Bottom.Y > projectile.Top.Y) : (Main.npc[targetIndex].Bottom.Y < projectile.Top.Y))
-					{
-						Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y - yAdjust);
-						float speed = Main.rand.Next(14, 19); //modify the speed the projectile are shot.  Lower number = slower projectile.
-						Vector2 velocity = targetVec - projectile.Center;
-						float targetDist = velocity.Length();
-						targetDist = speed / targetDist;
-						velocity.X *= targetDist;
-						velocity.Y *= targetDist;
-						Projectile.NewProjectile(source, velocity, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
-						Main.PlaySound(SoundID.Item20, projectile.position);
-						projectile.ai[0] = 10f;
-					}
-					//Otherwise, fire away like a volcano
-					else
-					{
-						int amount = Main.rand.Next(2, 4); //2 to 3
-						for (int i = 0; i < amount; i++)
-						{
-							float velocityX = Main.rand.NextFloat(-10f, 10f);
-							float velocityY = Main.rand.NextFloat(-10f, -7f);
-							if (reversedGravity)
-								velocityY *= -1f;
-							int flame = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), velocityX, velocityY, projectileType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-							Main.projectile[flame].aiStyle = 1;
-						}
-						Main.PlaySound(SoundID.Item20, projectile.position);
-						projectile.ai[0] = 20f;
-					}
+                    int projectileType = ModContent.ProjectileType<ChaosFlame>();
+                    //If the target is above the minion, fire directly at it at double speed
+                    if (reversedGravity ? (Main.npc[targetIndex].Bottom.Y > projectile.Top.Y) : (Main.npc[targetIndex].Bottom.Y < projectile.Top.Y))
+                    {
+                        Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y - yAdjust);
+                        float speed = Main.rand.Next(14, 19); //modify the speed the projectile are shot.  Lower number = slower projectile.
+                        Vector2 velocity = targetVec - projectile.Center;
+                        float targetDist = velocity.Length();
+                        targetDist = speed / targetDist;
+                        velocity.X *= targetDist;
+                        velocity.Y *= targetDist;
+                        Projectile.NewProjectile(source, velocity, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
+                        Main.PlaySound(SoundID.Item20, projectile.position);
+                        projectile.ai[0] = 10f;
+                    }
+                    //Otherwise, fire away like a volcano
+                    else
+                    {
+                        int amount = Main.rand.Next(2, 4); //2 to 3
+                        for (int i = 0; i < amount; i++)
+                        {
+                            float velocityX = Main.rand.NextFloat(-10f, 10f);
+                            float velocityY = Main.rand.NextFloat(-10f, -7f);
+                            if (reversedGravity)
+                                velocityY *= -1f;
+                            int flame = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), velocityX, velocityY, projectileType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            Main.projectile[flame].aiStyle = 1;
+                        }
+                        Main.PlaySound(SoundID.Item20, projectile.position);
+                        projectile.ai[0] = 20f;
+                    }
                 }
 
-				//doesn't look good
-				/*Vector2 goreVec = new Vector2(projectile.Center.X, projectile.Center.Y - yAdjust - 10f);
-				Vector2 goreVec = new Vector2(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y);
-				if (Main.rand.NextBool(8))
-				{
-					int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
-					Main.gore[smoke].behindTiles = true;
-				}*/
+                //doesn't look good
+                /*Vector2 goreVec = new Vector2(projectile.Center.X, projectile.Center.Y - yAdjust - 10f);
+                Vector2 goreVec = new Vector2(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y);
+                if (Main.rand.NextBool(8))
+                {
+                    int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
+                    Main.gore[smoke].behindTiles = true;
+                }*/
             }
         }
 

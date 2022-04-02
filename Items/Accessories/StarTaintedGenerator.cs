@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Star-Tainted Generator");
             Tooltip.SetDefault("+2 max minions, does not stack with downgrades\n" +
-					"7% increased minion damage\n" +
-					"Minion attacks spawn astral explosions and inflict several debuffs");
+                    "7% increased minion damage\n" +
+                    "Minion attacks spawn astral explosions and inflict several debuffs");
         }
 
         public override void SetDefaults()
@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().voltaicJelly = true;
-			player.Calamity().starbusterCore = true;
-			player.Calamity().starTaintedGenerator = true;
+            player.Calamity().voltaicJelly = true;
+            player.Calamity().starbusterCore = true;
+            player.Calamity().starTaintedGenerator = true;
             player.minionDamage += 0.07f;
         }
 

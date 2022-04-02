@@ -8,7 +8,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PurityProjectionSigil : ModProjectile
+    public class PurityProjectionSigil : ModProjectile
     {
         private NPC target => Main.npc[(int)projectile.ai[0]];
 

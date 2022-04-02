@@ -112,16 +112,16 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (projectile.ai[1] < 1f)
                 {
-					if (projectile.localAI[1] == 1f)
-					{
-						int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, ModContent.ProjectileType<SeasSearingSpout>(), projectile.damage, 3f, projectile.owner, 16f, 8f);
-						Main.projectile[num230].netUpdate = true;
-					}
-					else
-					{
-						int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, ModContent.ProjectileType<WaterSpout>(), projectile.damage, 3f, projectile.owner, 16f, 8f);
-						Main.projectile[num230].netUpdate = true;
-					}
+                    if (projectile.localAI[1] == 1f)
+                    {
+                        int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, ModContent.ProjectileType<SeasSearingSpout>(), projectile.damage, 3f, projectile.owner, 16f, 8f);
+                        Main.projectile[num230].netUpdate = true;
+                    }
+                    else
+                    {
+                        int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, ModContent.ProjectileType<WaterSpout>(), projectile.damage, 3f, projectile.owner, 16f, 8f);
+                        Main.projectile[num230].netUpdate = true;
+                    }
                 }
             }
         }

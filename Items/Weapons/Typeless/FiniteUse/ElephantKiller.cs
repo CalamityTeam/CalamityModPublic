@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 item.Calamity().timesUsed = 3;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 66;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 66;
 
         public override bool OnPickup(Player player)
         {
@@ -63,13 +63,13 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
-				player.HeldItem.Calamity().timesUsed++;
-				for (int i = 0; i < Main.maxInventory; i++)
-				{
-					if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
-						player.inventory[i].Calamity().timesUsed++;
-				}
-			}
+                player.HeldItem.Calamity().timesUsed++;
+                for (int i = 0; i < Main.maxInventory; i++)
+                {
+                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+                        player.inventory[i].Calamity().timesUsed++;
+                }
+            }
             return true;
         }
 

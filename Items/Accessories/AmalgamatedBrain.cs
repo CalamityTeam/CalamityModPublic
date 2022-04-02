@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class AmalgamatedBrain : ModItem
+    public class AmalgamatedBrain : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -35,13 +35,13 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(60 * player.AverageDamage()), 2f, player.whoAmI);
-						if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							rain.Calamity().forceTypeless = true;
-							rain.tileCollide = false;
-							rain.penetrate = 1;
-						}
+                        Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(60 * player.AverageDamage()), 2f, player.whoAmI);
+                        if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            rain.Calamity().forceTypeless = true;
+                            rain.tileCollide = false;
+                            rain.penetrate = 1;
+                        }
                     }
                 }
             }

@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SlimePuppet : ModProjectile
+    public class SlimePuppet : ModProjectile
     {
-		public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[projectile.owner];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slime Puppet");
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

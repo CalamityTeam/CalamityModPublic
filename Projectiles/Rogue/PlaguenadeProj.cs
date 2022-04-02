@@ -74,46 +74,46 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.owner == Main.myPlayer)
             {
-				Player player = Main.player[projectile.owner];
-				int projAmt = projectile.Calamity().stealthStrike ? 28 : 20;
+                Player player = Main.player[projectile.owner];
+                int projAmt = projectile.Calamity().stealthStrike ? 28 : 20;
                 for (int projIndex = 0; projIndex < projAmt; projIndex++)
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
                     Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), player.beeDamage(projectile.damage), player.beeKB(0f), projectile.owner, 0f, 0f);
                 }
-				Main.PlaySound(SoundID.Item14, projectile.position);
-				if (projectile.Calamity().stealthStrike)
-				{
-					projectile.position = projectile.Center;
-					projectile.width = projectile.height = 75;
-				}
-				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-				projectile.maxPenetrate = -1;
-				projectile.penetrate = -1;
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
-				projectile.Damage();
-				for (int i = 0; i < 10; i++)
-				{
-					int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
-					Main.dust[smoke].velocity *= 3f;
-					if (Main.rand.NextBool(2))
-					{
-						Main.dust[smoke].scale = 0.5f;
-						Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int j = 0; j < 15; j++)
-				{
-					int plague = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
-					Main.dust[plague].noGravity = true;
-					Main.dust[plague].velocity *= 5f;
-					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
-					Main.dust[fire].velocity *= 2f;
-				}
-				CalamityUtils.ExplosionGores(projectile.Center, 3);
+                Main.PlaySound(SoundID.Item14, projectile.position);
+                if (projectile.Calamity().stealthStrike)
+                {
+                    projectile.position = projectile.Center;
+                    projectile.width = projectile.height = 75;
+                }
+                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+                projectile.maxPenetrate = -1;
+                projectile.penetrate = -1;
+                projectile.usesLocalNPCImmunity = true;
+                projectile.localNPCHitCooldown = 10;
+                projectile.Damage();
+                for (int i = 0; i < 10; i++)
+                {
+                    int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+                    Main.dust[smoke].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[smoke].scale = 0.5f;
+                        Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int j = 0; j < 15; j++)
+                {
+                    int plague = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
+                    Main.dust[plague].noGravity = true;
+                    Main.dust[plague].velocity *= 5f;
+                    int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                    Main.dust[fire].velocity *= 2f;
+                }
+                CalamityUtils.ExplosionGores(projectile.Center, 3);
             }
         }
 

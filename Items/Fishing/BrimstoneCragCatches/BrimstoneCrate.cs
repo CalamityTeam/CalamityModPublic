@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void RightClick(Player player)
         {
-			//Vanilla materials
-			DropHelper.DropItem(player, ItemID.Obsidian, 2, 5);
-			DropHelper.DropItemChance(player, ItemID.Hellstone, 0.25f, 2, 5);
-			DropHelper.DropItemChance(player, ItemID.HellstoneBar, 0.1f, 1, 3);
+            //Vanilla materials
+            DropHelper.DropItem(player, ItemID.Obsidian, 2, 5);
+            DropHelper.DropItemChance(player, ItemID.Hellstone, 0.25f, 2, 5);
+            DropHelper.DropItemChance(player, ItemID.HellstoneBar, 0.1f, 1, 3);
 
             //Modded materials
-			DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 1, 4);
+            DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 1, 4);
             DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
             DropHelper.DropItemCondition(player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
             DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyCore>(), CalamityWorld.downedBrimstoneElemental, 0.1f, 1, 3);
@@ -65,29 +65,29 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
             DropHelper.DropItemChance(player, ItemID.InfernoPotion, 10, 1, 3);
-			int healingPotID = ItemID.LesserHealingPotion;
-			int manaPotID = ItemID.LesserManaPotion;
-			if (CalamityWorld.downedDoG)
-			{
-				healingPotID = ModContent.ItemType<SupremeHealingPotion>();
-				manaPotID = ModContent.ItemType<SupremeManaPotion>();
-			}
-			else if (CalamityWorld.downedProvidence)
-			{
-				healingPotID = ItemID.SuperHealingPotion;
-				manaPotID = ItemID.SuperManaPotion;
-			}
-			else if (NPC.downedMechBossAny)
-			{
-				healingPotID = ItemID.GreaterHealingPotion;
-				manaPotID = ItemID.GreaterManaPotion;
-			}
-			else if (NPC.downedBoss3)
-			{
-				healingPotID = ItemID.HealingPotion;
-				manaPotID = ItemID.ManaPotion;
-			}
-			DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            int healingPotID = ItemID.LesserHealingPotion;
+            int manaPotID = ItemID.LesserManaPotion;
+            if (CalamityWorld.downedDoG)
+            {
+                healingPotID = ModContent.ItemType<SupremeHealingPotion>();
+                manaPotID = ModContent.ItemType<SupremeManaPotion>();
+            }
+            else if (CalamityWorld.downedProvidence)
+            {
+                healingPotID = ItemID.SuperHealingPotion;
+                manaPotID = ItemID.SuperManaPotion;
+            }
+            else if (NPC.downedMechBossAny)
+            {
+                healingPotID = ItemID.GreaterHealingPotion;
+                manaPotID = ItemID.GreaterManaPotion;
+            }
+            else if (NPC.downedBoss3)
+            {
+                healingPotID = ItemID.HealingPotion;
+                manaPotID = ItemID.ManaPotion;
+            }
+            DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);

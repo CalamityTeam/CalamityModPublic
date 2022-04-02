@@ -6,15 +6,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PrismaticEnergyBlast : BaseLaserbeamProjectile
+    public class PrismaticEnergyBlast : BaseLaserbeamProjectile
     {
         public bool ExplodedYet
-		{
+        {
             get => projectile.ai[1] == 1f;
             set => projectile.ai[1] = value.ToInt();
-		}
-		public override string Texture => "CalamityMod/ExtraTextures/Lasers/PrismLaserStart";
-		public override float MaxScale => 1f;
+        }
+        public override string Texture => "CalamityMod/ExtraTextures/Lasers/PrismLaserStart";
+        public override float MaxScale => 1f;
         public override float MaxLaserLength => 2700f;
         public override float Lifetime => 50f;
         public override Color LaserOverlayColor => Color.White;
@@ -23,13 +23,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/PrismLaserMid");
         public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/PrismLaserEnd");
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Energy Blast");
             Main.projFrames[projectile.type] = 5;
         }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             projectile.width = projectile.height = 14;
             projectile.friendly = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 450;
         }
 
-		public override bool PreAI()
+        public override bool PreAI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter % 5 == 4)
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override float DetermineLaserLength()
-		{
+        {
             if (projectile.penetrate == 100)
                 return DetermineLaserLength_CollideWithTiles(8);
             return LaserLength;
@@ -75,19 +75,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool CanDamage() => projectile.penetrate == 100;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             LaserLength = projectile.Distance(target.Center);
             CreateExplosion(target.Center);
         }
 
-		public override void Kill(int timeLeft)
-		{
+        public override void Kill(int timeLeft)
+        {
             Vector2 laserEnd = projectile.Center + projectile.velocity * LaserLength;
             CreateExplosion(laserEnd);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // Start texture drawing.
             Rectangle beginFrame = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
@@ -141,6 +141,6 @@ namespace CalamityMod.Projectiles.Ranged
                              SpriteEffects.None,
                              0f);
             return false;
-		}
-	}
+        }
+    }
 }

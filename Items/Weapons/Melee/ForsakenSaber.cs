@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			for (int projectiles = 0; projectiles < 3; projectiles++)
-			{
-				float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
-				float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockBack, player.whoAmI);
-			}
+            for (int projectiles = 0; projectiles < 3; projectiles++)
+            {
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockBack, player.whoAmI);
+            }
             return false;
         }
 

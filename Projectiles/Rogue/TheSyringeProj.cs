@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Syringe");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
             projectile.damage += projectile.Calamity().defDamage / 200;
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int f = 0; f < fireAmt; f++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer);
                 }
                 for (int s = 0; s < 2; ++s)
@@ -92,9 +92,9 @@ namespace CalamityMod.Projectiles.Rogue
                     float speedX = Main.rand.NextFloat(-0.7f, 0.7f);
                     float speedY = Main.rand.NextFloat(-0.7f, 0.7f);
                     int bee = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer);
-					Main.projectile[bee].penetrate = 1;
+                    Main.projectile[bee].penetrate = 1;
                 }
             }
-		}
+        }
     }
 }

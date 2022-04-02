@@ -10,7 +10,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Sandstorm's Core");
             Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -32,12 +32,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()
@@ -45,8 +45,8 @@ namespace CalamityMod.Items.SummonItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ectoplasm, 10);
             recipe.AddIngredient(ItemID.HallowedBar, 5);
-			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

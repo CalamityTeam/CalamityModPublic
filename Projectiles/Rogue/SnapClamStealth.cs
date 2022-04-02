@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
-			projectile.localNPCHitCooldown = 10;
-			projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
         }
 
         public override void AI()
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-				projectile.ModifyHitNPCSticky(5, false);
+                projectile.ModifyHitNPCSticky(5, false);
             }
         }
 

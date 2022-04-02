@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 4;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 4;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
         }
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity = toPlayer;
 
                 projectile.ai[0] += 0.5f;
-				projectile.extraUpdates = 1;
+                projectile.extraUpdates = 1;
                 if (projectile.ai[0] > 20f)
                 {
                     projectile.ai[0] = 20f;

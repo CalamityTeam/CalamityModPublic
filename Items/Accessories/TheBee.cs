@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("The Bee");
             Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
                             "Damage taken at full HP is halved\n" +
-							"This has a 10 second cooldown");
+                            "This has a 10 second cooldown");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.accessory = true;
-		}
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

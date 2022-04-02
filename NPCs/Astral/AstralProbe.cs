@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Astral
             npc.width = 30; //324
             npc.height = 30; //216
             npc.defense = 10;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 50;
             npc.aiStyle = -1;
             aiType = -1;
@@ -43,16 +43,16 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.85f;
                 npc.lifeMax = 70;
             }
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {
-			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-			npc.damage = 0;
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            npc.damage = 0;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
@@ -213,28 +213,28 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Astral/AstralProbeGlow");
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Astral/AstralProbeGlow");
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, Color.White * 0.6f, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, Color.White * 0.6f, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.soundDelay == 0)
             {
@@ -255,9 +255,9 @@ namespace CalamityMod.NPCs.Astral
 
             if (npc.life <= 0)
             {
-				npc.position = npc.Center;
+                npc.position = npc.Center;
                 npc.width = npc.height = 30;
-				npc.Center = npc.position;
+                npc.Center = npc.position;
                 for (int d = 0; d < 5; d++)
                 {
                     int purple = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
@@ -276,7 +276,7 @@ namespace CalamityMod.NPCs.Astral
                     cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[cosmos].velocity *= 2f;
                 }
-				CalamityUtils.ExplosionGores(npc.Center, 3);
+                CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 

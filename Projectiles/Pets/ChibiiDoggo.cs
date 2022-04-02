@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Pets
                     }
                     player.RemoveAllIFrames();
 
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                         SpawnDoggo();
                 }
                 projectile.netUpdate = true;

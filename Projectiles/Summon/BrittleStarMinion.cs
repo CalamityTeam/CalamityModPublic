@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class BrittleStarMinion : ModProjectile
+    public class BrittleStarMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.rotation += projectile.velocity.X * 0.04f;
 
-			  projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
+              projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

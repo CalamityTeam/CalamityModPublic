@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SkeletalDragonMother : ModProjectile
+    public class SkeletalDragonMother : ModProjectile
     {
         public const float DistanceToCheck = 1100f;
         public override void SetStaticDefaults()
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (target != null)
             {
-				projectile.extraUpdates = 1;
+                projectile.extraUpdates = 1;
                 projectile.ai[0]++;
 
                 // Arc towards enemy every 60 frames for 30 frames.
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (projectile.Distance(player.Center) > 175f)
             {
-				projectile.extraUpdates = 0;
+                projectile.extraUpdates = 0;
                 projectile.ai[1] = 0f;
                 projectile.velocity = (projectile.velocity * 24f + projectile.SafeDirectionTo(player.Center) * 16f) / 25f;
                 if (projectile.Distance(player.Center) > 3250f)

@@ -30,22 +30,22 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = 2;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-		}
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+        }
 
         public override void AI()
         {
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			if (Main.rand.NextBool(8))
-			{
-				int smoke = Gore.NewGore(projectile.position, default, Main.rand.Next(375, 378), 0.5f);
-				Main.gore[smoke].behindTiles = true;
-			}
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            if (Main.rand.NextBool(8))
+            {
+                int smoke = Gore.NewGore(projectile.position, default, Main.rand.Next(375, 378), 0.5f);
+                Main.gore[smoke].behindTiles = true;
+            }
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -54,8 +54,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (projectile.owner == Main.myPlayer)
             {
                 int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (boom.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boom].Calamity().forceMelee = true;
+                if (boom.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boom].Calamity().forceMelee = true;
             }
         }
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
-			DisplayName.SetDefault("Stratus Brick");
+            DisplayName.SetDefault("Stratus Brick");
         }
 
         public override void SetDefaults()

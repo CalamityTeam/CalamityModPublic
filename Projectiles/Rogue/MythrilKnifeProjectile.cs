@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (!projectile.Calamity().stealthStrike)
-				return;
+            if (!projectile.Calamity().stealthStrike)
+                return;
 
             target.AddBuff(BuffID.CursedInferno, 300);
             target.AddBuff(BuffID.Venom, 300);
@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (!projectile.Calamity().stealthStrike)
-				return;
+            if (!projectile.Calamity().stealthStrike)
+                return;
 
             target.AddBuff(BuffID.CursedInferno, 300);
             target.AddBuff(BuffID.Venom, 300);

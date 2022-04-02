@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<BrimstoneBolt>();
             item.shootSpeed = 13f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -44,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
 
-				if (type == ProjectileID.WoodenArrowFriendly)
-					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<BrimstoneBolt>(), damage, knockBack, player.whoAmI);
-				else
-				{
-					int proj = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
-					Main.projectile[proj].noDropItem = true;
-				}
-			}
+                if (type == ProjectileID.WoodenArrowFriendly)
+                    Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<BrimstoneBolt>(), damage, knockBack, player.whoAmI);
+                else
+                {
+                    int proj = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
+                }
+            }
             return false;
         }
 

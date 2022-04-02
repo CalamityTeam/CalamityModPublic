@@ -4,13 +4,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
 {
-	public class BloodwormItem : ModItem
+    public class BloodwormItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodworm");
-			Tooltip.SetDefault("Summons The Old Duke if used as bait in the sulphur sea");
-		}
+            Tooltip.SetDefault("Summons The Old Duke if used as bait in the sulphur sea");
+        }
 
         public override void SetDefaults()
         {

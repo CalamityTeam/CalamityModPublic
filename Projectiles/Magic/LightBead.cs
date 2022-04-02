@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class LightBead : ModProjectile
+    public class LightBead : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 15f, 15f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 15f, 15f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int b = 0; b < beadAmt; b++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<LightBeadSplit>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
             }

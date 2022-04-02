@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Crushax : ModProjectile
+    public class Crushax : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 2;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 2;
             projectile.aiStyle = 2;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

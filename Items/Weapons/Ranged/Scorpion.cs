@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Scorpio");
             Tooltip.SetDefault("BOOM\n" +
                 "Right click to fire a nuke\n" +
-				"Rockets will destroy tiles with tile-destroying ammo");
+                "Rockets will destroy tiles with tile-destroying ammo");
         }
 
         public override void SetDefaults()
@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.width = 58;
             item.height = 26;
             item.useTime = 13;
-			item.reuseDelay = 30;
-			item.useAnimation = 39;
-			item.useStyle = ItemUseStyleID.HoldingOut;
+            item.reuseDelay = 30;
+            item.useAnimation = 39;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.5f;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
@@ -52,12 +52,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return 13f/39f;
-			return 1f;
-		}
+        public override float UseTimeMultiplier(Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return 13f/39f;
+            return 1f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

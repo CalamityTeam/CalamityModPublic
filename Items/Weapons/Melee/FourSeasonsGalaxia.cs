@@ -17,7 +17,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class FourSeasonsGalaxia : ModItem
+    public class FourSeasonsGalaxia : ModItem
     {
         public Attunement mainAttunement = null;
 
@@ -140,7 +140,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemType<OmegaBiomeBlade>());

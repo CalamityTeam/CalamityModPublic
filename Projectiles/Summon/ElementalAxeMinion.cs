@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class ElementalAxeMinion : ModProjectile
+    public class ElementalAxeMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -57,18 +57,18 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
             if (flag64)
             {
-				if (player.dead)
-				{
-					modPlayer.eAxe = false;
-				}
-				if (modPlayer.eAxe)
+                if (player.dead)
+                {
+                    modPlayer.eAxe = false;
+                }
+                if (modPlayer.eAxe)
                 {
                     projectile.timeLeft = 2;
                 }
             }
             projectile.rotation += 0.075f;
 
-			projectile.ChargingMinionAI(1600f, 1800f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true);
+            projectile.ChargingMinionAI(1600f, 1800f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
     }
 }

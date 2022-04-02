@@ -23,10 +23,10 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().enraged < npc.buffTime[buffIndex])
-				npc.Calamity().enraged = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().enraged < npc.buffTime[buffIndex])
+                npc.Calamity().enraged = npc.buffTime[buffIndex];
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

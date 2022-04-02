@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SpearofPaleolithProj : ModProjectile
+    public class SpearofPaleolithProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofPaleolith";
 
@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;

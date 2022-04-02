@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CrescentMoonProj : ModProjectile
+    public class CrescentMoonProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
 
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
-			projectile.aiStyle = 18;
-			aiType = ProjectileID.DeathSickle;
+            projectile.extraUpdates = 1;
+            projectile.aiStyle = 18;
+            aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class DrizzlefishFireball : ModProjectile
+    public class DrizzlefishFireball : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -30,22 +30,22 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
-			int dustType = 235;
-			if (projectile.ai[1] == 1f)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					dustType = 35;
-				}
-				else
-				{
-					dustType = 55;
-				}
-			}
-			else
-			{
-				dustType = 235;
-			}
+            int dustType = 235;
+            if (projectile.ai[1] == 1f)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    dustType = 35;
+                }
+                else
+                {
+                    dustType = 55;
+                }
+            }
+            else
+            {
+                dustType = 235;
+            }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
@@ -66,14 +66,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.ai[1] == 1f)
-			{
-				target.AddBuff(BuffID.OnFire, 180);
-			}
-			else
-			{
-				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			}
+            if (projectile.ai[1] == 1f)
+            {
+                target.AddBuff(BuffID.OnFire, 180);
+            }
+            else
+            {
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            }
         }
     }
 }

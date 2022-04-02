@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 150, 0, projectile.alpha);
         }

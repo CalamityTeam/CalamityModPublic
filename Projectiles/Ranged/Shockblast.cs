@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             int num462 = 0;
             while (num462 < num461)
             {
-				float sizeMultiplier = (projectile.ai[1] * 0.5f) + 1f;
+                float sizeMultiplier = (projectile.ai[1] * 0.5f) + 1f;
                 float num463 = Main.rand.Next(-10, 11) * sizeMultiplier;
                 float num464 = Main.rand.Next(-10, 11) * sizeMultiplier;
                 float num465 = Main.rand.Next(3, 9) * sizeMultiplier;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
                 num464 *= num466;
                 int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 185);
                 Dust dust = Main.dust[num467];
-				dust.scale = sizeMultiplier;
+                dust.scale = sizeMultiplier;
                 dust.noGravity = true;
                 dust.position.X = projectile.Center.X;
                 dust.position.Y = projectile.Center.Y;

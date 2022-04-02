@@ -7,7 +7,7 @@ using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Honeycomb : ModProjectile
+    public class Honeycomb : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/HardenedHoneycomb";
 
@@ -36,32 +36,32 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 posDiff = player.Center - projectile.Center;
             if (posDiff.Length() <= radius)
             {
-				player.AddBuff(BuffID.Honey, 300);
+                player.AddBuff(BuffID.Honey, 300);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			int split = 0;
-			while (split < 3)
-			{
-				//Calculate the velocity of the projectile
-				float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
-				float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
-				//Prevents the projectile speed from being too low
-				if (shardspeedX < 2f && shardspeedX > -2f)
-				{
-					shardspeedX += -projectile.velocity.X;
-				}
-				if (shardspeedY > 2f && shardspeedY < 2f)
-				{
-					shardspeedY += -projectile.velocity.Y;
-				}
+            int split = 0;
+            while (split < 3)
+            {
+                //Calculate the velocity of the projectile
+                float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
+                float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
+                //Prevents the projectile speed from being too low
+                if (shardspeedX < 2f && shardspeedX > -2f)
+                {
+                    shardspeedX += -projectile.velocity.X;
+                }
+                if (shardspeedY > 2f && shardspeedY < 2f)
+                {
+                    shardspeedY += -projectile.velocity.Y;
+                }
 
-				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
-				split += 1;
-			}
+                //Spawn the projectile
+                Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
+                split += 1;
+            }
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -83,54 +83,54 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.velocity.X = -projectile.velocity.X;
-			projectile.velocity.Y = -projectile.velocity.Y;
-			int split = 0;
-			while (split < 3)
-			{
-				//Calculate the velocity of the projectile
-				float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
-				float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
-				//Prevents the projectile speed from being too low
-				if (shardspeedX < 2f && shardspeedX > -2f)
-				{
-					shardspeedX += -projectile.velocity.X;
-				}
-				if (shardspeedY > 2f && shardspeedY < 2f)
-				{
-					shardspeedY += -projectile.velocity.Y;
-				}
+            projectile.velocity.X = -projectile.velocity.X;
+            projectile.velocity.Y = -projectile.velocity.Y;
+            int split = 0;
+            while (split < 3)
+            {
+                //Calculate the velocity of the projectile
+                float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
+                float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
+                //Prevents the projectile speed from being too low
+                if (shardspeedX < 2f && shardspeedX > -2f)
+                {
+                    shardspeedX += -projectile.velocity.X;
+                }
+                if (shardspeedY > 2f && shardspeedY < 2f)
+                {
+                    shardspeedY += -projectile.velocity.Y;
+                }
 
-				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
-				split += 1;
-			}
+                //Spawn the projectile
+                Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
+                split += 1;
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			projectile.velocity.X = -projectile.velocity.X;
-			projectile.velocity.Y = -projectile.velocity.Y;
-			int split = 0;
-			while (split < 3)
-			{
-				//Calculate the velocity of the projectile
-				float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
-				float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
-				//Prevents the projectile speed from being too low
-				if (shardspeedX < 2f && shardspeedX > -2f)
-				{
-					shardspeedX += -projectile.velocity.X;
-				}
-				if (shardspeedY > 2f && shardspeedY < 2f)
-				{
-					shardspeedY += -projectile.velocity.Y;
-				}
+            projectile.velocity.X = -projectile.velocity.X;
+            projectile.velocity.Y = -projectile.velocity.Y;
+            int split = 0;
+            while (split < 3)
+            {
+                //Calculate the velocity of the projectile
+                float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
+                float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
+                //Prevents the projectile speed from being too low
+                if (shardspeedX < 2f && shardspeedX > -2f)
+                {
+                    shardspeedX += -projectile.velocity.X;
+                }
+                if (shardspeedY > 2f && shardspeedY < 2f)
+                {
+                    shardspeedY += -projectile.velocity.Y;
+                }
 
-				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
-				split += 1;
-			}
+                //Spawn the projectile
+                Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
+                split += 1;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

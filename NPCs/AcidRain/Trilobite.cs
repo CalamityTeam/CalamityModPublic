@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 45;
             npc.lifeMax = 300;
             npc.defense = 15;
-			npc.DR_NERD(0.25f);
+            npc.DR_NERD(0.25f);
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -53,11 +53,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath27;
             banner = npc.type;
             bannerItem = ModContent.ItemType<TrilobiteBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {

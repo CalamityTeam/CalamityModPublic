@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EyeOfNightSummon : ModProjectile
+    public class EyeOfNightSummon : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float HoverTime => ref projectile.ai[0];
@@ -133,6 +133,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.velocity = (destination - projectile.Center).SafeNormalize(Vector2.Zero) * flySpeed;
         }
 
-		public override bool CanDamage() => false;
+        public override bool CanDamage() => false;
     }
 }

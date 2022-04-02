@@ -14,7 +14,7 @@ using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
-	public static class CodebreakerUI
+    public static class CodebreakerUI
     {
         public static int ViewedTileEntityID = -1;
         public static bool AwaitingCloseConfirmation = false;
@@ -372,7 +372,7 @@ namespace CalamityMod.UI
         }
 
         public static void HandleDecryptionStuff(TECodebreaker codebreakerTileEntity, Texture2D backgroundTexture, Vector2 backgroundTopLeft, Vector2 barCenter)
-		{
+        {
             Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
             Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width * GeneralScale + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);

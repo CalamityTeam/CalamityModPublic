@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class YoungDuke : ModProjectile
+    public class YoungDuke : ModProjectile
     {
         public const float DistanceBeforeCharge = 420f;
 

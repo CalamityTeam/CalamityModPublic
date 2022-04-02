@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CosmicKunai : RogueWeapon
     {
-		private int counter = 0;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
@@ -31,13 +31,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.height = 48;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
             item.shootSpeed = 28f;
             item.Calamity().rogue = true;
-		}
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<CosmicScythe>()] < 10 && counter == 0 && stealth.WithinBounds(Main.maxProjectiles))
             {
                 damage = (int)(damage * 3.21);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
+                Main.projectile[stealth].Calamity().stealthStrike = true;
                 Main.PlaySound(SoundID.Item73, player.position);
                 for (float i = 0; i < 5; i++)
                 {
@@ -54,9 +54,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                 }
             }
 
-			counter++;
-			if (counter >= item.useAnimation / item.useTime)
-				counter = 0;
+            counter++;
+            if (counter >= item.useAnimation / item.useTime)
+                counter = 0;
             return false;
         }
     }

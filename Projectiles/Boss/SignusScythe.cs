@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-	public class SignusScythe : ModProjectile
+    public class SignusScythe : ModProjectile
     {
         private int counter = 0;
 
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 100;
             projectile.penetrate = -1;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
 
         public override void Kill(int timeLeft)
@@ -114,9 +114,9 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

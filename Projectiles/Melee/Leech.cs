@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Leech : ModProjectile
+    public class Leech : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 6f, 20f);
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 6f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -49,8 +49,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.player[projectile.owner].moonLeech)
-				return;
+            if (Main.player[projectile.owner].moonLeech)
+                return;
 
             Player player = Main.player[projectile.owner];
             player.statLife += 2;

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class CosmicTentacle : ModProjectile
+    public class CosmicTentacle : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			projectile.localAI[1]++;
+            projectile.localAI[1]++;
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 if (Math.Abs(projectile.velocity.X) < 1f)

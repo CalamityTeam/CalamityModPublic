@@ -10,7 +10,7 @@ using System;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AndromedaHead : EquipTexture
+    public class AndromedaHead : EquipTexture
     {
         public override bool DrawHead() => false;
     }

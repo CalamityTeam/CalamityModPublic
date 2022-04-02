@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class Spikecrag : ModProjectile
+    public class Spikecrag : ModProjectile
     {
 
         public override void SetStaticDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 
             if (projectile.localAI[0] == 0f)
             {
@@ -60,32 +60,32 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
-			projectile.StickToTiles(false, false);
+            projectile.StickToTiles(false, false);
 
-			if (projectile.ai[0] > 0f)
-			{
-				projectile.ai[0] -= 1f;
-				return;
-			}
+            if (projectile.ai[0] > 0f)
+            {
+                projectile.ai[0] -= 1f;
+                return;
+            }
 
-			float maxDistance = 1000f;
-			bool homeIn = false;
+            float maxDistance = 1000f;
+            bool homeIn = false;
 
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].CanBeChasedBy(projectile, false))
+                {
+                    float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
 
-					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, projectile.width, projectile.height, Main.npc[i].Center, Main.npc[i].width, Main.npc[i].height))
-					{
-						homeIn = true;
-						break;
-					}
-				}
-			}
+                    if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, projectile.width, projectile.height, Main.npc[i].Center, Main.npc[i].width, Main.npc[i].height))
+                    {
+                        homeIn = true;
+                        break;
+                    }
+                }
+            }
 
-			if (projectile.owner == Main.myPlayer && homeIn)
+            if (projectile.owner == Main.myPlayer && homeIn)
             {
                 projectile.ai[1] += 1f;
                 if ((projectile.ai[1] % 10f) == 0f)

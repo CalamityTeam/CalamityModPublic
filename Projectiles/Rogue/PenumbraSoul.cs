@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.Calamity().rogue = true;
-			projectile.alpha = 80;
+            projectile.Calamity().rogue = true;
+            projectile.alpha = 80;
 
             projectile.penetrate = 2;
             projectile.usesLocalNPCImmunity = true;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void HomingAI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

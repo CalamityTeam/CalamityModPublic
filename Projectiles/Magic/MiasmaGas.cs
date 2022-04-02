@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             projectile.ai[1] = 1f;
-		}
+        }
 
         public override void Kill(int timeLeft)
         {

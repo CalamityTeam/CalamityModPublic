@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[1] == 2f) //Boost three
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (projectile.ai[1] == 1f) //Boost two
             {
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[1] == 2f) //Boost three
             {
-				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 150);
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 150);
                 projectile.maxPenetrate = -1;
                 projectile.penetrate = -1;
                 projectile.usesLocalNPCImmunity = true;

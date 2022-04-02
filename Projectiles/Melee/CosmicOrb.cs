@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CosmicOrb : ModProjectile
+    public class CosmicOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)

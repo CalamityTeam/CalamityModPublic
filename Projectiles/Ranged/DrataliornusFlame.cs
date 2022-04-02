@@ -204,8 +204,8 @@ namespace CalamityMod.Projectiles.Ranged
 
                 projectile.timeLeft = 0; //should avoid infinite loop if a hit npc calls proj.Kill()
                 projectile.penetrate = -1;
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
+                projectile.usesLocalNPCImmunity = true;
+                projectile.localNPCHitCooldown = 10;
                 projectile.damage /= 3;
                 projectile.Damage();
             }

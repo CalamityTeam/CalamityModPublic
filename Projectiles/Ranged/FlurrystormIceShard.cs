@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 10;
             projectile.height = 10;
             projectile.ranged = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

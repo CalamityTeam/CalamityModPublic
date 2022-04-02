@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PolarisGaze : ModProjectile
+    public class PolarisGaze : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra"; //Red cuz close range yget the deal
         private bool initialized = false;

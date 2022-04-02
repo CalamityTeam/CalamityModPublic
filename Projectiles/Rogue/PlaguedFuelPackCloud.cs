@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PlaguedFuelPackCloud : ModProjectile
+    public class PlaguedFuelPackCloud : ModProjectile
     {
         public override void SetStaticDefaults()
         {

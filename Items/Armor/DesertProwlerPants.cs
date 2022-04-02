@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DesertFeather>());
-			recipe.AddIngredient(ItemID.Silk, 5);
-			recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.Silk, 5);
+            recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

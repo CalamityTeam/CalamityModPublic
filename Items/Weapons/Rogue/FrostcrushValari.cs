@@ -41,8 +41,8 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.Calamity().rogue = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -55,12 +55,12 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position, perturbedspeed, type, Math.Max((int)(damage / 2.7272f), 1), knockBack / 3f, player.whoAmI, 0f, 1f);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().stealthStrike = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= 10;
                 }
                 int spread2 = 3;
-				int icicleAmt = Main.rand.Next(6,11);
+                int icicleAmt = Main.rand.Next(6,11);
                 for (int i = 0; i < icicleAmt; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread2));

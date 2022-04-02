@@ -10,7 +10,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CosmicDischargeFlail : BaseWhipProjectile
+    public class CosmicDischargeFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
-			projectile.coldDamage = true;
-			projectile.extraUpdates = 1;
+            projectile.coldDamage = true;
+            projectile.extraUpdates = 1;
         }
 
         public override Color SpecialDrawColor => new Color(150, 255, 255);

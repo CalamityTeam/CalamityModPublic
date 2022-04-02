@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class Shroom : ModProjectile
+    public class Shroom : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.6f);
             projectile.rotation += 1f;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Frosty Flare");
             Tooltip.SetDefault("Do not insert in flare gun\n" +
-				"Sticks to enemies\n" +
+                "Sticks to enemies\n" +
                 "Generates a localized hailstorm\n" +
-				"Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
+                "Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
         }
 
         public override void SafeSetDefaults()
@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				int flare = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FrostyFlareStealth>(), (int)(damage * 0.9f), knockBack, player.whoAmI);
-				if (flare.WithinBounds(Main.maxProjectiles))
-					Main.projectile[flare].Calamity().stealthStrike = true;
-				return false;
-			}
-			return true;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int flare = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FrostyFlareStealth>(), (int)(damage * 0.9f), knockBack, player.whoAmI);
+                if (flare.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[flare].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }

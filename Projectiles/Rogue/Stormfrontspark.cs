@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.width = 6;
+            projectile.ignoreWater = true;
+            projectile.width = 6;
             projectile.height = 12;
             projectile.timeLeft = 240;
             projectile.penetrate = -1;
@@ -55,6 +55,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-	}
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+    }
 }

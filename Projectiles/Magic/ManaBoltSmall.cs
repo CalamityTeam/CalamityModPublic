@@ -22,19 +22,19 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 40 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 40 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-			if (projectile.timeLeft < 40)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 450f, 6f, 20f);
-			else
-				projectile.velocity *= 0.975f;
+            if (projectile.timeLeft < 40)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 450f, 6f, 20f);
+            else
+                projectile.velocity *= 0.975f;
 
-			if (projectile.timeLeft % 4 == 0)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            if (projectile.timeLeft % 4 == 0)
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 
         public override void Kill(int timeLeft)

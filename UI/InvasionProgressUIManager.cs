@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CalamityMod.UI
 {
-	public static class InvasionProgressUIManager
+    public static class InvasionProgressUIManager
     {
         private static readonly List<InvasionProgressUI> gUIs = new List<InvasionProgressUI>();
         public static int TotalGUIsActive => gUIs.Count(gui => gui.IsActive);

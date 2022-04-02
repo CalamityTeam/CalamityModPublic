@@ -25,9 +25,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.extraUpdates = 220;
             projectile.timeLeft = 1000;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 110;
-			projectile.tileCollide = false;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 110;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
             float x4 = Main.rgbToHsl(new Color(103, 203, Main.DiscoB)).X;
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SiriusExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SiriusExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
         }
     }
 }

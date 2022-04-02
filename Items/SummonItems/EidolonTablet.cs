@@ -11,9 +11,9 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolon Tablet");
-			Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
-				"Not consumable");
-		}
+            Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
+                "Not consumable");
+        }
 
         public override void SetDefaults()
         {
@@ -37,13 +37,13 @@ namespace CalamityMod.Items.SummonItems
             {
                 int npc = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 1);
                 Main.npc[npc].direction = Main.npc[npc].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 30f);
-				Main.npc[npc].timeLeft *= 20;
-				CalamityUtils.BossAwakenMessage(npc);
-			}
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
+                Main.npc[npc].timeLeft *= 20;
+                CalamityUtils.BossAwakenMessage(npc);
+            }
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
 
-			return true;
+            return true;
         }
     }
 }

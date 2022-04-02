@@ -1052,7 +1052,7 @@ namespace CalamityMod
             // Frog Leg
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Frog, 6);
-			r.AddTile(TileID.Anvils);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.FrogLeg);
             r.AddRecipe();
 

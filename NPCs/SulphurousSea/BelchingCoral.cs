@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class BelchingCoral : ModNPC
+    public class BelchingCoral : ModNPC
     {
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()
@@ -36,11 +36,11 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.knockBackResist = 0f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BelchingCoralBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
         public override void AI()
         {
             npc.velocity.Y += 0.25f;
@@ -71,12 +71,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             DropHelper.DropItemChance(npc, ModContent.ItemType<BelchingSaxophone>(), 10);
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Empyrean Cuisses");
             Tooltip.SetDefault("Speed of the cosmos\n" +
-					"5% increased rogue damage and critical strike chance\n" +
-					"15% increased movement speed");
+                    "5% increased rogue damage and critical strike chance\n" +
+                    "15% increased movement speed");
         }
 
         public override void SetDefaults()

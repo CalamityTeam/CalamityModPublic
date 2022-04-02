@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             DisplayName.SetDefault("Chaotic Fish");
             Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
-			"Right click to extract essence");
+            "Right click to extract essence");
         }
 
         public override void SetDefaults()

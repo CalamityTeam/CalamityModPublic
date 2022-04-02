@@ -11,7 +11,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SwordsmithsPrideBeam : ModProjectile
+    public class SwordsmithsPrideBeam : ModProjectile
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];

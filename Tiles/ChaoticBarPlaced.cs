@@ -9,15 +9,15 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-			this.SetUpBar(new Color(255, 165, 0));
+            this.SetUpBar(new Color(255, 165, 0));
             dustType = 87;
             drop = ModContent.ItemType<CruptixBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-			type = Main.rand.NextBool() ? 87 : 6;
+            type = Main.rand.NextBool() ? 87 : 6;
             return true;
         }
-	}
+    }
 }

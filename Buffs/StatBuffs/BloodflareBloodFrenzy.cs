@@ -16,9 +16,9 @@ namespace CalamityMod.Buffs.StatBuffs
             canBeCleared = false;
         }
 
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.Calamity().bloodflareFrenzy = true;
-		}
-	}
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().bloodflareFrenzy = true;
+        }
+    }
 }

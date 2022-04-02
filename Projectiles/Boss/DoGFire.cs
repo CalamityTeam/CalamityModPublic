@@ -19,19 +19,19 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 34;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.penetrate = -1;
             projectile.timeLeft = 480;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -62,9 +62,9 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.ai[1] > 0f)
             {
-				if (projectile.velocity.Length() < projectile.ai[1])
-					projectile.velocity *= projectile.ai[0];
-			}
+                if (projectile.velocity.Length() < projectile.ai[1])
+                    projectile.velocity *= projectile.ai[0];
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -106,9 +106,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Damage();
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

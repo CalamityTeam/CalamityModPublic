@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-	public class OccultClock : ModItem
+    public class OccultClock : ModItem
     {
         public override void SetStaticDefaults()
         {

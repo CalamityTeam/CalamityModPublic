@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Dyes
             SafeSetStaticDefaults();
         }
         public sealed override void SetDefaults()
-		{
+        {
             byte dye = item.dye;
             item.CloneDefaults(ItemID.GelDye);
             item.dye = dye;

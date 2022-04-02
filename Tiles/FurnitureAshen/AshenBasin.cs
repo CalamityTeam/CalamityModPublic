@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             name.SetDefault("Ashen Basin");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

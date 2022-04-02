@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items
 {
-	public class BrokenWaterFilter : ModItem
+    public class BrokenWaterFilter : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,8 +20,8 @@ namespace CalamityMod.Items
         }
         public override void UpdateInventory(Player player)
         {
-			if (item.favorited)
-				player.Calamity().noStupidNaturalARSpawns = true;
+            if (item.favorited)
+                player.Calamity().noStupidNaturalARSpawns = true;
         }
         public override void AddRecipes()
         {

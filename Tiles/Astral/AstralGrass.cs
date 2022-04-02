@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralGrass : ModTile
+    public class AstralGrass : ModTile
     {
         public override void SetDefaults()
         {

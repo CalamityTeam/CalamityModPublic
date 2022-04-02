@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss
 {
-	public class AbyssalCrateTile : ModTile
+    public class AbyssalCrateTile : ModTile
     {
         public override void SetDefaults()
         {

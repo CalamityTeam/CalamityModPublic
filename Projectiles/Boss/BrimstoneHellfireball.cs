@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 34;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -49,24 +49,24 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.alpha < 5)
                 projectile.alpha = 5;
 
-			if (projectile.ai[0] != 0f && projectile.ai[1] != 0f)
-			{
-				bool flag15 = false;
-				bool flag16 = false;
-				if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
-					flag15 = true;
-				if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
-					flag15 = true;
-				if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
-					flag16 = true;
-				if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
-					flag16 = true;
-				if (flag15 & flag16)
-					projectile.Kill();
-			}
+            if (projectile.ai[0] != 0f && projectile.ai[1] != 0f)
+            {
+                bool flag15 = false;
+                bool flag16 = false;
+                if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
+                    flag15 = true;
+                if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
+                    flag15 = true;
+                if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
+                    flag16 = true;
+                if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
+                    flag16 = true;
+                if (flag15 & flag16)
+                    projectile.Kill();
+            }
 
-			// Rotation
-			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            // Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90f) * projectile.direction;
 
             if (projectile.velocity.Length() < 16f)
@@ -86,12 +86,12 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
         }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(250, 50, 50, projectile.alpha);
-		}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(250, 50, 50, projectile.alpha);
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             if (projectile.owner == Main.myPlayer)
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);

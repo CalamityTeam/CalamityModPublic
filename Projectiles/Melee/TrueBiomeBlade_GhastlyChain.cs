@@ -9,7 +9,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GhastlyChain : ModProjectile
+    public class GhastlyChain : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain";
         public Player Owner => Main.player[projectile.owner];

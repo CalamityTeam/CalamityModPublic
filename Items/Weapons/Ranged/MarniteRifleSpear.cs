@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class MarniteRifleSpear : ModItem
+    public class MarniteRifleSpear : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 22f;
             item.useAmmo = AmmoID.Bullet;
             item.shoot = ProjectileID.PurificationPowder;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override void AddRecipes()
         {

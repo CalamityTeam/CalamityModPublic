@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class Apotheosis : ModItem
+    public class Apotheosis : ModItem
     {
         public override void SetStaticDefaults()
         {

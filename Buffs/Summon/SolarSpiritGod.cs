@@ -13,8 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("The solar god spirit will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-			//Main.persistentBuff[Type] = true;
-		}
+            //Main.persistentBuff[Type] = true;
+        }
 
         public override void Update(Player player, ref int buffIndex)
         {

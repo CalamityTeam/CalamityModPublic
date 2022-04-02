@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class PoseidonTyphoon : ModProjectile
+    public class PoseidonTyphoon : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             projectile.rotation += projectile.velocity.X * 0.05f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 6f, 30f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 6f, 30f);
         }
 
         public override void Kill(int timeLeft)

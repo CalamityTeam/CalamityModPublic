@@ -22,8 +22,8 @@ namespace CalamityMod.Items
 
         public override void UpdateInventory(Player player)
         {
-			if (item.favorited)
-				player.Calamity().disableNaturalScourgeSpawns = true;
+            if (item.favorited)
+                player.Calamity().disableNaturalScourgeSpawns = true;
         }
 
         public override void AddRecipes()

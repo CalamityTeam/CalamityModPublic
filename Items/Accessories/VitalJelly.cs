@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class VitalJelly : ModItem
+    public class VitalJelly : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 24;
-			item.value = CalamityGlobalItem.Rarity1BuyPrice;
-			item.rare = ItemRarityID.Blue;
-			item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            item.rare = ItemRarityID.Blue;
+            item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

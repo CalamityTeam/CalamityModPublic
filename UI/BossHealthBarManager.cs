@@ -697,7 +697,7 @@ namespace CalamityMod.UI
                     }
                 }
                 else if (NPCIsIncreasingDefenseOrDR)
-				{
+                {
                     if (IncreasingDefenseOrDRTimer > 0)
                     {
                         float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;

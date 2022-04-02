@@ -8,14 +8,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class StarSputter : ModItem
     {
-		private int counter = 0;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Sputter");
             Tooltip.SetDefault("Fires a chain of comets\n" +
-			"Fires a bigger, more powerful comet every four rounds\n" +
-			"Look to the stars for a galaxy far, far away");
+            "Fires a bigger, more powerful comet every four rounds\n" +
+            "Look to the stars for a galaxy far, far away");
         }
 
         public override void SetDefaults()
@@ -53,12 +53,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			counter++;
+            counter++;
             if (counter == 10)
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, ModContent.ProjectileType<SputterCometBig>(), (int)(damage * 1.5f), knockBack, player.whoAmI, 0f, 0f);
             }
-			if (counter >= 12)
+            if (counter >= 12)
                 counter = 0;
             return true;
         }

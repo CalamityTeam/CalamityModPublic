@@ -7,16 +7,16 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class FabBolt : ModProjectile
+    public class FabBolt : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public bool FadingOut
-		{
+        {
             get => projectile.ai[0] == 1f;
             set => projectile.ai[0] = value.ToInt();
-		}
+        }
 
         public override void SetStaticDefaults()
         {
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = 0;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             if (FadingOut)
             {
                 projectile.Opacity = MathHelper.Lerp(projectile.Opacity, 0f, 0.27f);
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, Vector3.One * projectile.Opacity * 0.45f);
         }
 
-		internal Color ColorFunction(float completionRatio)
+        internal Color ColorFunction(float completionRatio)
         {
             float fadeToEnd = MathHelper.Lerp(0.25f, 0.5f, (float)Math.Cos(-Main.GlobalTime * 3f) * 0.5f + 0.5f);
             fadeToEnd *= 1f - Utils.InverseLerp(0.35f, 0f, completionRatio, true);
@@ -79,18 +79,18 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             if (!FadingOut && projectile.penetrate < 2)
-			{
+            {
                 FadingOut = true;
                 projectile.velocity *= 0.1f;
                 projectile.extraUpdates = 0;
                 projectile.netUpdate = true;
             }
-		}
+        }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (!FadingOut)
             {
@@ -102,11 +102,11 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override bool CanDamage()
-		{
+        public override bool CanDamage()
+        {
             if (FadingOut)
                 return false;
-			return base.CanDamage();
-		}
-	}
+            return base.CanDamage();
+        }
+    }
 }

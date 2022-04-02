@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Earth2 : ModProjectile
+    public class Earth2 : ModProjectile
     {
         private int noTileHitCounter = 120;
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

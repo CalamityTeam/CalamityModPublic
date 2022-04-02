@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Crags
 {
-	public class BrimstoneSlag : ModTile
+    public class BrimstoneSlag : ModTile
     {
         private const short subsheetWidth = 450;
         private const short subsheetHeight = 198;

@@ -13,7 +13,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class ProvidenceBag : ModItem
+    public class ProvidenceBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Providence>();
 
@@ -56,10 +56,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<PurgeGuzzler>(w),
                 DropHelper.WeightStack<DazzlingStabberStaff>(w),
                 DropHelper.WeightStack<MoltenAmputator>(w)
-			);
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
             DropHelper.DropItemChance(player, ModContent.ItemType<PristineFury>(), 0.1f);
 
             // Vanity

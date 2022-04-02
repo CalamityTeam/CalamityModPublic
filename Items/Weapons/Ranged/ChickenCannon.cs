@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 14.5f;
             item.shoot = ModContent.ProjectileType<ChickenRocket>();
             item.useAmmo = AmmoID.Rocket;
-			item.channel = true;
+            item.channel = true;
         }
 
         public override void HoldItem(Player player)
-		{
-			item.channel = player.altFunctionUse != 2;
+        {
+            item.channel = player.altFunctionUse != 2;
             item.noUseGraphic = player.altFunctionUse != 2;
-		}
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
 
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI, 1);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI, 1);
             // Otherwise just play a grenade launcher sound and fire a rocket.
             //Main.PlaySound(SoundID.Item61, position);
             //Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = ItemRarityID.Lime;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
-		}
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -37,5 +37,5 @@ namespace CalamityMod.Items.Accessories
 
         // Community and Shattered Community are mutually exclusive
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().shatteredCommunity;
-	}
+    }
 }

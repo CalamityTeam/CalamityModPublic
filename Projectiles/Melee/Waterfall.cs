@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -60,12 +60,12 @@ namespace CalamityMod.Projectiles.Melee
                 expr_4815_cp_0.position.Y -= num100;
             }
 
-			projectile.ai[1] += 1f;
+            projectile.ai[1] += 1f;
             if (projectile.ai[1] >= 60f)
                 projectile.tileCollide = true;
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
             if (projectile.penetrate <= 0)

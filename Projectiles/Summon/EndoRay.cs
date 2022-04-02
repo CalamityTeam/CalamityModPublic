@@ -23,10 +23,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 10;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 265;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
             projectile.tileCollide = false;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 100;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 100;
         }
 
         public override void AI()
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
                     int idx = Dust.NewDust(spawnPosition, 1, 1, 113, 0f, 0f, 0, default, 1.25f);
                     Main.dust[idx].position = spawnPosition;
                     Main.dust[idx].scale = Main.rand.NextFloat(0.71f, 0.93f);
-					Main.dust[idx].velocity *= 0.1f;
+                    Main.dust[idx].velocity *= 0.1f;
                     Main.dust[idx].noGravity = true;
                 }
             }

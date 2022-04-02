@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class TheMaelstrom : ModItem
+    public class TheMaelstrom : ModItem
     {
         public override void SetStaticDefaults()
         {

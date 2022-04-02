@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CloudElementalMinion : ModProjectile
+    public class CloudElementalMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -84,18 +84,18 @@ namespace CalamityMod.Projectiles.Summon
             lightScalar *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0.25f * lightScalar, 0.55f * lightScalar, 0.75f * lightScalar);
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 16)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 7)
-			{
-				projectile.frame = 0;
-			}
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 16)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 7)
+            {
+                projectile.frame = 0;
+            }
 
-			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
+            projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
         }
     }
 }

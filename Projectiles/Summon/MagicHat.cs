@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicHat : ModProjectile
+    public class MagicHat : ModProjectile
     {
         public const float Range = 1500.0001f;
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             CalamityGlobalProjectile modProj = projectile.Calamity();
 
-			//set up minion buffs and bools
+            //set up minion buffs and bools
             bool hatExists = projectile.type == ModContent.ProjectileType<MagicHat>();
             player.AddBuff(ModContent.BuffType<MagicHatBuff>(), 3600);
             if (hatExists)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			//projectile movement
+            //projectile movement
             projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
@@ -69,12 +69,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.X = (int)projectile.position.X;
             projectile.position.Y = (int)projectile.position.Y;
 
-			//Change the summons scale size a little bit to make it pulse in and out
+            //Change the summons scale size a little bit to make it pulse in and out
             float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
             scalar *= 0.2f;
             projectile.scale = scalar + 0.95f;
 
-			//on summon dust and flexible damage
+            //on summon dust and flexible damage
             if (projectile.localAI[0] == 0f)
             {
                 int dustAmt = 50;
@@ -95,55 +95,55 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			//finding an enemy, then shooting projectiles if it's detected
+            //finding an enemy, then shooting projectiles if it's detected
             if (projectile.owner == Main.myPlayer)
             {
                 float detectionRange = Range;
                 bool enemyDetected = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (npc.width / 2) + (npc.height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-						if (Vector2.Distance(npc.Center, projectile.Center) < (detectionRange + extraDistance))
-						{
-							enemyDetected = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(npc.Center, projectile.Center) < (detectionRange + extraDistance))
+                        {
+                            enemyDetected = true;
+                            break;
+                        }
+                    }
+                }
                 if (enemyDetected)
                 {
-					projectile.ai[1] += 1f;
-					if (projectile.ai[1] % 5f == 0f)
-					{
-						int amount = Main.rand.Next(1, 2);
-						for (int i = 0; i < amount; i++)
-						{
-							int projType = Utils.SelectRandom(Main.rand, new int[]
-							{
-								ModContent.ProjectileType<MagicUmbrella>(),
-								ModContent.ProjectileType<MagicRifle>(),
-								ModContent.ProjectileType<MagicHammer>(),
-								ModContent.ProjectileType<MagicAxe>(),
-								ModContent.ProjectileType<MagicBird>()
-							});
-							float velocityX = Main.rand.NextFloat(-10f, 10f);
-							float velocityY = Main.rand.NextFloat(-15f, -8f);
-							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, projType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-						}
-					}
+                    projectile.ai[1] += 1f;
+                    if (projectile.ai[1] % 5f == 0f)
+                    {
+                        int amount = Main.rand.Next(1, 2);
+                        for (int i = 0; i < amount; i++)
+                        {
+                            int projType = Utils.SelectRandom(Main.rand, new int[]
+                            {
+                                ModContent.ProjectileType<MagicUmbrella>(),
+                                ModContent.ProjectileType<MagicRifle>(),
+                                ModContent.ProjectileType<MagicHammer>(),
+                                ModContent.ProjectileType<MagicAxe>(),
+                                ModContent.ProjectileType<MagicBird>()
+                            });
+                            float velocityX = Main.rand.NextFloat(-10f, 10f);
+                            float velocityY = Main.rand.NextFloat(-15f, -8f);
+                            Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, projType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        }
+                    }
                 }
             }
         }
 
-		//glowmask effect
+        //glowmask effect
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-		//no contact damage
+        //no contact damage
         public override bool CanDamage() => false;
     }
 }

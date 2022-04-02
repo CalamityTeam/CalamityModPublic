@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class MicrobialCluster : ModNPC
+    public class MicrobialCluster : ModNPC
     {
         public const int ChargeRate = 120;
         public const int SlowdownTime = 45;

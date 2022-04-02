@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
-		{
+        {
             AttackTimer = reader.ReadInt32();
             UsingChargedLaserAttack = reader.ReadBoolean();
         }
@@ -82,15 +82,15 @@ namespace CalamityMod.Projectiles.Summon
             NPC potentialTarget = projectile.Center.MinionHoming(900f, Owner);
             if (potentialTarget is null)
                 destination = Owner.Center - Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f) * Owner.direction;
-			else
-			{
-				Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
-				Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
-				if ((projectile.Center - destA).Length() < (projectile.Center - destB).Length())
-					destination = destA;
-				else
-					destination = destB;
-			}
+            else
+            {
+                Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+                Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+                if ((projectile.Center - destA).Length() < (projectile.Center - destB).Length())
+                    destination = destA;
+                else
+                    destination = destB;
+            }
 
             // Go upwards, and check down again to discover any height differences before deciding where to move.
             // There's a chance that this will encounter a null tile. If it us, just skip this step.
@@ -106,16 +106,16 @@ namespace CalamityMod.Projectiles.Summon
             StuckWalkThroughWallsTimer = Utils.Clamp(StuckWalkThroughWallsTimer, 0, 160);
 
             if (projectile.Distance(Owner.Center) > 3500f)
-			{
+            {
                 projectile.Center = Owner.Center;
                 StuckWalkThroughWallsTimer = 0;
                 projectile.netImportant = true;
             }
             if ((MoveToDestination(destination) || AttackTimer > 0) && potentialTarget != null)
-			{
+            {
                 AttackTimer++;
                 if (AttackTimer == 1)
-				{
+                {
                     UsingChargedLaserAttack = Main.rand.NextBool(7);
                     projectile.netUpdate = true;
                 }
@@ -278,7 +278,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        {
             int startingWalkFrame = 6;
             int endingWalkFrame = 10;
 
@@ -300,26 +300,26 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (UsingChargedLaserAttack)
                     projectile.frame = (int)MathHelper.Lerp(startingBeamFrame, endingBeamFrame + 1, Utils.InverseLerp(0f, ChargedLaserAttackTime, AttackTimer, true));
-				else
+                else
                     projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.InverseLerp(0f, ChargedPelletAttackTime, AttackTimer, true));
             }
             else if (Math.Abs(projectile.velocity.X) > 5f && Math.Abs(projectile.velocity.Y) < 2f && tileBelow.IsTileSolidGround())
-			{
+            {
                 if (projectile.frameCounter >= Utils.Clamp(2, 6, (int)Math.Abs(projectile.velocity.X * 0.8)))
-				{
+                {
                     projectile.frameCounter = 0;
                     projectile.frame++;
                     if (projectile.frame >= endingWalkFrame)
                         projectile.frame = startingWalkFrame;
                 }
                 projectile.frame = Utils.Clamp(projectile.frame, startingWalkFrame, endingWalkFrame);
-			}
+            }
             else if (Math.Abs(projectile.velocity.X) <= 1f)
             {
                 projectile.frame = 0;
             }
-		}
+        }
 
-		public override bool CanDamage() => false;
+        public override bool CanDamage() => false;
     }
 }

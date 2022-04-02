@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Fathom Swarmer Greaves");
             Tooltip.SetDefault("4% increased minion damage\n" +
-				"Grants the ability to swim\n" +
+                "Grants the ability to swim\n" +
                 "Movement speed increased by 40% while submerged in liquid");
         }
 
@@ -33,15 +33,15 @@ namespace CalamityMod.Items.Armor
             {
                 player.moveSpeed += 0.4f;
             }
-			player.ignoreWater = true;
+            player.ignoreWater = true;
             if (player.wingTime <= 0) //ignore flippers while the player can fly
-				player.accFlipper = true;
+                player.accFlipper = true;
         }
 
-		public override void UpdateVanity(Player player, EquipType type)
-		{
-			player.Calamity().fathomSwarmerTail = true;
-		}
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            player.Calamity().fathomSwarmerTail = true;
+        }
 
         public override void AddRecipes()
         {

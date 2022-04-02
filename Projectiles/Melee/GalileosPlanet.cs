@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosPlanet : ModProjectile
     {
-		private float radius = 84f;
+        private float radius = 84f;
 
         public override void SetStaticDefaults()
         {
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
                     Main.dust[num21].velocity *= 2;
                 }
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -13,10 +13,10 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
-			CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorOpen>());
-			CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorClosed>());
-			CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorOpen>());
-			CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorClosed>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorOpen>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorClosed>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorOpen>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorClosed>());
 
             soundType = SoundID.Tink;
             dustType = 19;

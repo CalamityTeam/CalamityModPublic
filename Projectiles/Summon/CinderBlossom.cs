@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CinderBlossom : ModProjectile
+    public class CinderBlossom : ModProjectile
     {
         public float Time
         {

@@ -26,15 +26,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.ai[0] == 1f)
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             else if (projectile.timeLeft < 270)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

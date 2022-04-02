@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class TwinklerInABottleTile : ModTile
+    public class TwinklerInABottleTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -22,24 +22,24 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 15;
-			int timeNeeded = 6;
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 15;
+            int timeNeeded = 6;
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
         }
 
-		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-		{
-			frameYOffset = this.GetAnimationOffset(i, j, 15, 16, 18, 1, 2, animationFrameHeight);
-		}
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = this.GetAnimationOffset(i, j, 15, 16, 18, 1, 2, animationFrameHeight);
+        }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -59,9 +59,9 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-			r = 1f;
-			g = 0.39f;
-			b = 0.28f;
+            r = 1f;
+            g = 0.39f;
+            b = 0.28f;
         }
     }
 }

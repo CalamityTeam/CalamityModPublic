@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(projectile.Center, 0f, 0.25f, 0.25f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
-		}
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

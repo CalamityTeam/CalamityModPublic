@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class GravistarSabaton : ModItem
+    public class GravistarSabaton : ModItem
     {
         public override void SetStaticDefaults()
         {

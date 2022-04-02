@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class DazzlingStabberStaff : ModItem
+    public class DazzlingStabberStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

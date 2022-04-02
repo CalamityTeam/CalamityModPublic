@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class FantasyTalismanProj : ModProjectile
+    public class FantasyTalismanProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -41,21 +41,21 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.StickyProjAI(4);
             if (projectile.ai[0] == 1f)
             {
-				if (projectile.timeLeft % 10 == 0)
-				{
-					if (Main.rand.NextBool(2))
-					{
-						int spiritDamage = projectile.damage / 2;
-						Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-						if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							ghost.Calamity().forceRogue = true;
-							ghost.penetrate = 1;
-						}
-					}
-				}
+                if (projectile.timeLeft % 10 == 0)
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        int spiritDamage = projectile.damage / 2;
+                        Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                        if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            ghost.Calamity().forceRogue = true;
+                            ghost.penetrate = 1;
+                        }
+                    }
+                }
             }
-		}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

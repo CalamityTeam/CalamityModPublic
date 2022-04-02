@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-	public class StratusCandle : ModTile
+    public class StratusCandle : ModTile
     {
         public override void SetDefaults()
         {

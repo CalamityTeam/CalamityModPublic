@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Abyss
 {
-	public class DevilFishAlt : ModNPC
+    public class DevilFishAlt : ModNPC
     {
         public bool brokenMask = false;
         public int hitCounter = 0;
@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.lavaImmune = true;
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 90;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 90;
             npc.width = 126;
             npc.height = 66;
             npc.defense = 999999;
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.85f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<DevilFishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {

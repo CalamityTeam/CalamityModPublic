@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CrescentMoonFlail : BaseWhipProjectile
     {
-		public int moonCounter = 6;
+        public int moonCounter = 6;
 
         public override void SetStaticDefaults()
         {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 vectorBruh -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
                 Vector2 newCenter = player.RotatedRelativePoint(Main.player[projectile.owner].position + vectorBruh, true) + projectile.velocity;
-				int moonDamage = (int)(projectile.damage * 0.18f);
+                int moonDamage = (int)(projectile.damage * 0.18f);
                 Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), moonDamage, 0f, projectile.owner, 0f, 0f);
                 moonCounter = 6;
             }

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TurbulanceWindSlash : ModProjectile
+    public class TurbulanceWindSlash : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,12 +25,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
-			projectile.timeLeft = 180;
+            projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.velocity *= 0.99f;
             if (projectile.localAI[0] == 0f)
@@ -55,14 +55,14 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.frame = 0;
                 }
             }
-			if (projectile.ai[0] == 1f) //stealth strike
-			{
-				projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			}
-			if (projectile.ai[1] == 1f)
-			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
-			}
+            if (projectile.ai[0] == 1f) //stealth strike
+            {
+                projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            }
+            if (projectile.ai[1] == 1f)
+            {
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

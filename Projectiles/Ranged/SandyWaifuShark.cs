@@ -25,9 +25,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 240;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             int num192 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 32, 0f, 0f, 0, default, 0.5f);
             Main.dust[num192].noGravity = true;
@@ -54,9 +54,9 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
             }
 
-			if (projectile.timeLeft < 210)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 8f, 20f);
-		}
+            if (projectile.timeLeft < 210)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 8f, 20f);
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

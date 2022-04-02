@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dashMod = 4;
-			player.dash = 0;
+            player.dash = 0;
             modPlayer.elysianAegis = true;
             modPlayer.abaddon = true;
             player.noKnockback = true;

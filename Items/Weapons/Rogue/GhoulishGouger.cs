@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
 
-			item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

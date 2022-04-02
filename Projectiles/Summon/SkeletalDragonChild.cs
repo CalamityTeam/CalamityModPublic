@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SkeletalDragonChild : ModProjectile
+    public class SkeletalDragonChild : ModProjectile
     {
         public override void SetStaticDefaults()
         {

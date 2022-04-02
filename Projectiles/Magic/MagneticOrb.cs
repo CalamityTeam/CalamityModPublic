@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 38;
             projectile.friendly = true;
             projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = 120;
             projectile.magic = true;
         }

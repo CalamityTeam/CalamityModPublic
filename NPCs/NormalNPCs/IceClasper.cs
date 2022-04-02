@@ -10,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class IceClasper : ModNPC
+    public class IceClasper : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -37,11 +37,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<IceClasperBanner>();
-			npc.coldDamage = true;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = false;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.coldDamage = true;
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = false;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {
@@ -52,11 +52,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             float num = revenge ? 7f : 6f;
             float num2 = revenge ? 0.07f : 0.06f;
-			if (CalamityWorld.death)
-			{
-				num *= 1.5f;
-				num2 *= 1.5f;
-			}
+            if (CalamityWorld.death)
+            {
+                num *= 1.5f;
+                num2 *= 1.5f;
+            }
             Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -269,9 +269,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItem(npc, ModContent.ItemType<EssenceofEleum>());
-			DropHelper.DropItemChance(npc, ModContent.ItemType<FrostBarrier>(), 10);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<AncientIceChunk>(), 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<EssenceofEleum>());
+            DropHelper.DropItemChance(npc, ModContent.ItemType<FrostBarrier>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AncientIceChunk>(), 3);
         }
     }
 }

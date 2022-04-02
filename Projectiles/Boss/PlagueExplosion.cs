@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.hostile = true;
+            projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num467].noGravity = true;
                 Main.dust[num467].position.X = projectile.Center.X;
                 Main.dust[num467].position.Y = projectile.Center.Y;
-				Main.dust[num467].position.X += Main.rand.Next(-10, 11);
-				Main.dust[num467].position.Y += Main.rand.Next(-10, 11);
+                Main.dust[num467].position.X += Main.rand.Next(-10, 11);
+                Main.dust[num467].position.Y += Main.rand.Next(-10, 11);
                 Main.dust[num467].velocity.X = num463;
                 Main.dust[num467].velocity.Y = num464;
-				Main.dust[num467].scale = projectile.scale * 0.35f;
-				num462++;
+                Main.dust[num467].scale = projectile.scale * 0.35f;
+                num462++;
             }
         }
 

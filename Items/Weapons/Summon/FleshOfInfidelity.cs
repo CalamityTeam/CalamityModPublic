@@ -5,7 +5,7 @@ using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class FleshOfInfidelity : ModItem
+    public class FleshOfInfidelity : ModItem
     {
         public override void SetStaticDefaults()
         {

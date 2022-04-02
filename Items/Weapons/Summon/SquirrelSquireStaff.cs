@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class SquirrelSquireStaff : ModItem
+    public class SquirrelSquireStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-		//in case you lose it and want another for some bizzare reason
+        //in case you lose it and want another for some bizzare reason
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

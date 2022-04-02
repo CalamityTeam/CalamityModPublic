@@ -32,19 +32,19 @@ namespace CalamityMod.Projectiles.Boss
         public override bool CanDamage() => projectile.timeLeft < Lifetime - 30;
 
         public override void AI()
-		{
+        {
             if (projectile.localAI[0] == 0f)
-			{
+            {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
                 for (int i = 0; i < 36; i++)
-				{
+                {
                     Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
                     exoDust.color = CalamityUtils.MulticolorLerp(i / 36f, CalamityUtils.ExoPalette);
                     exoDust.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * new Vector2(3f, 1.45f) - Vector2.UnitY * 2f;
                     exoDust.scale = 2.8f;
                     exoDust.fadeIn = Main.rand.NextFloat(0.8f, 1.85f);
                     exoDust.noGravity = true;
-				}
+                }
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
                     exoDust.noGravity = true;
                 }
                 projectile.localAI[0] = 1f;
-			}
+            }
 
             Lighting.AddLight(projectile.Center, Color.White.ToVector3());
             projectile.scale = Utils.InverseLerp(-1f, 15f, projectile.timeLeft, true) * Utils.InverseLerp(Lifetime + 1f, Lifetime - 15f, projectile.timeLeft, true);
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         private Color PrimitiveColorFunction(float completionRatio)
-		{
+        {
             return CalamityUtils.MulticolorLerp((Main.GlobalTime * 0.67f - completionRatio * 3f) % 1f, CalamityUtils.ExoPalette) * 1.2f;
         }
 
@@ -94,8 +94,8 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
+        {
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
-	}
+    }
 }

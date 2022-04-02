@@ -5,13 +5,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class Verdant : ModItem
+    public class Verdant : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Verdant");
             Tooltip.SetDefault("Fires crystal leaves when enemies are near\n" +
-			"A very agile yoyo");
+            "A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 16f;
 
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-		}
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
 
         public override void AddRecipes()
         {

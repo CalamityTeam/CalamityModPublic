@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class EyeOfNight : ModItem
+    public class EyeOfNight : ModItem
     {
         public override void SetStaticDefaults()
         {

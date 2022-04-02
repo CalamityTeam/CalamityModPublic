@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			type = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.ProjectileType<CalamityAura>(),
-				ModContent.ProjectileType<CalamityAuraType2>(),
-				ModContent.ProjectileType<CalamityAuraType3>()
-			});
+            type = Utils.SelectRandom(Main.rand, new int[]
+            {
+                ModContent.ProjectileType<CalamityAura>(),
+                ModContent.ProjectileType<CalamityAuraType2>(),
+                ModContent.ProjectileType<CalamityAuraType3>()
+            });
 
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
             return false;

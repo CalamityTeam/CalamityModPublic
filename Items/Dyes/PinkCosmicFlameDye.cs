@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Pink Cosmic Flame Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.value = Item.sellPrice(0, 5, 0, 0);

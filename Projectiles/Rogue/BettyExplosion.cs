@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class BettyExplosion : ModProjectile
+    public class BettyExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Smoke, which counts as a Gore
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     
     }

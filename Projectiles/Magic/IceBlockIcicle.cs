@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.timeLeft = 600;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

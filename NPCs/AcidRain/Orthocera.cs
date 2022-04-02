@@ -19,15 +19,15 @@ namespace CalamityMod.NPCs.AcidRain
         public ref float Time => ref npc.ai[1];
         public ref float HorizontalSpeed => ref npc.ai[2];
         public bool PerformingJump
-		{
+        {
             get => npc.ai[3] == 1f;
-			set
-			{
+            set
+            {
                 if (Main.netMode == NetmodeID.Server && value != PerformingJump)
                     npc.netUpdate = true;
                 npc.ai[3] = value.ToInt();
-			}
-		}
+            }
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orthocera");
@@ -43,14 +43,14 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 45;
             npc.lifeMax = 280;
             npc.defense = 15;
-			npc.DR_NERD(0.075f);
+            npc.DR_NERD(0.075f);
 
             if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 120;
                 npc.lifeMax = 3850;
                 npc.defense = 35;
-				npc.DR_NERD(0.15f);
+                npc.DR_NERD(0.15f);
             }
 
             npc.knockBackResist = 0.6f;
@@ -62,11 +62,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath13;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OrthoceraBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {

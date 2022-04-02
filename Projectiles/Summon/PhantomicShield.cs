@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	class PhantomicShield : ModProjectile
+    class PhantomicShield : ModProjectile
     {
         public const float floatDist = 50f;
 

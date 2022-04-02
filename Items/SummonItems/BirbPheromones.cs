@@ -13,8 +13,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Exotic Pheromones");
             Tooltip.SetDefault("Attracts the failed draconic experiment\n" +
-				"Summons The Dragonfolly when used in the jungle\n" +
-				"Not consumable");
+                "Summons The Dragonfolly when used in the jungle\n" +
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -35,11 +35,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Bumblefuck>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Bumblefuck>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Bumblefuck>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Bumblefuck>());
 
             return true;
         }

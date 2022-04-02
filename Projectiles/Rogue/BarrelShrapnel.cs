@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class BarrelShrapnel : ModProjectile
+    public class BarrelShrapnel : ModProjectile
     {
         public bool hitTile = false;
         public override void SetStaticDefaults()
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 160;
             projectile.tileCollide = true;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
         public override void AI()
         {
             projectile.ai[0] += 1f;

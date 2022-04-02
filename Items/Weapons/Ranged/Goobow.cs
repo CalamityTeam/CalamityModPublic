@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -54,12 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
                 }
                 int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
-				if (index.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[index].Calamity().forceRanged = true;
-					Main.projectile[index].usesLocalNPCImmunity = true;
-					Main.projectile[index].localNPCHitCooldown = 10;
-				}
+                if (index.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[index].Calamity().forceRanged = true;
+                    Main.projectile[index].usesLocalNPCImmunity = true;
+                    Main.projectile[index].localNPCHitCooldown = 10;
+                }
             }
             return true;
         }

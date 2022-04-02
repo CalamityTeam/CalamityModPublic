@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
 
-			if (type == ProjectileID.Bullet)
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI);
+            else
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
 
         public override bool ConsumeAmmo(Player player)

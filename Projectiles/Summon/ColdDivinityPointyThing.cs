@@ -114,21 +114,21 @@ namespace CalamityMod.Projectiles.Summon
             else if (projectile.ai[1] >= 2f && projectile.timeLeft > 900)
             {
                 target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
-				if (target != null)
-				{
-					projectile.timeLeft = 669;
-					projectile.ai[1]++;
-					circlingPlayer = false;
-					float height = target.getRect().Height;
-					float width = target.getRect().Width;
-					floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
-					if (floatyDistance > Main.LogicCheckScreenWidth / 3)
-						floatyDistance = Main.LogicCheckScreenWidth / 3;
-					projectile.penetrate = -1;
-					projectile.usesIDStaticNPCImmunity = true;
-					projectile.idStaticNPCHitCooldown = 4;
-					projectile.netUpdate = true;
-				}
+                if (target != null)
+                {
+                    projectile.timeLeft = 669;
+                    projectile.ai[1]++;
+                    circlingPlayer = false;
+                    float height = target.getRect().Height;
+                    float width = target.getRect().Width;
+                    floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
+                    if (floatyDistance > Main.LogicCheckScreenWidth / 3)
+                        floatyDistance = Main.LogicCheckScreenWidth / 3;
+                    projectile.penetrate = -1;
+                    projectile.usesIDStaticNPCImmunity = true;
+                    projectile.idStaticNPCHitCooldown = 4;
+                    projectile.netUpdate = true;
+                }
             }
             if (circlingPlayer)
             {

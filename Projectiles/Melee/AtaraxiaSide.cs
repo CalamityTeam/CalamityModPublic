@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class AtaraxiaSide : ModProjectile
+    public class AtaraxiaSide : ModProjectile
     {
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 8;
             projectile.friendly = true;
             projectile.melee = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.extraUpdates = 2;
             projectile.timeLeft = 180;
         }

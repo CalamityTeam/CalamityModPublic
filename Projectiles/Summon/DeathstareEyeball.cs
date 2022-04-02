@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class DeathstareEyeball : ModProjectile
+    public class DeathstareEyeball : ModProjectile
     {
         // This does not need to be synced. It is used solely for drawcode/visuals and is intended to be local.
         public float PupilScale = 1f;
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
         }
 
-		#region AI
-		public override void AI()
+        #region AI
+        public override void AI()
         {
             Lighting.AddLight(projectile.Center, Color.Blue.ToVector3());
 
@@ -94,16 +94,16 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public void DoHoveringAI()
-		{
+        {
             // Roll the pupil around if there's little movement from the eye and player.
             if (Time % 180f > 120f && Math.Abs(projectile.rotation) < 0.03f)
-			{
+            {
                 float idealAngle = Utils.InverseLerp(120f, 180f, Time % 180f, true) * MathHelper.TwoPi;
 
                 PupilAngle = PupilAngle.AngleTowards(idealAngle, MathHelper.ToRadians(12f));
                 PupilOutwardness = MathHelper.Lerp(PupilOutwardness, 4f, 0.2f);
             }
-			else
+            else
             {
                 float idealOutwardness = MathHelper.Clamp(Owner.velocity.Length() * 0.5f, 0f, 5f);
                 float idealAngle = Owner.velocity.ToRotation();
@@ -111,16 +111,16 @@ namespace CalamityMod.Projectiles.Summon
                 PupilOutwardness = MathHelper.Lerp(PupilOutwardness, idealOutwardness, 0.2f);
                 PupilAngle = PupilAngle.AngleTowards(idealAngle, MathHelper.ToRadians(12f));
             }
-		}
+        }
 
         public void DoAttackingAI(NPC target)
-		{
+        {
             PupilOutwardness = MathHelper.Lerp(PupilOutwardness, 4f, 0.25f);
 
             if (Time % BeamFireRate == BeamFireRate - 20)
-			{
+            {
                 if (Main.myPlayer == projectile.owner)
-				{
+                {
                     Vector2 velocity = (target.Center - projectile.Center) / 15f;
                     int beam = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
                     Main.projectile[beam].ai[0] = Projectile.GetByUUID(projectile.owner, projectile.whoAmI);
@@ -131,11 +131,11 @@ namespace CalamityMod.Projectiles.Summon
 
             // After firing, have the pupil retract a bit.
             if (Time % BeamFireRate > BeamFireRate - 20)
-			{
+            {
                 PupilScale = MathHelper.Lerp(PupilScale, 0.7f, 0.15f);
             }
-			// Otherwise, have it behave like normal.
-			else
+            // Otherwise, have it behave like normal.
+            else
             {
                 PupilScale = MathHelper.Lerp(PupilScale, 1f, 0.175f);
                 PupilAngle = PupilAngle.AngleTowards(projectile.AngleTo(target.Center), MathHelper.ToRadians(15f));
@@ -158,10 +158,10 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		#endregion
+        #endregion
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D eyeTexture = Main.projectileTexture[projectile.type];
             Rectangle frame = eyeTexture.Frame(1, 4, 0, projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
@@ -174,8 +174,8 @@ namespace CalamityMod.Projectiles.Summon
             pupilDrawPosition -= Vector2.UnitY * 4f;
             spriteBatch.Draw(pupilTexture, pupilDrawPosition, null, projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, spriteEffects, 0f);
             return false;
-		}
+        }
 
-		public override bool CanDamage() => false;
+        public override bool CanDamage() => false;
     }
 }

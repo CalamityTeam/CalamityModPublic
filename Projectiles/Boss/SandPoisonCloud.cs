@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 52;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 52;
             projectile.height = 48;
             projectile.hostile = true;
             projectile.Opacity = 0f;
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 1800;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -78,12 +78,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 20f, targetHitbox);
 
-		public override bool CanHitPlayer(Player target) => projectile.Opacity == 0.9f;
+        public override bool CanHitPlayer(Player target) => projectile.Opacity == 0.9f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.Opacity == 0.9f)
-				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
-		}
+            if (projectile.Opacity == 0.9f)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
+        }
     }
 }

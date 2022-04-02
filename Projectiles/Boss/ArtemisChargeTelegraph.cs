@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ArtemisChargeTelegraph : ModProjectile
+    public class ArtemisChargeTelegraph : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

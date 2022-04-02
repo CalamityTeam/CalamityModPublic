@@ -50,10 +50,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center, Vector2.Zero, player.beeType(),
@@ -68,10 +68,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center, Vector2.Zero, player.beeType(),

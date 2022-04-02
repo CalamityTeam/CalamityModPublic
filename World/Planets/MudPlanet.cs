@@ -117,9 +117,9 @@ namespace CalamityMod.World.Planets
                             _tiles[floorX, testY + 2].type = TileID.Hive;
                             WorldGen.SquareTileFrame(floorX, testY + 2);
                         }
-						//Place chest
-						int chestID = WorldGen.PlaceChest(testX, testY + 1, 21, false, 29);
-						FillHoneyChest(chestID);
+                        //Place chest
+                        int chestID = WorldGen.PlaceChest(testX, testY + 1, 21, false, 29);
+                        FillHoneyChest(chestID);
                         placedChest = true;
                     }
                 }
@@ -274,89 +274,89 @@ namespace CalamityMod.World.Planets
 
         }
 
-		//---------------------
-		//HONEY CHEST STUFF
-		//---------------------
+        //---------------------
+        //HONEY CHEST STUFF
+        //---------------------
 
-		private int[] FocusLootHoney = new int[]
-		{
-			ItemID.NaturesGift,
-			ItemID.Bezoar,
-			ItemID.SharpeningStation
-		};
+        private int[] FocusLootHoney = new int[]
+        {
+            ItemID.NaturesGift,
+            ItemID.Bezoar,
+            ItemID.SharpeningStation
+        };
 
-		private int[] PotionLootHoney = new int[]
-		{
-			ItemID.LifeforcePotion,
-			ItemID.RegenerationPotion,
-			ItemID.ManaRegenerationPotion,
-			ItemID.HeartreachPotion,
-			ModContent.ItemType<PhotosynthesisPotion>(),
-			ModContent.ItemType<CadencePotion>()
-		};
+        private int[] PotionLootHoney = new int[]
+        {
+            ItemID.LifeforcePotion,
+            ItemID.RegenerationPotion,
+            ItemID.ManaRegenerationPotion,
+            ItemID.HeartreachPotion,
+            ModContent.ItemType<PhotosynthesisPotion>(),
+            ModContent.ItemType<CadencePotion>()
+        };
 
-		private int[] BarLootHoney = new int[]
-		{
-			WorldGen.SilverTierOre == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-			WorldGen.GoldTierOre == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
-		};
+        private int[] BarLootHoney = new int[]
+        {
+            WorldGen.SilverTierOre == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.GoldTierOre == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+        };
 
-		private void FillHoneyChest(int id)
-		{
-			Chest chest = Main.chest[id];
-			int index = 0;
+        private void FillHoneyChest(int id)
+        {
+            Chest chest = Main.chest[id];
+            int index = 0;
 
-			//Focus loot
-			chest.item[index++].SetDefaults(_random.Next(FocusLootHoney));
+            //Focus loot
+            chest.item[index++].SetDefaults(_random.Next(FocusLootHoney));
 
-			//Bars
-			if (_random.Next(3) <= 1)
-			{
-				chest.item[index].SetDefaults(_random.Next(BarLootHoney));
-				chest.item[index].SetDefaults(_random.Next(7, 15));
-			}
-			else
-			{
-				chest.item[index].SetDefaults(ItemID.GoldCoin);
-				chest.item[index++].stack = _random.Next(3, 5); // 3 or 4 gold coins
-			}
+            //Bars
+            if (_random.Next(3) <= 1)
+            {
+                chest.item[index].SetDefaults(_random.Next(BarLootHoney));
+                chest.item[index].SetDefaults(_random.Next(7, 15));
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.GoldCoin);
+                chest.item[index++].stack = _random.Next(3, 5); // 3 or 4 gold coins
+            }
 
-			//Potion loot
-			if (_random.Next(2) == 0)
-			{
-				chest.item[index].SetDefaults(_random.Next(PotionLootHoney));
-				chest.item[index++].stack = _random.Next(1, 4);
-			}
-			else //Healing potion
-			{
-				chest.item[index].SetDefaults(ItemID.BottledHoney);
-				chest.item[index++].stack = _random.Next(3, 7);
-			}
+            //Potion loot
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(_random.Next(PotionLootHoney));
+                chest.item[index++].stack = _random.Next(1, 4);
+            }
+            else //Healing potion
+            {
+                chest.item[index].SetDefaults(ItemID.BottledHoney);
+                chest.item[index++].stack = _random.Next(3, 7);
+            }
 
-			//Weaponry
-			if (_random.Next(2) == 0)
-			{
-				chest.item[index].SetDefaults(ItemID.Stinger);
-				chest.item[index++].stack = _random.Next(4, 6);
-			}
-			else
-			{
-				chest.item[index].SetDefaults(ItemID.JungleSpores);
-				chest.item[index++].stack = _random.Next(3, 5);
-			}
+            //Weaponry
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(ItemID.Stinger);
+                chest.item[index++].stack = _random.Next(4, 6);
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.JungleSpores);
+                chest.item[index++].stack = _random.Next(3, 5);
+            }
 
-			//Recall potion
-			if (_random.Next(2) == 0)
-			{
-				chest.item[index].SetDefaults(ItemID.RecallPotion);
-				chest.item[index++].stack = _random.Next(1, 4);
-			}
-			else //glowsticks
-			{
-				chest.item[index].SetDefaults(ItemID.YellowTorch);
-				chest.item[index++].stack = _random.Next(18, 36);
-			}
+            //Recall potion
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(ItemID.RecallPotion);
+                chest.item[index++].stack = _random.Next(1, 4);
+            }
+            else //glowsticks
+            {
+                chest.item[index].SetDefaults(ItemID.YellowTorch);
+                chest.item[index++].stack = _random.Next(18, 36);
+            }
 
-		}
-	}
+        }
+    }
 }

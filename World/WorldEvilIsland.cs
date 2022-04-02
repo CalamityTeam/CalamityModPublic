@@ -9,7 +9,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-	public class WorldEvilIsland
+    public class WorldEvilIsland
     {
         public static void PlaceEvilIsland()
         {

@@ -5,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class SandCloak : ModItem
+    public class SandCloak : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Ravager
 {
-	public class RavagerLegRight : ModNPC
+    public class RavagerLegRight : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 60;
             npc.height = 60;
             npc.defense = 40;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 12788;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -43,35 +43,35 @@ namespace CalamityMod.NPCs.Ravager
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
-			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
-			{
-				npc.active = false;
-				npc.netUpdate = true;
-				return;
-			}
+            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+            {
+                npc.active = false;
+                npc.netUpdate = true;
+                return;
+            }
 
-			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-			npc.damage = 0;
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            npc.damage = 0;
 
-			if (npc.alpha > 0)
-			{
-				npc.alpha -= 10;
-				if (npc.alpha < 0)
-					npc.alpha = 0;
+            if (npc.alpha > 0)
+            {
+                npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
 
-				npc.ai[1] = 0f;
-			}
+                npc.ai[1] = 0f;
+            }
 
-			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
-		}
+            npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
+        }
 
-		public override bool CheckActive() => false;
+        public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

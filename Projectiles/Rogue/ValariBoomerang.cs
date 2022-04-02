@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 40;
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+            projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
             projectile.coldDamage = true;
@@ -133,32 +133,32 @@ namespace CalamityMod.Projectiles.Rogue
             //Start homing at player if you hit an enemy
             projectile.ai[0] = 1;
 
-			int icicleAmt = Main.rand.Next(2, 4);
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int i = 0; i < icicleAmt; i++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>(), projectile.damage / 3, 0f, projectile.owner);
-				}
-			}
-		}
+            int icicleAmt = Main.rand.Next(2, 4);
+            if (projectile.owner == Main.myPlayer)
+            {
+                for (int i = 0; i < icicleAmt; i++)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    int shard = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>(), projectile.damage / 3, 0f, projectile.owner);
+                }
+            }
+        }
 
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects();
+            OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects();
+            OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

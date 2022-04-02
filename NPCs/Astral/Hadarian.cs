@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.Astral
             npc.aiStyle = -1;
             npc.damage = 50;
             npc.defense = 8;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 330;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.75f;
@@ -46,9 +46,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.65f;
                 npc.lifeMax = 490;
             }
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {

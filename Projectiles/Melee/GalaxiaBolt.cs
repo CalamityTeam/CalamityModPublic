@@ -9,7 +9,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GalaxiaBolt : ModProjectile
+    public class GalaxiaBolt : ModProjectile
     {
         public NPC target;
         public Player Owner => Main.player[projectile.owner];

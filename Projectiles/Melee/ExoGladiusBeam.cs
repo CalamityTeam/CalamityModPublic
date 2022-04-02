@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ExoGladiusBeam : ModProjectile
+    public class ExoGladiusBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
 
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale += (maxScale - 1) / (float)penetrationAmt;
             projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale += (maxScale - 1) / (float)penetrationAmt;
             projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
     }
 }

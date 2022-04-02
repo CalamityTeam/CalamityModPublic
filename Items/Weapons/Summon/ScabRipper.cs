@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class ScabRipper : ModItem
+    public class ScabRipper : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             return false;
         }
-		
+        
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

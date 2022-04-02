@@ -40,11 +40,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
@@ -108,21 +108,21 @@ namespace CalamityMod.NPCs.AquaticScourge
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-			if ((Main.player[npc.target].Center - npc.Center).Length() > 200f)
-			{
-				num192 -= 160;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
-				{
-					if (npc.velocity.X > 0f)
-					{
-						num191 = Main.player[npc.target].Center.X + 300f;
-					}
-					else
-					{
-						num191 = Main.player[npc.target].Center.X - 300f;
-					}
-				}
-			}
+            if ((Main.player[npc.target].Center - npc.Center).Length() > 200f)
+            {
+                num192 -= 160;
+                if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        num191 = Main.player[npc.target].Center.X + 300f;
+                    }
+                    else
+                    {
+                        num191 = Main.player[npc.target].Center.X - 300f;
+                    }
+                }
+            }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
             float num50 = npc.velocity.Length();

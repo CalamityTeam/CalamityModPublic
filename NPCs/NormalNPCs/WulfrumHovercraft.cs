@@ -75,9 +75,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
+            float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
             DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }

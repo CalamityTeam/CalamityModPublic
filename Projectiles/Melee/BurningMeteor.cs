@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-			projectile.extraUpdates = 2;
+            projectile.extraUpdates = 2;
             projectile.timeLeft = 180;
             projectile.ignoreWater = true;
         }
@@ -92,10 +92,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 175)
-				return false;
+            if (projectile.timeLeft > 175)
+                return false;
 
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

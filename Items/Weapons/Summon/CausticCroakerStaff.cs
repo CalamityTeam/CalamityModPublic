@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class CausticCroakerStaff : ModItem
+    public class CausticCroakerStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class Crystalline2 : ModProjectile
+    public class Crystalline2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Crystalline";
 
@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft == (projectile.ai[1] == 2f ? 20 : 30))
-				return false;
+            if (projectile.timeLeft == (projectile.ai[1] == 2f ? 20 : 30))
+                return false;
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
@@ -66,9 +66,9 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-					int shard = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner);
-					if (shard.WithinBounds(Main.maxProjectiles))
-						Main.projectile[shard].Calamity().forceRogue = true;
+                    int shard = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner);
+                    if (shard.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[shard].Calamity().forceRogue = true;
                 }
             }
         }

@@ -8,9 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class FungalClumpMinion : ModProjectile
+    public class FungalClumpMinion : ModProjectile
     {
-		private bool returnToPlayer = false;
+        private bool returnToPlayer = false;
 
         public override void SetStaticDefaults()
         {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			//Initializing dust and damage
+            //Initializing dust and damage
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.localAI[0] += 1f;
             }
 
-			//Flexible damage correction
+            //Flexible damage correction
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
@@ -86,145 +86,145 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			//Periodically create dust
+            //Periodically create dust
             if (Main.rand.NextBool(16))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f);
             }
 
-			//Anti-sticky movement failsafe
-			projectile.MinionAntiClump();
+            //Anti-sticky movement failsafe
+            projectile.MinionAntiClump();
 
-			//If too far from player, increase speed to chase after player
-			float playerRange = 500f;
-			//Range is boosted if chasing after an enemy
-			if (projectile.ai[1] != 0f || projectile.friendly)
-				playerRange = 1400f;
-			if (Math.Abs(projectile.Center.X - player.Center.X) + Math.Abs(projectile.Center.Y - player.Center.Y) > playerRange)
-				returnToPlayer = true;
+            //If too far from player, increase speed to chase after player
+            float playerRange = 500f;
+            //Range is boosted if chasing after an enemy
+            if (projectile.ai[1] != 0f || projectile.friendly)
+                playerRange = 1400f;
+            if (Math.Abs(projectile.Center.X - player.Center.X) + Math.Abs(projectile.Center.Y - player.Center.Y) > playerRange)
+                returnToPlayer = true;
 
-			//Find an npc to target, or if minion targetting is used, choose that npc
-			Vector2 targetVec = projectile.Center;
-			float range = 900f;
-			bool npcFound = false;
+            //Find an npc to target, or if minion targetting is used, choose that npc
+            Vector2 targetVec = projectile.Center;
+            float range = 900f;
+            bool npcFound = false;
             Vector2 half = new Vector2(0.5f);
-			if (!returnToPlayer)
-			{
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						//Check the size of the target to make it easier to hit fat targets like Levi
-						Vector2 sizeCheck = npc.position + npc.Size * half;
-						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						//Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
-						bool canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-						if (!npcFound && targetDist < range && canHit)
-						{
-							range = targetDist;
-							targetVec = sizeCheck;
-							npcFound = true;
-						}
-					}
-				}
-				//If no npc is specifically targetted, check through the entire array
-				if (!npcFound)
-				{
-					for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
-					{
-						NPC npc = Main.npc[npcIndex];
-						if (npc.CanBeChasedBy(projectile, false))
-						{
-							Vector2 sizeCheck = npc.position + npc.Size * half;
-							float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-							bool canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-							if (!npcFound && targetDist < range && canHit)
-							{
-								range = targetDist;
-								targetVec = sizeCheck;
-								npcFound = true;
-							}
-						}
-					}
-				}
-			}
+            if (!returnToPlayer)
+            {
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        //Check the size of the target to make it easier to hit fat targets like Levi
+                        Vector2 sizeCheck = npc.position + npc.Size * half;
+                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        //Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
+                        bool canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                        if (!npcFound && targetDist < range && canHit)
+                        {
+                            range = targetDist;
+                            targetVec = sizeCheck;
+                            npcFound = true;
+                        }
+                    }
+                }
+                //If no npc is specifically targetted, check through the entire array
+                if (!npcFound)
+                {
+                    for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
+                    {
+                        NPC npc = Main.npc[npcIndex];
+                        if (npc.CanBeChasedBy(projectile, false))
+                        {
+                            Vector2 sizeCheck = npc.position + npc.Size * half;
+                            float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                            bool canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                            if (!npcFound && targetDist < range && canHit)
+                            {
+                                range = targetDist;
+                                targetVec = sizeCheck;
+                                npcFound = true;
+                            }
+                        }
+                    }
+                }
+            }
 
-			//Tile collision depends on if returning to the player or not
-			projectile.tileCollide = !returnToPlayer;
+            //Tile collision depends on if returning to the player or not
+            projectile.tileCollide = !returnToPlayer;
 
-			if (!npcFound)
-			{
-				projectile.friendly = true;
-				float homingSpeed = 8f;
-				float turnSpeed = 20f;
-				if (returnToPlayer) //move faster if returning to the player
-					homingSpeed = 12f;
-				Vector2 playerVector = player.Center - projectile.Center;
-				playerVector.Y -= 60f;
-				float playerDist = playerVector.Length();
-				if (playerDist < 100f && returnToPlayer && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-					returnToPlayer = false;
-				if (playerDist > 2000f)
-				{
-					projectile.position.X = player.Center.X - projectile.width / 2;
-					projectile.position.Y = player.Center.Y - projectile.width / 2;
-				}
-				//If more than 70 pixels away, move toward the player
+            if (!npcFound)
+            {
+                projectile.friendly = true;
+                float homingSpeed = 8f;
+                float turnSpeed = 20f;
+                if (returnToPlayer) //move faster if returning to the player
+                    homingSpeed = 12f;
+                Vector2 playerVector = player.Center - projectile.Center;
+                playerVector.Y -= 60f;
+                float playerDist = playerVector.Length();
+                if (playerDist < 100f && returnToPlayer && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                    returnToPlayer = false;
+                if (playerDist > 2000f)
+                {
+                    projectile.position.X = player.Center.X - projectile.width / 2;
+                    projectile.position.Y = player.Center.Y - projectile.width / 2;
+                }
+                //If more than 70 pixels away, move toward the player
                 if (playerDist > 70f)
                 {
                     playerVector.Normalize();
                     playerVector *= homingSpeed;
                     projectile.velocity = (projectile.velocity * turnSpeed + playerVector) / (turnSpeed + 1f);
                 }
-				//Minions never stay still
+                //Minions never stay still
                 else
                 {
-					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-					{
-						projectile.velocity.X = -0.15f;
-						projectile.velocity.Y = -0.05f;
-					}
-					projectile.velocity *= 1.01f;
+                    if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                    {
+                        projectile.velocity.X = -0.15f;
+                        projectile.velocity.Y = -0.05f;
+                    }
+                    projectile.velocity *= 1.01f;
                 }
-				projectile.friendly = false;
-				projectile.rotation = projectile.velocity.X * 0.05f;
-				if (Math.Abs(projectile.velocity.X) <= 0f)
-					return;
-				projectile.spriteDirection = -projectile.direction;
-			}
-			else
-			{
-				if (projectile.ai[1] == -1f)
-					projectile.ai[1] = 17f;
-				if (projectile.ai[1] > 0f)
-				{
-					projectile.ai[1] -= 1f;
-				}
-				if (projectile.ai[1] == 0f)
-				{
-					projectile.friendly = true;
-					float minionSpeed = 8f;
-					float turnSpeed = 14f;
-					float targetDist = projectile.Distance(targetVec);
-					if (targetDist < 100f)
-						minionSpeed = 10f;
+                projectile.friendly = false;
+                projectile.rotation = projectile.velocity.X * 0.05f;
+                if (Math.Abs(projectile.velocity.X) <= 0f)
+                    return;
+                projectile.spriteDirection = -projectile.direction;
+            }
+            else
+            {
+                if (projectile.ai[1] == -1f)
+                    projectile.ai[1] = 17f;
+                if (projectile.ai[1] > 0f)
+                {
+                    projectile.ai[1] -= 1f;
+                }
+                if (projectile.ai[1] == 0f)
+                {
+                    projectile.friendly = true;
+                    float minionSpeed = 8f;
+                    float turnSpeed = 14f;
+                    float targetDist = projectile.Distance(targetVec);
+                    if (targetDist < 100f)
+                        minionSpeed = 10f;
 
-					Vector2 homingVelocity = projectile.SafeDirectionTo(targetVec) * minionSpeed;
+                    Vector2 homingVelocity = projectile.SafeDirectionTo(targetVec) * minionSpeed;
                     projectile.velocity = (projectile.velocity * turnSpeed + homingVelocity) / (turnSpeed + 1f);
-				}
-				else
-				{
-					projectile.friendly = false;
-					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 10f)
-						projectile.velocity *= 1.05f;
-				}
-				projectile.rotation = projectile.velocity.X * 0.05f;
-				if (Math.Abs(projectile.velocity.X) <= 0.2f)
-					return;
-				projectile.spriteDirection = -projectile.direction;
-			}
-		}
+                }
+                else
+                {
+                    projectile.friendly = false;
+                    if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 10f)
+                        projectile.velocity *= 1.05f;
+                }
+                projectile.rotation = projectile.velocity.X * 0.05f;
+                if (Math.Abs(projectile.velocity.X) <= 0.2f)
+                    return;
+                projectile.spriteDirection = -projectile.direction;
+            }
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -238,10 +238,10 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                 return;
 
-			if (healAmt > CalamityMod.lifeStealCap)
-				healAmt = CalamityMod.lifeStealCap;
+            if (healAmt > CalamityMod.lifeStealCap)
+                healAmt = CalamityMod.lifeStealCap;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 3f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

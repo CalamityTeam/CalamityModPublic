@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BrackishSpear : ModProjectile
     {
-		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
+        public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
         public override void SetStaticDefaults()
         {
@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 52;
             projectile.aiStyle = 4;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
+            projectile.ignoreWater = true;
+            projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;

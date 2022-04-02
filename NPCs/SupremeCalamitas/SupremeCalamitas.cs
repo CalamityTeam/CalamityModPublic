@@ -30,7 +30,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class SupremeCalamitas : ModNPC
+    public class SupremeCalamitas : ModNPC
     {
         internal enum FrameAnimationType
         {
@@ -172,19 +172,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             DisplayName.SetDefault("Supreme Calamitas");
             Main.npcFrameCount[npc.type] = 21;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.GetNPCDamage();
-			npc.npcSlots = 50f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.GetNPCDamage();
+            npc.npcSlots = 50f;
             npc.width = npc.height = 44;
             npc.defense = 100;
-			npc.DR_NERD(normalDR);
+            npc.DR_NERD(normalDR);
             npc.value = Item.buyPrice(30, 0, 0, 0);
-			npc.LifeMaxNERB(960000, 1150000, 500000);
+            npc.LifeMaxNERB(960000, 1150000, 500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -199,10 +199,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.HitSound = SoundID.NPCHit1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<SCalBag>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+        }
 
         public override void BossHeadSlot(ref int index)
         {
@@ -324,7 +324,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityGlobalNPC.SCal = npc.whoAmI;
 
-			bool wormAlive = false;
+            bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
             {
                 wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
@@ -350,35 +350,35 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-			// Projectile damage values
-			int bulletHellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
-			int firstBulletHellblastDamage = (int)Math.Round(bulletHellblastDamage * 1.25);
-			int barrageDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneBarrage>());
-			int gigablastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneGigaBlast>());
-			int fireblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneFireblast>());
-			int monsterDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneMonster>());
-			int waveDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneWave>());
-			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
+            // Projectile damage values
+            int bulletHellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
+            int firstBulletHellblastDamage = (int)Math.Round(bulletHellblastDamage * 1.25);
+            int barrageDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneBarrage>());
+            int gigablastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneGigaBlast>());
+            int fireblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneFireblast>());
+            int monsterDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneMonster>());
+            int waveDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneWave>());
+            int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
             int bodyWidth = 44;
             int bodyHeight = 42;
-			int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
+            int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
 
-			Vector2 vectorCenter = npc.Center;
+            Vector2 vectorCenter = npc.Center;
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+                npc.TargetClosest();
 
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
+            // Despawn safety, make sure to target another player if the current player target is too far away
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                npc.TargetClosest();
 
-			Player player = Main.player[npc.target];
+            Player player = Main.player[npc.target];
 
             if (!startText)
             {
@@ -556,8 +556,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (startFifthAttack)
                     global.DR *= 1.2f;
             }
-			#endregion
-			#region Despawn
+            #endregion
+            #region Despawn
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -566,7 +566,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 // Slow down and disappear in a burst of fire if should despawn.
                 if (!player.active || player.dead)
                 {
-					canDespawn = true;
+                    canDespawn = true;
 
                     npc.Opacity = MathHelper.Lerp(npc.Opacity, 0f, 0.065f);
                     npc.velocity = Vector2.Lerp(Vector2.UnitY * -4f, Vector2.Zero, (float)Math.Sin(MathHelper.Pi * npc.Opacity));
@@ -600,8 +600,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             else
                 canDespawn = false;
-			#endregion
-			#region Cast Charge Countdown
+            #endregion
+            #region Cast Charge Countdown
             if (attackCastDelay > 0)
             {
                 attackCastDelay--;
@@ -640,9 +640,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
-			#endregion
-			#region FirstAttack
-			if (bulletHellCounter2 < 900)
+            #endregion
+            #region FirstAttack
+            if (bulletHellCounter2 < 900)
             {
                 despawnProj = true;
                 bulletHellCounter2 += 1;
@@ -650,22 +650,22 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-				if (!canDespawn)
-					npc.velocity *= 0.95f;
+                if (!canDespawn)
+                    npc.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     bulletHellCounter += 1;
-					if (bulletHellCounter >= baseBulletHellProjectileGateValue)
-					{
-						bulletHellCounter = 0;
-						if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 6) == 0)
-						{
-							float distance = Main.rand.NextBool() ? -1000f : 1000f;
-							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-						}
-						if (bulletHellCounter2 < 300) // Blasts from above
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue)
+                    {
+                        bulletHellCounter = 0;
+                        if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 6) == 0)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+                            Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                        }
+                        if (bulletHellCounter2 < 300) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -721,8 +721,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-				if (!canDespawn)
-					npc.velocity *= 0.95f;
+                if (!canDespawn)
+                    npc.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -745,13 +745,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 1) * 6) == 0)
-						{
-							float distance = Main.rand.NextBool() ? -1000f : 1000f;
-							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-						}
-						if (bulletHellCounter2 < 1200) // Blasts from below
+                        if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 1) * 6) == 0)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+                            Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                        }
+                        if (bulletHellCounter2 < 1200) // Blasts from below
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -791,8 +791,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-				if (!canDespawn)
-					npc.velocity *= 0.95f;
+                if (!canDespawn)
+                    npc.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -806,13 +806,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 6) == 0)
-						{
-							float distance = Main.rand.NextBool() ? -1000f : 1000f;
-							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-						}
-						if (bulletHellCounter2 < 2100) // Blasts from above
+                        if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 6) == 0)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+                            Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                        }
+                        if (bulletHellCounter2 < 2100) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -855,8 +855,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-				if (!canDespawn)
-					npc.velocity *= 0.95f;
+                if (!canDespawn)
+                    npc.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
@@ -866,7 +866,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
-					int divisor = revenge ? 225 : expertMode ? 450 : 675;
+                    int divisor = revenge ? 225 : expertMode ? 450 : 675;
 
                     // TODO -- Resprite Brimstone Monsters to be something else. WIPs posted by Iban.
                     if (bulletHellCounter2 % divisor == 0 && expertMode) // Giant homing fireballs
@@ -879,13 +879,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 6)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 6) == 0)
-						{
-							float distance = Main.rand.NextBool() ? -1000f : 1000f;
-							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-						}
-						if (bulletHellCounter2 < 3000) // Blasts from below
+                        if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 6) == 0)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+                            Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                        }
+                        if (bulletHellCounter2 < 3000) // Blasts from below
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -905,8 +905,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
-				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-				music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
+                // Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
+                music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
 
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -928,8 +928,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
 
-				if (!canDespawn)
-					npc.velocity *= 0.95f;
+                if (!canDespawn)
+                    npc.velocity *= 0.95f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -941,22 +941,22 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (bulletHellCounter2 % 30 == 0) // Projectiles that move in wave pattern
                     {
-						int random = Main.rand.Next(-500, 501);
-						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);
-						Projectile.NewProjectile(player.position.X - 1000f, player.position.Y - random, 5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);
-					}
+                        int random = Main.rand.Next(-500, 501);
+                        Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(player.position.X - 1000f, player.position.Y - random, 5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);
+                    }
 
                     bulletHellCounter += 1;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 8)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 6) == 0)
-						{
-							float distance = Main.rand.NextBool() ? -1000f : 1000f;
-							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-						}
-						if (bulletHellCounter2 < 3900) // Blasts from above
+                        if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 6) == 0)
+                        {
+                            float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                            float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+                            Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                        }
+                        if (bulletHellCounter2 < 3900) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
@@ -1004,8 +1004,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.noGravity = false;
                     npc.damage = 0;
 
-					if (!canDespawn)
-						npc.velocity.X *= 0.96f;
+                    if (!canDespawn)
+                        npc.velocity.X *= 0.96f;
 
                     if (CalamityWorld.downedSCal && !BossRushEvent.BossRushActive)
                     {
@@ -1063,15 +1063,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 if (!gettingTired5 && (npc.life <= npc.lifeMax * 0.01))
                 {
-					for (int x = 0; x < Main.maxProjectiles; x++)
-					{
-						Projectile projectile = Main.projectile[x];
-						if (projectile.active && projectile.type == ModContent.ProjectileType<BrimstoneMonster>())
-						{
-							if (projectile.timeLeft > 90)
-								projectile.timeLeft = 90;
-						}
-					}
+                    for (int x = 0; x < Main.maxProjectiles; x++)
+                    {
+                        Projectile projectile = Main.projectile[x];
+                        if (projectile.active && projectile.type == ModContent.ProjectileType<BrimstoneMonster>())
+                        {
+                            if (projectile.timeLeft > 90)
+                                projectile.timeLeft = 90;
+                        }
+                    }
 
                     if (!BossRushEvent.BossRushActive)
                     {
@@ -1160,16 +1160,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             projectile.type == ModContent.ProjectileType<BrimstoneBarrage>() ||
                             projectile.type == ModContent.ProjectileType<BrimstoneWave>())
                         {
-							if (projectile.timeLeft > 60)
-								projectile.timeLeft = 60;
+                            if (projectile.timeLeft > 60)
+                                projectile.timeLeft = 60;
                         }
                         else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>() || projectile.type == ModContent.ProjectileType<BrimstoneFireblast>())
                         {
-							projectile.ai[1] = 1f;
+                            projectile.ai[1] = 1f;
 
-							if (projectile.timeLeft > 60)
-								projectile.timeLeft = 60;
-						}
+                            if (projectile.timeLeft > 60)
+                                projectile.timeLeft = 60;
+                        }
                     }
                 }
                 despawnProj = false;
@@ -1247,8 +1247,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         npc.chaseable = false;
                         npc.damage = 0;
 
-						if (!canDespawn)
-							npc.velocity *= 0.95f;
+                        if (!canDespawn)
+                            npc.velocity *= 0.95f;
                         return;
                     }
                     else
@@ -1258,163 +1258,163 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-				if (npc.ai[1] == -1f)
-				{
-					phaseChange++;
-					if (phaseChange > 23)
-						phaseChange = 0;
+                if (npc.ai[1] == -1f)
+                {
+                    phaseChange++;
+                    if (phaseChange > 23)
+                        phaseChange = 0;
 
-					int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
-					switch (phaseChange)
-					{
-						case 0:
-							phase = 0;
-							willCharge = false;
-							break; //0341
-						case 1:
-							phase = 3;
-							break;
-						case 2:
-							phase = 4;
-							willCharge = true;
-							break;
-						case 3:
-							phase = 1;
-							break;
-						case 4:
-							phase = 1;
-							break; //1430
-						case 5:
-							phase = 4;
-							willCharge = false;
-							break;
-						case 6:
-							phase = 3;
-							break;
-						case 7:
-							phase = 0;
-							willCharge = true;
-							break;
-						case 8:
-							phase = 1;
-							break; //1034
-						case 9:
-							phase = 0;
-							willCharge = false;
-							break;
-						case 10:
-							phase = 3;
-							break;
-						case 11:
-							phase = 4;
-							break;
-						case 12:
-							phase = 4;
-							break; //4310
-						case 13:
-							phase = 3;
-							willCharge = true;
-							break;
-						case 14:
-							phase = 1;
-							break;
-						case 15:
-							phase = 0;
-							willCharge = false;
-							break;
-						case 16:
-							phase = 4;
-							break; //4411
-						case 17:
-							phase = 4;
-							willCharge = true;
-							break;
-						case 18:
-							phase = 1;
-							break;
-						case 19:
-							phase = 1;
-							break;
-						case 20:
-							phase = 0;
-							break; //0101
-						case 21:
-							phase = 1;
-							break;
-						case 22:
-							phase = 0;
-							break;
-						case 23:
-							phase = 1;
-							break;
-					}
+                    int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
+                    switch (phaseChange)
+                    {
+                        case 0:
+                            phase = 0;
+                            willCharge = false;
+                            break; //0341
+                        case 1:
+                            phase = 3;
+                            break;
+                        case 2:
+                            phase = 4;
+                            willCharge = true;
+                            break;
+                        case 3:
+                            phase = 1;
+                            break;
+                        case 4:
+                            phase = 1;
+                            break; //1430
+                        case 5:
+                            phase = 4;
+                            willCharge = false;
+                            break;
+                        case 6:
+                            phase = 3;
+                            break;
+                        case 7:
+                            phase = 0;
+                            willCharge = true;
+                            break;
+                        case 8:
+                            phase = 1;
+                            break; //1034
+                        case 9:
+                            phase = 0;
+                            willCharge = false;
+                            break;
+                        case 10:
+                            phase = 3;
+                            break;
+                        case 11:
+                            phase = 4;
+                            break;
+                        case 12:
+                            phase = 4;
+                            break; //4310
+                        case 13:
+                            phase = 3;
+                            willCharge = true;
+                            break;
+                        case 14:
+                            phase = 1;
+                            break;
+                        case 15:
+                            phase = 0;
+                            willCharge = false;
+                            break;
+                        case 16:
+                            phase = 4;
+                            break; //4411
+                        case 17:
+                            phase = 4;
+                            willCharge = true;
+                            break;
+                        case 18:
+                            phase = 1;
+                            break;
+                        case 19:
+                            phase = 1;
+                            break;
+                        case 20:
+                            phase = 0;
+                            break; //0101
+                        case 21:
+                            phase = 1;
+                            break;
+                        case 22:
+                            phase = 0;
+                            break;
+                        case 23:
+                            phase = 1;
+                            break;
+                    }
 
-					npc.ai[1] = phase;
-					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
-				}
-				else
-				{
-					if (npc.ai[1] == 0f)
-					{
-						float num823 = 12f;
-						float num824 = 0.12f;
+                    npc.ai[1] = phase;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                }
+                else
+                {
+                    if (npc.ai[1] == 0f)
+                    {
+                        float num823 = 12f;
+                        float num824 = 0.12f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num824 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num824 *= 0.5f;
+                        }
 
-						Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num825 = player.position.X + (player.width / 2) - vector82.X;
-						float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
-						float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                        Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num825 = player.position.X + (player.width / 2) - vector82.X;
+                        float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
+                        float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 
-						num827 = num823 / num827;
-						num825 *= num827;
-						num826 *= num827;
+                        num827 = num823 / num827;
+                        num825 *= num827;
+                        num826 *= num827;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num825)
-							{
-								npc.velocity.X += num824;
-								if (npc.velocity.X < 0f && num825 > 0f)
-									npc.velocity.X += num824;
-							}
-							else if (npc.velocity.X > num825)
-							{
-								npc.velocity.X -= num824;
-								if (npc.velocity.X > 0f && num825 < 0f)
-									npc.velocity.X -= num824;
-							}
-							if (npc.velocity.Y < num826)
-							{
-								npc.velocity.Y += num824;
-								if (npc.velocity.Y < 0f && num826 > 0f)
-									npc.velocity.Y += num824;
-							}
-							else if (npc.velocity.Y > num826)
-							{
-								npc.velocity.Y -= num824;
-								if (npc.velocity.Y > 0f && num826 < 0f)
-									npc.velocity.Y -= num824;
-							}
-						}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num825)
+                            {
+                                npc.velocity.X += num824;
+                                if (npc.velocity.X < 0f && num825 > 0f)
+                                    npc.velocity.X += num824;
+                            }
+                            else if (npc.velocity.X > num825)
+                            {
+                                npc.velocity.X -= num824;
+                                if (npc.velocity.X > 0f && num825 < 0f)
+                                    npc.velocity.X -= num824;
+                            }
+                            if (npc.velocity.Y < num826)
+                            {
+                                npc.velocity.Y += num824;
+                                if (npc.velocity.Y < 0f && num826 > 0f)
+                                    npc.velocity.Y += num824;
+                            }
+                            else if (npc.velocity.Y > num826)
+                            {
+                                npc.velocity.Y -= num824;
+                                if (npc.velocity.Y > 0f && num826 < 0f)
+                                    npc.velocity.Y -= num824;
+                            }
+                        }
 
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 300f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
-						}
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 300f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
+                        }
 
-						vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						num825 = player.position.X + (player.width / 2) - vector82.X;
-						num826 = player.position.Y + (player.height / 2) - vector82.Y;
+                        vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        num825 = player.position.X + (player.width / 2) - vector82.X;
+                        num826 = player.position.Y + (player.height / 2) - vector82.Y;
 
                         npc.localAI[1] += wormAlive ? 0.5f : 1f;
                         if (npc.localAI[1] > 90f)
@@ -1532,70 +1532,70 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
 
                         FrameType = FrameAnimationType.FasterUpwardDraft;
-					}
-					else if (npc.ai[1] == 1f)
-					{
-						float num383 = wormAlive ? 26f : 30f;
-						if (npc.life < npc.lifeMax * 0.95)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.85)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.7)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.6)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.5)
-							num383 += 1f;
+                    }
+                    else if (npc.ai[1] == 1f)
+                    {
+                        float num383 = wormAlive ? 26f : 30f;
+                        if (npc.life < npc.lifeMax * 0.95)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.85)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.7)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.6)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.5)
+                            num383 += 1f;
 
-						Vector2 vector37 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num384 = player.position.X + (player.width / 2) - vector37.X;
-						float num385 = player.position.Y + (player.height / 2) - vector37.Y;
-						float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
-						num386 = num383 / num386;
+                        Vector2 vector37 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num384 = player.position.X + (player.width / 2) - vector37.X;
+                        float num385 = player.position.Y + (player.height / 2) - vector37.Y;
+                        float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
+                        num386 = num383 / num386;
 
-						if (!canDespawn)
-						{
-							npc.velocity.X = num384 * num386;
-							npc.velocity.Y = num385 * num386;
+                        if (!canDespawn)
+                        {
+                            npc.velocity.X = num384 * num386;
+                            npc.velocity.Y = num385 * num386;
                             shieldRotation = npc.velocity.ToRotation();
                             npc.netUpdate = true;
 
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
-						}
+                        }
 
-						npc.ai[1] = 2f;
-					}
-					else if (npc.ai[1] == 2f)
-					{
-						npc.ai[2] += 1f;
+                        npc.ai[1] = 2f;
+                    }
+                    else if (npc.ai[1] == 2f)
+                    {
+                        npc.ai[2] += 1f;
 
                         if (Math.Abs(npc.velocity.X) > 0.15f)
                             npc.spriteDirection = (npc.velocity.X < 0f).ToDirectionInt();
-						if (npc.ai[2] >= 25f)
-						{
-							if (!canDespawn)
-							{
-								npc.velocity *= 0.96f;
+                        if (npc.ai[2] >= 25f)
+                        {
+                            if (!canDespawn)
+                            {
+                                npc.velocity *= 0.96f;
 
-								if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-									npc.velocity.X = 0f;
-								if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
-									npc.velocity.Y = 0f;
-							}
-						}
+                                if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
+                                    npc.velocity.X = 0f;
+                                if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
+                                    npc.velocity.Y = 0f;
+                            }
+                        }
 
                         bool willChargeAgain = npc.ai[3] + 1 < 2;
 
                         if (npc.ai[2] >= 70f)
-						{
-							npc.ai[3] += 1f;
-							npc.ai[2] = 0f;
-							npc.TargetClosest();
+                        {
+                            npc.ai[3] += 1f;
+                            npc.ai[2] = 0f;
+                            npc.TargetClosest();
 
-							if (!willChargeAgain)
-								npc.ai[1] = -1f;
-							else
-								npc.ai[1] = 1f;
+                            if (!willChargeAgain)
+                                npc.ai[1] = -1f;
+                            else
+                                npc.ai[1] = 1f;
                         }
 
                         if (willChargeAgain && npc.ai[2] > 50f)
@@ -1607,79 +1607,79 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         FrameType = FrameAnimationType.FasterUpwardDraft;
                     }
-					else if (npc.ai[1] == 3f)
-					{
-						float num412 = 32f;
-						float num413 = 1.2f;
+                    else if (npc.ai[1] == 3f)
+                    {
+                        float num412 = 32f;
+                        float num413 = 1.2f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num413 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num413 *= 0.5f;
+                        }
 
-						int num414 = 1;
-						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
-							num414 = -1;
+                        int num414 = 1;
+                        if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
+                            num414 = -1;
 
                         Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -18f, 2f);
                         Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
-						float num416 = player.position.Y + (player.height / 2) - vector40.Y;
-						float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                        float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
+                        float num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                        float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
 
-						num417 = num412 / num417;
-						num415 *= num417;
-						num416 *= num417;
+                        num417 = num412 / num417;
+                        num415 *= num417;
+                        num416 *= num417;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num415)
-							{
-								npc.velocity.X += num413;
-								if (npc.velocity.X < 0f && num415 > 0f)
-									npc.velocity.X += num413;
-							}
-							else if (npc.velocity.X > num415)
-							{
-								npc.velocity.X -= num413;
-								if (npc.velocity.X > 0f && num415 < 0f)
-									npc.velocity.X -= num413;
-							}
-							if (npc.velocity.Y < num416)
-							{
-								npc.velocity.Y += num413;
-								if (npc.velocity.Y < 0f && num416 > 0f)
-									npc.velocity.Y += num413;
-							}
-							else if (npc.velocity.Y > num416)
-							{
-								npc.velocity.Y -= num413;
-								if (npc.velocity.Y > 0f && num416 < 0f)
-									npc.velocity.Y -= num413;
-							}
-						}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num415)
+                            {
+                                npc.velocity.X += num413;
+                                if (npc.velocity.X < 0f && num415 > 0f)
+                                    npc.velocity.X += num413;
+                            }
+                            else if (npc.velocity.X > num415)
+                            {
+                                npc.velocity.X -= num413;
+                                if (npc.velocity.X > 0f && num415 < 0f)
+                                    npc.velocity.X -= num413;
+                            }
+                            if (npc.velocity.Y < num416)
+                            {
+                                npc.velocity.Y += num413;
+                                if (npc.velocity.Y < 0f && num416 > 0f)
+                                    npc.velocity.Y += num413;
+                            }
+                            else if (npc.velocity.Y > num416)
+                            {
+                                npc.velocity.Y -= num413;
+                                if (npc.velocity.Y > 0f && num416 < 0f)
+                                    npc.velocity.Y -= num413;
+                            }
+                        }
 
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 480f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
-						}
-						else
-						{
-							if (!player.dead)
-								npc.ai[3] += wormAlive ? 0.5f : 1f;
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 480f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
+                        }
+                        else
+                        {
+                            if (!player.dead)
+                                npc.ai[3] += wormAlive ? 0.5f : 1f;
 
-							if (npc.ai[3] >= 20f)
-							{
-								npc.ai[3] = 0f;
-								vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								num415 = player.position.X + (player.width / 2) - vector40.X;
-								num416 = player.position.Y + (player.height / 2) - vector40.Y;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
+                            if (npc.ai[3] >= 20f)
+                            {
+                                npc.ai[3] = 0f;
+                                vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                num415 = player.position.X + (player.width / 2) - vector40.X;
+                                num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -1693,19 +1693,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     brimstoneMagic.noLight = true;
                                 }
 
-								if (Main.netMode != NetmodeID.MultiplayerClient)
-								{
-									float num418 = 10f * uDieLul;
-									int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-									num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-									num417 = num418 / num417;
-									num415 *= num417;
-									num416 *= num417;
-									vector40.X += num415 * 2f;
-									vector40.Y += num416 * 2f;
-									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-							}
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    float num418 = 10f * uDieLul;
+                                    int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
+                                    num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                                    num417 = num418 / num417;
+                                    num415 *= num417;
+                                    num416 *= num417;
+                                    vector40.X += num415 * 2f;
+                                    vector40.Y += num416 * 2f;
+                                    Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                }
+                            }
                         }
 
                         if (Main.rand.NextBool(2))
@@ -1719,62 +1719,62 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         FrameType = FrameAnimationType.OutwardHandCast;
                     }
-					else if (npc.ai[1] == 4f)
-					{
-						int num831 = 1;
-						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
-							num831 = -1;
+                    else if (npc.ai[1] == 4f)
+                    {
+                        int num831 = 1;
+                        if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
+                            num831 = -1;
 
-						float num832 = 32f;
-						float num833 = 1.2f;
+                        float num832 = 32f;
+                        float num833 = 1.2f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.HeldItem;
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num833 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.HeldItem;
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num833 *= 0.5f;
+                        }
 
-						Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
-						float num835 = player.position.Y + (player.height / 2) - vector83.Y;
-						float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                        Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
+                        float num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                        float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
 
-						num836 = num832 / num836;
-						num834 *= num836;
-						num835 *= num836;
+                        num836 = num832 / num836;
+                        num834 *= num836;
+                        num835 *= num836;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num834)
-							{
-								npc.velocity.X += num833;
-								if (npc.velocity.X < 0f && num834 > 0f)
-									npc.velocity.X += num833;
-							}
-							else if (npc.velocity.X > num834)
-							{
-								npc.velocity.X -= num833;
-								if (npc.velocity.X > 0f && num834 < 0f)
-									npc.velocity.X -= num833;
-							}
-							if (npc.velocity.Y < num835)
-							{
-								npc.velocity.Y += num833;
-								if (npc.velocity.Y < 0f && num835 > 0f)
-									npc.velocity.Y += num833;
-							}
-							else if (npc.velocity.Y > num835)
-							{
-								npc.velocity.Y -= num833;
-								if (npc.velocity.Y > 0f && num835 < 0f)
-									npc.velocity.Y -= num833;
-							}
-						}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num834)
+                            {
+                                npc.velocity.X += num833;
+                                if (npc.velocity.X < 0f && num834 > 0f)
+                                    npc.velocity.X += num833;
+                            }
+                            else if (npc.velocity.X > num834)
+                            {
+                                npc.velocity.X -= num833;
+                                if (npc.velocity.X > 0f && num834 < 0f)
+                                    npc.velocity.X -= num833;
+                            }
+                            if (npc.velocity.Y < num835)
+                            {
+                                npc.velocity.Y += num833;
+                                if (npc.velocity.Y < 0f && num835 > 0f)
+                                    npc.velocity.Y += num833;
+                            }
+                            else if (npc.velocity.Y > num835)
+                            {
+                                npc.velocity.Y -= num833;
+                                if (npc.velocity.Y > 0f && num835 < 0f)
+                                    npc.velocity.Y -= num833;
+                            }
+                        }
 
-						vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						num834 = player.position.X + (player.width / 2) - vector83.X;
-						num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                        vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        num834 = player.position.X + (player.width / 2) - vector83.X;
+                        num835 = player.position.Y + (player.height / 2) - vector83.Y;
 
                         int shootRate = wormAlive ? 280 : 140;
                         npc.localAI[1]++;
@@ -1799,26 +1799,26 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             npc.localAI[1] = 0f;
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
-							{
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-								float num837 = 5f * uDieLul;
-								int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-								num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-								num836 = num837 / num836;
-								num834 *= num836;
-								num835 *= num836;
-								vector83.X += num834 * 8f;
-								vector83.Y += num835 * 8f;
-								Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
-							}
-						}
+                            {
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                float num837 = 5f * uDieLul;
+                                int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
+                                num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                                num836 = num837 / num836;
+                                num834 *= num836;
+                                num835 *= num836;
+                                vector83.X += num834 * 8f;
+                                vector83.Y += num835 * 8f;
+                                Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                        }
 
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 300f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 300f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
                         }
                     }
                 }
@@ -1829,7 +1829,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-					npc.TargetClosest();
+                    npc.TargetClosest();
                     npc.netUpdate = true;
                 }
             }
@@ -1878,15 +1878,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     brimstoneFire.noGravity = true;
                 }
 
-				if (!canDespawn)
-				{
-					npc.velocity *= 0.98f;
+                if (!canDespawn)
+                {
+                    npc.velocity *= 0.98f;
 
-					if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-						npc.velocity.X = 0f;
-					if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
-						npc.velocity.Y = 0f;
-				}
+                    if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
+                        npc.velocity.X = 0f;
+                    if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
+                        npc.velocity.Y = 0f;
+                }
             }
             #endregion
             #region LastStage
@@ -1912,164 +1912,164 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-				if (npc.ai[1] == -1f)
-				{
-					phaseChange++;
-					if (phaseChange > 23)
-						phaseChange = 0;
+                if (npc.ai[1] == -1f)
+                {
+                    phaseChange++;
+                    if (phaseChange > 23)
+                        phaseChange = 0;
 
-					int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
-					switch (phaseChange)
-					{
-						case 0:
-							phase = 0;
-							willCharge = false;
-							break; //0341
-						case 1:
-							phase = 3;
-							break;
-						case 2:
-							phase = 4;
-							willCharge = true;
-							break;
-						case 3:
-							phase = 1;
-							break;
-						case 4:
-							phase = 1;
-							break; //1430
-						case 5:
-							phase = 4;
-							willCharge = false;
-							break;
-						case 6:
-							phase = 3;
-							break;
-						case 7:
-							phase = 0;
-							willCharge = true;
-							break;
-						case 8:
-							phase = 1;
-							break; //1034
-						case 9:
-							phase = 0;
-							willCharge = false;
-							break;
-						case 10:
-							phase = 3;
-							break;
-						case 11:
-							phase = 4;
-							break;
-						case 12:
-							phase = 4;
-							break; //4310
-						case 13:
-							phase = 3;
-							willCharge = true;
-							break;
-						case 14:
-							phase = 1;
-							break;
-						case 15:
-							phase = 0;
-							willCharge = false;
-							break;
-						case 16:
-							phase = 4;
-							break; //4411
-						case 17:
-							phase = 4;
-							willCharge = true;
-							break;
-						case 18:
-							phase = 1;
-							break;
-						case 19:
-							phase = 1;
-							break;
-						case 20:
-							phase = 0;
-							break; //0101
-						case 21:
-							phase = 1;
-							break;
-						case 22:
-							phase = 0;
-							break;
-						case 23:
-							phase = 1;
-							break;
-					}
+                    int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
+                    switch (phaseChange)
+                    {
+                        case 0:
+                            phase = 0;
+                            willCharge = false;
+                            break; //0341
+                        case 1:
+                            phase = 3;
+                            break;
+                        case 2:
+                            phase = 4;
+                            willCharge = true;
+                            break;
+                        case 3:
+                            phase = 1;
+                            break;
+                        case 4:
+                            phase = 1;
+                            break; //1430
+                        case 5:
+                            phase = 4;
+                            willCharge = false;
+                            break;
+                        case 6:
+                            phase = 3;
+                            break;
+                        case 7:
+                            phase = 0;
+                            willCharge = true;
+                            break;
+                        case 8:
+                            phase = 1;
+                            break; //1034
+                        case 9:
+                            phase = 0;
+                            willCharge = false;
+                            break;
+                        case 10:
+                            phase = 3;
+                            break;
+                        case 11:
+                            phase = 4;
+                            break;
+                        case 12:
+                            phase = 4;
+                            break; //4310
+                        case 13:
+                            phase = 3;
+                            willCharge = true;
+                            break;
+                        case 14:
+                            phase = 1;
+                            break;
+                        case 15:
+                            phase = 0;
+                            willCharge = false;
+                            break;
+                        case 16:
+                            phase = 4;
+                            break; //4411
+                        case 17:
+                            phase = 4;
+                            willCharge = true;
+                            break;
+                        case 18:
+                            phase = 1;
+                            break;
+                        case 19:
+                            phase = 1;
+                            break;
+                        case 20:
+                            phase = 0;
+                            break; //0101
+                        case 21:
+                            phase = 1;
+                            break;
+                        case 22:
+                            phase = 0;
+                            break;
+                        case 23:
+                            phase = 1;
+                            break;
+                    }
 
-					npc.ai[1] = phase;
-					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
-				}
-				else
-				{
-					if (npc.ai[1] == 0f)
-					{
-						float num823 = 12f;
-						float num824 = 0.12f;
+                    npc.ai[1] = phase;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                }
+                else
+                {
+                    if (npc.ai[1] == 0f)
+                    {
+                        float num823 = 12f;
+                        float num824 = 0.12f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num824 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num824 *= 0.5f;
+                        }
 
-						Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num825 = player.position.X + (player.width / 2) - vector82.X;
-						float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
-						float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                        Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num825 = player.position.X + (player.width / 2) - vector82.X;
+                        float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
+                        float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 
-						num827 = num823 / num827;
-						num825 *= num827;
-						num826 *= num827;
+                        num827 = num823 / num827;
+                        num825 *= num827;
+                        num826 *= num827;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num825)
-							{
-								npc.velocity.X += num824;
-								if (npc.velocity.X < 0f && num825 > 0f)
-									npc.velocity.X += num824;
-							}
-							else if (npc.velocity.X > num825)
-							{
-								npc.velocity.X -= num824;
-								if (npc.velocity.X > 0f && num825 < 0f)
-									npc.velocity.X -= num824;
-							}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num825)
+                            {
+                                npc.velocity.X += num824;
+                                if (npc.velocity.X < 0f && num825 > 0f)
+                                    npc.velocity.X += num824;
+                            }
+                            else if (npc.velocity.X > num825)
+                            {
+                                npc.velocity.X -= num824;
+                                if (npc.velocity.X > 0f && num825 < 0f)
+                                    npc.velocity.X -= num824;
+                            }
 
-							if (npc.velocity.Y < num826)
-							{
-								npc.velocity.Y += num824;
-								if (npc.velocity.Y < 0f && num826 > 0f)
-									npc.velocity.Y += num824;
-							}
-							else if (npc.velocity.Y > num826)
-							{
-								npc.velocity.Y -= num824;
-								if (npc.velocity.Y > 0f && num826 < 0f)
-									npc.velocity.Y -= num824;
-							}
-						}
+                            if (npc.velocity.Y < num826)
+                            {
+                                npc.velocity.Y += num824;
+                                if (npc.velocity.Y < 0f && num826 > 0f)
+                                    npc.velocity.Y += num824;
+                            }
+                            else if (npc.velocity.Y > num826)
+                            {
+                                npc.velocity.Y -= num824;
+                                if (npc.velocity.Y > 0f && num826 < 0f)
+                                    npc.velocity.Y -= num824;
+                            }
+                        }
 
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 240f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
-						}
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 240f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
+                        }
 
-						vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						num825 = player.position.X + (player.width / 2) - vector82.X;
-						num826 = player.position.Y + (player.height / 2) - vector82.Y;
+                        vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        num825 = player.position.X + (player.width / 2) - vector82.X;
+                        num826 = player.position.Y + (player.height / 2) - vector82.Y;
 
                         npc.localAI[1] += wormAlive ? 0.5f : 1f;
                         if (npc.localAI[1] > 60f)
@@ -2186,49 +2186,49 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                         }
                     }
-					else if (npc.ai[1] == 1f)
-					{
-						float num383 = wormAlive ? 31f : 35f;
-						if (npc.life < npc.lifeMax * 0.3)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.2)
-							num383 += 1f;
-						if (npc.life < npc.lifeMax * 0.1)
-							num383 += 1f;
+                    else if (npc.ai[1] == 1f)
+                    {
+                        float num383 = wormAlive ? 31f : 35f;
+                        if (npc.life < npc.lifeMax * 0.3)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.2)
+                            num383 += 1f;
+                        if (npc.life < npc.lifeMax * 0.1)
+                            num383 += 1f;
 
-						Vector2 vector37 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num384 = player.position.X + (player.width / 2) - vector37.X;
-						float num385 = player.position.Y + (player.height / 2) - vector37.Y;
-						float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
-						num386 = num383 / num386;
+                        Vector2 vector37 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num384 = player.position.X + (player.width / 2) - vector37.X;
+                        float num385 = player.position.Y + (player.height / 2) - vector37.Y;
+                        float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
+                        num386 = num383 / num386;
 
-						if (!canDespawn)
-						{
-							npc.velocity.X = num384 * num386;
-							npc.velocity.Y = num385 * num386;
+                        if (!canDespawn)
+                        {
+                            npc.velocity.X = num384 * num386;
+                            npc.velocity.Y = num385 * num386;
                             shieldRotation = npc.velocity.ToRotation();
                             npc.netUpdate = true;
 
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
                         }
 
-						npc.ai[1] = 2f;
-					}
-					else if (npc.ai[1] == 2f)
-					{
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 25f)
-						{
-							if (!canDespawn)
-							{
-								npc.velocity *= 0.96f;
+                        npc.ai[1] = 2f;
+                    }
+                    else if (npc.ai[1] == 2f)
+                    {
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 25f)
+                        {
+                            if (!canDespawn)
+                            {
+                                npc.velocity *= 0.96f;
 
-								if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-									npc.velocity.X = 0f;
-								if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
-									npc.velocity.Y = 0f;
-							}
-						}
+                                if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
+                                    npc.velocity.X = 0f;
+                                if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
+                                    npc.velocity.Y = 0f;
+                            }
+                        }
 
 
                         bool willChargeAgain = npc.ai[3] + 1 < 1;
@@ -2254,79 +2254,79 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         FrameType = FrameAnimationType.FasterUpwardDraft;
                     }
-					else if (npc.ai[1] == 3f)
-					{
-						float num412 = 32f;
-						float num413 = 1.2f;
+                    else if (npc.ai[1] == 3f)
+                    {
+                        float num412 = 32f;
+                        float num413 = 1.2f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num413 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num413 *= 0.5f;
+                        }
 
-						int num414 = 1;
-						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
-							num414 = -1;
+                        int num414 = 1;
+                        if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
+                            num414 = -1;
 
                         Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -18f, 2f);
                         Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
-						float num416 = player.position.Y + (player.height / 2) - vector40.Y;
-						float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                        float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
+                        float num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                        float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
 
-						num417 = num412 / num417;
-						num415 *= num417;
-						num416 *= num417;
+                        num417 = num412 / num417;
+                        num415 *= num417;
+                        num416 *= num417;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num415)
-							{
-								npc.velocity.X += num413;
-								if (npc.velocity.X < 0f && num415 > 0f)
-									npc.velocity.X += num413;
-							}
-							else if (npc.velocity.X > num415)
-							{
-								npc.velocity.X -= num413;
-								if (npc.velocity.X > 0f && num415 < 0f)
-									npc.velocity.X -= num413;
-							}
-							if (npc.velocity.Y < num416)
-							{
-								npc.velocity.Y += num413;
-								if (npc.velocity.Y < 0f && num416 > 0f)
-									npc.velocity.Y += num413;
-							}
-							else if (npc.velocity.Y > num416)
-							{
-								npc.velocity.Y -= num413;
-								if (npc.velocity.Y > 0f && num416 < 0f)
-									npc.velocity.Y -= num413;
-							}
-						}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num415)
+                            {
+                                npc.velocity.X += num413;
+                                if (npc.velocity.X < 0f && num415 > 0f)
+                                    npc.velocity.X += num413;
+                            }
+                            else if (npc.velocity.X > num415)
+                            {
+                                npc.velocity.X -= num413;
+                                if (npc.velocity.X > 0f && num415 < 0f)
+                                    npc.velocity.X -= num413;
+                            }
+                            if (npc.velocity.Y < num416)
+                            {
+                                npc.velocity.Y += num413;
+                                if (npc.velocity.Y < 0f && num416 > 0f)
+                                    npc.velocity.Y += num413;
+                            }
+                            else if (npc.velocity.Y > num416)
+                            {
+                                npc.velocity.Y -= num413;
+                                if (npc.velocity.Y > 0f && num416 < 0f)
+                                    npc.velocity.Y -= num413;
+                            }
+                        }
 
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 300f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
-						}
-						else
-						{
-							if (!player.dead)
-								npc.ai[3] += wormAlive ? 0.5f : 1f;
+                        npc.ai[2] += 1f;
+                        if (npc.ai[2] >= 300f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
+                        }
+                        else
+                        {
+                            if (!player.dead)
+                                npc.ai[3] += wormAlive ? 0.5f : 1f;
 
-							if (npc.ai[3] >= 24f)
-							{
-								npc.ai[3] = 0f;
-								vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								num415 = player.position.X + (player.width / 2) - vector40.X;
-								num416 = player.position.Y + (player.height / 2) - vector40.Y;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
+                            if (npc.ai[3] >= 24f)
+                            {
+                                npc.ai[3] = 0f;
+                                vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                num415 = player.position.X + (player.width / 2) - vector40.X;
+                                num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -2341,18 +2341,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 }
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-								{
-									float num418 = 10f * uDieLul;
-									int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-									num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-									num417 = num418 / num417;
-									num415 *= num417;
-									num416 *= num417;
-									vector40.X += num415 * 4f;
-									vector40.Y += num416 * 4f;
-									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-							}
+                                {
+                                    float num418 = 10f * uDieLul;
+                                    int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
+                                    num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                                    num417 = num418 / num417;
+                                    num415 *= num417;
+                                    num416 *= num417;
+                                    vector40.X += num415 * 4f;
+                                    vector40.Y += num416 * 4f;
+                                    Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                }
+                            }
                         }
 
                         if (Main.rand.NextBool(2))
@@ -2367,62 +2367,62 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         FrameChangeSpeed = 0.245f;
                         FrameType = FrameAnimationType.PunchHandCast;
                     }
-					else if (npc.ai[1] == 4f)
-					{
-						int num831 = 1;
-						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
-							num831 = -1;
+                    else if (npc.ai[1] == 4f)
+                    {
+                        int num831 = 1;
+                        if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
+                            num831 = -1;
 
-						float num832 = 32f;
-						float num833 = 1.2f;
+                        float num832 = 32f;
+                        float num833 = 1.2f;
 
-						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-						{
-							num833 *= 0.5f;
-						}
+                        // Reduce acceleration if target is holding a true melee weapon
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
+                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        {
+                            num833 *= 0.5f;
+                        }
 
-						Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
-						float num835 = player.position.Y + (player.height / 2) - vector83.Y;
-						float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                        Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
+                        float num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                        float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
 
-						num836 = num832 / num836;
-						num834 *= num836;
-						num835 *= num836;
+                        num836 = num832 / num836;
+                        num834 *= num836;
+                        num835 *= num836;
 
-						if (!canDespawn)
-						{
-							if (npc.velocity.X < num834)
-							{
-								npc.velocity.X += num833;
-								if (npc.velocity.X < 0f && num834 > 0f)
-									npc.velocity.X += num833;
-							}
-							else if (npc.velocity.X > num834)
-							{
-								npc.velocity.X -= num833;
-								if (npc.velocity.X > 0f && num834 < 0f)
-									npc.velocity.X -= num833;
-							}
-							if (npc.velocity.Y < num835)
-							{
-								npc.velocity.Y += num833;
-								if (npc.velocity.Y < 0f && num835 > 0f)
-									npc.velocity.Y += num833;
-							}
-							else if (npc.velocity.Y > num835)
-							{
-								npc.velocity.Y -= num833;
-								if (npc.velocity.Y > 0f && num835 < 0f)
-									npc.velocity.Y -= num833;
-							}
-						}
+                        if (!canDespawn)
+                        {
+                            if (npc.velocity.X < num834)
+                            {
+                                npc.velocity.X += num833;
+                                if (npc.velocity.X < 0f && num834 > 0f)
+                                    npc.velocity.X += num833;
+                            }
+                            else if (npc.velocity.X > num834)
+                            {
+                                npc.velocity.X -= num833;
+                                if (npc.velocity.X > 0f && num834 < 0f)
+                                    npc.velocity.X -= num833;
+                            }
+                            if (npc.velocity.Y < num835)
+                            {
+                                npc.velocity.Y += num833;
+                                if (npc.velocity.Y < 0f && num835 > 0f)
+                                    npc.velocity.Y += num833;
+                            }
+                            else if (npc.velocity.Y > num835)
+                            {
+                                npc.velocity.Y -= num833;
+                                if (npc.velocity.Y > 0f && num835 < 0f)
+                                    npc.velocity.Y -= num833;
+                            }
+                        }
 
-						vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						num834 = player.position.X + (player.width / 2) - vector83.X;
-						num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                        vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        num834 = player.position.X + (player.width / 2) - vector83.X;
+                        num835 = player.position.Y + (player.height / 2) - vector83.Y;
 
                         int shootRate = wormAlive ? 200 : 100;
                         npc.localAI[1]++;
@@ -2466,14 +2466,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
 
                         npc.ai[2] += 1f;
-						if (npc.ai[2] >= 240f)
-						{
-							npc.ai[1] = -1f;
-							npc.TargetClosest();
-							npc.netUpdate = true;
+                        if (npc.ai[2] >= 240f)
+                        {
+                            npc.ai[1] = -1f;
+                            npc.TargetClosest();
+                            npc.netUpdate = true;
                         }
                     }
-				}
+                }
             }
             #endregion
         }
@@ -2716,12 +2716,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
             npc.Center = initialRitualPosition;
 
-			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
-			DropHelper.DropBags(npc);
+            DropHelper.DropBags(npc);
 
-			// Only drops in Malice because this is Leviathan's item
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
+            // Only drops in Malice because this is Leviathan's item
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
 
             // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
             // It is one of extremely few Deathmode exclusive drops in the game
@@ -2745,11 +2745,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DropHelper.WeightStack<Sacrifice>(w)
                 );
 
-				// Equipment
-				DropHelper.DropItem(npc, ModContent.ItemType<Calamity>(), true);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<Calamity>(), true);
 
-				// SCal vanity set (This drops all at once, or not at all)
-				if (Main.rand.NextBool(7))
+                // SCal vanity set (This drops all at once, or not at all)
+                if (Main.rand.NextBool(7))
                 {
                     DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
                     DropHelper.DropItem(npc, ModContent.ItemType<SCalMask>());
@@ -2836,47 +2836,47 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-		public override Color? GetAlpha(Color drawColor)
-		{
-			if (willCharge)
-				return drawColor * npc.Opacity * 0.45f;
-			return null;
-		}
+        public override Color? GetAlpha(Color drawColor)
+        {
+            if (willCharge)
+                return drawColor * npc.Opacity * 0.45f;
+            return null;
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = CalamityWorld.downedSCal && !BossRushEvent.BossRushActive ? Main.npcTexture[npc.type] : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
+            Texture2D texture2D15 = CalamityWorld.downedSCal && !BossRushEvent.BossRushActive ? Main.npcTexture[npc.type] : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 7;
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 7;
 
             Rectangle frame = texture2D15.Frame(2, Main.npcFrameCount[npc.type], npc.frame.Y / Main.npcFrameCount[npc.type], npc.frame.Y % Main.npcFrameCount[npc.type]);
 
             if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
             bool inPhase2 = npc.ai[0] >= 3f && npc.life > npc.lifeMax * 0.01;
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
             if (inPhase2)
             {
@@ -2897,8 +2897,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             DrawForcefield(spriteBatch);
             DrawShield(spriteBatch);
-			return false;
-		}
+            return false;
+        }
 
         public void DrawForcefield(SpriteBatch spriteBatch)
         {

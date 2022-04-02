@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class SpectralVeil : ModItem
+    public class SpectralVeil : ModItem
     {
         public const float TeleportRange = 845f;
         public override void SetStaticDefaults()
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +
                 "If you dodge something while invulnerable, you instantly gain full stealth\n" +
-				"Teleportation is disabled while Chaos State is active\n" +
+                "Teleportation is disabled while Chaos State is active\n" +
                 "Stealth generates 20% faster while moving");
         }
 
@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 38;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

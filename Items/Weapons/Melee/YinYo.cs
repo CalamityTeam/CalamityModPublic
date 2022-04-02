@@ -4,14 +4,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class YinYo : ModItem
+    public class YinYo : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yin-Yo");
             Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
                 "Shards fly back and forth\n" +
-				"A very agile yoyo");
+                "A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;

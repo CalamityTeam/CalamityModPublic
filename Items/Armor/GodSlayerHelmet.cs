@@ -48,10 +48,10 @@ namespace CalamityMod.Items.Armor
                 "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
 
             if (modPlayer.godSlayerDashHotKeyPressed)
-			{
+            {
                 modPlayer.dashMod = 9;
-				player.dash = 0;
-			}
+                player.dash = 0;
+            }
         }
 
         public override void UpdateEquip(Player player)

@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class ColossalSquid : ModNPC
+    public class ColossalSquid : ModNPC
     {
         private bool hasBeenHit = false;
 

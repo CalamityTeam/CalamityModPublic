@@ -12,7 +12,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BrimstoneRay : ModProjectile
+    public class BrimstoneRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 10;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 10;
             projectile.height = 10;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			Vector2? vector78 = null;
+            Vector2? vector78 = null;
 
-			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
+            if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
                 projectile.velocity = -Vector2.UnitY;
 
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<BrimstoneElemental>())
@@ -55,10 +55,10 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f);
                 projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
-			else
-				projectile.Kill();
+            else
+                projectile.Kill();
 
-			float num801 = 1f;
+            float num801 = 1f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] >= 45f)
             {
@@ -70,40 +70,40 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.scale > num801)
                 projectile.scale = num801;
 
-			float num804 = projectile.velocity.ToRotation();
+            float num804 = projectile.velocity.ToRotation();
 
-			// Rotating beam for test AI
-			if (projectile.ai[0] > 0f)
-				num804 += Main.npc[(int)projectile.ai[1]].spriteDirection * MathHelper.TwoPi / 360f;
+            // Rotating beam for test AI
+            if (projectile.ai[0] > 0f)
+                num804 += Main.npc[(int)projectile.ai[1]].spriteDirection * MathHelper.TwoPi / 360f;
 
-			projectile.rotation = num804 - MathHelper.PiOver2;
-			projectile.velocity = num804.ToRotationVector2();
+            projectile.rotation = num804 - MathHelper.PiOver2;
+            projectile.velocity = num804.ToRotationVector2();
 
-			float num805 = 3f; //3f
-			float num806 = projectile.width;
+            float num805 = 3f; //3f
+            float num806 = projectile.width;
 
-			Vector2 samplingPoint = projectile.Center;
-			if (vector78.HasValue)
-			{
-				samplingPoint = vector78.Value;
-			}
+            Vector2 samplingPoint = projectile.Center;
+            if (vector78.HasValue)
+            {
+                samplingPoint = vector78.Value;
+            }
 
-			float[] array3 = new float[(int)num805];
-			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
-			float num807 = 0f;
-			for (int num808 = 0; num808 < array3.Length; num808++)
-			{
-				num807 += array3[num808];
-			}
-			num807 /= num805;
+            float[] array3 = new float[(int)num805];
+            Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
+            float num807 = 0f;
+            for (int num808 = 0; num808 < array3.Length; num808++)
+            {
+                num807 += array3[num808];
+            }
+            num807 /= num805;
 
-			// Fire laser through walls at max length if target cannot be seen
-			if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
-			{
-				num807 = 2400f;
-			}
+            // Fire laser through walls at max length if target cannot be seen
+            if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
+            {
+                num807 = 2400f;
+            }
 
-			float amount = 0.5f; //0.5f
+            float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
 
@@ -111,29 +111,29 @@ namespace CalamityMod.Projectiles.Boss
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             if (Main.npc[(int)projectile.ai[1]].ai[1] == 210f && projectile.owner == Main.myPlayer)
-			{
-				Vector2 velocity = projectile.velocity;
-				velocity.Normalize();
-				float distanceBetweenProjectiles = malice ? 72f : 144f;
-				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
-				int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
-				int type = ModContent.ProjectileType<BrimstoneBarrage>();
-				int damage = projectile.GetProjectileDamage(ModContent.NPCType<BrimstoneElemental>());
-				for (int i = 0; i < projectileAmt; i++)
-				{
-					int totalProjectiles = 2;
-					float radians = MathHelper.TwoPi / totalProjectiles;
-					for (int j = 0; j < totalProjectiles; j++)
-					{
-						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-						int proj = Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, death ? 2f : 1f, 0f);
-						Main.projectile[proj].tileCollide = true;
-					}
-					fireFrom += velocity * distanceBetweenProjectiles;
-				}
-			}
+            {
+                Vector2 velocity = projectile.velocity;
+                velocity.Normalize();
+                float distanceBetweenProjectiles = malice ? 72f : 144f;
+                Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
+                int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
+                int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                int damage = projectile.GetProjectileDamage(ModContent.NPCType<BrimstoneElemental>());
+                for (int i = 0; i < projectileAmt; i++)
+                {
+                    int totalProjectiles = 2;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    for (int j = 0; j < totalProjectiles; j++)
+                    {
+                        Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+                        int proj = Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, death ? 2f : 1f, 0f);
+                        Main.projectile[proj].tileCollide = true;
+                    }
+                    fireFrom += velocity * distanceBetweenProjectiles;
+                }
+            }
 
-			for (int num809 = 0; num809 < 2; num809++)
+            for (int num809 = 0; num809 < 2; num809++)
             {
                 float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
@@ -225,11 +225,11 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
+        public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

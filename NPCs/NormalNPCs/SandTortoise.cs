@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 46;
             npc.height = 32;
             npc.defense = 30;
-			npc.DR_NERD(0.25f);
+            npc.DR_NERD(0.25f);
             npc.scale = 1.5f;
             npc.lifeMax = 580;
             npc.knockBackResist = 0.2f;
@@ -31,10 +31,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SandTortoiseBanner>();
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ItemID.TurtleShell, 0.1f);
+            DropHelper.DropItemChance(npc, ItemID.TurtleShell, 0.1f);
         }
     }
 }

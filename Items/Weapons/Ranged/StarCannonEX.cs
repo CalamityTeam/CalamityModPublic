@@ -46,15 +46,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-				type = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ModContent.ProjectileType<AstralStar>(),
-					ProjectileID.Starfury,
-					ModContent.ProjectileType<FallenStarProj>()
-				});
+                type = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    ModContent.ProjectileType<AstralStar>(),
+                    ProjectileID.Starfury,
+                    ModContent.ProjectileType<FallenStarProj>()
+                });
                 int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-				if (star.WithinBounds(Main.maxProjectiles))
-					Main.projectile[star].Calamity().forceRanged = true;
+                if (star.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[star].Calamity().forceRanged = true;
             }
             return false;
         }

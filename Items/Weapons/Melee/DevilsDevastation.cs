@@ -41,15 +41,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			//Shoot 3 oathblades in a spread
-			int index = 8;
+            //Shoot 3 oathblades in a spread
+            int index = 8;
             for (int j = -index; j <= index; j += index)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(j));
                 Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
             }
 
-			//Not actually sure what this middle code does
+            //Not actually sure what this middle code does
             float speed = item.shootSpeed;
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float directionX = (float)Main.mouseX + Main.screenPosition.X - source.X;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 directionY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - source.Y;
             }
-			Vector2 direction = new Vector2(directionX, directionY);
+            Vector2 direction = new Vector2(directionX, directionY);
             float aimDist = direction.Length();
             if ((float.IsNaN(direction.X) && float.IsNaN(direction.Y)) || (direction.X == 0f && direction.Y == 0f))
             {
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 aimDist = speed / aimDist;
             }
 
-			//Shoot 9 tridents from below
+            //Shoot 9 tridents from below
             int projAmt = 3; //Since the method spawns 3 projectiles, it spawns 9 total
             for (int projIndex = 0; projIndex < projAmt; projIndex++)
             {
@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 direction.Y *= aimDist;
                 direction.X += Main.rand.NextFloat(-40f, 40f) * 0.02f;
                 direction.Y += Main.rand.NextFloat(-40f, 40f) * 0.02f;
-				direction.Y *= -1;
+                direction.Y *= -1;
                 Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, Main.rand.Next(5));
                 Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
                 Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, 1f);
@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 300);
             if (crit)
             {
-				damage /= 2;
+                damage /= 2;
                 target.AddBuff(BuffID.ShadowFlame, 450);
                 target.AddBuff(BuffID.OnFire, 900);
                 player.ApplyDamageToNPC(target, damage * 4, 0f, 0, false);

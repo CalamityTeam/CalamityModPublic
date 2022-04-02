@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Blood2 : ModProjectile
+    public class Blood2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 150;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 120 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 120 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			if (projectile.timeLeft < 120)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
+            if (projectile.timeLeft < 120)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

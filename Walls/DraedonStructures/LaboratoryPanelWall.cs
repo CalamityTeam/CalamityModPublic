@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls.DraedonStructures
 {
-	public class LaboratoryPanelWall : ModWall
+    public class LaboratoryPanelWall : ModWall
     {
 
         public override void SetDefaults()

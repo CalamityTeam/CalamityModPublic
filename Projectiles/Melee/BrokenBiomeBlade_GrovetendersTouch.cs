@@ -13,7 +13,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GrovetendersTouch : ModProjectile
+    public class GrovetendersTouch : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;

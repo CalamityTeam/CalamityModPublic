@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class JawsProjectile : ModProjectile
+    public class JawsProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -38,13 +38,13 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
                 if (projectile.Calamity().stealthStrike)
                 {
-					int dustType = Utils.SelectRandom(Main.rand, new int[]
-					{
-						33,
-						101,
-						111,
-						180
-					});
+                    int dustType = Utils.SelectRandom(Main.rand, new int[]
+                    {
+                        33,
+                        101,
+                        111,
+                        180
+                    });
 
                     int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                     Main.dust[dust].noGravity = true;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
@@ -103,13 +103,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					33,
-					101,
-					111,
-					180
-				});
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    33,
+                    101,
+                    111,
+                    180
+                });
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, 0, 0, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

@@ -17,8 +17,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = NPCID.DungeonSlime;
-			npc.damage = 30;
+            aiType = NPCID.DungeonSlime;
+            npc.damage = 30;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 8;
@@ -34,10 +34,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryoSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = false;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = false;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -49,13 +49,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Cavern.Chance * 0.08f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Frostburn, 120, true);
-			player.AddBuff(BuffID.Chilled, 90, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 120, true);
+            player.AddBuff(BuffID.Chilled, 90, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             // TODO -- This dust was an invalid dust. Replaced with a random dust.
             int dustType = 91;

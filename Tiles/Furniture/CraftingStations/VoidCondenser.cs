@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileWaterDeath[Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Condenser");

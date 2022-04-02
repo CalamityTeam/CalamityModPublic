@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicBird : ModProjectile
+    public class MagicBird : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -36,11 +36,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-			projectile.frameCounter++;
+            projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
                 projectile.frame++;
-				projectile.frameCounter = 0;
+                projectile.frameCounter = 0;
             }
             if (projectile.frame >= 7)
             {

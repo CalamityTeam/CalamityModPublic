@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class AtaxiaOrb : ModProjectile
+    public class AtaxiaOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -25,16 +25,16 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft = 200;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 170 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 170 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 100, default, 2f);
             fire.noGravity = true;
             fire.velocity = Vector2.Zero;
 
-			if (projectile.timeLeft < 170)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 9f, 20f);
+            if (projectile.timeLeft < 170)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 9f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

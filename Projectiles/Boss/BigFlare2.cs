@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BigFlare2 : ModProjectile
+    public class BigFlare2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
-			projectile.scale = 1.5f;
+            projectile.scale = 1.5f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -111,8 +111,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
@@ -155,12 +155,12 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-				int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 75;
-				if (num231 > spawnLimitY)
-				{
-					num231 = spawnLimitY;
-				}
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 24f + (revenge ? 2f : 0f));
+                int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 75;
+                if (num231 > spawnLimitY)
+                {
+                    num231 = spawnLimitY;
+                }
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 24f + (revenge ? 2f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

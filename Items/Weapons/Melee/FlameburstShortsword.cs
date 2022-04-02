@@ -47,18 +47,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-			if (boom.WithinBounds(Main.maxProjectiles))
-				Main.projectile[boom].Calamity().forceMelee = true;
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            if (boom.WithinBounds(Main.maxProjectiles))
+                Main.projectile[boom].Calamity().forceMelee = true;
+        }
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-			if (boom.WithinBounds(Main.maxProjectiles))
-				Main.projectile[boom].Calamity().forceMelee = true;
-		}
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            if (boom.WithinBounds(Main.maxProjectiles))
+                Main.projectile[boom].Calamity().forceMelee = true;
+        }
     }
 }

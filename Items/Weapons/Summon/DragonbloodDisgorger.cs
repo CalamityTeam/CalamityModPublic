@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class DragonbloodDisgorger : ModItem
+    public class DragonbloodDisgorger : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = SoundID.DD2_SkeletonDeath;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = SoundID.DD2_SkeletonDeath;
             item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
             item.shootSpeed = 10f;
             item.summon = true;

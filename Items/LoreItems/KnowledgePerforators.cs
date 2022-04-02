@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class KnowledgePerforators : LoreItem
+    public class KnowledgePerforators : LoreItem
     {
         public override void SetStaticDefaults()
         {

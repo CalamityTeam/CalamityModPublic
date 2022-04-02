@@ -42,14 +42,14 @@ namespace CalamityMod.Projectiles.Magic
             dust.scale = 0.95f;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-		}
-	}
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
+        }
+    }
 }

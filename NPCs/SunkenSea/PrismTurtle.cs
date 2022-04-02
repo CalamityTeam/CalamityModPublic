@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-	public class PrismTurtle : ModNPC
+    public class PrismTurtle : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 72;
             npc.height = 58;
             npc.defense = Main.hardMode ? 25 : 10;
-			npc.DR_NERD(0.25f);
+            npc.DR_NERD(0.25f);
             npc.lifeMax = Main.hardMode ? 1000 : 350;
             npc.aiStyle = -1;
             aiType = -1;
@@ -34,12 +34,12 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.15f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PrismTurtleBanner>();
-			npc.chaseable = false;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.chaseable = false;
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
             }
             Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.75f / 255f, (255 - npc.alpha) * 0.75f / 255f);
-			CalamityAI.PassiveSwimmingAI(npc, mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
+            CalamityAI.PassiveSwimmingAI(npc, mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 1, 1, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 1, 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

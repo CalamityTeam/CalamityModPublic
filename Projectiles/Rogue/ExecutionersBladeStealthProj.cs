@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = 200;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {

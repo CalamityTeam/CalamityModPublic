@@ -7,12 +7,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class FinalDawnThrow2 : ModProjectile
+    public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
+        {
+            DisplayName.SetDefault("The Final Dawn");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -22,11 +22,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 200;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.light = 0.0f;
             projectile.extraUpdates = 1;
-			projectile.tileCollide = true; // We don't want people getting stuck in walls right
+            projectile.tileCollide = true; // We don't want people getting stuck in walls right
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = projectile.MaxUpdates * 13;
         }
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        {
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
             if (Main.myPlayer == projectile.owner && !HasHitEnemy)
             {
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Rogue
                 HasHitEnemy = true;
             }
         }
-		public override void AI()
-		{
-			Player player = Main.player[projectile.owner];
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
 
-			if (player is null || player.dead)
-				projectile.Kill();
+            if (player is null || player.dead)
+                projectile.Kill();
 
             if (projectile.localAI[0] == 0)
             {
@@ -95,16 +95,16 @@ namespace CalamityMod.Projectiles.Rogue
             bool worldEdge = projectile.Center.X < 1000 || projectile.Center.Y < 1000 || projectile.Center.X > Main.maxTilesX * 16 - 1000 || projectile.Center.Y > Main.maxTilesY * 16 - 1000;
 
             projectile.ai[0]++;
-			if(projectile.ai[0] >= 60 || worldEdge)
-			{
-			    projectile.Kill();
-			}
+            if(projectile.ai[0] >= 60 || worldEdge)
+            {
+                projectile.Kill();
+            }
 
-			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 2.5f);
+            int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 2.5f);
             Main.dust[idx].velocity = projectile.velocity * -0.5f;
             Main.dust[idx].noGravity = true;
             Main.dust[idx].noLight = false;
-		}
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];

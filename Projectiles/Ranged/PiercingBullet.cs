@@ -30,23 +30,23 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			//Avoid touching things that you probably aren't meant to damage
-			if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
-				return;
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            //Avoid touching things that you probably aren't meant to damage
+            if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
+                return;
 
-			//DR applies after defense, so undo it first
-			damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
+            //DR applies after defense, so undo it first
+            damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
 
-			//Then proceed to ignore all defense
-			int penetratableDefense = Math.Max(target.defense - Main.player[projectile.owner].armorPenetration, 0);
-			int penetratedDefense = Math.Min(penetratableDefense, target.defense);
-			damage += (int)(0.5f * penetratedDefense);
-		}
+            //Then proceed to ignore all defense
+            int penetratableDefense = Math.Max(target.defense - Main.player[projectile.owner].armorPenetration, 0);
+            int penetratedDefense = Math.Min(penetratableDefense, target.defense);
+            damage += (int)(0.5f * penetratedDefense);
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -57,27 +57,27 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(target.Center, crit);
+            OnHitEffects(target.Center, crit);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center, crit);
+            OnHitEffects(target.Center, crit);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
         }
 
-		private void OnHitEffects(Vector2 targetPos, bool crit)
-		{
+        private void OnHitEffects(Vector2 targetPos, bool crit)
+        {
             if (crit)
             {
-				int bulletCount = 10;
+                int bulletCount = 10;
                 for (int x = 0; x < bulletCount; x++)
                 {
                     if (projectile.owner == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
-					}
+                        CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
+                    }
                 }
             }
         }

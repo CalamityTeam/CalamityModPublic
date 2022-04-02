@@ -7,14 +7,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
-	public class Bumblefuck2 : ModNPC
+    public class Bumblefuck2 : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[npc.type] = 5;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/BumbleFolly";
 
@@ -23,104 +23,104 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
             aiType = -1;
-			npc.GetNPCDamage();
-			npc.width = 120;
+            npc.GetNPCDamage();
+            npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
             npc.LifeMaxNERB(9375, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
             npc.lavaImmune = true;
-			npc.noTileCollide = true;
+            npc.noTileCollide = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (spawnInfo.playerSafe || !NPC.downedMoonlord || spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(npc.type))
-			{
-				return 0f;
-			}
-			return SpawnCondition.SurfaceJungle.Chance * 0.14f;
-		}
-
-		public override void AI()
-        {
-			CalamityAI.Bumblebirb2AI(npc, mod, true);
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
         }
 
-		public override bool PreNPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-			return false;
-		}
-
-		public override void FindFrame(int frameHeight)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			npc.frameCounter += npc.ai[0] == 2.1f ? 1.5 : 1D;
-			if (npc.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
-			{
-				npc.frameCounter = 0D;
-				npc.frame.Y += frameHeight;
-			}
-			if (npc.frame.Y >= frameHeight * 4)
-			{
-				npc.frame.Y = 0;
-			}
-		}
+            if (spawnInfo.playerSafe || !NPC.downedMoonlord || spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(npc.type))
+            {
+                return 0f;
+            }
+            return SpawnCondition.SurfaceJungle.Chance * 0.14f;
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override void AI()
+        {
+            CalamityAI.Bumblebirb2AI(npc, mod, true);
+        }
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
-			Color color36 = Color.Gold;
-			float amount9 = 0.5f;
-			int num153 = npc.ai[0] == 2.1f ? 7 : 0;
+        public override bool PreNPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+            return false;
+        }
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += npc.ai[0] == 2.1f ? 1.5 : 1D;
+            if (npc.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
+            {
+                npc.frameCounter = 0D;
+                npc.frame.Y += frameHeight;
+            }
+            if (npc.frame.Y >= frameHeight * 4)
+            {
+                npc.frame.Y = 0;
+            }
+        }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			return false;
-		}
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+            Color color36 = Color.Gold;
+            float amount9 = 0.5f;
+            int num153 = npc.ai[0] == 2.1f ? 7 : 0;
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			cooldownSlot = 1;
-			return true;
-		}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-		public override void HitEffect(int hitDirection, double damage)
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+            return false;
+        }
+
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = 1;
+            return true;
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

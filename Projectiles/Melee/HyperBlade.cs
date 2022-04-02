@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class HyperBlade : ModProjectile
+    public class HyperBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,14 +30,14 @@ namespace CalamityMod.Projectiles.Melee
             aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 10f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)

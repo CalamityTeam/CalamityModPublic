@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
         }
 
-		public override void AI()
+        public override void AI()
         {
             Time++;
             if (!Owner.channel || Owner.noItems || Owner.CCed)
@@ -62,20 +62,20 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             if (projectile.timeLeft == 1)
-			{
-				projectile.Kill();
+            {
+                projectile.Kill();
                 CreateEffectsHandler();
                 return;
-			}
+            }
 
             CreateIdleMagicDust();
             float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.InverseLerp(Lifetime * 0.725f, Lifetime, Time, true));
             currentShakePower *= 1f - Utils.InverseLerp(1000f, 3100f, Main.LocalPlayer.Distance(projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
-		}
+        }
 
         public void CreateEffectsHandler()
-		{
+        {
             Main.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, Main.LocalPlayer.Center);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = 16f;
             if (Main.myPlayer == projectile.owner)
@@ -83,23 +83,23 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public void CreateMysticDeathDust()
-		{
+        {
             if (Main.dedServ)
                 return;
 
             for (int i = 0; i < 20; i++)
-			{
+            {
                 Dust paleMagic = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(22f, 28f), 261);
                 paleMagic.velocity = -Vector2.UnitY * Main.rand.NextFloat(1.8f, 3.2f);
                 paleMagic.color = Color.White;
                 paleMagic.scale = Main.rand.NextFloat(1.1f, 1.35f);
                 paleMagic.fadeIn = 1.5f;
                 paleMagic.noGravity = true;
-			}
-		}
+            }
+        }
 
         public void CreateIdleMagicDust()
-		{
+        {
             if (Main.dedServ)
                 return;
 
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Typeless
             float outwardness = MathHelper.SmoothStep(40f, 150f, Time / Lifetime);
             float dustScale = MathHelper.Lerp(1.15f, 1.725f, Time / Lifetime);
             for (int i = 0; i < dustCount; i++)
-			{
+            {
                 Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Unit() * outwardness * Main.rand.NextFloat(0.75f, 1.1f);
                 Vector2 dustVelocity = (projectile.Center - spawnPosition) * 0.085f + Owner.velocity;
 
@@ -118,15 +118,15 @@ namespace CalamityMod.Projectiles.Typeless
                 paleMagic.noGravity = true;
                 paleMagic.noLight = true;
             }
-		}
+        }
 
         public void UpdatePlayerFields()
-		{
+        {
             if (projectile.localAI[0] == 0f)
-			{
+            {
                 projectile.spriteDirection = Owner.direction;
                 projectile.localAI[0] = 1f;
-			}
+            }
             Owner.itemRotation = 0f;
             Owner.heldProj = projectile.whoAmI;
             Owner.itemTime = 2;
@@ -136,15 +136,15 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + Vector2.UnitX * projectile.spriteDirection * 26f;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D texture = Main.projectileTexture[projectile.type];
             Vector2 baseDrawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             Color baseColor = Color.Lerp(projectile.GetAlpha(lightColor), Color.White, Utils.InverseLerp(40f, 120f, Time, true));
             SpriteEffects direction = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (Time >= 150f)
-			{
+            {
                 float outwardness = MathHelper.SmoothStep(1f, 15f, Utils.InverseLerp(150f, Lifetime - 30f, Time, true));
                 Color afterimageColor = Color.Lerp(baseColor, Color.LightCoral, Utils.InverseLerp(150f, 195f, Time, true)) * 0.225f;
                 afterimageColor.A = 0;
@@ -158,6 +158,6 @@ namespace CalamityMod.Projectiles.Typeless
             spriteBatch.Draw(texture, baseDrawPosition, null, baseColor, 0f, origin, projectile.scale, direction, 0f);
 
             return false;
-		}
-	}
+        }
+    }
 }

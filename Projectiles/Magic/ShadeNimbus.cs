@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
                 int projType = projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
-					Projectile proj = Main.projectile[projIndex];
+                    Projectile proj = Main.projectile[projIndex];
                     if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
                         projCount++;
@@ -89,14 +89,14 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
-		}
-	}
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
+        }
+    }
 }

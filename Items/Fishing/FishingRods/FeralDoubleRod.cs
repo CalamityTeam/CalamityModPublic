@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-	public class FeralDoubleRod : ModItem
+    public class FeralDoubleRod : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feral Double Rod");
             Tooltip.SetDefault("Fires two lines at once.\n" +
-				"Just as you have tamed the jungle monster, you can now tame the fish in the sea.");
+                "Just as you have tamed the jungle monster, you can now tame the fish in the sea.");
         }
 
         public override void SetDefaults()
         {
-			item.width = 24;
-			item.height = 28;
-			item.useAnimation = 8;
-			item.useTime = 8;
+            item.width = 24;
+            item.height = 28;
+            item.useAnimation = 8;
+            item.useTime = 8;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
-			item.fishingPole = 40;
-			item.shootSpeed = 16f;
-			item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
+            item.fishingPole = 40;
+            item.shootSpeed = 16f;
+            item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = ItemRarityID.Lime;
         }

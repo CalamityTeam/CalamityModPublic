@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Materials
             return true;
         }
 
-		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             item.velocity.X = 0f;
             DrawBackAfterimage(spriteBatch, position, frame, scale);

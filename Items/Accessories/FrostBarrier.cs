@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class FrostBarrier : ModItem
+    public class FrostBarrier : ModItem
     {
         public override void SetStaticDefaults()
         {

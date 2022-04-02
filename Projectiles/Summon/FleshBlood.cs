@@ -3,10 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class FleshBlood : ModProjectile
+    public class FleshBlood : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-		public const int LifeTime = 300;
+        public const int LifeTime = 300;
 
         public override void SetStaticDefaults()
         {
@@ -24,9 +24,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = LifeTime;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			if (projectile.timeLeft < LifeTime - 30)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
+            if (projectile.timeLeft < LifeTime - 30)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

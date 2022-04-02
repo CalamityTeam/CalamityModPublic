@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 3;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Stake;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.owner == Main.myPlayer)
             {
                 int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (boom.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boom].Calamity().forceRanged = true;
-			}
+                if (boom.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boom].Calamity().forceRanged = true;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

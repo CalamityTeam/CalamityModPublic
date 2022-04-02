@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-	public class ShimmersparkYoyo : ModProjectile
+    public class ShimmersparkYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,16 +25,16 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-			projectile.MaxUpdates = 2;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-		}
+            projectile.MaxUpdates = 2;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+        }
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 120f, 5, ProjectileID.HallowStar);
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 120f, 5, ProjectileID.HallowStar);
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

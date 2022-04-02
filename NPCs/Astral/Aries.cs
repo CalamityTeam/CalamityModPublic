@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 64;
             npc.aiStyle = 41;
             npc.defense = 14;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 300;
             npc.knockBackResist = 0.6f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
@@ -44,9 +44,9 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.5f;
                 npc.lifeMax = 450;
             }
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {

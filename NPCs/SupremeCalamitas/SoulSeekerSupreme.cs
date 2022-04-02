@@ -11,7 +11,7 @@ using System.IO;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class SoulSeekerSupreme : ModNPC
+    public class SoulSeekerSupreme : ModNPC
     {
         private int timer = 0;
         private bool start = true;
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DisplayName.SetDefault("Soul Seeker");
             Main.npcFrameCount[npc.type] = 6;
             NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -38,12 +38,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.canGhostHeal = false;
             npc.damage = 0;
             npc.defense = 60;
-			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
+            npc.DR_NERD(0.25f);
+            npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             npc.DeathSound = SoundID.DD2_SkeletonDeath;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -82,36 +82,36 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 start = false;
             }
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Target.dead || !Target.active)
-				npc.TargetClosest();
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Target.dead || !Target.active)
+                npc.TargetClosest();
 
-			// Target another player if the current player target is too far away
-			if (!npc.WithinRange(Target.Center, CalamityGlobalNPC.CatchUpDistance200Tiles))
-				npc.TargetClosest();
+            // Target another player if the current player target is too far away
+            if (!npc.WithinRange(Target.Center, CalamityGlobalNPC.CatchUpDistance200Tiles))
+                npc.TargetClosest();
 
             npc.spriteDirection = (Target.Center.X < npc.Center.X).ToDirectionInt();
 
             timer++;
-			int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
+            int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
             if (timer > shootRate)
             {
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC seeker = Main.npc[i];
-					if (seeker.type == npc.type)
-					{
-						if (seeker == npc)
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), SCal.Center);
-						break;
-					}
-				}
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    NPC seeker = Main.npc[i];
+                    if (seeker.type == npc.type)
+                    {
+                        if (seeker == npc)
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), SCal.Center);
+                        break;
+                    }
+                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					int type = ModContent.ProjectileType<BrimstoneBarrage>();
-					int damage = npc.GetProjectileDamage(type);
+                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    int damage = npc.GetProjectileDamage(type);
                     Vector2 shootVelocity = (Target.Center - EyePosition).SafeNormalize(Vector2.UnitY) * 9f;
-					Projectile.NewProjectile(EyePosition, shootVelocity, type, damage, 1f, Main.myPlayer);
+                    Projectile.NewProjectile(EyePosition, shootVelocity, type, damage, 1f, Main.myPlayer);
                 }
                 timer = 0;
                 npc.netUpdate = true;
@@ -122,17 +122,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-		}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+        }
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
@@ -174,58 +174,58 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool CheckActive() => false;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 2;
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 2;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SoulSeekerSupremeGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SoulSeekerSupremeGlow");
+            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 *= (float)(num153 - num163) / 15f;
+                    Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 }

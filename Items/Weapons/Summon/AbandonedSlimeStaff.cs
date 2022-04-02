@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class AbandonedSlimeStaff : ModItem
+    public class AbandonedSlimeStaff : ModItem
     {
         int slimeSlots;
         public override void SetStaticDefaults()

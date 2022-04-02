@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class SpatialLanceProjectile : BaseSpearProjectile
+    public class SpatialLanceProjectile : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -50,9 +50,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
     }
 }

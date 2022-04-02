@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 32;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.tileCollide = false;
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.timeLeft = 300;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Boss
 
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver4;
 
-			if (projectile.alpha > 0)
-				projectile.alpha -= 17;
+            if (projectile.alpha > 0)
+                projectile.alpha -= 17;
 
             projectile.ai[1] += 1f;
             if (projectile.ai[1] <= 20f)
@@ -93,10 +93,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
-		
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

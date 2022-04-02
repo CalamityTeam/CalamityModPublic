@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TitaniumClone : ModProjectile
+    public class TitaniumClone : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/TitaniumShuriken";
 
@@ -27,18 +27,18 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.timeLeft = 200;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-			projectile.rotation += RotationIncrement;
+            projectile.rotation += RotationIncrement;
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
-			}
-		}
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            }
+        }
 
         public override bool CanDamage() => projectile.ai[0] >= 30f;
 

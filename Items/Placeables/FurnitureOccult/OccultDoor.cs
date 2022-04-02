@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-	public class OccultDoor : ModItem
+    public class OccultDoor : ModItem
     {
         public override void SetStaticDefaults()
         {

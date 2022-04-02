@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 14;
             projectile.height = 14;
             projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 600;
         }
 
-		public override void AI()
+        public override void AI()
         {
             Player player = Main.player[projectile.owner];
             NPC potentialTarget = projectile.Center.MinionHoming(1000f, player);
@@ -44,11 +44,11 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
-			}
-		}
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -62,9 +62,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 599)
-				return false;
-			return true;
-		}
+            if (projectile.timeLeft > 599)
+                return false;
+            return true;
+        }
     }
 }

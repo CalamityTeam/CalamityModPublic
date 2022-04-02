@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PhoenixsPride : ModProjectile
+    public class PhoenixsPride : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2"; //The blue one, since this is long range
         private bool initialized = false;

@@ -26,23 +26,23 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Guardian Commander");
             Main.npcFrameCount[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 20f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.npcSlots = 20f;
             npc.aiStyle = -1;
-			npc.GetNPCDamage();
-			npc.width = 100;
+            npc.GetNPCDamage();
+            npc.width = 100;
             npc.height = 80;
             npc.defense = 40;
-			npc.DR_NERD(0.3f);
+            npc.DR_NERD(0.3f);
             npc.LifeMaxNERB(56250, 67500, 165000); // Old HP - 102500, 112500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -55,11 +55,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -87,16 +87,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-			// Percent life remaining
-			float lifeRatio = npc.life / (float)npc.lifeMax;
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			Vector2 vectorCenter = npc.Center;
-			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
+            Vector2 vectorCenter = npc.Center;
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
             {
                 npc.localAI[1] = 1f;
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
@@ -156,59 +156,59 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
+                npc.TargetClosest();
 
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
+            // Despawn safety, make sure to target another player if the current player target is too far away
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                npc.TargetClosest();
 
-			Player player = Main.player[npc.target];
+            Player player = Main.player[npc.target];
 
-			if (!Main.dayTime || !player.active || player.dead)
+            if (!Main.dayTime || !player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 if (!Main.dayTime || !player.active || player.dead)
                 {
-					if (npc.velocity.Y > 3f)
-						npc.velocity.Y = 3f;
-					npc.velocity.Y -= 0.1f;
-					if (npc.velocity.Y < -12f)
-						npc.velocity.Y = -12f;
+                    if (npc.velocity.Y > 3f)
+                        npc.velocity.Y = 3f;
+                    npc.velocity.Y -= 0.1f;
+                    if (npc.velocity.Y < -12f)
+                        npc.velocity.Y = -12f;
 
-					if (npc.timeLeft > 60)
+                    if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
 
-					if (npc.ai[0] != 0f)
-					{
-						npc.ai[0] = 0f;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
-						npc.netUpdate = true;
-					}
-					return;
+                    if (npc.ai[0] != 0f)
+                    {
+                        npc.ai[0] = 0f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                        npc.ai[3] = 0f;
+                        npc.netUpdate = true;
+                    }
+                    return;
                 }
             }
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-			// Become immune over time if target isn't in hell or hallow
-			bool isHoly = player.ZoneHoly;
-			bool isHell = player.ZoneUnderworldHeight;
-			if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
+            // Become immune over time if target isn't in hell or hallow
+            bool isHoly = player.ZoneHoly;
+            bool isHell = player.ZoneUnderworldHeight;
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (biomeEnrageTimer > 0)
-					biomeEnrageTimer--;
+                    biomeEnrageTimer--;
                 else
                     npc.Calamity().CurrentlyEnraged = true;
             }
             else
-				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+                biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
             bool biomeEnraged = biomeEnrageTimer <= 0;
 
-			bool phase1 = false;
+            bool phase1 = false;
             for (int num569 = 0; num569 < Main.maxNPCs; num569++)
             {
                 if ((Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
-					npc.TargetClosest();
+                    npc.TargetClosest();
                     npc.netUpdate = true;
                 }
 
@@ -401,64 +401,64 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
-			if (npc.ai[0] == 2f)
-				num153 = 10;
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 5;
+            if (npc.ai[0] == 2f)
+                num153 = 10;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
+            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 = npc.GetAlpha(color41);
-					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 = npc.GetAlpha(color41);
+                    color41 *= (num153 - num163) / 15f;
+                    Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
@@ -472,18 +472,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void NPCLoot()
         {
-			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
-			// Profaned Guardians have no actual drops and no treasure bag
-			DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
+            // Profaned Guardians have no actual drops and no treasure bag
+            DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfDeliverance>(), 4);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 10);
-			DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 10);
+            DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
 
-			// Mark the Profaned Guardians as dead
-			CalamityWorld.downedGuardians = true;
+            // Mark the Profaned Guardians as dead
+            CalamityWorld.downedGuardians = true;
             CalamityNetcode.SyncWorld();
         }
 

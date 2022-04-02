@@ -27,12 +27,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 420;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 380 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 380 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             target = projectile.Center.ClosestNPCAt(1200f);
             if (projectile.localAI[0] == 0f)
@@ -50,38 +50,38 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.frame >= Main.projFrames[projectile.type])
                 projectile.frame = 0;
 
-			if (projectile.timeLeft >= 380)
-			{
-				projectile.velocity *= 1.07f;
-			}
-			else if (target != null)
-			{
-				projectile.velocity = (projectile.velocity * 23f + projectile.SafeDirectionTo(target.Center) * 14.975f) / 24f;
-			}
-			else
-			{
-				projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
-				projectile.alpha += 17;
-				projectile.velocity = rotationVector;
-				rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
-			}
+            if (projectile.timeLeft >= 380)
+            {
+                projectile.velocity *= 1.07f;
+            }
+            else if (target != null)
+            {
+                projectile.velocity = (projectile.velocity * 23f + projectile.SafeDirectionTo(target.Center) * 14.975f) / 24f;
+            }
+            else
+            {
+                projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
+                projectile.alpha += 17;
+                projectile.velocity = rotationVector;
+                rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
+            }
         }
 
-		// Reduce damage of projectiles if more than the cap are active
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
-			int cap = 5;
-			int oldDamage = damage;
-			if (projectileCount > cap)
-			{
-				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
-				if (damage < 1)
-					damage = 1;
-			}
-		}
+        // Reduce damage of projectiles if more than the cap are active
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+            int cap = 5;
+            int oldDamage = damage;
+            if (projectileCount > cap)
+            {
+                damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+                if (damage < 1)
+                    damage = 1;
+            }
+        }
 
-		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
             for (int d = 0; d < 5; d++)
             {
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
                 idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Marksman Bow");
             Tooltip.SetDefault("Fires three arrows at once\n" +
-			"Wooden arrows are converted into Jester's arrows");
+            "Wooden arrows are converted into Jester's arrows");
         }
 
         public override void SetDefaults()
@@ -34,33 +34,33 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
             item.rare = ItemRarityID.Yellow;
             item.Calamity().donorItem = true;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			//Convert wooden arrows to Jester's Arrows
-			if (type == ProjectileID.WoodenArrowFriendly)
-				type = ProjectileID.JestersArrow;
+            //Convert wooden arrows to Jester's Arrows
+            if (type == ProjectileID.WoodenArrowFriendly)
+                type = ProjectileID.JestersArrow;
 
             for (int i = 0; i < 3; i++)
             {
-				int randomExtraUpdates = Main.rand.Next(3);
+                int randomExtraUpdates = Main.rand.Next(3);
                 float SpeedX = speedX + Main.rand.NextFloat(-10f, 10f) * 0.05f;
                 float SpeedY = speedY + Main.rand.NextFloat(-10f, 10f) * 0.05f;
                 int arrow = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[arrow].noDropItem = true;
-				Main.projectile[arrow].extraUpdates += randomExtraUpdates; //0 to 2 extra updates
-				if (type == ProjectileID.JestersArrow)
-				{
-					Main.projectile[arrow].localNPCHitCooldown = 10 * (randomExtraUpdates + 1);
-					Main.projectile[arrow].usesLocalNPCImmunity = true;
-				}
+                Main.projectile[arrow].extraUpdates += randomExtraUpdates; //0 to 2 extra updates
+                if (type == ProjectileID.JestersArrow)
+                {
+                    Main.projectile[arrow].localNPCHitCooldown = 10 * (randomExtraUpdates + 1);
+                    Main.projectile[arrow].usesLocalNPCImmunity = true;
+                }
             }
             return false;
         }

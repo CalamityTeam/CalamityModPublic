@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Cooldowns
 {
-	public class PermafrostConcoction : CooldownHandler
+    public class PermafrostConcoction : CooldownHandler
     {
         public static new string ID => "PermafrostConcoction";
         public override bool ShouldDisplay => true;

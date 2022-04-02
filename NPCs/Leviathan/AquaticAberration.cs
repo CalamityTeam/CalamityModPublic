@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Leviathan
 {
-	public class AquaticAberration : ModNPC
+    public class AquaticAberration : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.aiStyle = -1;
-			npc.GetNPCDamage();
-			npc.width = 50;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.aiStyle = -1;
+            npc.GetNPCDamage();
+            npc.width = 50;
             npc.height = 50;
             npc.defense = 14;
             npc.lifeMax = 800;
@@ -39,11 +39,11 @@ namespace CalamityMod.NPCs.Leviathan
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AquaticAberrationBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -55,19 +55,19 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-			if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
-			{
-				npc.active = false;
-				npc.netUpdate = true;
-				return;
-			}
+            if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
+            {
+                npc.active = false;
+                npc.netUpdate = true;
+                return;
+            }
 
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			npc.TargetClosest(false);
+            npc.TargetClosest(false);
 
             npc.rotation = npc.velocity.ToRotation();
             if (Math.Sign(npc.velocity.X) != 0)
@@ -78,35 +78,35 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.rotation -= MathHelper.Pi;
             npc.spriteDirection = Math.Sign(npc.velocity.X);
 
-			// Percent life remaining
-			float lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax;
+            // Percent life remaining
+            float lifeRatio = Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax;
 
-			// Phases
-			bool leviathanInPhase4 = lifeRatio < 0.2f;
+            // Phases
+            bool leviathanInPhase4 = lifeRatio < 0.2f;
 
-			bool sirenAlive = false;
-			if (CalamityGlobalNPC.siren != -1)
-				sirenAlive = Main.npc[CalamityGlobalNPC.siren].active;
+            bool sirenAlive = false;
+            if (CalamityGlobalNPC.siren != -1)
+                sirenAlive = Main.npc[CalamityGlobalNPC.siren].active;
 
-			if (CalamityGlobalNPC.siren != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.siren].active)
-				{
-					if (Main.npc[CalamityGlobalNPC.siren].damage == 0)
-						sirenAlive = false;
-				}
-			}
+            if (CalamityGlobalNPC.siren != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.siren].active)
+                {
+                    if (Main.npc[CalamityGlobalNPC.siren].damage == 0)
+                        sirenAlive = false;
+                }
+            }
 
-			float inertia = malice ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
-			if (!sirenAlive || leviathanInPhase4)
-				inertia *= 0.75f;
+            float inertia = malice ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
+            if (!sirenAlive || leviathanInPhase4)
+                inertia *= 0.75f;
 
             float num1006 = 0.111111117f * inertia;
             if (npc.ai[0] == 0f)
             {
                 float scaleFactor6 = malice ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
-				if (!sirenAlive || leviathanInPhase4)
-					scaleFactor6 *= 1.25f;
+                if (!sirenAlive || leviathanInPhase4)
+                    scaleFactor6 *= 1.25f;
 
                 Vector2 center4 = npc.Center;
                 Vector2 center5 = Main.player[npc.target].Center;
@@ -165,11 +165,11 @@ namespace CalamityMod.NPCs.Leviathan
             else if (npc.ai[0] == 2f)
             {
                 npc.ai[1] += 1f;
-				bool flag65 = npc.Center.Y + 50f > Main.player[npc.target].Center.Y;
-				if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < ((!sirenAlive || leviathanInPhase4) ? 10f : 8f))
+                bool flag65 = npc.Center.Y + 50f > Main.player[npc.target].Center.Y;
+                if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < ((!sirenAlive || leviathanInPhase4) ? 10f : 8f))
                 {
-					npc.ai[0] = 3f;
-					npc.ai[1] = 45f;
+                    npc.ai[0] = 3f;
+                    npc.ai[1] = 45f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
                     npc.velocity /= 2f;
@@ -227,28 +227,28 @@ namespace CalamityMod.NPCs.Leviathan
             }
         }
 
-		public override bool PreNPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
+        public override bool PreNPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
-			{
-				return 0f;
-			}
-			return SpawnCondition.OceanMonster.Chance * 0.02f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
+            {
+                return 0f;
+            }
+            return SpawnCondition.OceanMonster.Chance * 0.02f;
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 120, true);
         }

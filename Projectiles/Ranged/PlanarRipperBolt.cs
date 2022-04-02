@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PlanarRipperBolt : ModProjectile
+    public class PlanarRipperBolt : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Rogue/ShockGrenadeBolt";
 
@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -51,41 +51,41 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
             target.AddBuff(BuffID.Electrified, 180);
-			if (projectile.owner == Main.myPlayer)
-			{
-				if (target.life <= 0)
-				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            if (projectile.owner == Main.myPlayer)
+            {
+                if (target.life <= 0)
+                {
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-				if (crit)
-				{
-					if (modPlayer.planarSpeedBoost < 20)
-					{
-						modPlayer.planarSpeedBoost++;
-					}
-				}
+                if (crit)
+                {
+                    if (modPlayer.planarSpeedBoost < 20)
+                    {
+                        modPlayer.planarSpeedBoost++;
+                    }
+                }
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
             target.AddBuff(BuffID.Electrified, 180);
-			if (projectile.owner == Main.myPlayer)
-			{
-				if (target.statLife <= 0)
-				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            if (projectile.owner == Main.myPlayer)
+            {
+                if (target.statLife <= 0)
+                {
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-				if (crit)
-				{
-					if (modPlayer.planarSpeedBoost < 20)
-					{
-						modPlayer.planarSpeedBoost++;
-					}
-				}
+                if (crit)
+                {
+                    if (modPlayer.planarSpeedBoost < 20)
+                    {
+                        modPlayer.planarSpeedBoost++;
+                    }
+                }
             }
         }
 
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
-			projectile.damage = (int)(projectile.damage * 0.6f);
+            projectile.damage = (int)(projectile.damage * 0.6f);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();

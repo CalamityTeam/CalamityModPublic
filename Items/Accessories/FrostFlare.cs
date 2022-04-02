@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class FrostFlare : ModItem
+    public class FrostFlare : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "Immunity to frostburn, chilled and frozen\n" +
                 "Being above 75% life grants 10% increased damage\n" +
                 "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
-				"Grants resistance against cold attacks");
+                "Grants resistance against cold attacks");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 

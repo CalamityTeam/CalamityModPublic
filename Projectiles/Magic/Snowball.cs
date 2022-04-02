@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.coldDamage = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()

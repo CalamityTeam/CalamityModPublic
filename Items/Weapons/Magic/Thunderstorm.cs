@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<ThunderstormShot>();
-		}
+        }
 
         public override Vector2? HoldoutOffset()
         {

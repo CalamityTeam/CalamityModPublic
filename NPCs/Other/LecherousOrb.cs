@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Other
 {
-	public class LecherousOrb : ModNPC
+    public class LecherousOrb : ModNPC
     {
         public ref float Time => ref npc.ai[0];
         public ref float Frame => ref npc.localAI[0];
@@ -38,10 +38,10 @@ namespace CalamityMod.NPCs.Other
             npc.canGhostHeal = false;
             npc.Calamity().DoesNotGenerateRage = true;
             npc.Calamity().DoesNotDisappearInBossRush = true;
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 181445;
 

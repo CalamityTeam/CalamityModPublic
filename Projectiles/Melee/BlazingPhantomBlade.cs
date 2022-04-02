@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class BlazingPhantomBlade : ModProjectile
+    public class BlazingPhantomBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)

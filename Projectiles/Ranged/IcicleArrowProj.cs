@@ -20,9 +20,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.coldDamage = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
-			projectile.coldDamage = true;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.coldDamage = true;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void SetStaticDefaults()
         {
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.1f);
                 Main.dust[index2].noGravity = true;
             }
-			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

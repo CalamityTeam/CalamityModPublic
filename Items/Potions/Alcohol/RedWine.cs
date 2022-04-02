@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-	public class RedWine : ModItem
+    public class RedWine : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,7 @@ Reduces life regen by 1");
 
         public override bool CanUseItem(Player player)
         {
-			item.healLife = player.Calamity().baguette ? 250 : 200;
+            item.healLife = player.Calamity().baguette ? 250 : 200;
             return base.CanUseItem(player);
         }
 

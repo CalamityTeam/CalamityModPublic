@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Potions
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.LightRed;
             item.consumable = true;
-			item.buffType = ModContent.BuffType<Revivify>();
-			item.buffTime = CalamityUtils.SecondsToFrames(180f);
+            item.buffType = ModContent.BuffType<Revivify>();
+            item.buffTime = CalamityUtils.SecondsToFrames(180f);
         }
 
         public override void AddRecipes()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.SetResult(this, 5);
             recipe.AddRecipe();
-			// Blood orb recipes no alch table effect
+            // Blood orb recipes no alch table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 5);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 100);

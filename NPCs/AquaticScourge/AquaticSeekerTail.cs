@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 16;
             npc.height = 22;
             npc.defense = 20;
-			npc.lifeMax = 60;
+            npc.lifeMax = 60;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -33,11 +33,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.dontCountMe = true;
             banner = ModContent.NPCType<AquaticSeekerHead>();
             bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -52,32 +52,32 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
-			// Check if other segments are still alive, if not, die
-			bool shouldDespawn = true;
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AquaticSeekerHead>())
-				{
-					shouldDespawn = false;
-					break;
-				}
-			}
-			if (!shouldDespawn)
-			{
-				if (npc.ai[1] <= 0f)
-					shouldDespawn = true;
-				else if (Main.npc[(int)npc.ai[1]].life <= 0)
-					shouldDespawn = true;
-			}
-			if (shouldDespawn)
-			{
-				npc.life = 0;
-				npc.HitEffect(0, 10.0);
-				npc.checkDead();
-				npc.active = false;
-			}
+            // Check if other segments are still alive, if not, die
+            bool shouldDespawn = true;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AquaticSeekerHead>())
+                {
+                    shouldDespawn = false;
+                    break;
+                }
+            }
+            if (!shouldDespawn)
+            {
+                if (npc.ai[1] <= 0f)
+                    shouldDespawn = true;
+                else if (Main.npc[(int)npc.ai[1]].life <= 0)
+                    shouldDespawn = true;
+            }
+            if (shouldDespawn)
+            {
+                npc.life = 0;
+                npc.HitEffect(0, 10.0);
+                npc.checkDead();
+                npc.active = false;
+            }
 
-			if (Main.npc[(int)npc.ai[1]].alpha < 128)
+            if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)

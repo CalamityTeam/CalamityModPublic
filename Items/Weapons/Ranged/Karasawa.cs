@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class Karasawa : ModItem
+    public class Karasawa : ModItem
     {
         public override void SetStaticDefaults()
         {

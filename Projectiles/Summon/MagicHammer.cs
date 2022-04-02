@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MagicHammer : ModProjectile
+    public class MagicHammer : ModProjectile
     {
-		private int counter = 0;
+        private int counter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hammer");
@@ -47,15 +47,15 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.rotation += 0.075f;
 
-			counter++;
-			if (counter == 30)
-			{
-				projectile.netUpdate = true;
-			}
-			else if (counter < 30)
-			{
-				return;
-			}
+            counter++;
+            if (counter == 30)
+            {
+                projectile.netUpdate = true;
+            }
+            else if (counter < 30)
+            {
+                return;
+            }
 
             int targetIndex = -1;
             Vector2 targetVec = projectile.Center;
@@ -64,38 +64,38 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] -= 1f;
             }
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (projectile.ai[0] == 0f && projectile.localAI[0] == 0f)
             {
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == player.MinionAttackTargetNPC + 1f))
-					{
-						float targetDist = Vector2.Distance(npc.Center, targetVec);
-						if (targetDist < maxDistance)
-						{
-							targetVec = npc.Center;
-							targetIndex = player.MinionAttackTargetNPC;
-						}
-					}
-				}
-				else
-				{
-					for (int i = 0; i < Main.npc.Length; i++)
-					{
-						NPC npc = Main.npc[i];
-						if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == i + 1f))
-						{
-							float targetDist = Vector2.Distance(npc.Center, targetVec);
-							if (targetDist < maxDistance)
-							{
-								targetVec = npc.Center;
-								targetIndex = i;
-							}
-						}
-					}
-				}
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == player.MinionAttackTargetNPC + 1f))
+                    {
+                        float targetDist = Vector2.Distance(npc.Center, targetVec);
+                        if (targetDist < maxDistance)
+                        {
+                            targetVec = npc.Center;
+                            targetIndex = player.MinionAttackTargetNPC;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Main.npc.Length; i++)
+                    {
+                        NPC npc = Main.npc[i];
+                        if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == i + 1f))
+                        {
+                            float targetDist = Vector2.Distance(npc.Center, targetVec);
+                            if (targetDist < maxDistance)
+                            {
+                                targetVec = npc.Center;
+                                targetIndex = i;
+                            }
+                        }
+                    }
+                }
                 if (targetIndex >= 0)
                 {
                     projectile.ai[0] = targetIndex + 1f;
@@ -110,10 +110,10 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] != 0f)
             {
                 int target = (int)(projectile.ai[0] - 1f);
-				NPC npc = Main.npc[target];
+                NPC npc = Main.npc[target];
                 if (npc.CanBeChasedBy(projectile, false) && npc.immune[projectile.owner] == 0)
                 {
-					float targetDist = Vector2.Distance(npc.Center, targetVec);
+                    float targetDist = Vector2.Distance(npc.Center, targetVec);
                     if (targetDist < maxDistance * 1.25f)
                     {
                         canHome = true;

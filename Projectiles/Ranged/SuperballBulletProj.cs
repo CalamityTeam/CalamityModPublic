@@ -26,22 +26,22 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				if (Main.rand.NextBool(3))
-				{
-					int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 87, 0f, 0f, 0, default, 0.5f);
-					Main.dust[num137].alpha = projectile.alpha;
-					Main.dust[num137].velocity *= 0f;
-					Main.dust[num137].noGravity = true;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                if (Main.rand.NextBool(3))
+                {
+                    int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 87, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[num137].alpha = projectile.alpha;
+                    Main.dust[num137].velocity *= 0f;
+                    Main.dust[num137].noGravity = true;
+                }
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Ranged
                 if (projectile.velocity.Y != oldVelocity.Y)
                     projectile.velocity.Y = -oldVelocity.Y;
 
-				if (projectile.extraUpdates < 5)
-					projectile.extraUpdates++;
+                if (projectile.extraUpdates < 5)
+                    projectile.extraUpdates++;
 
                 Main.PlaySound(SoundID.Item10, projectile.position);
             }

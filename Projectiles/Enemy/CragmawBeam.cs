@@ -213,9 +213,9 @@ namespace CalamityMod.Projectiles.Enemy
             }
             return false;
         }
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
-		}
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        }
+    }
 }

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.velocity.Y += 0.2f;
             projectile.rotation += 0.1f * (projectile.velocity.X > 0).ToDirectionInt();
-		}
+        }
         public override void Kill(int timeLeft)
         {
             if (Main.myPlayer == projectile.owner)

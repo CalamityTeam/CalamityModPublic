@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Ichor Spear");
             Tooltip.SetDefault("Throws an ichor tipped trident\n" +
-			"Stealth strikes are showered in splashes of ichor");
+            "Stealth strikes are showered in splashes of ichor");
         }
 
         public override void SafeSetDefaults()
@@ -40,11 +40,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 1.6), knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-					Main.projectile[stealth].usesLocalNPCImmunity = true;
-				}
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                }
                 return false;
             }
             return true;

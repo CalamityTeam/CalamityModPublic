@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -59,18 +59,18 @@ namespace CalamityMod.Items.Weapons.Magic
             return base.CanUseItem(player);
         }
 
-		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-		{
-			if (player.altFunctionUse == 2)
-				mult *= 0.3f;
-		}
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult *= 0.3f;
+        }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return 1f;
-			return 0.14f;
-		}
+        public override float UseTimeMultiplier    (Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return 1f;
+            return 0.14f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

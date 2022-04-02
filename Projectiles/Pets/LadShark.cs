@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Pets
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
-			projectile.aiStyle = 26;
-			aiType = ProjectileID.BabySkeletronHead;
+            projectile.aiStyle = 26;
+            aiType = ProjectileID.BabySkeletronHead;
         }
 
         public override void AI()
@@ -45,45 +45,45 @@ namespace CalamityMod.Projectiles.Pets
             }
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			//occasionally burst in hearts
-			if (Main.rand.NextBool(10000))
-			{
-				if (projectile.owner == Main.myPlayer)
-				{
-					int heartCount = Main.rand.Next(20, 31);
-					for (int i = 0; i < heartCount; i++)
-					{
-						Vector2 velocity = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
-						velocity.Normalize();
-						velocity.X *= 0.66f;
-						int heart = Gore.NewGore(projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
-						Main.gore[heart].sticky = false;
-						Main.gore[heart].velocity *= 5f;
-					}
+            //occasionally burst in hearts
+            if (Main.rand.NextBool(10000))
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int heartCount = Main.rand.Next(20, 31);
+                    for (int i = 0; i < heartCount; i++)
+                    {
+                        Vector2 velocity = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                        velocity.Normalize();
+                        velocity.X *= 0.66f;
+                        int heart = Gore.NewGore(projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
+                        Main.gore[heart].sticky = false;
+                        Main.gore[heart].velocity *= 5f;
+                    }
 
-					Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 15); //mouse squeak sound
+                    Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 15); //mouse squeak sound
 
-					float radius = 240f; // 15 blocks
-					for (int j = 0; j < Main.maxNPCs; j++)
-					{
-						NPC npc = Main.npc[j];
-						if (npc.active && !npc.dontTakeDamage && Vector2.Distance(projectile.Center, npc.Center) <= radius)
-						{
-							if (npc.Calamity().ladHearts <= 0)
-								npc.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);
-						}
-					}
-					for (int k = 0; k < Main.maxPlayers; k++)
-					{
-						Player players = Main.player[k];
-						if (!players.dead && Vector2.Distance(projectile.Center, players.Center) <= radius)
-						{
-							if (players.Calamity().ladHearts <= 0)
-								players.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);
-						}
-					}
-				}
-			}
+                    float radius = 240f; // 15 blocks
+                    for (int j = 0; j < Main.maxNPCs; j++)
+                    {
+                        NPC npc = Main.npc[j];
+                        if (npc.active && !npc.dontTakeDamage && Vector2.Distance(projectile.Center, npc.Center) <= radius)
+                        {
+                            if (npc.Calamity().ladHearts <= 0)
+                                npc.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);
+                        }
+                    }
+                    for (int k = 0; k < Main.maxPlayers; k++)
+                    {
+                        Player players = Main.player[k];
+                        if (!players.dead && Vector2.Distance(projectile.Center, players.Center) <= radius)
+                        {
+                            if (players.Calamity().ladHearts <= 0)
+                                players.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -60,10 +60,10 @@ namespace CalamityMod.Items.DraedonMisc
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-			// You do not need the Decryption Computer for the Tier 1 (Sunken Sea) schematic.
-			// As such, its recipe can contain anything that is pre-Mechs (where Tier 2 is).
-			// Wires are thus fair game to include without causing any issues.
-			recipe.AddIngredient(ItemID.Wire, 100);
+            // You do not need the Decryption Computer for the Tier 1 (Sunken Sea) schematic.
+            // As such, its recipe can contain anything that is pre-Mechs (where Tier 2 is).
+            // Wires are thus fair game to include without causing any issues.
+            recipe.AddIngredient(ItemID.Wire, 100);
             recipe.AddRecipeGroup("AnyCopperBar", 10);
             recipe.AddIngredient(ItemID.Glass, 15);
             recipe.AddTile(TileID.Anvils);

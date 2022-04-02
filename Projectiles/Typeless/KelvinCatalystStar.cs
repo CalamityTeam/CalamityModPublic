@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class KelvinCatalystStar : ModProjectile
+    public class KelvinCatalystStar : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -37,30 +37,30 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.extraUpdates = 1;
 
-				Vector2 center = projectile.Center;
-				float maxDistance = 500f;
-				bool homeIn = false;
+                Vector2 center = projectile.Center;
+                float maxDistance = 500f;
+                bool homeIn = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
-				{
+                if (homeIn)
+                {
                     Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
                     projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
-				}
+                }
                 else
                     projectile.Kill();
             }
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item27, projectile.position);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 24);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 24);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

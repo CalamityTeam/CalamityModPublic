@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class EventHorizonBlackhole : ModProjectile
+    public class EventHorizonBlackhole : ModProjectile
     {
-		public int killCounter = 21;
+        public int killCounter = 21;
 
         public override void SetStaticDefaults()
         {
@@ -29,12 +29,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = 12;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 60;
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 60;
 
-		public override void AI()
+        public override void AI()
         {
-			if (projectile.frame == 8)
-				return;
+            if (projectile.frame == 8)
+                return;
 
             // Update animation
             projectile.frameCounter++;
@@ -44,18 +44,18 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.frameCounter = 0;
             }
 
-			if (projectile.timeLeft > 15)
-			{
-				if (projectile.frame >= 4)
-					projectile.frame = 0;
-			}
-			else
-			{
-				if (projectile.frame < 4)
-					projectile.frame = 4;
-				if (projectile.frame >= 8)
-					projectile.frame = 4;
-			}
+            if (projectile.timeLeft > 15)
+            {
+                if (projectile.frame >= 4)
+                    projectile.frame = 0;
+            }
+            else
+            {
+                if (projectile.frame < 4)
+                    projectile.frame = 4;
+                if (projectile.frame >= 8)
+                    projectile.frame = 4;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -63,10 +63,10 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Daybreak, 180);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            return false;
+        }
+    }
 }

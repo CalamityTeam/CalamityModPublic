@@ -41,18 +41,18 @@ namespace CalamityMod.Items.Placeables
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
         {
-			/*
+            /*
                 Celestial remains will give stardust, fallen stars, ancient bone dust, gems and HM ores always by default
                 When Astrum Deus has been defeated, it will give Astral Ore
             */
 
-			bool twoMechsDowned = 
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) || 
-				(NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) || 
-				(NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) || 
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
+            bool twoMechsDowned = 
+                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) || 
+                (NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) || 
+                (NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) || 
+                (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
 
-			float val = Main.rand.NextFloat(100);
+            float val = Main.rand.NextFloat(100);
             if (val < 20f)
             {
                 resultType = ItemID.CopperCoin;

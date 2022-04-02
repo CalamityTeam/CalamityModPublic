@@ -41,12 +41,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.Bullet)
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<NeedlerProj>(), damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<NeedlerProj>(), damage, knockBack, player.whoAmI);
+            else
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
     }
 }

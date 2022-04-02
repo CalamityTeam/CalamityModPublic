@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class XerocFire : ModProjectile
+    public class XerocFire : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -60,16 +60,16 @@ namespace CalamityMod.Projectiles.Typeless
                 dust2.noGravity = true;
                 dust2.velocity *= 0.1f;
             }
-			else
-			{
-				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 62, 0f, 0f, 100, default, 0.75f);
-				Dust dust = Main.dust[num199];
-				dust.position.X -= 2f;
-				dust.position.Y += 2f;
-				dust.scale += (float)Main.rand.Next(50) * 0.01f;
-				dust.noGravity = true;
-				dust.velocity.Y -= 2f;
-			}
+            else
+            {
+                int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 62, 0f, 0f, 100, default, 0.75f);
+                Dust dust = Main.dust[num199];
+                dust.position.X -= 2f;
+                dust.position.Y += 2f;
+                dust.scale += (float)Main.rand.Next(50) * 0.01f;
+                dust.noGravity = true;
+                dust.velocity.Y -= 2f;
+            }
             if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
             {
                 projectile.velocity.X *= 0.8f;
@@ -81,6 +81,6 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-	}
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+    }
 }

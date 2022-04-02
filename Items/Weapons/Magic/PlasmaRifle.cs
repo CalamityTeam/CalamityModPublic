@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<PlasmaShot>();
@@ -53,18 +53,18 @@ namespace CalamityMod.Items.Weapons.Magic
             return base.CanUseItem(player);
         }
 
-		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-		{
-			if (player.altFunctionUse == 2)
-				mult *= 0.25f;
-		}
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult *= 0.25f;
+        }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return 1f;
-			return 0.2f;
-		}
+        public override float UseTimeMultiplier    (Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return 1f;
+            return 0.2f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

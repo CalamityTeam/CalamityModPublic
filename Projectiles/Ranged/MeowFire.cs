@@ -48,26 +48,26 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int num298 = 0; num298 < 2; num298++)
                 {
                     int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-					Dust dust = Main.dust[num299];
-					if (Main.rand.NextBool(3))
-					{
-						dust.noGravity = true;
-						dust.scale *= 1.75f;
-						dust.velocity.X *= 2f;
-						dust.velocity.Y *= 2f;
-					}
-					else
-					{
-						dust.scale *= 0.5f;
-					}
-					dust.velocity.X *= 1.2f;
-					dust.velocity.Y *= 1.2f;
-					dust.scale *= num296;
-					dust.velocity += projectile.velocity;
-					if (!dust.noGravity)
-					{
-						dust.velocity *= 0.5f;
-					}
+                    Dust dust = Main.dust[num299];
+                    if (Main.rand.NextBool(3))
+                    {
+                        dust.noGravity = true;
+                        dust.scale *= 1.75f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
+                    }
+                    else
+                    {
+                        dust.scale *= 0.5f;
+                    }
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= num296;
+                    dust.velocity += projectile.velocity;
+                    if (!dust.noGravity)
+                    {
+                        dust.velocity *= 0.5f;
+                    }
                 }
             }
             else

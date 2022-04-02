@@ -47,18 +47,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 2);
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().forceMelee = true;
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().forceMelee = true;
+        }
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), item.knockBack, Main.myPlayer);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().forceMelee = true;
-		}
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().forceMelee = true;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Heavenfallen Stardisk");
             Tooltip.SetDefault("Throws a stardisk upwards which then launches itself towards your mouse cursor,\n" +
                                "explodes into several astral energy bolts if the thrower is moving vertically when throwing it and during its impact\n" +
-							   "Stealth strikes rain astral energy bolts from the sky");
+                               "Stealth strikes rain astral energy bolts from the sky");
         }
 
         public override void SafeSetDefaults()
@@ -36,21 +36,21 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int proj = Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, (int)(damage * 1.25f), knockBack, player.whoAmI);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().stealthStrike = true;
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
             }
-			else
-			{
-				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI);
-			}	
+            else
+            {
+                Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI);
+            }    
             return false;
         }
     }

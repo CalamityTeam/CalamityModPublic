@@ -101,13 +101,13 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.lavaImmune = true;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.lavaImmune = true;
             npc.width = 78;
             npc.height = 88;
             npc.damage = 70;
             npc.defense = 40;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 1200;
             npc.knockBackResist = 0.08f;
             npc.value = Item.buyPrice(0, 1, 0, 0);
@@ -129,14 +129,14 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0f;
                 npc.lifeMax = 2400;
             }
-			if (CalamityWorld.death)
-			{
-				target_walkAcceleration = 0.18f;
-				target_walkMaxSpeed = 3.2f;
-			}
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            if (CalamityWorld.death)
+            {
+                target_walkAcceleration = 0.18f;
+                target_walkMaxSpeed = 3.2f;
+            }
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {

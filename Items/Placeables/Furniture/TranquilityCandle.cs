@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void HoldItem(Player player)
         {
-			player.Calamity().tranquilityCandle = true;
+            player.Calamity().tranquilityCandle = true;
             if (Main.rand.Next(player.itemAnimation > 0 ? 10 : 20) == 0)
             {
                 Dust.NewDust(new Vector2(player.itemLocation.X + 10f * player.direction, player.itemLocation.Y - 12f * player.gravDir), 4, 4, 62);
@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Placeables.Furniture
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PeaceCandle, 3);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
-			recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

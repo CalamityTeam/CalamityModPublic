@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-	public class PulseDragonProjectile : ModProjectile
+    public class PulseDragonProjectile : ModProjectile
     {
         public bool ReelingBack
         {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
             projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -126,13 +126,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.myPlayer != projectile.owner)
                 return;
             Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
-			if (field.whoAmI.WithinBounds(Main.maxProjectiles))
-			{
-				field.Calamity().forceMelee = true;
-				field.usesLocalNPCImmunity = true;
-				field.localNPCHitCooldown = 3;
-				field.timeLeft = 12;
-			}
+            if (field.whoAmI.WithinBounds(Main.maxProjectiles))
+            {
+                field.Calamity().forceMelee = true;
+                field.usesLocalNPCImmunity = true;
+                field.localNPCHitCooldown = 3;
+                field.timeLeft = 12;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

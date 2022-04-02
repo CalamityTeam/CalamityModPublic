@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 900;
-			projectile.minion = true;
+            projectile.minion = true;
         }
 
         public override void AI()

@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Slurper");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Crags
             npc.width = 60;
             npc.height = 40;
             npc.defense = 30;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 60;
             npc.knockBackResist = 0.65f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -46,10 +46,10 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<SoulSlurperBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Crags
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-			Player target = Main.player[npc.target];
+            Player target = Main.player[npc.target];
             if (npc.target < 0 || npc.target == 255 || target.dead)
             {
                 npc.TargetClosest(true);
@@ -222,59 +222,59 @@ namespace CalamityMod.NPCs.Crags
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 5;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-			spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture = ModContent.GetTexture("CalamityMod/NPCs/Crags/SoulSlurperGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+            texture = ModContent.GetTexture("CalamityMod/NPCs/Crags/SoulSlurperGlow");
+            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 *= (float)(num153 - num163) / 15f;
+                    Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
+                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                }
+            }
 
-			spriteBatch.Draw(texture, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
         public override void NPCLoot()
         {
@@ -283,12 +283,12 @@ namespace CalamityMod.NPCs.Crags
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlurperPole>(), (Main.hardMode ? 30 : 10));
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {

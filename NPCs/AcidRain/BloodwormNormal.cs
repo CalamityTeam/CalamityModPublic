@@ -31,12 +31,12 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             npc.catchItem = (short)ModContent.ItemType<BloodwormItem>();
             npc.dontTakeDamageFromHostiles = true;
-			npc.rarity = 4;
+            npc.rarity = 4;
         }
 
         public override void AI()
         {
-			if (npc.collideY)
+            if (npc.collideY)
             {
                 if (npc.ai[0] == 0f)
                 {
@@ -51,29 +51,29 @@ namespace CalamityMod.NPCs.AcidRain
             float xSpeed = 3f;
             npc.velocity.X = xSpeed * npc.ai[0];
             npc.spriteDirection = (int)npc.ai[0];
-			bool flee = false;
-			for (int i = 0; i < Main.player.Length; i++)
-			{
-				Player player = Main.player[i];
-				if (player.active && !player.dead && Vector2.Distance(player.Center, npc.Center) <= 220f)
-				{
-					flee = true;
-					break;
-				}
-			}
-			int timeBeforeFlee = 60;
-			if (flee && npc.ai[1] < timeBeforeFlee)
-			{
-				npc.ai[1] += 1f;
-			}
-			if (npc.ai[1] == timeBeforeFlee && Main.netMode != NetmodeID.MultiplayerClient)
-			{
-				npc.position.Y += 16f;
-				npc.Transform(ModContent.NPCType<BloodwormFleeing>());
-				npc.netUpdate = true;
-				return;
-			}
-		}
+            bool flee = false;
+            for (int i = 0; i < Main.player.Length; i++)
+            {
+                Player player = Main.player[i];
+                if (player.active && !player.dead && Vector2.Distance(player.Center, npc.Center) <= 220f)
+                {
+                    flee = true;
+                    break;
+                }
+            }
+            int timeBeforeFlee = 60;
+            if (flee && npc.ai[1] < timeBeforeFlee)
+            {
+                npc.ai[1] += 1f;
+            }
+            if (npc.ai[1] == timeBeforeFlee && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                npc.position.Y += 16f;
+                npc.Transform(ModContent.NPCType<BloodwormFleeing>());
+                npc.netUpdate = true;
+                return;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -99,16 +99,16 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			if (!spawnInfo.player.Calamity().ZoneSulphur || CalamityWorld.rainingAcid)
-				return 0f;
+            if (!spawnInfo.player.Calamity().ZoneSulphur || CalamityWorld.rainingAcid)
+                return 0f;
 
-			// Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
-			int bloodwormAmt = NPC.CountNPCS(npc.type);
-			float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
-			float baseSpawnRate = CalamityWorld.encounteredOldDuke ? 2.569f : 5.138f;
-			float spawnRate = SpawnCondition.WormCritter.Chance * baseSpawnRate * spawnMult;
+            // Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
+            int bloodwormAmt = NPC.CountNPCS(npc.type);
+            float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
+            float baseSpawnRate = CalamityWorld.encounteredOldDuke ? 2.569f : 5.138f;
+            float spawnRate = SpawnCondition.WormCritter.Chance * baseSpawnRate * spawnMult;
 
-			return spawnRate;
+            return spawnRate;
         }
 
         public override void OnCatchNPC(Player player, Item item)

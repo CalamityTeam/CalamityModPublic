@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Potions
 
         public override void Update(Player player, ref int buffIndex)
         {
-			player.invis = true;
+            player.invis = true;
             player.Calamity().shadow = true;
         }
     }

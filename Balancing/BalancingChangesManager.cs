@@ -19,7 +19,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Balancing
 {
-	public static class BalancingChangesManager
+    public static class BalancingChangesManager
     {
         internal static List<IBalancingRule[]> UniversalBalancingChanges = null;
         internal static List<NPCBalancingChange> NPCSpecificBalancingChanges = null;

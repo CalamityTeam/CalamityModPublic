@@ -9,8 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EventHorizonStar : ModProjectile
     {
-		private bool initialized = false;
-		Vector2 initialPosition;
+        private bool initialized = false;
+        Vector2 initialPosition;
 
         public override void SetStaticDefaults()
         {
@@ -27,26 +27,26 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.magic = true;
             projectile.tileCollide = false;
-			projectile.timeLeft = 300;
-			projectile.alpha = 180;
+            projectile.timeLeft = 300;
+            projectile.alpha = 180;
         }
 
         public override void AI()
         {
-			//rotation
+            //rotation
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			//sound effects
+            //sound effects
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
-				{
-					Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
-				}
+                {
+                    Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
+                }
             }
 
-			//dust effects
+            //dust effects
             if (Main.rand.NextBool(10))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 262, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, default, 0.75f);
@@ -55,21 +55,21 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localAI[0]++;
 
             Vector2 playerCenter = Main.player[projectile.owner].Center;
-			float centerX = projectile.Center.X;
-			float centerY = projectile.Center.Y;
+            float centerX = projectile.Center.X;
+            float centerY = projectile.Center.Y;
 
-			if (!initialized)
-			{
-				initialPosition = playerCenter;
-				initialized = true;
-			}
-			else if (playerCenter != initialPosition)
-			{
-				playerCenter = initialPosition;
-			}
+            if (!initialized)
+            {
+                initialPosition = playerCenter;
+                initialized = true;
+            }
+            else if (playerCenter != initialPosition)
+            {
+                playerCenter = initialPosition;
+            }
 
-			float xDist = playerCenter.X - centerX;
-			float yDist = playerCenter.Y - centerY;
+            float xDist = playerCenter.X - centerX;
+            float yDist = playerCenter.Y - centerY;
             float radius = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
 
             if (projectile.localAI[0] > 10 && projectile.localAI[0] < 100)
@@ -83,40 +83,40 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			//homing
-			if (projectile.localAI[0] >= 100)
-			{
-				Vector2 center = projectile.Center;
-				float homingRange = 325f;
-				bool homeIn = false;
-				float inertia = 25f;
-				float homingSpeed = 23f;
+            //homing
+            if (projectile.localAI[0] >= 100)
+            {
+                Vector2 center = projectile.Center;
+                float homingRange = 325f;
+                bool homeIn = false;
+                float inertia = 25f;
+                float homingSpeed = 23f;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (homingRange + extraDistance))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (homingRange + extraDistance))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
-				{
-					projectile.extraUpdates = 1;
-					Vector2 homeInVector = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                if (homeIn)
+                {
+                    projectile.extraUpdates = 1;
+                    Vector2 homeInVector = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
-					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingSpeed) / (inertia + 1f);
-				}
-				else
-					projectile.extraUpdates = 0;
-			}
+                    projectile.velocity = (projectile.velocity * inertia + homeInVector * homingSpeed) / (inertia + 1f);
+                }
+                else
+                    projectile.extraUpdates = 0;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -131,14 +131,14 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D texture = Main.projectileTexture[projectile.type];
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), new Color(255, 255, 255, 127), projectile.rotation, texture.Size() / 2f, projectile.scale, spriteEffects, 0f);
-		}
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), new Color(255, 255, 255, 127), projectile.rotation, texture.Size() / 2f, projectile.scale, spriteEffects, 0f);
+        }
     }
 }

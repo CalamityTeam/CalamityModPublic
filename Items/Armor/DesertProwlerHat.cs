@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class DesertProwlerHat : ModItem
     {
         public override void SetStaticDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Ranged attacks deal an extra 1 flat damage\n" +
-			"Ranged crits can rarely whip up a sandstorm";
+            "Ranged crits can rarely whip up a sandstorm";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.desertProwler = true;
         }
@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 2);
-			recipe.AddIngredient(ItemID.Silk, 8);
-			recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.Silk, 8);
+            recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

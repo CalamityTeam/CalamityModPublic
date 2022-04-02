@@ -53,13 +53,13 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-			Tile tile = Main.tile[i, j];
-			int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
+            Tile tile = Main.tile[i, j];
+            int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoChestGlow");
-			Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+            Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - (int)Main.screenPosition.X / 2f, j * 16 - (int)Main.screenPosition.Y + yOffset) + drawOffset;
             Color drawColour = Color.White;
-			Main.spriteBatch.Draw(glowmask, drawPosition, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColour, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(glowmask, drawPosition, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColour, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

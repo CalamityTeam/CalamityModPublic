@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
-			npc.DR_NERD(normalDR);
+            npc.DR_NERD(normalDR);
             npc.lifeMax = 2000;
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -47,10 +47,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
                 npc.lifeMax = 10000;
             }
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -152,8 +152,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.velocity = Vector2.Zero;
                 npc.ai[2] = 0f;
                 npc.ai[3] = 0f;
-				if (npc.localAI[0] > 240f) //Lower firing cooldown to prevent firing so quickly after a teleport
-					npc.localAI[0] = 240f;
+                if (npc.localAI[0] > 240f) //Lower firing cooldown to prevent firing so quickly after a teleport
+                    npc.localAI[0] = 240f;
                 Main.PlaySound(SoundID.Item8, npc.Center);
                 for (int num1451 = 0; num1451 < 20; num1451++)
                 {
@@ -245,17 +245,17 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
         }
 
-		public override void NPCLoot()
-		{
-			if (!CalamityWorld.revenge)
-			{
-				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
-				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-			}
-		}
+        public override void NPCLoot()
+        {
+            if (!CalamityWorld.revenge)
+            {
+                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+            }
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

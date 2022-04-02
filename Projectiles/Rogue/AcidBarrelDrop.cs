@@ -7,7 +7,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class AcidBarrelDrop : ModProjectile
+    public class AcidBarrelDrop : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
 
@@ -53,9 +53,9 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

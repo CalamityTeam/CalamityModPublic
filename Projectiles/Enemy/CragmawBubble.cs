@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-	public class CragmawBubble : ModProjectile
+    public class CragmawBubble : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AstralRound : ModProjectile
     {
-		private float speed = 0f;
+        private float speed = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Round");
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.light = 0.25f;
             projectile.extraUpdates = 2;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -50,27 +50,27 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             projectile.spriteDirection = projectile.direction;
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					int randomDust = Utils.SelectRandom(Main.rand, new int[]
-					{
-					ModContent.DustType<AstralOrange>(),
-					ModContent.DustType<AstralBlue>()
-					});
-					int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-					Main.dust[astral].alpha = projectile.alpha;
-					Main.dust[astral].velocity *= 0f;
-					Main.dust[astral].noGravity = true;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                    {
+                    ModContent.DustType<AstralOrange>(),
+                    ModContent.DustType<AstralBlue>()
+                    });
+                    int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[astral].alpha = projectile.alpha;
+                    Main.dust[astral].velocity *= 0f;
+                    Main.dust[astral].noGravity = true;
+                }
+            }
 
-			if (speed == 0f)
-				speed = projectile.velocity.Length();
+            if (speed == 0f)
+                speed = projectile.velocity.Length();
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, speed, 12f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, speed, 12f);
             return false;
         }
 

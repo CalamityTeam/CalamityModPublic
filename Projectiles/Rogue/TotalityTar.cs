@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TotalityTar : ModProjectile
+    public class TotalityTar : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -85,33 +85,33 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(SoundID.Item74, projectile.position);
             Vector2 vector2 = new Vector2(20f, 20f);
-			for (int index = 0; index < 3; ++index)
-				Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f, 0, Color.Red, 1f);
-			for (int index1 = 0; index1 < 5; ++index1)
-			{
-				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
-				Dust dust = Main.dust[index2];
-				dust.velocity *= 1.4f;
-			}
-			for (int index1 = 0; index1 < 10; ++index1)
-			{
-				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 2.5f);
-				Dust dust1 = Main.dust[index2];
-				dust1.noGravity = true;
-				dust1.velocity *= 5f;
-				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1.5f);
-				Dust dust2 = Main.dust[index3];
-				dust2.velocity *= 3f;
-			}
+            for (int index = 0; index < 3; ++index)
+                Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f, 0, Color.Red, 1f);
+            for (int index1 = 0; index1 < 5; ++index1)
+            {
+                int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
+                Dust dust = Main.dust[index2];
+                dust.velocity *= 1.4f;
+            }
+            for (int index1 = 0; index1 < 10; ++index1)
+            {
+                int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 2.5f);
+                Dust dust1 = Main.dust[index2];
+                dust1.noGravity = true;
+                dust1.velocity *= 5f;
+                int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1.5f);
+                Dust dust2 = Main.dust[index3];
+                dust2.velocity *= 3f;
+            }
             int fireAmt = Main.rand.Next(2, 4);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int f = 0; f < fireAmt; f++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), projectile.damage, 1f, Main.myPlayer, 0f, 0f);
                 }
-			}
+            }
         }
     }
 }

@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 35;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 35;
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 

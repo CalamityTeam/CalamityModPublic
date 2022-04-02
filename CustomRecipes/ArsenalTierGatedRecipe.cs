@@ -8,7 +8,7 @@ namespace CalamityMod.CustomRecipes
         public int Tier;
         public bool AllowedInOldWorlds;
         public ArsenalTierGatedRecipe(Mod mod, int tier, bool allowedInOldWorlds = false) : base(mod)
-		{
+        {
             Tier = tier;
             AllowedInOldWorlds = allowedInOldWorlds;
         }

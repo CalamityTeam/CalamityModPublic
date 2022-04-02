@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ArkoftheElementsSwungBlade : ModProjectile //"Kill la kill reference i wish"? Stop wishing, start creating!
+    public class ArkoftheElementsSwungBlade : ModProjectile //"Kill la kill reference i wish"? Stop wishing, start creating!
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 

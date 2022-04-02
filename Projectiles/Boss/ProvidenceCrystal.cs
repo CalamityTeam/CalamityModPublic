@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-			bool dayTime = Main.dayTime && !CalamityWorld.malice;
+            bool dayTime = Main.dayTime && !CalamityWorld.malice;
 
             projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2);
             projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 360f;
@@ -84,38 +84,38 @@ namespace CalamityMod.Projectiles.Boss
                 dust34.scale = 0.5f;
             }
 
-			float lifeRatio = projectile.ai[0];
+            float lifeRatio = projectile.ai[0];
 
-			// Increment timer
+            // Increment timer
             projectile.localAI[0] += 1f;
 
-			// Spawn daytime shards every 300 frames
-			// Spawn nighttime shards every 30 frames
+            // Spawn daytime shards every 300 frames
+            // Spawn nighttime shards every 30 frames
             if (projectile.localAI[0] >= (dayTime ? 300f : 30f))
             {
-				// Spawn shards every 30 frames at night or at 300 frames during day
-				if (projectile.localAI[0] % 30f == 0f || dayTime)
-				{
-					Main.PlaySound(SoundID.Item109, projectile.position);
-					projectile.netUpdate = true;
-					if (projectile.owner == Main.myPlayer)
-					{
-						int totalProjectiles = dayTime ? 15 : (projectile.localAI[0] % 60f == 0f ? 15 : 10);
-						float speedX = dayTime ? -21f : -15f;
-						float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
-						float speedY = -3f;
-						for (int i = 0; i < totalProjectiles; i++)
-						{
-							float x4 = dayTime ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
-							float randomSpread = dayTime ? 0f : Main.rand.Next(-150, 151) * 0.01f * (1f - lifeRatio);
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX + speedAdjustment * i + randomSpread, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, projectile.whoAmI);
-						}
-					}
+                // Spawn shards every 30 frames at night or at 300 frames during day
+                if (projectile.localAI[0] % 30f == 0f || dayTime)
+                {
+                    Main.PlaySound(SoundID.Item109, projectile.position);
+                    projectile.netUpdate = true;
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        int totalProjectiles = dayTime ? 15 : (projectile.localAI[0] % 60f == 0f ? 15 : 10);
+                        float speedX = dayTime ? -21f : -15f;
+                        float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
+                        float speedY = -3f;
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            float x4 = dayTime ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
+                            float randomSpread = dayTime ? 0f : Main.rand.Next(-150, 151) * 0.01f * (1f - lifeRatio);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX + speedAdjustment * i + randomSpread, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, projectile.whoAmI);
+                        }
+                    }
 
-					// Reset timer
-					if (projectile.localAI[0] >= 60f)
-						projectile.localAI[0] = 0f;
-				}
+                    // Reset timer
+                    if (projectile.localAI[0] >= 60f)
+                        projectile.localAI[0] = 0f;
+                }
             }
         }
 
@@ -142,9 +142,9 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

@@ -26,12 +26,12 @@ namespace CalamityMod.Tiles.Abyss
             soundType = SoundID.Tink;
         }
 
-		public override bool CanExplode(int i, int j)
-		{
-			return false;
-		}
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
+        public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }

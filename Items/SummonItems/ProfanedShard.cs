@@ -13,8 +13,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Profaned Shard");
             Tooltip.SetDefault("A shard of the unholy flame\n" +
-				"Summons the Profaned Guardians when used in the hallow or underworld during daytime\n" +
-				"Not consumable");
+                "Summons the Profaned Guardians when used in the hallow or underworld during daytime\n" +
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-			item.rare = ItemRarityID.Purple;
-		}
+            item.rare = ItemRarityID.Purple;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -36,12 +36,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ProfanedGuardianBoss>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<ProfanedGuardianBoss>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ProfanedGuardianBoss>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<ProfanedGuardianBoss>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

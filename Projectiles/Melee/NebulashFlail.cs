@@ -7,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class NebulashFlail : BaseWhipProjectile
+    public class NebulashFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {

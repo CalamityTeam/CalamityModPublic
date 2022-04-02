@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Borealis Bomber");
             Tooltip.SetDefault("Summons aureus bombers to fight for you\n" +
-			"Aureus bombers explode on enemy impact\n" +
-			"Does not consume minion slots");
+            "Aureus bombers explode on enemy impact\n" +
+            "Does not consume minion slots");
             Item.staff[item.type] = true;
         }
 

@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class TerraShard : ModProjectile
+    public class TerraShard : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

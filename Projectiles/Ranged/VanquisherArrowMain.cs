@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class VanquisherArrowMain : ModProjectile
+    public class VanquisherArrowMain : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
 
@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 90;
             projectile.extraUpdates = 1;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

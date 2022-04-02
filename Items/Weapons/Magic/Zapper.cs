@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (Main.rand.NextBool(2))
-			{
-				type = ProjectileID.GreenLaser;
-			}
+            {
+                type = ProjectileID.GreenLaser;
+            }
             int laser = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[laser].usesLocalNPCImmunity = true;
-			Main.projectile[laser].localNPCHitCooldown = 10;
+            Main.projectile[laser].usesLocalNPCImmunity = true;
+            Main.projectile[laser].localNPCHitCooldown = 10;
             return false;
         }
 

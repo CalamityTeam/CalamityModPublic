@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PhantasmalRuinGhost : ModProjectile
+    public class PhantasmalRuinGhost : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 240;
             projectile.extraUpdates = 1;

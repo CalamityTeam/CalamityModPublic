@@ -7,13 +7,13 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TenebreusTidesWaterSpear : ModProjectile
+    public class TenebreusTidesWaterSpear : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/UndinesRetributionSpear";
 
         private int penetrationAmt = 4;
-		private bool dontDraw = false;
-		private int drawInt = 0;
+        private bool dontDraw = false;
+        private int drawInt = 0;
 
         public override void SetStaticDefaults()
         {
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-		}
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -66,10 +66,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] > 7f)
                 {
-					int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
-					Main.dust[water].noGravity = true;
-					Main.dust[water].velocity *= 0.5f;
-					Main.dust[water].velocity += projectile.velocity * 0.1f;
+                    int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+                    Main.dust[water].noGravity = true;
+                    Main.dust[water].velocity *= 0.5f;
+                    Main.dust[water].velocity += projectile.velocity * 0.1f;
                 }
                 float scalar = 0.01f;
                 int alphaAmt = 5;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Melee
                         projectile.netUpdate = true;
                         projectile.ai[0] += (float)penetrationAmt;
                         projectile.position = targetSpot + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
-						dontDraw = true;
+                        dontDraw = true;
                         projectile.velocity = Vector2.Normalize(targetSpot - projectile.Center) * 18f;
                     }
                     else
@@ -149,10 +149,10 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.rand.NextBool(3))
                 {
-					int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
-					Main.dust[water].noGravity = true;
-					Main.dust[water].velocity *= 0.5f;
-					Main.dust[water].velocity += projectile.velocity * 0.1f;
+                    int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+                    Main.dust[water].noGravity = true;
+                    Main.dust[water].velocity *= 0.5f;
+                    Main.dust[water].velocity += projectile.velocity * 0.1f;
                 }
             }
 
@@ -181,34 +181,34 @@ namespace CalamityMod.Projectiles.Melee
 
                 projectile.localAI[0] += 1f;
 
-				int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
-				Main.dust[water].noGravity = true;
-				Main.dust[water].velocity *= 0.5f;
-				Main.dust[water].velocity += projectile.velocity * 0.1f;
+                int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+                Main.dust[water].noGravity = true;
+                Main.dust[water].velocity *= 0.5f;
+                Main.dust[water].velocity += projectile.velocity * 0.1f;
             }
 
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0f, 0f, (255 - projectile.alpha) * 1f / 255f);
-			if (dontDraw)
-				drawInt++;
-			if (drawInt > 1)
-			{
-				drawInt = 0;
-				dontDraw = false;
-			}
+            if (dontDraw)
+                drawInt++;
+            if (drawInt > 1)
+            {
+                drawInt = 0;
+                dontDraw = false;
+            }
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(50, 50, 255, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (dontDraw)
-				return false;
+            if (dontDraw)
+                return false;
             Texture2D texture = Main.projectileTexture[projectile.type];
             int height = texture.Height / Main.projFrames[projectile.type];
             int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
             return false;
         }
@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
         }
     }
 }

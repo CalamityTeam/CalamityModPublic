@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class RendingNeedle : ModProjectile 
+    public class RendingNeedle : ModProjectile 
     {
 
         internal PrimitiveTrail TrailDrawer;

@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         internal Color ColorFunction(float completionRatio)
-		{
+        {
             return Color.Lerp(Color.Yellow, Color.Yellow, completionRatio);
-		}
+        }
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
             float _ = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
                 targetHitbox.Size(),
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
                 ref _);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TornadoDrawer is null)
                 TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Boss
 
             Texture2D vortexTexture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/OldDukeVortex");
             for (int i = 0; i < 110; i++)
-			{
+            {
                 float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTime * MathHelper.TwoPi;
                 Color drawColor = Color.White * 0.04f;
                 drawColor.A = 0;
@@ -97,19 +97,19 @@ namespace CalamityMod.Projectiles.Boss
 
                 drawPosition += (angle + Main.GlobalTime * i / 16f).ToRotationVector2() * 6f;
                 spriteBatch.Draw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
-			}
+            }
             
             return false;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
-		}
+            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
+        }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

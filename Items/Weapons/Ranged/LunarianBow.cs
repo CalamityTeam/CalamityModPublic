@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class LunarianBow : ModItem
+    public class LunarianBow : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lunarian Bow");
             Tooltip.SetDefault("Fires two arrows at once\n" +
-				"Converts wooden arrows into sliding energy bolts");
+                "Converts wooden arrows into sliding energy bolts");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<LunarBolt>();
             item.shootSpeed = 8f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (!canHit)
                     offset -= velocity;
 
-				if (type == ProjectileID.WoodenArrowFriendly)
-					Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI);
-				else
-				{
-					int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-					Main.projectile[proj].noDropItem = true;
-				}
-			}
+                if (type == ProjectileID.WoodenArrowFriendly)
+                    Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI);
+                else
+                {
+                    int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
+                }
+            }
             return false;
         }
 

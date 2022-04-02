@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Particles
 {
-	public class CircularSmearVFX : Particle //Also check out Split mod!
+    public class CircularSmearVFX : Particle //Also check out Split mod!
     {
         public override string Texture => "CalamityMod/Particles/CircularSmear";
         public override bool UseAdditiveBlend => true;

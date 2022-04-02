@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class XerocBubble : ModProjectile
+    public class XerocBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default, 1f);
-				Main.dust[num469].noGravity = true;
-				Main.dust[num469].velocity *= 0f;
-			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
+            if (projectile.localAI[0] > 4f)
+            {
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default, 1f);
+                Main.dust[num469].noGravity = true;
+                Main.dust[num469].velocity *= 0f;
+            }
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
         }
     }
 }

@@ -39,11 +39,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(SoundID.Item107, projectile.Bottom);
             Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
-			if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
-			{
-				explosion.Calamity().stealthStrike = projectile.Calamity().stealthStrike;
-				explosion.timeLeft = explosion.Calamity().stealthStrike ? 60 : 20;
-			}
+            if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
+            {
+                explosion.Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+                explosion.timeLeft = explosion.Calamity().stealthStrike ? 60 : 20;
+            }
         }
     }
 }

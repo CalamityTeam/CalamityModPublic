@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class FrigidBulwark : ModItem
+    public class FrigidBulwark : ModItem
     {
         public override void SetStaticDefaults()
         {

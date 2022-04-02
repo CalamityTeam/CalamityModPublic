@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class SemiCircularSmearVFX : Particle //Also check out Split mod!
+    public class SemiCircularSmearVFX : Particle //Also check out Split mod!
     {
         public override string Texture => "CalamityMod/Particles/SemiCircularSmear";
         public override bool UseAdditiveBlend => true;

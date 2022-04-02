@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-	public class AdrenalineMode : ModBuff
+    public class AdrenalineMode : ModBuff
     {
         public override void SetDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.StatBuffs
             canBeCleared = false;
         }
 
-		public override void Update(Player player, ref int buffIndex)
+        public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().adrenalineModeActive = true;
         }

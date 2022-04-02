@@ -55,12 +55,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<StormSpray>(w),
                 DropHelper.WeightStack<SeaboundStaff>(w),
                 DropHelper.WeightStack<ScourgeoftheDesert>(w),
-				DropHelper.WeightStack<AeroStone>(w),
-				DropHelper.WeightStack<SandCloak>(w)
-			);
+                DropHelper.WeightStack<AeroStone>(w),
+                DropHelper.WeightStack<SandCloak>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);

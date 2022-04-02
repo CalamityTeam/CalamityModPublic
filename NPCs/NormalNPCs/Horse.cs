@@ -11,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Horse : ModNPC
+    public class Horse : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -21,40 +21,40 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 3f;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.npcSlots = 3f;
             npc.damage = 50;
             npc.width = 230;
             npc.height = 230;
             npc.defense = 20;
-			npc.DR_NERD(0.1f);
+            npc.DR_NERD(0.1f);
             npc.lifeMax = 3800;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
-			npc.dontTakeDamage = true;
+            npc.dontTakeDamage = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EarthElementalBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneAbyss ||
                 spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(npc.type))
@@ -66,10 +66,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-			if (npc.ai[0] == 0f)
-				return;
+            if (npc.ai[0] == 0f)
+                return;
 
-			npc.frameCounter++;
+            npc.frameCounter++;
             if (npc.frameCounter >= 8)
             {
                 npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
@@ -79,13 +79,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			// Weapons
-			float w = DropHelper.BagWeaponDropRateFloat;
-			DropHelper.DropEntireWeightedSet(npc,
-				DropHelper.WeightStack<SlagMagnum>(w),
-				DropHelper.WeightStack<Aftershock>(w),
-				DropHelper.WeightStack<EarthenPike>(w)
-			);
+            // Weapons
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(npc,
+                DropHelper.WeightStack<SlagMagnum>(w),
+                DropHelper.WeightStack<Aftershock>(w),
+                DropHelper.WeightStack<EarthenPike>(w)
+            );
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -121,43 +121,43 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-				CalamityUtils.ExplosionGores(npc.Center, 3);
+                CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 
         public override bool PreAI()
         {
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+                npc.TargetClosest();
 
-			if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 480f)
-			{
-				if (npc.ai[0] == 0f)
-				{
-					npc.ai[0] = 1f;
-					npc.dontTakeDamage = false;
-				}
-			}
-			else
-				npc.TargetClosest();
+            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 480f)
+            {
+                if (npc.ai[0] == 0f)
+                {
+                    npc.ai[0] = 1f;
+                    npc.dontTakeDamage = false;
+                }
+            }
+            else
+                npc.TargetClosest();
 
-			if (npc.ai[0] == 0f)
-				return false;
+            if (npc.ai[0] == 0f)
+                return false;
 
-			if (Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
-				if (npc.velocity.Y < -2f)
-					npc.velocity.Y = -2f;
-				npc.velocity.Y += 0.1f;
-				if (npc.velocity.Y > 12f)
-					npc.velocity.Y = 12f;
+            if (Main.player[npc.target].dead || !Main.player[npc.target].active)
+            {
+                if (npc.velocity.Y < -2f)
+                    npc.velocity.Y = -2f;
+                npc.velocity.Y += 0.1f;
+                if (npc.velocity.Y > 12f)
+                    npc.velocity.Y = 12f;
 
-				if (npc.timeLeft > 60)
-					npc.timeLeft = 60;
-			}
+                if (npc.timeLeft > 60)
+                    npc.timeLeft = 60;
+            }
 
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] += 1f;
                 if (npc.localAI[0] >= 300f)
@@ -197,19 +197,19 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
 
-			float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-			npc.direction = playerLocation < 0 ? 1 : -1;
-			npc.spriteDirection = npc.direction;
+            float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+            npc.direction = playerLocation < 0 ? 1 : -1;
+            npc.spriteDirection = npc.direction;
 
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
             npc.ai[1] += Main.expertMode ? 2f : 1f;
-			if (npc.ai[1] >= 600f)
-			{
-				direction *= 6f;
-				npc.velocity = direction;
-				npc.ai[1] = 0f;
-			}
+            if (npc.ai[1] >= 600f)
+            {
+                direction *= 6f;
+                npc.velocity = direction;
+                npc.ai[1] = 0f;
+            }
 
             if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) > 1)
                 npc.velocity *= 0.985f;

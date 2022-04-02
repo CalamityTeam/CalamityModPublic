@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = 36;
             projectile.height = 36;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 16;
             projectile.tileCollide = true;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
-			projectile.StickToTiles(false, true);
+            projectile.StickToTiles(false, true);
 
             Time++;
             projectile.rotation = projectile.velocity.ToRotation();

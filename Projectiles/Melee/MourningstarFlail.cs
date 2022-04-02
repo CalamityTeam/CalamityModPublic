@@ -4,7 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class MourningstarFlail : BaseWhipProjectile
+    public class MourningstarFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, projectile.damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].usesLocalNPCImmunity = true;
-				Main.projectile[proj].localNPCHitCooldown = 4;
-			}
+                Main.projectile[proj].usesLocalNPCImmunity = true;
+                Main.projectile[proj].localNPCHitCooldown = 4;
+            }
             projectile.localAI[1] = 4f;
         }
     }

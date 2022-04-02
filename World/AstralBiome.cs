@@ -17,7 +17,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-	public class AstralBiome
+    public class AstralBiome
     {
         public static bool CanAstralMeteorSpawn()
         {

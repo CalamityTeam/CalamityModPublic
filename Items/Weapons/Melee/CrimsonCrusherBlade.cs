@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.width = 70;
             item.height = 80;
-			item.scale = 1.25f;
-			item.useTime = 28;
+            item.scale = 1.25f;
+            item.useTime = 28;
             item.useAnimation = 28;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 target.damage = target.defDamage - 5;
-				if (target.damage < 1)
-					target.damage = 1;
+                if (target.damage < 1)
+                    target.damage = 1;
             }
         }
 

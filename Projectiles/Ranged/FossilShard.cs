@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			if (projectile.velocity.Y <= 0f)
-				projectile.velocity.Y = 0.1f;
+            if (projectile.velocity.Y <= 0f)
+                projectile.velocity.Y = 0.1f;
             projectile.rotation += projectile.velocity.Y;
             projectile.velocity.Y *= 1.05f;
         }

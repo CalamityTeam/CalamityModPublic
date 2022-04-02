@@ -46,10 +46,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.spriteDirection = -projectile.direction;
             }
-			projectile.rotation = projectile.velocity.ToRotation();
+            projectile.rotation = projectile.velocity.ToRotation();
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
 
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             if (player.active && !player.dead)
             {
                 if (projectile.Distance(player.Center) > num954)
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
         public override void Kill(int timeLeft)
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
         }
     }

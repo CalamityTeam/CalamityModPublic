@@ -30,17 +30,17 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
             bannerItem = ModContent.ItemType<HeatSpiritBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.Calamity().ZoneCalamity ? 0.125f : 0f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.Calamity().ZoneCalamity ? 0.125f : 0f;
+        }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             if (npc.velocity.X < 0f)
             {
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 4, 1, 1);
-		}
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 4, 1, 1);
+        }
     }
 }

@@ -27,16 +27,16 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.2f;
-			player.Calamity().throwingDamage += 0.09f;
-			player.Calamity().throwingCrit += 6;
+            player.Calamity().throwingDamage += 0.09f;
+            player.Calamity().throwingCrit += 6;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 14);
-			recipe.AddIngredient(ItemID.HallowedBar, 11);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.HallowedBar, 11);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

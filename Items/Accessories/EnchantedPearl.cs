@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Enchanted Pearl");
             Tooltip.SetDefault("Increases fishing skill\n" +
-				"Increases chance to catch crates");
+                "Increases chance to catch crates");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.fishingSkill += 10;
-			player.Calamity().enchantedPearl = true;
+            player.Calamity().enchantedPearl = true;
         }
 
         public override void AddRecipes()

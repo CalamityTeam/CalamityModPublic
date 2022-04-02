@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class RadiantResolutionAura : ModProjectile
+    public class RadiantResolutionAura : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float AllocatedSlots => ref projectile.ai[0];
@@ -56,11 +56,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Center = Owner.Center - Vector2.UnitY * 16f;
             projectile.rotation += MathHelper.ToRadians(AllocatedSlots * 0.85f + 3f);
 
-			float damageMultiplier = (float)Math.Log(AllocatedSlots, 3D) + 1f;
+            float damageMultiplier = (float)Math.Log(AllocatedSlots, 3D) + 1f;
 
-			// Softcap the multiplier after it has exceeded 3x the base value.
-			float softcappedDamageMultiplier = damageMultiplier;
-			if (softcappedDamageMultiplier > 3f)
+            // Softcap the multiplier after it has exceeded 3x the base value.
+            float softcappedDamageMultiplier = damageMultiplier;
+            if (softcappedDamageMultiplier > 3f)
                 softcappedDamageMultiplier = ((damageMultiplier - 3f) * 0.1f) + 3f;
 
             int radiantOrbDamage = (int)(projectile.damage * softcappedDamageMultiplier);

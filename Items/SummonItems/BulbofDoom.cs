@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Portabulb");
             Tooltip.SetDefault("Summons Plantera when used in the jungle\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -34,12 +34,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Plantera);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Plantera);
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

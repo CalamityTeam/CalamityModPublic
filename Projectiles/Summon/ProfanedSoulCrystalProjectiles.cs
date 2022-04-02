@@ -10,10 +10,10 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	#region Mage Projectiles
+    #region Mage Projectiles
 
-	#region Main Fireball
-	public class ProfanedCrystalMageFireball : ModProjectile
+    #region Main Fireball
+    public class ProfanedCrystalMageFireball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
                 velocity.Normalize();
                 velocity *= 8f;
                 int proj = Projectile.NewProjectile(projectile.Center + outerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				if (proj.WithinBounds(Main.maxProjectiles))
+                if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceMinion = true;
                 if (innerSplits > 0) //only runs if there's still inner splits to create
                 {
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
                     velocity.Normalize();
                     velocity *= 5f;
                     proj = Projectile.NewProjectile(projectile.Center + innerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					if (proj.WithinBounds(Main.maxProjectiles))
+                    if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMinion = true;
                 }
                 innerSplits--;
@@ -625,8 +625,8 @@ namespace CalamityMod.Projectiles.Summon
                     correctedVelocity.Normalize();
                     correctedVelocity *= 25f;
                     int proj = Projectile.NewProjectile(pos, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), (int)((double)projectile.damage * 1.5f), projectile.knockBack, projectile.owner, 2);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().forceMinion = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().forceMinion = true;
                     ((ProfanedCrystalRangedHuges)Main.projectile[proj].modProjectile).boomerSwarm = true;
                 }
             }

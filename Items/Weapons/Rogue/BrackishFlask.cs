@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class BrackishFlask : RogueWeapon
+    public class BrackishFlask : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brackish Flask");
             Tooltip.SetDefault("Explodes into poisonous seawater blasts\n" +
-			"Stealth strikes summon a brackish spear spike");
+            "Stealth strikes summon a brackish spear spike");
         }
 
         public override void SafeSetDefaults()
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.85f), knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

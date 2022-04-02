@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class DeathValley : ModItem
+    public class DeathValley : ModItem
     {
         public override void SetStaticDefaults()
         {

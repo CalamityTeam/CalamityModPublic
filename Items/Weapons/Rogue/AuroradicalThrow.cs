@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Auroradical Throw");
             Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
-							"Split stars home in on nearby enemies after a few seconds\n" +
-							"Stealth strikes summon a meteor upon enemy impact");
+                            "Split stars home in on nearby enemies after a few seconds\n" +
+                            "Stealth strikes summon a meteor upon enemy impact");
         }
 
         public override void SafeSetDefaults()
@@ -42,15 +42,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
                 damage = (int)(damage * 1.2f);
 
-			int star = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (star.WithinBounds(Main.maxProjectiles))
-				Main.projectile[star].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int star = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (star.WithinBounds(Main.maxProjectiles))
+                Main.projectile[star].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[item.type]);
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[item.type]);
         }
     }
 }

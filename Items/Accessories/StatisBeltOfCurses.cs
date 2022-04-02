@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
             player.noFallDmg = true;
             player.blackBelt = true;
             modPlayer.dashMod = 7;
-			player.dash = 0;
+            player.dash = 0;
             player.spikedBoots = 2;
         }
 

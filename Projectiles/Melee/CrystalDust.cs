@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CrystalDust : ModProjectile
+    public class CrystalDust : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
 
-			// Toilets count as Chairs
+            // Toilets count as Chairs
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
             ModTranslation name = CreateMapEntryName();

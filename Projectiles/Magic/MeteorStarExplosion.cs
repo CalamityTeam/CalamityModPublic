@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class MeteorStarExplosion : ModProjectile
+    public class MeteorStarExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = Main.projFrames[projectile.type] * 5;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 35;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.hostile = true;
         }
 
@@ -34,27 +34,27 @@ namespace CalamityMod.Projectiles.Magic
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
-			if (Main.expertMode)
-				damage /= 2;
-			if (projectile.ai[0] == 1f)
-				damage /= 2;
+            if (Main.expertMode)
+                damage /= 2;
+            if (projectile.ai[0] == 1f)
+                damage /= 2;
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (target.townNPC)
-			{
-				damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
-				if (Main.expertMode)
-					damage /= 2;
-				if (projectile.ai[0] == 1f)
-					damage /= 2;
-			}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (target.townNPC)
+            {
+                damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
+                if (Main.expertMode)
+                    damage /= 2;
+                if (projectile.ai[0] == 1f)
+                    damage /= 2;
+            }
         }
-		
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.GiveIFrames(target.longInvince ? 100 : 60, true);
-		}
+        
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.GiveIFrames(target.longInvince ? 100 : 60, true);
+        }
     }
 }

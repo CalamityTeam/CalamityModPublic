@@ -7,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class AstralPikeProj : BaseSpearProjectile
+    public class AstralPikeProj : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -49,12 +49,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     if (projectile.owner == Main.myPlayer)
                     {
-						Projectile star = CalamityUtils.ProjectileBarrage(projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.4), 1f, projectile.owner, true);
-						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							star.Calamity().forceMelee = true;
-							star.ai[0] = 3f;
-						}
+                        Projectile star = CalamityUtils.ProjectileBarrage(projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.4), 1f, projectile.owner, true);
+                        if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            star.Calamity().forceMelee = true;
+                            star.ai[0] = 3f;
+                        }
                     }
 
                 }

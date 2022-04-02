@@ -77,20 +77,20 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			//Adjust sprite direction so it faces correctly
+            //Adjust sprite direction so it faces correctly
             if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
 
-			projectile.ChargingMinionAI(700f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, true);
+            projectile.ChargingMinionAI(700f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, true);
 
-			//Give off some light
+            //Give off some light
             float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
             lightScalar *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0f * lightScalar, 0.2f * lightScalar, 0.45f * lightScalar);
 
-			//Frames
+            //Frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 7)
             {

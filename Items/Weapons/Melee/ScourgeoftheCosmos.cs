@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class ScourgeoftheCosmos : ModItem
+    public class ScourgeoftheCosmos : ModItem
     {
         public override void SetStaticDefaults()
         {

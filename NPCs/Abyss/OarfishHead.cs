@@ -13,9 +13,9 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class OarfishHead : ModNPC
     {
-		private Vector2 patrolSpot = Vector2.Zero;
-		public bool detectsPlayer = false;
-		public const int minLength = 40;
+        private Vector2 patrolSpot = Vector2.Zero;
+        public bool detectsPlayer = false;
+        public const int minLength = 40;
         public const int maxLength = 41;
         public float speed = 3f; //10
         public float turnSpeed = 0.05f; //0.15
@@ -45,34 +45,34 @@ namespace CalamityMod.NPCs.Abyss
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OarfishBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.WriteVector2(patrolSpot);
-			writer.Write(detectsPlayer);
-			writer.Write(npc.chaseable);
-		}
-
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			patrolSpot = reader.ReadVector2();
-			detectsPlayer = reader.ReadBoolean();
-			npc.chaseable = reader.ReadBoolean();
-		}
-
-		public override void AI()
+        public override void SendExtraAI(BinaryWriter writer)
         {
-			if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) || npc.justHit)
-				detectsPlayer = true;
+            writer.WriteVector2(patrolSpot);
+            writer.Write(detectsPlayer);
+            writer.Write(npc.chaseable);
+        }
 
-			npc.chaseable = detectsPlayer;
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            patrolSpot = reader.ReadVector2();
+            detectsPlayer = reader.ReadBoolean();
+            npc.chaseable = reader.ReadBoolean();
+        }
 
-			if (npc.ai[2] > 0f)
+        public override void AI()
+        {
+            if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) || npc.justHit)
+                detectsPlayer = true;
+
+            npc.chaseable = detectsPlayer;
+
+            if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
@@ -124,32 +124,32 @@ namespace CalamityMod.NPCs.Abyss
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 
-			if (patrolSpot == Vector2.Zero)
-				patrolSpot = Main.player[npc.target].Center;
+            if (patrolSpot == Vector2.Zero)
+                patrolSpot = Main.player[npc.target].Center;
 
-			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
-			float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+            float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+            float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
 
-			if (!detectsPlayer)
+            if (!detectsPlayer)
             {
-				num192 += 300;
-				if (Math.Abs(npc.Center.X - num191) < 250f) //500
-				{
-					if (npc.velocity.X > 0f)
-					{
-						num191 += 300f;
-					}
-					else
-					{
-						num191 -= 300f;
-					}
-				}
+                num192 += 300;
+                if (Math.Abs(npc.Center.X - num191) < 250f) //500
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        num191 += 300f;
+                    }
+                    else
+                    {
+                        num191 -= 300f;
+                    }
+                }
             }
-			else
-			{
-				num188 *= 1.5f;
-				num189 *= 1.5f;
-			}
+            else
+            {
+                num188 *= 1.5f;
+                num189 *= 1.5f;
+            }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
             float num50 = npc.velocity.Length();
@@ -275,16 +275,16 @@ namespace CalamityMod.NPCs.Abyss
             npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
         }
 
-		public override bool? CanBeHitByProjectile(Projectile projectile)
-		{
-			if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-			{
-				return detectsPlayer;
-			}
-			return null;
-		}
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
+            {
+                return detectsPlayer;
+            }
+            return null;
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<OarfishHead>()))
             {
@@ -321,7 +321,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(ModContent.BuffType<CrushDepth>(), 90);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 90);
         }
     }
 }

@@ -21,13 +21,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.damage = 90;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.damage = 90;
             npc.npcSlots = 10f;
             npc.width = 54;
             npc.height = 54;
             npc.defense = 10;
-			npc.DR_NERD(0.1f);
+            npc.DR_NERD(0.1f);
             npc.lifeMax = 20000;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -41,13 +41,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+        }
 
         public override void AI()
         {
-			bool death = CalamityWorld.death;
+            bool death = CalamityWorld.death;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];

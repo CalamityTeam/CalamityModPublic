@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Ammo
         {
             DisplayName.SetDefault("Astral Solution");
             Tooltip.SetDefault("Used by the Clentaminator\n" +
-			"Spreads the Astral Infection");
+            "Spreads the Astral Infection");
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class KelvinCatalyst : RogueWeapon
+    public class KelvinCatalyst : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

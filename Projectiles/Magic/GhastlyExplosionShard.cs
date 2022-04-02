@@ -18,14 +18,14 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 8;
             projectile.friendly = true;
             projectile.alpha = 255;
-			projectile.timeLeft = 80;
+            projectile.timeLeft = 80;
             projectile.penetrate = 1;
             projectile.magic = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 50 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 50 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             int num332 = (int)projectile.ai[0];
 
@@ -66,9 +66,9 @@ namespace CalamityMod.Projectiles.Magic
                 num3 = num336;
             }
 
-			if (projectile.timeLeft < 50)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
-		}
+            if (projectile.timeLeft < 50)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+        }
 
         public override void Kill(int timeLeft)
         {

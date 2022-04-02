@@ -5,10 +5,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-	public class Bloodfin : ModItem
+    public class Bloodfin : ModItem
     {
-		public static int BuffType = ModContent.BuffType<BloodfinBoost>();
-		public static int BuffDuration = 600;
+        public static int BuffType = ModContent.BuffType<BloodfinBoost>();
+        public static int BuffDuration = 600;
 
         public override void SetStaticDefaults()
         {
@@ -26,9 +26,9 @@ The life regen boost is stronger if below 75% health
             item.maxStack = 30;
             item.useTurn = true;
             item.value = Item.sellPrice(gold: 5);
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.useAnimation = 17;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;

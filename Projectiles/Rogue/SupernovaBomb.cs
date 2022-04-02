@@ -31,19 +31,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			//dust and lighting
-			int num298 = Main.rand.NextBool(2) ? 107 : 234;
-			if (Main.rand.NextBool(4))
-			{
-				num298 = 269;
-			}
+            //dust and lighting
+            int num298 = Main.rand.NextBool(2) ? 107 : 234;
+            if (Main.rand.NextBool(4))
+            {
+                num298 = 269;
+            }
             if (Main.rand.NextBool(6))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, num298, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
 
-			//velocity
+            //velocity
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 10f)
             {
@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.Y += 0.2f;
             }
 
-			//rotation
+            //rotation
             projectile.rotation += projectile.velocity.X * 0.1f;
 
-			//stealth strike
+            //stealth strike
             if (projectile.Calamity().stealthStrike && projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
                 Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.48), projectile.knockBack, projectile.owner, 0f, 0f);
         }
@@ -80,30 +80,30 @@ namespace CalamityMod.Projectiles.Rogue
             int projAmt = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 for (int i = 0; i < projAmt; i++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SupernovaSpike>(), (int)(projectile.damage * 0.6), 0f, projectile.owner, 0f, 0f);
                 }
-				float spread = MathHelper.Pi / 3f;
-				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-				double deltaAngle = spread / 6f;
-				double offsetAngle;
-				for (int i = 0; i < 3; i++)
-				{
-					offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-				}
+                float spread = MathHelper.Pi / 3f;
+                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double deltaAngle = spread / 6f;
+                double offsetAngle;
+                for (int i = 0; i < 3; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                }
             }
 
-			//dust effects
-			int dustType = Main.rand.NextBool(2) ? 107 : 234;
-			if (Main.rand.NextBool(4))
-			{
-				dustType = 269;
-			}
+            //dust effects
+            int dustType = Main.rand.NextBool(2) ? 107 : 234;
+            if (Main.rand.NextBool(4))
+            {
+                dustType = 269;
+            }
             for (int d = 0; d < 5; d++)
             {
                 int exo = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
@@ -123,18 +123,18 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[fire].velocity *= 2f;
             }
 
-			//gore cloud effects
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            //gore cloud effects
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

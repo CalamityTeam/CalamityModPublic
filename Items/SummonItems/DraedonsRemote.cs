@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Draedon's Remote");
             Tooltip.SetDefault("Mayhem...\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()
@@ -36,22 +36,22 @@ namespace CalamityMod.Items.SummonItems
             CalamityGlobalNPC.DraedonMayhem = true;
             CalamityNetcode.SyncWorld();
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-			{
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.TheDestroyer);
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.SkeletronPrime);
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Spazmatism);
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Retinazer);
-			}
-			else
-			{
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.TheDestroyer);
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.SkeletronPrime);
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Spazmatism);
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Retinazer);
-			}
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.TheDestroyer);
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.SkeletronPrime);
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Spazmatism);
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Retinazer);
+            }
+            else
+            {
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.TheDestroyer);
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.SkeletronPrime);
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Spazmatism);
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Retinazer);
+            }
 
-			return true;
+            return true;
         }
     }
 }

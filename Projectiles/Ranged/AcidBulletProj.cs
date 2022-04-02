@@ -27,24 +27,24 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
-					Main.dust[num137].alpha = projectile.alpha;
-					Main.dust[num137].velocity *= 0f;
-					Main.dust[num137].noGravity = true;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[num137].alpha = projectile.alpha;
+                    Main.dust[num137].velocity *= 0f;
+                    Main.dust[num137].noGravity = true;
+                }
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

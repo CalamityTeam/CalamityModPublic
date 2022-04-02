@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 320;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 320;
             projectile.height = 88;
             projectile.hostile = true;
             projectile.tileCollide = false;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			float scaleBase = 24f;
+            float scaleBase = 24f;
             float scaleMult = 1f;
             float baseWidth = 320f;
             float baseHeight = 88f;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.localAI[0] = 1f;
                 projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
-				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
                 projectile.netUpdate = true;
             }
             if (projectile.ai[1] != -1f)
@@ -118,11 +118,11 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.position.X += num624 * -projectile.direction;
             }
 
-			if (projectile.timeLeft == 480)
-				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
+            if (projectile.timeLeft == 480)
+                projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 480;
+        public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 480;
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -138,15 +138,15 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			if (projectile.timeLeft <= 480)
-				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 300);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            if (projectile.timeLeft <= 480)
+                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 300);
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
+        {
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

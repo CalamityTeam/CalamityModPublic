@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0f;
+            projectile.minion = true;
+            projectile.minionSlots = 0f;
             projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.tileCollide = false;

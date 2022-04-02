@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Teratoma");
             Tooltip.SetDefault("Summons the Hive Mind when used in the corruption\n" +
-				"Not consumable");
+                "Not consumable");
         }
 
         public override void SetDefaults()

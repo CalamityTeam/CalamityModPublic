@@ -54,14 +54,14 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-			writer.Write(projectile.localAI[1]);
-		}
+            writer.Write(projectile.localAI[1]);
+        }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-			projectile.localAI[1] = reader.ReadSingle();
-		}
+            projectile.localAI[1] = reader.ReadSingle();
+        }
 
         public override void AttachToSomething()
         {
@@ -86,17 +86,17 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            // Difficulty modes
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			// Telegraph duration for deathray spiral
-			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
-				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
+            // Telegraph duration for deathray spiral
+            float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+                revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
-			Time = Main.npc[OwnerIndex].Calamity().newAI[2] - deathrayTelegraphDuration;
+            Time = Main.npc[OwnerIndex].Calamity().newAI[2] - deathrayTelegraphDuration;
         }
 
         public override void UpdateLaserMotion()
@@ -109,8 +109,8 @@ namespace CalamityMod.Projectiles.Boss
 
             float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
             float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;
-			if (Main.npc[OwnerIndex].ai[3] % 2f == 0f)
-				angularVelocity *= -1f;
+            if (Main.npc[OwnerIndex].ai[3] % 2f == 0f)
+                angularVelocity *= -1f;
 
             // Update the direction and rotation of the laser.
             projectile.velocity = projectile.velocity.RotatedBy(angularVelocity);
@@ -229,15 +229,15 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.OnFire, 360);
-			target.AddBuff(BuffID.Frostburn, 360);
-		}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 360);
+            target.AddBuff(BuffID.Frostburn, 360);
+        }
 
-		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
+        public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
             target.Calamity().lastProjectileHit = projectile;
         }

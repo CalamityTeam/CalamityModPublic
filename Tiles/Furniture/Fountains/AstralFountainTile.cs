@@ -8,12 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
-	public class AstralFountainTile : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AstralFountainTile : ModTile
+    {
+        public override void SetDefaults()
+        {
             this.SetUpFountain();
-			AddMapEntry(new Color(59, 50, 77), Language.GetText("MapObject.WaterFountain"));
+            AddMapEntry(new Color(59, 50, 77), Language.GetText("MapObject.WaterFountain"));
             animationFrameHeight = 72;
         }
 
@@ -56,8 +56,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AstralFountainItem>());
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AstralFountainItem>());
         }
 
         public override void HitWire(int i, int j)

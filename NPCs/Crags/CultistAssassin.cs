@@ -38,23 +38,23 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CultistAssassinBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return (spawnInfo.player.Calamity().ZoneCalamity || spawnInfo.player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -66,9 +66,9 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), npc.scale);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), npc.scale);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), npc.scale);
             }
         }
 

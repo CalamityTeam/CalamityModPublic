@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Ammo
         {
             DisplayName.SetDefault("Verium Bullet");
             Tooltip.SetDefault("There is no escape!\n" +
-			"Homes in after striking an enemy");
+            "Homes in after striking an enemy");
         }
 
         public override void SetDefaults()

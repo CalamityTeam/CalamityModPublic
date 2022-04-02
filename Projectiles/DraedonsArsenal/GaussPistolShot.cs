@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MaxEnergyParticleSpeed = 4f;
         public const float EnergyChargeRadiusRatio = 1.45f;
         public const float ChargeTime = 30f;
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gauss Shot");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gauss Shot");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
         }

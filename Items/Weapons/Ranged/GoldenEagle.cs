@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class GoldenEagle : ModItem
     {
-		private const float Spread = 0.0425f;
+        private const float Spread = 0.0425f;
 
         public override void SetStaticDefaults()
         {
@@ -33,23 +33,23 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Vector2 velocity = new Vector2(speedX, speedY);
+            Vector2 velocity = new Vector2(speedX, speedY);
 
-			// Fire extra bullets to the left and right
-			for (int i = 0; i < 2; i++)
-			{
-				Projectile.NewProjectile(position, velocity.RotatedBy(-Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position, velocity.RotatedBy(+Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
-			}
+            // Fire extra bullets to the left and right
+            for (int i = 0; i < 2; i++)
+            {
+                Projectile.NewProjectile(position, velocity.RotatedBy(-Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, velocity.RotatedBy(+Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
+            }
 
-			return true;
-		}
+            return true;
+        }
     }
 }

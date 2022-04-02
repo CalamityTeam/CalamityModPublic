@@ -11,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.GreatSandShark
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
     public class GreatSandShark : ModNPC
     {
         private bool resetAI = false;
@@ -24,16 +24,16 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void SetDefaults()
         {
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.noGravity = true;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.noGravity = true;
             npc.noTileCollide = true;
             npc.npcSlots = 15f;
             npc.damage = 100;
             npc.width = 300;
             npc.height = 120;
             npc.defense = 40;
-			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(9200, 11000);
+            npc.DR_NERD(0.25f);
+            npc.LifeMaxNERB(9200, 11000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -47,10 +47,10 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.timeLeft = NPC.activeTime * 30;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GreatSandSharkBanner>();
-			npc.Calamity().VulnerableToCold = true;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToCold = true;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -79,11 +79,11 @@ namespace CalamityMod.NPCs.GreatSandShark
             bool lowerLife = npc.life <= npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
 
-			if (!Terraria.GameContent.Events.Sandstorm.Happening)
-			{
-				CalamityUtils.StartSandstorm();
-				CalamityNetcode.SyncWorld();
-			}
+            if (!Terraria.GameContent.Events.Sandstorm.Happening)
+            {
+                CalamityUtils.StartSandstorm();
+                CalamityNetcode.SyncWorld();
+            }
 
             if (npc.soundDelay <= 0)
             {
@@ -377,8 +377,8 @@ namespace CalamityMod.NPCs.GreatSandShark
                             velocityX *= 1.5f;
                             velocityY *= 1.5f;
                         }
-						npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityX, velocityX);
-						npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityY, velocityY);
+                        npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityX, velocityX);
+                        npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityY, velocityY);
                         Vector2 vec4 = npc.Center + npc.velocity.SafeNormalize(Vector2.Zero) * npc.Size.Length() / 2f + npc.velocity;
                         point15 = vec4.ToTileCoordinates();
                         tileSafely = Framing.GetTileSafely(point15);
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     npc.ai[0] = 1f;
                 }
                 npc.rotation = npc.velocity.Y * npc.direction * 0.1f;
-				npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
+                npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
             }
         }
 

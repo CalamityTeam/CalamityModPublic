@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class LaserFountain : ModProjectile
+    public class LaserFountain : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -33,11 +33,11 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.owner == Main.myPlayer)
                 {
                     int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), (int)(350f * Main.player[projectile.owner].MeleeDamage()), projectile.knockBack, projectile.owner, 0f, 0f);
-					if (projectile1.WithinBounds(Main.maxProjectiles))
-					{
-						Main.projectile[projectile1].Calamity().forceMelee = true;
-						Main.projectile[projectile1].aiStyle = 1;
-					}
+                    if (projectile1.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[projectile1].Calamity().forceMelee = true;
+                        Main.projectile[projectile1].aiStyle = 1;
+                    }
                 }
                 projectile.localAI[0] = 0f;
             }

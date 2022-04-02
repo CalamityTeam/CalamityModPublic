@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 280;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -49,30 +49,30 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			Vector2 center = projectile.Center;
-			float maxDistance = projectile.Calamity().stealthStrike ? 800f : 400f;
-			bool homeIn = false;
+            Vector2 center = projectile.Center;
+            float maxDistance = projectile.Calamity().stealthStrike ? 800f : 400f;
+            bool homeIn = false;
 
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].CanBeChasedBy(projectile, false))
+                {
+                    float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-					{
-						center = Main.npc[i].Center;
-						homeIn = true;
-						break;
-					}
-				}
-			}
+                    if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                    {
+                        center = Main.npc[i].Center;
+                        homeIn = true;
+                        break;
+                    }
+                }
+            }
 
-			if (homeIn)
-			{
-				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-				projectile.velocity = (projectile.velocity * 20f + moveDirection * 14f) / (21f);
-			}
+            if (homeIn)
+            {
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * 20f + moveDirection * 14f) / (21f);
+            }
             projectile.velocity = initStealth && !homeIn ? initialVelocity : projectile.velocity;
         }
 

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Ravager
 {
-	public class RavagerHead : ModNPC
+    public class RavagerHead : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 80;
             npc.height = 80;
             npc.defense = 40;
-			npc.DR_NERD(0.15f);
+            npc.DR_NERD(0.15f);
             npc.lifeMax = 19182;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -44,29 +44,29 @@ namespace CalamityMod.NPCs.Ravager
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToWater = true;
-		}
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToWater = true;
+        }
 
         public override void AI()
         {
-			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
             }
 
-			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-			npc.damage = 0;
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            npc.damage = 0;
 
-			if (npc.timeLeft < 1800)
+            if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);
+            npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);
 
             if (npc.alpha > 0)
             {
@@ -80,32 +80,32 @@ namespace CalamityMod.NPCs.Ravager
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
 
-				// Get a target
-				if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-					npc.TargetClosest();
+                // Get a target
+                if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+                    npc.TargetClosest();
 
-				// Despawn safety, make sure to target another player if the current player target is too far away
-				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-					npc.TargetClosest();
+                // Despawn safety, make sure to target another player if the current player target is too far away
+                if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                    npc.TargetClosest();
 
-				npc.ai[1] = 0f;
-				int type = ModContent.ProjectileType<ScavengerNuke>();
-				int damage = npc.GetProjectileDamage(type);
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+                npc.ai[1] = 0f;
+                int type = ModContent.ProjectileType<ScavengerNuke>();
+                int damage = npc.GetProjectileDamage(type);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
-					Vector2 velocity = new Vector2(0f, -15f);
+                    Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
+                    Vector2 velocity = new Vector2(0f, -15f);
                     int nuke = Projectile.NewProjectile(shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, npc.target, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }
         }
 
-		public override bool CheckActive() => false;
+        public override bool CheckActive() => false;
 
-		public override bool PreNPCLoot() => false;
+        public override bool PreNPCLoot() => false;
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life > 0)
             {

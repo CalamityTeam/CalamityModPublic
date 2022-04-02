@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class MirageJelly : ModNPC
+    public class MirageJelly : ModNPC
     {
         private bool teleporting = false;
         private bool rephasing = false;
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MirageJellyBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = false;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = false;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -106,10 +106,10 @@ namespace CalamityMod.NPCs.Abyss
                             else
                                 num1250 -= Main.rand.Next(min, max);
 
-							min = 11;
-							max = 26;
+                            min = 11;
+                            max = 26;
 
-							num1251 += Main.rand.Next(min, max);
+                            num1251 += Main.rand.Next(min, max);
 
                             if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height) &&
                                 Main.tile[num1250, num1251].liquid > 204)
@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
-			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
+            DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

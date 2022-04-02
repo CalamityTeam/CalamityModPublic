@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Armor
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
-				"+1 max minion";
+                "+1 max minion";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             modPlayer.urchin = true;
-			player.maxMinions++;
-			if (player.whoAmI == Main.myPlayer)
+            player.maxMinions++;
+            if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<VictideSummonSetBuff>()) == -1)
                 {

@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Cooldowns
 {
-	public class NebulousCore : CooldownHandler
+    public class NebulousCore : CooldownHandler
     {
         public static new string ID => "NebulousCore";
         public override bool ShouldDisplay => true;

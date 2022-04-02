@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Tools
             }
             if (Main.rand.NextBool(5))
             {
-				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
-				Main.gore[smoke].behindTiles = true;
+                int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+                Main.gore[smoke].behindTiles = true;
             }
         }
 

@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Dyes
             DisplayName.SetDefault("Profaned Moonlight Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
+        public override void SafeSetDefaults()
+        {
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.sellPrice(0, 10, 0, 0);

@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Magic
 
             projectile.velocity *= 0.99f;
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] > 90f)
+            projectile.ai[1] += 1f;
+            if (projectile.ai[1] > 90f)
             {
                 projectile.scale -= 0.05f;
                 if (projectile.scale <= 0.2)
@@ -54,18 +54,18 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			if (projectile.velocity.X != oldVelocity.X)
-				projectile.velocity.X = -oldVelocity.X;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (projectile.velocity.X != oldVelocity.X)
+                projectile.velocity.X = -oldVelocity.X;
 
-			if (projectile.velocity.Y != oldVelocity.Y)
-				projectile.velocity.Y = -oldVelocity.Y;
+            if (projectile.velocity.Y != oldVelocity.Y)
+                projectile.velocity.Y = -oldVelocity.Y;
 
-			return false;
-		}
+            return false;
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 70, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

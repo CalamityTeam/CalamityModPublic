@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             for (int i = 0; i < afterimageCount; i++)
-			{
+            {
                 if (projectile.oldPos[i] == Vector2.Zero)
                     continue;
 
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
                 drawColor.A = (byte)(int)MathHelper.Lerp(105f, 0f, i / (float)(afterimageCount - 1f));
                 drawPosition -= projectile.velocity.SafeNormalize(Vector2.Zero) * scaleFactor * 4.5f;
                 spriteBatch.Draw(texture, drawPosition, null, drawColor, projectile.rotation, origin, projectile.scale * scaleFactor, SpriteEffects.None, 0f);
-			}
+            }
             return false;
         }
     }

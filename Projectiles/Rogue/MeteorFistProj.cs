@@ -19,49 +19,49 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 20;
             projectile.friendly = true;
             projectile.penetrate = 1;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.timeLeft = 360;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-			if (projectile.velocity.Length() >= 4f)
-			{
-				for (int num246 = 0; num246 < 2; num246++)
-				{
-					float num247 = 0f;
-					float num248 = 0f;
-					if (num246 == 1)
-					{
-						num247 = projectile.velocity.X * 0.5f;
-						num248 = projectile.velocity.Y * 0.5f;
-					}
-					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
-					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-					Main.dust[num249].velocity *= 0.2f;
-					Main.dust[num249].noGravity = true;
-				}
-			}
+            if (projectile.velocity.Length() >= 4f)
+            {
+                for (int num246 = 0; num246 < 2; num246++)
+                {
+                    float num247 = 0f;
+                    float num248 = 0f;
+                    if (num246 == 1)
+                    {
+                        num247 = projectile.velocity.X * 0.5f;
+                        num248 = projectile.velocity.Y * 0.5f;
+                    }
+                    int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num249].velocity *= 0.2f;
+                    Main.dust[num249].noGravity = true;
+                }
+            }
 
-			// Almost instantly accelerate to very high speed
-			if (projectile.velocity.Length() < 12f)
-			{
-				projectile.velocity *= 1.25f;
-			}
-			else if (Main.rand.NextBool(2))
-			{
-				int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
-				Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-				Main.rand.Next(2);
-				num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
-				Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
-			}
+            // Almost instantly accelerate to very high speed
+            if (projectile.velocity.Length() < 12f)
+            {
+                projectile.velocity *= 1.25f;
+            }
+            else if (Main.rand.NextBool(2))
+            {
+                int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
+                Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].noGravity = true;
+                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+                Main.rand.Next(2);
+                num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
+                Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[num252].noGravity = true;
+                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+            }
 
             projectile.ai[0] += 1f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             projectile.maxPenetrate = projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

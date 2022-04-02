@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             Player projOwner = Main.player[projectile.owner];
             float num16 = 0.5f;
             projectile.tileCollide = false;

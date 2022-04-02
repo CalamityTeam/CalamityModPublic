@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
-	public class RepairUnitCritter : ModNPC
+    public class RepairUnitCritter : ModNPC
     {
         public enum BehaviorState
         {

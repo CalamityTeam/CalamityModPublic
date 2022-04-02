@@ -38,19 +38,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (gemstone.WithinBounds(Main.maxProjectiles))
-				{
-					Main.projectile[gemstone].Calamity().stealthStrike = true;
-					Main.projectile[gemstone].usesLocalNPCImmunity = true;
-					Main.projectile[gemstone].timeLeft = 900;
-					Main.projectile[gemstone].penetrate = -1;
-				}
-				return false;
-			}
-			return true;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                if (gemstone.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[gemstone].Calamity().stealthStrike = true;
+                    Main.projectile[gemstone].usesLocalNPCImmunity = true;
+                    Main.projectile[gemstone].timeLeft = 900;
+                    Main.projectile[gemstone].penetrate = -1;
+                }
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()

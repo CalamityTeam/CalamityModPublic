@@ -18,7 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
-	[AutoloadHead]
+    [AutoloadHead]
     public class DILF : ModNPC
     {
         public override void SetStaticDefaults()
@@ -51,13 +51,13 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Guide;
         }
 
-		public override void AI()
-		{
-			if (!CalamityWorld.foundHomePermafrost && !npc.homeless)
-			{
-				CalamityWorld.foundHomePermafrost = true;
-			}
-		}
+        public override void AI()
+        {
+            if (!CalamityWorld.foundHomePermafrost && !npc.homeless)
+            {
+                CalamityWorld.foundHomePermafrost = true;
+            }
+        }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedCryogen;
 
@@ -116,21 +116,21 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-			if (firstButton)
-			{
-				Main.LocalPlayer.Calamity().newPermafrostInventory = false;
-				shop = true;
-			}
+            if (firstButton)
+            {
+                Main.LocalPlayer.Calamity().newPermafrostInventory = false;
+                shop = true;
+            }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-			shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
@@ -138,30 +138,30 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IceStar>());
             nextSlot++;
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cryophobia>());
-				nextSlot++;
-			}
-			if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
-				nextSlot++;
-			}
+            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cryophobia>());
+                nextSlot++;
+            }
+            if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
+                nextSlot++;
+            }
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
@@ -169,10 +169,10 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-			nextSlot++;
+            nextSlot++;
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodRune>());

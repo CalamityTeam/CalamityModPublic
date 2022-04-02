@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class BonebreakerProjectile : ModProjectile
+    public class BonebreakerProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,9 +22,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.melee = true;
-			projectile.timeLeft = 600;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -2;
+            projectile.timeLeft = 600;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.velocity.X *= 0.98f;
                     projectile.velocity.Y += 0.35f;
                 }
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             //Sticky Behaviour
             projectile.StickyProjAI(15);
@@ -80,18 +80,18 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.owner == Main.myPlayer)
             {
-				for (int s = 0; s < Main.rand.Next(2,5); s++)
-				{
-					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (velocity.X == 0f && velocity.Y == 0f)
-					{
-						velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					velocity.Normalize();
-					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BonebreakerFragment1>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, Main.rand.Next(0,4), 0f);
-				}
-			}
+                for (int s = 0; s < Main.rand.Next(2,5); s++)
+                {
+                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    while (velocity.X == 0f && velocity.Y == 0f)
+                    {
+                        velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    }
+                    velocity.Normalize();
+                    velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+                    int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BonebreakerFragment1>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, Main.rand.Next(0,4), 0f);
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -109,14 +109,14 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.ai[0] == 1f)
-			{
-				return false;
-			}
-			return null;
-		}
+        {
+            if (projectile.ai[0] == 1f)
+            {
+                return false;
+            }
+            return null;
+        }
 
-		public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
+        public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
     }
 }

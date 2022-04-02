@@ -36,24 +36,24 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 8;
-			int timeNeeded = 10;
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 8;
+            int timeNeeded = 10;
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
         }
 
-		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-		{
-			frameYOffset = this.GetAnimationOffset(i, j, 8, 18, 18, 2, 2, animationFrameHeight);
-		}
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = this.GetAnimationOffset(i, j, 8, 18, 18, 2, 2, animationFrameHeight);
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

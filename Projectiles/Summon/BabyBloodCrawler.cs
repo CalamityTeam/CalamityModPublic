@@ -6,11 +6,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class BabyBloodCrawler : ModProjectile
+    public class BabyBloodCrawler : ModProjectile
     {
         public float dust = 0f;
-		public int spiderCount = 0;
-		public bool countedAlready = false;
+        public int spiderCount = 0;
+        public bool countedAlready = false;
 
         public override void SetStaticDefaults()
         {
@@ -47,18 +47,18 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			for (int j = 0; j < Main.maxProjectiles; j++)
-			{
+            for (int j = 0; j < Main.maxProjectiles; j++)
+            {
                 Projectile proj = Main.projectile[j];
-				// Short circuits to make the loop as fast as possible
-				if (!proj.active || proj.owner != projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
-					continue;
-				if (proj.type == projectile.type)
-				{
-					spiderCount += (int)proj.minionSlots;
-					proj.Calamity().lineColor = 1;
-				}
-			}
+                // Short circuits to make the loop as fast as possible
+                if (!proj.active || proj.owner != projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
+                    continue;
+                if (proj.type == projectile.type)
+                {
+                    spiderCount += (int)proj.minionSlots;
+                    proj.Calamity().lineColor = 1;
+                }
+            }
 
             if (dust == 0f)
             {
@@ -99,34 +99,34 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			//1 spider = 15 frames, 5 spiders, 10 frames
-			int immuneTime = 16 - spiderCount;
-			if (immuneTime < 5)
-				immuneTime = 5; //cap to prevent potential insanity
+            //1 spider = 15 frames, 5 spiders, 10 frames
+            int immuneTime = 16 - spiderCount;
+            if (immuneTime < 5)
+                immuneTime = 5; //cap to prevent potential insanity
             target.immune[projectile.owner] = immuneTime;
 
-			OnHitEffects(target.Center);
-		}
+            OnHitEffects(target.Center);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
-			if (Main.rand.NextBool(2))
-			{
-				int projAmt = Main.rand.Next(1, 3);
-				for (int n = 0; n < projAmt; n++)
-				{
-					CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner);
-				}
-			}
+        private void OnHitEffects(Vector2 targetPos)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                int projAmt = Main.rand.Next(1, 3);
+                for (int n = 0; n < projAmt; n++)
+                {
+                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner);
+                }
+            }
         }
     }
 }

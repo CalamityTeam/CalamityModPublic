@@ -19,12 +19,12 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
             projectile.timeLeft = 220;
             projectile.penetrate = 1;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 10f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 10f, 20f);
 
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.2f / 255f);
             projectile.rotation += projectile.velocity.X * 1.25f;

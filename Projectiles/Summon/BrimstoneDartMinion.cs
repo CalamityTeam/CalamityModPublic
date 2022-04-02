@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.alpha = 255;
+            projectile.alpha = 255;
         }
 
         public override void AI()

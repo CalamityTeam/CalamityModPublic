@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CraniumSmasherExplosive : ModProjectile
+    public class CraniumSmasherExplosive : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 50;
             projectile.height = 50;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.localNPCHitCooldown = 15;
             projectile.tileCollide = false;

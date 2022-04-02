@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TotalMeltdown : ModProjectile
+    public class TotalMeltdown : ModProjectile
     {
         public override void SetStaticDefaults()
         {

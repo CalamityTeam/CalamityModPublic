@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			if (projectile.alpha > 0)
-				projectile.alpha -= 5;
+            if (projectile.alpha > 0)
+                projectile.alpha -= 5;
 
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Typeless
                     }
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

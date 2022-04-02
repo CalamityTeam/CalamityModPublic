@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SepticSkewerBacteria : ModProjectile
+    public class SepticSkewerBacteria : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -24,18 +24,18 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 300;
-			projectile.ranged = true;
+            projectile.ranged = true;
         }
 
         public override void AI()
         {
-			int num297 = 171;
+            int num297 = 171;
             if (Main.rand.Next(3) == 0)
             {
                 num297 = 46;
             }
-			int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 2f);
-			Main.dust[num469].noGravity = true;
+            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 2f);
+            Main.dust[num469].noGravity = true;
             float num944 = 1f - (float)projectile.alpha / 255f;
             num944 *= projectile.scale;
             projectile.localAI[0] += 1f;

@@ -55,7 +55,7 @@ namespace CalamityMod.World.Planets
             float initialRotationalOffset = WorldGen.genRand.NextFloat(MathHelper.TwoPi);
             Vector2[] initialTendrilDirections = new Vector2[5];
             for (int i = 0; i < initialTendrilDirections.Length; i++)
-			{
+            {
                 // Determine the base control points for the tendril.
                 // They are all determined relative to the previous point.
                 Vector2[] veinDirections = new Vector2[4];
@@ -69,7 +69,7 @@ namespace CalamityMod.World.Planets
                     veinDirections[j] = veinDirections[j - 1].RotatedBy(WorldGen.genRand.NextFloat(-0.87f, 0.87f));
 
                 for (int j = 0; j <= 18; j++)
-				{
+                {
                     float completionRatio = j / 18f;
 
                     // Smoothen the control points based on a catmull-rom spline.
@@ -97,5 +97,5 @@ namespace CalamityMod.World.Planets
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendTileRange(-1, origin.X - radius - 36, origin.Y - radius - 36, radius * 2 + 36, radius * 2 + 36);
         }
-	}
+    }
 }

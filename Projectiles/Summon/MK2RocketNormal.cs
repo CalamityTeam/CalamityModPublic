@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 14;
             projectile.light = 0.5f;
             projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
@@ -30,17 +30,17 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 600;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
             }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 599)
-				return false;
-			return true;
-		}
+            if (projectile.timeLeft > 599)
+                return false;
+            return true;
+        }
     }
 }

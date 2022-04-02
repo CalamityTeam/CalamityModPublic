@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-			if (projectile.ai[0] == 1f)
-				tex = ModContent.GetTexture("CalamityMod/Projectiles/Magic/BeamingThornBlossom");
+            if (projectile.ai[0] == 1f)
+                tex = ModContent.GetTexture("CalamityMod/Projectiles/Magic/BeamingThornBlossom");
 
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
@@ -39,12 +39,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity.Y *= 0.985f;
             for (int dust = 0; dust < 2; dust++)
             {
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					164,
-					58,
-					204
-				});
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    164,
+                    58,
+                    204
+                });
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 6; k++)
             {
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
-				{
-					164,
-					58,
-					204
-				});
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    164,
+                    58,
+                    204
+                });
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
             float spread = 90f * 0.0174f;

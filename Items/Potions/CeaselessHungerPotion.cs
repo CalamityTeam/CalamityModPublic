@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Potions
             recipe.alchemy = true;
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
-			// Blood orb recipes don't get the Alchemy table effect
+            // Blood orb recipes don't get the Alchemy table effect
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater, 4);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);

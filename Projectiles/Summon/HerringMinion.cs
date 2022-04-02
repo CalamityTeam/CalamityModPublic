@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 7f, false, true);
+            projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 7f, false, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

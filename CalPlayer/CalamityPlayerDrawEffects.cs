@@ -42,7 +42,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-	public partial class CalamityPlayer : ModPlayer
+    public partial class CalamityPlayer : ModPlayer
     {
         #region Profaned Moonlight Colors
         public static readonly List<Color> MoonlightDyeDayColors = new List<Color>()

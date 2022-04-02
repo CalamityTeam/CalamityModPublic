@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.Providence
                 if (ProvIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
 
-				float spawnAnimationTimer = 180f;
-				float intensityScalar = 0.25f;
-				if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
-					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
+                float spawnAnimationTimer = 180f;
+                float intensityScalar = 0.25f;
+                if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
+                    intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.Providence
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-				Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
                 spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }

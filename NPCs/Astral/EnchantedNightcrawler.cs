@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Astral
 {
-	public class EnchantedNightcrawler : ModNPC
+    public class EnchantedNightcrawler : ModNPC
     {
         public override void SetStaticDefaults()
         {

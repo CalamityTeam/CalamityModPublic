@@ -14,13 +14,13 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Broken Plagued 'Bed'");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

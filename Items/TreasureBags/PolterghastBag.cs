@@ -39,7 +39,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"));
         }
 
         public override bool CanRightClick() => true;
@@ -64,8 +64,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GhoulishGouger>(w)
             );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
 
             // Vanity

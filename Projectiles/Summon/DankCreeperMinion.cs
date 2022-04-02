@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 1300f;

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = 255;
             projectile.minionSlots = 0f;
             projectile.extraUpdates = 1;
-			projectile.timeLeft = 300;
+            projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(SoundID.Item14, projectile.position);
             int num226 = 36;

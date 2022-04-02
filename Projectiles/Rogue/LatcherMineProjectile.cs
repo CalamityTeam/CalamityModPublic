@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class LatcherMineProjectile : ModProjectile
+    public class LatcherMineProjectile : ModProjectile
     {
         private int projdmg = 0;
         public override void SetStaticDefaults()
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			projdmg = projectile.damage;
+            projdmg = projectile.damage;
             projectile.ModifyHitNPCSticky(6, false);
         }
 

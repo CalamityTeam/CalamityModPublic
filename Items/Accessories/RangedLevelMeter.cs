@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Accessories
                     break;
                 case 4:
                     damageGain = 2;
-					moveSpeed = 1;
-					critGain = 1;
+                    moveSpeed = 1;
+                    critGain = 1;
                     break;
                 case 5:
                     damageGain = 2;

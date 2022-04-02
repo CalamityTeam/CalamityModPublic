@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class PrinceFlameSmall : ModProjectile
+    public class PrinceFlameSmall : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
         public const int AttackDelay = 12;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 240;
             projectile.penetrate = 1;
             projectile.magic = true;
-			projectile.extraUpdates = 2;
+            projectile.extraUpdates = 2;
         }
 
         public override void AI()
@@ -50,11 +50,11 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (Time > AttackDelay)
-				return null;
-			return false;
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Time > AttackDelay)
+                return null;
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

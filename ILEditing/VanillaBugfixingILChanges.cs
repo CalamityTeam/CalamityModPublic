@@ -140,7 +140,7 @@ namespace CalamityMod.ILEditing
 
         #region Fix Projectile Update Priority Problems
 
-		// This IL edit is commented out because it seems to be causing issues, sometimes creating errors preventing Terraria from updating
+        // This IL edit is commented out because it seems to be causing issues, sometimes creating errors preventing Terraria from updating
         // CONTEXT FOR FIX: The way projectile updating works is via looping, starting from 0 and ending at 999. For most cases this works sufficiently.
         // However, in contexts where two projectile's update logic are dependent on each-other in some way (such as mechworm segment movement) it is possible
         // that one projectile will update unexpectedly before the other, creating gaps. By making the update logic ordered based on a priority system, this can be

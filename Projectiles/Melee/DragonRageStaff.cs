@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
-			projectile.Calamity().trueMelee = true;
+            projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[projectile.owner];
             float spinCycleTime = 50f;
 
-			// If the player is dead, destroy the projectile
+            // If the player is dead, destroy the projectile
             if (player.dead || !player.channel)
             {
                 projectile.Kill();
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             int direction = Math.Sign(projectile.velocity.X);
             projectile.velocity = new Vector2(direction, 0f);
 
-			// Initial Rotation
+            // Initial Rotation
             if (projectile.ai[0] == 0f)
             {
                 projectile.rotation = new Vector2(direction, -player.gravDir).ToRotation() + MathHelper.ToRadians(135f);
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.rotation -= MathHelper.PiOver2;
                 }
             }
-			
+            
             projectile.ai[0] += 1f;
             projectile.rotation += MathHelper.TwoPi * 2f / spinCycleTime * (float)direction;
             int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
@@ -70,12 +70,12 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.netUpdate = true;
             }
             SpawnDust(player, direction);
-			PositionAndRotation(player);
-			VisibilityAndLight();
+            PositionAndRotation(player);
+            VisibilityAndLight();
         }
 
-		private void SpawnDust(Player player, int direction)
-		{
+        private void SpawnDust(Player player, int direction)
+        {
             float num12 = projectile.rotation - MathHelper.PiOver4 * direction;
             Vector2 value3 = projectile.Center + (num12 + ((direction == -1) ? MathHelper.Pi : 0f)).ToRotationVector2() * 30f;
             Vector2 vector2 = num12.ToRotationVector2();
@@ -118,10 +118,10 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-		}
+        }
 
-		private void PositionAndRotation(Player player)
-		{
+        private void PositionAndRotation(Player player)
+        {
             Vector2 plrCtr = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 offset = Vector2.Zero;
             projectile.Center = plrCtr + offset;
@@ -131,79 +131,79 @@ namespace CalamityMod.Projectiles.Melee
             player.heldProj = projectile.whoAmI;
             player.itemTime = player.itemAnimation = 2;
             player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
-		}
+        }
 
-		private void VisibilityAndLight()
-		{
+        private void VisibilityAndLight()
+        {
             Lighting.AddLight(projectile.Center, 1.45f, 1.22f, 0.58f);
             projectile.alpha -= 128;
             if (projectile.alpha < 0)
             {
                 projectile.alpha = 0;
             }
-		}
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Daybreak, 180);
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 position)
-		{
-			if (projectile.owner == Main.myPlayer)
-			{
-				CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-				modPlayer.dragonRageHits++;
-				if (modPlayer.dragonRageHits > 10)
-				{
-					SpawnFireballs();
-					modPlayer.dragonRageHits = 0;
-				}
+        private void OnHitEffects(Vector2 position)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+                modPlayer.dragonRageHits++;
+                if (modPlayer.dragonRageHits > 10)
+                {
+                    SpawnFireballs();
+                    modPlayer.dragonRageHits = 0;
+                }
 
-				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceMelee = true;
-			}
-		}
+                int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceMelee = true;
+            }
+        }
 
-		private void SpawnFireballs()
-		{
-			// 10 to 15 fireballs
-			int fireballAmt = Main.rand.Next(10, 16);
-			for (int i = 0; i < fireballAmt; i++)
-			{
-				float angleStep = MathHelper.TwoPi / fireballAmt;
-				float speed = 20f;
-				Vector2 velocity = new Vector2(0f, speed);
-				velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
+        private void SpawnFireballs()
+        {
+            // 10 to 15 fireballs
+            int fireballAmt = Main.rand.Next(10, 16);
+            for (int i = 0; i < fireballAmt; i++)
+            {
+                float angleStep = MathHelper.TwoPi / fireballAmt;
+                float speed = 20f;
+                Vector2 velocity = new Vector2(0f, speed);
+                velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
 
-				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 8, projectile.knockBack / 3f, projectile.owner);
-			}
-		}
+                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 8, projectile.knockBack / 3f, projectile.owner);
+            }
+        }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             Rectangle myRect = projectile.Hitbox;
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-					NPC npc = Main.npc[i];
-					bool voodooDolls = projectile.owner < Main.maxPlayers && (npc.type == NPCID.Guide && player.killGuide || npc.type == NPCID.Clothier && player.killClothier);
-					bool friendlyProjs = projectile.friendly && (!npc.friendly || voodooDolls);
-					bool hostileProjs = projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles;
+                    NPC npc = Main.npc[i];
+                    bool voodooDolls = projectile.owner < Main.maxPlayers && (npc.type == NPCID.Guide && player.killGuide || npc.type == NPCID.Clothier && player.killClothier);
+                    bool friendlyProjs = projectile.friendly && (!npc.friendly || voodooDolls);
+                    bool hostileProjs = projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles;
                     if (npc.active && !npc.dontTakeDamage && (friendlyProjs || hostileProjs) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (npc.noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(npc))
                         {
                             bool canHit;
-							Rectangle rect = npc.Hitbox;
+                            Rectangle rect = npc.Hitbox;
                             if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
                                 int offset = 8;
@@ -251,18 +251,18 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-			Rectangle rectangle = new Rectangle(0, 0, tex.Width, tex.Height);
-			Vector2 origin = tex.Size() / 2f;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Rectangle rectangle = new Rectangle(0, 0, tex.Width, tex.Height);
+            Vector2 origin = tex.Size() / 2f;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(tex, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-			return false;
-		}
+            spriteBatch.Draw(tex, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            return false;
+        }
     }
 }

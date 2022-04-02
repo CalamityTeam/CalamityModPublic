@@ -7,7 +7,7 @@ using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.DataStructures
 {
-	public enum AttunementID : byte
+    public enum AttunementID : byte
     {
         Default, Hot, Cold, Tropical, Evil,  //Broken biome blade
         TrueDefault, TrueHot, TrueCold, TrueTropical, TrueEvil, Holy, Astral, Marine, //Biome blade

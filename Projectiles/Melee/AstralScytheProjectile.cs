@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Enemy/MantisRing";
 
-		private int tileCounter = 5;
+        private int tileCounter = 5;
 
         public override void SetStaticDefaults()
         {
@@ -32,15 +32,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 8;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 7;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-			if (tileCounter > 0)
-				tileCounter--;
-			if (tileCounter <= 0)
-				projectile.tileCollide = true;
+            if (tileCounter > 0)
+                tileCounter--;
+            if (tileCounter <= 0)
+                projectile.tileCollide = true;
 
             projectile.velocity *= 1.03f;
 

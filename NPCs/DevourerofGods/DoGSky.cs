@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (DoGIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[DoGIndex].Center);
 
-				bool sentinelsPhase = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 720;
-				float intensityScalar = sentinelsPhase ? 0f : 0.5f;
+                bool sentinelsPhase = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 720;
+                float intensityScalar = sentinelsPhase ? 0f : 0.5f;
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
             return 0f;
@@ -72,10 +72,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.npc[DoGIndex].active)
                 {
-					float intensity = GetIntensity();
-					float lifeRatio = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax;
-					double blackScreenLife_GateValue = lifeRatio < 0.6f && CalamityWorld.DoGSecondStageCountdown <= 2 ? 0.09 : 0.66;
-					if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || BossRushEvent.BossRushActive)
+                    float intensity = GetIntensity();
+                    float lifeRatio = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax;
+                    double blackScreenLife_GateValue = lifeRatio < 0.6f && CalamityWorld.DoGSecondStageCountdown <= 2 ? 0.09 : 0.66;
+                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || BossRushEvent.BossRushActive)
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             Color.Black * (intensity + 0.5f));

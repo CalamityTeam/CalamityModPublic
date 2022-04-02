@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 10;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 10;
             projectile.extraUpdates = 200;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
@@ -42,13 +42,13 @@ namespace CalamityMod.Projectiles.Summon
 
             if (projectile.ai[0] > 16f && projectile.ai[0] % 2f == 0f)
             {
-				Vector2 source = projectile.position;
-				int pink = Dust.NewDust(source, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
-				Main.dust[pink].noGravity = true;
-				Main.dust[pink].noLight = true;
-				Main.dust[pink].position = source;
-				Main.dust[pink].scale = Main.rand.Next(70, 110) * 0.013f;
-				Main.dust[pink].velocity *= 0.1f;
+                Vector2 source = projectile.position;
+                int pink = Dust.NewDust(source, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
+                Main.dust[pink].noGravity = true;
+                Main.dust[pink].noLight = true;
+                Main.dust[pink].position = source;
+                Main.dust[pink].scale = Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[pink].velocity *= 0.1f;
             }
         }
 

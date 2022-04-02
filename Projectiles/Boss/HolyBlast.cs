@@ -21,15 +21,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 180;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 180;
             projectile.height = 180;
             projectile.hostile = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 120;
             cooldownSlot = 1;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -49,8 +49,8 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (projectile.ai[1] == 0f)
             {
-				int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-				for (int num621 = 0; num621 < 10; num621++)
+                int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+                for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
@@ -100,18 +100,18 @@ namespace CalamityMod.Projectiles.Boss
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
-				float velocity = 5f;
-				int totalProjectiles = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : 4;
-				int type = ModContent.ProjectileType<HolyFire2>();
-				int damage = (int)Math.Round(projectile.damage * 0.75);
-				for (int i = 0; i < totalProjectiles; i++)
+                float velocity = 5f;
+                int totalProjectiles = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : 4;
+                int type = ModContent.ProjectileType<HolyFire2>();
+                int damage = (int)Math.Round(projectile.damage * 0.75);
+                for (int i = 0; i < totalProjectiles; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), projectile.Center);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), projectile.Center);
             int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num193 = 0; num193 < 4; num193++)
             {
@@ -130,13 +130,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-			target.AddBuff(buffType, 240);
-		}
+            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            target.AddBuff(buffType, 240);
+        }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

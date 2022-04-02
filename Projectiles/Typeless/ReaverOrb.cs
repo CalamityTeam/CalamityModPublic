@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class ReaverOrb : ModProjectile
+    public class ReaverOrb : ModProjectile
     {
         public int dust = 3;
 
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             projectile.position.X = (int)projectile.position.X;
             projectile.position.Y = (int)projectile.position.Y;
-		}
+        }
 
         public override bool CanDamage() => false;
     }

@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-	public class LaboratoryDoorOpen : ModTile
+    public class LaboratoryDoorOpen : ModTile
     {
         public override void SetDefaults()
         {

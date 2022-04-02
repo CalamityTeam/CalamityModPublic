@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class SkyfinBombers : RogueWeapon
+    public class SkyfinBombers : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin Bombers");
             Tooltip.SetDefault("Fishy bombers inbound!\n" +
-			"Launches a skyfin nuke that homes in on enemies below it\n" +
-			"Stealth strikes rapidly home in regardless of enemy position");
+            "Launches a skyfin nuke that homes in on enemies below it\n" +
+            "Stealth strikes rapidly home in regardless of enemy position");
         }
 
         public override void SafeSetDefaults()
@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

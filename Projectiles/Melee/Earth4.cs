@@ -104,10 +104,10 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                 return;
 
-			if (healAmt > CalamityMod.lifeStealCap)
-				healAmt = CalamityMod.lifeStealCap;
+            if (healAmt > CalamityMod.lifeStealCap)
+                healAmt = CalamityMod.lifeStealCap;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<EarthHealOrb>(), 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<EarthHealOrb>(), 1200f, 3f);
         }
     }
 }

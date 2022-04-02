@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class FungalHeal : ModProjectile
+    public class FungalHeal : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Healing
                 projectile.localAI[0] += 1f;
             }
 
-			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5f, 15f);
+            projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5f, 15f);
             float num494 = projectile.velocity.X * 0.334f;
             float num495 = -(projectile.velocity.Y * 0.334f);
             int num496 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 56, 0f, 0f, 100, default, 0.5f);

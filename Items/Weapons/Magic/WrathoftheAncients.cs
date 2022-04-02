@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class WrathoftheAncients : ModItem
+    public class WrathoftheAncients : ModItem
     {
         public override void SetStaticDefaults()
         {

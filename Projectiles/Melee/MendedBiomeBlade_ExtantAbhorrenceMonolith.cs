@@ -12,7 +12,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ExtantAbhorrenceMonolith : ModProjectile
+    public class ExtantAbhorrenceMonolith : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith";
         public Player Owner => Main.player[projectile.owner];

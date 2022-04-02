@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class ClamorRifleProj : ModProjectile
+    public class ClamorRifleProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.ranged = true;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num155].velocity += projectile.velocity * 0.5f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 25f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 25f);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int b = 0; b < bulletAmt; b++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(projectile.damage * 0.45), 0f, projectile.owner, 0f, 0f);
                 }
             }

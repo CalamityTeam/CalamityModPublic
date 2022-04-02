@@ -134,14 +134,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] -= 1f;
             }
-			projectile.MinionAntiClump();
+            projectile.MinionAntiClump();
             Vector2 vector = projectile.position;
             float num10 = 3000f;
             bool flag = false;
             Vector2 center = player.Center;
             Vector2 value = new Vector2(0.5f);
             value.Y = 0f;
-			int targetIndex = -1;
+            int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         vector = vector2;
                         flag = true;
-						targetIndex = npc.whoAmI;
+                        targetIndex = npc.whoAmI;
                     }
                 }
             }
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                             num10 = num13;
                             vector = vector3;
                             flag = true;
-							targetIndex = k;
+                            targetIndex = k;
                         }
                     }
                 }
@@ -247,11 +247,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
-				{
-					projectile.ai[0] = 1f;
-				}
-				float num21 = 12f; //6
+                if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
+                {
+                    projectile.ai[0] = 1f;
+                }
+                float num21 = 12f; //6
                 if (projectile.ai[0] == 1f)
                 {
                     num21 = 18f; //15

@@ -41,18 +41,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanDamage() => projectile.alpha <= 128;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             if (projectile.timeLeft > 20)
                 projectile.timeLeft = 20;
-		}
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
             // Release a puff of rainbow dust and some blades.
             // If this projectile is a stealth strike, don't create the blades as a gore-- create them as a projectile instead.
             if (!Main.dedServ)
-			{
+            {
                 for (int i = 0; i < 15; i++)
                 {
                     Dust rainbowBurst = Dust.NewDustPerfect(projectile.Center, 267);
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                             Gore.NewGorePerfect(spawnPosition, projectile.velocity * 0.5f + shootDirection * 7f, goreType, projectile.scale);
                     }
                 }
-			}
+            }
 
             int shootType = ModContent.ProjectileType<PrismRocket>();
             if (Main.myPlayer != projectile.owner)
@@ -103,14 +103,14 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / EnergyShotCount + baseDirectionRotation).ToRotationVector2() * 9f;
                 Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, shootType, energyDamage, projectile.knockBack, projectile.owner);
             }
-		}
+        }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask");
             Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
             Vector2 origin = glowmask.Size() * 0.5f;
             spriteBatch.Draw(glowmask, drawPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
-	}
+    }
 }

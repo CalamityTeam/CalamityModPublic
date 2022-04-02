@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TaintedBladeSlasher : ModProjectile
+    public class TaintedBladeSlasher : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer = null;
         public ref float SwordItemID => ref projectile.ai[1];
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 90000;
             projectile.usesLocalNPCImmunity = true;
             projectile.noEnchantments = true;
-			projectile.Calamity().trueMelee = true;
+            projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(VerticalOffset);

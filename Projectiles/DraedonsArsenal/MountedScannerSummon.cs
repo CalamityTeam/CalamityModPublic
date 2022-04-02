@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-	public class MountedScannerSummon : ModProjectile
+    public class MountedScannerSummon : ModProjectile
     {
         public float AngularOffsetRelativeToPlayer
         {

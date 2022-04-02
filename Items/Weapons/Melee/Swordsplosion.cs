@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class Swordsplosion : ModItem
+    public class Swordsplosion : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.height = 90;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<SwordsplosionBlue>();
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ModContent.ProjectileType<SwordsplosionBlue>();
             item.shootSpeed = 16f;
-		}
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -103,16 +103,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
     }
 }

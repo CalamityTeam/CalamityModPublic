@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class DesertMark : ModProjectile
+    public class DesertMark : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

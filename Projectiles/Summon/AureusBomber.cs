@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AureusBomber : ModProjectile
+    public class AureusBomber : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -37,13 +37,13 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-			int dustType = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.DustType<AstralBlue>(),
-				ModContent.DustType<AstralOrange>()
-			});
+            int dustType = Utils.SelectRandom(Main.rand, new int[]
+            {
+                ModContent.DustType<AstralBlue>(),
+                ModContent.DustType<AstralOrange>()
+            });
 
-			//on spawn effects && minion flexibility
+            //on spawn effects && minion flexibility
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -69,28 +69,28 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			//anti sticking movement
-			projectile.MinionAntiClump();
+            //anti sticking movement
+            projectile.MinionAntiClump();
 
-			//get in a line
-			Vector2 idlePosition = player.Center;
-			idlePosition.Y -= 48f;
-			float minionPositionOffsetX = (10 + projectile.minionPos * 40) * -player.direction;
-			idlePosition.X += minionPositionOffsetX;
+            //get in a line
+            Vector2 idlePosition = player.Center;
+            idlePosition.Y -= 48f;
+            float minionPositionOffsetX = (10 + projectile.minionPos * 40) * -player.direction;
+            idlePosition.X += minionPositionOffsetX;
 
-			Vector2 vectorToIdlePosition = idlePosition - projectile.Center;
-			float idleDistance = vectorToIdlePosition.Length();
+            Vector2 vectorToIdlePosition = idlePosition - projectile.Center;
+            float idleDistance = vectorToIdlePosition.Length();
 
-			//dust effects
-			if (Main.rand.NextBool(10))
-			{
-				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
-				Main.dust[index].velocity *= 0.3f;
-				Main.dust[index].noGravity = true;
-				Main.dust[index].noLight = true;
-			}
+            //dust effects
+            if (Main.rand.NextBool(10))
+            {
+                int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
+                Main.dust[index].velocity *= 0.3f;
+                Main.dust[index].noGravity = true;
+                Main.dust[index].noLight = true;
+            }
 
-			//frames
+            //frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -102,67 +102,67 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			//direction
-			if (projectile.velocity.X > 0f)
-				projectile.spriteDirection = projectile.direction = -1;
-			else if (projectile.velocity.X < 0f)
-				projectile.spriteDirection = projectile.direction = 1;
-			
-			//tile collision
-			projectile.tileCollide = true;
-			if (projectile.ai[0] == 1f)
-				projectile.tileCollide = false;
+            //direction
+            if (projectile.velocity.X > 0f)
+                projectile.spriteDirection = projectile.direction = -1;
+            else if (projectile.velocity.X < 0f)
+                projectile.spriteDirection = projectile.direction = 1;
+            
+            //tile collision
+            projectile.tileCollide = true;
+            if (projectile.ai[0] == 1f)
+                projectile.tileCollide = false;
 
-			//find nearby NPCs
-			Vector2 objectivePos = projectile.position;
-			float minDist = 400f;
-			bool enemyFound = false;
-			int npcIndex = -1;
-			NPC targetedNPC = projectile.OwnerMinionAttackTargetNPC;
-			if (targetedNPC != null && targetedNPC.CanBeChasedBy((object) projectile, false))
-			{
-				float distToEnemy = Vector2.Distance(targetedNPC.Center, projectile.Center);
-				if (((double) Vector2.Distance(projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, targetedNPC.position, targetedNPC.width, targetedNPC.height))
-				{
-					minDist = distToEnemy;
-					objectivePos = targetedNPC.Center;
-					enemyFound = true;
-					npcIndex = targetedNPC.whoAmI;
-				}
-			}
-			if (!enemyFound)
-			{
-				for (int index = 0; index < Main.npc.Length; ++index)
-				{
-					NPC npc = Main.npc[index];
-					if (npc.CanBeChasedBy((object) projectile, false))
-					{
-						float distToEnemy = Vector2.Distance(npc.Center, projectile.Center);
-						if (((double) Vector2.Distance(projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							minDist = distToEnemy;
-							objectivePos = npc.Center;
-							enemyFound = true;
-							npcIndex = index;
-						}
-					}
-				}
-			}
+            //find nearby NPCs
+            Vector2 objectivePos = projectile.position;
+            float minDist = 400f;
+            bool enemyFound = false;
+            int npcIndex = -1;
+            NPC targetedNPC = projectile.OwnerMinionAttackTargetNPC;
+            if (targetedNPC != null && targetedNPC.CanBeChasedBy((object) projectile, false))
+            {
+                float distToEnemy = Vector2.Distance(targetedNPC.Center, projectile.Center);
+                if (((double) Vector2.Distance(projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, targetedNPC.position, targetedNPC.width, targetedNPC.height))
+                {
+                    minDist = distToEnemy;
+                    objectivePos = targetedNPC.Center;
+                    enemyFound = true;
+                    npcIndex = targetedNPC.whoAmI;
+                }
+            }
+            if (!enemyFound)
+            {
+                for (int index = 0; index < Main.npc.Length; ++index)
+                {
+                    NPC npc = Main.npc[index];
+                    if (npc.CanBeChasedBy((object) projectile, false))
+                    {
+                        float distToEnemy = Vector2.Distance(npc.Center, projectile.Center);
+                        if (((double) Vector2.Distance(projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        {
+                            minDist = distToEnemy;
+                            objectivePos = npc.Center;
+                            enemyFound = true;
+                            npcIndex = index;
+                        }
+                    }
+                }
+            }
 
-			int maxDistToEnemy = 500;
-			if (enemyFound)
-				maxDistToEnemy = 1000;
+            int maxDistToEnemy = 500;
+            if (enemyFound)
+                maxDistToEnemy = 1000;
 
-			//if too far, return to the player
-			if ((double) Vector2.Distance(player.Center, projectile.Center) > (double) maxDistToEnemy)
-			{
-				projectile.ai[0] = 1f;
-				projectile.netUpdate = true;
-			}
+            //if too far, return to the player
+            if ((double) Vector2.Distance(player.Center, projectile.Center) > (double) maxDistToEnemy)
+            {
+                projectile.ai[0] = 1f;
+                projectile.netUpdate = true;
+            }
 
-			//movement if NPC found
-			if (enemyFound && projectile.ai[0] == 0f)
-			{
+            //movement if NPC found
+            if (enemyFound && projectile.ai[0] == 0f)
+            {
                 float homingStrength = 15f;
                 Vector2 projPos = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                 float distX = objectivePos.X - projPos.X;
@@ -173,66 +173,66 @@ namespace CalamityMod.Projectiles.Summon
                 distY *= distToTarget;
                 projectile.velocity.X = (projectile.velocity.X * 20f + distX) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + distY) / 21f;
-			}
-			else
-			{
-				//if player not in line of sight, go through tiles
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
-					projectile.ai[0] = 1f;
+            }
+            else
+            {
+                //if player not in line of sight, go through tiles
+                if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+                    projectile.ai[0] = 1f;
 
-				float speedToPlayer = 6f;
-				if (projectile.ai[0] == 1f)
-					speedToPlayer = 15f;
+                float speedToPlayer = 6f;
+                if (projectile.ai[0] == 1f)
+                    speedToPlayer = 15f;
 
-				Vector2 center = projectile.Center;
-				Vector2 playerPos = player.Center - center + new Vector2(0.0f, -60f);
-				playerPos = player.Center - center;
-				float distToPlayer = playerPos.Length();
-				if (distToPlayer > 200f && speedToPlayer < 9f)
-					speedToPlayer = 9f;
-				speedToPlayer *= 0.75f;
+                Vector2 center = projectile.Center;
+                Vector2 playerPos = player.Center - center + new Vector2(0.0f, -60f);
+                playerPos = player.Center - center;
+                float distToPlayer = playerPos.Length();
+                if (distToPlayer > 200f && speedToPlayer < 9f)
+                    speedToPlayer = 9f;
+                speedToPlayer *= 0.75f;
 
-				//idle distance
-				if (distToPlayer < idleDistance && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-				{
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
+                //idle distance
+                if (distToPlayer < idleDistance && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                {
+                    projectile.ai[0] = 0f;
+                    projectile.netUpdate = true;
+                }
 
-				//way too far so teleport memes
-				if (distToPlayer > 2000f)
-				{
-					projectile.position.X = player.Center.X - (float) (projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
-				}
+                //way too far so teleport memes
+                if (distToPlayer > 2000f)
+                {
+                    projectile.position.X = player.Center.X - (float) (projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
+                }
 
-				if (distToPlayer > 10f)
-				{
-					playerPos.Normalize();
-					if (distToPlayer < 50f)
-						speedToPlayer /= 2f;
-					projectile.velocity = (projectile.velocity * 20f + playerPos * speedToPlayer) / 21f;
-				}
-				else
-				{
-					projectile.direction = player.direction;
-					projectile.velocity = projectile.velocity * 0.9f;
-				}
-			}
+                if (distToPlayer > 10f)
+                {
+                    playerPos.Normalize();
+                    if (distToPlayer < 50f)
+                        speedToPlayer /= 2f;
+                    projectile.velocity = (projectile.velocity * 20f + playerPos * speedToPlayer) / 21f;
+                }
+                else
+                {
+                    projectile.direction = player.direction;
+                    projectile.velocity = projectile.velocity * 0.9f;
+                }
+            }
 
-			//stop if you trying to return to the player
-			if (projectile.ai[0] != 0f)
-				return;
+            //stop if you trying to return to the player
+            if (projectile.ai[0] != 0f)
+                return;
 
-			//stop if you didn't find an enemy
-			if (!enemyFound)
-				return;
+            //stop if you didn't find an enemy
+            if (!enemyFound)
+                return;
 
-			//face said enemy
-			if ((objectivePos - projectile.Center).X > 0f)
-				projectile.spriteDirection = projectile.direction = -1;
-			else if ((objectivePos - projectile.Center).X < 0f)
-				projectile.spriteDirection = projectile.direction = 1;
+            //face said enemy
+            if ((objectivePos - projectile.Center).X > 0f)
+                projectile.spriteDirection = projectile.direction = -1;
+            else if ((objectivePos - projectile.Center).X < 0f)
+                projectile.spriteDirection = projectile.direction = 1;
         }
 
         public override void Kill(int timeLeft)
@@ -262,9 +262,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;

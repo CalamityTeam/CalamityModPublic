@@ -13,7 +13,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ArkoftheCosmosParryHoldout : ModProjectile
+    public class ArkoftheCosmosParryHoldout : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 

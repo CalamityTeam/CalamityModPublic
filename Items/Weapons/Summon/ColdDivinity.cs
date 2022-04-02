@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class ColdDivinity : ModItem
+    public class ColdDivinity : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

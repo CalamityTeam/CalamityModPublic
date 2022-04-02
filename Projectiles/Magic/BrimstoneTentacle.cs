@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			projectile.localAI[1]++;
+            projectile.localAI[1]++;
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 if (Math.Abs(projectile.velocity.X) < 1f)

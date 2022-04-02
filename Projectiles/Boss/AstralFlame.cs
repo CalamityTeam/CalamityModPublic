@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 50;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 50;
             projectile.height = 50;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 100;
             projectile.penetrate = 1;
             projectile.timeLeft = 485;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
-		}
+            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+        }
 
         public override void AI()
         {
@@ -46,13 +46,13 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-				projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
-			}
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+            }
             else
             {
                 projectile.spriteDirection = 1;
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-			}
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            }
 
             Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
 
@@ -76,10 +76,10 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.ai[1] < 120f)
                 {
-					if (projectile.ai[1] < 15f)
-						projectile.velocity *= 1.02f;
+                    if (projectile.ai[1] < 15f)
+                        projectile.velocity *= 1.02f;
 
-					float scaleFactor2 = projectile.velocity.Length();
+                    float scaleFactor2 = projectile.velocity.Length();
                     vector11.Normalize();
                     vector11 *= scaleFactor2;
                     projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
@@ -89,9 +89,9 @@ namespace CalamityMod.Projectiles.Boss
                 else if (projectile.velocity.Length() < 18f)
                     projectile.velocity *= 1.01f;
 
-				projectile.ai[1] += 1f;
-			}
-		}
+                projectile.ai[1] += 1f;
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

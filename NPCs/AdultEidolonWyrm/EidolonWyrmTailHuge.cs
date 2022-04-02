@@ -23,11 +23,11 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npc.defense = 0;
             npc.LifeMaxNERB(2415000, 2898000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.aiStyle = -1;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-			npc.Opacity = 0f;
+            npc.Opacity = 0f;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -39,71 +39,71 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npc.chaseable = false;
         }
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
         public override void AI()
         {
             npc.damage = 0;
 
-			// Difficulty modes
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death;
-			bool revenge = CalamityWorld.revenge;
-			bool expertMode = Main.expertMode;
+            // Difficulty modes
+            bool malice = CalamityWorld.malice;
+            bool death = CalamityWorld.death;
+            bool revenge = CalamityWorld.revenge;
+            bool expertMode = Main.expertMode;
 
-			if (npc.ai[2] > 0f)
+            if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
-			// Check if other segments are still alive, if not, die
-			bool shouldDespawn = true;
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
-				{
-					shouldDespawn = false;
-					break;
-				}
-			}
-			if (!shouldDespawn)
-			{
-				if (npc.ai[1] <= 0f)
-					shouldDespawn = true;
-				else if (Main.npc[(int)npc.ai[1]].life <= 0)
-					shouldDespawn = true;
-			}
-			if (shouldDespawn)
-			{
-				npc.life = 0;
-				npc.HitEffect(0, 10.0);
-				npc.checkDead();
-				npc.active = false;
-			}
+            // Check if other segments are still alive, if not, die
+            bool shouldDespawn = true;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+                {
+                    shouldDespawn = false;
+                    break;
+                }
+            }
+            if (!shouldDespawn)
+            {
+                if (npc.ai[1] <= 0f)
+                    shouldDespawn = true;
+                else if (Main.npc[(int)npc.ai[1]].life <= 0)
+                    shouldDespawn = true;
+            }
+            if (shouldDespawn)
+            {
+                npc.life = 0;
+                npc.HitEffect(0, 10.0);
+                npc.checkDead();
+                npc.active = false;
+            }
 
-			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
+            CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
-			float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
-			float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+            float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+            float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
-			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
-			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
-			bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
-			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
-			{
-				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
-				{
-					npc.Opacity += 0.2f;
-					if (npc.Opacity > 1f)
-						npc.Opacity = 1f;
-				}
-			}
-			else
-			{
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
+            bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
+            bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
+            bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+            if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+            {
+                if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
+                {
+                    npc.Opacity += 0.2f;
+                    if (npc.Opacity > 1f)
+                        npc.Opacity = 1f;
+                }
+            }
+            else
+            {
+                npc.Opacity -= 0.05f;
+                if (npc.Opacity < 0f)
+                    npc.Opacity = 0f;
+            }
 
-			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+            Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
             num191 = (int)(num191 / 16f) * 16;
@@ -154,9 +154,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), Color.White, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
-		public override bool CheckActive() => false;
+        public override bool CheckActive() => false;
 
-		public override bool PreNPCLoot() => false;
+        public override bool PreNPCLoot() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

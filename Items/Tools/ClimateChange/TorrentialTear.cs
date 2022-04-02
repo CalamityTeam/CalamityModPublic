@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools.ClimateChange
 {
-	public class TorrentialTear : ModItem
+    public class TorrentialTear : ModItem
     {
         public override void SetStaticDefaults()
         {

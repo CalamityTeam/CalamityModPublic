@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AngelOrb : ModProjectile
+    public class AngelOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
+            projectile.ignoreWater = true;
+            projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 30;
             projectile.minion = true;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 3f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 3f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class GreatswordofBlah : ModItem
+    public class GreatswordofBlah : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.shoot = ModContent.ProjectileType<JudgementBlah>();
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.shoot = ModContent.ProjectileType<JudgementBlah>();
             item.shootSpeed = 6f;
         }
 

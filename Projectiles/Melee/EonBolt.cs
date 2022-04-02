@@ -10,7 +10,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class EonBolt : ModProjectile
+    public class EonBolt : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
 

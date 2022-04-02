@@ -18,7 +18,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class DevourerofGodsBag : ModItem
+    public class DevourerofGodsBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHead>();
 
@@ -64,10 +64,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<DeathhailStaff>(w),
                 DropHelper.WeightStack<StaffoftheMechworm>(w),
                 DropHelper.WeightStack<Eradicator>(w)
-			);
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
             DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), 0.1f);
             DropHelper.DropItemChance(player, ModContent.ItemType<CosmicDischarge>(), 0.1f);
 

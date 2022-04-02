@@ -12,7 +12,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class SanguineFury : ModProjectile
+    public class SanguineFury : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SanguineFury";
         private bool initialized = false;

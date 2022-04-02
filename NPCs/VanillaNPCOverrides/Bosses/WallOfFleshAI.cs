@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-			
+            
             // Clamp life ratio to prevent bad velocity math.
             lifeRatio = MathHelper.Clamp(lifeRatio, 0f, 1f);
 

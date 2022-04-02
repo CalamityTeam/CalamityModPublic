@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Fathom Swarmer Breastplate");
             Tooltip.SetDefault("6% increased damage reduction\n" +
-				"6% increased minion damage\n" +
+                "6% increased minion damage\n" +
                 "Boosted defense and regen increased while submerged in liquid\n" +
-				"Reduces defense loss within the Abyss");
+                "Reduces defense loss within the Abyss");
         }
 
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
                 player.statDefense += 10;
                 player.lifeRegen += 5;
             }
-			player.Calamity().fathomSwarmerBreastplate = true;
+            player.Calamity().fathomSwarmerBreastplate = true;
         }
 
         public override void AddRecipes()

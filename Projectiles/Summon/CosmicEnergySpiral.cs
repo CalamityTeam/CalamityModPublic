@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Summon
                     int blastAmt = Main.rand.Next(5, 8);
                     for (int b = 0; b < blastAmt; b++)
                     {
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                        Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
                     }
                     float speed = 15f;

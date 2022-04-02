@@ -3,7 +3,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class EnchantedParticle : Particle
+    public class EnchantedParticle : Particle
     {
         public float RelativePower;
         public override bool SetLifetime => true;

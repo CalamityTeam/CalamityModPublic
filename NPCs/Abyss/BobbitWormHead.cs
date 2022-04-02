@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-	public class BobbitWormHead : ModNPC
+    public class BobbitWormHead : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,13 +23,13 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
-			npc.Calamity().canBreakPlayerDefense = true;
-			npc.aiStyle = -1;
+            npc.Calamity().canBreakPlayerDefense = true;
+            npc.aiStyle = -1;
             npc.damage = 150;
             npc.width = 80;
             npc.height = 40;
             npc.defense = 50;
-			npc.DR_NERD(0.25f);
+            npc.DR_NERD(0.25f);
             npc.lifeMax = 6000;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -39,15 +39,15 @@ namespace CalamityMod.NPCs.Abyss
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BobbitWormBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = true;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = true;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void AI()
         {
-			if (!Main.npc[(int)npc.ai[2]].active || (int)npc.ai[2] < 0)
+            if (!Main.npc[(int)npc.ai[2]].active || (int)npc.ai[2] < 0)
             {
                 npc.active = false;
                 npc.netUpdate = true;

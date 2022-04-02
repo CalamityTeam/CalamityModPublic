@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ElementalRayBeam : ModProjectile
+    public class ElementalRayBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 10;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 180;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void AI()
         {
@@ -46,16 +46,16 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[num448].noGravity = true;
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.1f;
-				}
+                    Main.dust[num448].velocity *= 0.1f;
+                }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
-			target.AddBuff(BuffID.Frostburn, 90);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
-		}
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
+        }
     }
 }

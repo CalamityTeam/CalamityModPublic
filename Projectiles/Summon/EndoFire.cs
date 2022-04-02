@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EndoFire : ModProjectile
+    public class EndoFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
             projectile.tileCollide = false;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         public override void AI()

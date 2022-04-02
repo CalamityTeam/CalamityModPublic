@@ -39,9 +39,9 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npc.HitSound = SoundID.NPCHit1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PestilentSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = true;
-			npc.Calamity().VulnerableToSickness = false;
-		}
+            npc.Calamity().VulnerableToHeat = true;
+            npc.Calamity().VulnerableToSickness = false;
+        }
 
         public override void AI()
         {
@@ -126,8 +126,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f);
-			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f);
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

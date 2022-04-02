@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class GrandGelatin : ModItem
+    public class GrandGelatin : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.moveSpeed += 0.1f;
             player.jumpSpeedBoost += 0.5f;
-			player.statLifeMax2 += 20;
+            player.statLifeMax2 += 20;
             player.statManaMax2 += 20;
             if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
             {

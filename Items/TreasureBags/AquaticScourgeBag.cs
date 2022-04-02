@@ -12,7 +12,7 @@ using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class AquaticScourgeBag : ModItem
+    public class AquaticScourgeBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
 
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Downpour>(w),
                 DropHelper.WeightStack<DeepseaStaff>(w),
                 DropHelper.WeightStack<ScourgeoftheSeas>(w),
-				DropHelper.WeightStack<CorrosiveSpine>(w)
-			);
+                DropHelper.WeightStack<CorrosiveSpine>(w)
+            );
 
-			// Equipment
-			DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
             DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), 0.1f);
             DropHelper.DropItemChance(player, ModContent.ItemType<SeasSearing>(), 0.1f);
 

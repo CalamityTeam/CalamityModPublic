@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimfire");
-			ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
             Main.projFrames[projectile.type] = 6;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.alpha = 255;
+            projectile.alpha = 255;
         }
 
         public override void AI()
@@ -55,8 +55,8 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.alpha < 5)
                 projectile.alpha = 5;
 
-			//Rotation
-			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * projectile.direction;
 
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);

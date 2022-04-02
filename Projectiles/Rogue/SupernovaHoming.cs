@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SupernovaHoming : ModProjectile
+    public class SupernovaHoming : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -20,17 +20,17 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-			projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             int num154 = 14;
-			int num298 = Main.rand.NextBool(2) ? 107 : 234;
-			if (Main.rand.NextBool(4))
-			{
-				num298 = 269;
-			}
+            int num298 = Main.rand.NextBool(2) ? 107 : 234;
+            if (Main.rand.NextBool(4))
+            {
+                num298 = 269;
+            }
             projectile.ai[0] += 1;
             if (projectile.ai[0] % 2 == 0)
             {
@@ -47,30 +47,30 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.extraUpdates = 1;
 
-				Vector2 center = projectile.Center;
-				float maxDistance = 500f;
-				bool homeIn = false;
+                Vector2 center = projectile.Center;
+                float maxDistance = 500f;
+                bool homeIn = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
+                if (homeIn)
                 {
                     Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
                     projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
-				}
+                }
                 else
                     projectile.Kill();
             }
@@ -102,12 +102,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
     }
 }

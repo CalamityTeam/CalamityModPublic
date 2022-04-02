@@ -66,10 +66,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, knockback, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
             if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
@@ -86,10 +86,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			if (crit)
-				damage /= 2;
+            if (crit)
+                damage /= 2;
 
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }

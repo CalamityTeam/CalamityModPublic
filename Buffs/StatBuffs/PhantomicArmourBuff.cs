@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-	class PhantomicArmourBuff : ModBuff
+    class PhantomicArmourBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -13,7 +13,7 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-			Main.buffNoTimeDisplay[Type] = true;
+            Main.buffNoTimeDisplay[Type] = true;
             longerExpertDebuff = false;
         }
 

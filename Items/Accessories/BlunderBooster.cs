@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class BlunderBooster : ModItem
+    public class BlunderBooster : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blunder Booster");
             Tooltip.SetDefault("12% increased rogue damage and 15% increased rogue projectile velocity\n" +
-				"Stealth generates 10% faster\n" +
+                "Stealth generates 10% faster\n" +
                 "Summons a red lightning aura to surround the player and electrify nearby enemies\n" +
                 "TOOLTIP LINE HERE" + 
                 "This effect has a 1 second cooldown before it can be used again");
@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 38;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.accessory = true;
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().hasJetpack = true;
+            player.Calamity().hasJetpack = true;
             player.Calamity().throwingDamage += 0.12f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().blunderBooster = true;

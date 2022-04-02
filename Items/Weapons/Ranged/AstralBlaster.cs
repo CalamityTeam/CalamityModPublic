@@ -33,22 +33,22 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<AstralRound>();
             item.useAmmo = AmmoID.Bullet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.Bullet)
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstralRound>(), damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstralRound>(), damage, knockBack, player.whoAmI);
+            else
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 
-			return false;
+            return false;
         }
 
         public override void AddRecipes()

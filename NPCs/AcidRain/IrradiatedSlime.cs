@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-			aiType = NPCID.ToxicSludge;
+            aiType = NPCID.ToxicSludge;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.alpha = 50;
             npc.lavaImmune = false;
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
-			npc.Calamity().VulnerableToHeat = false;
-			npc.Calamity().VulnerableToSickness = false;
-			npc.Calamity().VulnerableToElectricity = true;
-			npc.Calamity().VulnerableToWater = false;
-		}
+            npc.Calamity().VulnerableToHeat = false;
+            npc.Calamity().VulnerableToSickness = false;
+            npc.Calamity().VulnerableToElectricity = true;
+            npc.Calamity().VulnerableToWater = false;
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -62,13 +62,13 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
-			if (Falling)
-			{
+            if (Falling)
+            {
                 npc.TargetClosest(false);
                 Player player = Main.player[npc.target];
-				npc.aiStyle = aiType = -1;
+                npc.aiStyle = aiType = -1;
 
-				npc.noTileCollide = npc.noGravity = true;
+                npc.noTileCollide = npc.noGravity = true;
                 if (player.Top.Y < npc.Bottom.Y)
                 {
                     npc.noTileCollide = npc.noGravity = false;
@@ -79,11 +79,11 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.velocity = Vector2.UnitY * 6f;
                 }
-			}
-			else
-			{
-				npc.aiStyle = 1;
-			}
+            }
+            else
+            {
+                npc.aiStyle = 1;
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -103,12 +103,12 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
-		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);
         }

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class MetalShard : ModProjectile
+    public class MetalShard : ModProjectile
     {
         public override void SetStaticDefaults()
         {

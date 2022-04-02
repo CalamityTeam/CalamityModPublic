@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EndoHydraHead : ModProjectile
+    public class EndoHydraHead : ModProjectile
     {
         public Vector2 DeltaPosition;
         public Vector2 DeltaPositionMoving;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -92,8 +92,8 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
 
-				projectile.localAI[0] = 1f;
-			}
+                projectile.localAI[0] = 1f;
+            }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /

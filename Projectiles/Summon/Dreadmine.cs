@@ -129,34 +129,34 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-					float num950 = npc.position.X + (float)(npc.width / 2);
-					float num951 = npc.position.Y + (float)(npc.height / 2);
-					float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
-					if (num952 < num948)
-					{
-						num948 = num952;
-						center12 = npc.Center;
-						flag49 = true;
-					}
-				}
-			}
-			if (!flag49)
-			{
-				for (int num949 = 0; num949 < Main.npc.Length; num949++)
-				{
-					if (Main.npc[num949].CanBeChasedBy(projectile, false))
-					{
-						float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
-						float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
-						float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
-						if (num952 < num948)
-						{
-							num948 = num952;
-							center12 = Main.npc[num949].Center;
-							flag49 = true;
-						}
-					}
-				}
+                    float num950 = npc.position.X + (float)(npc.width / 2);
+                    float num951 = npc.position.Y + (float)(npc.height / 2);
+                    float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
+                    if (num952 < num948)
+                    {
+                        num948 = num952;
+                        center12 = npc.Center;
+                        flag49 = true;
+                    }
+                }
+            }
+            if (!flag49)
+            {
+                for (int num949 = 0; num949 < Main.npc.Length; num949++)
+                {
+                    if (Main.npc[num949].CanBeChasedBy(projectile, false))
+                    {
+                        float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
+                        float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
+                        float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
+                        if (num952 < num948)
+                        {
+                            num948 = num952;
+                            center12 = Main.npc[num949].Center;
+                            flag49 = true;
+                        }
+                    }
+                }
             }
             if (flag49)
             {
@@ -202,7 +202,7 @@ namespace CalamityMod.Projectiles.Summon
                 num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     }
 }

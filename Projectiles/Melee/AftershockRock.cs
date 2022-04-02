@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.aiStyle = 14;
             projectile.friendly = true;
             projectile.penetrate = 6;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.melee = true;
             projectile.ignoreWater = true;
             aiType = ProjectileID.BoulderStaffOfEarth;

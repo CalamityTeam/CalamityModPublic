@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-		}
+        }
 
         public override bool AltFunctionUse(Player player)
         {
@@ -48,18 +48,18 @@ namespace CalamityMod.Items.Weapons.Magic
             return base.CanUseItem(player);
         }
 
-		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-		{
-			if (player.altFunctionUse == 2)
-				mult *= 1.5f;
-		}
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult *= 1.5f;
+        }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse != 2)
-				return 1f;
-			return 0.75f;
-		}
+        public override float UseTimeMultiplier    (Player player)
+        {
+            if (player.altFunctionUse != 2)
+                return 1f;
+            return 0.75f;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

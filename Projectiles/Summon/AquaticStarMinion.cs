@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AquaticStarMinion : ModProjectile
+    public class AquaticStarMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {

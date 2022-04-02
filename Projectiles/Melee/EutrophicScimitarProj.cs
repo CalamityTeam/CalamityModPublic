@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class EutrophicScimitarProj : ModProjectile
+    public class EutrophicScimitarProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

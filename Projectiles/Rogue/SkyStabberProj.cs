@@ -6,7 +6,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SkyStabberProj : ModProjectile
+    public class SkyStabberProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyStabber";
 
@@ -40,18 +40,18 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.X *= 0.98f;
                 projectile.velocity.Y *= 0.98f;
             }
-			else
-			{
-				projectile.rotation += 0.3f * (float)projectile.direction;
-			}
+            else
+            {
+                projectile.rotation += 0.3f * (float)projectile.direction;
+            }
 
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.killSpikyBalls)
-			{
-				projectile.active = false;
-				projectile.netUpdate = true;
-			}
+            if (modPlayer.killSpikyBalls)
+            {
+                projectile.active = false;
+                projectile.netUpdate = true;
+            }
         }
 
         // Makes the projectile bounce infinitely, as it stops mid-air anyway.
@@ -71,25 +71,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(target.Center);
-		}
+            OnHitEffects(target.Center);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
-			if (projectile.Calamity().stealthStrike)
-			{
-				for (int n = 0; n < 4; n++)
-				{
-					Projectile feather = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
-					if (feather.whoAmI.WithinBounds(Main.maxProjectiles))
-						feather.Calamity().forceRogue = true;
-				}
-			}
+        private void OnHitEffects(Vector2 targetPos)
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                for (int n = 0; n < 4; n++)
+                {
+                    Projectile feather = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
+                    if (feather.whoAmI.WithinBounds(Main.maxProjectiles))
+                        feather.Calamity().forceRogue = true;
+                }
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
             Vector2 vector62 = player.Center - projectile.Center;
             projectile.rotation = vector62.ToRotation() - 1.57f;
             if (player.dead)

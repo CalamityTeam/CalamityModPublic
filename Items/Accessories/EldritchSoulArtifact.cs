@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 64;
             item.height = 58;
-			item.accessory = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-		}
+            item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<Navyplate>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-			recipe.AddTile(TileID.DemonAltar);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<Navyplate>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

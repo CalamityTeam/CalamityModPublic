@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class StoneDebrisParticle : Particle
+    public class StoneDebrisParticle : Particle
     {
         public override string Texture => "CalamityMod/Particles/StoneDebris";
         public override bool SetLifetime => true;

@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 1f);
                     player.UpdateMaxTurrets();
                 }
             }

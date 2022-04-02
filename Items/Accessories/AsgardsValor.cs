@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dashMod = 2;
-			player.dash = 0;
+            player.dash = 0;
             player.noKnockback = true;
             player.fireWalk = true;
             modPlayer.abaddon = true;

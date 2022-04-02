@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NorfleetExplosion>(), (int)(projectile.damage * 0.3), projectile.knockBack * 0.1f, projectile.owner);
             }
             Main.PlaySound(SoundID.Item10, projectile.Center);
-			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
             for (int d = 0; d < 4; d++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(2) ? 221 : 244, 0f, 0f, 50, default, 1.5f);
@@ -120,8 +120,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft >= 600)
-				return false;
+            if (projectile.timeLeft >= 600)
+                return false;
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }

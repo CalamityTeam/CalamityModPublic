@@ -3,7 +3,7 @@ using Terraria.ID;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class YateveoBloomSpear : BaseSpearProjectile
+    public class YateveoBloomSpear : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {

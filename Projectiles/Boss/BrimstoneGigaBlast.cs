@@ -21,14 +21,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 36;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 36;
             projectile.height = 36;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
-			projectile.Opacity = 0f;
-			projectile.timeLeft = 150;
+            projectile.Opacity = 0f;
+            projectile.timeLeft = 150;
             cooldownSlot = 1;
         }
 
@@ -47,12 +47,12 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
-			if (projectile.ai[1] == 1f)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
-			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 90) / 60f), 0f, 1f);
+            if (projectile.ai[1] == 1f)
+                projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+            else
+                projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 90) / 60f), 0f, 1f);
 
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             if (projectile.localAI[0] == 0f)
             {
@@ -87,42 +87,42 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture = Main.projectileTexture[projectile.type];
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
             int drawStart = frameHeight * projectile.frame;
-			lightColor.R = (byte)(255 * projectile.Opacity);
-			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
+            lightColor.R = (byte)(255 * projectile.Opacity);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.Opacity != 1f)
-				return;
+            if (projectile.Opacity != 1f)
+                return;
 
-			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240);
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180, true);
         }
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneFireblastImpact"), projectile.Center);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneFireblastImpact"), projectile.Center);
 
-			if (projectile.ai[1] == 0f)
-			{
-				float spread = 45f * MathHelper.PiOver2 * 0.01f;
-				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-				double deltaAngle = spread / 8f;
-				double offsetAngle;
-				if (projectile.owner == Main.myPlayer)
-				{
-					for (int i = 0; i < 8; i++)
-					{
-						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
-					}
-				}
-			}
+            if (projectile.ai[1] == 0f)
+            {
+                float spread = 45f * MathHelper.PiOver2 * 0.01f;
+                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double deltaAngle = spread / 8f;
+                double offsetAngle;
+                if (projectile.owner == Main.myPlayer)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 1f);
+                    }
+                }
+            }
 
             Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 50, default, 1f);
             for (int j = 0; j < 10; j++)
@@ -136,9 +136,9 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)    
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

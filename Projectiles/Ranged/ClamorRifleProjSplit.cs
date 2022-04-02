@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class ClamorRifleProjSplit : ModProjectile
+    public class ClamorRifleProjSplit : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/ClamorRifleProj";
 
@@ -19,14 +19,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.scale = 0.9f;
-			projectile.timeLeft = 180;
+            projectile.timeLeft = 180;
             projectile.penetrate = 1;
             projectile.ranged = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
-		public override void AI()
+        public override void AI()
         {
             projectile.rotation += 0.15f;
 
@@ -41,9 +41,9 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num155].velocity += projectile.velocity * 0.5f;
             }
 
-			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 25f);
-		}
+            if (projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 25f);
+        }
 
         /* override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

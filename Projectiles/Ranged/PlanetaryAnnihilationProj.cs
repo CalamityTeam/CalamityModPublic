@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PlanetaryAnnihilationProj : ModProjectile
+    public class PlanetaryAnnihilationProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
-			projectile.arrow = true;
+            projectile.arrow = true;
         }
 
         public override void AI()
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
             int num3;
             for (int num53 = 0; num53 < 20; num53 = num3 + 1)

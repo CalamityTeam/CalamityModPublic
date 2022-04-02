@@ -4,7 +4,7 @@ using Terraria;
 
 namespace CalamityMod.Particles
 {
-	public class ThanatosSmokeParticle : Particle
+    public class ThanatosSmokeParticle : Particle
     {
         public float RelativePower;
         public float BaseMoveRotation;

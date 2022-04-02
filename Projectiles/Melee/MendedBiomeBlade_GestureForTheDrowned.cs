@@ -10,7 +10,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GestureForTheDrowned : ModProjectile
+    public class GestureForTheDrowned : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/TrueBiomeBlade";
         Vector2 direction = Vector2.Zero;

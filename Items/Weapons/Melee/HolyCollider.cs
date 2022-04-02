@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shootSpeed = 10f;
 
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }

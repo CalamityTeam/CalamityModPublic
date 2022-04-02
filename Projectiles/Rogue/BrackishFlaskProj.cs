@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-		}
+            projectile.ignoreWater = true;
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -46,10 +46,10 @@ namespace CalamityMod.Projectiles.Rogue
             double offsetAngle;
             if (projectile.owner == Main.myPlayer)
             {
-				if (projectile.Calamity().stealthStrike)
-				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -32f, ModContent.ProjectileType<BrackishSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				}
+                if (projectile.Calamity().stealthStrike)
+                {
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -32f, ModContent.ProjectileType<BrackishSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                }
 
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 

@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.timeLeft = 300;
             projectile.ranged = true;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

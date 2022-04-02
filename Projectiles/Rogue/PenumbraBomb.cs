@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PenumbraBomb : ModProjectile
+    public class PenumbraBomb : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Penumbra";
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             //Dark soul projectiles
             int ad = projectile.Calamity().stealthStrike ? 40 : 60;
-			float dmgMult = projectile.Calamity().stealthStrike ? 0.08f : 0.15f;
+            float dmgMult = projectile.Calamity().stealthStrike ? 0.08f : 0.15f;
             int randrot = Main.rand.Next(-30,31);
             for (int i = 0; i < 360; i += ad)
             {
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+            projectile.damage /= 2;
             projectile.Damage();
         }
 

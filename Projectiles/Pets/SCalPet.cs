@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-	public class SCalPet : ModProjectile
+    public class SCalPet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			projectile.FloatingPetAI(false, 0.05f);
+            projectile.FloatingPetAI(false, 0.05f);
             projectile.rotation -= projectile.spriteDirection * MathHelper.PiOver2;
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)

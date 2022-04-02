@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ChaosFlameSmall : ModProjectile
+    public class ChaosFlameSmall : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GaelSkull : ModProjectile
+    public class GaelSkull : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -142,8 +142,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
-			if (projectile.scale == 1.75f)
-				projectile.damage /= 2;
+            if (projectile.scale == 1.75f)
+                projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound((int)SoundType.NPCKilled, (int)projectile.Center.X, (int)projectile.Center.Y, 52, 0.4f);
             for (int i = 0; i < 3; i++)

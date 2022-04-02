@@ -37,21 +37,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			float xDist = Main.mouseX + Main.screenPosition.X - position.X;
-			float yDist = Main.mouseY + Main.screenPosition.Y - position.Y;
-			Vector2 mouseDist = new Vector2(xDist, yDist);
-			float soundMult = mouseDist.Length() / (Main.screenHeight / 2f);
-			if (soundMult > 1f)
-				soundMult = 1f;
-			float soundPitch = soundMult * 2f - 1f;
-			soundPitch = MathHelper.Clamp(soundPitch, -1f, 1f);
+            float xDist = Main.mouseX + Main.screenPosition.X - position.X;
+            float yDist = Main.mouseY + Main.screenPosition.Y - position.Y;
+            Vector2 mouseDist = new Vector2(xDist, yDist);
+            float soundMult = mouseDist.Length() / (Main.screenHeight / 2f);
+            if (soundMult > 1f)
+                soundMult = 1f;
+            float soundPitch = soundMult * 2f - 1f;
+            soundPitch = MathHelper.Clamp(soundPitch, -1f, 1f);
 
             speedX += Main.rand.NextFloat(-0.75f, 0.75f);
             speedY += Main.rand.NextFloat(-0.75f, 0.75f);
-			speedX *= soundMult + 0.25f;
-			speedY *= soundMult + 0.25f;
+            speedX *= soundMult + 0.25f;
+            speedY *= soundMult + 0.25f;
 
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, soundPitch, 0f);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, soundPitch, 0f);
             return false;
         }
     }

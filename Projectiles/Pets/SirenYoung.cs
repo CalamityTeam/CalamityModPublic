@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class SirenYoung : ModProjectile
+    public class SirenYoung : ModProjectile
     {
         private bool underwater = false;
-		private int sleepyTimer = 0;
-		private int lightLevel = 0;
+        private int sleepyTimer = 0;
+        private int lightLevel = 0;
 
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Pets
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
             projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -49,37 +49,37 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			bool sleepy = sleepyTimer >= 180;
-			if (!sleepy)
-			{
-				projectile.frameCounter++;
-				if (projectile.frameCounter > 6)
-				{
-					projectile.frame++;
-					projectile.frameCounter = 0;
-				}
-			}
-			if (underwater)
-			{
-				if (projectile.frame >= 8)
-				{
-					projectile.frame = 0;
-				}
-			}
-			else
-			{
-				if (projectile.frame >= 16)
-				{
-					projectile.frame = sleepy ? 16 : 8;
-				}
-			}
+            bool sleepy = sleepyTimer >= 180;
+            if (!sleepy)
+            {
+                projectile.frameCounter++;
+                if (projectile.frameCounter > 6)
+                {
+                    projectile.frame++;
+                    projectile.frameCounter = 0;
+                }
+            }
+            if (underwater)
+            {
+                if (projectile.frame >= 8)
+                {
+                    projectile.frame = 0;
+                }
+            }
+            else
+            {
+                if (projectile.frame >= 16)
+                {
+                    projectile.frame = sleepy ? 16 : 8;
+                }
+            }
             underwater = player.IsUnderwater();
             if (underwater)
             {
-				if (projectile.frame == 16)
-					projectile.frame = 0;
-				if (sleepyTimer > 0)
-					sleepyTimer--;
+                if (projectile.frame == 16)
+                    projectile.frame = 0;
+                if (sleepyTimer > 0)
+                    sleepyTimer--;
                 if (projectile.localAI[0] == 0f)
                 {
                     lightLevel = 0;
@@ -89,36 +89,36 @@ namespace CalamityMod.Projectiles.Pets
                     lightLevel = 1;
                 }
             }
-			else
-			{
-				if (!sleepy)
-				{
-					sleepyTimer++;
-					lightLevel = 1;
-				}
-				else
-				{
-					lightLevel = 2;
-					projectile.frame = 16;
-				}
-			}
-			switch (lightLevel)
-			{
-				case 0:
-					Lighting.AddLight(projectile.Center, 0f, 2f, 2.5f); //4.5
-					break;
-				case 1:
-					Lighting.AddLight(projectile.Center, 0f, 1.32f, 1.65f); //3
-					break;
-				case 2:
-					Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.7f);
-					break;
-			}
-			
+            else
+            {
+                if (!sleepy)
+                {
+                    sleepyTimer++;
+                    lightLevel = 1;
+                }
+                else
+                {
+                    lightLevel = 2;
+                    projectile.frame = 16;
+                }
+            }
+            switch (lightLevel)
+            {
+                case 0:
+                    Lighting.AddLight(projectile.Center, 0f, 2f, 2.5f); //4.5
+                    break;
+                case 1:
+                    Lighting.AddLight(projectile.Center, 0f, 1.32f, 1.65f); //3
+                    break;
+                case 2:
+                    Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.7f);
+                    break;
+            }
+            
             float velAdjustment = 0.2f;
             float speedLimit = 5f;
-			Vector2 playerVec = player.Center - projectile.Center;
-			playerVec.Y += player.gfxOffY;
+            Vector2 playerVec = player.Center - projectile.Center;
+            playerVec.Y += player.gfxOffY;
             if (player.controlLeft && !sleepy)
             {
                 playerVec.X -= 120f;
@@ -229,6 +229,6 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.rotation = projectile.velocity.X * 0.05f;
             }
-		}
+        }
     }
 }

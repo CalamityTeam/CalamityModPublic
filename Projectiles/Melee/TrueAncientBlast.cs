@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TrueAncientBlast : ModProjectile 
+    public class TrueAncientBlast : ModProjectile 
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

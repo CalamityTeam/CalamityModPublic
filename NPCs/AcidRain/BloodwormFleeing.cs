@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AcidRain
             // But always dig downward.
             npc.velocity.Y = Math.Abs(npc.velocity.Y);
             npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
-		}
+        }
 
         public override void FindFrame(int frameHeight)
         {

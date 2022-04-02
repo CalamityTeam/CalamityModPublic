@@ -13,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Jungle Dragon Egg");
             Tooltip.SetDefault("An imitation of the egg that bore the loyal guardian of the tyrant king\n" +
-							   "Summons Jungle Dragon, Yharon when used in the jungle\n" +
+                               "Summons Jungle Dragon, Yharon when used in the jungle\n" +
                                "Not consumable");
         }
 
@@ -25,9 +25,9 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-		}
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -37,12 +37,12 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Yharon>());
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Yharon>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

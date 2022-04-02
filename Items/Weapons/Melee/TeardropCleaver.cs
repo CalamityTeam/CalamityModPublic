@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 66;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
-		}
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
