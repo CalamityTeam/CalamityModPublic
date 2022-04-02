@@ -1,11 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SparkSpreaderFire : ModProjectile
+	public class SparkSpreaderFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

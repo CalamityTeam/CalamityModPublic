@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBrimstoneElemental : LoreItem
+	public class KnowledgeBrimstoneElemental : LoreItem
     {
         public override void SetStaticDefaults()
         {

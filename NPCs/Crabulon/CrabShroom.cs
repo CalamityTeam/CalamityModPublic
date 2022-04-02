@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Crabulon
 {
-    public class CrabShroom : ModNPC
+	public class CrabShroom : ModNPC
     {
         public override void SetStaticDefaults()
         {

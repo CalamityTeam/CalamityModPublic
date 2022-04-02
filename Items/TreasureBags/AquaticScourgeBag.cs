@@ -1,6 +1,4 @@
-using CalamityMod.World;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -14,7 +12,7 @@ using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class AquaticScourgeBag : ModItem
+	public class AquaticScourgeBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
 

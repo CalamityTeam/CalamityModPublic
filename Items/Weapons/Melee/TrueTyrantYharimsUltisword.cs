@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TrueTyrantYharimsUltisword : ModItem
+	public class TrueTyrantYharimsUltisword : ModItem
     {
         public override void SetStaticDefaults()
         {

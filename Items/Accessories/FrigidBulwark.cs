@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FrigidBulwark : ModItem
+	public class FrigidBulwark : ModItem
     {
         public override void SetStaticDefaults()
         {

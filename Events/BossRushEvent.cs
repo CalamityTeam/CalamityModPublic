@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -39,7 +38,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Events
 {
-    public class BossRushEvent
+	public class BossRushEvent
     {
         public enum TimeChangeContext
         {

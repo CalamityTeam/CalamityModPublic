@@ -1,12 +1,11 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class NapalmArrowProj : ModProjectile
+	public class NapalmArrowProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Ammo/NapalmArrow";
 

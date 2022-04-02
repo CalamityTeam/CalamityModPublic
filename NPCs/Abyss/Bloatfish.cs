@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using System;
 using Terraria;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Bloatfish : ModNPC
+	public class Bloatfish : ModNPC
     {
         public override void SetStaticDefaults()
         {

@@ -1,6 +1,4 @@
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Walls.DraedonStructures;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
-    public class RepairUnitCritter : ModNPC
+	public class RepairUnitCritter : ModNPC
     {
         public enum BehaviorState
         {

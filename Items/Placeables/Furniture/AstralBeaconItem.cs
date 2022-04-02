@@ -1,12 +1,11 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
-using CalamityMod.Tiles;
 using CalamityMod.Tiles.Astral;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class AstralBeaconItem : ModItem
+	public class AstralBeaconItem : ModItem
     {
         public override void SetStaticDefaults()
         {

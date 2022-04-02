@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureAbyss;
-using CalamityMod.Items.Placeables.FurnitureAncient;
 using CalamityMod.Items.Placeables.FurnitureAshen;
 using CalamityMod.Items.Placeables.FurnitureAstral;
 using CalamityMod.Items.Placeables.FurnitureBotanic;
@@ -15,13 +14,12 @@ using CalamityMod.Items.Placeables.FurnitureStratus;
 using CalamityMod.Items.Placeables.FurnitureVoid;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class ThaumaticChair : ModItem
+	public class ThaumaticChair : ModItem
     {
         public override void SetStaticDefaults()
         {

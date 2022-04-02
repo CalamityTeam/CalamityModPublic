@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -14,7 +13,7 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ArkoftheAncients : ModItem
+	public class ArkoftheAncients : ModItem
     {
         public float Combo = 1f;
         public float Charge = 0f;

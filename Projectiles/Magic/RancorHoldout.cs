@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class RancorHoldout : ModProjectile
+	public class RancorHoldout : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];

@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RadiantResolutionAura : ModProjectile
+	public class RadiantResolutionAura : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float AllocatedSlots => ref projectile.ai[0];

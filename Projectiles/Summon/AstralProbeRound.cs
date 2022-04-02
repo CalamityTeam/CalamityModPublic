@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Dusts;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralProbeRound : ModProjectile
+	public class AstralProbeRound : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
 

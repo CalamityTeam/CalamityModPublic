@@ -3,14 +3,10 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using System.Collections.Generic;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PrecisionBolt : ModProjectile
+	public class PrecisionBolt : ModProjectile
     {
         NPC potentialTarget = null;
         public override void SetStaticDefaults()

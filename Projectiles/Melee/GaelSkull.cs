@@ -1,5 +1,4 @@
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GaelSkull : ModProjectile
+	public class GaelSkull : ModProjectile
     {
         public override void SetStaticDefaults()
         {

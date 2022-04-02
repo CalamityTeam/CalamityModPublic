@@ -1,16 +1,13 @@
 using CalamityMod.Items.Accessories;
-using CalamityMod.Tiles.AstralDesert;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class SpiritOriginBullseye : ModProjectile
+	public class SpiritOriginBullseye : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public NPC Target => Main.npc[(int)projectile.ai[0]];

@@ -1,14 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class PrinceFlameSmall : ModProjectile
+	public class PrinceFlameSmall : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
         public const int AttackDelay = 12;

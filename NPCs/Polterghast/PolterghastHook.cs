@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -11,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Polterghast
 {
-    public class PolterghastHook : ModNPC
+	public class PolterghastHook : ModNPC
     {
         private int despawnTimer = 300;
         private bool phase2 = false;

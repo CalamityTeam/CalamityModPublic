@@ -1,11 +1,8 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
-using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -15,7 +12,7 @@ using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AriesWrath : ModProjectile
+	public class AriesWrath : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxiaExtra2";

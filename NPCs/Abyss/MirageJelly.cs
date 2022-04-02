@@ -1,8 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -14,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class MirageJelly : ModNPC
+	public class MirageJelly : ModNPC
     {
         private bool teleporting = false;
         private bool rephasing = false;

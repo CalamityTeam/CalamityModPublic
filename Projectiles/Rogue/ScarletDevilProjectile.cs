@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ScarletDevilProjectile : ModProjectile
+	public class ScarletDevilProjectile : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
         public ref float ShootTimer => ref projectile.ai[0];

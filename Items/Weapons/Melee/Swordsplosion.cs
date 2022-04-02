@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Swordsplosion : ModItem
+	public class Swordsplosion : ModItem
     {
         public override void SetStaticDefaults()
         {

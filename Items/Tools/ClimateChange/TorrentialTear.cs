@@ -1,11 +1,10 @@
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools.ClimateChange
 {
-    public class TorrentialTear : ModItem
+	public class TorrentialTear : ModItem
     {
         public override void SetStaticDefaults()
         {

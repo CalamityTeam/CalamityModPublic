@@ -1,10 +1,9 @@
 using CalamityMod.Items.Materials;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
-    public class StaticRefiner : ModItem
+	public class StaticRefiner : ModItem
     {
         public override void SetStaticDefaults()
         {

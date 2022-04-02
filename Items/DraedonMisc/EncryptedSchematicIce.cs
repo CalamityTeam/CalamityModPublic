@@ -1,13 +1,12 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.DraedonStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class EncryptedSchematicIce : ModItem
+	public class EncryptedSchematicIce : ModItem
     {
         public override void SetStaticDefaults()
         {

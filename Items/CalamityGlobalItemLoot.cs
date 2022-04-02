@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
-using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;

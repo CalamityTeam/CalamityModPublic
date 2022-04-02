@@ -2,7 +2,6 @@ using CalamityMod.CustomRecipes;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonSummoner;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;

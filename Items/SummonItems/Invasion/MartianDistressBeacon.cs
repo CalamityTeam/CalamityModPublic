@@ -1,13 +1,10 @@
-using CalamityMod.Events;
-using CalamityMod.Items.Materials;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems.Invasion
 {
-    public class MartianDistressBeacon : ModItem
+	public class MartianDistressBeacon : ModItem
     {
         public override void SetStaticDefaults()
         {

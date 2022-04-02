@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RottenBrain : ModItem
+	public class RottenBrain : ModItem
     {
         public override void SetStaticDefaults()
         {

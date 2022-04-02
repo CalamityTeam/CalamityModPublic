@@ -1,13 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FabledTortoiseShell : ModItem
+	public class FabledTortoiseShell : ModItem
     {
         public override void SetStaticDefaults()
         {

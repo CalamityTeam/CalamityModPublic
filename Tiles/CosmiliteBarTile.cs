@@ -1,12 +1,11 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-    public class CosmiliteBarTile : ModTile
+	public class CosmiliteBarTile : ModTile
     {
         public override void SetDefaults()
         {

@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ScorchedEarthClusterBomb : ModProjectile
+	public class ScorchedEarthClusterBomb : ModProjectile
     {
         public override void SetStaticDefaults()
         {

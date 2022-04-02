@@ -1,14 +1,12 @@
-﻿using CalamityMod.Items.Weapons.DraedonsArsenal;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TaserHook : ModProjectile
+	public class TaserHook : ModProjectile
     {
         public enum TaserAIState
         {

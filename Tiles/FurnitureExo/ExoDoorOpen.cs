@@ -1,4 +1,3 @@
-using CalamityMod.ILEditing;
 using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -10,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
-    public class ExoDoorOpen : ModTile
+	public class ExoDoorOpen : ModTile
     {
         public override void SetDefaults()
         {

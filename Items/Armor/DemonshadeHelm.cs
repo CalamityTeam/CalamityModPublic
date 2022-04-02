@@ -4,15 +4,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 using static CalamityMod.CalPlayer.CalamityPlayer;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem, IExtendedHat
     {
         public override void SetStaticDefaults()

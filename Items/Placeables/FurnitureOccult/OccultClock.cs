@@ -1,10 +1,9 @@
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-    public class OccultClock : ModItem
+	public class OccultClock : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,6 +1,5 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -15,7 +14,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class RavagerBag : ModItem
+	public class RavagerBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<RavagerBody>();
 

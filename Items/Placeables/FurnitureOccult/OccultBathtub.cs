@@ -1,9 +1,8 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-    public class OccultBathtub : ModItem
+	public class OccultBathtub : ModItem
     {
         public override void SetStaticDefaults()
         {

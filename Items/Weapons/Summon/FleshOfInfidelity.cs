@@ -2,11 +2,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class FleshOfInfidelity : ModItem
+	public class FleshOfInfidelity : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -13,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.GreatSandShark
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class GreatSandShark : ModNPC
     {
         private bool resetAI = false;

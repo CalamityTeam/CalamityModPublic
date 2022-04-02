@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class LightBeam : ModProjectile
+	public class LightBeam : ModProjectile
     {
         public override void SetStaticDefaults()
         {

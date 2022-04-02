@@ -1,14 +1,12 @@
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class AerialiteBar : ModItem
+	public class AerialiteBar : ModItem
     {
         public override void SetStaticDefaults()
         {

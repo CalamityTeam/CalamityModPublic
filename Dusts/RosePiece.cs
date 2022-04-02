@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts
 {
-    public class RosePiece : ModDust
+	public class RosePiece : ModDust
     {
         public override void OnSpawn(Dust dust)
         {

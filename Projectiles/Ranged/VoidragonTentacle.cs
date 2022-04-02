@@ -1,14 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class VoidragonTentacle : ModProjectile
+	public class VoidragonTentacle : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

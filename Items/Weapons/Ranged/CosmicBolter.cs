@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class CosmicBolter : ModItem
+	public class CosmicBolter : ModItem
     {
         public override void SetStaticDefaults()
         {

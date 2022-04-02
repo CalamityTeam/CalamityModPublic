@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ThanatosBoom : ModProjectile
+	public class ThanatosBoom : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

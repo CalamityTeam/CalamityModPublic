@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AndromedaDeathRay : ModProjectile
+	public class AndromedaDeathRay : ModProjectile
     {
         // How long this laser can exist before it is deleted.
         public const int TrueTimeLeft = 25;

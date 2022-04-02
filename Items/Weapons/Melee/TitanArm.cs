@@ -1,13 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TitanArm : ModItem
+	public class TitanArm : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class Bolt : ModProjectile
+	public class Bolt : ModProjectile
     {
         public override void SetStaticDefaults()
         {

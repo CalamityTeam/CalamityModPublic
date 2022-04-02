@@ -1,6 +1,4 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
-using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Magic;
@@ -20,23 +18,18 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs.Ares;
-using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
-using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -49,7 +42,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public partial class CalamityPlayer : ModPlayer
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Profaned Moonlight Colors
         public static readonly List<Color> MoonlightDyeDayColors = new List<Color>()

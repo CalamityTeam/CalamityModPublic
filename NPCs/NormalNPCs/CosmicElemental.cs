@@ -1,5 +1,4 @@
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class CosmicElemental : ModNPC
+	public class CosmicElemental : ModNPC
     {
         public override void SetStaticDefaults()
         {

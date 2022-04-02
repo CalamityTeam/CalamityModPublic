@@ -1,15 +1,13 @@
 ﻿using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Other
 {
-    public class ExhumedHeart : ModNPC
+	public class ExhumedHeart : ModNPC
     {
         public ref float Time => ref npc.ai[0];
         public Player Owner

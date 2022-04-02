@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class AmalgamatedBrain : ModItem
+	public class AmalgamatedBrain : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,3 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
-    public class Bumblefuck2 : ModNPC
+	public class Bumblefuck2 : ModNPC
     {
         public override void SetStaticDefaults()
         {

@@ -1,4 +1,3 @@
-using CalamityMod.ILEditing;
 using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -10,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-    public class AgedLaboratoryDoorOpen : ModTile
+	public class AgedLaboratoryDoorOpen : ModTile
     {
         public override void SetDefaults()
         {

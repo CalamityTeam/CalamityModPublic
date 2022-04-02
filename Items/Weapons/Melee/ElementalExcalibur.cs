@@ -4,14 +4,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ElementalExcalibur : ModItem
+	public class ElementalExcalibur : ModItem
     {
         private static int BaseDamage = 2000;
         private int BeamType = 0;

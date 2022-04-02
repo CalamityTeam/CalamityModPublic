@@ -1,11 +1,9 @@
-using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CheatTestThing : ModItem
+	public class CheatTestThing : ModItem
     {
         public override void SetStaticDefaults()
         {

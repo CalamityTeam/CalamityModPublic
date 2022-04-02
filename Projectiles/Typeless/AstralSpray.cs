@@ -1,11 +1,9 @@
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class AstralSpray : ModProjectile
+	public class AstralSpray : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

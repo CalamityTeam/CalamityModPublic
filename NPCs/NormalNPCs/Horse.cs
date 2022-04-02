@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
@@ -12,7 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Horse : ModNPC
+	public class Horse : ModNPC
     {
         public override void SetStaticDefaults()
         {

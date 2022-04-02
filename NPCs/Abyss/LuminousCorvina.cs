@@ -3,7 +3,6 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class LuminousCorvina : ModNPC
+	public class LuminousCorvina : ModNPC
     {
         private bool hasBeenHit = false;
         private int screamTimer = 0;

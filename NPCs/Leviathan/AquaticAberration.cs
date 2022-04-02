@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Leviathan
 {
-    public class AquaticAberration : ModNPC
+	public class AquaticAberration : ModNPC
     {
         public override void SetStaticDefaults()
         {

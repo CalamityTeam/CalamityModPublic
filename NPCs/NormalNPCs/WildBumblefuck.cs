@@ -1,6 +1,4 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class WildBumblefuck : ModNPC
+	public class WildBumblefuck : ModNPC
     {
         public override void SetStaticDefaults()
         {

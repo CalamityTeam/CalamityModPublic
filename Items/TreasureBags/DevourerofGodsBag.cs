@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Weapons.Magic;
@@ -19,7 +18,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class DevourerofGodsBag : ModItem
+	public class DevourerofGodsBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHead>();
 

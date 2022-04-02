@@ -1,13 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class DeathValley : ModItem
+	public class DeathValley : ModItem
     {
         public override void SetStaticDefaults()
         {

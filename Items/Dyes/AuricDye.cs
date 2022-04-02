@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

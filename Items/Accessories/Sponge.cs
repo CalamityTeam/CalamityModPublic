@@ -1,18 +1,16 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class Sponge : ModItem
+	public class Sponge : ModItem
     {
         public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
 

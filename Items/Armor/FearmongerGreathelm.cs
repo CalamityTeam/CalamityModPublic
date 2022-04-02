@@ -2,14 +2,13 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class FearmongerGreathelm : ModItem
     {
         public override void SetStaticDefaults()

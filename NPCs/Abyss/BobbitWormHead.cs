@@ -1,9 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class BobbitWormHead : ModNPC
+	public class BobbitWormHead : ModNPC
     {
         public override void SetStaticDefaults()
         {

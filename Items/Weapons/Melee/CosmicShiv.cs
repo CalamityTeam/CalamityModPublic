@@ -3,14 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class CosmicShiv : ModItem
+	public class CosmicShiv : ModItem
     {
         public override void SetStaticDefaults()
         {

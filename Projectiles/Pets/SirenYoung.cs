@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class SirenYoung : ModProjectile
+	public class SirenYoung : ModProjectile
     {
         private bool underwater = false;
 		private int sleepyTimer = 0;

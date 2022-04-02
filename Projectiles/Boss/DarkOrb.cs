@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DarkOrb : ModProjectile
+	public class DarkOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
 

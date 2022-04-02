@@ -1,12 +1,10 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EnergyOrb : ModProjectile
+	public class EnergyOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/BlueBubble";
 

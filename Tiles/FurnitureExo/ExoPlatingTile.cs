@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
-    public class ExoPlatingTile : ModTile
+	public class ExoPlatingTile : ModTile
     {
         internal static Texture2D GlowTexture;
 

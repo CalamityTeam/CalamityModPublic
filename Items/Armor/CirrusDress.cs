@@ -1,10 +1,9 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
     public class CirrusDress : ModItem
     {
 		/* How to obtain

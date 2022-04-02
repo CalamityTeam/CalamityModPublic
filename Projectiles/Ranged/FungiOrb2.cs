@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FungiOrb2 : ModProjectile
+	public class FungiOrb2 : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 

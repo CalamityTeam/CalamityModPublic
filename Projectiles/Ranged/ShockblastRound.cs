@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ShockblastRound : ModProjectile
+	public class ShockblastRound : ModProjectile
     {
         public override void SetStaticDefaults()
         {

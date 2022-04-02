@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Plates
 {
-    public class PlagueContainmentCells : ModTile
+	public class PlagueContainmentCells : ModTile
     {
         internal static Texture2D GlowTexture;
         internal static Texture2D PulseTexture;

@@ -1,12 +1,10 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Typeless;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LabFinders
 {
-    public class MysteriousMechanism : ModItem
+	public class MysteriousMechanism : ModItem
     {
         public override void SetStaticDefaults()
         {

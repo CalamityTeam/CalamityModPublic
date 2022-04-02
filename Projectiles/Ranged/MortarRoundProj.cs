@@ -2,7 +2,6 @@ using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MortarRoundProj : ModProjectile
+	public class MortarRoundProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Ammo/MortarRound";
 

@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -11,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class IceClasper : ModNPC
+	public class IceClasper : ModNPC
     {
         public override void SetStaticDefaults()
         {

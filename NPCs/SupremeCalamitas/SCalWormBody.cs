@@ -1,15 +1,13 @@
-using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormBody : ModNPC
+	public class SCalWormBody : ModNPC
     {
 		private bool setAlpha = false;
         public NPC AheadSegment => Main.npc[(int)npc.ai[1]];

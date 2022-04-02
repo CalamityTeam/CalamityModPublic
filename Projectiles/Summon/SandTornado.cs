@@ -1,4 +1,3 @@
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -6,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SandTornado : ModProjectile
+	public class SandTornado : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/TornadoProj";
 

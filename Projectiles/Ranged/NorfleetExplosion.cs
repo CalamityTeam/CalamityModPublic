@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class NorfleetExplosion : ModProjectile
+	public class NorfleetExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

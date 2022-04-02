@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Buffs.Cooldowns;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
         public override void SetStaticDefaults()

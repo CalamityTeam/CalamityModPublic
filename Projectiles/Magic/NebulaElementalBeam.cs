@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.BaseProjectiles;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class NebulaElementalBeam : BaseLaserbeamProjectile
+	public class NebulaElementalBeam : BaseLaserbeamProjectile
     {
         public override float MaxScale => 1.4f;
         public override float MaxLaserLength => 1000f;

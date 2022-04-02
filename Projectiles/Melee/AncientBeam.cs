@@ -1,25 +1,16 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
-using CalamityMod.DataStructures;
-using CalamityMod.Particles;
-using CalamityMod.Items.Weapons.Melee;
-using Terraria.Graphics.Shaders;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AncientBeam : ModProjectile
+	public class AncientBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow";
 

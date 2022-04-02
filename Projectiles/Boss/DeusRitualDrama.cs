@@ -1,4 +1,3 @@
-using CalamityMod.Dusts;
 using CalamityMod.NPCs.AstrumDeus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,12 +6,11 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DeusRitualDrama : ModProjectile
+	public class DeusRitualDrama : ModProjectile
     {
         public float Time
         {

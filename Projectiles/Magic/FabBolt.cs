@@ -1,15 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class FabBolt : ModProjectile
+	public class FabBolt : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";

@@ -1,17 +1,12 @@
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
     public class GemTechBodyArmor : ModItem
     {
         public override void SetStaticDefaults()

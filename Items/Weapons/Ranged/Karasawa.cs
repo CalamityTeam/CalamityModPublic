@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Karasawa : ModItem
+	public class Karasawa : ModItem
     {
         public override void SetStaticDefaults()
         {

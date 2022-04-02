@@ -1,5 +1,3 @@
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -12,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class KelvinCatalyst : RogueWeapon
+	public class KelvinCatalyst : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

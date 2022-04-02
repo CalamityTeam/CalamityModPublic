@@ -3,13 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 using Terraria.Graphics.Shaders;
 using System;
 
 namespace CalamityMod.Items.Materials
 {
-    public class PlasmaDriveCore : ModItem
+	public class PlasmaDriveCore : ModItem
     {
         public override void SetStaticDefaults()
         {

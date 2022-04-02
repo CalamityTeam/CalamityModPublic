@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Other
 {
-    public class LecherousOrb : ModNPC
+	public class LecherousOrb : ModNPC
     {
         public ref float Time => ref npc.ai[0];
         public ref float Frame => ref npc.localAI[0];

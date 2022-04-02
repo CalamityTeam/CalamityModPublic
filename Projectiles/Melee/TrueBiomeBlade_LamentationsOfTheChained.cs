@@ -1,23 +1,19 @@
-﻿using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 using CalamityMod.Particles;
 using CalamityMod.DataStructures;
 using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class LamentationsOfTheChained : ModProjectile
+	public class LamentationsOfTheChained : ModProjectile
     {
         private NPC[] excludedTargets = new NPC[4];
 

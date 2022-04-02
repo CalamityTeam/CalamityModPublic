@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -6,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SeaDragonRocket : ModProjectile
+	public class SeaDragonRocket : ModProjectile
     {
         public override void SetStaticDefaults()
         {

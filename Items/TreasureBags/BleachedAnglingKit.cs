@@ -1,11 +1,10 @@
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class BleachedAnglingKit : ModItem
+	public class BleachedAnglingKit : ModItem
     {
         public override void SetStaticDefaults()
         {

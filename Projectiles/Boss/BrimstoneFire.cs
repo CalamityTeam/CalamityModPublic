@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneFire : ModProjectile
+	public class BrimstoneFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

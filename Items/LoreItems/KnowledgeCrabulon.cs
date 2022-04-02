@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -6,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeCrabulon : LoreItem
+	public class KnowledgeCrabulon : LoreItem
     {
         public override void SetStaticDefaults()
         {

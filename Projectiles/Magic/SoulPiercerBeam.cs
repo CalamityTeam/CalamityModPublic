@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SoulPiercerBeam : ModProjectile
+	public class SoulPiercerBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

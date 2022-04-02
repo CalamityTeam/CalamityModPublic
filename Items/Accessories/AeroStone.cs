@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -6,7 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class AeroStone : ModItem
+	public class AeroStone : ModItem
     {
         public override void SetStaticDefaults()
         {

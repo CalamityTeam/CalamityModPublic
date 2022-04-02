@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.HiveMind
 {
-    public class DankCreeper : ModNPC
+	public class DankCreeper : ModNPC
     {
         public override void SetStaticDefaults()
         {

@@ -2,21 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class SanguineFury : ModProjectile
+	public class SanguineFury : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_SanguineFury";
         private bool initialized = false;

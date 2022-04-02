@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class VisceraBeam : ModProjectile
+	public class VisceraBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

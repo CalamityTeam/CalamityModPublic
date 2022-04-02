@@ -1,9 +1,7 @@
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TrackingDiskProjectile : ModProjectile
+	public class TrackingDiskProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/TrackingDisk";
 

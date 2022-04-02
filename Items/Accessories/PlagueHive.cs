@@ -1,14 +1,11 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class PlagueHive : ModItem
+	public class PlagueHive : ModItem
     {
         public override void SetStaticDefaults()
         {

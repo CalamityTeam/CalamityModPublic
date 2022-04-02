@@ -1,7 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;

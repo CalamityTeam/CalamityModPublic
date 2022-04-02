@@ -1,5 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SandElementalMinion : ModProjectile
+	public class SandElementalMinion : ModProjectile
     {
         public int dust = 3;
 

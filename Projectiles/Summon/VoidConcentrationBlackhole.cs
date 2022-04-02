@@ -1,10 +1,6 @@
-﻿using CalamityMod.NPCs;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class VoidConcentrationBlackhole : ModProjectile
+	class VoidConcentrationBlackhole : ModProjectile
     {
         private int damage = 0;
 

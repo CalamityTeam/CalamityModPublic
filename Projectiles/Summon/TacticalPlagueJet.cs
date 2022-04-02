@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class TacticalPlagueJet : ModProjectile
+	public class TacticalPlagueJet : ModProjectile
     {
         public static Item FalseGun = null;
 

@@ -5,15 +5,13 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AcidRain
 {
-    public class Skyfin : ModNPC
+	public class Skyfin : ModNPC
     {
         public ref float AttackState => ref npc.ai[0];
         public ref float AttackTimer => ref npc.ai[1];

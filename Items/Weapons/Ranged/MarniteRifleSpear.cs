@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class MarniteRifleSpear : ModItem
+	public class MarniteRifleSpear : ModItem
     {
         public override void SetStaticDefaults()
         {

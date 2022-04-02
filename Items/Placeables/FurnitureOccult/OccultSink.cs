@@ -1,9 +1,8 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-    public class OccultSink : ModItem
+	public class OccultSink : ModItem
     {
         public override void SetStaticDefaults()
         {

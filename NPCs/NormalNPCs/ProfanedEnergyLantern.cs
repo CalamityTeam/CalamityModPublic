@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class ProfanedEnergyLantern : ModNPC
+	public class ProfanedEnergyLantern : ModNPC
     {
         public override void SetStaticDefaults()
         {

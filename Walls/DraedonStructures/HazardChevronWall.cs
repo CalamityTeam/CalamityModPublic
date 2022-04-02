@@ -1,10 +1,9 @@
 using Terraria;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls.DraedonStructures
 {
-    public class HazardChevronWall : ModWall
+	public class HazardChevronWall : ModWall
     {
 
         public override void SetDefaults()

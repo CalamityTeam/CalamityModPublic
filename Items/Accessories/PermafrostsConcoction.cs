@@ -1,12 +1,10 @@
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class PermafrostsConcoction : ModItem
+	public class PermafrostsConcoction : ModItem
     {
         public override void SetStaticDefaults()
         {

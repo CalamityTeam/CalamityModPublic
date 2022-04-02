@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs.BrimstoneElemental;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

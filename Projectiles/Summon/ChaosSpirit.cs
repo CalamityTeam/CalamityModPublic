@@ -1,13 +1,12 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ChaosSpirit : ModProjectile
+	public class ChaosSpirit : ModProjectile
     {
         public int dust = 3;
 

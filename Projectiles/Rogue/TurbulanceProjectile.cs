@@ -3,11 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TurbulanceProjectile : ModProjectile
+	public class TurbulanceProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Turbulance";
 

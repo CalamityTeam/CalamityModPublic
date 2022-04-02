@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormTail : ModNPC
+	public class SCalWormTail : ModNPC
     {
 		private bool setAlpha = false;
 

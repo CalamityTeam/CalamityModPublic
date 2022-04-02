@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

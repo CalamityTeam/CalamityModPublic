@@ -2,11 +2,10 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class CustomTemple
+	public class CustomTemple
     {
 		public static void NewJungleTemple()
 		{

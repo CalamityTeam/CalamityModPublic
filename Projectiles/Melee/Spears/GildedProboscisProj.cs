@@ -1,10 +1,9 @@
 using Terraria;
-using Terraria.ID;
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class GildedProboscisProj : BaseSpearProjectile
+	public class GildedProboscisProj : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {

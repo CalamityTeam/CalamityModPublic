@@ -1,12 +1,11 @@
 using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBrainofCthulhu : LoreItem
+	public class KnowledgeBrainofCthulhu : LoreItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -16,7 +14,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ArkoftheCosmos : ModItem
+	public class ArkoftheCosmos : ModItem
     {
         public float Combo = 0f;
         public float Charge = 0f;

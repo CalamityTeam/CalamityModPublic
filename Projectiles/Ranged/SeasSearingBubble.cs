@@ -3,13 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SeasSearingBubble : ModProjectile
+	public class SeasSearingBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {

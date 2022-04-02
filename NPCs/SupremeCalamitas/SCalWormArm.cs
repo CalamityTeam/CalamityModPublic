@@ -1,15 +1,13 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormArm : ModNPC
+	public class SCalWormArm : ModNPC
     {
         public class SepulcherArmLimb
         {

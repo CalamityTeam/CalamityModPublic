@@ -3,7 +3,6 @@ using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
-using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;

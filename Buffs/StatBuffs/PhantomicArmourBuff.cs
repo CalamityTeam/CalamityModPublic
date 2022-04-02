@@ -1,10 +1,9 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    class PhantomicArmourBuff : ModBuff
+	class PhantomicArmourBuff : ModBuff
     {
         public override void SetDefaults()
         {

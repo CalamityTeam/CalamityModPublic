@@ -1,7 +1,5 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

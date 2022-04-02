@@ -1,9 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -17,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class ColossalSquid : ModNPC
+	public class ColossalSquid : ModNPC
     {
         private bool hasBeenHit = false;
 

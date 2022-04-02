@@ -5,13 +5,12 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Apotheosis : ModItem
+	public class Apotheosis : ModItem
     {
         public override void SetStaticDefaults()
         {

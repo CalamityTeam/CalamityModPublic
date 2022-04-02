@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MiniGuardianAttack : ModProjectile
+	public class MiniGuardianAttack : ModProjectile
     {
         private int ai = 3;
         private void updateDamage(int type)

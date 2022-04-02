@@ -1,29 +1,23 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.DataStructures;
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Particles;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria.ModLoader.IO;
-using static CalamityMod.CalamityUtils;
-using static CalamityMod.Items.Weapons.Melee.FourSeasonsGalaxia;
 using static Terraria.ModLoader.ModContent;
 
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class FourSeasonsGalaxia : ModItem
+	public class FourSeasonsGalaxia : ModItem
     {
         public Attunement mainAttunement = null;
 

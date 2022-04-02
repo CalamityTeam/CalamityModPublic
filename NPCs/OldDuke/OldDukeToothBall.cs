@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using System;

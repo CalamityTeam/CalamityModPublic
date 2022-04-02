@@ -1,6 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
@@ -8,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class BlazingCore : ModItem
+	public class BlazingCore : ModItem
     {
         public override void SetStaticDefaults()
         {

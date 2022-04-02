@@ -1,12 +1,10 @@
-using CalamityMod.Projectiles.Melee;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class EvilSmasher : ModItem
+	public class EvilSmasher : ModItem
     {
         public override void SetStaticDefaults()
         {

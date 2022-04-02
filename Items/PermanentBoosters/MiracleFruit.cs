@@ -1,13 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class MiracleFruit : ModItem
+	public class MiracleFruit : ModItem
     {
         public override void SetStaticDefaults()
         {

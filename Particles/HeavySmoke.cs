@@ -1,16 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-    public class HeavySmokeParticle : Particle
+	public class HeavySmokeParticle : Particle
     {
         public override bool SetLifetime => true;
         public override int FrameVariants => 7;

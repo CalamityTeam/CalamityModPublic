@@ -2,17 +2,14 @@ using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class ReaverHeadgear : ModItem
     {
 		//Exploration and Mining Helm

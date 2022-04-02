@@ -5,7 +5,6 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -15,7 +14,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-    public class SCalAltar : ModTile
+	public class SCalAltar : ModTile
     {
         public const int Width = 4;
         public const int Height = 3;

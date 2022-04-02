@@ -5,15 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World.Planets
 {
-    public class MainPlanet : Planetoid
+	public class MainPlanet : Planetoid
     {
         public override bool Place(Point origin, StructureMap structures)
         {

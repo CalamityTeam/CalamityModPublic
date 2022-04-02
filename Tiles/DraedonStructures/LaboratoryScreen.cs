@@ -2,13 +2,12 @@ using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
-    public class LaboratoryScreen : ModTile
+	public class LaboratoryScreen : ModTile
     {
         public override void SetDefaults()
         {

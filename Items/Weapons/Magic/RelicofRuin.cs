@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class RelicofRuin : ModItem
+	public class RelicofRuin : ModItem
     {
         public override void SetStaticDefaults()
         {

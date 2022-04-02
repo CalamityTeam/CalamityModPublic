@@ -1,13 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Neck)]
+	[AutoloadEquip(EquipType.Neck)]
     public class EvasionScarf : ModItem
     {
         public override void SetStaticDefaults()

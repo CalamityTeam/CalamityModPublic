@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SurgeDriverHoldout : ModProjectile
+	public class SurgeDriverHoldout : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;

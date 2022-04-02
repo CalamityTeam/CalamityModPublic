@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RottenDogtooth : ModItem
+	public class RottenDogtooth : ModItem
     {
         internal const int ArmorCrunchDebuffTime = 180;
         internal const float StealthStrikeDamageMultiplier = 0.1f;

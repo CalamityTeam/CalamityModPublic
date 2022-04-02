@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.BaseProjectiles;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class StardustElementalBeam : BaseLaserbeamProjectile
+	public class StardustElementalBeam : BaseLaserbeamProjectile
     {
         public override float MaxScale => 0.85f;
         public override float MaxLaserLength => 1000f;

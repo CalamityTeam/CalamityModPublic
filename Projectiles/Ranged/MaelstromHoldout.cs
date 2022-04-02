@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MaelstromHoldout : ModProjectile
+	public class MaelstromHoldout : ModProjectile
     {
         private Player Owner => Main.player[projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;

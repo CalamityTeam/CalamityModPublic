@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Shield)]
+	[AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
         public override void SetStaticDefaults()

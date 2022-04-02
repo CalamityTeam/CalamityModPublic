@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class PulsePistolShot : ModProjectile
+	public class PulsePistolShot : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

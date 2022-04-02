@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Ranged;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Prismalline3 : ModProjectile
+	public class Prismalline3 : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
 

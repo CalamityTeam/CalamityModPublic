@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OldLordOathswordProj : BaseIdleHoldoutProjectile
+	public class OldLordOathswordProj : BaseIdleHoldoutProjectile
     {
         public enum SwingState
         {

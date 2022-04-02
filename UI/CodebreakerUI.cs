@@ -1,5 +1,4 @@
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -9,14 +8,13 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
-    public static class CodebreakerUI
+	public static class CodebreakerUI
     {
         public static int ViewedTileEntityID = -1;
         public static bool AwaitingCloseConfirmation = false;

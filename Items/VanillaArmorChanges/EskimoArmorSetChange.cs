@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
-    public class EskimoArmorSetChange : VanillaArmorChange
+	public class EskimoArmorSetChange : VanillaArmorChange
     {
         public override int? HeadPieceID => ItemID.EskimoHood;
 

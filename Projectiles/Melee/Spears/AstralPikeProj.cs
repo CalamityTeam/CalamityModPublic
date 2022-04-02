@@ -1,15 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class AstralPikeProj : BaseSpearProjectile
+	public class AstralPikeProj : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {

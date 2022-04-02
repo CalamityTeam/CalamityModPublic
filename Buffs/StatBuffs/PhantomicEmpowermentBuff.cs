@@ -1,10 +1,9 @@
-﻿using CalamityMod.CalPlayer;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    class PhantomicEmpowermentBuff : ModBuff
+	class PhantomicEmpowermentBuff : ModBuff
     {
         public override void SetDefaults()
         {

@@ -1,9 +1,5 @@
 using CalamityMod.Buffs.Mounts;
-using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Ores;
-using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

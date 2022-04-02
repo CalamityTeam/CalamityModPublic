@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MiniRocket : ModProjectile
+	public class MiniRocket : ModProjectile
     {
         public static Item FalseLauncher = null;
 

@@ -1,15 +1,11 @@
 using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Dusts;
 using CalamityMod.Particles;
 
 
@@ -18,7 +14,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PumplerHoldout : ModProjectile
+	public class PumplerHoldout : ModProjectile
     {
 
         public override void SetStaticDefaults()

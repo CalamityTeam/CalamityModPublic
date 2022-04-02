@@ -2,14 +2,13 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlantSummon : ModProjectile
+	public class PlantSummon : ModProjectile
     {
 		private bool initialized = false;
 		private bool enraged = false;

@@ -2,13 +2,11 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Dusts;
 using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PumplerGrenadeExplosion : ModProjectile
+	public class PumplerGrenadeExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

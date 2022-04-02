@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ElementalRayBeam : ModProjectile
+	public class ElementalRayBeam : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

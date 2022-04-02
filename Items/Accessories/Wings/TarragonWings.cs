@@ -2,7 +2,6 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class TarragonWings : ModItem
     {
         public override void SetStaticDefaults()

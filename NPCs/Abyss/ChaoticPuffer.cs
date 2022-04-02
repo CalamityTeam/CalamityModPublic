@@ -1,9 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class ChaoticPuffer : ModNPC
+	public class ChaoticPuffer : ModNPC
     {
         public bool puffedUp = false;
         public bool puffing = false;

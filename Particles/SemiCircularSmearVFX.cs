@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-    public class SemiCircularSmearVFX : Particle //Also check out Split mod!
+	public class SemiCircularSmearVFX : Particle //Also check out Split mod!
     {
         public override string Texture => "CalamityMod/Particles/SemiCircularSmear";
         public override bool UseAdditiveBlend => true;

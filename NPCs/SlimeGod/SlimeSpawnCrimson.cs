@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-    public class SlimeSpawnCrimson : ModNPC
+	public class SlimeSpawnCrimson : ModNPC
     {
         public override void SetStaticDefaults()
         {

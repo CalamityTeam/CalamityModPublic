@@ -1,25 +1,15 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
-using CalamityMod.DataStructures;
-using CalamityMod.Particles;
+﻿using CalamityMod.DataStructures;
 using CalamityMod.Items.Weapons.Melee;
-using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GhastlyChain : ModProjectile
+	public class GhastlyChain : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain";
         public Player Owner => Main.player[projectile.owner];

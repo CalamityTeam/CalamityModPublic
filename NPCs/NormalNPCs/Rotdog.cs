@@ -1,12 +1,11 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Rotdog : ModNPC
+	public class Rotdog : ModNPC
     {
         public override void SetStaticDefaults()
         {

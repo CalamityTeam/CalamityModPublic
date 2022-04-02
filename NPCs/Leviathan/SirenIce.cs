@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;

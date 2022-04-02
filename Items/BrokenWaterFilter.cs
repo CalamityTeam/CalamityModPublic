@@ -1,11 +1,10 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items
 {
-    public class BrokenWaterFilter : ModItem
+	public class BrokenWaterFilter : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,10 +1,9 @@
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-    public class OccultCandle : ModItem
+	public class OccultCandle : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -10,7 +9,7 @@ using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class BoxJellyfish : ModNPC
+	public class BoxJellyfish : ModNPC
     {
         public override void SetStaticDefaults()
         {

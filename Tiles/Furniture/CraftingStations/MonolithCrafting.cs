@@ -2,12 +2,11 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    public class MonolithCrafting : ModTile
+	public class MonolithCrafting : ModTile
     {
         public override void SetDefaults()
         {

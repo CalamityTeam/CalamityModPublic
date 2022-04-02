@@ -1,11 +1,10 @@
-﻿using CalamityMod.Particles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 
 
-namespace CalamityMod.Particles { 
-    public class WaterGlobParticle : Particle 
+namespace CalamityMod.Particles
+{
+	public class WaterGlobParticle : Particle 
     {
         public override string Texture => "CalamityMod/Particles/WaterGlob";
 

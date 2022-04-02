@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class FungalClumpMinion : ModProjectile
+	public class FungalClumpMinion : ModProjectile
     {
 		private bool returnToPlayer = false;
 

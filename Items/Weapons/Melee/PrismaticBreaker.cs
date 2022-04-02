@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class PrismaticBreaker : ModItem
+	public class PrismaticBreaker : ModItem
     {
         private int alpha = 50;
         public Color[] colors = new Color[]

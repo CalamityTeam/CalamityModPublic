@@ -1,8 +1,6 @@
-using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 {
-    public static class DemonEyeAI
+	public static class DemonEyeAI
     {
         // Subtypes of enemies with this AI. Made for programmer convenience.
         public static List<int> NightTimeEnemies => new List<int>()

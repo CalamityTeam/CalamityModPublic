@@ -1,14 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Hiveling : ModProjectile
+	public class Hiveling : ModProjectile
     {
         public override string Texture => "CalamityMod/NPCs/Astral/Hiveling";
 

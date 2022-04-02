@@ -1,4 +1,3 @@
-using CalamityMod;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
@@ -27,7 +26,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public partial class CalamityWorld : ModWorld
+	public partial class CalamityWorld : ModWorld
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;

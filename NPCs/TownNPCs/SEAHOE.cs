@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;

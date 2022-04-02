@@ -1,15 +1,11 @@
-using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SquirrelSquireMinion : ModProjectile
+	public class SquirrelSquireMinion : ModProjectile
     {
         public ref float AttackTimer => ref projectile.ai[1];
         public bool Attacking

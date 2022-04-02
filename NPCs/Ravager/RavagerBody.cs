@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -22,7 +21,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Ravager
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class RavagerBody : ModNPC
     {
 		private float velocityY = -16f;

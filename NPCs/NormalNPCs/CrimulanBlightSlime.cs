@@ -1,14 +1,11 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Melee;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class CrimulanBlightSlime : ModNPC
+	public class CrimulanBlightSlime : ModNPC
     {
         public override void SetStaticDefaults()
         {

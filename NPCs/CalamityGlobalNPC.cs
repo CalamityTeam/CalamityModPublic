@@ -13,15 +13,12 @@ using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
-using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.DraedonLabThings;
@@ -29,28 +26,20 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -77,7 +66,7 @@ using CalamityMod.Balancing;
 
 namespace CalamityMod.NPCs
 {
-    public partial class CalamityGlobalNPC : GlobalNPC
+	public partial class CalamityGlobalNPC : GlobalNPC
     {
 		#region Variables
 

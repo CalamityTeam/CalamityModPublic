@@ -1,4 +1,3 @@
-using CalamityMod.World;
 using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Ores
 {
-    public class CharredOre : ModTile
+	public class CharredOre : ModTile
     {
         private int sheetWidth = 288;
         private int sheetHeight = 270;

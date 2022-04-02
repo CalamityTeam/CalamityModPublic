@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ThunderstormShot : ModProjectile
+	public class ThunderstormShot : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

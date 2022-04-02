@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using System;
 using System.IO;
@@ -11,10 +10,10 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    #region Mage Projectiles
+	#region Mage Projectiles
 
-    #region Main Fireball
-    public class ProfanedCrystalMageFireball : ModProjectile
+	#region Main Fireball
+	public class ProfanedCrystalMageFireball : ModProjectile
     {
         public override void SetStaticDefaults()
         {

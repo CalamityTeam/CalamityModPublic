@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeSkeletron : LoreItem
+	public class KnowledgeSkeletron : LoreItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CalamityRing : ModItem
+	public class CalamityRing : ModItem
     {
         public override void SetStaticDefaults()
         {

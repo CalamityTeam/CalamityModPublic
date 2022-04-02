@@ -1,14 +1,11 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using static CalamityMod.CalPlayer.CalamityPlayer;
-using Terraria;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class ApolloMask : ModItem, IExtendedHat
     {
         public override void SetStaticDefaults()

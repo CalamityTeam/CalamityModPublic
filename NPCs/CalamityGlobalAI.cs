@@ -1,23 +1,14 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
-using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -25,7 +16,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
-    public partial class CalamityGlobalAI
+	public partial class CalamityGlobalAI
     {
         #region Death Mode NPC AI
 

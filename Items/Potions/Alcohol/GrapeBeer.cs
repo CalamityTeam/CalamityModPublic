@@ -1,14 +1,11 @@
 using CalamityMod.Buffs.Alcohol;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class GrapeBeer : ModItem
+	public class GrapeBeer : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class GrandGelatin : ModItem
+	public class GrandGelatin : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -3,7 +3,6 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,7 +17,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class OmegaBiomeBlade : ModItem
+	public class OmegaBiomeBlade : ModItem
     {
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;

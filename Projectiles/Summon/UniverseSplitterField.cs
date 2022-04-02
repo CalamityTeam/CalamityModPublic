@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using System;
 using System.IO;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class UniverseSplitterField : ModProjectile
+	public class UniverseSplitterField : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

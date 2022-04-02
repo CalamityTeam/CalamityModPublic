@@ -1,9 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -12,7 +10,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class HeartoftheElements : ModItem
+	public class HeartoftheElements : ModItem
     {
         public override void SetStaticDefaults()
         {

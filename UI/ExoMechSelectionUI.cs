@@ -1,22 +1,14 @@
-using CalamityMod.Items.DraedonMisc;
 using CalamityMod.NPCs.ExoMechs;
-using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Linq;
-using System.Text;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
-    public static class ExoMechSelectionUI
+	public static class ExoMechSelectionUI
     {
         public static float DestroyerIconScale = 1f;
         public static float PrimeIconScale = 1f;

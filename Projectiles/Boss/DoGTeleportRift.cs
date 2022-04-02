@@ -1,15 +1,13 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DoGTeleportRift : ModProjectile
+	public class DoGTeleportRift : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 

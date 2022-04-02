@@ -1,36 +1,25 @@
-using CalamityMod;
-using CalamityMod.NPCs.AquaticScourge;
-using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
-using CalamityMod.NPCs.DesertScourge;
-using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.OldDuke;
-using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Balancing
 {
-    public static class BalancingChangesManager
+	public static class BalancingChangesManager
     {
         internal static List<IBalancingRule[]> UniversalBalancingChanges = null;
         internal static List<NPCBalancingChange> NPCSpecificBalancingChanges = null;

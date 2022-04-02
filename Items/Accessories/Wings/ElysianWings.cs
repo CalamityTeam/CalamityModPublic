@@ -1,13 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class ElysianWings : ModItem
     {
         public override void SetStaticDefaults()

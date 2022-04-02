@@ -1,9 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Ammo;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;

@@ -9,11 +9,10 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class AuricQuantumCoolingCell : ModItem
+	public class AuricQuantumCoolingCell : ModItem
     {
         public override void SetStaticDefaults()
         {

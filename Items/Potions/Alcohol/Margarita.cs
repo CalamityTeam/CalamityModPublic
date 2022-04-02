@@ -1,14 +1,11 @@
 using CalamityMod.Buffs.Alcohol;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class Margarita : ModItem
+	public class Margarita : ModItem
     {
 		public static int BuffType = ModContent.BuffType<MargaritaBuff>();
 		public static int BuffDuration = 10800;

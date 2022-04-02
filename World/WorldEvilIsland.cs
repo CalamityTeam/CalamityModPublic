@@ -5,12 +5,11 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class WorldEvilIsland
+	public class WorldEvilIsland
     {
         public static void PlaceEvilIsland()
         {

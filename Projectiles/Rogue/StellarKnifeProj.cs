@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StellarKnifeProj : ModProjectile
+	public class StellarKnifeProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/StellarKnife";
 

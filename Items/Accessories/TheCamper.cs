@@ -1,17 +1,14 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    //Dedicated to Dzicozan
-    [AutoloadEquip(EquipType.Back)]
+	//Dedicated to Dzicozan
+	[AutoloadEquip(EquipType.Back)]
     public class TheCamper : ModItem
     {
         int auraCounter = 0;

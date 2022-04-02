@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MagicHat : ModProjectile
+	public class MagicHat : ModProjectile
     {
         public const float Range = 1500.0001f;
 

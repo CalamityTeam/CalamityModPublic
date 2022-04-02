@@ -1,5 +1,3 @@
-using MonoMod.Cil;
-using System;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Critters;
 using Terraria;

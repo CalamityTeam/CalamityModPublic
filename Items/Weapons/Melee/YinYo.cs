@@ -1,11 +1,10 @@
 using CalamityMod.Projectiles.Melee.Yoyos;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class YinYo : ModItem
+	public class YinYo : ModItem
     {
         public override void SetStaticDefaults()
         {

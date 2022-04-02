@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.UI.Chat;
 using Terraria.Localization;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    public static class DefenseDamageDisplayUI
+	public static class DefenseDamageDisplayUI
     {
         public static void Draw(SpriteBatch spriteBatch)
         {

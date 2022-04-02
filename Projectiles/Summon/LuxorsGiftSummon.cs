@@ -1,14 +1,13 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class LuxorsGiftSummon : ModProjectile
+	public class LuxorsGiftSummon : ModProjectile
     {
         private int dust = 3;
 

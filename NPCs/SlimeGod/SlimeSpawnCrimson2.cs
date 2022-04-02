@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-    public class SlimeSpawnCrimson2 : ModNPC
+	public class SlimeSpawnCrimson2 : ModNPC
     {
         public float spikeTimer = 60f;
 

@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class FlameBlast : ModProjectile
+	public class FlameBlast : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

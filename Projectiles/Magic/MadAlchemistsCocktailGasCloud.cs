@@ -1,9 +1,7 @@
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class MadAlchemistsCocktailGasCloud : ModProjectile
+	public class MadAlchemistsCocktailGasCloud : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -1,13 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Collections.Generic;
 
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Neck)]
+	[AutoloadEquip(EquipType.Neck)]
     public class CounterScarf : ModItem
     {
         public override void SetStaticDefaults()

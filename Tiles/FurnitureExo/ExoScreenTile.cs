@@ -2,13 +2,12 @@ using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureExo
 {
-    public class ExoScreenTile : ModTile
+	public class ExoScreenTile : ModTile
     {
         public override void SetDefaults()
         {

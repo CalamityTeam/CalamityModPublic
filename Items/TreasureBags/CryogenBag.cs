@@ -9,14 +9,13 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Cryogen;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class CryogenBag : ModItem
+	public class CryogenBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Cryogen>();
 

@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class InfernalBlade : ModProjectile
+	public class InfernalBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {

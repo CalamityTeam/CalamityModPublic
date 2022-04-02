@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Particles
 {
-    public class SquishyLightParticle : Particle
+	public class SquishyLightParticle : Particle
     {
         public override string Texture => "CalamityMod/Particles/Light";
         public override bool UseAdditiveBlend => true;

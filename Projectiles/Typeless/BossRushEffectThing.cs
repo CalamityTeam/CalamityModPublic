@@ -1,7 +1,5 @@
 using CalamityMod.Events;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -9,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class BossRushEffectThing : ModProjectile
+	public class BossRushEffectThing : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];

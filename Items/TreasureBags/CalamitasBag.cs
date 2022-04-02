@@ -6,7 +6,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,7 +13,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class CalamitasBag : ModItem
+	public class CalamitasBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<CalamitasRun3>();
 

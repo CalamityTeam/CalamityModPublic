@@ -6,15 +6,12 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
@@ -57,14 +54,12 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -80,7 +75,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
-    public class CalamityLists
+	public class CalamityLists
     {
         public static IList<string> donatorList;
         public static List<int> projectileDestroyExceptionList;

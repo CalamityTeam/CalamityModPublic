@@ -2,12 +2,11 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.DataStructures
 {
-    public class DeadMinionProperties
+	public class DeadMinionProperties
     {
         public int Type;
         public int OriginalDamage;

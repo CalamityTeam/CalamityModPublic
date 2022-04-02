@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class RelicOfDeliverance : ModItem
+	public class RelicOfDeliverance : ModItem
     {
         public override void SetStaticDefaults()
         {

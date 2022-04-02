@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class VanquisherArrowSplit : ModProjectile
+	public class VanquisherArrowSplit : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
 

@@ -1,10 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Cuttlefish : ModNPC
+	public class Cuttlefish : ModNPC
     {
         public override void SetStaticDefaults()
         {

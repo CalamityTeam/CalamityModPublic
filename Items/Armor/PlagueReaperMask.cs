@@ -1,17 +1,14 @@
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class PlagueReaperMask : ModItem
     {
         public override void SetStaticDefaults()

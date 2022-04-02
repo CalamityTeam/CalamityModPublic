@@ -2,7 +2,6 @@
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismaticBeam : BaseLaserbeamProjectile
+	public class PrismaticBeam : BaseLaserbeamProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
 

@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class CorruptedCrusherBlade : ModItem
+	public class CorruptedCrusherBlade : ModItem
     {
         public override void SetStaticDefaults()
         {

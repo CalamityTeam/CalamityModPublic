@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class VitalJelly : ModItem
+	public class VitalJelly : ModItem
     {
         public override void SetStaticDefaults()
         {

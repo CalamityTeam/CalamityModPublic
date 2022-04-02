@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
-    public static class EyeOfCthulhuAI
+	public static class EyeOfCthulhuAI
     {
         // Master Mode changes
         /* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)

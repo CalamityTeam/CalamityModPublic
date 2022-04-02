@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EyeOfNightSummon : ModProjectile
+	public class EyeOfNightSummon : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float HoverTime => ref projectile.ai[0];

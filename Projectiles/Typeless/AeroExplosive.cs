@@ -1,6 +1,5 @@
 using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;

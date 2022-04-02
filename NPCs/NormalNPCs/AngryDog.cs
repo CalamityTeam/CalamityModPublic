@@ -1,5 +1,4 @@
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using System.IO;

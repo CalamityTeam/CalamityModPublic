@@ -6,13 +6,12 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts.Minecarts
 {
-    public class DoGCartMount : ModMountData
+	public class DoGCartMount : ModMountData
     {
 		public const int SegmentCount = 18;
 		public override void SetDefaults()

@@ -1,23 +1,13 @@
-﻿using System;
-using CalamityMod.Particles;
-using CalamityMod.Projectiles.Melee;
-using Terraria.Graphics.Shaders;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Terraria.ModLoader.IO;
-using static CalamityMod.CalamityUtils;
 using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.DataStructures
 {
-    public enum AttunementID : byte
+	public enum AttunementID : byte
     {
         Default, Hot, Cold, Tropical, Evil,  //Broken biome blade
         TrueDefault, TrueHot, TrueCold, TrueTropical, TrueEvil, Holy, Astral, Marine, //Biome blade

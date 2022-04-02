@@ -1,11 +1,9 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class EidolonWyrmHead : ModNPC
+	public class EidolonWyrmHead : ModNPC
     {
 		private Vector2 patrolSpot = Vector2.Zero;
         public bool detectsPlayer = false;

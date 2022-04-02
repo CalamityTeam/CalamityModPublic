@@ -1,6 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -8,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class FrostFlare : ModItem
+	public class FrostFlare : ModItem
     {
         public override void SetStaticDefaults()
         {

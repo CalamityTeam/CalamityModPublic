@@ -1,13 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DragonPow : ModItem
+	public class DragonPow : ModItem
     {
         public static float Speed = 13f;
         public static float ReturnSpeed = 20f;

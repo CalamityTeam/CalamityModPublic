@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HellfireExplosion : ModProjectile
+	public class HellfireExplosion : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

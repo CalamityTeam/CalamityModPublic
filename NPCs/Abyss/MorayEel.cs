@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using System.IO;

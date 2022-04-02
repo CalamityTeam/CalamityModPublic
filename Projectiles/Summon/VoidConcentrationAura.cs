@@ -1,15 +1,12 @@
-﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Steamworks;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class VoidConcentrationAura : ModProjectile
+	class VoidConcentrationAura : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public int timer = 0;

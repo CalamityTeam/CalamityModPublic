@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class TrueConferenceCall : ModItem
+	public class TrueConferenceCall : ModItem
     {
         public override void SetStaticDefaults()
         {

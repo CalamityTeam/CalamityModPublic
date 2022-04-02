@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;

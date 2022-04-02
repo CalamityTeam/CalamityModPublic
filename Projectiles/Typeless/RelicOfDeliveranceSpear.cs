@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class RelicOfDeliveranceSpear : ModProjectile
+	public class RelicOfDeliveranceSpear : ModProjectile
     {
         public Vector2 IdealVelocity = -Vector2.UnitY * MinChargeSpeed;
         public const int MaxCharges = 3;

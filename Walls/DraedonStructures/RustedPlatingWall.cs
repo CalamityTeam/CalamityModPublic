@@ -1,10 +1,9 @@
 using Terraria;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls.DraedonStructures
 {
-    public class RustedPlatingWall : ModWall
+	public class RustedPlatingWall : ModWall
     {
 
         public override void SetDefaults()

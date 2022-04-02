@@ -7,14 +7,13 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Providence;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class ProvidenceBag : ModItem
+	public class ProvidenceBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Providence>();
 

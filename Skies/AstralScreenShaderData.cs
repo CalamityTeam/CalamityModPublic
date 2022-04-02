@@ -1,4 +1,3 @@
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +6,7 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Skies
 {
-    public class AstralScreenShaderData : ScreenShaderData
+	public class AstralScreenShaderData : ScreenShaderData
     {
         public AstralScreenShaderData(Ref<Effect> shader, string passName) : base(shader, passName) { }
 

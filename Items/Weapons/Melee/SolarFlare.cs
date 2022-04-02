@@ -1,11 +1,10 @@
 using CalamityMod.Projectiles.Melee.Yoyos;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class SolarFlare : ModItem
+	public class SolarFlare : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -2,11 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-    public class BloomRing : Particle
+	public class BloomRing : Particle
     {
         public override string Texture => "CalamityMod/Particles/BloomRing";
         public override bool UseAdditiveBlend => true;

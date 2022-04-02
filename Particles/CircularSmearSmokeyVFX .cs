@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-    public class CircularSmearSmokeyVFX : Particle //Also check out random noise generation!
+	public class CircularSmearSmokeyVFX : Particle //Also check out random noise generation!
     {
         public override string Texture => "CalamityMod/Particles/CircularSmearSmokey";
         public override bool UseAdditiveBlend => true;

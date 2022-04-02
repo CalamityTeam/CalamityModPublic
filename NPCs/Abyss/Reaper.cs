@@ -1,10 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -16,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Reaper : ModNPC
+	public class Reaper : ModNPC
     {
         public bool hasBeenHit = false;
         public bool reset = false;

@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
-    public class MythrilArmorSetChange : VanillaArmorChange
+	public class MythrilArmorSetChange : VanillaArmorChange
     {
         public override int? HeadPieceID => ItemID.MythrilHelmet;
 

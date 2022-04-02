@@ -1,12 +1,11 @@
-﻿using CalamityMod.Buffs.StatBuffs;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class PhantomicShield : ModProjectile
+	class PhantomicShield : ModProjectile
     {
         public const float floatDist = 50f;
 

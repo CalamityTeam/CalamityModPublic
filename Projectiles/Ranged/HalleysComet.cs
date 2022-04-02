@@ -1,10 +1,9 @@
 using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class HalleysComet : ModProjectile
+	public class HalleysComet : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

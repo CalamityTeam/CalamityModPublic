@@ -1,15 +1,13 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ColdDivinity : ModItem
+	public class ColdDivinity : ModItem
     {
         public override void SetStaticDefaults()
         {

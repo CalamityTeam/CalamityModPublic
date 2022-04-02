@@ -1,15 +1,13 @@
 ﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    class VoidConcentrationStaff : ModItem
+	class VoidConcentrationStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

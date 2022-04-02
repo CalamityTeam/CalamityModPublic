@@ -1,24 +1,19 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.DataStructures;
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class HeavensMight : ModProjectile
+	public class HeavensMight : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight";
         private bool initialized = false;

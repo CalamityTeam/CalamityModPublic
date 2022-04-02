@@ -1,14 +1,12 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Shoes)]
+	[AutoloadEquip(EquipType.Shoes)]
     public class AngelTreads : ModItem
     {
         public override void SetStaticDefaults()

@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PlanetaryAnnihilationProj : ModProjectile
+	public class PlanetaryAnnihilationProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

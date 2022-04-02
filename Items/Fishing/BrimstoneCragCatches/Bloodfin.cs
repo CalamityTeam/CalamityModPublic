@@ -1,14 +1,11 @@
 using CalamityMod.Buffs.Potions;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-    public class Bloodfin : ModItem
+	public class Bloodfin : ModItem
     {
 		public static int BuffType = ModContent.BuffType<BloodfinBoost>();
 		public static int BuffDuration = 600;

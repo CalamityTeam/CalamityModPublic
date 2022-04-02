@@ -1,11 +1,10 @@
-﻿using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Mounts.Minecarts;
+﻿using CalamityMod.Items.Mounts.Minecarts;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    public class DoGCartBuff : ModBuff
+	public class DoGCartBuff : ModBuff
     {
         public override void SetDefaults()
         {

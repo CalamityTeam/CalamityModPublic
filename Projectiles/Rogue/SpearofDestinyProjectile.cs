@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SpearofDestinyProjectile : ModProjectile
+	public class SpearofDestinyProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
 

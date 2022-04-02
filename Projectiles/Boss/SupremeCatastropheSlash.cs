@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SupremeCatastropheSlash : ModProjectile
+	public class SupremeCatastropheSlash : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
 

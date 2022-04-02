@@ -4,11 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CosmicShivBlade : ModProjectile
+	public class CosmicShivBlade : ModProjectile
     {
         public const int penetrateMax = 12;
         public const float maxScale = 1.8f;

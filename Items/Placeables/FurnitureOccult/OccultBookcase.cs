@@ -1,9 +1,8 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-    public class OccultBookcase : ModItem
+	public class OccultBookcase : ModItem
     {
         public override void SetStaticDefaults()
         {

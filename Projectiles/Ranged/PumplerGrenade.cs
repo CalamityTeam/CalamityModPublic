@@ -1,14 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Dusts;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PumplerGrenade : ModProjectile
+	public class PumplerGrenade : ModProjectile
     {
         public override void SetStaticDefaults()
         {

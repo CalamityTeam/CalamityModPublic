@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class P90 : ModItem
+	public class P90 : ModItem
     {
         public override void SetStaticDefaults()
         {

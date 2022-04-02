@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class StormWeaverBag : ModItem
+	public class StormWeaverBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<StormWeaverHead>();
 

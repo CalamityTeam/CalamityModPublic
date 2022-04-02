@@ -1,21 +1,15 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
-using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
-using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GalaxiaTropicRing : ModProjectile
+	public class GalaxiaTropicRing : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Mode => ref projectile.ai[0];

@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PolypLauncherProjectile : ModProjectile
+	public class PolypLauncherProjectile : ModProjectile
     {
         public const float Gravity = 0.4f;
         public override void SetStaticDefaults()

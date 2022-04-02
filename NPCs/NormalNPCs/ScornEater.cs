@@ -1,16 +1,14 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class ScornEater : ModNPC
+	public class ScornEater : ModNPC
     {
         public override void SetStaticDefaults()
         {

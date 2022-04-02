@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class LanternFlame : ModProjectile
+	public class LanternFlame : ModProjectile
     {
 		private bool playSound = true;
 

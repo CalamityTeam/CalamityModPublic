@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocBlast : ModProjectile
+	public class XerocBlast : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 

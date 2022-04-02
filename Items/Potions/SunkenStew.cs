@@ -1,9 +1,7 @@
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
-using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 

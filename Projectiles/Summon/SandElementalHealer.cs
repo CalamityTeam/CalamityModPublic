@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Healing;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SandElementalHealer : ModProjectile
+	public class SandElementalHealer : ModProjectile
     {
         public int dust = 3;
 

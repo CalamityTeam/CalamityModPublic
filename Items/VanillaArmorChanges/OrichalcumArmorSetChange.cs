@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
-    public class OrichalcumArmorSetChange : VanillaArmorChange
+	public class OrichalcumArmorSetChange : VanillaArmorChange
     {
         public override int? HeadPieceID => ItemID.OrichalcumHelmet;
 

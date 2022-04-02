@@ -1,5 +1,4 @@
 using CalamityMod.Items.Weapons.Rogue;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;

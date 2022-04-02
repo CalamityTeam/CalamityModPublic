@@ -1,15 +1,13 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BonebreakerProjectile : ModProjectile
+	public class BonebreakerProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

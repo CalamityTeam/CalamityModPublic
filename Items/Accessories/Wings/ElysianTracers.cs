@@ -1,9 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
@@ -11,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class ElysianTracers : ModItem
     {
         public override void SetStaticDefaults()

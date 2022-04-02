@@ -1,13 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class AeroDynamite : ModItem
+	public class AeroDynamite : ModItem
     {
         public static int Damage = 250;
         public static float Knockback = 10f;

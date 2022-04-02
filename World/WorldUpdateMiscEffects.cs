@@ -4,18 +4,9 @@ using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
-using CalamityMod.NPCs.AstrumAureus;
-using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
-using CalamityMod.NPCs.Crabulon;
-using CalamityMod.NPCs.Cryogen;
-using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.ExoMechs;
-using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Projectiles.Boss;
@@ -31,7 +22,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-    public partial class CalamityWorld : ModWorld
+	public partial class CalamityWorld : ModWorld
     {
         public override void PostUpdate()
         {
