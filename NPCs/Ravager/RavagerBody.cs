@@ -615,7 +615,7 @@ namespace CalamityMod.NPCs.Ravager
 				player = Main.player[npc.target];
 			}
 
-            int distanceFromTarget = malice ? 8400 : 5600;
+            int distanceFromTarget = player.dead ? 1600 : malice ? 8400 : 5600;
             if (Vector2.Distance(npc.Center, player.Center) > distanceFromTarget)
             {
                 npc.TargetClosest();
