@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Magic;
@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -893,7 +894,7 @@ namespace CalamityMod.CalPlayer
                 float xOffset = CalamityConfig.Instance.SpeedrunTimerPosX;
                 float yOffset = CalamityConfig.Instance.SpeedrunTimerPosY;
 
-                Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
 
                 if (calamityPlayer.lastSplitType > -1)
                 {
@@ -1097,7 +1098,7 @@ namespace CalamityMod.CalPlayer
                     if (texture != null)
                         Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2f - xOffset - texture.Width - 4f, yOffset), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
 
-                    Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+                    Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
                 }
             }
 

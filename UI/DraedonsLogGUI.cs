@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
@@ -46,7 +47,7 @@ namespace CalamityMod.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D pageTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPage");
+            Texture2D pageTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPage").Value;
             float xScale = MathHelper.Lerp(0.004f, 1f, FadeTime / (float)FadeTimeMax);
             Vector2 scale = new Vector2(xScale, 1f) * new Vector2(Main.screenWidth, Main.screenHeight) / pageTexture.Size();
             scale.Y *= 1.5f;
@@ -84,7 +85,7 @@ namespace CalamityMod.UI
             {
                 int textWidth = (int)(xScale * pageTexture.Width) - TextStartOffsetX;
                 textWidth = (int)(textWidth * xResolutionScale);
-                List<string> dialogLines = Utils.WordwrapString(GetTextByPage(), Main.fontMouseText, (int)(textWidth / xResolutionScale), 250, out _).ToList();
+                List<string> dialogLines = Utils.WordwrapString(GetTextByPage(), FontAssets.MouseText.Value, (int)(textWidth / xResolutionScale), 250, out _).ToList();
                 dialogLines.RemoveAll(text => string.IsNullOrEmpty(text));
 
                 int trimmedTextCharacterCount = string.Concat(dialogLines).Length;
@@ -107,7 +108,7 @@ namespace CalamityMod.UI
                         int textDrawPositionY = (int)(42 * yResolutionScale) + i * (int)(yOffsetPerLine * yResolutionScale) + (int)yPageTop;
 
                         Utils.DrawBorderStringFourWay(spriteBatch,
-                                                      Main.fontMouseText,
+                                                      FontAssets.MouseText.Value,
                                                       dialogLines[i],
                                                       textDrawPositionX,
                                                       textDrawPositionY,
@@ -124,7 +125,7 @@ namespace CalamityMod.UI
         public void DrawArrows(SpriteBatch spriteBatch, float xResolutionScale, float yResolutionScale, float yPageBottom, Rectangle mouseRectangle)
         {
             float arrowScale = 0.6f;
-            Texture2D arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrow");
+            Texture2D arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrow").Value;
             if (Page > 0)
             {
                 Vector2 drawPosition = new Vector2(Main.screenWidth / 2 - 80f, yPageBottom);
@@ -134,7 +135,7 @@ namespace CalamityMod.UI
 
                 if (mouseRectangle.Intersects(arrowRectangle))
                 {
-                    arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
+                    arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover").Value;
                     if (ArrowClickCooldown <= 0 && Main.mouseLeft)
                     {
                         Page--;
@@ -155,7 +156,7 @@ namespace CalamityMod.UI
 
                 if (mouseRectangle.Intersects(arrowRectangle))
                 {
-                    arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
+                    arrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover").Value;
                     if (ArrowClickCooldown <= 0 && Main.mouseLeft)
                     {
                         Page++;

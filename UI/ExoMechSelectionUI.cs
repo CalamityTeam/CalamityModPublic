@@ -1,8 +1,9 @@
-using CalamityMod.NPCs.ExoMechs;
+﻿using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -90,9 +91,9 @@ namespace CalamityMod.UI
             // Draw the descrption if hovering over the icon.
             if (hoveringOverIcon)
             {
-                drawPosition.X -= Main.fontMouseText.MeasureString(description).X * 0.5f;
+                drawPosition.X -= FontAssets.MouseText.Value.MeasureString(description).X * 0.5f;
                 drawPosition.Y += 36f;
-                Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, description, drawPosition.X, drawPosition.Y, HoverTextColor, Color.Black, Vector2.Zero, 1f);
+                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, description, drawPosition.X, drawPosition.Y, HoverTextColor, Color.Black, Vector2.Zero, 1f);
             }
 
             // And update to reflect the new scale.

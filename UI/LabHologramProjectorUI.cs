@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.TileEntities;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.UI
 {
@@ -82,15 +83,15 @@ namespace CalamityMod.UI
             Color backgroundColor = new Color(200, 200, 200, 200);
 
             // Wrap the text so that it neatly fits in the dialogue box.
-            string[] dialogLines = Utils.WordwrapString(mp.CurrentlyViewedHologramText, Main.fontMouseText, (int)(TextAreaWidth - TextPadding * 2), 10, out int lineCount);
+            string[] dialogLines = Utils.WordwrapString(mp.CurrentlyViewedHologramText, FontAssets.MouseText.Value, (int)(TextAreaWidth - TextPadding * 2), 10, out int lineCount);
 
             // Draw the background of the text box.
-            spriteBatch.Draw(Main.chatBackTexture, new Vector2(Main.screenWidth / 2 - Main.chatBackTexture.Width / 2, 100f),
-                new Rectangle(0, 0, Main.chatBackTexture.Width, (lineCount + 2) * 30), backgroundColor, 0f, Vector2.Zero, 1f,
+            spriteBatch.Draw(TextureAssets.ChatBack.Value, new Vector2(Main.screenWidth / 2 - TextureAssets.ChatBack.Value.Width / 2, 100f),
+                new Rectangle(0, 0, TextureAssets.ChatBack.Value.Width, (lineCount + 2) * 30), backgroundColor, 0f, Vector2.Zero, 1f,
                 SpriteEffects.None, 0f);
-            spriteBatch.Draw(Main.chatBackTexture,
-                new Vector2(Main.screenWidth / 2 - Main.chatBackTexture.Width / 2, 100 + (lineCount + 2) * 30),
-                new Rectangle(0, Main.chatBackTexture.Height - 30, Main.chatBackTexture.Width, 30), backgroundColor, 0f,
+            spriteBatch.Draw(TextureAssets.ChatBack.Value,
+                new Vector2(Main.screenWidth / 2 - TextureAssets.ChatBack.Value.Width / 2, 100 + (lineCount + 2) * 30),
+                new Rectangle(0, TextureAssets.ChatBack.Value.Height - 30, TextureAssets.ChatBack.Value.Width, 30), backgroundColor, 0f,
                 Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             // Draw the dialogue itself.
@@ -99,7 +100,7 @@ namespace CalamityMod.UI
                 string text = dialogLines[i];
                 if (text is null)
                     continue;
-                Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, dialogLines[i],
+                Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, dialogLines[i],
                     (int)TextPadding + (int)(Main.screenWidth - TextAreaWidth) / 2, 120 + i * YOffsetPerLine, Color.Cyan, Color.Black,
                     Vector2.Zero);
             }
