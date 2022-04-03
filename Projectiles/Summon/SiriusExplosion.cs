@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 DelegateMethods.v3_1 = newColor2.ToVector3() * 0.5f;
-                Utils.PlotTileLine(Projectile.Center, Main.projectile[num978].Center, 8f, new Utils.PerLinePoint(DelegateMethods.CastLight));
+                Utils.PlotTileLine(Projectile.Center, Main.projectile[num978].Center, 8f, DelegateMethods.CastLight);
             }
             if (Projectile.localAI[0] == 0f)
             {

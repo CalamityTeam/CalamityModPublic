@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
@@ -316,7 +316,7 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 projVect = targetLocation - Projectile.Center;
                             projVect.Normalize();
                             projVect *= scaleFactor4;
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, projVect.X, projVect.Y, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
                             Projectile.netUpdate = true;
                         }
                     }
@@ -339,7 +339,7 @@ namespace CalamityMod.Projectiles.Summon
                                 projVect2.Normalize();
                                 float SpeedX = projVect2.X + (float)Main.rand.Next(-30, 31) * 0.05f;
                                 float SpeedY = projVect2.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-                                int bee = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, projType, (int)(Projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
+                                int bee = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, projType, (int)(Projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
                                 if (projType == bigBee)
                                 {
                                     Main.projectile[bee].frame = 2;
@@ -377,9 +377,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
-        public override bool CanDamage()
-        {
-            return mode == 2;
-        }
+        public override bool? CanDamage() => mode == 2;
     }
 }

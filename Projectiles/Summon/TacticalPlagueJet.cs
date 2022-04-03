@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Summon
             FalseGun.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override void AI()
         {
@@ -176,19 +176,19 @@ namespace CalamityMod.Projectiles.Summon
                     int projIndex;
 
                     // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
-                    player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, dontConsumeAmmo);
+                    player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, out _, dontConsumeAmmo);
 
                     // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
                     if (shootRocket)
                     {
                         int rocketDamage = (int)(damage * 1.5f);
                         float rocketKB = kb + 5f;
-                        projIndex = Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, Projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, Projectile.owner);
                     }
 
                     // Fire the selected bullet, nothing special.
                     else
-                        projIndex = Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))

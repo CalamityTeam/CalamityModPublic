@@ -1,6 +1,8 @@
-using System;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class SpikecragSpike : ModProjectile
@@ -25,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Projectile.velocity.Y += 0.1f;
         }
     }

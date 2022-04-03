@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Summon
                             float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                             xVector *= 10f;
                             yVector *= 10f;
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(Projectile.damage * 1.25f), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(Projectile.damage * 1.25f), Projectile.knockBack, Projectile.owner, 0f, 0f);
                         }
                         eaterCooldown = 80;
                     }
@@ -267,7 +267,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
@@ -280,7 +279,7 @@ namespace CalamityMod.Projectiles.Summon
             target.immune[Projectile.owner] = 0;
         }
 
-        public override bool CanDamage() => Projectile.ai[0] != 3f;
+        public override bool? CanDamage() => Projectile.ai[0] != 3f;
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.ai[1] = 1f;
                 float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
-                Main.harpNote = soundPitch;
+                Main.musicPitch = soundPitch;
                 SoundEngine.PlaySound(SoundID.Item26, Projectile.position);
             }
             Lighting.AddLight(Projectile.Center, 0f, 0f, 1.2f);

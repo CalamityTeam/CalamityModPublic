@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -128,7 +128,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void AttackTarget(NPC target)
         {
-            float horizontalDistanceFromTarget = MathHelper.Distance(Projectile.Center.X, target.Center.X);
             AttackTimer++;
 
             // Pelt the target with acorns.
@@ -149,11 +148,11 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.WithinRange(target.Center, 200f))
                     acornShootVelocity = (target.Center - acornSpawnPosition).SafeNormalize(-Vector2.UnitY) * acornShootSpeed;
 
-                Projectile.NewProjectile(acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 

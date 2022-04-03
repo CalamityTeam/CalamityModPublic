@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 shardSpeed = new Vector2(shardspeedX, shardspeedY);
 
                 //Spawn the projectile
-                int shard = Projectile.NewProjectile(Projectile.Center + shardSpeed, shardSpeed, ModContent.ProjectileType<PolypLauncherShrapnel>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner, Main.rand.Next(3));
+                int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + shardSpeed, shardSpeed, ModContent.ProjectileType<PolypLauncherShrapnel>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner, Main.rand.Next(3));
                 split += 1;
             }
         }

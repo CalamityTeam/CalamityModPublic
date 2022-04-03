@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Summon
                                 velocity.Normalize();
                                 velocity *= projSpeed;
                                 velocity *= speedMult;
-                                Projectile.NewProjectile(Projectile.Center, velocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, velocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                             Projectile.netUpdate = true;
                         }
@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 Vector2 projVelocity = whereIsTarget * 2f;
                                 int projDmg = (int)(Projectile.damage * 1.5f);
-                                Projectile.NewProjectile(Projectile.Center, projVelocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 1f);
+                                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVelocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 1f);
                             }
                             if (Main.rand.NextBool(3))
                             {
@@ -407,7 +407,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = -8; i <= 8; i += 8)
             {
                 Vector2 perturbedSpeed = projVelocity.RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(Projectile.Center, perturbedSpeed, projType, projDmg, Projectile.knockBack * attackMult, Projectile.owner, Main.rand.Next(3), 1f);
+                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projType, projDmg, Projectile.knockBack * attackMult, Projectile.owner, Main.rand.Next(3), 1f);
             }
         }
 
@@ -466,7 +466,7 @@ namespace CalamityMod.Projectiles.Summon
                 int tentacleAmt = 6;
                 for (int tentacleIndex = 0; tentacleIndex < tentacleAmt; tentacleIndex++)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlantTentacle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, tentacleIndex, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
+                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlantTentacle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, tentacleIndex, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
                 }
             }
         }
@@ -483,7 +483,7 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Venom, 90);
         }
 
-        public override bool CanDamage() => enraged;
+        public override bool? CanDamage() => enraged;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -494,7 +494,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
     }

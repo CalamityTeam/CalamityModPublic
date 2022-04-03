@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
+                            Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
                         }
                         Projectile.netUpdate = true;
                     }
@@ -253,13 +253,10 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
             int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

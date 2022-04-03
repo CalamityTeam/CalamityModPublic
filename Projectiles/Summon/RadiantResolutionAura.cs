@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
-                    Projectile.NewProjectile(Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -128,21 +128,21 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
                 Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
-                Projectile.NewProjectile(spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
-                    Projectile.NewProjectile(Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override void PostDraw(Color lightColor)
         {
-            Texture2D currentTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D currentTexture = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(currentTexture,
                 Projectile.Center - Main.screenPosition,
                 null,

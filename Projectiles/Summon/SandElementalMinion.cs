@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -253,7 +253,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 value19 = vector46 - Projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, value19, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                         Projectile.netUpdate = true;
                     }
                 }

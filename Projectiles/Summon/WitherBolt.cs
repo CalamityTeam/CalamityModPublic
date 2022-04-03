@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(8f, 8f);
-                    int seeker = Projectile.NewProjectile(spawnPosition, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<PlagueSeeker>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int seeker = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<PlagueSeeker>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[seeker].Calamity().forceMinion = true;
                 }
             }

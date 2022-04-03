@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = targetPos - source;
                     velocity.Normalize();
                     velocity *= shootSpeed;
-                    Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SolarBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<SolarBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.ai[0] = 20f;
                 }
             }
@@ -138,6 +138,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

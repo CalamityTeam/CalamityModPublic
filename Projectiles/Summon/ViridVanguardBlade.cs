@@ -1,9 +1,9 @@
+﻿using System;
+using System.IO;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/ViridVanguardBlade" + (AltTexture ? "" : "Alt"));
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/ViridVanguardBlade" + (AltTexture ? "" : "Alt")).Value;
 
             Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
                        Projectile.rotation,
-                       rectangle.Size() / 2f, 1f, SpriteEffects.None, 0);
+                       rectangle.Size() / 2f, 1f, spriteEffects, 0);
             return false;
         }
     }

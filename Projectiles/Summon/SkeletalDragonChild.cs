@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[1]++;
                 if (Projectile.ai[1] % 55f == 54f && Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
                 }
             }
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -129,11 +129,12 @@ namespace CalamityMod.Projectiles.Summon
                 Timer < TimeLeft - UniverseSplitterHugeBeam.TimeLeft &&
                 Timer % 60f == 0f)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new Vector2(Main.rand.NextFloat(-800f, 800f), -1460f);
-                    Projectile.NewProjectile(Projectile.Center + offset,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                                             Projectile.Center + offset,
                                              -Vector2.Normalize(offset),
                                              ModContent.ProjectileType<UniverseSplitterSmallBeam>(),
                                              Projectile.damage,
@@ -146,7 +147,8 @@ namespace CalamityMod.Projectiles.Summon
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
-                Projectile.NewProjectile(Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                                         Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,
                                          ModContent.ProjectileType<UniverseSplitterHugeBeam>(),
                                          Projectile.damage,
@@ -156,6 +158,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

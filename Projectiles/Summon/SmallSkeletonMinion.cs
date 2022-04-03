@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.ai[0] % 60f == 59f && Main.myPlayer == Projectile.owner)
             {
                 int type = Utils.SelectRandom(Main.rand, ModContent.ProjectileType<BoneMatter>(), ModContent.ProjectileType<BoneMatter2>());
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (potentialTarget is null)
             {
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }
@@ -181,14 +181,16 @@ namespace CalamityMod.Projectiles.Summon
         {
             Rectangle frame = new Rectangle(Variant * Projectile.width, Projectile.frame * Projectile.height, Projectile.width, Projectile.height);
             SpriteEffects spriteEffects = (Projectile.spriteDirection == 1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0);
             return false;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = Projectile.Bottom.Y < Main.player[Projectile.owner].Top.Y - 120f;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

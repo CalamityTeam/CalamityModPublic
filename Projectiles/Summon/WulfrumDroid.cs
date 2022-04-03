@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -206,11 +206,11 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 velocity = targetVector - Projectile.Center;
             velocity.Normalize();
             velocity *= 10f;
-            int bolt = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            int bolt = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             Main.projectile[bolt].netUpdate = true;
             Projectile.netUpdate = true;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

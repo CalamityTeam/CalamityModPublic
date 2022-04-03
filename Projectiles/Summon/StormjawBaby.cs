@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -289,7 +289,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < Main.rand.Next(1,4); i++)
                         {
                             Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                            int spark = Projectile.NewProjectile(Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            int spark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[spark].Calamity().forceMinion = true;
@@ -332,7 +332,7 @@ namespace CalamityMod.Projectiles.Summon
                                     for (int j = 0; j < Main.rand.Next(1,4); j++)
                                     {
                                         Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                                        int spark = Projectile.NewProjectile(Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                        int spark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                                         if (spark.WithinBounds(Main.maxProjectiles))
                                         {
                                             Main.projectile[spark].Calamity().forceMinion = true;
@@ -487,7 +487,7 @@ namespace CalamityMod.Projectiles.Summon
                             x = (int)Projectile.Right.X / 16;
                         int y = (int)Projectile.Bottom.Y / 16;
                         Tile tile = Main.tile[x, y];
-                        if (WorldGen.SolidTile(x, y) || tile.IsHalfBlock || tile.slope() > 0 || TileID.Sets.Platforms[tile.TileType] && tile.active() && !tile.inActive())
+                        if (WorldGen.SolidTile(x, y) || tile.IsHalfBlock || tile.Slope > 0 || TileID.Sets.Platforms[tile.TileType] && tile.HasTile && !tile.HasActuator)
                         {
                             try
                             {
@@ -564,10 +564,10 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity.Y += 0.4f;
                 if (Projectile.velocity.Y > 10f)
                     Projectile.velocity.Y = 10f;
-            }
+            }            
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             if (targetIndex < 0)
                 fallThrough = Projectile.Bottom.Y < player.Top.Y;
@@ -584,6 +584,6 @@ namespace CalamityMod.Projectiles.Summon
             Main.gore[index].velocity *= 0.1f;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] <= 35f)
             {
                 if (Projectile.localAI[0] == 30f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
                 for (int i = 0; i < 75; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(beamEndPosition, 269);
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Draw acid green light across the laser
             DelegateMethods.v3_1 = new Vector3(0.62f, 0.94f, 0.38f);
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -132,8 +132,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return false;
             }
-            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamEnd");
-            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamMid");
+            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamEnd").Value;
+            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamMid").Value;
             float laserLength = Projectile.localAI[1];
             Color drawColor = new Color(1f, 1f, 1f) * 0.9f;
 
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 unit = Projectile.velocity;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Projectile.localAI[1], (float)Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Projectile.localAI[1], (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

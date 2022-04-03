@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Summon
                     velocity.X *= targetDist;
                     velocity.Y *= targetDist;
                     float damageMult = ((float)Math.Log(Projectile.ai[0], MathHelper.E)) + 1f;
-                    int beam = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
+                    int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
                     Main.projectile[beam].penetrate = (int)Projectile.ai[0];
                     Projectile.ai[1] = 30f;
                 }
@@ -150,6 +150,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }
