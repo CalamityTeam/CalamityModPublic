@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(15, 0, 0, 0);
@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<DraedonTreasureBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -783,7 +783,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 17f, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPoint + Vector2.Normalize(laserVelocity) * 17f, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
                             }
@@ -802,7 +802,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
                             }

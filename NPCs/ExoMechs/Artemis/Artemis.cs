@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -696,7 +696,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     Vector2 projectileDestination = player.Center + predictionVector;
                                     Vector2 offset = laserVelocity * 70f;
                                     float setVelocityInAI = 6.5f;
-                                    Projectile.NewProjectile(NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
                                 }
                             }
                         }
@@ -731,7 +731,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                         SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), NPC.Center);
                                         Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                         Vector2 offset = laserVelocity * 50f;
-                                        Projectile.NewProjectile(NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
 
@@ -757,7 +757,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                             Vector2 offset = normalizedPerturbedSpeed * 70f;
                                             Vector2 newCenter = NPC.Center + offset;
 
-                                            Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
+                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
                                         }
                                     }
                                 }
@@ -850,7 +850,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 Vector2 offset = normalizedPerturbedSpeed * 70f;
                                 Vector2 newCenter = NPC.Center + offset;
 
-                                Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
                             }
                         }
                     }
@@ -912,7 +912,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), NPC.Center);
                                 Vector2 laserVelocity = Vector2.Normalize(spinningPoint - NPC.Center);
                                 Vector2 offset = laserVelocity * 70f;
-                                Projectile.NewProjectile(NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                             }
 
                             NPC.netUpdate = true;
@@ -979,7 +979,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
                                     SoundEngine.PlaySound(29, (int)NPC.Center.X, (int)NPC.Center.Y, 104);
                                     int damage = NPC.GetProjectileDamage(type);
-                                    int laser = Projectile.NewProjectile(NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
+                                    int laser = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
                                     {
                                         Main.projectile[laser].ai[0] = NPC.whoAmI;
@@ -1072,7 +1072,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         Vector2 offset = lensDirection * 70f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(NPC.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenArtemisLens>(), 0, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenArtemisLens>(), 0, 0f);
                     }
 
                     // Reset phase and variables

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Cryogen
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
             NPC.GetNPCDamage();
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        int proj = Projectile.NewProjectile(NPC.Center, vector255, type, damage2, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage2, 0f, Main.myPlayer);
                         Main.projectile[proj].timeLeft = 300;
                     }
                 }

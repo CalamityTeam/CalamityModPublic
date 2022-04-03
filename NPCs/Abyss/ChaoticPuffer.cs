@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Enemy;
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 int damageBoom = 45;
                 int projectileType = ModContent.ProjectileType<PufferExplosion>();
-                int boom = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                int boom = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
             NPC.netUpdate = true;
         }

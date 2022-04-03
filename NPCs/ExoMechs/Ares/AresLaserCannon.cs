@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.canGhostHeal = false;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -438,7 +438,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(player.Center - NPC.Center);
                                     Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
-                                    Projectile.NewProjectile(NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }
@@ -474,7 +474,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     if (laserVelocity.HasNaNs())
                                         laserVelocity = -Vector2.UnitY;
 
-                                    Projectile.NewProjectile(source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }

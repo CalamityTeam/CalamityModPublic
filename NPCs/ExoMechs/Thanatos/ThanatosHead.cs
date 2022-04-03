@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.ExoMechs.Ares;
@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(15, 0, 0, 0);
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.chaseable = false;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<DraedonTreasureBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                     int type = ModContent.ProjectileType<ThanatosBeamTelegraph>();
                                     for (int b = 0; b < 6; b++)
                                     {
-                                        int beam = Projectile.NewProjectile(NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
+                                        int beam = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
 
                                         // Determine the initial offset angle of telegraph. It will be smoothened to give a "stretch" effect.
                                         if (Main.projectile.IndexInRange(beam))
@@ -854,7 +854,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             Main.projectile[beam].ai[1] = MathHelper.Lerp(-0.74f, 0.74f, smoothenedRatio);
                                         }
                                     }
-                                    int beam2 = Projectile.NewProjectile(NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
+                                    int beam2 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(beam2))
                                         Main.projectile[beam2].ai[0] = NPC.whoAmI;
                                 }
@@ -869,7 +869,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                 {
                                     int type = ModContent.ProjectileType<ThanatosBeamStart>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }

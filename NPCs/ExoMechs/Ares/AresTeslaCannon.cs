@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.canGhostHeal = false;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 int damage = NPC.GetProjectileDamage(type);
                                 Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
                                 float identity = fireMoreOrbs ? -2f : calamityGlobalNPC.newAI[3] + (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
-                                Projectile.NewProjectile(NPC.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
                             }
                         }
                     }

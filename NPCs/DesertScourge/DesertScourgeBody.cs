@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -27,11 +27,11 @@ namespace CalamityMod.NPCs.DesertScourge
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2) || malice)
                         {
-                            Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, NPC.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector104.X, vector104.Y, num942, num943, projectileType, NPC.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
                         }
                         NPC.netUpdate = true;
                     }
