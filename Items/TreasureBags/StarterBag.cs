@@ -29,16 +29,16 @@ namespace CalamityMod.Items.TreasureBags
         public override void RightClick(Player player)
         {
             // Weapons
-            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperBroadsword : ItemID.TinBroadsword);
-            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperBow : ItemID.TinBow);
+            DropHelper.DropItem(player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperBroadsword : ItemID.TinBroadsword);
+            DropHelper.DropItem(player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperBow : ItemID.TinBow);
             DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
-            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.AmethystStaff : ItemID.TopazStaff);
+            DropHelper.DropItem(player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.AmethystStaff : ItemID.TopazStaff);
             DropHelper.DropItem(player, ItemID.ManaCrystal);
             DropHelper.DropItem(player, ModContent.ItemType<SquirrelSquireStaff>());
             DropHelper.DropItem(player, ModContent.ItemType<ThrowingBrick>(), 150);
 
             // Tools / Utility
-            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperHammer : ItemID.TinHammer);
+            DropHelper.DropItem(player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperHammer : ItemID.TinHammer);
             DropHelper.DropItem(player, ItemID.Bomb, 10);
             DropHelper.DropItem(player, ItemID.MiningPotion);
             DropHelper.DropItem(player, ItemID.SpelunkerPotion, 2);
