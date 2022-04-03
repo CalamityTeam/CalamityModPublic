@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(32f, 32f);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

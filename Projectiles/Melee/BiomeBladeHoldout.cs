@@ -170,10 +170,10 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (ChanneledState == 0f && ChannelTimer > 6f)
-                return base.PreDraw(spriteBatch, lightColor);
+                return base.PreDraw(ref lightColor);
 
             else if (ChanneledState == 1f)
             {

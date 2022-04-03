@@ -311,7 +311,7 @@ namespace CalamityMod.Projectiles.Summon
         //This minion does no contact damage
         public override bool? CanDamage() => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];

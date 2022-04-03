@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             ShittyMicrowaveMemeSound?.Dispose();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (!Projectile.Calamity().stealthStrike)
                 return;

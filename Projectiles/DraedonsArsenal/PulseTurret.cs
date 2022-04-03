@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.StickToTiles(false, false);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand");
             spriteBatch.Draw(ModContent.Request<Texture2D>(Texture),

@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Magic
             player.AddBuff(ModContent.BuffType<Molten>(), 360);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow");
             switch ((int)Projectile.ai[0])

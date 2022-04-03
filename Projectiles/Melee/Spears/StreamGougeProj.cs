@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Draw the spin smear texture.
             if (SpinCompletion >= 0f && SpinCompletion < 1f)

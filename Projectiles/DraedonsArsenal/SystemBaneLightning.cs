@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // If you have any ideas of making lightning that isn't the same as the cultist lightning and looks more like real lightning, please change this.
             List<Vector2> oldPositions = Projectile.oldPos.Where(oldPosition => oldPosition != Vector2.Zero).ToList();

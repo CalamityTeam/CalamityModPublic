@@ -96,13 +96,13 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);

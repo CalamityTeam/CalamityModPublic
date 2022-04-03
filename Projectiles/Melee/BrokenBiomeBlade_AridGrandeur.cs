@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.NPCHit43, Projectile.Center);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur");

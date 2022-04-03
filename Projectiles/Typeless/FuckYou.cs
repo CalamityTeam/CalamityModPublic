@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             return Projectile.ai[0] > 1f;
         }

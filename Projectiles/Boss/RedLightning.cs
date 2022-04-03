@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Boss
             target.Calamity().lastProjectileHit = projectile;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Vector2 end = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D tex3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/RedLightningTexture");

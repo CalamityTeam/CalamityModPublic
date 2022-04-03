@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], new Color(255, 255, 255, 127) * Projectile.Opacity, 2);
             return false;

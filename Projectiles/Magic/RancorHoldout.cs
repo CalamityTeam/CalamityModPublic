@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
             AdjustPlayerHoldValues();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+        public override bool PreDraw(ref Color lightColor) => false;
 
         public void AdjustPlayerHoldValues()
         {

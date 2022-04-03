@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Typeless
             return Color.Lerp(c1, c2, 1f - Projectile.Opacity) * Projectile.Opacity * 0.67f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Color drawColor = Projectile.GetAlpha(lightColor) * 0.4f;

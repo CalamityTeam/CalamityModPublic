@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.Center = Target.Center + BullseyeOffsetFromCenter;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Main.myPlayer != Projectile.owner)
                 return false;

@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
             return mines;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D baseTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D glowTexture = ModContent.Request<Texture2D>($"{Texture}Glowmask");

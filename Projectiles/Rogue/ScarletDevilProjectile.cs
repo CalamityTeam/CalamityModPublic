@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Rogue
             return Color.Lerp(baseColor, Color.DarkRed, (float)Math.Pow(completionRatio, 3D));
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (!Projectile.Calamity().stealthStrike)
             {

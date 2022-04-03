@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         //It draws the host plant in here in order to have it draw over the tentacles
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             //Only 1 tentacle needs to draw this, the last one spawned because it's latest in the projectile array.
             if (Projectile.ai[0] < 5)

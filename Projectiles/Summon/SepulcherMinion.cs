@@ -535,7 +535,7 @@ namespace CalamityMod.Projectiles.Summon
 
         #region Drawing
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float angerFactor = Utils.InverseLerp(300f, 280f, PlayerAttackCountdown, true) * Utils.InverseLerp(0f, 30f, PlayerAttackCountdown, true);
             float afterimageOutwardness = MathHelper.Lerp(6f, 8f, (float)Math.Cos(Main.GlobalTime * 2.3f) * 0.5f + 0.5f) * angerFactor;

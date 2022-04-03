@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float totalTilesToExpand = 1600f * Projectile.scale / 16;
             Point centerAsTileCoords = Projectile.Center.ToTileCoordinates();

@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public float TrailWidth(float completionRatio) => MathHelper.SmoothStep(Projectile.width, 4.25f, completionRatio);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (FlameTrailDrawer is null)
                 FlameTrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);

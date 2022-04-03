@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Stop drawing the sword. Draw a recharge bar instead
             if (Timer > ParryTime)

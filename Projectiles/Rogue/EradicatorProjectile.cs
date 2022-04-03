@@ -200,13 +200,13 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ModifyHitNPCSticky(3, true);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(31f, 29f);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);

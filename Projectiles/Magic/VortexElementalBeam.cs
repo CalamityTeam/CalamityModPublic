@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         #region Drawing
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D lightningSegmentTexture = ModContent.Request<Texture2D>(Texture).Value;
             Projectile.GetAlpha(lightColor);

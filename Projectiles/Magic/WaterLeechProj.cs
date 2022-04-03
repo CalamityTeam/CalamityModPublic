@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int height = texture.Height / Main.projFrames[Projectile.type];
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int height = texture.Height / Main.projFrames[Projectile.type];

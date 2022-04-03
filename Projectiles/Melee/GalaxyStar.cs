@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation += Projectile.velocity.Length() / 19f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;

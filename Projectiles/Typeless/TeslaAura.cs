@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 30);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D sprite = ModContent.Request<Texture2D>(Texture).Value;
 

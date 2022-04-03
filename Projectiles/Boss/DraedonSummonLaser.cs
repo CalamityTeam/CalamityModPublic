@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             return CalamityUtils.MulticolorLerp((Main.GlobalTime * 0.67f - completionRatio * 3f) % 1f, CalamityUtils.ExoPalette) * 1.2f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (RayDrawer is null)
                 RayDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:Flame"]);

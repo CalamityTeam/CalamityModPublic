@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 239)
                 return false;

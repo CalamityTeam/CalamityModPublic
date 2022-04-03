@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/CraniumSmasherGlow");
             spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);

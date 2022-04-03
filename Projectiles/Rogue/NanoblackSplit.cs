@@ -166,14 +166,14 @@ namespace CalamityMod.Projectiles.Rogue
             return baseFactor + bonus;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         // Draws the energy blade's glowmask.
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             float fWidthOverTwo = SpriteWidth / 2f;
             float fHeightOverTwo = Projectile.height / 2f;

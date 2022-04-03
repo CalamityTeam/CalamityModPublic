@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             return Projectile.Center + Projectile.rotation.ToRotationVector2() * starWidth * (Projectile.scale * diameter * 0.4f) + (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (Projectile.scale * diameter * 0.4f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D sigil = GetTexture(Mode == 0 ? "CalamityMod/Projectiles/Melee/GalaxiaCancer" : "CalamityMod/Projectiles/Melee/GalaxiaCapricorn"); //OMG Karkat and Gamzee from homestuck i am a big fan
             Texture2D ring = GetTexture("CalamityMod/Particles/BloomRing");

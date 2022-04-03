@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Aura effect
             Texture2D aura = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/AlphaVirusAura");

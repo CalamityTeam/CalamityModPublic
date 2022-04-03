@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;

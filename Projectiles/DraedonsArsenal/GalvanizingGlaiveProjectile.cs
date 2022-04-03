@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.NewProjectile(Projectile.Center + offset, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f, ModContent.ProjectileType<GaussEnergy>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
         };
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture = ModContent.Request<Texture2D>(Texture);
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + angle.ToRotationVector2() * -105f, Projectile.width, ref _);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
             float animationRatio = player.itemAnimation / (float)player.itemAnimationMax;

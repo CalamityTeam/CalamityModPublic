@@ -267,7 +267,7 @@ namespace CalamityMod.Projectiles.Summon
         //Does no contact damage
         public override bool CanDamage() => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
@@ -281,7 +281,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         //Pretty glowmask
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/BlackHawkGlow");
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];

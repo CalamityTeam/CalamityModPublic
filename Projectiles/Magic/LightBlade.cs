@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Magic
         public override Color? GetAlpha(Color lightColor) => lightColor;
 
         // Uses bizarre drawcode because it has a horizontal sprite sheet
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Point projTile = Projectile.Center.ToTileCoordinates();
             Color localLight = Lighting.GetColor(projTile.X, projTile.Y);

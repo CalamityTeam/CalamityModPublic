@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.HealEffect(1);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //afterimages
+        public override bool PreDraw(ref Color lightColor) //afterimages
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

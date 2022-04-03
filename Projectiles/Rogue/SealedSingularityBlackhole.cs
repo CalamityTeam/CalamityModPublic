@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;

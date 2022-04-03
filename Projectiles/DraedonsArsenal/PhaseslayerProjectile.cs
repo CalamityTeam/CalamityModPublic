@@ -290,7 +290,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         internal float WidthFunction(float completionRatio) => (IsSmall ? 101f : 127f) * (1f - completionRatio) * 0.8f;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D bladeTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBlade");
             Texture2D hiltTexture = ModContent.Request<Texture2D>(Texture);

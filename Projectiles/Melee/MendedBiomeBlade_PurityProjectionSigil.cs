@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.active = false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Main.myPlayer != Projectile.owner) // don't show for other players
                 return false;

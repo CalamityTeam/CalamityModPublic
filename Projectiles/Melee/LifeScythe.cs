@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.1f, 0.5f, 0.15f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;

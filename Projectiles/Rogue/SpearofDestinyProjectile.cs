@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Ichor, 120);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.Calamity().stealthStrike)
             {

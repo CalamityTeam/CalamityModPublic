@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
                 CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 600f, 14f, 32f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             lightColor = Color.Lerp(lightColor, Color.White, 0.8f);
             lightColor.A /= 3;

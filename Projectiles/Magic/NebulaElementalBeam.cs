@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void DetermineScale() => Projectile.scale = Projectile.timeLeft / Lifetime * MaxScale;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             DrawBeamWithColor(spriteBatch, new Color(190, 29, 209), Projectile.scale);
             DrawBeamWithColor(spriteBatch, Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);

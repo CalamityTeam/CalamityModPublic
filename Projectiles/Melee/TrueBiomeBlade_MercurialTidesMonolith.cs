@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Melee
 
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (WaitTimer > 0)
                 return false;
@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Melee
 
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (WaitTimer > 0)
                 return;

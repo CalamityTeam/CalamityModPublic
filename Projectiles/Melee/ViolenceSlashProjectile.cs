@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 
         internal float PrimitiveWidthFunction(float completionRatio) => Projectile.height * 0.48f;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (SliceAfterimageDrawer is null)
                 SliceAfterimageDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);

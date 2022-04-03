@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Vector2 drawPosition;
             Texture2D starTexture = ModContent.Request<Texture2D>(Texture).Value;

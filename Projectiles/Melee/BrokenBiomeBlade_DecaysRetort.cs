@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.GiveIFrames(BiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
             Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort");

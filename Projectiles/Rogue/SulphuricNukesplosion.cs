@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Rectangle frame = new Rectangle(frameX * Projectile.width, frameY * Projectile.height, Projectile.width, Projectile.height);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);

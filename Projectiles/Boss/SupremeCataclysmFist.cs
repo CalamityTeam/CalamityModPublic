@@ -47,14 +47,14 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0f, 0f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             lightColor.R = (byte)(255 * Projectile.Opacity);
 
             SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[1] == 1f)
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/SupremeCataclysmFistAlt");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/SupremeCataclysmFistAlt").Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             drawPosition.X -= Math.Sign(Projectile.velocity.X) * 40f;

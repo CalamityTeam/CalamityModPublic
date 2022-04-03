@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
             CreateExplosion(laserEnd);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Start texture drawing.
             Rectangle beginFrame = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
             return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * Projectile.Opacity;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (FireDrawer is null)
                 FireDrawer = new PrimitiveTrail(SunWidthFunction, SunColorFunction, null, GameShaders.Misc["CalamityMod:Flame"]);

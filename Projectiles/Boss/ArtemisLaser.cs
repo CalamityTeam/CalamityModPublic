@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Boss
             return CalamityUtils.CircularHitboxCollision(projHitbox.Center(), Projectile.Size.Length() * 0.5f, targetHitbox);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (TelegraphDelay >= TelegraphTotalTime)
             {

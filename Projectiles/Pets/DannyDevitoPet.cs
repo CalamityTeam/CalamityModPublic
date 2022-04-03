@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.Pets
             }
         }
 
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        /*public override void PostDraw(Color lightColor)
         {
             if (!Main.gamePaused || Main.gameMenu)
             {

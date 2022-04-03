@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
         #region Drawing
 
         // Manual drawing is used to correct the origin of the projectile when drawn.
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D punchTexture = ModContent.Request<Texture2D>(Texture);
             Rectangle frame = punchTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);

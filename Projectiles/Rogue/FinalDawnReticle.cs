@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
             if(Projectile.alpha >= 255)
                 Projectile.Kill();
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D ring = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D symbol = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");

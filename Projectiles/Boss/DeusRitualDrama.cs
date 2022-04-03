@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float upwardnessRatio = Utils.InverseLerp(60f, TotalRitualTime, Time, true);
             float upwardness = MathHelper.Lerp(0f, MaxUpwardRise, upwardnessRatio);

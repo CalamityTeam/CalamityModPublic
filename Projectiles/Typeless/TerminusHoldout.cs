@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true) + Vector2.UnitX * Projectile.spriteDirection * 26f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 baseDrawPosition = Projectile.Center - Main.screenPosition;

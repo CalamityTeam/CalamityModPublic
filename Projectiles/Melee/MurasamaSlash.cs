@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Calamity().trueMelee = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.frameCounter <= 1)
                 return false;

@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             aiType = ProjectileID.Meteor1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.Calamity().lineColor == 1)

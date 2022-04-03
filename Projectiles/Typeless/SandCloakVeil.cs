@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Sprite Circle
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;

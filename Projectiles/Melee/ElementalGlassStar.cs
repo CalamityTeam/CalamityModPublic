@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 350f, 12f, 20f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 

@@ -330,7 +330,7 @@ namespace CalamityMod.Projectiles.Melee
             return color;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 1195)
                 return false;

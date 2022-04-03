@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
                 ref _);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (TornadoDrawer is null)
                 TornadoDrawer = new PrimitiveTrail(_ => Projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);

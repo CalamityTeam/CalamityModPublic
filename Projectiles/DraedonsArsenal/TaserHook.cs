@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.netUpdate = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
             Texture2D texture = ModContent.Request<Texture2D>(Texture);

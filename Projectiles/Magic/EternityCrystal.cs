@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Magic
             SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
             Projectile.Kill();
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D myTexture = ModContent.Request<Texture2D>(Texture);
             Rectangle frame = myTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);

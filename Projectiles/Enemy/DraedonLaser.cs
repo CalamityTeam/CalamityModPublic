@@ -59,6 +59,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 190, 255, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
     }
 }

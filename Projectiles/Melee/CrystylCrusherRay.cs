@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)

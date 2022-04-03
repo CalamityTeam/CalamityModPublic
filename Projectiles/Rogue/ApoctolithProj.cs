@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = new Vector2(32f, 33f);
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ApoctolithGlow");
             Vector2 origin = new Vector2(32f, 33f);

@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MoonSigil");
             spriteBatch.Draw

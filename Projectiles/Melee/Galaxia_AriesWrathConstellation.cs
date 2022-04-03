@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Melee
                 Timer = ConstellationSwapTime;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Particles != null)
             {

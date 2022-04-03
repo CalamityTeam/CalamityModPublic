@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.localAI[0] = 1f;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);

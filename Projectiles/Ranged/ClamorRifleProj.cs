@@ -42,13 +42,6 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 25f);
         }
 
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }*/
-
         public override void Kill(int timeLeft)
         {
             int bulletAmt = 2;

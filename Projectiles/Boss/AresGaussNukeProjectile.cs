@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.velocity *= scaleFactor;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.EnterShaderRegion();
             Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj");
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int height = texture.Height / Main.projFrames[Projectile.type];

@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.timeLeft = 30;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > Lifetime - NoDrawFrames)
                 return false;

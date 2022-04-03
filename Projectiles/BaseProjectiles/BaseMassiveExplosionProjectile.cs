@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(CurrentRadius * Projectile.scale), (int)(CurrentRadius * Projectile.scale));
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

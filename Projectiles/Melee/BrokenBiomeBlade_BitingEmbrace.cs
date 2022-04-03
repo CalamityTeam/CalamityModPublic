@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment shrinkSize = new CurveSegment(EasingType.ExpIn, 0.85f, 1f, -1f);
         internal float ThrustScaleRatio() => PiecewiseAnimation(Timer / MaxTime, new CurveSegment[] { expandSize, holdSize, shrinkSize });
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
 

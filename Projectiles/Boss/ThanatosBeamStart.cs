@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (!OwnerIsValid)
                 return false;

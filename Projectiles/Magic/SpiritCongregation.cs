@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.frame = Projectile.frameCounter / 5 % maxFrame;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             int maxFrame = CurrentPower <= LargeMouthPowerLowerBound ? 6 : 9;
             Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * maxFrame * 0.03f;

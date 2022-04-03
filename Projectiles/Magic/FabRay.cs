@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
             return MathHelper.Lerp(0f, 32f * Projectile.Opacity, expansionCompletion);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);

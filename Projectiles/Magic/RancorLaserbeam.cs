@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Magic
             return Color.Lerp(vibrantColor, Color.White, 0.5f) * opacity * 2f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (RayDrawer is null)
                 RayDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:Flame"]);

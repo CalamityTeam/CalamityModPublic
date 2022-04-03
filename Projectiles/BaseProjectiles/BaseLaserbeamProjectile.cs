@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             return laserLengthSamplePoints.Average();
         }
 
-        protected internal void DrawBeamWithColor(SpriteBatch spriteBatch, Color beamColor, float scale, int startFrame = 0, int middleFrame = 0, int endFrame = 0)
+        protected internal void DrawBeamWithColor(Color beamColor, float scale, int startFrame = 0, int middleFrame = 0, int endFrame = 0)
         {
             Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, startFrame);
             Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[Projectile.type], 0, middleFrame);
@@ -189,13 +189,13 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackMelee;
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, Projectile.Size.Length() * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // This should never happen, but just in case-
             if (Projectile.velocity == Vector2.Zero)
                 return false;
 
-            DrawBeamWithColor(spriteBatch, LaserOverlayColor, Projectile.scale);
+            DrawBeamWithColor(LaserOverlayColor, Projectile.scale);
             return false;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

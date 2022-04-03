@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 200, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(100f, 2f, lightColor);
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(100f, 2f, lightColor);
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

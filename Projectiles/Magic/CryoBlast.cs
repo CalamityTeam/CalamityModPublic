@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if ((Projectile.timeLeft > 596 && Projectile.ai[0] == 0f) || (Projectile.timeLeft > 599 && Projectile.ai[0] > 0f))
                 return false;

@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
             Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PulseDragonChain");

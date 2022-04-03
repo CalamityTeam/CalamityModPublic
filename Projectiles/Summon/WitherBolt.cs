@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.25f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D boltTexture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 0; i < Projectile.oldPos.Length; i++)

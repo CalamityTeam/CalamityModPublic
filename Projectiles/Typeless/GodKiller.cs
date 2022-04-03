@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(11f, 23f);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GodKillerGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;

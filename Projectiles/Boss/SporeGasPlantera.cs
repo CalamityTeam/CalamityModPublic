@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255, 255, 255, Projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Changes the texture of the projectile
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;

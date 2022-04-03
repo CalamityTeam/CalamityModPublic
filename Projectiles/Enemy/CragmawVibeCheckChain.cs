@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D endTexture = ModContent.Request<Texture2D>(Texture);
             Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Enemy/CragmawVibeCheckMid");

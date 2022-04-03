@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanDamage() => Projectile.alpha < 180;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Time <= 1f)
                 return false;

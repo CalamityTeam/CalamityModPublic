@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.frameCounter++;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D bladeTexture = ModContent.Request<Texture2D>(Texture);
             MiscShaderData distortationShader = GameShaders.Misc["CalamityMod:LightDistortion"];

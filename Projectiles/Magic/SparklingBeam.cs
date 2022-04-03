@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)

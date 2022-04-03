@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
             return color * Projectile.Opacity;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;

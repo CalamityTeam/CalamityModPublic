@@ -234,7 +234,7 @@ namespace CalamityMod.Projectiles.Magic
             return MathHelper.SmoothStep(1f, 10f, widthInterpolant);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (LemniscateDrawer is null)
                 LemniscateDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);

@@ -287,7 +287,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture);
             Rectangle frame = texture.Frame(2, Main.projFrames[Projectile.type], ReleasingAcid.ToInt(), Projectile.frame);

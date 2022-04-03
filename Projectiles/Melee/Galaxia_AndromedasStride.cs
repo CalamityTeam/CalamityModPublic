@@ -275,7 +275,7 @@ namespace CalamityMod.Projectiles.Melee
             damage = (int)(damage * (1f + FourSeasonsGalaxia.AndromedaAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra");
 

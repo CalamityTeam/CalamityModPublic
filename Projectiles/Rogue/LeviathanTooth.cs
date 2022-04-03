@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.Calamity().lineColor == 1)

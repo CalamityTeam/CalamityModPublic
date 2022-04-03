@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Magic
             return MathHelper.SmoothStep(0f, 20f, widthInterpolant);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ArtAttack"]);

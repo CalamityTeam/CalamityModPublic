@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D outerCircleTexture = ModContent.Request<Texture2D>(Texture);
             Texture2D outerCircleGlowmask = ModContent.Request<Texture2D>(Texture + "Glowmask");

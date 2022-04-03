@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
             Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float glowOutwardness = MathHelper.SmoothStep(0f, 4f, Utils.InverseLerp(90f, 270f, Time, true));
             Texture2D bookTexture = ModContent.Request<Texture2D>(Texture).Value;

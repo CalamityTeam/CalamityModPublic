@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Ranged
             Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.EnterShaderRegion();
             if (PumpkinsCharge > 0 && Overfilled == 0f)

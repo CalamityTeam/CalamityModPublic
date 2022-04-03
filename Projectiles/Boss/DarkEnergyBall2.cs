@@ -63,13 +63,13 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = 0;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Color color = Color.Lerp(Color.White, Color.Fuchsia, 0.5f) * Projectile.Opacity;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;

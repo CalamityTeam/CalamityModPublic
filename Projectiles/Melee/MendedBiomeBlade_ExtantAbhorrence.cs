@@ -249,7 +249,7 @@ namespace CalamityMod.Projectiles.Melee
             damage = (int)(damage * (1f + TrueBiomeBlade.AstralAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence");

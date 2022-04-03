@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 595)
                 return false;

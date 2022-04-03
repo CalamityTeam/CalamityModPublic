@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;

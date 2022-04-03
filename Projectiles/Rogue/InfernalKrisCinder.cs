@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.OnFire, 90);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // If this is a stealth strike, make the blade glow orange
             Color glowColour = new Color(255, 215, 100, 100);

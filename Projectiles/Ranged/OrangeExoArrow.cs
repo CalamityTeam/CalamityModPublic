@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 100, 0, Projectile.alpha);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(40f, 1.5f, lightColor);
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(40f, 1.5f, lightColor);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
 

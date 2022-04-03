@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Pets
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Drawing(spriteBatch, lightColor,
                 ModContent.Request<Texture2D>(Texture).Value,
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Pets
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Drawing(spriteBatch, Color.White,
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomPetGlow"),

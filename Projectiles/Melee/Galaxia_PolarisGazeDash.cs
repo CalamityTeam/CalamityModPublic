@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //OMw to reuse way too much code from the entangling vines
+        public override bool PreDraw(ref Color lightColor) //OMw to reuse way too much code from the entangling vines
         {
 
             spriteBatch.End();

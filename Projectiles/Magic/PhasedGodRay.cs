@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor) => new Color(222, 166, 44, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
 
         public override void Kill(int timeLeft)
         {

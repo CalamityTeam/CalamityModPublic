@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment stayClosed = new CurveSegment(EasingType.Linear, 0.5f, 1f, 0f);
         internal float RotationRatio() => PiecewiseAnimation(ParryProgress, new CurveSegment[] { openMore, close, stayClosed });
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Stop drawing the sword. Draw a recharge bar instead
             if (Timer > ParryTime)

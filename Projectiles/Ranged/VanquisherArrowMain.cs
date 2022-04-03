@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Color color = Color.White;
             if (Projectile.timeLeft < 85)

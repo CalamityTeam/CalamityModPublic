@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

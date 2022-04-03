@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.Daybreak, 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 175)
                 return false;

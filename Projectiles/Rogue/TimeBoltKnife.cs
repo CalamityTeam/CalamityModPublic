@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200) * ((255f - (float)Projectile.alpha) / 255f);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

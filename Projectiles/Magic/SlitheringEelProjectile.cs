@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D headTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelProjectile");
             Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelBody");

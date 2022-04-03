@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.spriteDirection = Math.Sign(Timer - 20f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D blade = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
 

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 295)
                 return false;

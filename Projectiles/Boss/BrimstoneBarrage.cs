@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             lightColor.R = (byte)(255 * Projectile.Opacity);
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

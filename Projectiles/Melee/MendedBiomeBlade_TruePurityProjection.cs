@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[dustParticle].velocity += Projectile.velocity * 0.1f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > TrueBiomeBlade.DefaultAttunement_BeamTime - 5f)
                 return false;
