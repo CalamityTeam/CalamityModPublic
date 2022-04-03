@@ -34,6 +34,8 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            player.TryGettingDevArmor(GetItemSource_OpenItem(Item.type));
+
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 4, 6);
 
