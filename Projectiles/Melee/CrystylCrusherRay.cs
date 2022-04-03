@@ -67,14 +67,14 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 maxLength = Main.MouseWorld - Main.player[Projectile.owner].Center;
 
-                DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
+                DrawLaser(ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
                     Projectile.velocity, 15f, Projectile.damage, -1.57f, Projectile.scale, maxLength.Length(), new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
             }
             return false;
         }
 
         // The core function of drawing a laser
-        public void DrawLaser(SpriteBatch Main.spriteBatch, Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
+        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
         {
             float r = unit.ToRotation() + rotation;
 
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
 
             if (Projectile.timeLeft == 300)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), player.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge"), player.Center);
 
             Projectile.position = player.Center + Projectile.velocity * MOVE_DISTANCE;
             Projectile.timeLeft = 2;
@@ -275,13 +275,13 @@ namespace CalamityMod.Projectiles.Melee
                         double num828 = Math.Sqrt(num826 * num826 + num827 * num827);
                         if (num828 < num814)
                         {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
+                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].HasTile)
                             {
                                 WorldGen.KillTile(num824, num825, false, false, false);
                                 DustExplosion(destroyVector);
-                                if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
+                                if (!Main.tile[num824, num825].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                                 {
-                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, num824, num825, 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, num824, num825, 0f, 0, 0, 0);
                                 }
                             }
                         }

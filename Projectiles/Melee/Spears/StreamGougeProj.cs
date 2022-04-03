@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public float SpinCompletion => Utils.InverseLerp(0f, StreamGouge.SpinTime, Time, true);
+        public float SpinCompletion => Utils.GetLerpValue(0f, StreamGouge.SpinTime, Time, true);
 
         public ref float InitialDirection => ref Projectile.ai[0];
 
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             // Play a strong slash sound on the first frame to accompany the spin.
             if (Time == 0f)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
 
             // Define the initial direction.
             if (InitialDirection == 0f)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             else
             {
                 float stabOffset = (float)Math.Sin(Time / 3f) * 15f;
-                float spearReach = MathHelper.Lerp(-10f, stabOffset + 90f, Utils.InverseLerp(0f, StreamGouge.SpearFireTime, Time - StreamGouge.SpinTime, true));
+                float spearReach = MathHelper.Lerp(-10f, stabOffset + 90f, Utils.GetLerpValue(0f, StreamGouge.SpearFireTime, Time - StreamGouge.SpinTime, true));
                 Projectile.velocity = InitialDirection.ToRotationVector2() * spearReach;
             }
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Vector2 portalSpawnPosition = Main.MouseWorld + Main.rand.NextVector2Unit() * Main.rand.NextFloat(50f, 140f);
                 Vector2 spearVelocity = (Main.MouseWorld - portalSpawnPosition).SafeNormalize(Vector2.UnitY);
-                Projectile.NewProjectile(portalSpawnPosition, spearVelocity, ModContent.ProjectileType<StreamGougePortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), portalSpawnPosition, spearVelocity, ModContent.ProjectileType<StreamGougePortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
 
             Time++;
@@ -105,9 +105,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Projectile.Kill();
         }
 
-        public void DrawPortal(SpriteBatch Main.spriteBatch, Vector2 drawPosition, float opacity)
+        public void DrawPortal(SpriteBatch spriteBatch, Vector2 drawPosition, float opacity)
         {
-            Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal");
+            Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal").Value;
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
             float rotation = Main.GlobalTimeWrappedHourly * 6f;
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             // Draw the spin smear texture.
             if (SpinCompletion >= 0f && SpinCompletion < 1f)
             {
-                Texture2D smear = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmear");
+                Texture2D smear = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmear").Value;
 
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
 
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
 
             // Make the spear go through the portal.
-            float portalOpacity = Utils.InverseLerp(0.6f, 1f, SpinCompletion, true);
+            float portalOpacity = Utils.GetLerpValue(0.6f, 1f, SpinCompletion, true);
             bool portalIsInteractable = portalOpacity >= 1f;
             Vector2 portalDrawPosition = Owner.Center + InitialDirection.ToRotationVector2() * 130f - Main.screenPosition;
 
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Main.spriteBatch.ExitShaderRegion();
 
             // Draw the portal once ready.
-            DrawPortal(spriteBatch, portalDrawPosition, portalOpacity);
+            DrawPortal(Main.spriteBatch, portalDrawPosition, portalOpacity);
 
             return false;
         }

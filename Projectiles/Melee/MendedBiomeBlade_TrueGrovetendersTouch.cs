@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, Projectile.Center });
+            BezierCurve curve = new(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, Projectile.Center });
 
             int numPoints = 32;
             Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
                         boing = true;
                         SoundEngine.PlaySound(SoundID.Item56);
                     }
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                 }
                 Array.Clear(excludedTargets, 0, 3);
             }
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        internal float EaseInFunction(float progress) => progress == 0 ? 0f : (float)Math.Pow(2, 10 * progress - 10); //Potion seller i need your strongest easeIns
+        internal static float EaseInFunction(float progress) => progress == 0 ? 0f : (float)Math.Pow(2, 10 * progress - 10); //Potion seller i need your strongest easeIns
 
         private float GetSwingRatio()
         {
@@ -242,45 +242,45 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Timer == 0)
                 return false;
-            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchGlow");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GrovetendersTouchGlow").Value;
 
             Vector2 projBottom = Projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(Projectile.rotation + MathHelper.PiOver4) * 0.75f;
-            DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
+            DrawChain(projBottom, out Vector2[] chainPositions);
 
-            float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
+            float drawRotation = (projBottom - chainPositions[^2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
             drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
             drawRotation += Projectile.spriteDirection < 0 ? 0f : 0f;
 
             if (ReelingBack)
                 drawRotation = Utils.AngleLerp(drawRotation, (Projectile.Center - Owner.Center).ToRotation(), GetSwingRatio());
 
-            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOrigin = new(0f, handle.Height);
             SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
             lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
             Vector2 nitpickCorrection = (flipped == -1 && (Timer / MaxTime < 0.35f)) ? drawRotation.ToRotationVector2() * 16f + (Owner.direction == -1f ? Vector2.UnitX * -12f : Vector2.Zero) : Vector2.Zero;
 
-            Main.EntitySpriteDraw(handle, projBottom - nitpickCorrection - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
+            Main.EntitySpriteDraw(handle, projBottom - nitpickCorrection - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0);
 
             if ((!ReelingBack || SnapCoyoteTime != 0f) && (Timer / MaxTime > 0.35f))
             {
                 //Turn on additive blending
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Only update the origin for once
                 drawOrigin = new Vector2(0f, blade.Height);
-                Main.EntitySpriteDraw(blade, projBottom - nitpickCorrection - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
+                Main.EntitySpriteDraw(blade, projBottom - nitpickCorrection - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, flip, 0);
                 //Back to normal
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
             return false;
         }
 
-        private void DrawChain(SpriteBatch Main.spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
+        private void DrawChain(Vector2 projBottom, out Vector2[] chainPositions)
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
+            Texture2D chainTex = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain").Value;
 
             float ratio = GetSwingRatio();
 
@@ -296,7 +296,7 @@ namespace CalamityMod.Projectiles.Melee
                 controlPoint2 = Owner.MountedCenter + SwingPosition(MathHelper.Lerp(ratio, 1f, ratio / 2)) + perpendicular * MathHelper.SmoothStep(0f, 1f, ratio) * -100f * Owner.direction;
             }
 
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
+            BezierCurve curve = new(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projBottom });
             int numPoints = 30;
             chainPositions = curve.GetPoints(numPoints).ToArray();
 
@@ -306,11 +306,11 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 position = chainPositions[i];
                 float rotation = (chainPositions[i] - chainPositions[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
                 float yScale = Vector2.Distance(chainPositions[i], chainPositions[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
-                Vector2 scale = new Vector2(1, yScale);
+                Vector2 scale = new(1, yScale);
                 Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
                 if (ReelingBack)
                     chainLightColor *= 1 - EaseInFunction(ratio); //Make the chain fade when reeling it back
-                Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
+                Vector2 origin = new(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
                 Main.EntitySpriteDraw(chainTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
             }
         }

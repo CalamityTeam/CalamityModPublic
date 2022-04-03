@@ -183,11 +183,11 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Timer == 0)
                 return false;
-            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchGlow");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchGlow").Value;
 
             Vector2 projBottom = Projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(Projectile.rotation + MathHelper.PiOver4) * 0.75f;
-            DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
+            DrawChain(projBottom, out Vector2[] chainPositions);
 
             float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
             drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
@@ -197,24 +197,24 @@ namespace CalamityMod.Projectiles.Melee
             SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
             lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
-            Main.EntitySpriteDraw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
+            Main.EntitySpriteDraw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Only update the origin for once
             drawOrigin = new Vector2(0f, blade.Height);
-            Main.EntitySpriteDraw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
+            Main.EntitySpriteDraw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, flip, 0);
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
-        private void DrawChain(SpriteBatch Main.spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
+        private void DrawChain(Vector2 projBottom, out Vector2[] chainPositions)
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
+            Texture2D chainTex = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain").Value;
 
             float ratio = GetSwingRatio();
 

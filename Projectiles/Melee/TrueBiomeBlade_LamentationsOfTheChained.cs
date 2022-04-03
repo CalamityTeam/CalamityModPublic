@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Melee
             if (ChainSwapTimer < Math.Max(OmegaBiomeBlade.FlailBladeAttunement_FlailTime, OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames))
                 return false;
 
-            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 _, out Vector2 _, out Vector2 _, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
+            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 _, out Vector2 _, out Vector2 _, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 _, out Vector2 _, out Vector2 _, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
 
             if (Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
                 Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
@@ -78,9 +78,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control10, out Vector2 control11, out Vector2 control12, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out Vector2 control20, out Vector2 control21, out Vector2 control22, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out Vector2 control30, out Vector2 control31, out Vector2 control32, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out _, out _, out _, out Vector2 control13, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
+            GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out _, out _, out _, out Vector2 control23, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
+            GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out _, out _, out _, out Vector2 control33, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
             //If you hit the enemy with the blade of the whip, guarantee a crit
             if (Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control13 - Vector2.One * 25f, Vector2.One * 50f) ||
                 Collision.CheckAABBvAABBCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), control23 - Vector2.One * 25f, Vector2.One * 50f) ||
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
                 )
             {
 
-                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_BladeProc)
+                if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_BladeProc)
                     sword.OnHitProc = true;
 
 
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
-                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_ChainProc)
+                if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.FlailBladeAttunement_ChainProc)
                     sword.OnHitProc = true;
 
                 damage = (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
@@ -122,15 +122,15 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (crit)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SwiftSlice"), Projectile.Center);
                 excludedTargets[0] = target;
                 for (int i = 0; i < 3; i++)
                 {
                     NPC potentialTarget = TargetNext(target.Center, i);
                     if (potentialTarget == null)
                         break;
-                    Projectile proj = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
-                    if (proj.modProjectile is GhastlyChain chain)
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    if (proj.ModProjectile is GhastlyChain chain)
                         chain.Gravity = Main.rand.NextFloat(30f, 50f);
                 }
                 Array.Clear(excludedTargets, 0, 3);
@@ -190,12 +190,14 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.DD2_OgreSpit, Projectile.Center);
 
                 Vector2 smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.7f, 1.1f);
-                Vector2 squish = new Vector2(Main.rand.NextFloat(3f, 4f), Main.rand.NextFloat(0.5f, 1f));
+                Vector2 squish = new(Main.rand.NextFloat(3f, 4f), Main.rand.NextFloat(0.5f, 1f));
 
                 if (smear == null)
                 {
-                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, Projectile.scale * 1.5f, squish);
-                    smear.Lifetime = 2;
+                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, Projectile.scale * 1.5f, squish)
+                    {
+                        Lifetime = 2
+                    };
                     GeneralParticleHandler.SpawnParticle(smear);
                 }
                 //Update the variables of the smear
@@ -211,8 +213,10 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (smear2 == null)
                 {
-                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, Projectile.scale * 1.5f, squish);
-                    smear2.Lifetime = 2;
+                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, Projectile.scale * 1.5f, squish)
+                    {
+                        Lifetime = 2
+                    };
                     GeneralParticleHandler.SpawnParticle(smear2);
                 }
                 //Update the variables of the smear
@@ -244,45 +248,45 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained").Value;
 
-            CalculateChains(spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3);
+            CalculateChains(out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3);
 
             //float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
 
             Vector2 drawPos = Projectile.Center - Projectile.velocity * 55f;
-            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOrigin = new(0f, handle.Height);
             float drawRotation = Projectile.rotation + MathHelper.PiOver4;
 
             //lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
-            Main.EntitySpriteDraw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Draw the tip of the flails here
-            Texture2D flailBlade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
-            Rectangle bladeFrame = new Rectangle(0, 0, 24, 48);
-            Vector2 flailOrigin = new Vector2(bladeFrame.Width / 2, bladeFrame.Height); //Draw from center bottom of texture
+            Texture2D flailBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail").Value;
+            Rectangle bladeFrame = new(0, 0, 24, 48);
+            Vector2 flailOrigin = new(bladeFrame.Width / 2, bladeFrame.Height); //Draw from center bottom of texture
 
-            float flailRotation = (chainPositions1[chainPositions1.Length - 2] - chainPositions1[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            Main.EntitySpriteDraw(flailBlade, chainPositions1[chainPositions1.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            float flailRotation = (chainPositions1[^2] - chainPositions1[^3]).ToRotation() + MathHelper.PiOver2;
+            Main.EntitySpriteDraw(flailBlade, chainPositions1[^2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
-            flailRotation = (chainPositions2[chainPositions2.Length - 2] - chainPositions2[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            Main.EntitySpriteDraw(flailBlade, chainPositions2[chainPositions2.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            flailRotation = (chainPositions2[^2] - chainPositions2[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
+            Main.EntitySpriteDraw(flailBlade, chainPositions2[^2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
-            flailRotation = (chainPositions3[chainPositions3.Length - 2] - chainPositions3[chainPositions3.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            Main.EntitySpriteDraw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            flailRotation = (chainPositions3[^2] - chainPositions3[^3]).ToRotation() + MathHelper.PiOver2;
+            Main.EntitySpriteDraw(flailBlade, chainPositions3[^2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             drawOrigin = new Vector2(0f, blade.Height);
-            Main.EntitySpriteDraw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
@@ -317,7 +321,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 point2 = control3 + direction.RotatedBy(MathHelper.PiOver2) * 50 + direction * 250;
             Vector2 point3 = control3 + direction.RotatedBy(-MathHelper.PiOver2) * 50 + direction * 250;
             Vector2 point4 = control3 + direction.RotatedBy(-MathHelper.PiOver2) * 50;
-            BezierCurve curve = new BezierCurve(new Vector2[] { point1, point2, point3, point4 });
+            BezierCurve curve = new(new Vector2[] { point1, point2, point3, point4 });
             control3 = curve.Evaluate(randomNumber);
 
             Vector2 directionFromHead = direction.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(0, 160f * flip, (float)Math.Sin(randomNumber * MathHelper.Pi)))) * MathHelper.Lerp(130f, 200f, MathHelper.Clamp((float)Math.Sin(randomNumber * MathHelper.Pi) - 0.5f, 0f, 1f) * 2f);
@@ -331,7 +335,7 @@ namespace CalamityMod.Projectiles.Melee
             control1 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed3) * seed2 * 30f;
         }
 
-        private void CalculateChains(SpriteBatch Main.spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
+        private void CalculateChains(out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
         {
 
             if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
@@ -359,24 +363,24 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             GenerateCurve(whip1.Y, whip1.X.ToRotationVector2(), out Vector2 control0, out Vector2 control1, out Vector2 control2, out Vector2 control3, (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, 1);
-            DrawChain(spriteBatch, out chainPositions1, control0, control1, control2, control3);
+            DrawChain(out chainPositions1, control0, control1, control2, control3);
 
             GenerateCurve(whip2.Y, whip2.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            DrawChain(spriteBatch, out chainPositions2, control0, control1, control2, control3);
+            DrawChain(out chainPositions2, control0, control1, control2, control3);
 
             GenerateCurve(whip3.Y, whip3.X.ToRotationVector2(), out control0, out control1, out control2, out control3, ((ChainSwapTimer - OmegaBiomeBlade.FlailBladeAttunement_FlailTime * 2f / 3f) % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) / (float)OmegaBiomeBlade.FlailBladeAttunement_FlailTime, -1);
-            DrawChain(spriteBatch, out chainPositions3, control0, control1, control2, control3);
+            DrawChain(out chainPositions3, control0, control1, control2, control3);
         }
 
-        private void DrawChain(SpriteBatch Main.spriteBatch, out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
+        private void DrawChain(out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
         {
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
-            Rectangle chainFrame = new Rectangle(0, 70, 24, 14);
-            Rectangle guardFrame = new Rectangle(0, 50, 24, 18);
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail").Value;
+            Rectangle chainFrame = new(0, 70, 24, 14);
+            Rectangle guardFrame = new(0, 50, 24, 18);
 
             //First chain
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, control0, control1, control2, control3 });
+            BezierCurve curve = new(new Vector2[] { Owner.MountedCenter, control0, control1, control2, control3 });
             int numPoints = 40;
             chainPositions = curve.GetPoints(numPoints).ToArray();
 
@@ -395,8 +399,8 @@ namespace CalamityMod.Projectiles.Melee
                     float segmentProgress = i < 30f ? i / 30f : 1 - (i - 30f) / 10f;
                     float xScale = 1f + 0.75f * (float)Math.Sin(segmentProgress * MathHelper.PiOver2);
 
-                    Vector2 scale = new Vector2(xScale, yScale); //Remember to make it get thicker and thinner based on whatever
-                    Vector2 origin = new Vector2(chainFrame.Width / 2, chainFrame.Height); //Draw from center bottom of texture
+                    Vector2 scale = new(xScale, yScale); //Remember to make it get thicker and thinner based on whatever
+                    Vector2 origin = new(chainFrame.Width / 2, chainFrame.Height); //Draw from center bottom of texture
 
                     float chainOpacity = MathHelper.Clamp((i / (float)numPoints) * 3f, 0f, 1f);
 
@@ -404,7 +408,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 else
                 {
-                    Vector2 origin = new Vector2(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
+                    Vector2 origin = new(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
                     Main.EntitySpriteDraw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
 
                     if ((ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) == 1 && Main.rand.Next(3) == 0f)

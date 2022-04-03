@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
@@ -48,17 +49,20 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 if (Main.myPlayer == projectile.owner)
                 {
                     int pulseDamage = (int)(owner.AverageDamage() * 300f);
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.GetItemSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
                 }
             }
 
             return false;
         }
 
-        public static bool DoChlorophyteCrystalDrawing(SpriteBatch Main.spriteBatch, Projectile projectile)
+        public static bool DoChlorophyteCrystalDrawing(SpriteBatch spriteBatch, Projectile projectile)
         {
             //Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
-            Texture2D texture = ModContent.Request<Texture2D>(projectile.Texture).Value; <- We have an issue
+            // It's me. I was that someone - Dominic
+            // TextureAssets is the answer, along with Main.instance.LoadProjectile(projID), to ensure that the texture is loaded into memory.
+            // In this instance, however, that should happen already on vanilla's end.
+            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
 
@@ -68,10 +72,10 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 3f;
-                Main.EntitySpriteDraw(texture, drawPosition + drawOffset, null, projectile.GetAlpha(backglowColor), projectile.rotation, origin, projectile.scale, 0, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition + drawOffset, null, projectile.GetAlpha(backglowColor), projectile.rotation, origin, projectile.scale, 0, 0);
             }
 
-            Main.EntitySpriteDraw(texture, drawPosition, null, projectile.GetAlpha(Color.White * 0.75f), projectile.rotation, origin, projectile.scale, 0, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, null, projectile.GetAlpha(Color.White * 0.75f), projectile.rotation, origin, projectile.scale, 0, 0);
             return false;
         }
     }

@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
             return (seed * Projectile.localAI[1] + 101f) % (4 * xRange * yRange);
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return Projectile.ai[0] > 120f;
         }
@@ -105,12 +105,12 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Vector2 center = Projectile.Center - Main.screenPosition;
             Vector2 aura = center + new Vector2(-xRange, yRange);
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffAura");
-            Rectangle frame = new Rectangle(50, 0, 50, 32);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffAura").Value;
+            Rectangle frame = new(50, 0, 50, 32);
             int count = 2 * xRange / 50;
             SpriteEffects effects = Projectile.ai[0] % 30f < 15f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             for (int k = 0; k < count; k++)
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     frame.X = 50;
                 }
-                Main.EntitySpriteDraw(texture, aura, frame, Color.White, 0f, new Vector2(0f, 32f), 1f, effects, 0f);
+                Main.EntitySpriteDraw(texture, aura, frame, Color.White, 0f, new Vector2(0f, 32f), 1f, effects, 0);
                 aura.X += 50f;
             }
 
@@ -143,14 +143,14 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     alpha = 1f;
                 }
-                DrawChains(spriteBatch, topLeftGear, center, alpha);
-                DrawChains(spriteBatch, center, bottomLeftGear, alpha);
-                DrawChains(spriteBatch, bottomLeftGear, topLeftGear, alpha);
-                DrawChains(spriteBatch, center, bottomRightGear, alpha);
-                DrawChains(spriteBatch, bottomRightGear, topRightGear, alpha);
-                DrawChains(spriteBatch, topRightGear, center, alpha);
-                DrawChains(spriteBatch, new Vector2(bottomLeftGear.X, center.Y + yRange), bottomLeftGear, alpha);
-                DrawChains(spriteBatch, bottomRightGear, new Vector2(bottomRightGear.X, center.Y + yRange), alpha);
+                DrawChains(topLeftGear, center, alpha);
+                DrawChains(center, bottomLeftGear, alpha);
+                DrawChains(bottomLeftGear, topLeftGear, alpha);
+                DrawChains(center, bottomRightGear, alpha);
+                DrawChains(bottomRightGear, topRightGear, alpha);
+                DrawChains(topRightGear, center, alpha);
+                DrawChains(new Vector2(bottomLeftGear.X, center.Y + yRange), bottomLeftGear, alpha);
+                DrawChains(bottomRightGear, new Vector2(bottomRightGear.X, center.Y + yRange), alpha);
             }
 
             float scale = 1f;
@@ -158,8 +158,8 @@ namespace CalamityMod.Projectiles.Magic
             {
                 scale = 4f - 3f * Projectile.ai[0] / 60f;
             }
-            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffGear");
-            Vector2 origin = new Vector2(48f, 48f);
+            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffGear").Value;
+            Vector2 origin = new(48f, 48f);
             Main.EntitySpriteDraw(texture, center, null, Color.White, Projectile.ai[0] / 20f, origin, 1.5f * scale, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(texture, topLeftGear, null, Color.White, Projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(texture, topRightGear, null, Color.White, -Projectile.ai[0] / 8f, origin, 0.75f * scale, SpriteEffects.None, 0);
@@ -167,37 +167,36 @@ namespace CalamityMod.Projectiles.Magic
             Main.EntitySpriteDraw(texture, bottomRightGear, null, Color.White, Projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0);
 
             float seed = Projectile.localAI[0];
-            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffFire");
+            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffFire").Value;
             Vector2 topLeft = center + new Vector2(-xRange, -yRange);
             for (int k = (int)Projectile.ai[0] - 60; k < (int)Projectile.ai[0]; k++)
             {
                 if (k > 120)
                 {
-                    Main.EntitySpriteDraw(texture, topLeft + new Vector2(seed % (2 * xRange), seed % (2 * yRange) + k - Projectile.ai[0]), Color.White);
+                    Main.spriteBatch.Draw(texture, topLeft + new Vector2(seed % (2 * xRange), seed % (2 * yRange) + k - Projectile.ai[0]), Color.White);
                 }
                 seed = Next(seed);
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
 
-        private void DrawChains(SpriteBatch Main.spriteBatch, Vector2 start, Vector2 end, float alpha)
+        private void DrawChains(Vector2 start, Vector2 end, float alpha)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffChain");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffChain").Value;
             Vector2 unit = end - start;
             float distance = unit.Length() - 36f;
             unit.Normalize();
             float rotation = unit.ToRotation();
             start += unit * 18f;
-            end -= unit * 18f;
             float offset = Projectile.ai[0] * 2f % texture.Width;
             start += unit * offset;
             distance -= offset;
             int count = (int)(distance / texture.Width);
             Color color = Color.White * alpha;
-            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            Vector2 origin = new(texture.Width / 2, texture.Height / 2);
             for (int k = 0; k <= count; k++)
             {
                 Main.EntitySpriteDraw(texture, start, null, color, rotation, origin, 1f, SpriteEffects.None, 0);

@@ -25,6 +25,7 @@ using static Terraria.ModLoader.ModContent;
 
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles
 {
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles
 
         public bool overridesMinionDamagePrevention = false;
 
-        public static List<int> MechBossProjectileIDs = new List<int>
+        public static List<int> MechBossProjectileIDs = new()
         {
             ProjectileID.DeathLaser,
             ProjectileID.PinkLaser,
@@ -451,7 +452,7 @@ namespace CalamityMod.Projectiles
             }
 
             // Disable Lunatic Cultist's homing resistance globally
-            ProjectileID.Sets.Homing[projectile.type] = false;
+            ProjectileID.Sets.CultistIsResistantTo[projectile.type] = false;
         }
         #endregion
 
@@ -498,7 +499,7 @@ namespace CalamityMod.Projectiles
                 if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
                 {
                     int damage = (int)(Main.player[projectile.owner].MinionDamage() * 2000);
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
                 }
 
                 if (ExplosiveEnchantCountdown <= 0)
@@ -509,7 +510,7 @@ namespace CalamityMod.Projectiles
                         if (projectile.minionSlots > 0f)
                         {
                             int damage = (int)(Main.player[projectile.owner].MinionDamage() * 6000);
-                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
+                            Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
                         }
                         projectile.Kill();
                     }
@@ -611,7 +612,7 @@ namespace CalamityMod.Projectiles
                 if (flag4)
                 {
                     float num193 = num181;
-                    Vector2 vector9 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 vector9 = new(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num194 = num182 - vector9.X;
                     float num195 = num183 - vector9.Y;
                     float num196 = (float)Math.Sqrt(num194 * num194 + num195 * num195);
@@ -909,7 +910,7 @@ namespace CalamityMod.Projectiles
                         if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Vector2 vector50 = projectile.rotation.ToRotationVector2();
-                            Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+                            Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
                         }
 
                         projectile.rotation += (float)Math.PI / 30f;
@@ -978,7 +979,7 @@ namespace CalamityMod.Projectiles
 
                         projectile.frameCounter = 0;
                         float num748 = projectile.velocity.Length();
-                        UnifiedRandom unifiedRandom = new UnifiedRandom((int)projectile.ai[1]);
+                        UnifiedRandom unifiedRandom = new((int)projectile.ai[1]);
                         int num749 = 0;
                         Vector2 spinningpoint14 = -Vector2.UnitY;
                         while (true)
@@ -1039,7 +1040,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.type == ProjectileID.DemonSickle)
                 {
-                    if (Main.wof < 0 || !Main.npc[Main.wof].active || Main.npc[Main.wof].life <= 0)
+                    if (Main.wofNPCIndex < 0 || !Main.npc[Main.wofNPCIndex].active || Main.npc[Main.wofNPCIndex].life <= 0)
                         return true;
 
                     if (projectile.ai[0] == 0f)
@@ -1324,11 +1325,11 @@ namespace CalamityMod.Projectiles
                         center.Y -= num610 * num611 / 2f;
                         center.Y += 2f;
 
-                        Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                        Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
 
                         if ((int)projectile.ai[1] % 3 == 0 && projectile.ai[1] != 0f)
                         {
-                            int num614 = NPC.NewNPC((int)center.X, (int)center.Y, NPCID.Sharkron2);
+                            int num614 = NPC.NewNPC(projectile.GetNPCSource_FromThis(), (int)center.X, (int)center.Y, NPCID.Sharkron2);
                             Main.npc[num614].velocity = projectile.velocity;
                             Main.npc[num614].scale = 1.5f;
                             Main.npc[num614].netUpdate = true;
@@ -1422,7 +1423,7 @@ namespace CalamityMod.Projectiles
                                 Vector2 vector52 = array7[num735] + Main.player[array6[num735]].velocity * 40f - projectile.Center;
                                 float ai = Main.rand.Next(100);
                                 Vector2 vector53 = Vector2.Normalize(vector52.RotatedByRandom(MathHelper.PiOver4)) * 7f;
-                                Projectile.NewProjectile(projectile.Center, vector53, 466, projectile.damage, 0f, Main.myPlayer, vector52.ToRotation(), ai);
+                                Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, vector53, 466, projectile.damage, 0f, Main.myPlayer, vector52.ToRotation(), ai);
                             }
                         }
 
@@ -1514,7 +1515,7 @@ namespace CalamityMod.Projectiles
                         if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Vector2 vector50 = projectile.rotation.ToRotationVector2();
-                            Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+                            Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
                         }
 
                         projectile.rotation += (float)Math.PI / 30f;
@@ -1698,7 +1699,7 @@ namespace CalamityMod.Projectiles
 
                         if (Main.npc[(int)projectile.ai[1]].active)
                         {
-                            Vector2 value21 = new Vector2(27f, 59f);
+                            Vector2 value21 = new(27f, 59f);
                             Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
                             projectile.position = Main.npc[(int)projectile.ai[1]].Center + value22 - new Vector2(projectile.width, projectile.height) / 2f;
                         }
@@ -1761,7 +1762,7 @@ namespace CalamityMod.Projectiles
                         {
                             float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                             float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
-                            Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
+                            Vector2 vector80 = new((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
                             int num812 = Dust.NewDust(vector79, 0, 0, 229, vector80.X, vector80.Y, 0, default, 1f);
                             Main.dust[num812].noGravity = true;
                             Main.dust[num812].scale = 1.7f;
@@ -1778,7 +1779,7 @@ namespace CalamityMod.Projectiles
                         }
 
                         DelegateMethods.v3_1 = new Vector3(0.3f, 0.65f, 0.7f);
-                        Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+                        Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, DelegateMethods.CastLight);
 
                         return false;
                     }
@@ -1874,7 +1875,7 @@ namespace CalamityMod.Projectiles
                     projectile.damage = defDamage + 15;
             }
 
-            if (projectile.modProjectile != null && projectile.modProjectile.Mod.Name.Equals("CalamityMod"))
+            if (projectile.ModProjectile != null && projectile.ModProjectile.Mod.Name.Equals("CalamityMod"))
                 goto SKIP_CALAMITY;
 
             if ((projectile.minion || projectile.sentry) && !ProjectileID.Sets.StardustDragon[projectile.type]) //For all other mods and vanilla, exclude dragon due to bugs
@@ -2042,11 +2043,11 @@ namespace CalamityMod.Projectiles
                                 }
                                 vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
                                 Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
-                                Projectile.NewProjectile(newCenter, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
+                                Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), newCenter, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                             else
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
+                                Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                         }
                     }
@@ -2060,7 +2061,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
+                                Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
@@ -2070,7 +2071,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                             {
-                                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
+                                int proj = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                     Main.projectile[proj].Calamity().forceTypeless = true;
                             }
@@ -2083,7 +2084,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                int proj = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
+                                int proj = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
                                     (int)(80 * player.RogueDamage()), 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                     Main.projectile[proj].Calamity().forceTypeless = true;
@@ -2102,7 +2103,7 @@ namespace CalamityMod.Projectiles
                                 for (int i = 0; i < 2; i++)
                                 {
                                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                                    int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
+                                    int shard = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
                                     if (shard.WithinBounds(Main.maxProjectiles))
                                         Main.projectile[shard].Calamity().forceTypeless = true;
                                 }
@@ -2206,7 +2207,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
 
-                if (!projectile.melee && player.meleeEnchant > 0 && !projectile.noEnchantments)
+                if (!projectile.CountsAsClass(DamageClass.Melee) && player.meleeEnchant > 0 && !projectile.noEnchantments)
                 {
                     if (player.meleeEnchant == 7) //flask of party affects all types of weapons
                     {
@@ -2241,9 +2242,6 @@ namespace CalamityMod.Projectiles
         #region PostAI
         public override void PostAI(Projectile projectile)
         {
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-
             if (projectile.FinalExtraUpdate() && damageReductionTimer > 0)
             {
                 damageReductionTimer--;
@@ -2289,7 +2287,7 @@ namespace CalamityMod.Projectiles
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Hallow);
                         }
-                        NetMessage.SendTileRange(-1, i, j, 1, 1);
+                        NetMessage.SendTileSquare(-1, i, j, 1, 1);
                     }
                 }
             }
@@ -2324,14 +2322,14 @@ namespace CalamityMod.Projectiles
 
             if (modPlayer.farProximityRewardEnchant)
             {
-                float proximityDamageInterpolant = Utils.InverseLerp(250f, 2400f, target.Distance(player.Center), true);
+                float proximityDamageInterpolant = Utils.GetLerpValue(250f, 2400f, target.Distance(player.Center), true);
                 float proximityDamageFactor = MathHelper.SmoothStep(0.7f, 1.45f, proximityDamageInterpolant);
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
             if (modPlayer.closeProximityRewardEnchant)
             {
-                float proximityDamageInterpolant = Utils.InverseLerp(400f, 175f, target.Distance(player.Center), true);
+                float proximityDamageInterpolant = Utils.GetLerpValue(400f, 175f, target.Distance(player.Center), true);
                 float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
@@ -2342,8 +2340,7 @@ namespace CalamityMod.Projectiles
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
             {
-                Point result;
-                if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain((GenSearch) new Searches.Down(12), (GenCondition) new Conditions.IsSolid()), out result))
+                if (!WorldUtils.Find(projectile.Center.ToTileCoordinates(), Searches.Chain(new Searches.Down(12), new Conditions.IsSolid()), out _))
                     damage = (int)(damage * 2f / 3f);
             }
         }
@@ -2359,7 +2356,7 @@ namespace CalamityMod.Projectiles
         #endregion
 
         #region CanDamage
-        public override bool CanDamage(Projectile projectile)
+        public override bool? CanDamage(Projectile projectile)
         {
             if (projectile.hostile && (projectile.damage - (int)(damageReduction * (Main.expertMode ? 0.25f : 0.5f)) <= 0))
                 return false;
@@ -2379,7 +2376,7 @@ namespace CalamityMod.Projectiles
                 default:
                     break;
             }
-            return true;
+            return null;
         }
         #endregion
 
@@ -2391,7 +2388,7 @@ namespace CalamityMod.Projectiles
 
             if (Main.LocalPlayer.Calamity().omniscience && projectile.hostile && projectile.damage > 0 && projectile.alpha < 255)
             {
-                if (projectile.modProjectile is null || projectile.modProjectile != null && projectile.modProjectile.CanHitPlayer(Main.LocalPlayer) && projectile.modProjectile.CanDamage())
+                if (projectile.ModProjectile is null || (projectile.ModProjectile != null && projectile.ModProjectile.CanHitPlayer(Main.LocalPlayer) && (projectile.ModProjectile.CanDamage() ?? true)))
                 {
                     return Color.Coral;
                 }
@@ -2421,22 +2418,22 @@ namespace CalamityMod.Projectiles
             return null;
         }
 
-        public override bool PreDraw(Projectile projectile, SpriteBatch Main.spriteBatch, Color lightColor)
+        public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
-                return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(spriteBatch, projectile);
+                return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(Main.spriteBatch, projectile);
 
             if (Main.player[Main.myPlayer].Calamity().trippy)
             {
-                Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+                Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
 
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
-                Vector2 vector11 = new Vector2(texture.Width / 2, texture.Height / Main.projFrames[projectile.type] / 2);
-                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+                Vector2 vector11 = new(texture.Width / 2, texture.Height / Main.projFrames[projectile.type] / 2);
+                Color color9 = new(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
                 Color alpha15 = projectile.GetAlpha(color9);
 
                 for (int num213 = 0; num213 < 4; num213++)
@@ -2463,7 +2460,7 @@ namespace CalamityMod.Projectiles
 
                     Main.spriteBatch.Draw(texture,
                         new Vector2(position9.X - Main.screenPosition.X + (projectile.width / 2) - texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + projectile.height - texture.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + projectile.gfxOffY),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, SpriteEffects.None, 0);
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0);
                 }
             }
 
@@ -2485,7 +2482,7 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
+                            int soul = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[soul].Calamity().forceTypeless = true;
@@ -2494,7 +2491,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike)
                     {
-                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
+                        int spike = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].Calamity().forceTypeless = true;
@@ -2502,13 +2499,13 @@ namespace CalamityMod.Projectiles
                 }
 
                 if (projectile.type == ProjectileID.UnholyWater)
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 1f);
+                    Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 1f);
 
                 if (projectile.type == ProjectileID.BloodWater)
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 2f);
+                    Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 2f);
 
                 if (projectile.type == ProjectileID.HolyWater)
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
+                    Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
             }
         }
         #endregion
@@ -2556,7 +2553,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, healProjectileType, 0, 0f, projectile.owner, healTarget, healAmount);
+            Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, healProjectileType, 0, 0f, projectile.owner, healTarget, healAmount);
         }
         #endregion
 
@@ -2564,9 +2561,6 @@ namespace CalamityMod.Projectiles
         #region AI Shortcuts
         public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-
             float ai1 = Main.rand.NextFloat() + 0.5f;
             int[] array = new int[Main.maxNPCs];
             int targetArrayA = 0;
@@ -2594,11 +2588,11 @@ namespace CalamityMod.Projectiles
             }
             if (targetArrayA == 0 && targetArrayB == 0)
             {
-                return Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileType<NobodyKnows>(), 0, 0f, projectile.owner);
+                return Projectile.NewProjectileDirect(projectile.GetProjectileSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NobodyKnows>(), 0, 0f, projectile.owner);
             }
             int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
             Vector2 velocity = CalamityUtils.RandomVelocity(100f, speedMult, speedMult, 1f);
-            Projectile orb = Projectile.NewProjectileDirect(projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
+            Projectile orb = Projectile.NewProjectileDirect(projectile.GetProjectileSource_FromThis(), projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
             return orb;
         }
 
@@ -2702,7 +2696,7 @@ namespace CalamityMod.Projectiles
 
                             if (projectile.owner == Main.myPlayer)
                             {
-                                int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                                int projectile2 = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
                                 if (projectile.type == ProjectileType<EradicatorProjectile>())
                                     if (projectile2.WithinBounds(Main.maxProjectiles))
@@ -2721,7 +2715,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(projectile.GetProjectileSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
                         if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())

@@ -64,14 +64,14 @@ namespace CalamityMod.Projectiles.Magic
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)
             {
-                DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
+                DrawLaser(ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
                     Projectile.velocity, 10, Projectile.damage, -1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
             }
             return false;
         }
 
         // The core function of drawing a laser
-        public void DrawLaser(SpriteBatch Main.spriteBatch, Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
+        public void DrawLaser(Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
         {
             float r = unit.ToRotation() + rotation;
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
                     for (int s = 0; s < shardAmt; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, Projectile.owner);
+                        int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, Projectile.owner);
                         if (shard.WithinBounds(Main.maxProjectiles))
                             Main.projectile[shard].Calamity().forceMagic = true;
                     }

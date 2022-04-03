@@ -123,17 +123,17 @@ namespace CalamityMod.Projectiles.Damageable
             SafeSetDefaults();
             Life = LifeMax;
         }
-        public sealed override void PostDraw(SpriteBatch Main.spriteBatch, Color lightColor)
+        public sealed override void PostDraw(Color lightColor)
         {
             DrawHealthBar();
             MouseOverText();
-            SafePostDraw(spriteBatch, lightColor);
+            SafePostDraw(Main.spriteBatch, lightColor);
         }
 
         /// <summary>
         /// Copy of <see cref="ModProjectile.PostDraw(SpriteBatch, Color)"/> with integrations for this custom type.
         /// </summary>
-        public virtual void SafePostDraw(SpriteBatch Main.spriteBatch, Color lightColor)
+        public virtual void SafePostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         }
         public sealed override void AI()
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Damageable
                     {
                         int damage = Main.DamageVar(Main.npc[i].damage);
                         int bannerBuffId = Item.NPCtoBanner(Main.npc[i].BannerID());
-                        if (bannerBuffId > 0 && player.NPCBannerBuff[bannerBuffId])
+                        if (bannerBuffId > 0 && player.HasNPCBannerBuff(bannerBuffId))
                         {
                             if (Main.expertMode)
                             {

@@ -109,30 +109,30 @@ namespace CalamityMod.Projectiles.Pets
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Drawing(spriteBatch, lightColor,
+            Drawing(lightColor,
                 ModContent.Request<Texture2D>(Texture).Value,
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDex"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWash"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeat"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrost"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFan"));
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDex").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWash").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeat").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrost").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFan").Value);
             return false;
         }
 
         public override void PostDraw(Color lightColor)
         {
-            Drawing(spriteBatch, Color.White,
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomPetGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDexGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWashGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeatGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrostGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMowGlow"),
-                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFanGlow"));
+            Drawing(Color.White,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomPetGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDexGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWashGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeatGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrostGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMowGlow").Value,
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFanGlow").Value);
         }
 
-        private void Drawing(SpriteBatch Main.spriteBatch, Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
+        private void Drawing(Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
         {
             Texture2D texture = normal;
             switch (form)
@@ -165,9 +165,9 @@ namespace CalamityMod.Projectiles.Pets
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0);
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
         public const int PulseTime = 45;
         public const int TotalRitualTime = 420;
         public const float MaxUpwardRise = 540f;
-        public static readonly Point PulseSize = new Point(300, 300);
+        public static readonly Point PulseSize = new(300, 300);
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deus Ritual Drama");
@@ -44,10 +44,10 @@ namespace CalamityMod.Projectiles.Boss
             Time++;
             if (Time == TotalRitualTime - PulseTime)
             {
-                int idx = NPC.NewNPC((int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+                int idx = NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
                 if (idx != -1)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), Projectile.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstrumDeusSpawn"), Projectile.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         CalamityUtils.BossAwakenMessage(idx);
@@ -62,15 +62,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            float upwardnessRatio = Utils.InverseLerp(60f, TotalRitualTime, Time, true);
+            float upwardnessRatio = Utils.GetLerpValue(60f, TotalRitualTime, Time, true);
             float upwardness = MathHelper.Lerp(0f, MaxUpwardRise, upwardnessRatio);
             if (Time >= TotalRitualTime - PulseTime)
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                float pulseCompletionRatio = Utils.InverseLerp(TotalRitualTime - PulseTime, TotalRitualTime, Time, true);
+                float pulseCompletionRatio = Utils.GetLerpValue(TotalRitualTime - PulseTime, TotalRitualTime, Time, true);
                 Vector2 scale = Projectile.scale * (3f + pulseCompletionRatio * 5f) * new Vector2(1.5f, 1f);
-                DrawData drawData = new DrawData(ModContent.Request<Texture2D>("Terraria/Misc/Perlin"),
+                DrawData drawData = new(ModContent.Request<Texture2D>("Terraria/Misc/Perlin").Value,
                     Projectile.Center - Main.screenPosition + PulseSize.ToVector2() * scale * 0.5f - Vector2.UnitY * upwardness,
                     new Rectangle(0, 0, PulseSize.X, PulseSize.Y),
                     new Color(new Vector4(1f - (float)Math.Sqrt(pulseCompletionRatio))) * 0.66f,
@@ -82,15 +82,15 @@ namespace CalamityMod.Projectiles.Boss
                 Color pulseColor = Color.Lerp(Color.Cyan * 1.5f, Color.OrangeRed, MathHelper.Clamp(pulseCompletionRatio * 1.5f, 0f, 1f));
                 GameShaders.Misc["ForceField"].UseColor(pulseColor);
                 GameShaders.Misc["ForceField"].Apply(drawData);
-                drawData.Draw(spriteBatch);
+                drawData.Draw(Main.spriteBatch);
                 return false;
             }
-            float outwardnessRatio = Utils.InverseLerp(60f, 220f, Time, true);
+            float outwardnessRatio = Utils.GetLerpValue(60f, 220f, Time, true);
             if (Time > 250f)
-                outwardnessRatio = 1f - Utils.InverseLerp(250f, TotalRitualTime - PulseTime, Time, true);
+                outwardnessRatio = 1f - Utils.GetLerpValue(250f, TotalRitualTime - PulseTime, Time, true);
             float outwardness = MathHelper.Lerp(0f, 140f, outwardnessRatio);
 
-            Vector2 offset = new Vector2((float)Math.Sin(Time / (TotalRitualTime - PulseTime) * MathHelper.TwoPi * TotalSinePeriods) * outwardness, -upwardness);
+            Vector2 offset = new((float)Math.Sin(Time / (TotalRitualTime - PulseTime) * MathHelper.TwoPi * TotalSinePeriods) * outwardness, -upwardness);
 
             // If the stars "collide", generate some small explosion dust.
             if (!Main.dedServ && Math.Abs(offset.X) < 6f && Time > 60f)
@@ -110,17 +110,17 @@ namespace CalamityMod.Projectiles.Boss
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
             }
 
-            DrawStars(spriteBatch, offset);
+            DrawStars(Main.spriteBatch, offset);
 
             return false;
         }
 
-        public void DrawStars(SpriteBatch Main.spriteBatch, Vector2 offset)
+        public void DrawStars(SpriteBatch spriteBatch, Vector2 offset)
         {
-            Texture2D starTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D starTexture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 0; i < 6; i++)
             {
                 float angle = MathHelper.TwoPi * i / 6f + Time / 15f;
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Boss
                                  starTexture.Size() * 0.5f,
                                  0.6f,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
                 Main.EntitySpriteDraw(starTexture,
                                  Projectile.Center + angularOffset + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                                  null,
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
                                  starTexture.Size() * 0.5f,
                                  0.6f,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             Main.EntitySpriteDraw(starTexture,
                              Projectile.Center + offset - Main.screenPosition,
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Boss
                              starTexture.Size() * 0.5f,
                              0.6f,
                              SpriteEffects.None,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(starTexture,
                              Projectile.Center + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                              null,
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Boss
                              starTexture.Size() * 0.5f,
                              0.6f,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Generate dust at the star position. This gives them a trail effect.
             if (!Main.dedServ)

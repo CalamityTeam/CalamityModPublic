@@ -43,24 +43,24 @@ namespace CalamityMod.Projectiles.Typeless
 
         //fuck glowmasks btw
         //i second this notion -Dominic
-        public override void PostDraw(ref Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow").Value;
             float xOffset = (glowmask.Width - Projectile.width) * 0.5f + Projectile.width * 0.5f;
             Vector2 drawPos = Projectile.position - Main.screenPosition;
             drawPos.X += xOffset;
             drawPos.Y += Projectile.height / 2f + Projectile.gfxOffY;
-            Rectangle frame = new Microsoft.Xna.Framework.Rectangle(0, 0, glowmask.Width, glowmask.Height);
+            Rectangle frame = new(0, 0, glowmask.Width, glowmask.Height);
             Vector2 origin = new Vector2(xOffset, Projectile.height / 2f);
             SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             if (Projectile.ai[0] <= 1f)
             {
-                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             }
         }
 
-        public override bool PreDrawExtras(SpriteBatch Main.spriteBatch)
+        public override bool PreDrawExtras()
         {
             Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
             return Projectile.DrawFishingLine(ModContent.ItemType<TheDevourerofCods>(), fishingLineColor);

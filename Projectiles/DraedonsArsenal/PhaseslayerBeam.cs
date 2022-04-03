@@ -43,23 +43,23 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D bladeTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D bladeTexture = ModContent.Request<Texture2D>(Texture).Value   ;
             MiscShaderData distortationShader = GameShaders.Misc["CalamityMod:LightDistortion"];
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Rectangle frame = bladeTexture.Frame(1, 5, 0, Projectile.frameCounter / 4 % 5);
             var drawData2 = new DrawData(bladeTexture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, bladeTexture.Size() / new Vector2(1f, 5f) * 0.5f, Projectile.scale * 1.2f, SpriteEffects.None, 0);
             distortationShader.Apply(drawData2);
-            drawData2.Draw(spriteBatch);
+            drawData2.Draw(Main.spriteBatch);
 
             return false;
         }
-        public override void PostDraw(SpriteBatch Main.spriteBatch, Color drawColor)
+        public override void PostDraw(Color drawColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
     }
 }

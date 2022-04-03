@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
 
         public float Timer => MaxTwirlTime - Projectile.timeLeft;
-        public static float MaxTwirlTime = 30;
+        public const float MaxTwirlTime = 30;
         public ref float Twirling => ref Projectile.ai[0];
 
-        public bool MayIExist => Owner.active && (Owner.HeldItem.modItem is OmegaBiomeBlade blade) && blade.secondaryAttunement != null && blade.secondaryAttunement.id == AttunementID.FlailBlade;
+        public bool MayIExist => Owner.active && (Owner.HeldItem.ModItem is OmegaBiomeBlade blade) && blade.secondaryAttunement != null && blade.secondaryAttunement.id == AttunementID.FlailBlade;
 
         Particle smear;
 
@@ -131,37 +131,37 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedHookBody");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedHook");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedHookBody").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedHook").Value;
 
             float drawAngle = (Projectile.Center - Owner.Center).ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
 
-            Vector2 drawOrigin = new Vector2(0f, handle.Height);
+            Vector2 drawOrigin = new(0f, handle.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
-            drawChain(spriteBatch);
+            DrawChain();
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
-        public void drawChain(SpriteBatch Main.spriteBatch)
+        public void DrawChain()
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain");
+            Texture2D chainTex = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain").Value;
 
             int dist = (int)Vector2.Distance(Owner.Center, Projectile.Center) / 16;
             Vector2[] Nodes = new Vector2[dist + 1];
@@ -170,15 +170,15 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 1; i < dist + 1; i++)
             {
-                Rectangle frame = new Rectangle(0, 0 + 18 * (i % 2), 12, 18);
+                Rectangle frame = new(0, 0 + 18 * (i % 2), 12, 18);
                 Vector2 positionAlongLine = Vector2.Lerp(Owner.Center, Projectile.Center, i / (float)dist); //Get the position of the segment along the line, as if it were a flat line
                 Nodes[i] = positionAlongLine;
 
                 float rotation = (Nodes[i] - Nodes[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
                 float yScale = Vector2.Distance(Nodes[i], Nodes[i - 1]) / frame.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
-                Vector2 scale = new Vector2(1, yScale);
+                Vector2 scale = new(1, yScale);
 
-                Vector2 origin = new Vector2(frame.Width / 2, frame.Height); //Draw from center bottom of texture
+                Vector2 origin = new(frame.Width / 2, frame.Height); //Draw from center bottom of texture
                 Main.EntitySpriteDraw(chainTex, Nodes[i] - Main.screenPosition, frame, Color.White * 0.5f, rotation, origin, scale, SpriteEffects.None, 0);
             }
         }

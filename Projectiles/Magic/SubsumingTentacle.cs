@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             return false;
         }
-        public override void PostDraw(SpriteBatch Main.spriteBatch, Color drawColor)
+        public override void PostDraw(Color drawColor)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

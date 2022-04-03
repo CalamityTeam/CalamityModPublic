@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             return false;
         }
 
-        public void DrawBrackets(SpriteBatch Main.spriteBatch)
+        public void DrawBrackets(SpriteBatch spriteBatch)
         {
             Texture2D leftBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracket" + (LeftBracketActive ? "Lit" : "")).Value;
             Texture2D leftBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracketHovered").Value;
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Left bracket
             Vector2 leftBracketPosition = Projectile.Center + LeftBracketOffset;
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Right bracket
             Vector2 rightBracketPosition = Projectile.Center + RightBracketOffset + (Projectile.width / 2 - 1) * Vector2.UnitX;
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             if (leftBracketSelect || rightBracketSelect || topBracketSelect)
             {
@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             }
         }
 
-        public void DrawIcons(SpriteBatch Main.spriteBatch)
+        public void DrawIcons(SpriteBatch spriteBatch)
         {
             // Left Icon (Big/Small indicator)
             DrawLeftIcon(spriteBatch);
@@ -253,7 +253,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             DrawTopIcon(spriteBatch);
         }
 
-        public void DrawLeftIcon(SpriteBatch Main.spriteBatch)
+        public void DrawLeftIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
             Texture2D smallIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/SmallIcon").Value;
@@ -304,10 +304,10 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
         }
 
-        public void DrawRightIcon(SpriteBatch Main.spriteBatch)
+        public void DrawRightIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
             Texture2D thunderIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIcon").Value;
@@ -381,7 +381,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(textureToDraw,
                              drawPosition - Main.screenPosition,
                              null,
@@ -390,10 +390,10 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             1f);
+                             1);
         }
 
-        public void DrawTopIcon(SpriteBatch Main.spriteBatch)
+        public void DrawTopIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
             Texture2D meleeIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIcon").Value;
@@ -446,7 +446,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
         }
 
         public override bool? CanDamage() => false; // This is a UI. It should not do damage.

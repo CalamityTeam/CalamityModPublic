@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = -1;
         }
 
-        public override bool PreDrawExtras(SpriteBatch Main.spriteBatch)
+        public override bool PreDrawExtras()
         {
             Lighting.AddLight(Projectile.Center, 0.25f, 0f, 0f);
             return Projectile.DrawFishingLine(ModContent.ItemType<SlurperPole>(), new Color(227, 79, 79, 100));
