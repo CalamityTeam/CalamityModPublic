@@ -61,8 +61,8 @@ namespace CalamityMod.Tiles.DraedonStructures
         {
             // TODO -- Turrets have no items and can't be picked up and placed by players.
             // Instead, drop some raw Draedon materials.
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<DubiousPlating>(), 8);
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<MysteriousCircuitry>(), 8);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<DubiousPlating>(), 8);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<MysteriousCircuitry>(), 8);
 
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;

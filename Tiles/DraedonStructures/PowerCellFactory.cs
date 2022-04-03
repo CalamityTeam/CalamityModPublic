@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             // Drop the factory itself.
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<PowerCellFactoryItem>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<PowerCellFactoryItem>());
 
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
@@ -86,7 +86,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
             int numCells = factory?.CellStack ?? 0;
             if (numCells > 0)
-                Item.NewItem(new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
+                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
 
             factory?.Kill(left, top);
         }
