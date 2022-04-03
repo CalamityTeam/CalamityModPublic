@@ -32,13 +32,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.DR_NERD(0.25f);
             NPC.lifeMax = 6000;
             NPC.knockBackResist = 0f;
-            aiType = -1;
+            AIType = -1;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BobbitWormBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BobbitWormBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

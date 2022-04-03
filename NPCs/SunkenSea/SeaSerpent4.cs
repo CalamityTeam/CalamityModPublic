@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.defense = 20;
             NPC.lifeMax = 3000;
             NPC.aiStyle = -1; //new
-            aiType = -1; //new
+            AIType = -1; //new
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.netAlways = true;
             NPC.dontCountMe = true;
             NPC.chaseable = false;
-            banner = ModContent.NPCType<SeaSerpent1>();
-            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
+            Banner = ModContent.NPCType<SeaSerpent1>();
+            BannerItem = ModContent.ItemType<SeaSerpentBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

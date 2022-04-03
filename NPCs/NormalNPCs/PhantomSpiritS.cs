@@ -25,14 +25,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 20;
             NPC.lifeMax = 1500;
             NPC.knockBackResist = 0.1f;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 30, 0);
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            banner = ModContent.NPCType<PhantomSpirit>();
-            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
+            Banner = ModContent.NPCType<PhantomSpirit>();
+            BannerItem = ModContent.ItemType<PhantomSpiritBanner>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 

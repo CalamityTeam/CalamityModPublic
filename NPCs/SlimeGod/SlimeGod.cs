@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             animationType = NPCID.KingSlime;
             NPC.value = 0f;

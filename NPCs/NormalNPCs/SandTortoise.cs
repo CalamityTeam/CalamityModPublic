@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.HitSound = SoundID.NPCHit24;
             NPC.DeathSound = SoundID.NPCDeath27;
             NPC.noGravity = false;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SandTortoiseBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SandTortoiseBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;

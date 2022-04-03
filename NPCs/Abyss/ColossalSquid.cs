@@ -37,15 +37,15 @@ namespace CalamityMod.NPCs.Abyss
             NPC.DR_NERD(0.05f);
             NPC.lifeMax = 130000; // Previously 220,000
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.value = Item.buyPrice(0, 25, 0, 0);
             NPC.HitSound = SoundID.NPCHit20;
             NPC.DeathSound = SoundID.NPCDeath23;
             NPC.rarity = 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ColossalSquidBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ColossalSquidBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.Abyss
                             damage = 55;
                         }
                         SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 111);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     NPC.rotation = NPC.velocity.X * 0.05f;
                     NPC.velocity *= 0.975f;

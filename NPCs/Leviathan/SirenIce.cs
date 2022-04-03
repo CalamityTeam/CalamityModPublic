@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
             NPC.GetNPCDamage();

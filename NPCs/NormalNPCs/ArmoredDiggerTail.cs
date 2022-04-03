@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeMax = 20000;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.dontCountMe = true;
-            banner = ModContent.NPCType<ArmoredDiggerHead>();
-            bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
+            Banner = ModContent.NPCType<ArmoredDiggerHead>();
+            BannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

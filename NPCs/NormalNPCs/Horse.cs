@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = 3800;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 1, 50, 0);
             NPC.dontTakeDamage = true;
@@ -39,8 +39,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.rarity = 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<EarthElementalBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<EarthElementalBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }

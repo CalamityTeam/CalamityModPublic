@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.DR_NERD(0.15f);
             NPC.defense = 25;
 
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
@@ -51,8 +51,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<GammaSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<GammaSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -24,13 +24,13 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.defense = 12;
             NPC.lifeMax = 120;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath40;
             NPC.knockBackResist = 0.8f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CatfishBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CatfishBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;

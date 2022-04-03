@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.HitSound = SoundID.NPCHit24;
             NPC.noGravity = false;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PlagueshellBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PlagueshellBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

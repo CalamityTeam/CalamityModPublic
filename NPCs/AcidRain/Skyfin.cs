@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             NPC.width = 46;
             NPC.height = 22;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             NPC.damage = 12;
             NPC.lifeMax = 70;
@@ -56,8 +56,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SkyfinBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SkyfinBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

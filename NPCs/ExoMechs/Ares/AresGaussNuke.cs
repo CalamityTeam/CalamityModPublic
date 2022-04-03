@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.knockBackResist = 0f;
             NPC.canGhostHeal = false;
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -405,7 +405,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
                                 int damage = NPC.GetProjectileDamage(type);
                                 float offset = 40f;
-                                Projectile.NewProjectile(NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 
                                 // Recoil
                                 NPC.velocity -= gaussNukeVelocity;

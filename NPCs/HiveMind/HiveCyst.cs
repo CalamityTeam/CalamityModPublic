@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             NPC.npcSlots = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 30; //324
             NPC.height = 30; //216

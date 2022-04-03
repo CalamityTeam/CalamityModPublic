@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.DR_NERD(0.05f);
             NPC.lifeMax = Main.hardMode ? 500 : 150;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Main.hardMode ? Item.buyPrice(0, 0, 50, 0) : Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath55;
             NPC.knockBackResist = 0f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<EutrophicRayBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<EutrophicRayBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

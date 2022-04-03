@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             animationType = NPCID.GiantFlyingFox;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<StellarCulexBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<StellarCulexBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 90;

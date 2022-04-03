@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)

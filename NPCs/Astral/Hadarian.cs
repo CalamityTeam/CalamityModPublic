@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0.75f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<HadarianBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<HadarianBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 80;

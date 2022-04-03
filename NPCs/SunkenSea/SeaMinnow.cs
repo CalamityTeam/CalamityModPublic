@@ -25,11 +25,11 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.defense = 0;
             NPC.lifeMax = 5;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SeaMinnowBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SeaMinnowBanner>();
             NPC.chaseable = false;
             NPC.catchItem = (short)ModContent.ItemType<SeaMinnowItem>();
         }

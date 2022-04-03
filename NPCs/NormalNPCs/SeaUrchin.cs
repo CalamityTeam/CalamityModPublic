@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 20;
             NPC.width = 40;
             NPC.height = 40;
@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath15;
             NPC.behindTiles = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SeaUrchinBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SeaUrchinBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

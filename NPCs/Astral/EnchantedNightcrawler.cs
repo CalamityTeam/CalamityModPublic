@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Astral
         public override void SetDefaults()
         {
             NPC.CloneDefaults(NPCID.EnchantedNightcrawler); //ID is 484
-            aiType = NPCID.EnchantedNightcrawler;
+            AIType = NPCID.EnchantedNightcrawler;
             animationType = NPCID.EnchantedNightcrawler;
         }
 

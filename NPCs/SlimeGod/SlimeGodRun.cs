@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.DeathSound = SoundID.NPCDeath1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;

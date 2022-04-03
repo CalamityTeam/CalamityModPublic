@@ -5,9 +5,9 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
 using Terraria.GameContent;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
@@ -16,7 +16,7 @@ namespace CalamityMod
         /// <summary>
         /// A hitbox that should approximately represent the tip of the mouse cursor. Used for UI stuff.
         /// </summary>
-        public static Rectangle MouseHitbox => new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
+        public static Rectangle MouseHitbox => new((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
 
         /// <summary>
         /// Finds the Calamity tile entity that is associated with the tile at the given world coordinates (i, j).<br></br>

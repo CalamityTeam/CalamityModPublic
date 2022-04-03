@@ -51,8 +51,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit33;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<WaterLeechBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<WaterLeechBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

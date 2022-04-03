@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = NPC.downedMoonlord ? 84 : 42;
             NPC.width = 18;
             NPC.height = 40;
@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit2;
             NPC.DeathSound = SoundID.NPCDeath2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }

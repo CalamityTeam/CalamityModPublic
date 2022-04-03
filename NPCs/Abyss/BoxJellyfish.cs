@@ -27,12 +27,12 @@ namespace CalamityMod.NPCs.Abyss
             NPC.lifeMax = 90;
             NPC.alpha = 20;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 0, 80);
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BoxJellyfishBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BoxJellyfishBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

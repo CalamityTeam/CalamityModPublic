@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = 1;
-            aiType = NPCID.ToxicSludge;
+            AIType = NPCID.ToxicSludge;
             NPC.damage = 35;
             NPC.width = 40;
             NPC.height = 30;
@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PerennialSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PerennialSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }

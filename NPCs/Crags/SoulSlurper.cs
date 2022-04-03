@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.npcSlots = 1f;
             NPC.damage = 30;
             NPC.width = 60;
@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.Crags
                 NPC.defense = 45;
                 NPC.lifeMax = 2000;
             }
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SoulSlurperBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SoulSlurperBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.Crags
                         dmg = 22;
                     }
                     int projType = ModContent.ProjectileType<BrimstoneBarrage>();
-                    Projectile.NewProjectile(source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                 }
             }
             int num10 = (int)NPC.Center.X;

@@ -32,12 +32,12 @@ namespace CalamityMod.NPCs.SunkenSea
                 NPC.lifeMax *= 2;
             }
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Main.hardMode ? Item.buyPrice(0, 0, 10, 0) : Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0.05f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ClamBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ClamBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

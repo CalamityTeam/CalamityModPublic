@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.OldDuke
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.width = 44;
             NPC.height = 44;
             NPC.GetNPCDamage();

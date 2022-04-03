@@ -30,13 +30,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 20;
             NPC.lifeMax = 240;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.15f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ToxicMinnowBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ToxicMinnowBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -89,8 +89,8 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     int projectileType = ModContent.ProjectileType<ToxicMinnowCloud>();
                     offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
-                    int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-                    int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom1 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    int boom2 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             NPC.netUpdate = true;

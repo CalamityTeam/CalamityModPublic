@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 3, 0);
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath6;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CosmicElementalBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CosmicElementalBanner>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 

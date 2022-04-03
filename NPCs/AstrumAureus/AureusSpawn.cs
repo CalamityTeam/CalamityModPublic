@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.GetNPCDamage();
             NPC.width = 90;
             NPC.height = 60;

@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             NPC.width = 176;
             NPC.height = 138;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             NPC.lifeMax = 90000;
             NPC.defense = 50;

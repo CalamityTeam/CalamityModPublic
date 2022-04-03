@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeMax = 60;
             NPC.knockBackResist = 0.3f;
             animationType = NPCID.Hellhound;
-            aiType = NPCID.Wolf;
+            AIType = NPCID.Wolf;
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath5;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PitbullBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PitbullBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             NPC.width = 62;
             NPC.height = 34;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             NPC.damage = 45;
             NPC.lifeMax = 280;
@@ -60,8 +60,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath13;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<OrthoceraBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<OrthoceraBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

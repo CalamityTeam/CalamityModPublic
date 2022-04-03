@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.defense = 10;
             NPC.lifeMax = 3000;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.behindTiles = true;
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SeaSerpentBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

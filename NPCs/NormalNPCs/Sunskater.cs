@@ -29,13 +29,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 4;
             NPC.lifeMax = 100;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit50;
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             NPC.knockBackResist = 0.7f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SunskaterBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SunskaterBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

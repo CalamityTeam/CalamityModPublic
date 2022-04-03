@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.defense = 20;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 5000 : 500;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;

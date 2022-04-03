@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.noGravity = true;
             NPC.chaseable = false;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 28;
             NPC.height = 36;
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.alpha = 100;
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<GhostBellSmallBanner>();
             NPC.catchItem = (short)ModContent.ItemType<BabyGhostBellItem>();
         }
 

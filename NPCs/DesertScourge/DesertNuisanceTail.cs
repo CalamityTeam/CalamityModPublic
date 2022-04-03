@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.defense = 7;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;

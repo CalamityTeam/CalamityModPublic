@@ -29,13 +29,13 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.height = 42;
             NPC.defense = 25;
             NPC.lifeMax = 1000;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 3, 50);
             NPC.HitSound = SoundID.NPCHit42;
             NPC.DeathSound = SoundID.NPCDeath5;
             NPC.knockBackResist = 0f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BelchingCoralBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BelchingCoralBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

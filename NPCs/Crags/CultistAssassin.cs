@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.lifeMax = 80;
             NPC.knockBackResist = 0.5f;
             animationType = NPCID.ZombieXmas;
-            aiType = NPCID.ChaosElemental;
+            AIType = NPCID.ChaosElemental;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath50;
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.Crags
                 NPC.defense = 30;
                 NPC.lifeMax = 3000;
             }
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CultistAssassinBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CultistAssassinBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

@@ -34,13 +34,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 10;
             NPC.lifeMax = 6000;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 25, 0);
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<MirageJellyBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<MirageJellyBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = false;

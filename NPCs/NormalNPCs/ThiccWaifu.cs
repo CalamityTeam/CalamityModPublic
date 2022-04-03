@@ -63,8 +63,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.rarity = 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CloudElementalBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CloudElementalBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = false;

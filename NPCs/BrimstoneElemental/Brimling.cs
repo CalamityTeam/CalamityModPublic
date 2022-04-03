@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 60;
             NPC.height = 60;

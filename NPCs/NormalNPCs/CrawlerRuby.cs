@@ -26,12 +26,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 8;
             NPC.lifeMax = 135;
             NPC.knockBackResist = 0.45f;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit33;
             NPC.DeathSound = SoundID.NPCDeath36;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<RubyCrawlerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<RubyCrawlerBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            aiType = -1;
+            AIType = -1;
             NPC.aiStyle = -1;
             NPC.damage = 10;
             NPC.width = 40;
@@ -50,8 +50,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 1, 15);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<WulfrumRoverBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<WulfrumRoverBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

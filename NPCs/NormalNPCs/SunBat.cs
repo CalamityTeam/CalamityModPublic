@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.lavaImmune = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 35;
             NPC.width = 26;
             NPC.height = 20;
@@ -28,8 +28,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath4;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SunBatBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SunBatBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

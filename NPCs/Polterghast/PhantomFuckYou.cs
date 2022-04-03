@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.width = 30;
             NPC.height = 30;
             NPC.defense = 45;

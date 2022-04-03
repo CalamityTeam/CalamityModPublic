@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit31;
             NPC.DeathSound = SoundID.NPCDeath34;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<StormlionBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<StormlionBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = false;

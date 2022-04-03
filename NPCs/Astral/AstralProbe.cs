@@ -29,14 +29,14 @@ namespace CalamityMod.NPCs.Astral
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 50;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0.95f;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AstralProbeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AstralProbeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 30;

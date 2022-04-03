@@ -32,13 +32,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 30;
             NPC.lifeMax = 5775;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath7;
             NPC.knockBackResist = 0.2f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ImpiousImmolatorBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ImpiousImmolatorBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

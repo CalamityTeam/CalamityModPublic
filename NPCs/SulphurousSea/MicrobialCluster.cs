@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.width = 24;
             NPC.height = 24;
             NPC.lifeMax = 5;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.noTileCollide = false;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;

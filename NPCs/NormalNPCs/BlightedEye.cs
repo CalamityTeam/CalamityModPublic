@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = 2;
-            aiType = NPCID.TheHungryII;
+            AIType = NPCID.TheHungryII;
             NPC.damage = 32;
             NPC.width = 30;
             NPC.height = 32;
@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BlightedEyeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BlightedEyeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;

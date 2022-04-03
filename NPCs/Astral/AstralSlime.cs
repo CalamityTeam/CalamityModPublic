@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AstralSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AstralSlimeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 65;

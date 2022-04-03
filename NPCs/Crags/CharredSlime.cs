@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.aiStyle = 1;
-            aiType = NPCID.LavaSlime;
+            AIType = NPCID.LavaSlime;
             NPC.damage = 40;
             NPC.width = 40;
             NPC.height = 30;
@@ -41,8 +41,8 @@ namespace CalamityMod.NPCs.Crags
                 NPC.defense = 20;
                 NPC.lifeMax = 3500;
             }
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CharredSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CharredSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;

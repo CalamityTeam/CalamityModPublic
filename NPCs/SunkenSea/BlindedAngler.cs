@@ -27,13 +27,13 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.DR_NERD(0.2f);
             NPC.lifeMax = 750;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 40, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.1f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BlindedAnglerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BlindedAnglerBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;

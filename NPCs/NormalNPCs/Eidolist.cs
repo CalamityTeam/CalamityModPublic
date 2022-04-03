@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 60;
             NPC.height = 80;
@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.HitSound = SoundID.NPCHit13;
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/EidolistDeath");
             NPC.timeLeft = NPC.activeTime * 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<EidolistBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<EidolistBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

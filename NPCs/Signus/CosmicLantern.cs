@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Signus
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.GetNPCDamage();
             NPC.width = 25;
             NPC.height = 25;

@@ -56,10 +56,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SulfurousSkaterBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SulfurousSkaterBanner>();
 
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

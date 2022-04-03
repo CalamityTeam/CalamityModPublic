@@ -29,12 +29,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.05f);
             NPC.lifeMax = 9000;
             NPC.knockBackResist = 0f;
-            aiType = -1;
+            AIType = -1;
             NPC.lavaImmune = true;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ScornEaterBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ScornEaterBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

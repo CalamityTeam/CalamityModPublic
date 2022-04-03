@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(3, 0, 0, 0);
             NPC.boss = true;
             NPC.Opacity = 0f;

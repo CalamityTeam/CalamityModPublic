@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 NPC.lifeMax = 15000;
             }
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0.75f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

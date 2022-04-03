@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.Opacity = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

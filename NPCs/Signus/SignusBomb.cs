@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Signus
             NPC.height = 30;
             NPC.lifeMax = 4800;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

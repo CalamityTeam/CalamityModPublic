@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PestilentSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PestilentSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }

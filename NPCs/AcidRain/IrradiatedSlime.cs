@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            aiType = NPCID.ToxicSludge;
+            AIType = NPCID.ToxicSludge;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.alpha = 50;
             NPC.lavaImmune = false;
@@ -39,8 +39,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 NPC.TargetClosest(false);
                 Player player = Main.player[NPC.target];
-                NPC.aiStyle = aiType = -1;
+                NPC.aiStyle = AIType = -1;
 
                 NPC.noTileCollide = NPC.noGravity = true;
                 if (player.Top.Y < NPC.Bottom.Y)

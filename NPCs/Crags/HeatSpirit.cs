@@ -28,8 +28,8 @@ namespace CalamityMod.NPCs.Crags
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit52;
             NPC.DeathSound = SoundID.NPCDeath55;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<HeatSpiritBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<HeatSpiritBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;

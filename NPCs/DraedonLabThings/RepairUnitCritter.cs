@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 20;
             NPC.height = 22;

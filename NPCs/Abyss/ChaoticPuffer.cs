@@ -34,13 +34,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 50;
             NPC.lifeMax = 5625;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 30, 0);
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath28;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ChaoticPufferBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ChaoticPufferBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 int damageBoom = 45;
                 int projectileType = ModContent.ProjectileType<PufferExplosion>();
-                int boom = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                int boom = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
             NPC.netUpdate = true;
         }

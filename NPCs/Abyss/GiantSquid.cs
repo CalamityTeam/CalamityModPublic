@@ -32,12 +32,12 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 18;
             NPC.lifeMax = 800;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<GiantSquidBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<GiantSquidBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.timeLeft = NPC.activeTime * 2;
             animationType = NPCID.WallCreeper;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AstralachneaBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AstralachneaBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 90;

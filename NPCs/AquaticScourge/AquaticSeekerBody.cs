@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.defense = 10;
             NPC.lifeMax = 60;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
             NPC.dontCountMe = true;
-            banner = ModContent.NPCType<AquaticSeekerHead>();
-            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
+            Banner = ModContent.NPCType<AquaticSeekerHead>();
+            BannerItem = ModContent.ItemType<AquaticSeekerBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

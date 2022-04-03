@@ -20,12 +20,12 @@ namespace CalamityMod.NPCs.Astral
             NPC.CloneDefaults(NPCID.LightningBug); //ID is 358
             NPC.width = 7;
             NPC.height = 5;
-            aiType = NPCID.LightningBug;
+            AIType = NPCID.LightningBug;
             animationType = NPCID.LightningBug;
             NPC.catchItem = (short)ModContent.ItemType<TwinklerItem>();
             NPC.friendly = true; // prevents critter from getting slagged
-            //banner = npc.type;
-            //bannerItem = ModContent.ItemType<TwinklerBanner>();
+            //Banner = npc.type;
+            //BannerItem = ModContent.ItemType<TwinklerBanner>();
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => true;

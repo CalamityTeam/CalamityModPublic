@@ -34,11 +34,11 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
-            aiType = -1;
+            AIType = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AquaticAberrationBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AquaticAberrationBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

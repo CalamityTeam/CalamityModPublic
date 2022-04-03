@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.Crabulon
                         num350 *= num351;
                         vector34.X += num349;
                         vector34.Y += num350;
-                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.Crabulon
 
                             for (int x = 0; x < totalMushrooms; x++)
                             {
-                                Projectile.NewProjectile(NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= shotSpacingDecrement;
                             }
 
@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                Projectile.NewProjectile(NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;
