@@ -41,26 +41,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.ai[0] = 1f;
 
-                int arm = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeCannon, npc.whoAmI);
+                int arm = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeCannon, npc.whoAmI);
                 Main.npc[arm].ai[0] = -1f;
                 Main.npc[arm].ai[1] = npc.whoAmI;
                 Main.npc[arm].target = npc.target;
                 Main.npc[arm].netUpdate = true;
 
-                arm = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeSaw, npc.whoAmI);
+                arm = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeSaw, npc.whoAmI);
                 Main.npc[arm].ai[0] = 1f;
                 Main.npc[arm].ai[1] = npc.whoAmI;
                 Main.npc[arm].target = npc.target;
                 Main.npc[arm].netUpdate = true;
 
-                arm = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeVice, npc.whoAmI);
+                arm = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeVice, npc.whoAmI);
                 Main.npc[arm].ai[0] = -1f;
                 Main.npc[arm].ai[1] = npc.whoAmI;
                 Main.npc[arm].target = npc.target;
                 Main.npc[arm].ai[3] = 150f;
                 Main.npc[arm].netUpdate = true;
 
-                arm = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeLaser, npc.whoAmI);
+                arm = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PrimeLaser, npc.whoAmI);
                 Main.npc[arm].ai[0] = 1f;
                 Main.npc[arm].ai[1] = npc.whoAmI;
                 Main.npc[arm].target = npc.target;

@@ -467,7 +467,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (phase3)
                             spawnType = NPCID.Bee;
 
-                        int spawn = NPC.NewNPC((int)vector76.X, (int)vector76.Y, spawnType);
+                        int spawn = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector76.X, (int)vector76.Y, spawnType);
                         Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
                         Main.npc[spawn].velocity.Normalize();
                         Main.npc[spawn].velocity *= 5f;

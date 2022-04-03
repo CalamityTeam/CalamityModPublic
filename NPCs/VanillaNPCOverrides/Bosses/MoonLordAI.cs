@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             for (int num1156 = 0; num1156 < 2; num1156 = num + 1)
                             {
-                                int num1157 = NPC.NewNPC((int)npc.Center.X + num1156 * 800 - 400, (int)npc.Center.Y - 100, NPCID.MoonLordHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                int num1157 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X + num1156 * 800 - 400, (int)npc.Center.Y - 100, NPCID.MoonLordHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                                 Main.npc[num1157].ai[2] = num1156;
                                 Main.npc[num1157].netUpdate = true;
                                 int[] arg_381A6_0 = array5;
@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 num = num1156;
                             }
 
-                            int num1158 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.MoonLordHead, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            int num1158 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.MoonLordHead, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1158].netUpdate = true;
                             int[] arg_3823F_0 = array5;
                             num = num1155;
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num = NPC.NewNPC((int)Main.npc[(int)npc.localAI[2]].Center.X, (int)Main.npc[(int)npc.localAI[2]].Center.Y, NPCID.MoonLordFreeEye);
+                        int num = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)Main.npc[(int)npc.localAI[2]].Center.X, (int)Main.npc[(int)npc.localAI[2]].Center.Y, NPCID.MoonLordFreeEye);
                         Main.npc[num].ai[3] = npc.whoAmI;
                         Main.npc[num].netUpdate = true;
                     }
@@ -840,7 +840,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (projectile6.active && projectile6.type == ProjectileID.MoonLeech && Main.player[(int)projectile6.ai[1]].FindBuffIndex(145) != -1)
                             {
                                 Vector2 center21 = Main.player[npc.target].Center;
-                                int num1230 = NPC.NewNPC((int)center21.X, (int)center21.Y, NPCID.MoonLordLeechBlob);
+                                int num1230 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)center21.X, (int)center21.Y, NPCID.MoonLordLeechBlob);
                                 Main.npc[num1230].netUpdate = true;
                                 Main.npc[num1230].ai[0] = npc.whoAmI + 1;
                                 Main.npc[num1230].ai[1] = num1229;

@@ -65,13 +65,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 void SpawnHands()
                 {
-                    int num155 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    int num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                     Main.npc[num155].ai[0] = -1f;
                     Main.npc[num155].ai[1] = npc.whoAmI;
                     Main.npc[num155].target = npc.target;
                     Main.npc[num155].netUpdate = true;
 
-                    num155 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                     Main.npc[num155].ai[0] = 1f;
                     Main.npc[num155].ai[1] = npc.whoAmI;
                     Main.npc[num155].ai[3] = 150f;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Spawn two additional hands with different attack timings
                     if (death)
                     {
-                        num155 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                         Main.npc[num155].ai[0] = -1f;
                         Main.npc[num155].Calamity().newAI[0] = -1f;
                         Main.npc[num155].ai[1] = npc.whoAmI;
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.npc[num155].target = npc.target;
                         Main.npc[num155].netUpdate = true;
 
-                        num155 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                         Main.npc[num155].ai[0] = 1f;
                         Main.npc[num155].Calamity().newAI[0] = -1f;
                         Main.npc[num155].ai[1] = npc.whoAmI;
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num1457++;
                             int num1458 = Main.rand.Next(point13.X - num1453, point13.X + num1453 + 1);
                             int num1459 = Main.rand.Next(point13.Y - num1453, point13.Y + num1453 + 1);
-                            if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].nactive())
+                            if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].IsActuated)
                             {
                                 // New location params
                                 calamityGlobalNPC.newAI[2] = num1458 * 16 - npc.width / 2;

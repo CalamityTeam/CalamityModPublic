@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num790 += Main.rand.Next(-npc.width, npc.width);
                     num791 += Main.rand.Next(-npc.height, npc.height);
 
-                    int num792 = NPC.NewNPC((int)num790, (int)num791, NPCID.Creeper, 0, 0f, 0f, 0f, 0f, 255);
+                    int num792 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)num790, (int)num791, NPCID.Creeper, 0, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num792].velocity = new Vector2(Main.rand.Next(-30, 31) * 0.1f, Main.rand.Next(-30, 31) * 0.1f);
                     Main.npc[num792].netUpdate = true;
                 }

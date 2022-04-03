@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
-                        NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
                     }
                 }
 
@@ -708,7 +708,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-                        int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
+                        int num31 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
                         Main.npc[num31].target = npc.target;
                         Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity;
                         Main.npc[num31].netUpdate = true;
@@ -716,7 +716,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (npc.ai[2] % (bubbleSpinPhaseDivisor * 5) == 0f)
                         {
-                            int npc2 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2);
+                            int npc2 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2);
                             Main.npc[npc2].ai[1] = 89f;
                         }
                     }
