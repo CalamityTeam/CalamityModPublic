@@ -26,12 +26,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.lifeMax = 35;
             NPC.knockBackResist = 0.25f;
             NPC.aiStyle = 3;
-            aiType = 67;
+            AIType = 67;
             NPC.value = Item.buyPrice(0, 0, 0, 60);
             NPC.HitSound = SoundID.NPCHit50;
             NPC.DeathSound = SoundID.NPCDeath54;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<GnasherBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<GnasherBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.scale = 0.8f;
             NPC.defense = 8;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             animationType = NPCID.KingSlime;
             NPC.value = Item.buyPrice(0, 1, 0, 0);

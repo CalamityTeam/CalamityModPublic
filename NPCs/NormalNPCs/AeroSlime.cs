@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AeroSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AeroSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }

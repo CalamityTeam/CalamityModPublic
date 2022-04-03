@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 65;
             NPC.width = 80;
             NPC.height = 80;
@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Crags
                 NPC.defense = 20;
                 NPC.lifeMax = 1500;
             }
-            banner = ModContent.NPCType<Scryllar>();
-            bannerItem = ModContent.ItemType<ScryllarBanner>();
+            Banner = ModContent.NPCType<Scryllar>();
+            BannerItem = ModContent.ItemType<ScryllarBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;

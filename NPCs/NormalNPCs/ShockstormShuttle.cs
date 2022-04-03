@@ -27,15 +27,15 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 150;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

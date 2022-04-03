@@ -24,14 +24,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = 4500;
             NPC.knockBackResist = 0f;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit52;
             NPC.DeathSound = SoundID.NPCDeath55;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<ProfanedEnergyBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ProfanedEnergyBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

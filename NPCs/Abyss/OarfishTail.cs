@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 30;
             NPC.lifeMax = 4000;
             NPC.aiStyle = -1; //new
-            aiType = -1; //new
+            AIType = -1; //new
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.Abyss
             NPC.netAlways = true;
             NPC.dontCountMe = true;
             NPC.chaseable = false;
-            banner = ModContent.NPCType<OarfishHead>();
-            bannerItem = ModContent.ItemType<OarfishBanner>();
+            Banner = ModContent.NPCType<OarfishHead>();
+            BannerItem = ModContent.ItemType<OarfishBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

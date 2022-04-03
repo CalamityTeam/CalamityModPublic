@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            aiType = -1;
+            AIType = -1;
             NPC.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);

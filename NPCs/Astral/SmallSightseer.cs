@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.58f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.aiStyle = -1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SmallSightseerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SmallSightseerBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 58;

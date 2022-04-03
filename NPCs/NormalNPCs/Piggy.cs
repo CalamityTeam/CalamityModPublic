@@ -23,13 +23,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.height = 26;
             NPC.lifeMax = 2000;
             NPC.aiStyle = 7;
-            aiType = NPCID.Squirrel;
+            AIType = NPCID.Squirrel;
             NPC.knockBackResist = 0.99f;
             NPC.value = Item.buyPrice(0, 2, 0, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PiggyBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PiggyBanner>();
             NPC.catchItem = (short)ModContent.ItemType<PiggyItem>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;

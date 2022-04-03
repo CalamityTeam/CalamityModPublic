@@ -27,13 +27,13 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 15;
             NPC.lifeMax = 480;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.HitSound = SoundID.NPCHit51;
             NPC.DeathSound = SoundID.NPCDeath26;
             NPC.knockBackResist = 0.65f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<LaserfishBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<LaserfishBanner>();
             NPC.chaseable = false;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;

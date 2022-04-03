@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 30;
             NPC.lifeMax = 60000;
             NPC.aiStyle = -1; //new
-            aiType = -1; //new
+            AIType = -1; //new
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.Abyss
             NPC.netAlways = true;
             NPC.dontCountMe = true;
             NPC.chaseable = false;
-            banner = ModContent.NPCType<GulperEelHead>();
-            bannerItem = ModContent.ItemType<GulperEelBanner>();
+            Banner = ModContent.NPCType<GulperEelHead>();
+            BannerItem = ModContent.ItemType<GulperEelBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -26,14 +26,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeMax = 1000;
             NPC.knockBackResist = 0.1f;
             animationType = NPCID.DungeonSpirit;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PhantomSpiritBanner>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 

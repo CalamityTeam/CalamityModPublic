@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.DR_NERD(0.5f);
             NPC.LifeMaxNERB(NPC.downedMoonlord ? 196000 : 98000, NPC.downedMoonlord ? 235200 : 117600, 740000); // 30 seconds in boss rush
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.boss = true;

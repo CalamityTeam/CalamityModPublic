@@ -31,13 +31,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.05f);
             NPC.lifeMax = 280;
             NPC.knockBackResist = 0.05f;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 25, 0);
             NPC.HitSound = SoundID.NPCHit12;
             NPC.DeathSound = SoundID.NPCDeath18;
             NPC.rarity = 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CnidrionBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CnidrionBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;

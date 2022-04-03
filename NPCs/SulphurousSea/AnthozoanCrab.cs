@@ -30,13 +30,13 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.height = 42;
             NPC.defense = 22;
             NPC.lifeMax = 920;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit38;
             NPC.DeathSound = SoundID.NPCDeath46;
             NPC.knockBackResist = 0.04f;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

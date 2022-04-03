@@ -24,12 +24,12 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.defense = 5;
             NPC.LifeMaxNERB(Main.hardMode ? 200 : 30);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 0, 60);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AquaticParasiteBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AquaticParasiteBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

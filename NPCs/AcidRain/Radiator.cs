@@ -47,9 +47,9 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            aiType = NPCID.GlowingSnail;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<RadiatorBanner>();
+            AIType = NPCID.GlowingSnail;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<RadiatorBanner>();
             NPC.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;

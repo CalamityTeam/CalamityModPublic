@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             NPC.npcSlots = 0.5f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 5;
             NPC.width = 72;
             NPC.height = 22;
@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.value = Item.buyPrice(0, 0, 0, 50);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<SeaFloatyBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SeaFloatyBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

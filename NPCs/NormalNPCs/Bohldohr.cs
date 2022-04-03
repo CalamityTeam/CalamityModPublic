@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 80;
             NPC.width = 40;
             NPC.height = 40;
@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath35;
             NPC.behindTiles = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BOHLDOHRBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }

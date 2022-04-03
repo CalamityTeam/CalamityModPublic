@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 42;
             NPC.width = 50;
             NPC.height = 64;
@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath7;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CryonBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CryonBanner>();
             NPC.coldDamage = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;

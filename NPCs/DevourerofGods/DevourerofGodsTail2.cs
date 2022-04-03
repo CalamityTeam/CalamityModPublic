@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.defense = 70;
             NPC.lifeMax = 50000;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;

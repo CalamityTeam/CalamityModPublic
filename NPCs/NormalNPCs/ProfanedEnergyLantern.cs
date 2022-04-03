@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.width = 30;
             NPC.height = 30;
             NPC.lifeMax = 1;
-            aiType = -1;
+            AIType = -1;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

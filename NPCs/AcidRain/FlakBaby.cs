@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.DD2_WitherBeastDeath;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<FlakCrabBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<FlakCrabBanner>();
             NPC.dontTakeDamageFromHostiles = true;
             NPC.catchItem = (short)ModContent.ItemType<BabyFlakHermit>();
         }

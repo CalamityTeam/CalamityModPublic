@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.width = 150;
             NPC.height = 100;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.GetNPCDamage();
             NPC.defense = 90;
             NPC.DR_NERD(0.5f, null, null, null, true);

@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            aiType = -1;
+            AIType = -1;
             NPC.aiStyle = -1;
             NPC.damage = 15;
             NPC.width = 40;
@@ -73,8 +73,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<WulfrumHovercraftBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

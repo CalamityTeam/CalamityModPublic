@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Perforator
         {
             NPC.npcSlots = 0.1f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 0;
             NPC.width = 30; //324
             NPC.height = 26; //216

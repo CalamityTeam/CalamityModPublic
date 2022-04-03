@@ -114,8 +114,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.aiStyle = -1;
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AtlasBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AtlasBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 100;

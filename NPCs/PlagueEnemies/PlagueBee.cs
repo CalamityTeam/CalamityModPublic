@@ -29,15 +29,15 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.scale = 0.5f;
             NPC.lifeMax = 200;
             NPC.aiStyle = 5;
-            aiType = NPCID.Bee;
+            AIType = NPCID.Bee;
             NPC.knockBackResist = 0f;
             animationType = NPCID.Bee;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PlagueChargerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PlagueChargerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

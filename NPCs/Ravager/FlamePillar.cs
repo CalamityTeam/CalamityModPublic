@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.lifeMax = CalamityWorld.downedProvidence ? 14000 : 3500;
             NPC.alpha = 255;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;

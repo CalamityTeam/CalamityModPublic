@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             NPC.noGravity = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = Main.hardMode ? 75 : 25;
             NPC.width = 54;
             NPC.height = 76;
@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.value = Main.hardMode ? Item.buyPrice(0, 0, 20, 0) : Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<GhostBellBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<GhostBellBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = false;

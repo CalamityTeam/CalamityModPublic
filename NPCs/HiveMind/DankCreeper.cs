@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.HiveMind
                 NPC.lifeMax = 2000;
             }
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

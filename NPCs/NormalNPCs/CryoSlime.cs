@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = 1;
-            aiType = NPCID.DungeonSlime;
+            AIType = NPCID.DungeonSlime;
             NPC.damage = 30;
             NPC.width = 40;
             NPC.height = 30;
@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CryoSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CryoSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;
             NPC.Calamity().VulnerableToSickness = false;

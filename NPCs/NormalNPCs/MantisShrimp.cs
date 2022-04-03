@@ -25,12 +25,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = 30;
             NPC.aiStyle = 3;
-            aiType = NPCID.Crab;
+            AIType = NPCID.Crab;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<MantisShrimpBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<MantisShrimpBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

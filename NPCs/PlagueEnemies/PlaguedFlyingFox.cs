@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             NPC.npcSlots = 0.5f;
             NPC.aiStyle = 14;
-            aiType = NPCID.GiantFlyingFox;
+            AIType = NPCID.GiantFlyingFox;
             animationType = NPCID.GiantFlyingFox;
             NPC.damage = 55;
             NPC.width = 38;
@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.HitSound = SoundID.NPCHit1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<MelterBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<MelterBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

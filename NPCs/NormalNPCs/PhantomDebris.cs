@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DR_NERD(0.1f);
             NPC.lifeMax = NPC.downedMoonlord ? 1200 : 120;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit2;
             NPC.DeathSound = SoundID.NPCDeath36;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PhantomDebrisBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PhantomDebrisBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }

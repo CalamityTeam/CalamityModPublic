@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = Main.hardMode ? 50 : 25;
             NPC.width = 40;
             NPC.height = 40;
@@ -28,8 +28,8 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath15;
             NPC.behindTiles = true;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AquaticUrchinBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AquaticUrchinBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

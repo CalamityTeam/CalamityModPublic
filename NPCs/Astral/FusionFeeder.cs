@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.behindTiles = true;
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             animationType = NPCID.SandShark;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<FusionFeederBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<FusionFeederBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 65;

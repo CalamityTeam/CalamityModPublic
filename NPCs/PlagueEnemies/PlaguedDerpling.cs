@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             NPC.noGravity = true;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 60;
             NPC.width = 58;
             NPC.height = 44;
@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.HitSound = SoundID.NPCHit22;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<VirulingBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<VirulingBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

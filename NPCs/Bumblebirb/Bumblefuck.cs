@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.npcSlots = 32f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.GetNPCDamage();
             NPC.width = 130;
             NPC.height = 100;

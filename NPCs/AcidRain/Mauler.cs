@@ -55,14 +55,14 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.DR_NERD(0.05f);
             NPC.lifeMax = 88500;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 25, 0, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath60;
             NPC.knockBackResist = 0f;
             NPC.rarity = 2;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<MaulerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<MaulerBanner>();
             NPC.RemoveWaterSlowness();
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.Calamity().VulnerableToHeat = false;

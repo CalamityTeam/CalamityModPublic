@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.defense = 0;
             NPC.lifeMax = 160000;
             NPC.aiStyle = -1; //new
-            aiType = -1; //new
+            AIType = -1; //new
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;

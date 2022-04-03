@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             NPC.npcSlots = 0.3f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.damage = 25;
             NPC.width = 44;
             NPC.height = 34;
@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 0, 80);
             NPC.HitSound = SoundID.NPCHit33;
             NPC.DeathSound = SoundID.NPCDeath36;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AmberCrawlerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AmberCrawlerBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;

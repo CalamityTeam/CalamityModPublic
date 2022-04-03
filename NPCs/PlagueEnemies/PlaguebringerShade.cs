@@ -38,14 +38,14 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.value = Item.buyPrice(0, 1, 50, 0);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             animationType = NPCID.QueenBee;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<PlaguebringerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<PlaguebringerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

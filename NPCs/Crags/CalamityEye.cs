@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.Crags
                 NPC.defense = 20;
                 NPC.lifeMax = 3000;
             }
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<CalamityEyeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CalamityEyeBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;

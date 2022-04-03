@@ -34,12 +34,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             NPC.knockBackResist = 0.3f;
             animationType = NPCID.Hellhound;
-            aiType = -1;
+            AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 3, 0);
             NPC.HitSound = Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
             NPC.DeathSound = SoundID.NPCDeath5;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AngryDogBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AngryDogBanner>();
             NPC.coldDamage = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;

@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.boss = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

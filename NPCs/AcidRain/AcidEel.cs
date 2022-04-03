@@ -51,13 +51,13 @@ namespace CalamityMod.NPCs.AcidRain
 
             NPC.value = Item.buyPrice(0, 0, 3, 32);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.lavaImmune = false;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<AcidEelBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AcidEelBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.dontTakeDamage = true;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.Calamity().DoesNotGenerateRage = true;

@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.height = 34;
             NPC.defense = 4;
 
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             NPC.damage = 15;
             NPC.lifeMax = 60;
@@ -54,8 +54,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<NuclearToadBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<NuclearToadBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

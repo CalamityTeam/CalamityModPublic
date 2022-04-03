@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.damage = 10;
             NPC.lifeMax = 300;
 
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -52,8 +52,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.DD2_WitherBeastDeath;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<FlakCrabBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<FlakCrabBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
