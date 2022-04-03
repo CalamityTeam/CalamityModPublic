@@ -79,23 +79,6 @@ namespace CalamityMod
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
 
-        // Hotkeys
-        public static ModHotKey NormalityRelocatorHotKey;
-        public static ModHotKey AegisHotKey;
-        public static ModHotKey TarraHotKey;
-        public static ModHotKey RageHotKey;
-        public static ModHotKey AdrenalineHotKey;
-        public static ModHotKey AstralTeleportHotKey;
-        public static ModHotKey AstralArcanumUIHotkey;
-        public static ModHotKey MomentumCapacitatorHotkey;
-        public static ModHotKey SandCloakHotkey;
-        public static ModHotKey SpectralVeilHotKey;
-        public static ModHotKey PlaguePackHotKey;
-        public static ModHotKey AngelicAllianceHotKey;
-        public static ModHotKey GodSlayerDashHotKey;
-        public static ModHotKey ExoChairSpeedupHotkey;
-        public static ModHotKey ExoChairSlowdownHotkey;
-
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
@@ -195,21 +178,7 @@ namespace CalamityMod
             Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
-            RageHotKey = RegisterHotKey("Rage Mode", "V");
-            AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
-            AegisHotKey = RegisterHotKey("Elysian Guard", "N");
-            TarraHotKey = RegisterHotKey("Armor Set Bonus", "Y");
-            AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
-            AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
-            MomentumCapacitatorHotkey = RegisterHotKey("Momentum Capacitor Effect", "U");
-            SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
-            SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
-            PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
-            AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
-            GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
-            ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
-            ExoChairSlowdownHotkey = RegisterHotKey("Exo Chair Slow Down", "RightShift");
+            
 
             if (!Main.dedServ)
             {
@@ -357,20 +326,6 @@ namespace CalamityMod
             summonersAssociation = null;
             thorium = null;
             varia = null;
-
-            NormalityRelocatorHotKey = null;
-            RageHotKey = null;
-            AdrenalineHotKey = null;
-            AegisHotKey = null;
-            TarraHotKey = null;
-            AstralTeleportHotKey = null;
-            AstralArcanumUIHotkey = null;
-            MomentumCapacitatorHotkey = null;
-            SandCloakHotkey = null;
-            SpectralVeilHotKey = null;
-            PlaguePackHotKey = null;
-            AngelicAllianceHotKey = null;
-            GodSlayerDashHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;
