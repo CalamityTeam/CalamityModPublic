@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(type);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int num677 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector82.X, vector82.Y, num674, num675, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = 480;
                             }
                         }
@@ -328,7 +328,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             int type = ProjectileID.Fireball;
                             int damage = npc.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].timeLeft = 240;
                         }
 
@@ -723,7 +723,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     int type = ProjectileID.Fireball;
                     int damage = npc.GetProjectileDamage(type);
-                    Projectile.NewProjectile(vector81.X, vector81.Y, num656, num657, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector81.X, vector81.Y, num656, num657, type, damage, 0f, Main.myPlayer, 0f, 0f);
 
                     npc.netUpdate = true;
                 }
@@ -774,7 +774,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     int type = ProjectileID.Fireball;
                     int damage = npc.GetProjectileDamage(type);
-                    Projectile.NewProjectile(vector82.X, vector82.Y, num664, num665, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector82.X, vector82.Y, num664, num665, type, damage, 0f, Main.myPlayer, 0f, 0f);
 
                     npc.netUpdate = true;
                 }
@@ -822,7 +822,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+                                int num677 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
                                 npc.netUpdate = true;
                             }
@@ -852,7 +852,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+                            int num682 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
                             npc.netUpdate = true;
                         }
@@ -1136,7 +1136,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 int projectileType = phase3 ? ProjectileID.InfernoHostileBolt : ProjectileID.Fireball;
                 int damage = npc.GetProjectileDamage(projectileType);
-                int proj = Projectile.NewProjectile(vector88.X, vector88.Y, num709, num710, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector88.X, vector88.Y, num709, num710, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                 if (projectileType == ProjectileID.InfernoHostileBolt)
                 {
                     Main.projectile[proj].timeLeft = 300;
@@ -1180,7 +1180,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     int type = ProjectileID.EyeBeam;
                     int damage = npc.GetProjectileDamage(type);
-                    int num720 = Projectile.NewProjectile(vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    int num720 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num720].timeLeft = enrage ? 480 : 300;
                 }
 

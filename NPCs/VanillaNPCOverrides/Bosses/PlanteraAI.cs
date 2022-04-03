@@ -352,7 +352,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
-                            Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, projectileType == ProjectileID.ThornBall ? tileEnrageMult : 0f);
+                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, projectileType == ProjectileID.ThornBall ? tileEnrageMult : 0f);
                         }
                     }
                 }
@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int type = ProjectileID.ThornBall;
                                 int damage = npc.GetProjectileDamage(type);
 
-                                Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, tileEnrageMult);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, tileEnrageMult);
 
                                 npc.localAI[3] = -240f;
                             }
@@ -504,7 +504,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int i = 0; i < numProj + 1; i++)
                                 {
                                     Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                    Projectile.NewProjectile(vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 }
 
                                 npc.localAI[3] = 0f;
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             offsetAngle = startAngle + deltaAngle * i;
                             float ai0 = Main.rand.Next(3);
-                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, ai0, 0f);
+                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, ai0, 0f);
                         }
 
                         calamityGlobalNPC.newAI[0] = 0f;

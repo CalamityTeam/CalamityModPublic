@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileSpawn = npc.Center + projectileVelocity * 5f;
 
                         int damage = npc.GetProjectileDamage(ProjectileID.DemonSickle);
-                        int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer, 0f, projectileVelocity.Length() * 3f);
+                        int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer, 0f, projectileVelocity.Length() * 3f);
                         Main.projectile[proj].timeLeft = 600;
                         Main.projectile[proj].tileCollide = false;
                     }
@@ -545,7 +545,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 40f : Vector2.Zero) - npc.Center) * velocity;
                         Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-                        int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
+                        int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
                         Main.projectile[proj].timeLeft = 900;
 
                         if (!canHit)
