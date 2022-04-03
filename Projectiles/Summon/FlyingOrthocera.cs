@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.ai[0]++ % 30f == 29f)
                 {
                     if (Projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), Projectile.damage, 4f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), Projectile.damage, 4f, Projectile.owner);
                 }
             }
             else

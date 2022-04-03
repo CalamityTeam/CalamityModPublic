@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -140,12 +140,12 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.velocity = (destination - Projectile.Center) / 10f;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             for (int i = 1; i < Projectile.oldPos.Length; i++)
                 CalamityUtils.DistanceClamp(ref Projectile.oldPos[i - 1], ref Projectile.oldPos[i], 6f);
 
-            Texture2D trailSegmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj");
+            Texture2D trailSegmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;
             for (int i = 2; i < Projectile.oldPos.Length; i++)
             {
                 float completionRatio = i / (float)Projectile.oldPos.Length;
@@ -154,12 +154,12 @@ namespace CalamityMod.Projectiles.Summon
                 Color color = Color.Lerp(Color.LightPink, Color.Goldenrod, completionRatio * 3f % 1f) * 1.5f;
 
                 // Become dimmer the slower the projectile is moving.
-                color *= Utils.InverseLerp(1f, 8f, Projectile.velocity.Length(), true);
+                color *= Utils.GetLerpValue(1f, 8f, Projectile.velocity.Length(), true);
 
                 // As well as how close the projectile is to pointing away from its rotation.
-                color *= Utils.InverseLerp(0.65f, 0.45f, Projectile.velocity.AngleBetween(-(Projectile.rotation + MathHelper.PiOver2).ToRotationVector2()) / MathHelper.Pi, true);
+                color *= Utils.GetLerpValue(0.65f, 0.45f, Projectile.velocity.AngleBetween(-(Projectile.rotation + MathHelper.PiOver2).ToRotationVector2()) / MathHelper.Pi, true);
 
-                spriteBatch.Draw(trailSegmentTexture,
+                Main.spriteBatch.Draw(trailSegmentTexture,
                                  Projectile.oldPos[i] + Projectile.Size * 0.5f + new Vector2(0f, 8f).RotatedBy(Projectile.rotation) - Main.screenPosition,
                                  null,
                                  color,

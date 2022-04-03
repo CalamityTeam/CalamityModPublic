@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 255;
             Projectile.scale = 1.1f;
             Projectile.minion = true;
-            aiType = ProjectileID.RainFriendly;
+            AIType = ProjectileID.RainFriendly;
         }
 
         public override void AI()

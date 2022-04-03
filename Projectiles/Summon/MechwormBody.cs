@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.netSpam = 59;
             }
 
-            MechwormHead headModProj = head.modProjectile as MechwormHead;
+            MechwormHead headModProj = head.ModProjectile<MechwormHead>();
             if (headModProj.EndRiftGateUUID == -1)
             {
                 // Very rapidly fade-in.
@@ -185,19 +185,19 @@ namespace CalamityMod.Projectiles.Summon
             SegmentAI(Projectile, 16, ref _);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(tex, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
-        public override bool CanDamage() => Projectile.alpha == 0;
+        public override bool? CanDamage() => Projectile.alpha == 0;
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindProjectiles.Add(index);
+            behindProjectiles.Add(index);
         }
 
         public override bool ShouldUpdatePosition() => false;

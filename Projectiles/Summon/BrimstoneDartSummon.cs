@@ -1,6 +1,5 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.frameCounter % 5 == 4)
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
 
-            Projectile.Opacity = Utils.InverseLerp(0f, 40f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true);
 
             Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
         }
@@ -69,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             lightColor.R = (byte)(255 * Projectile.Opacity);
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

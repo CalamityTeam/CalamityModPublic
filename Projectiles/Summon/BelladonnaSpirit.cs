@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -139,17 +139,15 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void FirePetals(NPC target)
         {
+            int petalID = ModContent.ProjectileType<BelladonnaPetal>();
             if (PetalFireTimer % 20f == 19f)
             {
                 for (int i = -1; i <= 1; i++)
                 {
                     float angle = Main.rand.NextFloat(-0.1f, 0.1f) + i * 0.05f;
-                    Projectile.NewProjectile(Projectile.Center + new Vector2(0f, -6f),
-                                             Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 7.5f,
-                                             ModContent.ProjectileType<BelladonnaPetal>(),
-                                             Projectile.damage,
-                                             Projectile.knockBack,
-                                             Projectile.owner);
+                    Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
+                    Vector2 petalShootVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 7.5f;
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -158,12 +156,9 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 5; i++)
                 {
                     float angle = MathHelper.Lerp(MathHelper.ToRadians(-Main.rand.NextFloat(30f, 36f)), MathHelper.ToRadians(Main.rand.NextFloat(30f, 36f)), i / 4f);
-                    Projectile.NewProjectile(Projectile.Center + Vector2.UnitY * -6f,
-                                             Vector2.UnitY.RotatedBy(angle) * -9f,
-                                             ModContent.ProjectileType<BelladonnaPetal>(),
-                                             Projectile.damage,
-                                             Projectile.knockBack,
-                                             Projectile.owner);
+                    Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
+                    Vector2 petalShootVelocity = -Vector2.UnitY.RotatedBy(angle) * 9f;
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

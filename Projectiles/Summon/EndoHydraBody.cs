@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -98,6 +98,6 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(Projectile.Center - Vector2.UnitY * 21f, 0.25f, 0.865f, 0.825f);
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

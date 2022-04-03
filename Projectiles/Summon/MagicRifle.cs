@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Summon
                     velocity.Normalize();
                     velocity *= projSpeed;
                     SoundEngine.PlaySound(SoundID.Item40, Projectile.position);
-                    Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
                     Projectile.netUpdate = true;
                 }
             }
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor) => new Color(148, 0, 211, Projectile.alpha);
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override void Kill(int timeLeft)
         {

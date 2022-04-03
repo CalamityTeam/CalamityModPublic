@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int b = 0; b < blastAmt; b++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
                     }
                     float speed = 15f;
                     float num404 = num396 - Projectile.Center.X;
@@ -228,7 +228,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
                     Projectile.ai[0] = 100f;
                 }
             }
@@ -239,9 +239,6 @@ namespace CalamityMod.Projectiles.Summon
             return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 255);
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

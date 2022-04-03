@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
@@ -29,9 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.frame++;
                 if (Projectile.frame >= Main.projFrames[Projectile.type])
-                {
                     Projectile.Kill();
-                }
             }
         }
     }

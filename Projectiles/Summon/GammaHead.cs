@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
@@ -138,11 +138,11 @@ namespace CalamityMod.Projectiles.Summon
 
             // Open the mouth prior to firing.
             if (Time % canisterShootRate > canisterShootRate - 20)
-                Projectile.frame = (int)(Main.projFrames[Projectile.type] * Utils.InverseLerp(canisterShootRate - 20, canisterShootRate - 4, Time % canisterShootRate, true));
+                Projectile.frame = (int)(Main.projFrames[Projectile.type] * Utils.GetLerpValue(canisterShootRate - 20, canisterShootRate - 4, Time % canisterShootRate, true));
             Projectile.frame %= Main.projFrames[Projectile.type];
 
             Vector2 spawnPosition = Projectile.Center;
-            float shootSpeed = MathHelper.Lerp(8f, 29f, Utils.InverseLerp(90f, 850f, target.Distance(spawnPosition), true));
+            float shootSpeed = MathHelper.Lerp(8f, 29f, Utils.GetLerpValue(90f, 850f, target.Distance(spawnPosition), true));
             Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, Projectile.SafeDirectionTo(target.Center));
 
             float fireAngle = shootVelocity.ToRotation();
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Shoot the actual canister.
             if (Main.myPlayer == Projectile.owner && Time % canisterShootRate == canisterShootRate - 1)
-                Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         public void MoveTowardsDestination(Vector2 returnPosition)
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Summon
             float distanceFromTarget = Projectile.Distance(returnPosition);
             if (distanceFromTarget > 7f)
             {
-                float flySpeed = MathHelper.Lerp(2f, 17f, Utils.InverseLerp(10f, 70f, distanceFromTarget, true));
+                float flySpeed = MathHelper.Lerp(2f, 17f, Utils.GetLerpValue(10f, 70f, distanceFromTarget, true));
                 Projectile.velocity = (Projectile.velocity * 9f + Projectile.SafeDirectionTo(returnPosition) * flySpeed) / 10f;
             }
 
@@ -208,9 +208,9 @@ namespace CalamityMod.Projectiles.Summon
                 Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextVector2CircularEdge(4f, 4f)).noGravity = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/GammaHeadChain");
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/GammaHeadChain").Value;
             Vector2 end = Projectile.Center + (Projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
 
             List<Vector2> controlPoints = new List<Vector2>
@@ -221,7 +221,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 // Incorporate the past movement into neck turns, giving it rubber band-like movment.
                 // Become less responsive at the neck ends. Having the ends have typical movement can look strange sometimes.
-                float swayResponsiveness = Utils.InverseLerp(0f, 6f, i, true) * Utils.InverseLerp(OldVelocities.Length, OldVelocities.Length - 6f, i, true);
+                float swayResponsiveness = Utils.GetLerpValue(0f, 6f, i, true) * Utils.GetLerpValue(OldVelocities.Length, OldVelocities.Length - 6f, i, true);
                 Vector2 swayTotalOffset = OldVelocities[i] * swayResponsiveness;
                 controlPoints.Add(Vector2.Lerp(DrawStartPosition, end, i / (float)OldVelocities.Length) + swayTotalOffset);
             }
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Summon
                     continue;
                 float angleAtPoint = i == chainPoints.Count - 1 ? (end - chainPoints[i]).ToRotation() : (chainPoints[i + 1] - chainPoints[i]).ToRotation();
                 angleAtPoint += MathHelper.PiOver2;
-                spriteBatch.Draw(chain,
+                Main.spriteBatch.Draw(chain,
                                  positionAtPoint - Main.screenPosition,
                                  null,
                                  Color.Lerp(Color.White, Color.Transparent, 0.6f),
@@ -251,8 +251,8 @@ namespace CalamityMod.Projectiles.Summon
                                  0f);
             }
 
-            Texture2D headTexture = ModContent.Request<Texture2D>(Texture);
-            spriteBatch.Draw(headTexture,
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Main.spriteBatch.Draw(headTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              headTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              lightColor,
@@ -264,6 +264,7 @@ namespace CalamityMod.Projectiles.Summon
 
             return false;
         }
-        public override bool CanDamage() => false;
+
+        public override bool? CanDamage() => false;
     }
 }

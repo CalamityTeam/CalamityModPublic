@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                                     }
                                     if (flag && Main.myPlayer == Projectile.owner)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<Dreadmine>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), center, Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                                     }
                                 }
                             }
@@ -129,9 +129,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.ai[1] == 1f)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.UnitY * 30f, ModContent.ProjectileType<MidnightSunUFO>(), Projectile.damage, Projectile.knockBack,
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 30f, ModContent.ProjectileType<MidnightSunUFO>(), Projectile.damage, Projectile.knockBack,
                     Projectile.owner);
                 Projectile.Kill();
             }
@@ -53,6 +53,7 @@ namespace CalamityMod.Projectiles.Summon
             else
                 Projectile.velocity *= 0.96f;
         }
-        public override bool CanDamage() => false;
+
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
         internal void FlyNearOwner()
         {
             Vector2 destination = Owner.Top - Vector2.UnitY * 45f + (Projectile.identity * 0.9f).ToRotationVector2() * 16f;
-            Vector2 idealVelocity = Projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.InverseLerp(16f, 160f, Projectile.Distance(destination)));
+            Vector2 idealVelocity = Projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.GetLerpValue(16f, 160f, Projectile.Distance(destination)));
             if (Projectile.velocity.Length() < 0.4f)
                 Projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool(2).ToDirectionInt()) * -3.6f;
             else if (!Projectile.WithinRange(destination, 20f))
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == Projectile.owner && HoverTime % 70f == 69f)
             {
-                Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 HoverTime++;
             }
 
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
             destination += destinationOffset;
 
             // Fly towards the destination faster the farther the eye already is to it.
-            float flySpeed = MathHelper.Lerp(5f, 15f, Utils.InverseLerp(40f, 250f, Projectile.Distance(destination), true));
+            float flySpeed = MathHelper.Lerp(5f, 15f, Utils.GetLerpValue(40f, 250f, Projectile.Distance(destination), true));
 
             if (Projectile.WithinRange(destination, 24f + target.velocity.Length() * 2f))
                 HoverTime++;
@@ -133,6 +133,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.velocity = (destination - Projectile.Center).SafeNormalize(Vector2.Zero) * flySpeed;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

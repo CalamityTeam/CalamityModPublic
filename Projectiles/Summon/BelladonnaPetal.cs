@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 5; i++)
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Grass);
-                dust.velocity = Main.rand.NextVector2Circular(2f, 2f) ;
+                dust.velocity = Main.rand.NextVector2Circular(2f, 2f);
                 dust.noGravity = true;
             }
         }

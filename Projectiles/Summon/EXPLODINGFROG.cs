@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -68,21 +68,20 @@ namespace CalamityMod.Projectiles.Summon
                     // Goop projectiles
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(Projectile.Center,
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        Projectile.NewProjectile(Projectile.Center,
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
-                    // Normally I would do something like mod.ProjectileType($"FrogGore1 + i") in a loop, but I suppose I'll let it go.
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore3>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore4>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
@@ -100,7 +99,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.StickToTiles(false, false);
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
+
         // Don't die on tile collision
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }

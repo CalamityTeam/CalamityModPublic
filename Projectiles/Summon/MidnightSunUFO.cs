@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override void AI()
         {
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Projectile.ai[0] % MidnightSunBeacon.MachineGunRate == Projectile.localAI[0] && potentialTarget.Top.Y > Projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
-                        Projectile.NewProjectile(Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     Projectile.MinionAntiClump(0.35f);
                     Projectile.ai[1] = 0f;
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
                             Vector2 laserVelocity = Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
-                            Projectile.NewProjectile(Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
                         }
                     }
                 }
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.rotation = Projectile.velocity.X * 0.03f;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

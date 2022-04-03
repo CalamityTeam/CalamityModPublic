@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 value19 = vector46 - Projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                         Projectile.netUpdate = true;
                     }
                 }
@@ -225,9 +225,6 @@ namespace CalamityMod.Projectiles.Summon
             return new Color(100, 250, 250, Projectile.alpha);
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

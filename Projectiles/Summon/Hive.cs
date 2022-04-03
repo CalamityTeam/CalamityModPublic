@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -110,13 +110,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float velocityX = Main.rand.NextFloat(-0.4f, 0.4f);
                     float velocityY = Main.rand.NextFloat(-0.3f, -0.5f);
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<Hiveling>(), Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<Hiveling>(), Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
                 }
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

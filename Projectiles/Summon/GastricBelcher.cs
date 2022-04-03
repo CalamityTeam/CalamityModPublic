@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -287,7 +287,7 @@ namespace CalamityMod.Projectiles.Summon
                 vomitVel.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
                 //Fire the vomit projectile
-                Projectile.NewProjectile(Projectile.Center, vomitVel, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vomitVel, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
 
                 //Fire 5 bubbles for every three attacks
                 if (bubbleCounter++ % 3 == 2)
@@ -300,7 +300,7 @@ namespace CalamityMod.Projectiles.Summon
                         bubbleVel.Y += Main.rand.NextFloat(-50f, 50f) * 0.05f;
                         bubbleVel.X += Main.rand.NextFloat(-50f, 50f) * 0.05f;
 
-                        Projectile.NewProjectile(Projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
 
@@ -309,12 +309,12 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         //This minion does no contact damage
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
-            int frameHeight = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
             int y6 = frameHeight * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)

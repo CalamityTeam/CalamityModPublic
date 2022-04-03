@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
@@ -295,7 +295,7 @@ namespace CalamityMod.Projectiles.Summon
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));
                                     float angularChange = (MathHelper.Pi / 180f) * 1.1f * laserdirection;
                                     //aimlaser *= 12f;
-                                    Projectile.NewProjectile(Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
+                                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
                                     laserdirection *= -1;
                                     break;
 
@@ -338,16 +338,17 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.rotation = Projectile.velocity.X * 0.07f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[Projectile.type].Width, Main.projectileTexture[Projectile.type].Height);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/EndoCooperBody_Glow"), Projectile.Center - Main.screenPosition, frame, Color.LightSkyBlue, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/EndoCooperBody_Glow").Value;
+            Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, Color.LightSkyBlue, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -357,9 +358,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Frostburn, 180);
         }
 
-        public override bool CanDamage()
-        {
-            return AttackMode == 2;
-        }
+        public override bool? CanDamage() => AttackMode == 2;
     }
 }

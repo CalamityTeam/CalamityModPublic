@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,10 +25,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
+            AIType = ProjectileID.BulletHighVelocity;
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);

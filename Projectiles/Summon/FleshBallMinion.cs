@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 2; i++)
                     {
                         Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f) * Main.rand.NextFloat(6f, 11f);
-                        int blood = Projectile.NewProjectile(Projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int blood = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
 
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = Projectile.Bottom.Y < Owner.Top.Y;
             return true;

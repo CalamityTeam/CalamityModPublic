@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void AI()
         {
-            int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 0, default, 0.5f);
+            int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 0.5f);
             Dust dust = Main.dust[fire];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
@@ -45,18 +45,18 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Fire);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
                 dust.noGravity = true;
-                dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2);
+                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            if ((player.ActiveItem().summon &&
-                !player.ActiveItem().melee &&
-                !player.ActiveItem().ranged &&
-                !player.ActiveItem().magic &&
+            if ((player.ActiveItem().CountsAsClass<SummonDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<MeleeDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<RangedDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<MagicDamageClass>() &&
                 !player.ActiveItem().Calamity().rogue) ||
                 player.ActiveItem().hammer > 0 ||
                 player.ActiveItem().pick > 0 ||

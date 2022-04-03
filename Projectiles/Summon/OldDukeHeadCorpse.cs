@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = (float)Math.Atan(Math.Abs(target.Center.X - Projectile.Center.X) / 450f);
                     angle *= Math.Sign(target.Center.X - Projectile.Center.X);
-                    Projectile.NewProjectile(Projectile.Top + Vector2.UnitY * 7f,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + Vector2.UnitY * 7f,
                         new Vector2(0f, -Main.rand.NextFloat(21f, 30.5f)).RotatedBy(angle),
                         ModContent.ProjectileType<OldDukeSharkVomit>(), Projectile.damage, 5f,
                         Projectile.owner);
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.StickToTiles(false, false);
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
         // Don't die on tile collision
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }

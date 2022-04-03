@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,13 +31,13 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
-            aiType = ProjectileID.BabySlime;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 23;
+            AIType = ProjectileID.BabySlime;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return true;

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return true;
@@ -360,7 +360,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }

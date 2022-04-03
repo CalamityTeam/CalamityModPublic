@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
             float num633 = 700f;
             float num636 = 400f; //150
             Projectile.MinionAntiClump();
-            Vector2 vector46 = Projectile.position;
+            Vector2 targetCenter = Projectile.position;
             bool flag25 = false;
             if (Projectile.ai[0] != 1f)
             {
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                     float num646 = Vector2.Distance(npc.Center, Projectile.Center);
                     if ((!flag25 && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
-                        vector46 = npc.Center;
+                        targetCenter = npc.Center;
                         flag25 = true;
                     }
                 }
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
                         if ((!flag25 && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC2.position, nPC2.width, nPC2.height))
                         {
                             num633 = num646;
-                            vector46 = nPC2.Center;
+                            targetCenter = nPC2.Center;
                             flag25 = true;
                         }
                     }
@@ -199,17 +199,15 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.ai[0] == 0f)
             {
-                float scaleFactor3 = 14f;
+                float fireballShootSpeed = 14f;
                 int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
                 if (flag25 && Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
                 {
                     Projectile.ai[1] += 1f;
-                    if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, vector46, 0, 0))
+                    if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetCenter, 0, 0))
                     {
-                        Vector2 value19 = vector46 - Projectile.Center;
-                        value19.Normalize();
-                        value19 *= scaleFactor3;
-                        int fire = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        Vector2 fireballshootVelocity = Projectile.SafeDirectionTo(targetCenter) * fireballShootSpeed;
+                        Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                         Projectile.netUpdate = true;
                     }
                 }

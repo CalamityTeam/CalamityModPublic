@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.rotation += Projectile.velocity.X * 0.04f;
 
-        Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
+            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

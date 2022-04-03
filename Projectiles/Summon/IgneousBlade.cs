@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 20; i++)
                     {
                         float angle = MathHelper.TwoPi / 20f * i;
-                        Dust dust = Dust.NewDustPerfect(Projectile.position + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(14f, 21f), DustID.Fire);
+                        Dust dust = Dust.NewDustPerfect(Projectile.position + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(14f, 21f), 6);
                         dust.velocity = angle.ToRotationVector2().RotatedBy(Projectile.rotation) * 2f;
                         dust.noGravity = true;
                     }
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
-                        Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
                             (int)(Projectile.damage * 0.666), Projectile.knockBack, Projectile.owner);
                     }
                     for (int i = 0; i < Main.rand.Next(28, 41); i++)
@@ -136,11 +136,11 @@ namespace CalamityMod.Projectiles.Summon
                 dust.noGravity = true;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Firing)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/IgneousBlade");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/IgneousBlade").Value;
 
                 Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -275,7 +275,7 @@ namespace CalamityMod.Projectiles.Summon
             targetVec.Normalize();
             targetVec *= speedMult;
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
-            int fireball = Projectile.NewProjectile(Projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), Projectile.damage, Projectile.knockBack, Projectile.owner, targetIndex, 0f);
+            int fireball = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), Projectile.damage, Projectile.knockBack, Projectile.owner, targetIndex, 0f);
             Main.projectile[fireball].netUpdate = true;
             Main.projectile[fireball].frame = Main.rand.Next(4);
             Projectile.netUpdate = true;
@@ -283,6 +283,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

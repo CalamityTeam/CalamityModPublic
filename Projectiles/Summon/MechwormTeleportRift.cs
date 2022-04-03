@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -50,12 +50,12 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            float currentFade = Utils.InverseLerp(0f, 5f, Projectile.timeLeft, true) * Utils.InverseLerp(Projectile.ai[0], Projectile.ai[0] - 5f, Projectile.timeLeft, true);
-            currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f * MathHelper.Pi * 3f)) * 0.8f;
+            float currentFade = Utils.GetLerpValue(0f, 5f, Projectile.timeLeft, true) * Utils.GetLerpValue(Projectile.ai[0], Projectile.ai[0] - 5f, Projectile.timeLeft, true);
+            currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Color baseColor = new Color(150, 100, 255, 255) * Projectile.Opacity;
             baseColor *= 0.5f;
@@ -71,29 +71,29 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, spriteEffects, 0);
 
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2 + GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorA, GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2 + GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2 + GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2 + GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
 
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, spriteEffects, 0);
 
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
-            spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
 
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

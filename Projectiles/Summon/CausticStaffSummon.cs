@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
                     vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
                     Vector2 vector7 = vector6 - Projectile.Center;
-                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, DustID.Fire, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
+                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, 6, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].noLight = true;
                     Main.dust[dusty].velocity = vector7;
@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
             //Occasionally spawn fiery dust
             if (Main.rand.NextBool(6))
             {
-                int fire = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, new Color(), 2f);
+                int fire = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, new Color(), 2f);
                 Main.dust[fire].velocity *= 0.3f;
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].noLight = true;
@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Summon
             float speedMult = 16f;
             targetVec.Normalize();
             targetVec *= speedMult;
-            int spike = Projectile.NewProjectile(Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
+            int spike = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
             debuffToInflict++;
             if (debuffToInflict >= 5f)
                 debuffToInflict = 0f;
@@ -296,6 +296,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

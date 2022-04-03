@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
@@ -117,12 +117,12 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = target.Center - Projectile.Center;
                     velocity.Normalize();
                     velocity *= speedMult;
-                    Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis() Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
                     Projectile.netUpdate = true;
                 }
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

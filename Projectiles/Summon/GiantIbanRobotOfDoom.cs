@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Summon.AndromedaUI;
 using Microsoft.Xna.Framework;
@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override bool DrawHead() => false;
     }
+
     public class GiantIbanRobotOfDoom : ModProjectile
     {
         public int FrameX = 0;
@@ -193,7 +194,8 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        Projectile ui = Projectile.NewProjectileDirect(Main.MouseWorld,
+                        Projectile ui = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), 
+                                                 Main.MouseWorld,
                                                  Vector2.Zero,
                                                  ModContent.ProjectileType<AndromedaUI_Background>(),
                                                  0,
@@ -353,23 +355,23 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
                     int damage = LaserBaseDamage;
                     if (player.HeldItem != null)
                     {
-                        if (player.HeldItem.magic)
+                        if (player.HeldItem.CountsAsClass<MagicDamageClass>())
                         {
                             damage = (int)(damage * player.MagicDamage());
                         }
-                        else if (player.HeldItem.melee)
+                        else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
                         {
                             damage = (int)(damage * player.MeleeDamage());
                         }
-                        else if (player.HeldItem.ranged)
+                        else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
                         {
                             damage = (int)(damage * player.RangedDamage());
                         }
-                        else if (player.HeldItem.summon)
+                        else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
                         {
                             damage = (int)(damage * player.MinionDamage());
                         }
@@ -383,7 +385,8 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                     Vector2 laserVelocity = (Main.MouseWorld - (Main.player[Projectile.owner].Center + new Vector2(Projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection);
-                    Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.Center,
+                    Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(),
+                                                                           Projectile.Center,
                                                                            laserVelocity,
                                                                            ModContent.ProjectileType<AndromedaDeathRay>(),
                                                                            damage,
@@ -392,19 +395,19 @@ namespace CalamityMod.Projectiles.Summon
                                                                            Projectile.whoAmI);
                     if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        if (player.HeldItem.magic)
+                        if (player.HeldItem.CountsAsClass<MagicDamageClass>())
                         {
                             deathLaser.Calamity().forceMagic = true;
                         }
-                        else if (player.HeldItem.melee)
+                        else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
                         {
                             deathLaser.Calamity().forceMelee = true;
                         }
-                        else if (player.HeldItem.ranged)
+                        else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
                         {
                             deathLaser.Calamity().forceRanged = true;
                         }
-                        else if (player.HeldItem.summon)
+                        else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
                         {
                             deathLaser.Calamity().forceMinion = true;
                         }
@@ -423,7 +426,7 @@ namespace CalamityMod.Projectiles.Summon
         public void ExitChargeModeEarly(Player player)
         {
             RightIconCooldown = RightIconAttackTime;
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
             SpecialAttackExplosionDust(player);
         }
         public void SpecialAttackExplosionDust(Player player)
@@ -476,9 +479,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false; // Drawing is done completely by the player.
+        public override bool PreDraw(ref Color lightColor) => false; // Drawing is done completely by the player.
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];

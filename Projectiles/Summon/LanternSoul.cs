@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -85,15 +85,12 @@ namespace CalamityMod.Projectiles.Summon
                         float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
                         Vector2 startPos = new Vector2(Projectile.position.X + startOffsetX, Projectile.position.Y + startOffsetY);
                         Vector2 speed = new Vector2(0f, 0f);
-                        Projectile.NewProjectile(startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

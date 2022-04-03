@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             //dust effects
             if (Main.rand.NextBool(10))
             {
-                int index = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
+                int index = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
                 Main.dust[index].velocity *= 0.3f;
                 Main.dust[index].noGravity = true;
                 Main.dust[index].noLight = true;
@@ -118,9 +118,8 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 objectivePos = Projectile.position;
             float minDist = 400f;
             bool enemyFound = false;
-            int npcIndex = -1;
             NPC targetedNPC = Projectile.OwnerMinionAttackTargetNPC;
-            if (targetedNPC != null && targetedNPC.CanBeChasedBy((object) Projectile, false))
+            if (targetedNPC != null && targetedNPC.CanBeChasedBy(Projectile, false))
             {
                 float distToEnemy = Vector2.Distance(targetedNPC.Center, Projectile.Center);
                 if (((double) Vector2.Distance(Projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetedNPC.position, targetedNPC.width, targetedNPC.height))
@@ -128,7 +127,6 @@ namespace CalamityMod.Projectiles.Summon
                     minDist = distToEnemy;
                     objectivePos = targetedNPC.Center;
                     enemyFound = true;
-                    npcIndex = targetedNPC.whoAmI;
                 }
             }
             if (!enemyFound)
@@ -136,7 +134,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int index = 0; index < Main.npc.Length; ++index)
                 {
                     NPC npc = Main.npc[index];
-                    if (npc.CanBeChasedBy((object) Projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float distToEnemy = Vector2.Distance(npc.Center, Projectile.Center);
                         if (((double) Vector2.Distance(Projectile.Center, objectivePos) > (double) distToEnemy && (double) distToEnemy < (double) minDist || !enemyFound) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
@@ -144,7 +142,6 @@ namespace CalamityMod.Projectiles.Summon
                             minDist = distToEnemy;
                             objectivePos = npc.Center;
                             enemyFound = true;
-                            npcIndex = index;
                         }
                     }
                 }
@@ -155,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon
                 maxDistToEnemy = 1000;
 
             //if too far, return to the player
-            if ((double) Vector2.Distance(player.Center, Projectile.Center) > (double) maxDistToEnemy)
+            if (Vector2.Distance(player.Center, Projectile.Center) > maxDistToEnemy)
             {
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
@@ -165,9 +162,8 @@ namespace CalamityMod.Projectiles.Summon
             if (enemyFound && Projectile.ai[0] == 0f)
             {
                 float homingStrength = 15f;
-                Vector2 projPos = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                float distX = objectivePos.X - projPos.X;
-                float distY = objectivePos.Y - projPos.Y;
+                float distX = objectivePos.X - Projectile.Center.X;
+                float distY = objectivePos.Y - Projectile.Center.Y;
                 float distToTarget = (float)Math.Sqrt((double)(distX * distX + distY * distY));
                 distToTarget = homingStrength / distToTarget;
                 distX *= distToTarget;
@@ -186,8 +182,7 @@ namespace CalamityMod.Projectiles.Summon
                     speedToPlayer = 15f;
 
                 Vector2 center = Projectile.Center;
-                Vector2 playerPos = player.Center - center + new Vector2(0.0f, -60f);
-                playerPos = player.Center - center;
+                Vector2 playerPos = player.Center - center;
                 float distToPlayer = playerPos.Length();
                 if (distToPlayer > 200f && speedToPlayer < 9f)
                     speedToPlayer = 9f;
@@ -203,8 +198,8 @@ namespace CalamityMod.Projectiles.Summon
                 //way too far so teleport memes
                 if (distToPlayer > 2000f)
                 {
-                    Projectile.position.X = player.Center.X - (float) (Projectile.width / 2);
-                    Projectile.position.Y = player.Center.Y - (float) (Projectile.width / 2);
+                    Projectile.position.X = player.Center.X - Projectile.width / 2;
+                    Projectile.position.Y = player.Center.Y - Projectile.width / 2;
                 }
 
                 if (distToPlayer > 10f)
@@ -240,8 +235,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 150;
-            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.position.X = Projectile.position.X - Projectile.width / 2;
+            Projectile.position.Y = Projectile.position.Y - Projectile.height / 2;
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -250,14 +245,14 @@ namespace CalamityMod.Projectiles.Summon
             SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 14);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
+                int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 50, default, 1f);
+                num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 50, default, 1f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
@@ -265,7 +260,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

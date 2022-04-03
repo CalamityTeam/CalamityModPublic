@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
         internal ref float Time => ref Projectile.ai[1];
         internal ref float TotalWormSegments => ref Projectile.localAI[0];
 
-        private static bool Use_TML_0_11_7_7_Hacky_Netcode = true;
+        private static bool Use_TML_0_11_7_7_Hacky_Netcode = false;
 
 
         // Helper functions because Mechworm does a lot of checking for either itself or its target being near the edge of the world.
@@ -49,14 +49,6 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
-
-            if (ModLoader.version.CompareTo(new Version(0, 11, 7, 7)) > 0)
-            {
-                Use_TML_0_11_7_7_Hacky_Netcode = false;
-                Mod.Logger.Info("ModLoader version > 0.11.7.7 detected. Mechworm UUID workaround is disabled.");
-            }
-            else
-                Mod.Logger.Info("ModLoader version <= 0.11.7.7 detected. Mechworm UUID workaround is enabled.");
         }
 
         public override void SetDefaults()
@@ -311,7 +303,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-0.15f, 0.15f, i / 3f)) * 0.3f;
-                        Projectile.NewProjectile(Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
 
@@ -351,8 +343,8 @@ namespace CalamityMod.Projectiles.Summon
                 // On the starting frame of a teleport, spawn portals.
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
-                    int endGateIndex = Projectile.NewProjectile(TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
+                    int endGateIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
                     EndRiftGateUUID = Projectile.GetByUUID(Projectile.owner, endGateIndex);
 
                     Main.projectile[EndRiftGateUUID].ai[0] = chargeTime;
@@ -420,24 +412,25 @@ namespace CalamityMod.Projectiles.Summon
 
         #region Drawing
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[Projectile.type];
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.alpha > 200)
                 return;
 
             Vector2 origin = new Vector2(21f, 25f);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/MechwormHeadGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/MechwormHeadGlow").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindProjectiles.Add(index);
+            behindProjectiles.Add(index);
         }
 
         #endregion

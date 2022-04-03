@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,7 +23,7 @@ namespace CalamityMod
 
         public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
         {
-            return projectile.modProjectile as T;
+            return projectile.ModProjectile as T;
         }
 
         public static Projectile FindProjectileByIdentity(int identity, int ownerIndex)

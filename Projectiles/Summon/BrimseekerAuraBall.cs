@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Summon
             else
                 Outwardness -= OutwardnessMovementStep;
 
-            Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
-            dust.noGravity = true;
-            dust.velocity.Y = -0.15f;
+            Dust brimstoneFire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
+            brimstoneFire.noGravity = true;
+            brimstoneFire.velocity.Y = -0.15f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
+            AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
@@ -64,6 +64,6 @@ namespace CalamityMod.Projectiles.Summon
             return new Color(189, 51, 164, Projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.timeLeft < 600;
+        public override bool PreDraw(ref Color lightColor) => Projectile.timeLeft < 600;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -150,14 +150,14 @@ namespace CalamityMod.Projectiles.Summon
                             if (Main.rand.NextBool(2))
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
-                            Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
                         }
                     }
                 }
                 else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == Projectile.owner)
                 {
                     Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
-                    Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             else if (potentialTarget is null && AttackTimer != 0)
@@ -272,13 +272,13 @@ namespace CalamityMod.Projectiles.Summon
 
         // Prevent on-tile collision death.
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = Projectile.Bottom.Y < Owner.Top.Y;
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             int startingWalkFrame = 6;
             int endingWalkFrame = 10;
@@ -300,9 +300,9 @@ namespace CalamityMod.Projectiles.Summon
             else if (AttackTimer > 0)
             {
                 if (UsingChargedLaserAttack)
-                    Projectile.frame = (int)MathHelper.Lerp(startingBeamFrame, endingBeamFrame + 1, Utils.InverseLerp(0f, ChargedLaserAttackTime, AttackTimer, true));
+                    Projectile.frame = (int)MathHelper.Lerp(startingBeamFrame, endingBeamFrame + 1, Utils.GetLerpValue(0f, ChargedLaserAttackTime, AttackTimer, true));
                 else
-                    Projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.InverseLerp(0f, ChargedPelletAttackTime, AttackTimer, true));
+                    Projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.GetLerpValue(0f, ChargedPelletAttackTime, AttackTimer, true));
             }
             else if (Math.Abs(Projectile.velocity.X) > 5f && Math.Abs(Projectile.velocity.Y) < 2f && tileBelow.IsTileSolidGround())
             {
@@ -321,6 +321,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

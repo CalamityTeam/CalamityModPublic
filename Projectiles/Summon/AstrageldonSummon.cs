@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
@@ -41,12 +41,12 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.aiStyle = 26;
-            aiType = ProjectileID.BabySlime;
+            AIType = ProjectileID.BabySlime;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            //for platform collision?
+            // For platform collision.
             fallThrough = false;
             return true;
         }
@@ -168,9 +168,9 @@ namespace CalamityMod.Projectiles.Summon
                                 ModContent.DustType<AstralBlue>(),
                                 ModContent.DustType<AstralOrange>()
                             });
-                            float num463 = (float)Main.rand.Next(-10, 11);
-                            float num464 = (float)Main.rand.Next(-10, 11);
-                            float num465 = (float)Main.rand.Next(3, 9);
+                            float num463 = Main.rand.Next(-10, 11);
+                            float num464 = Main.rand.Next(-10, 11);
+                            float num465 = Main.rand.Next(3, 9);
                             float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
                             num466 = num465 / num466;
                             num463 *= num466;
@@ -180,8 +180,8 @@ namespace CalamityMod.Projectiles.Summon
                             dust.noGravity = true;
                             dust.position.X = Projectile.Center.X;
                             dust.position.Y = Projectile.Center.Y;
-                            dust.position.X += (float)Main.rand.Next(-10, 11);
-                            dust.position.Y += (float)Main.rand.Next(-10, 11);
+                            dust.position.X += Main.rand.Next(-10, 11);
+                            dust.position.Y += Main.rand.Next(-10, 11);
                             dust.velocity.X = num463;
                             dust.velocity.Y = num464;
                             num462++;
@@ -204,17 +204,15 @@ namespace CalamityMod.Projectiles.Summon
                     attackCounter = 0;
                     Projectile.netUpdate = true;
                 }
-                float scaleFactor3 = 6f;
+                float laserSpeed = 6f;
                 int projType = ModContent.ProjectileType<AstrageldonLaser>();
                 if (gotoenemy && attackCounter == 0)
                 {
                     attackCounter += 2;
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        Vector2 laserVel = objectivepos - Projectile.Center;
-                        laserVel.Normalize();
-                        laserVel *= scaleFactor3;
-                        int laser = Projectile.NewProjectile(Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
+                        Vector2 laserVel = Projectile.SafeDirectionTo(objectivepos) * laserSpeed;
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
                         Projectile.netUpdate = true;
                     }
                 }
@@ -228,9 +226,9 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int height = texture.Height / Main.projFrames[Projectile.type];
             int y6 = height * Projectile.frame;
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, SpriteEffects.None, 0f);

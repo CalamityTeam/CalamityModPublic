@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -164,12 +165,12 @@ namespace CalamityMod.Projectiles.Summon
             }
             Lighting.AddLight(Projectile.Center, Color.Red.ToVector3());
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if ((Projectile.ai[0] > 0f && Projectile.ai[0] <= MaxChargeTime && Projectile.velocity.Length() >= 8f) || SeekingTarget)
             {
-                Texture2D projectileTexture = ModContent.Request<Texture2D>(Texture);
-                Texture2D flameTexture = Main.extraTexture[ExtrasID.MeteorHeadFlame];
+                Texture2D projectileTexture = ModContent.Request<Texture2D>(Texture).Value;
+                Texture2D flameTexture = TextureAssets.Extra[ExtrasID.MeteorHeadFlame].Value;
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (Projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
@@ -196,7 +197,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     Rectangle flameFrameRectangle = flameTexture.Frame(1, 4, 0, yFrame);
                     Vector2 flameOrigin = new Vector2(flameTexture.Width / 2, flameTexture.Height / 8 + 14);
-                    spriteBatch.Draw(flameTexture,
+                    Main.spriteBatch.Draw(flameTexture,
                                           new Vector2(Projectile.oldPos[oldPositionDrawIndex].X - Main.screenPosition.X + Projectile.width / 2 - projectileTexture.Width * Projectile.scale / 2f + modifiedProjectileTexture.X * Projectile.scale, Projectile.oldPos[oldPositionDrawIndex].Y - Main.screenPosition.Y + Projectile.height - projectileTexture.Height * Projectile.scale / Main.projFrames[Projectile.type] + 4f + modifiedProjectileTexture.Y * Projectile.scale + Projectile.gfxOffY),
                                           new Rectangle?(flameFrameRectangle),
                                           drawColor,

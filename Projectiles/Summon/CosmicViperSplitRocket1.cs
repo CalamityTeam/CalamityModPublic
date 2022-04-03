@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -24,10 +24,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 60;
             Projectile.tileCollide = false;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()
@@ -36,12 +36,12 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
             if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/CosmicViperSplitRocket2");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/CosmicViperSplitRocket2").Value;
                 Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }

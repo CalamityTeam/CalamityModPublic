@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,8 +38,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
             if (!Main.dedServ)
+            {
                 for (int i = 0; i < 10; i++)
                     Dust.NewDustDirect(Projectile.position, 36, 36, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => Projectile.ModifyHitNPCSticky(4, true);

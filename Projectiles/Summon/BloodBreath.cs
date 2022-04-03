@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
@@ -35,7 +35,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            // Emit blood red light.
             Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.77f, Projectile.Opacity * 0.15f, Projectile.Opacity * 0.08f);
+
+            // Create blood dust.
             Time++;
             if (Time > 7f)
             {

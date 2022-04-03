@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (targetAliveAndInLineOfSight && target.CanBeChasedBy() && Main.myPlayer == Projectile.owner)
                 {
                     if (Time % 40f == 24f)
-                        Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     if (Time % 40f >= 33f)
                         Projectile.frame = Main.projFrames[Projectile.type] - 1;
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon
             float distanceFromTarget = Projectile.Distance(returnPosition);
             if (distanceFromTarget > 7f)
             {
-                float speed = MathHelper.Lerp(2f, 17f, Utils.InverseLerp(10f, 70f, distanceFromTarget, true));
+                float speed = MathHelper.Lerp(2f, 17f, Utils.GetLerpValue(10f, 70f, distanceFromTarget, true));
                 Projectile.velocity = (Projectile.velocity * 9f + Projectile.SafeDirectionTo(returnPosition) * speed) / 10f;
             }
 
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 67);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (BodyUUIDIndex < 0 || BodyUUIDIndex >= Main.projectile.Length)
                 return false;
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!body.active)
                 return false;
 
-            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/EndoHydraChain");
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/EndoHydraChain").Value;
             Vector2 start = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -30f);
             Vector2 end = Projectile.Center + (Projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
 
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 // Incorporate the past movement into neck turns, giving it rubber band-like movment.
                 // Become less responsive at the neck ends. Having the ends have typical movement can look strange sometimes.
-                float swayResponsiveness = Utils.InverseLerp(0f, 6f, i, true) * Utils.InverseLerp(OldVelocities.Length, OldVelocities.Length - 6f, i, true);
+                float swayResponsiveness = Utils.GetLerpValue(0f, 6f, i, true) * Utils.GetLerpValue(OldVelocities.Length, OldVelocities.Length - 6f, i, true);
                 swayResponsiveness *= 2.5f;
                 Vector2 swayTotalOffset = OldVelocities[i] * swayResponsiveness;
                 controlPoints.Add(Vector2.Lerp(start, end, i / (float)OldVelocities.Length) + swayTotalOffset);
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Summon
                     continue;
                 float angleAtPoint = i == chainPoints.Count - 1 ? (end - chainPoints[i]).ToRotation() : (chainPoints[i + 1] - chainPoints[i]).ToRotation();
                 angleAtPoint += MathHelper.PiOver2;
-                spriteBatch.Draw(chain,
+                Main.spriteBatch.Draw(chain,
                                  positionAtPoint - Main.screenPosition,
                                  null,
                                  Color.Lerp(Color.White, Color.Transparent, 0.6f),
@@ -237,8 +237,8 @@ namespace CalamityMod.Projectiles.Summon
 
             // PreDraw is used instead of PostDraw because of draw order. Drawing the chains after the head
             // would cause them to be drawn on top of the head, which we do not want.
-            Texture2D headTexture = ModContent.Request<Texture2D>(Texture);
-            spriteBatch.Draw(headTexture,
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Main.spriteBatch.Draw(headTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              headTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              lightColor,
@@ -249,6 +249,6 @@ namespace CalamityMod.Projectiles.Summon
                              0f);
             return false;
         }
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

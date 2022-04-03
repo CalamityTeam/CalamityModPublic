@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -65,14 +65,14 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Projectile.rotation += Projectile.velocity.X * 0.1f;
-            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
             Main.dust[idx].position += new Vector2(2f);
             Main.dust[idx].scale += Main.rand.NextFloat(0.5f);
             Main.dust[idx].noGravity = true;
             Main.dust[idx].velocity.Y -= 2f;
             if (Main.rand.NextBool(2))
             {
-                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].position += new Vector2(2f);
                 Main.dust[idx].scale += 0.3f + Main.rand.NextFloat(0.5f);
                 Main.dust[idx].noGravity = true;

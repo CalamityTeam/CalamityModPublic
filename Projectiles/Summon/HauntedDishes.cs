@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -365,7 +365,7 @@ namespace CalamityMod.Projectiles.Summon
                             float SpeedY = num15 * num17;
                             int damage = Projectile.damage;
                             int Type = ModContent.ProjectileType<PlateProjectile>();
-                            int index = Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int index = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             if (SpeedX < 0f)
                                 Projectile.direction = -1;
                             if (SpeedX > 0f)
@@ -445,7 +445,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int i1 = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
                         int j = (int) ((double) Projectile.position.Y + (double) Projectile.height) / 16 + 1;
-                        if (WorldGen.SolidTile(i1, j) || Main.tile[i1, j].IsHalfBlock || ((int) Main.tile[i1, j].slope() > 0 || Projectile.type == 200))
+                        if (WorldGen.SolidTile(i1, j) || Main.tile[i1, j].IsHalfBlock || ((int) Main.tile[i1, j].Slope > 0 || Projectile.type == 200))
                         {
                             if (Projectile.type == 200)
                             {
@@ -579,12 +579,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return true;

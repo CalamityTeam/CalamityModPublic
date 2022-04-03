@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Time++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
                         Vector2 velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
-                        Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }
@@ -92,12 +92,12 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             for (int i = 0; i < 36; i++)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Fire);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
                 dust.noGravity = true;
                 dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

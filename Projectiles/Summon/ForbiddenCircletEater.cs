@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -179,6 +179,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool CanDamage() => Projectile.ai[0] >= 30f;
+        public override bool? CanDamage() => Projectile.ai[0] >= 30f;
     }
 }

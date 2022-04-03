@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Main.player[Projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[Projectile.owner].Calamity().endoCooper)
             {

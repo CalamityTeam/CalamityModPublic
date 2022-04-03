@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -101,9 +101,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.075f, 0f, 1f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = texture.Frame(3, 9, Projectile.frame / 9, Projectile.frame % 9);
             Vector2 origin = frame.Size() * 0.5f;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -113,16 +113,16 @@ namespace CalamityMod.Projectiles.Summon
 
                 Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
-                spriteBatch.Draw(texture, drawPos, frame, color, afterimageRot, origin, Projectile.scale, sfxForThisAfterimage, 0f);
+                Main.spriteBatch.Draw(texture, drawPos, frame, color, afterimageRot, origin, Projectile.scale, sfxForThisAfterimage, 0f);
             }
 
             SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
             return false;
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;
 
-        public override bool CanDamage() => Projectile.Opacity >= 1f;
+        public override bool? CanDamage() => Projectile.Opacity >= 1f;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
             // Roll the pupil around if there's little movement from the eye and player.
             if (Time % 180f > 120f && Math.Abs(Projectile.rotation) < 0.03f)
             {
-                float idealAngle = Utils.InverseLerp(120f, 180f, Time % 180f, true) * MathHelper.TwoPi;
+                float idealAngle = Utils.GetLerpValue(120f, 180f, Time % 180f, true) * MathHelper.TwoPi;
 
                 PupilAngle = PupilAngle.AngleTowards(idealAngle, MathHelper.ToRadians(12f));
                 PupilOutwardness = MathHelper.Lerp(PupilOutwardness, 4f, 0.2f);
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 velocity = (target.Center - Projectile.Center) / 15f;
-                    int beam = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[beam].ai[0] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
                     Main.projectile[beam].Damage();
                 }
@@ -160,22 +160,22 @@ namespace CalamityMod.Projectiles.Summon
 
         #endregion
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D eyeTexture = Main.projectileTexture[Projectile.type];
+            Texture2D eyeTexture = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = eyeTexture.Frame(1, 4, 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
             SpriteEffects spriteEffects = Owner.gravDir == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
-            spriteBatch.Draw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
 
             // Pupil drawing.
-            Texture2D pupilTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareEyePupil");
+            Texture2D pupilTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareEyePupil").Value;
             Vector2 pupilDrawPosition = Projectile.Center - Main.screenPosition + PupilAngle.ToRotationVector2() * PupilOutwardness;
             pupilDrawPosition -= Vector2.UnitY * 4f;
-            spriteBatch.Draw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, spriteEffects, 0f);
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

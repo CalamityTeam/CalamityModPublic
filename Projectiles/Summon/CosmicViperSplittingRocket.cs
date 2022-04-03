@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 speed.Normalize();
                                 speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
                         SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 speed.Normalize();
                                 speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
                         SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Summon
                                     }
                                     speed.Normalize();
                                     speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
+                                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
                                 }
                             }
                             SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

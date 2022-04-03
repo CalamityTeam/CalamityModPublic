@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -12,10 +12,10 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         public int FadeoutTime = -1;
         public Vector2 PlayerOffset = Vector2.Zero;
         public static readonly int FadeoutTimeMax = 40;
-        public static readonly Vector2 LeftBracketOffset = new Vector2(-8f, -6f);
-        public static readonly Vector2 RightBracketOffset = new Vector2(8f, -6f);
-        public static readonly Vector2 TopBracketOffset = new Vector2(2f, 27f);
-        public GiantIbanRobotOfDoom AttachedRobot => (GiantIbanRobotOfDoom)Main.projectile[(int)Projectile.localAI[0]].modProjectile;
+        public static readonly Vector2 LeftBracketOffset = new(-8f, -6f);
+        public static readonly Vector2 RightBracketOffset = new(8f, -6f);
+        public static readonly Vector2 TopBracketOffset = new(2f, 27f);
+        public GiantIbanRobotOfDoom AttachedRobot => Main.projectile[(int)Projectile.localAI[0]].ModProjectile<GiantIbanRobotOfDoom>();
 
         // These properties are here to mitigate the need for typing out long and cumbersome slews of the same code to access the robot's variables.
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         #endregion
 
         // Mouse calculations are done primarily in a World context, not Screen, in this file.
-        Rectangle MouseRectangle => new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
+        public static Rectangle MouseRectangle => new((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
 
         public override void SetStaticDefaults()
         {
@@ -122,13 +122,13 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // Should be invisible for players that do not control the UI
             if (Main.myPlayer == Projectile.owner)
             {
                 // Draw the background UI
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture),
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value,
                                  Projectile.Center - Main.screenPosition,
                                  null,
                                  Color.White * Projectile.Opacity,
@@ -137,8 +137,8 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                  Projectile.scale,
                                  SpriteEffects.None,
                                  0f);
-                DrawBrackets(spriteBatch);
-                DrawIcons(spriteBatch);
+                DrawBrackets(Main.spriteBatch);
+                DrawIcons(Main.spriteBatch);
 
 
                 // Kills the projectile if the player clicks something that isn't the UI.
@@ -154,14 +154,14 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
         public void DrawBrackets(SpriteBatch spriteBatch)
         {
-            Texture2D leftBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracket" + (LeftBracketActive ? "Lit" : ""));
-            Texture2D leftBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracketHovered");
+            Texture2D leftBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracket" + (LeftBracketActive ? "Lit" : "")).Value;
+            Texture2D leftBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracketHovered").Value;
 
-            Texture2D rightBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RightBracket" + (RightBracketActive ? "Lit" : ""));
-            Texture2D rightBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RightBracketHovered");
+            Texture2D rightBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RightBracket" + (RightBracketActive ? "Lit" : "")).Value;
+            Texture2D rightBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RightBracketHovered").Value;
 
-            Texture2D topBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/TopBracket" + (BottomBracketActive ? "Lit" : ""));
-            Texture2D topBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/TopBracketHovered");
+            Texture2D topBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/TopBracket" + (BottomBracketActive ? "Lit" : "")).Value;
+            Texture2D topBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/TopBracketHovered").Value;
 
             // Top bracket
             Vector2 topBracketPosition = Projectile.Bottom + TopBracketOffset;
@@ -256,8 +256,8 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         public void DrawLeftIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
-            Texture2D smallIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/SmallIcon");
-            Texture2D smallIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock");
+            Texture2D smallIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/SmallIcon").Value;
+            Texture2D smallIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock").Value;
             Texture2D textureToDraw = smallIndicator;
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
@@ -310,10 +310,10 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         public void DrawRightIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
-            Texture2D thunderIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIcon");
-            Texture2D thunderIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIconHovered");
-            Texture2D thunderIndicatorCharge = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIconCharge");
-            Texture2D thunderIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock");
+            Texture2D thunderIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIcon").Value;
+            Texture2D thunderIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIconHovered").Value;
+            Texture2D thunderIndicatorCharge = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIconCharge").Value;
+            Texture2D thunderIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock").Value;
             Texture2D textureToDraw = thunderIndicatorLocked;
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
@@ -367,7 +367,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                 dust.noGravity = true;
                             }
                         }
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
                     }
                 }
             }
@@ -396,11 +396,11 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
         public void DrawTopIcon(SpriteBatch spriteBatch)
         {
             // Define icons to draw
-            Texture2D meleeIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIcon");
-            Texture2D rangedIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RangedIcon");
-            Texture2D attackIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock");
-            Texture2D meleeIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIconHovered");
-            Texture2D rangedIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RangedIconHovered");
+            Texture2D meleeIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIcon").Value;
+            Texture2D rangedIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RangedIcon").Value;
+            Texture2D attackIndicatorLocked = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/Lock").Value;
+            Texture2D meleeIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIconHovered").Value;
+            Texture2D rangedIndicatorHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/RangedIconHovered").Value;
             Texture2D textureToDraw = TopIconActive ? meleeIndicator : rangedIndicator;
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
@@ -449,6 +449,6 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              0f);
         }
 
-        public override bool CanDamage() => false; // This is a UI. It should not do damage.
+        public override bool? CanDamage() => false; // This is a UI. It should not do damage.
     }
 }

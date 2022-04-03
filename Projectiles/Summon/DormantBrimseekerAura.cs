@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     if (Main.rand.NextBool(50))
                     {
-                        int idx = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), Projectile.damage, 3f, Projectile.owner, Projectile.identity);
+                        int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), Projectile.damage, 3f, Projectile.owner, Projectile.identity);
                         Main.projectile[idx].timeLeft = Projectile.timeLeft;
                     }
                 }
@@ -113,6 +113,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override bool CanDamage() => false;
+
+        public override bool? CanDamage() => false;
     }
 }

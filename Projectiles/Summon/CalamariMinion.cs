@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] -= 1f;
             }
             Projectile.MinionAntiClump();
-            Vector2 vector = Projectile.position;
+            Vector2 shootPosition = Projectile.position;
             float num10 = 3000f;
             bool flag = false;
             Vector2 center = player.Center;
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon
                     float num12 = Vector2.Distance(vector2, center);
                     if (!flag && num12 < num10 && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
-                        vector = vector2;
+                        shootPosition = vector2;
                         flag = true;
                         targetIndex = npc.whoAmI;
                     }
@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Summon
                         if (!flag && num13 < num10 && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC.position, nPC.width, nPC.height))
                         {
                             num10 = num13;
-                            vector = vector3;
+                            shootPosition = vector3;
                             flag = true;
                             targetIndex = k;
                         }
@@ -189,21 +189,21 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (flag && Projectile.ai[0] == 0f)
             {
-                Vector2 vector4 = vector - Projectile.Center;
+                Vector2 vector4 = shootPosition - Projectile.Center;
                 float num17 = vector4.Length();
                 vector4.Normalize();
-                vector4 = vector - Vector2.UnitY * 80f;
+                vector4 = shootPosition - Vector2.UnitY * 80f;
                 int num18 = (int)vector4.Y / 16;
                 if (num18 < 0)
                 {
                     num18 = 0;
                 }
                 Tile tile = Main.tile[(int)vector4.X / 16, num18];
-                if (tile != null && tile.active() && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
+                if (tile != null && tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
                 {
                     vector4 += Vector2.UnitY * 16f;
                     tile = Main.tile[(int)vector4.X / 16, (int)vector4.Y / 16];
-                    if (tile != null && tile.active() && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
+                    if (tile != null && tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
                     {
                         vector4 += Vector2.UnitY * 16f;
                     }
@@ -306,25 +306,23 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.ai[0] == 0f)
             {
-                float scaleFactor4 = 12f;
-                int num28 = ModContent.ProjectileType<CalamariInk>();
+                float inkShootSpeed = 12f;
+                int projID = ModContent.ProjectileType<CalamariInk>();
                 if (flag)
                 {
-                    if (Math.Abs((vector - Projectile.Center).ToRotation() - MathHelper.PiOver2) > MathHelper.PiOver4)
+                    if (Math.Abs((shootPosition - Projectile.Center).ToRotation() - MathHelper.PiOver2) > MathHelper.PiOver4)
                     {
-                        Projectile.velocity += Vector2.Normalize(vector - Projectile.Center - Vector2.UnitY * 80f);
+                        Projectile.velocity += (shootPosition - Projectile.Center - Vector2.UnitY * 80f).SafeNormalize(Vector2.Zero);
                         return;
                     }
-                    if ((vector - Projectile.Center).Length() <= 600f && Projectile.ai[1] == 0f)
+                    if ((shootPosition - Projectile.Center).Length() <= 600f && Projectile.ai[1] == 0f)
                     {
                         Projectile.ai[1] += 1f;
                         if (Main.myPlayer == Projectile.owner)
                         {
                             SoundEngine.PlaySound(SoundID.Item111, (int)Projectile.position.X, (int)Projectile.position.Y);
-                            Vector2 vector7 = vector - Projectile.Center;
-                            vector7.Normalize();
-                            vector7 *= scaleFactor4;
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y + 20, vector7.X, vector7.Y, num28, Projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
+                            Vector2 inkShootVelocity = Projectile.SafeDirectionTo(shootPosition, Vector2.UnitY) * inkShootSpeed;
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Vector2.UnitY * 20f, inkShootVelocity, projID, Projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
                             Projectile.netUpdate = true;
                         }
                     }
@@ -332,18 +330,15 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
-            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = texture2D13.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
             Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -130,12 +130,12 @@ namespace CalamityMod.Projectiles.Summon
         internal void AttackTarget()
         {
             // Release cinders around the target.
-            Dust cinder = Dust.NewDustPerfect(Target.Center + Main.rand.NextVector2Circular(800f, 800f), DustID.Fire);
+            Dust cinder = Dust.NewDustPerfect(Target.Center + Main.rand.NextVector2Circular(800f, 800f), 6);
             cinder.velocity = Vector2.UnitY * -Main.rand.NextFloat(3f, 7f);
             cinder.scale = 1f + cinder.velocity.Length() * 0.17f;
             cinder.noGravity = true;
 
-            int shootRate = (int)MathHelper.Lerp(24f, 6f, Utils.InverseLerp(0f, 300f, AttackTime, true));
+            int shootRate = (int)MathHelper.Lerp(24f, 6f, Utils.GetLerpValue(0f, 300f, AttackTime, true));
             AttackTimer++;
 
             if (AttackTimer < shootRate || Main.myPlayer != Projectile.owner)
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Summon
             AttackTimer = 0f;
             Projectile.netUpdate = true;
 
-            WeightedRandom<int> rng = new WeightedRandom<int>(Projectile.identity * 2167 + (int)(Main.GlobalTime * 20));
+            WeightedRandom<int> rng = new WeightedRandom<int>(Projectile.identity * 2167 + (int)(Main.GlobalTimeWrappedHourly * 20));
             rng.Add(ModContent.ProjectileType<LostSoulGold>(), 0.5f);
             rng.Add(ModContent.ProjectileType<LostSoulGiant>(), 0.6f);
             rng.Add(ModContent.ProjectileType<LostSoulLarge>(), 0.8f);
@@ -152,24 +152,24 @@ namespace CalamityMod.Projectiles.Summon
 
             Vector2 spawnPosition = Target.Center + Vector2.UnitY.RotatedByRandom(0.27f) * 1150f;
             Vector2 shootVelocity = (Target.Center - spawnPosition).SafeNormalize(-Vector2.UnitY).RotatedByRandom(0.09f) * Main.rand.NextFloat(19f, 31f);
-            int soul = Projectile.NewProjectile(spawnPosition, shootVelocity, rng.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            int soul = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, rng.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (Main.projectile.IndexInRange(soul))
                 Main.projectile[soul].Calamity().forceMinion = true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Target is null)
                 return;
 
-            Texture2D crossTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/PerditionCross");
+            Texture2D crossTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/PerditionCross").Value;
 
             Vector2 drawPosition = Target.Bottom - Main.screenPosition;
             drawPosition.Y -= 12f;
             Color drawColor = Color.White * DownwardCrossFade;
-            spriteBatch.Draw(crossTexture, drawPosition, null, drawColor, Projectile.rotation, crossTexture.Size() * 0.5f, Projectile.scale * 0.85f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(crossTexture, drawPosition, null, drawColor, Projectile.rotation, crossTexture.Size() * 0.5f, Projectile.scale * 0.85f, SpriteEffects.None, 0f);
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

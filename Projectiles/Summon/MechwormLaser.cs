@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.Fuchsia, Color.Cyan, (float)Math.Sin(Main.GlobalTime * 1.9f + Projectile.identity * 2.4f) * 0.5f + 0.5f);
+        public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.Fuchsia, Color.Cyan, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.9f + Projectile.identity * 2.4f) * 0.5f + 0.5f);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(100f, 3f, lightColor);
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(100f, 3f, lightColor);
 
         public override void Kill(int timeLeft)
         {

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Time % 50f == 49f && Main.myPlayer == Projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
-                Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * (150f + (float)Math.Sin(Time * 0.08f) * 15f);
             Projectile.rotation += MathHelper.ToRadians(7f);
@@ -88,19 +88,19 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D petalTexture = Main.projectileTexture[Projectile.type];
-            Texture2D coreTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/FlowersOfMortalityCore");
+            Texture2D petalTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D coreTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/FlowersOfMortalityCore").Value;
             Color drawColor = Main.hslToRgb(Hue, 0.95f, 0.5f) * 2.3f;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(petalTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.rotation, petalTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(coreTexture, drawPosition, null, Projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(petalTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.rotation, petalTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(coreTexture, drawPosition, null, Projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

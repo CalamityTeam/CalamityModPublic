@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Dust.NewDustPerfect(Projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
                     (int)CalamityDusts.SulfurousSeaAcid,
-                    Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                    Main.rand.NextVector2Unit() * Main.rand.NextFloat(1f, 4f));
             }
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 2;
             Projectile.height = 2;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.DeathLaser;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minion = true;
@@ -28,11 +27,12 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.alpha = 120;
             Projectile.timeLeft = 300;
+            AIType = ProjectileID.DeathLaser;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
+            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.5f, Projectile.Opacity * 0.05f, Projectile.Opacity * 0.05f);
             Projectile.velocity.X *= 1.05f;
             Projectile.velocity.Y *= 1.05f;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;

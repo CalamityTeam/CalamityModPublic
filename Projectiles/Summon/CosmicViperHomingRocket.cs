@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -31,10 +31,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;

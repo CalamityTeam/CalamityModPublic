@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
     public class BloodSpit : ModProjectile
     {
         public const int OnDeathHealValue = 1;
+
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -43,15 +45,15 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int i = 0; i < 15; i++)
             {
-                Dust dust = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
-                dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 2f);
-                dust.noGravity = true;
+                Dust blood = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
+                blood.velocity = Main.rand.NextVector2Circular(1f, 2f);
+                blood.noGravity = true;
             }
 
-            Main.player[Projectile.owner].HealEffect(OnDeathHealValue, false);
-            Main.player[Projectile.owner].statLife += OnDeathHealValue;
-            if (Main.player[Projectile.owner].statLife > Main.player[Projectile.owner].statLifeMax2)
-                Main.player[Projectile.owner].statLife = Main.player[Projectile.owner].statLifeMax2;
+            Owner.HealEffect(OnDeathHealValue, false);
+            Owner.statLife += OnDeathHealValue;
+            if (Owner.statLife > Owner.statLifeMax2)
+                Owner.statLife = Owner.statLifeMax2;
         }
     }
 }

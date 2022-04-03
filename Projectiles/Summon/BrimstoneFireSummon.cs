@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.ai[0] += 1f;
             }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

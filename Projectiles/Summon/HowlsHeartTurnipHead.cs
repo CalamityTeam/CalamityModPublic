@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 center2 = Projectile.Center;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void AI()
-        {
+        {            
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
@@ -158,6 +158,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

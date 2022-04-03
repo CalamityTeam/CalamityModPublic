@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                             });
                             float velocityX = Main.rand.NextFloat(-10f, 10f);
                             float velocityY = Main.rand.NextFloat(-15f, -8f);
-                            Projectile.NewProjectile(Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                         }
                     }
                 }
@@ -144,6 +144,6 @@ namespace CalamityMod.Projectiles.Summon
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
         //no contact damage
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -35,19 +35,19 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
 
-            Projectile.Opacity = Utils.InverseLerp(1f, 0f, 1f - Projectile.timeLeft / 10f, true);
+            Projectile.Opacity = Utils.GetLerpValue(1f, 0f, 1f - Projectile.timeLeft / 10f, true);
             Projectile.Center = Main.projectile[(int)OwnerUUID].Center - Projectile.velocity;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D beamTexture = Main.projectileTexture[Projectile.type];
+            Texture2D beamTexture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Vector2 drawScale = new Vector2(0.55f, Projectile.velocity.Length() / beamTexture.Height * 20f);
             Color color = Color.White * 2.1f * Projectile.Opacity;
 
             if (Math.Abs(Projectile.rotation) > 0.008f)
-                spriteBatch.Draw(beamTexture, drawPosition, null, color, Projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(beamTexture, drawPosition, null, color, Projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
             return false;
         }
     }
