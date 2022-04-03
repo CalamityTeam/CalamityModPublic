@@ -149,7 +149,7 @@ namespace CalamityMod.Items.Mounts
                             ModTile moddedTile = TileLoader.GetTile(tile.TileType);
                             if (moddedTile != null)
                             {
-                                pickReq = moddedTile.minPick;
+                                pickReq = moddedTile.MinPick;
                             }
                             else
                             {
