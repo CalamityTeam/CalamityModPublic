@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.DesertScourge
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.value = Item.buyPrice(0, 5, 0, 0);
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
             bossBag = ModContent.ItemType<DesertScourgeBag>();
-            music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 NPC.scale = 1.25f;
@@ -175,11 +175,11 @@ namespace CalamityMod.NPCs.DesertScourge
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DesertScourgeBody>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DesertScourgeBody>(), NPC.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DesertScourgeTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DesertScourgeTail>(), NPC.whoAmI);
                         }
                         Main.npc[lol].ai[2] = NPC.whoAmI;
                         Main.npc[lol].realLife = NPC.whoAmI;

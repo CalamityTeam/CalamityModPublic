@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.defense = 10;
             NPC.DR_NERD(0.05f);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.LifeMaxNERB(77000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void AI()
         {
             if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive)
-                music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 
             CalamityAI.AquaticScourgeAI(NPC, Mod, true);
         }

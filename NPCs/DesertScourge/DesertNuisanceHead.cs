@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.height = 60;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             num4 = ModContent.NPCType<DesertNuisanceTail>();
                         }
-                        int num5 = NPC.NewNPC((int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        int num5 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num5].ai[2] = (float)NPC.whoAmI;
                         Main.npc[num5].realLife = NPC.whoAmI;
                         Main.npc[num5].ai[1] = (float)num2;

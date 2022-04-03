@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.Opacity = 0f;
             NPC.behindTiles = true;
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         Vector2 velocity = Vector2.Normalize(destination) * lightVelocity;
                         int type = NPCID.AncientLight;
                         float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
-                        int light = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);
+                        int light = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);
                         Main.npc[light].velocity = velocity;
                     }
                 }

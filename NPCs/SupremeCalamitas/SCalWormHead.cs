@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,17 +25,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
-            NPC.damage = 0; //150
+            NPC.damage = 0;
             NPC.npcSlots = 5f;
-            NPC.width = 62; //324
-            NPC.height = 64; //216
+            NPC.width = 62;
+            NPC.height = 64;
             NPC.defense = 0;
             CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
-            NPC.aiStyle = -1; //new
-            aiType = -1; //new
+            NPC.aiStyle = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.scale = Main.expertMode ? 1.35f : 1.2f;
             NPC.scale *= 1.25f;
@@ -92,23 +92,23 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         int lol;
                         if (i >= 0 && i < minLength && i % 2 == 1)
                         {
-                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBodyWeak>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBodyWeak>(), NPC.whoAmI);
                             Main.npc[lol].localAI[0] += passedVar;
                             passedVar += 36f;
                         }
                         else if (i >= 0 && i < minLength)
                         {
-                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBody>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBody>(), NPC.whoAmI);
                             Main.npc[lol].localAI[3] = i;
                         }
                         else
-                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormTail>(), NPC.whoAmI);
 
                         // Create arms.
                         if (i >= 3 && i % 4 == 0)
                         {
                             NPC segment = Main.npc[lol];
-                            int arm = NPC.NewNPC((int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+                            int arm = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
                             if (Main.npc.IndexInRange(arm))
                             {
                                 Main.npc[arm].ai[0] = lol;
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             rotationalOffset += MathHelper.Pi / 6f;
 
-                            arm = NPC.NewNPC((int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+                            arm = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
                             if (Main.npc.IndexInRange(arm))
                             {
                                 Main.npc[arm].ai[0] = lol;

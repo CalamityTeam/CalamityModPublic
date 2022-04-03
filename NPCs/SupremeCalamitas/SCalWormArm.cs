@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             global.DR = 0.999999f;
             global.unbreakableDR = true;
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
-            NPC.aiStyle = aiType = -1;
+            NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.scale = Main.expertMode ? 1.35f : 1.2f;
             NPC.dontTakeDamage = true;

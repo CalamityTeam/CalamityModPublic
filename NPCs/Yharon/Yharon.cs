@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Yharon
             NPC.noTileCollide = true;
             NPC.netAlways = true;
 
-            music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
 
             NPC.HitSound = SoundID.NPCHit56;
             NPC.DeathSound = SoundID.NPCDeath60;
@@ -1532,7 +1532,7 @@ namespace CalamityMod.NPCs.Yharon
             if (!moveCloser)
             {
                 // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
-                music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
 
                 moveCloser = true;
 

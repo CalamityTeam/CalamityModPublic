@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.height = 20;
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.scale = Main.expertMode ? 1.35f : 1.2f;
             NPC.alpha = 255;
@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 velocity = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
                     }
                     NPC.netUpdate = true;
                 }
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         continue;
 
                     Vector2 soulVelocity = -Vector2.UnitY.RotatedByRandom(0.53f) * Main.rand.NextFloat(2.5f, 4f);
-                    Projectile.NewProjectile(NPC.Center, soulVelocity, ModContent.ProjectileType<SepulcherSoul>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, soulVelocity, ModContent.ProjectileType<SepulcherSoul>(), 0, 0f);
                 }
             }
         }
