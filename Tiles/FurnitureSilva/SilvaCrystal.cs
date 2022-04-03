@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             SoundType = SoundID.Tink;
-            mineResist = 2f;
+            MineResist = 2f;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCrystal>();
             AddMapEntry(new Color(49, 100, 99));
         }

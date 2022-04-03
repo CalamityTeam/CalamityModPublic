@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Small Tube Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
             base.SetDefaults();
         }

@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Abyss
                             num1251 += Main.rand.Next(min, max);
 
                             if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height) &&
-                                Main.tile[num1250, num1251].liquid > 204)
+                                Main.tile[num1250, num1251].LiquidAmount > 204)
                             {
                                 break;
                             }

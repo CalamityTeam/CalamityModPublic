@@ -444,31 +444,31 @@ namespace CalamityMod.World
                             if (Main.tile[num37, num35].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35].active(false);
-                                Main.tile[num37, num35].liquid = 255;
-                                Main.tile[num37, num35].lava(false);
+                                Main.tile[num37, num35].LiquidAmount = 255;
+                                Main.tile[num37, num35].LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35, true);
                             }
                             if (Main.tile[num37, num35 + 1].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35 + 1].active(false);
-                                Main.tile[num37, num35 + 1].liquid = 255;
-                                Main.tile[num37, num35 + 1].lava(false);
+                                Main.tile[num37, num35 + 1].LiquidAmount = 255;
+                                Main.tile[num37, num35 + 1].LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35 + 1, true);
                             }
                             if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35 + 2].active(false);
-                                Main.tile[num37, num35 + 2].liquid = 255;
-                                Main.tile[num37, num35 + 2].lava(false);
+                                Main.tile[num37, num35 + 2].LiquidAmount = 255;
+                                Main.tile[num37, num35 + 2].LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35 + 2, true);
                             }
                         }
                     }
                     if (WorldGen.genRand.Next(5) == 0)
                     {
-                        Main.tile[num34, num35].liquid = 255;
+                        Main.tile[num34, num35].LiquidAmount = 255;
                     }
-                    Main.tile[num34, num35].lava(false);
+                    Main.tile[num34, num35].LiquidType = LiquidID.Water;
                     WorldGen.SquareTileFrame(num34, num35, true);
                 }
             }
@@ -525,7 +525,7 @@ namespace CalamityMod.World
                     if (m != num6 - 1 || (l != num4 && l != num5))
                     {
                         Main.tile[l, m].active(true);
-                        Main.tile[l, m].liquid = 0;
+                        Main.tile[l, m].LiquidAmount = 0;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
@@ -577,7 +577,7 @@ namespace CalamityMod.World
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
                 Main.tile[num9, num12].active(true);
-                Main.tile[num9, num12].liquid = 0;
+                Main.tile[num9, num12].LiquidAmount = 0;
                 Main.tile[num9, num12].TileType = type;
                 Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);
@@ -729,13 +729,13 @@ namespace CalamityMod.World
                                 if (ocean)
                                 {
                                     Main.tile[k, l].active(false);
-                                    Main.tile[k, l].liquid = 255;
-                                    Main.tile[k, l].lava(false);
+                                    Main.tile[k, l].LiquidAmount = 255;
+                                    Main.tile[k, l].LiquidType = LiquidID.Water;
                                 }
                                 else
                                 {
                                     Main.tile[k, l].active(false);
-                                    Main.tile[k, l].liquid = 255;
+                                    Main.tile[k, l].LiquidAmount = 255;
                                     Main.tile[k, l].lava(true);
                                 }
                             }
@@ -792,12 +792,12 @@ namespace CalamityMod.World
                             }
                             if (ocean)
                             {
-                                Main.tile[m, n].liquid = 255;
-                                Main.tile[m, n].lava(false);
+                                Main.tile[m, n].LiquidAmount = 255;
+                                Main.tile[m, n].LiquidType = LiquidID.Water;
                             }
                             else
                             {
-                                Main.tile[m, n].liquid = 255;
+                                Main.tile[m, n].LiquidAmount = 255;
                                 Main.tile[m, n].lava(true);
                             }
                         }
@@ -811,12 +811,12 @@ namespace CalamityMod.World
                         {
                             if (ocean)
                             {
-                                Main.tile[num11, num12].liquid = 255;
-                                Main.tile[num11, num12].lava(false);
+                                Main.tile[num11, num12].LiquidAmount = 255;
+                                Main.tile[num11, num12].LiquidType = LiquidID.Water;
                             }
                             else
                             {
-                                Main.tile[num11, num12].liquid = 255;
+                                Main.tile[num11, num12].LiquidAmount = 255;
                                 Main.tile[num11, num12].lava(true);
                             }
                             if (steps <= num2)

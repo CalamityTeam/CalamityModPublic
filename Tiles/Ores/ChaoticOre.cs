@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 850;
+            Main.tileOreFinderPriority[Type] = 850;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
@@ -24,8 +24,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Scoria Ore");
             AddMapEntry(new Color(255, 0, 0), name);
-            mineResist = 4f;
-            minPick = 210;
+            MineResist = 4f;
+            MinPick = 210;
             SoundType = SoundID.Tink;
         }
 
@@ -33,10 +33,10 @@ namespace CalamityMod.Tiles.Ores
         {
             if (!closer && j < Main.maxTilesY - 205)
             {
-                if (Main.tile[i, j].liquid <= 0)
+                if (Main.tile[i, j].LiquidAmount <= 0)
                 {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
+                    Main.tile[i, j].LiquidAmount = 255;
+                    Main.tile[i, j].LiquidType = LiquidID.Water;
                 }
             }
             if (Main.gamePaused)

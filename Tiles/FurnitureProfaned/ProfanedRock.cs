@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeSmoothTiles(Type);
 
             SoundType = SoundID.Tink;
-            mineResist = 4f;
-            minPick = 225;
+            MineResist = 4f;
+            MinPick = 225;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedRock>();
             AddMapEntry(new Color(84, 38, 33));
         }

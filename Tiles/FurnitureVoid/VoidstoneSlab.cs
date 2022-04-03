@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             SoundType = SoundID.Tink;
-            mineResist = 7f;
-            minPick = 180;
+            MineResist = 7f;
+            MinPick = 180;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidstoneSlab>();
             AddMapEntry(new Color(27, 24, 31));
             AnimationFrameHeight = 270;

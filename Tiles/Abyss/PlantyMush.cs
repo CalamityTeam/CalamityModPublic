@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
-            mineResist = 1f;
+            MineResist = 1f;
             SoundType = SoundID.Dig;
         }
 
@@ -35,10 +35,10 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (!closer && j < Main.maxTilesY - 205)
             {
-                if (Main.tile[i, j].liquid <= 0)
+                if (Main.tile[i, j].LiquidAmount <= 0)
                 {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
+                    Main.tile[i, j].LiquidAmount = 255;
+                    Main.tile[i, j].LiquidType = LiquidID.Water;
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
                 {
-                    if (Main.tile[i, j + 1].liquid == 255 &&
+                    if (Main.tile[i, j + 1].LiquidAmount == 255 &&
                         Main.tile[i, j + 1].WallType == (ushort)ModContent.WallType<AbyssGravelWall>() &&
                         !Main.tile[i, j + 1].lava())
                     {

@@ -653,31 +653,31 @@ namespace CalamityMod.World
                             if (Main.tile[num37, num35].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
                                 Main.tile[num37, num35].active(false);
-                                Main.tile[num37, num35].liquid = 255;
-                                Main.tile[num37, num35].lava(false);
+                                Main.tile[num37, num35].LiquidAmount = 255;
+                                Main.tile[num37, num35].LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                             }
                             if (Main.tile[num37, num35 + 1].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
                                 Main.tile[num37, num35 + 1].active(false);
-                                Main.tile[num37, num35 + 1].liquid = 255;
-                                Main.tile[num37, num35 + 1].lava(false);
+                                Main.tile[num37, num35 + 1].LiquidAmount = 255;
+                                Main.tile[num37, num35 + 1].LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35 + 1, true);
                             }
                             if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
                                 Main.tile[num37, num35 + 2].active(false);
-                                Main.tile[num37, num35 + 2].liquid = 255;
-                                Main.tile[num37, num35 + 2].lava(false);
+                                Main.tile[num37, num35 + 2].LiquidAmount = 255;
+                                Main.tile[num37, num35 + 2].LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35 + 2, true);
                             }
                         }
                     }
                     if (WorldGen.genRand.Next(5) == 0)
                     {
-                        Main.tile[num34, num35].liquid = 255;
+                        Main.tile[num34, num35].LiquidAmount = 255;
                     }
-                    Main.tile[num34, num35].lava(false);
+                    Main.tile[num34, num35].LiquidType = LiquidID.Water;
                     CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                 }
             }

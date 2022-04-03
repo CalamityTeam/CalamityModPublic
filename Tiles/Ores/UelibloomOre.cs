@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Ores
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 950;
+            Main.tileOreFinderPriority[Type] = 950;
 
             CalamityUtils.MergeWithGeneral(Type);
 
@@ -20,8 +20,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Uelibloom Ore");
             AddMapEntry(new Color(0, 255, 0), name);
-            mineResist = 5f;
-            minPick = 225;
+            MineResist = 5f;
+            MinPick = 225;
             SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }

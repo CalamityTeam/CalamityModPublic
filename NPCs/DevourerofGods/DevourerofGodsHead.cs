@@ -1099,7 +1099,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             {
                                 for (int num953 = num182; num953 < num183; num953++)
                                 {
-                                    if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].liquid > 64))
+                                    if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
                                     {
                                         Vector2 vector105;
                                         vector105.X = num952 * 16;
@@ -1753,7 +1753,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         {
                             for (int num953 = num182; num953 < num183; num953++)
                             {
-                                if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].liquid > 64))
+                                if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
                                 {
                                     Vector2 vector105;
                                     vector105.X = num952 * 16;

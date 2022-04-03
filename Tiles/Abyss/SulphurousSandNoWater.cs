@@ -18,8 +18,8 @@ namespace CalamityMod.Tiles.Abyss
             DustType = 32;
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
-            mineResist = 1f;
-            minPick = 55;
+            MineResist = 1f;
+            MinPick = 55;
             SoundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
         }

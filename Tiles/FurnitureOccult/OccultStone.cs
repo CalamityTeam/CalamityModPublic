@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             CalamityUtils.MergeSmoothTiles(Type);
 
             SoundType = SoundID.Tink;
-            mineResist = 3f;
+            MineResist = 3f;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultStone>();
             AddMapEntry(new Color(60, 42, 61));
         }

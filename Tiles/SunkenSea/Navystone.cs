@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
             AddMapEntry(new Color(0, 90, 90), name);
-            mineResist = 2f;
+            MineResist = 2f;
             SoundType = SoundID.Tink;
         }
 

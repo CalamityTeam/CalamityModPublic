@@ -19,8 +19,8 @@ namespace CalamityMod.Tiles.Abyss
 
             ItemDrop = ModContent.ItemType<Items.Placeables.AbyssGravel>();
             AddMapEntry(new Color(25, 28, 54));
-            mineResist = 10f;
-            minPick = 65;
+            MineResist = 10f;
+            MinPick = 65;
             SoundType = SoundID.Tink;
             DustType = 33;
         }

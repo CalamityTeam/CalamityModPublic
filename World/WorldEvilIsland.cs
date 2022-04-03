@@ -284,7 +284,7 @@ namespace CalamityMod.World
                     if (m != num6 - 1 || (l != num4 && l != num5))
                     {
                         Main.tile[l, m].active(true);
-                        Main.tile[l, m].liquid = 0;
+                        Main.tile[l, m].LiquidAmount = 0;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
@@ -336,7 +336,7 @@ namespace CalamityMod.World
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
                 Main.tile[num9, num12].active(true);
-                Main.tile[num9, num12].liquid = 0;
+                Main.tile[num9, num12].LiquidAmount = 0;
                 Main.tile[num9, num12].TileType = type;
                 Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);

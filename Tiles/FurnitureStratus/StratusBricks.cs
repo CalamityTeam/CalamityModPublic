@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             CalamityUtils.MergeWithGeneral(Type);
 
             SoundType = SoundID.Tink;
-            mineResist = 3f;
+            MineResist = 3f;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBricks>();
             AddMapEntry(new Color(53, 57, 74));
         }

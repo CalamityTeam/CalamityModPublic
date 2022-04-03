@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Abyss
             DustType = 32;
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
-            mineResist = 1f;
+            MineResist = 1f;
             SoundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
             SetModCactus(new SulphurousCactus());
@@ -42,10 +42,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i - 1, j].HasTile)
                         {
-                            if (Main.tile[i - 1, j].liquid <= 128)
+                            if (Main.tile[i - 1, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i - 1, j].liquid = 255;
-                                Main.tile[i - 1, j].lava(false);
+                                Main.tile[i - 1, j].LiquidAmount = 255;
+                                Main.tile[i - 1, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -53,10 +53,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i - 2, j].HasTile)
                         {
-                            if (Main.tile[i - 2, j].liquid <= 128)
+                            if (Main.tile[i - 2, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i - 2, j].liquid = 255;
-                                Main.tile[i - 2, j].lava(false);
+                                Main.tile[i - 2, j].LiquidAmount = 255;
+                                Main.tile[i - 2, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -64,10 +64,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i - 3, j].HasTile)
                         {
-                            if (Main.tile[i - 3, j].liquid <= 128)
+                            if (Main.tile[i - 3, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i - 3, j].liquid = 255;
-                                Main.tile[i - 3, j].lava(false);
+                                Main.tile[i - 3, j].LiquidAmount = 255;
+                                Main.tile[i - 3, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -81,10 +81,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i + 1, j].HasTile)
                         {
-                            if (Main.tile[i + 1, j].liquid <= 128)
+                            if (Main.tile[i + 1, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i + 1, j].liquid = 255;
-                                Main.tile[i + 1, j].lava(false);
+                                Main.tile[i + 1, j].LiquidAmount = 255;
+                                Main.tile[i + 1, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -92,10 +92,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i + 2, j].HasTile)
                         {
-                            if (Main.tile[i + 2, j].liquid <= 128)
+                            if (Main.tile[i + 2, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i + 2, j].liquid = 255;
-                                Main.tile[i + 2, j].lava(false);
+                                Main.tile[i + 2, j].LiquidAmount = 255;
+                                Main.tile[i + 2, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -103,10 +103,10 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (!Main.tile[i + 3, j].HasTile)
                         {
-                            if (Main.tile[i + 3, j].liquid <= 128)
+                            if (Main.tile[i + 3, j].LiquidAmount <= 128)
                             {
-                                Main.tile[i + 3, j].liquid = 255;
-                                Main.tile[i + 3, j].lava(false);
+                                Main.tile[i + 3, j].LiquidAmount = 255;
+                                Main.tile[i + 3, j].LiquidType = LiquidID.Water;
                             }
                         }
                     }
@@ -129,8 +129,8 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (!Main.tile[i, tileLocationY].HasTile)
                 {
-                    if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-                        Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != NetmodeID.MultiplayerClient)
+                    if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
+                        Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
@@ -138,7 +138,7 @@ namespace CalamityMod.Tiles.Abyss
                     {
                         if (Main.rand.NextBool(400))
                         {
-                            if (Main.tile[i, tileLocationY].liquid == 255)
+                            if (Main.tile[i, tileLocationY].LiquidAmount == 255)
                             {
                                 int num13 = 7;
                                 int num14 = 6;
@@ -153,9 +153,9 @@ namespace CalamityMod.Tiles.Abyss
                                         }
                                     }
                                 }
-                                if (num15 < num14 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-                                    Main.tile[i, tileLocationY - 2].liquid == 255 && Main.tile[i, tileLocationY - 3].liquid == 255 &&
-                                    Main.tile[i, tileLocationY - 4].liquid == 255)
+                                if (num15 < num14 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
+                                    Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && Main.tile[i, tileLocationY - 3].LiquidAmount == 255 &&
+                                    Main.tile[i, tileLocationY - 4].LiquidAmount == 255)
                                 {
                                     WorldGen.PlaceTile(i, tileLocationY, 81, true, false, -1, 0);
                                     if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].HasTile)
@@ -164,7 +164,7 @@ namespace CalamityMod.Tiles.Abyss
                                     }
                                 }
                             }
-                            else if (Main.tile[i, tileLocationY].liquid == 0)
+                            else if (Main.tile[i, tileLocationY].LiquidAmount == 0)
                             {
                                 int num13 = 7;
                                 int num14 = 6;
@@ -213,7 +213,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
-                    if (Main.tile[i, j + 1].liquid == 255 &&
+                    if (Main.tile[i, j + 1].LiquidAmount == 255 &&
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;

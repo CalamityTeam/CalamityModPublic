@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fan Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
             base.SetDefaults();
         }

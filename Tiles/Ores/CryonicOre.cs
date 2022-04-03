@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 675;
+            Main.tileOreFinderPriority[Type] = 675;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);
@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cryonic Ore");
             AddMapEntry(new Color(0, 0, 150), name);
-            mineResist = 3f;
-            minPick = 180;
+            MineResist = 3f;
+            MinPick = 180;
             SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Astral
             name.SetDefault("Astral Beacon");
             AddMapEntry(new Color(128, 128, 158), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
-            minPick = 200;
+            MinPick = 200;
         }
 
         public override bool CanExplode(int i, int j) => false;

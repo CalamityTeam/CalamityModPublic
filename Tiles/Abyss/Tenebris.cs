@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tenebris");
             AddMapEntry(new Color(0, 100, 100), name);
-            mineResist = 3f;
-            minPick = 200;
+            MineResist = 3f;
+            MinPick = 200;
             SoundType = SoundID.Tink;
         }
 
@@ -40,10 +40,11 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (!closer && j < Main.maxTilesY - 205)
             {
-                if (Main.tile[i, j].liquid <= 0)
+                Tile t = Main.tile[i, j];
+                if (t.LiquidAmount <= 0)
                 {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
+                    t.LiquidAmount = 255;
+                    t.LiquidType = LiquidID.Water;
                 }
             }
         }

@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             soundStyle = 14;
 
             // Has 500% durability.
-            mineResist = 5f;
+            MineResist = 5f;
         }
 
         public override bool CanExplode(int i, int j) => false;

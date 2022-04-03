@@ -16,20 +16,20 @@ namespace CalamityMod.Tiles.Ores
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 900;
+            Main.tileOreFinderPriority[Type] = 900;
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            minPick = 210;
+            MinPick = 210;
             DustType = 173;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
-            mineResist = 5f;
+            MineResist = 5f;
             SoundType = SoundID.Tink;
 
             TileID.Sets.Ore[Type] = true;

@@ -42,8 +42,8 @@ namespace CalamityMod.World
                     Main.tile[x, y].active(true);
                     Main.tile[x, y].TileType = tile;
                     Main.tile[x, y].slope(0);
-                    Main.tile[x, y].liquid = 0;
-                    Main.tile[x, y].lava(false);
+                    Main.tile[x, y].LiquidAmount = 0;
+                    Main.tile[x, y].LiquidType = LiquidID.Water;
                 }
             }
 

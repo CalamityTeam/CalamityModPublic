@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileSpelunker[Type] = true;
-            Main.tileValue[Type] = 1000;
+            Main.tileOreFinderPriority[Type] = 1000;
 
             CalamityUtils.MergeWithGeneral(Type);
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);
-            mineResist = 10f;
-            minPick = 250;
+            MineResist = 10f;
+            MinPick = 250;
             SoundType = SoundID.Tink;
         }
 

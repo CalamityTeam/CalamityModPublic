@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Ores
     {
         public override void SetStaticDefaults()
         {
-            Main.tileValue[Type] = 450;
+            Main.tileOreFinderPriority[Type] = 450;
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -20,8 +20,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
             AddMapEntry(new Color(0, 255, 255), name);
-            mineResist = 2f;
-            minPick = 65;
+            MineResist = 2f;
+            MinPick = 65;
             SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }

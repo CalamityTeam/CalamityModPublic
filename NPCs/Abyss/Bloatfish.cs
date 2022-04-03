@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     Main.tile[num258, num259 + 2] = new Tile();
                 }
-                if (Main.tile[num258, num259 - 1].liquid > 128)
+                if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num258, num259 + 1].active())
                     {

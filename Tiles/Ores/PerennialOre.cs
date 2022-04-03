@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 710;
+            Main.tileOreFinderPriority[Type] = 710;
 
             CalamityUtils.MergeWithGeneral(Type);
 
@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Perennial Ore");
             AddMapEntry(new Color(200, 250, 100), name);
-            mineResist = 3f;
-            minPick = 200;
+            MineResist = 3f;
+            MinPick = 200;
             SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }

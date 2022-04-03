@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);
-            mineResist = 2f;
+            MineResist = 2f;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

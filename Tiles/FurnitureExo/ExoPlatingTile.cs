@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            mineResist = 3f;
+            MineResist = 3f;
             SoundType = SoundID.Tink;
             ItemDrop = ModContent.ItemType<ExoPlating>();
             AddMapEntry(new Color(52, 67, 78));

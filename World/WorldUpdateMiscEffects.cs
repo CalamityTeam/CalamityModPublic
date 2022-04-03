@@ -149,11 +149,11 @@ namespace CalamityMod.World
                 {
                     if (Main.tile[x, y].nactive())
                     {
-                        if (Main.tile[x, y].liquid <= 32)
+                        if (Main.tile[x, y].LiquidAmount <= 32)
                         {
                             if (Main.tile[x, y].TileType == TileID.JungleGrass)
                             {
-                                if (Main.tile[x, y2].liquid == 0)
+                                if (Main.tile[x, y2].LiquidAmount == 0)
                                 {
                                     // Plantera Bulbs pre-mech
                                     if (WorldGen.genRand.Next(1500) == 0)

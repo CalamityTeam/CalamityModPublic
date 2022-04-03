@@ -345,7 +345,7 @@ namespace CalamityMod.World
                 for (int y = YStart - 300; y <= YStart; y++)
                 {
                     if (CalamityUtils.ParanoidTileRetrieval(trueX, y).liquid > 0)
-                        Main.tile[trueX, y].liquid = 0;
+                        Main.tile[trueX, y].LiquidAmount = 0;
                 }
             }
         }
@@ -400,7 +400,7 @@ namespace CalamityMod.World
                                 }
                                 else
                                 {
-                                    Main.tile[x + dx, y + dy].liquid = 0;
+                                    Main.tile[x + dx, y + dy].LiquidAmount = 0;
                                 }
                             }
                         }

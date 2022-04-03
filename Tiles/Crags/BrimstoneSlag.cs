@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
 
             SoundType = SoundID.Tink;
-            mineResist = 3f;
-            minPick = 100;
+            MineResist = 3f;
+            MinPick = 100;
             ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }

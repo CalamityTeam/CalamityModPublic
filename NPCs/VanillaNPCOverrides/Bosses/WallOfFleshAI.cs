@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     try
                     {
-                        if (WorldGen.SolidTile(num337, num336) || Main.tile[num337, num336].liquid > 0)
+                        if (WorldGen.SolidTile(num337, num336) || Main.tile[num337, num336].LiquidAmount > 0)
                             num335++;
                     }
                     catch
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     try
                     {
-                        if (WorldGen.SolidTile(num338, num336) || Main.tile[num338, num336].liquid > 0)
+                        if (WorldGen.SolidTile(num338, num336) || Main.tile[num338, num336].LiquidAmount > 0)
                             num335++;
                     }
                     catch

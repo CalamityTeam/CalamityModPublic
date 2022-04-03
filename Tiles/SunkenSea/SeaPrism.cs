@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);
-            mineResist = 3f;
+            MineResist = 3f;
             SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }

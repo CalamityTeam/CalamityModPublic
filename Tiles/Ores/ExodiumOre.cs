@@ -20,10 +20,10 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");
             AddMapEntry(new Color(51, 48, 68), name);
-            mineResist = 5f;
-            minPick = 225;
+            MineResist = 5f;
+            MinPick = 225;
             SoundType = SoundID.Tink;
-            Main.tileValue[Type] = 760;
+            Main.tileOreFinderPriority[Type] = 760;
             Main.tileSpelunker[Type] = true;
             ItemDrop = ModContent.ItemType<ExodiumClusterOre>();
             base.SetDefaults();

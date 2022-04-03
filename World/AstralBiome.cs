@@ -147,7 +147,7 @@ namespace CalamityMod.World
                                 }
 
                                 // Liquid aversion makes meteors less likely to fall in lakes
-                                else if (Main.tile[l, m].liquid > 0)
+                                else if (Main.tile[l, m].LiquidAmount > 0)
                                 {
                                     suitableTiles--;
                                 }
@@ -295,7 +295,7 @@ namespace CalamityMod.World
                                 catch (NullReferenceException)
                                 { }
                             }
-                            Main.tile[num12, num13].liquid = 0;
+                            Main.tile[num12, num13].LiquidAmount = 0;
                         }
                         if (Main.tile[num12, num13].TileType == (ushort)ModContent.TileType<AstralOre>())
                         {

@@ -24,8 +24,8 @@ namespace CalamityMod.Tiles.Abyss
 
             TileID.Sets.ChecksForMerge[Type] = true;
             SoundType = SoundID.Tink;
-            mineResist = 10f;
-            minPick = 180;
+            MineResist = 10f;
+            MinPick = 180;
             ItemDrop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(15, 15, 15));
         }

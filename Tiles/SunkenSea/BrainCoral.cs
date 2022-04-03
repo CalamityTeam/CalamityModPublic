@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Brain Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
             base.SetDefaults();
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.SunkenSea
                     {
                         if (!Main.tile[i, tileLocationY].HasTile)
                         {
-                            if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 && Main.tile[i, tileLocationY - 2].liquid == 255)
+                            if (Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 && Main.tile[i, tileLocationY - 2].LiquidAmount == 255)
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                     Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, 0f, 0f);

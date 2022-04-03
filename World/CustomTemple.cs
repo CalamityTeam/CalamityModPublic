@@ -160,7 +160,7 @@ namespace CalamityMod.World
                                 {
                                     Main.tile[roomPositionX, roomPositionY].active(true);
                                     Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
-                                    Main.tile[roomPositionX, roomPositionY].liquid = 0;
+                                    Main.tile[roomPositionX, roomPositionY].LiquidAmount = 0;
                                     Main.tile[roomPositionX, roomPositionY].slope(0);
                                     Main.tile[roomPositionX, roomPositionY].halfBrick(false);
                                 }
@@ -180,7 +180,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[roomPositionX, roomPositionY].active(true);
                         Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
-                        Main.tile[roomPositionX, roomPositionY].liquid = 0;
+                        Main.tile[roomPositionX, roomPositionY].LiquidAmount = 0;
                         Main.tile[roomPositionX, roomPositionY].slope(0);
                         Main.tile[roomPositionX, roomPositionY].halfBrick(false);
                     }
@@ -373,7 +373,7 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].active(true);
                     Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
-                    Main.tile[dx, dy].liquid = 0;
+                    Main.tile[dx, dy].LiquidAmount = 0;
                     Main.tile[dx, dy].slope(0);
                     Main.tile[dx, dy].halfBrick(false);
                 }
@@ -392,7 +392,7 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].active(true);
                     Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
-                    Main.tile[dx, dy].liquid = 0;
+                    Main.tile[dx, dy].LiquidAmount = 0;
                     Main.tile[dx, dy].slope(0);
                     Main.tile[dx, dy].halfBrick(false);
                 }
@@ -636,7 +636,7 @@ namespace CalamityMod.World
                     if (dx >= offsettedRoomLeft && (dx < offsettedRoomRight & dy >= offsettedRoomTop) && dy <= offsettedRoomBottom)
                     {
                         Main.tile[dx, dy].active(false);
-                        Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
+                        Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                         Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                 }
@@ -665,7 +665,7 @@ namespace CalamityMod.World
                     if (dx >= offsettedRoomLeft && (dx < offsettedRoomRight & dy >= offsettedRoomTop) && dy <= offsettedRoomBottom)
                     {
                         Main.tile[dx, dy].active(false);
-                        Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
+                        Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                         Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                 }
@@ -680,7 +680,7 @@ namespace CalamityMod.World
                 for (int dy = roomBounds.Top; dy < roomBounds.Bottom; dy++)
                 {
                     Main.tile[dx, dy].active(false);
-                    Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
+                    Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                     Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                 }
             }

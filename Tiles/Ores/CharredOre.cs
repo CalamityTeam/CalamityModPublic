@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            Main.tileValue[Type] = 675;
+            Main.tileOreFinderPriority[Type] = 675;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithHell(Type);
@@ -25,8 +25,8 @@ namespace CalamityMod.Tiles.Ores
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);
-            mineResist = 6f;
-            minPick = 150;
+            MineResist = 6f;
+            MinPick = 150;
             SoundType = SoundID.Tink;
             DustType = 235;
             Main.tileSpelunker[Type] = true;

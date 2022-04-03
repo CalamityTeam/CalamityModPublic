@@ -166,10 +166,10 @@ namespace CalamityMod.Gores
                 }
                 int num21 = (int)(gore.position.X + 8f) / 16;
                 int num22 = (int)(gore.position.Y + 14f) / 16;
-                if (Main.tile[num21, num22] != null && Main.tile[num21, num22].liquid > 0)
+                if (Main.tile[num21, num22] != null && Main.tile[num21, num22].LiquidAmount > 0)
                 {
                     gore.velocity *= 0f;
-                    gore.position.Y = (float)(num22 * 16 - (int)(Main.tile[num21, num22].liquid / 16));
+                    gore.position.Y = (float)(num22 * 16 - (int)(Main.tile[num21, num22].LiquidAmount / 16));
                 }
             }
 

@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             SoundType = SoundID.Tink;
             DustType = 109;
-            minPick = 30;
+            MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPanels>();
             AddMapEntry(new Color(36, 35, 37));
         }

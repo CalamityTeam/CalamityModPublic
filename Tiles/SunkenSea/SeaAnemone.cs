@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Anemone");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 2f;
+            MineResist = 2f;
 
             base.SetDefaults();
         }

@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Abyss
             DustType = 32;
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSandstone>();
             AddMapEntry(new Color(113, 90, 71));
-            mineResist = 1.2f;
+            MineResist = 1.2f;
             SoundType = SoundID.Dig;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
-                    if (Main.tile[i, j + 1].liquid == 255 &&
+                    if (Main.tile[i, j + 1].LiquidAmount == 255 &&
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;

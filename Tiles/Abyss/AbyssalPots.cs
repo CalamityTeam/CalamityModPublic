@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
-            Main.tileValue[Type] = (short)100;
+            Main.tileOreFinderPriority[Type] = (short)100;
             Main.tileSpelunker[Type] = true;
             Main.tileCut[Type] = true;
 

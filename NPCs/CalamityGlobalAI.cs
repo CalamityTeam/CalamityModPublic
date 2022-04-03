@@ -4143,7 +4143,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int num34 = num31; num34 < num32; num34++)
                     {
-                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[(int)Main.tile[num33, num34].TileType] || (Main.tileSolidTop[(int)Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].liquid > 64))
+                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[(int)Main.tile[num33, num34].TileType] || (Main.tileSolidTop[(int)Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].LiquidAmount > 64))
                         {
                             Vector2 vector;
                             vector.X = (float)(num33 * 16);
@@ -5870,7 +5870,7 @@ namespace CalamityMod.NPCs
                     {
                         Main.tile[x, y + 2] = new Tile();
                     }
-                    if (Main.tile[x, y - 1].liquid > 128)
+                    if (Main.tile[x, y - 1].LiquidAmount > 128)
                     {
                         if (Main.tile[x, y + 1].active())
                         {
@@ -6125,7 +6125,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[x, y + 2] = new Tile();
                 }
-                if (Main.tile[x, y - 1].liquid > 128)
+                if (Main.tile[x, y - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[x, y + 1].active())
                     {
@@ -6723,7 +6723,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[num288, num316] = new Tile();
                 }
-                if ((Main.tile[num288, num316].nactive() && Main.tileSolid[(int)Main.tile[num288, num316].TileType]) || Main.tile[num288, num316].liquid > 0)
+                if ((Main.tile[num288, num316].nactive() && Main.tileSolid[(int)Main.tile[num288, num316].TileType]) || Main.tile[num288, num316].LiquidAmount > 0)
                 {
                     if (num316 <= num289 + 1)
                     {
@@ -6743,7 +6743,7 @@ namespace CalamityMod.NPCs
                     {
                         Main.tile[num288, num317] = new Tile();
                     }
-                    if ((Main.tile[num288, num317].nactive() && Main.tileSolid[(int)Main.tile[num288, num317].TileType]) || Main.tile[num288, num317].liquid > 0)
+                    if ((Main.tile[num288, num317].nactive() && Main.tileSolid[(int)Main.tile[num288, num317].TileType]) || Main.tile[num288, num317].LiquidAmount > 0)
                     {
                         flag25 = true;
                         break;
@@ -6760,7 +6760,7 @@ namespace CalamityMod.NPCs
                     {
                         Main.tile[num288, num318] = new Tile();
                     }
-                    if ((Main.tile[num288, num318].nactive() && Main.tileSolid[(int)Main.tile[num288, num318].TileType]) || Main.tile[num288, num318].liquid > 0)
+                    if ((Main.tile[num288, num318].nactive() && Main.tileSolid[(int)Main.tile[num288, num318].TileType]) || Main.tile[num288, num318].LiquidAmount > 0)
                     {
                         flag24 = false;
                         flag19 = true;
