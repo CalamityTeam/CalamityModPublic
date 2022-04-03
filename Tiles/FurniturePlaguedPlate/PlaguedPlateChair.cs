@@ -12,8 +12,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpChair(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Chairs };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Chairs };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Monolith");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.GrandfatherClocks };
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
 

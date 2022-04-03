@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stalacmite");
             AddMapEntry(new Color(57, 48, 83), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetDefaults();
         }

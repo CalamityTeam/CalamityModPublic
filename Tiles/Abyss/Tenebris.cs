@@ -16,14 +16,14 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 44;
-            drop = ModContent.ItemType<Items.Placeables.Tenebris>();
+            DustType = 44;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Tenebris>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tenebris");
             AddMapEntry(new Color(0, 100, 100), name);
             mineResist = 3f;
             minPick = 200;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j)

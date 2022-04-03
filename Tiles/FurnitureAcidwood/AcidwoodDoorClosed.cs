@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpDoorClosed();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.ClosedDoor };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.ClosedDoor };
             openDoorID = ModContent.TileType<AcidwoodDoorOpen>();
         }
 

@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Eutrophic Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChest>();
         }

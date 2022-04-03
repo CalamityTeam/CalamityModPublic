@@ -17,13 +17,13 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cryonic Ore");
             AddMapEntry(new Color(0, 0, 150), name);
             mineResist = 3f;
             minPick = 180;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

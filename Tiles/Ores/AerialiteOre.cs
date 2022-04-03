@@ -16,13 +16,13 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
-            drop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
             AddMapEntry(new Color(0, 255, 255), name);
             mineResist = 2f;
             minPick = 65;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

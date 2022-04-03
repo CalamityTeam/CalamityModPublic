@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plague Infuser");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 72;
+            AnimationFrameHeight = 72;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

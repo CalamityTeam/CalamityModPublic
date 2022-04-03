@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");
-            adjTiles = new int[] { TileID.GrandfatherClocks };
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
 

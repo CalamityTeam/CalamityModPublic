@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Profaned Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedChest>();
         }

@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.GrandfatherClocks };
-            animationFrameHeight = 90;
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
+            AnimationFrameHeight = 90;
         }
 
         public override bool HasSmartInteract()

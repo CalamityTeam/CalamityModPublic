@@ -15,12 +15,12 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 32;
-            drop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
+            DustType = 32;
+            ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
             mineResist = 1f;
             minPick = 55;
-            soundType = SoundID.Dig;
+            SoundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
         }
 

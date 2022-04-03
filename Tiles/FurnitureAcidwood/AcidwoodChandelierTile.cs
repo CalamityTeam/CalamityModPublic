@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpChandelier();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
-            adjTiles = new int[] { TileID.Chandeliers };
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

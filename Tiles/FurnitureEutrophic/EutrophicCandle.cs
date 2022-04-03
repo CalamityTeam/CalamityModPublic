@@ -13,9 +13,9 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");
             AddMapEntry(new Color(253, 221, 3), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Candles };
-            drop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candles };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

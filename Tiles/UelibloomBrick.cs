@@ -23,8 +23,8 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeDecorativeTiles(Type);
 
             mineResist = 2f;
-            soundType = SoundID.Tink;
-            drop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
+            SoundType = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
             AddMapEntry(new Color(174, 108, 46));
         }
 
@@ -188,7 +188,7 @@ namespace CalamityMod.Tiles
 
         private Color GetDrawColour(int i, int j)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {

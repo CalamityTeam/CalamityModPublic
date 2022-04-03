@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Brain Coral");
             AddMapEntry(new Color(0, 0, 80));
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.SunkenSea
                     int tileLocationY = j - 1;
                     if (Main.tile[i, tileLocationY] != null)
                     {
-                        if (!Main.tile[i, tileLocationY].active())
+                        if (!Main.tile[i, tileLocationY].HasTile)
                         {
                             if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 && Main.tile[i, tileLocationY - 2].liquid == 255)
                             {

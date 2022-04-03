@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(150, 100, 50), name);
             name.SetDefault("Column");
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetDefaults();
         }

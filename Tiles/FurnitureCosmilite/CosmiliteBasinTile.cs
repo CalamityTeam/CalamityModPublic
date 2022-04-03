@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Basin");
             AddMapEntry(new Color(238, 145, 105), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

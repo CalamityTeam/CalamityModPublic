@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
             this.SetUpLamp(true);
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Lamps };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Lamps };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

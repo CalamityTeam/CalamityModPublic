@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Altar");
             AddMapEntry(new Color(43, 19, 42), name);
-            disableSmartCursor = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;
         }
 
         public override bool CanExplode(int i, int j) => false;

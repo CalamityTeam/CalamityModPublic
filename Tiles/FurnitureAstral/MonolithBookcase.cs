@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureAstral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Bookcases };
+            AnimationFrameHeight = 54;
+            AdjTiles = new int[] { TileID.Bookcases };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

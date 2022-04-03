@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Rusty Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Rusty Chest";
             chestDrop = ModContent.ItemType<RustyChest>();
         }

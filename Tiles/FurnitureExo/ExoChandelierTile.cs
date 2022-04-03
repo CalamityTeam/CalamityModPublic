@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             this.SetUpChandelier(true);
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chandelier"));
-            adjTiles = new int[] { TileID.Chandeliers };
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CanExplode(int i, int j) => false;

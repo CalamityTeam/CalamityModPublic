@@ -18,8 +18,8 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.MergeAstralTiles(Type);
             CalamityUtils.MergeWithOres(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralSilt>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralSilt>();
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Novae Slag");

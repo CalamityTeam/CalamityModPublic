@@ -14,10 +14,10 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            soundType = SoundID.Tink;
-            dustType = 30;
+            SoundType = SoundID.Tink;
+            DustType = 30;
             minPick = 30;
-            drop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating> ();
+            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating> ();
             AddMapEntry(new Color(162, 157, 150));
         }
 

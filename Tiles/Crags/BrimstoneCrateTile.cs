@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Crags
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Brimstone Crate");
             AddMapEntry(new Color(128, 0, 0), name); //Maroon
-            dustType = 60;
+            DustType = 60;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

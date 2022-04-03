@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Dressers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Dressers };
             dresser = "Eutrophic Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDresser>();
         }

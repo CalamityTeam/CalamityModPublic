@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sunken Crate");
             AddMapEntry(new Color(106, 218, 230), name);
-            dustType = 253;
+            DustType = 253;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

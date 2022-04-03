@@ -17,13 +17,13 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            dustType = 33;
-            drop = ModContent.ItemType<Items.Placeables.SeaPrism>();
+            DustType = 33;
+            ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrism>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);
             mineResist = 3f;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

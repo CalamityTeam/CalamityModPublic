@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             int tileX = (int)(Projectile.Center.X / 16f);
             int tileY = (int)(Projectile.Center.Y / 16f);
             //Move the set tile upwards based on certain conditions
-            if (Main.tile[tileX, tileY].halfBrick() && Projectile.velocity.Y > 0f && Math.Abs(Projectile.velocity.Y) > Math.Abs(Projectile.velocity.X))
+            if (Main.tile[tileX, tileY].IsHalfBlock && Projectile.velocity.Y > 0f && Math.Abs(Projectile.velocity.Y) > Math.Abs(Projectile.velocity.X))
             {
                 tileY--;
             }

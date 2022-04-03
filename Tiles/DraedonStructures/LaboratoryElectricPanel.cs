@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Electric Panel");
             AddMapEntry(Color.DimGray, name);
-            dustType = 8;
+            DustType = 8;
         }
 
         public override bool CanExplode(int i, int j) => false;

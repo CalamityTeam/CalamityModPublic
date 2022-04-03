@@ -303,7 +303,7 @@ namespace CalamityMod.World
                             {
                                 Main.tile[num12, num13].active(false);
                             }
-                            else if ((Main.tile[num12, num13].halfBrick() || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
+                            else if ((Main.tile[num12, num13].IsHalfBlock || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
                             {
                                 Main.tile[num12, num13].active(false);
                             }

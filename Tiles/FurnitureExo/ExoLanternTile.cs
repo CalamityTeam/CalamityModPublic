@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             this.SetUpLantern(true);
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Lantern"));
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.HangingLanterns };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.HangingLanterns };
         }
 
         public override bool CanExplode(int i, int j) => false;

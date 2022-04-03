@@ -14,9 +14,9 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Torch");
             AddMapEntry(new Color(253, 221, 3), name);
-            disableSmartCursor = true;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
-            adjTiles = new int[] { TileID.Torches };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
+            AdjTiles = new int[] { TileID.Torches };
             torch = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
         }

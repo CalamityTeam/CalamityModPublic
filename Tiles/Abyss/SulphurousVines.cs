@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Vines");
             AddMapEntry(new Color(0, 50, 0), name);
-            soundType = SoundID.Grass;
-            dustType = 2;
+            SoundType = SoundID.Grass;
+            DustType = 2;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -35,12 +35,12 @@ namespace CalamityMod.Tiles.Abyss
             }
             if (Main.tile[i, j + 1] != null)
             {
-                if (Main.tile[i, j + 1].active())
+                if (Main.tile[i, j + 1].HasTile)
                 {
                     if (Main.tile[i, j + 1].TileType == ModContent.TileType<SulphurousVines>())
                     {
                         WorldGen.KillTile(i, j + 1, false, false, false);
-                        if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
+                        if (!Main.tile[i, j + 1].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                         {
                             NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
                         }
@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
+                if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
                     if (Main.tile[i, j + 1].liquid >= 128 && !Main.tile[i, j + 1].lava())
                     {
@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.Abyss
                                 flag13 = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].active() && !Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].bottomSlope())
                             {
                                 flag13 = true;
                                 break;

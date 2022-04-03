@@ -20,9 +20,9 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = SoundID.Shatter;
+            SoundType = SoundID.Shatter;
             mineResist = 1f;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));
         }
 

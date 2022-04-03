@@ -487,7 +487,7 @@ namespace CalamityMod.Projectiles.Summon
                             x = (int)Projectile.Right.X / 16;
                         int y = (int)Projectile.Bottom.Y / 16;
                         Tile tile = Main.tile[x, y];
-                        if (WorldGen.SolidTile(x, y) || tile.halfBrick() || tile.slope() > 0 || TileID.Sets.Platforms[tile.TileType] && tile.active() && !tile.inActive())
+                        if (WorldGen.SolidTile(x, y) || tile.IsHalfBlock || tile.slope() > 0 || TileID.Sets.Platforms[tile.TileType] && tile.active() && !tile.inActive())
                         {
                             try
                             {

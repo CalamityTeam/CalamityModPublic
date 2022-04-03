@@ -19,10 +19,10 @@ namespace CalamityMod.Tiles.SunkenSea
             name.SetDefault("Sea Prism Crystal");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(0, 150, 200), name);
-            soundType = SoundID.Item;
+            SoundType = SoundID.Item;
             soundStyle = 27;
-            dustType = 67;
-            drop = ModContent.ItemType<PrismShard>();
+            DustType = 67;
+            ItemDrop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
         }
 
@@ -50,10 +50,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool CanPlace(int i, int j)
         {
-            if ((Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick() && Main.tile[i, j + 1].active()) ||
-                (Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick() && Main.tile[i, j - 1].active()) ||
-                (Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick() && Main.tile[i + 1, j].active()) ||
-                (Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick() && Main.tile[i - 1, j].active()))
+            if ((Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].IsHalfBlock && Main.tile[i, j + 1].HasTile) ||
+                (Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].IsHalfBlock && Main.tile[i, j - 1].HasTile) ||
+                (Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].IsHalfBlock && Main.tile[i + 1, j].HasTile) ||
+                (Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].IsHalfBlock && Main.tile[i - 1, j].HasTile))
                 return true;
 
             return false;
@@ -61,19 +61,19 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            if (Main.tile[i, j + 1].active() && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
+            if (Main.tile[i, j + 1].HasTile && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(0 * 18);
             }
-            else if (Main.tile[i, j - 1].active() && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick())
+            else if (Main.tile[i, j - 1].HasTile && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(1 * 18);
             }
-            else if (Main.tile[i + 1, j].active() && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick())
+            else if (Main.tile[i + 1, j].HasTile && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(2 * 18);
             }
-            else if (Main.tile[i - 1, j].active() && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick())
+            else if (Main.tile[i - 1, j].HasTile && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(3 * 18);
             }

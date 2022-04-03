@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Dressers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Dressers };
             dresser = "Silva Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDresser>();
         }

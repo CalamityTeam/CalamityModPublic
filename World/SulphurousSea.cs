@@ -623,7 +623,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[i, y + 1] = new Tile();
                     }
-                    if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].halfBrick() || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
+                    if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
                     {
                         canGenerate = false;
                     }
@@ -1002,7 +1002,7 @@ namespace CalamityMod.World
             }
             Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
             Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-            if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
+            if (!tileAtPosition.active() || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
             {
                 return;
             }

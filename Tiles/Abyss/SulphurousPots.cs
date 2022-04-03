@@ -26,8 +26,8 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Pot");
             AddMapEntry(new Color(226, 205, 101), name);
 
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
-            soundType = SoundID.Shatter;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
+            SoundType = SoundID.Shatter;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

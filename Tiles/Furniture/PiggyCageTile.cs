@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.addTile(Type);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Piggy Cage");
             AddMapEntry(new Color(175, 238, 238), name);

@@ -10,8 +10,8 @@ namespace CalamityMod.Tiles
         public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(138, 43, 226));
-            dustType = 44;
-            drop = ModContent.ItemType<VerstaltiteBar>();
+            DustType = 44;
+            ItemDrop = ModContent.ItemType<VerstaltiteBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

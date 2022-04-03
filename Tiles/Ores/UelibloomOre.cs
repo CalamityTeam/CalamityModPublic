@@ -16,13 +16,13 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Uelibloom Ore");
             AddMapEntry(new Color(0, 255, 0), name);
             mineResist = 5f;
             minPick = 225;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.addAlternate(1);
             TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile, 2, 0);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Table Coral");
             AddMapEntry(new Color(0, 0, 80));

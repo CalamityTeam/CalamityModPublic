@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

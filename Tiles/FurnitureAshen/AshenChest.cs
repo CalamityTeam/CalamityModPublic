@@ -16,8 +16,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             name = CreateMapEntryName(Name + "_Locked");
             name.SetDefault("Locked Ashen Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Ashen Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChest>();
         }
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
         {
-            dustType = this.dustType;
+            DustType = this.dustType;
             return true;
         }
 

@@ -12,9 +12,9 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             this.SetUpPlatform();
             AddMapEntry(new Color(218, 169, 97));
-            drop = ModContent.ItemType<AcidwoodPlatform>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            ItemDrop = ModContent.ItemType<AcidwoodPlatform>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -10,12 +10,12 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
-            soundType = SoundID.Tink;
-            dustType = 30;
+            SoundType = SoundID.Tink;
+            DustType = 30;
             AddMapEntry(new Color(97, 87, 86));
-            drop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryShelf>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryShelf>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override bool CanExplode(int i, int j) => false;

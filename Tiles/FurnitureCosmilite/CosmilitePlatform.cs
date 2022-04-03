@@ -11,9 +11,9 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmilitePlatform>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmilitePlatform>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

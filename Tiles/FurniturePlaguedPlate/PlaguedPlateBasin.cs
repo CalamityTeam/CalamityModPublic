@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Broken Plagued 'Bed'");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

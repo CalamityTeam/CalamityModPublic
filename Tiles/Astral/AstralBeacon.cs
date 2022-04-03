@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Astral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Beacon");
             AddMapEntry(new Color(128, 128, 158), name);
-            disableSmartCursor = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             minPick = 200;
         }
 

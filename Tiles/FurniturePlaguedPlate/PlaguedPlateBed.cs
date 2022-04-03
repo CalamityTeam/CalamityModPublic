@@ -20,8 +20,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("'Bed'");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Beds };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Beds };
             bed = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
         }

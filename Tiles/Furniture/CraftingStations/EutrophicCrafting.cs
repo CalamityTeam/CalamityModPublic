@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Shelf");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

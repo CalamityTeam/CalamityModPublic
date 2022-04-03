@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureStratus
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Stratus Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusChest>();
         }

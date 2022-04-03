@@ -18,13 +18,13 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Perennial Ore");
             AddMapEntry(new Color(200, 250, 100), name);
             mineResist = 3f;
             minPick = 200;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

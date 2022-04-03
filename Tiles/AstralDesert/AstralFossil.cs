@@ -18,8 +18,8 @@ namespace CalamityMod.Tiles.AstralDesert
             CalamityUtils.MergeWithDesert(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralFossil>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralFossil>();
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Celestial Remains");

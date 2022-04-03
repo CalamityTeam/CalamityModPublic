@@ -15,10 +15,10 @@ namespace CalamityMod.Tiles.LivingFire
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
-            soundType = SoundID.Dig;
-            drop = ModContent.ItemType<LivingBrimstoneFireBlock>();
+            SoundType = SoundID.Dig;
+            ItemDrop = ModContent.ItemType<LivingBrimstoneFireBlock>();
             AddMapEntry(new Color(178, 34, 34));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
             Main.tileSolid[Type] = false;
             Main.tileNoAttach[Type] = false;
             Main.tileFrameImportant[Type] = false;
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.LivingFire
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.HookCheck = new PlacementHook(CanPlaceAlter, -1, 0, true );
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(CanPlaceAlter, -1, 0, true );
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(AfterPlacement, -1, 0, false);
 
@@ -67,7 +67,7 @@ namespace CalamityMod.Tiles.LivingFire
             for (int k = 0; k < around.Count; ++k)
             {
                 Tile tile = Main.tile[around[k][0], around[k][1]];
-                if (tile.active() && (Main.tileSolid[tile.TileType] || CalamityLists.livingFireBlockList.Contains(tile.TileType)))
+                if (tile.HasTile && (Main.tileSolid[tile.TileType] || CalamityLists.livingFireBlockList.Contains(tile.TileType)))
                 {
                     return true;
                 }

@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
+            DustType = ModContent.DustType<AstralBasic>();
 
             AddMapEntry(new Color(79, 61, 97));
 

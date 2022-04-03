@@ -22,9 +22,9 @@ namespace CalamityMod.Tiles.FurnitureOccult
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             mineResist = 3f;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultStone>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultStone>();
             AddMapEntry(new Color(60, 42, 61));
         }
 
@@ -183,7 +183,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         private Color GetDrawColour(int i, int j)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {

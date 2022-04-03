@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureOccult
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Dressers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Dressers };
             dresser = "Otherworldly Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultDresser>();
         }

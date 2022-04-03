@@ -3173,11 +3173,11 @@ namespace CalamityMod.NPCs
                     !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() &&
                     Main.tileSolid[(int)Main.tile[x, y].TileType] &&
                     !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) ||
-                    (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) &&
+                    (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].nactive())) &&
                     (!Main.tile[x, y - 1].nactive() ||
                     !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] ||
                     Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] ||
-                    (Main.tile[x, y - 1].halfBrick() &&
+                    (Main.tile[x, y - 1].IsHalfBlock &&
                     (!Main.tile[x, y - 4].nactive() ||
                     !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] ||
                     Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) &&
@@ -3191,11 +3191,11 @@ namespace CalamityMod.NPCs
                     !Main.tileSolid[(int)Main.tile[x - velocitySign, y - 3].TileType]))
                 {
                     float yAdjust = y * 16f;
-                    if (Main.tile[x, y].halfBrick())
+                    if (Main.tile[x, y].IsHalfBlock)
                     {
                         yAdjust += 8f;
                     }
-                    if (Main.tile[x, y - 1].halfBrick())
+                    if (Main.tile[x, y - 1].IsHalfBlock)
                     {
                         yAdjust -= 8f;
                     }
@@ -3263,7 +3263,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[x - npc.direction, y + 1] = new Tile();
                 }
-                Main.tile[x, y + 1].halfBrick();
+                Main.tile[x, y + 1].IsHalfBlock;
                 if ((Main.tile[x, y - 1].nactive() &&
                     (Main.tile[x, y - 1].TileType == TileID.ClosedDoor ||
                     Main.tile[x, y - 1].TileType == TileID.TallGateClosed)) & reset)
@@ -7576,14 +7576,14 @@ namespace CalamityMod.NPCs
                     Main.tile[num10, num11 + 1] = new Tile();
                 }
 
-                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].TileType] && !Main.tileSolidTop[(int)Main.tile[num10, num11].TileType]) || (Main.tile[num10, num11 - 1].halfBrick() && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].TileType] || (Main.tile[num10, num11 - 1].halfBrick() && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].TileType]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].TileType]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].TileType]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].TileType]))
+                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].TileType] && !Main.tileSolidTop[(int)Main.tile[num10, num11].TileType]) || (Main.tile[num10, num11 - 1].IsHalfBlock && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].TileType] || (Main.tile[num10, num11 - 1].IsHalfBlock && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].TileType]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].TileType]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].TileType]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].TileType]))
                 {
                     float num12 = (float)(num11 * 16);
-                    if (Main.tile[num10, num11].halfBrick())
+                    if (Main.tile[num10, num11].IsHalfBlock)
                     {
                         num12 += 8f;
                     }
-                    if (Main.tile[num10, num11 - 1].halfBrick())
+                    if (Main.tile[num10, num11 - 1].IsHalfBlock)
                     {
                         num12 -= 8f;
                     }
@@ -7739,14 +7739,14 @@ namespace CalamityMod.NPCs
             int num533 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num532)) / 16f);
             int num534 = (int)((position.Y + (float)npc.height - 1f) / 16f);
 
-            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].nactive() && !Main.tile[num533, num534].topSlope() && !Main.tile[num533, num534 - 1].topSlope() && ((Main.tileSolid[(int)Main.tile[num533, num534].TileType] && !Main.tileSolidTop[(int)Main.tile[num533, num534].TileType]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].TileType] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || !Main.tile[num533, num534 - 1].nactive()) && Main.tile[num533, num534].TileType != 16 && Main.tile[num533, num534].TileType != 18 && Main.tile[num533, num534].TileType != 134))) || (Main.tile[num533, num534 - 1].halfBrick() && Main.tile[num533, num534 - 1].nactive())) && (!Main.tile[num533, num534 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].TileType] || (Main.tile[num533, num534 - 1].halfBrick() && (!Main.tile[num533, num534 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].TileType]))) && (!Main.tile[num533, num534 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].TileType]) && (!Main.tile[num533, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].TileType]) && (!Main.tile[num533 - num532, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].TileType]))
+            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].nactive() && !Main.tile[num533, num534].topSlope() && !Main.tile[num533, num534 - 1].topSlope() && ((Main.tileSolid[(int)Main.tile[num533, num534].TileType] && !Main.tileSolidTop[(int)Main.tile[num533, num534].TileType]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].TileType] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || !Main.tile[num533, num534 - 1].nactive()) && Main.tile[num533, num534].TileType != 16 && Main.tile[num533, num534].TileType != 18 && Main.tile[num533, num534].TileType != 134))) || (Main.tile[num533, num534 - 1].IsHalfBlock && Main.tile[num533, num534 - 1].nactive())) && (!Main.tile[num533, num534 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].TileType] || (Main.tile[num533, num534 - 1].IsHalfBlock && (!Main.tile[num533, num534 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].TileType]))) && (!Main.tile[num533, num534 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].TileType]) && (!Main.tile[num533, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].TileType]) && (!Main.tile[num533 - num532, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].TileType]))
             {
                 float num535 = (float)(num534 * 16);
-                if (Main.tile[num533, num534].halfBrick())
+                if (Main.tile[num533, num534].IsHalfBlock)
                 {
                     num535 += 8f;
                 }
-                if (Main.tile[num533, num534 - 1].halfBrick())
+                if (Main.tile[num533, num534 - 1].IsHalfBlock)
                 {
                     num535 -= 8f;
                 }

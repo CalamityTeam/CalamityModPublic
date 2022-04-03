@@ -22,9 +22,9 @@ namespace CalamityMod.Tiles.Astral
             name.SetDefault("Locked Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            DustType = ModContent.DustType<AstralBasic>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Astral Chest";
             chestDrop = ModContent.ItemType<AstralChest>();
         }
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Astral
             if (!CalamityWorld.downedAstrageldon)
                 return false;
 
-            dustType = this.dustType;
+            DustType = this.dustType;
 
             return true;
         }

@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Screen");
             AddMapEntry(new Color(71, 95, 114), name);
-            dustType = 8;
-            animationFrameHeight = 36;
+            DustType = 8;
+            AnimationFrameHeight = 36;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

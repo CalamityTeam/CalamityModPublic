@@ -21,14 +21,14 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithHell(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);
             mineResist = 6f;
             minPick = 150;
-            soundType = SoundID.Tink;
-            dustType = 235;
+            SoundType = SoundID.Tink;
+            DustType = 235;
             Main.tileSpelunker[Type] = true;
         }
 

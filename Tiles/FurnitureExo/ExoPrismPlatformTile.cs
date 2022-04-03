@@ -20,10 +20,10 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             this.SetUpPlatform(true);
             AddMapEntry(new Color(52, 67, 78));
-            drop = ModContent.ItemType<ExoPrismPlatform>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
-            animationFrameHeight = 18;
+            ItemDrop = ModContent.ItemType<ExoPrismPlatform>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
+            AnimationFrameHeight = 18;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -63,11 +63,11 @@ namespace CalamityMod.Tiles.FurnitureExo
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 
-            if (!tile.halfBrick())
+            if (!tile.IsHalfBlock)
             {
                 spriteBatch.Draw(GlowTexture, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
-            else if (tile.halfBrick())
+            else if (tile.IsHalfBlock)
             {
                 spriteBatch.Draw(GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }

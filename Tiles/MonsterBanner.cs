@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.SolidBottom, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
-            dustType = -1;
-            disableSmartCursor = true;
+            DustType = -1;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             AddMapEntry(new Color(13, 88, 130), Language.GetText("MapObject.Banner"));
         }
 

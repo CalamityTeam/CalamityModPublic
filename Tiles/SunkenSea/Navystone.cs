@@ -18,13 +18,13 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            dustType = 96;
-            drop = ModContent.ItemType<Items.Placeables.Navystone>();
+            DustType = 96;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
             AddMapEntry(new Color(0, 90, 90), name);
             mineResist = 2f;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

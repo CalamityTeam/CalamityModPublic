@@ -29,8 +29,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Sconce");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
-            disableSmartCursor = true;
+            AnimationFrameHeight = 54;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }

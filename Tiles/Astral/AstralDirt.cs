@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.HallowedGrass);
             CalamityUtils.SetMerge(Type, TileID.FleshGrass);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralDirt>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();
 
             AddMapEntry(new Color(65, 56, 83));
 

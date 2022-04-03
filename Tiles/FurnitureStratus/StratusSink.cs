@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             this.SetUpSink(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
-            adjTiles = new int[] { TileID.Sinks };
+            AdjTiles = new int[] { TileID.Sinks };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

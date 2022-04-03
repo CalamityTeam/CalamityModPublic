@@ -26,10 +26,10 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmic Anvil");
             AddMapEntry(new Color(159, 125, 201), name);
-            disableSmartCursor = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             // Visual Studio complains about this line. However, if you change it to DustID.BubbleBurst_Purple, it won't compile.
-            dustType = 179;
-            adjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
+            DustType = 179;
+            AdjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

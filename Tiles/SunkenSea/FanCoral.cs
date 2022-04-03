@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fan Coral");
             AddMapEntry(new Color(0, 0, 80));
