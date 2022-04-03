@@ -2429,7 +2429,7 @@ namespace CalamityMod.Projectiles
 
             if (Main.player[Main.myPlayer].Calamity().trippy)
             {
-                Texture2D texture = Main.projectileTexture[projectile.type];
+                Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (projectile.spriteDirection == -1)

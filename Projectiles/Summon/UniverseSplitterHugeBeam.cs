@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
             DelegateMethods.v3_1 = new Vector3(0.62f, 0.94f, 0.38f);
             Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero)
             {

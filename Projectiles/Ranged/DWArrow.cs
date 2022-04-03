@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.Frostburn, 90);
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture;
             if (Projectile.localAI[1] == 0f)

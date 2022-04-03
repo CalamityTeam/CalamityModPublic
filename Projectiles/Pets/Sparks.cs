@@ -463,9 +463,9 @@ namespace CalamityMod.Projectiles.Pets
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (color == 1)
                 texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SparksBlue");
             if (color == 2)

@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Melee
 
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture"));
 
-            Texture2D spearProjectile = Main.projectileTexture[Projectile.type];
+            Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 
             Player player = Main.player[Projectile.owner];
             List<Vector2> positions = new List<Vector2>();

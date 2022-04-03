@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         //fuck glowmasks btw
         //i second this notion -Dominic
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(ref Color lightColor)
         {
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow");
             float xOffset = (glowmask.Width - Projectile.width) * 0.5f + Projectile.width * 0.5f;

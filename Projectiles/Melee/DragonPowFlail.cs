@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // PreDraw draws the flail's chain (underneath it, so it doesn't look weird)
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player owner = Main.player[Projectile.owner];
             Vector2 mountedCenter = owner.MountedCenter;

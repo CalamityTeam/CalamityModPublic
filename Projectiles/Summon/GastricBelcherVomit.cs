@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
                          break;
                 case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/GastricBelcherVomit3");
                          break;
-                default: texture = Main.projectileTexture[Projectile.type];
+                default: texture = ModContent.Request<Texture2D>(Texture).Value;
                          break;
             }
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);

@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.velocity == Vector2.Zero)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             float num228 = Projectile.localAI[1];
             Projectile projectile2 = Main.projectile[(int)Projectile.ai[1]];
             Color color = new Color(1, 1, 1, 127);

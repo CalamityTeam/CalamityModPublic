@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D boltTexture = Main.projectileTexture[Projectile.type];
+            Texture2D boltTexture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float completionRatio = i / (float)Projectile.oldPos.Length;

@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 currentDirection = Projectile.velocity.SafeNormalize(Vector2.Zero);
             for (int i = 0; i < CurrentLaserLength; i++)

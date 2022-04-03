@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture;
             switch (Projectile.ai[0])
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                          break;
                 case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SealedSingularityGore3");
                          break;
-                default: texture = Main.projectileTexture[Projectile.type];
+                default: texture = ModContent.Request<Texture2D>(Texture).Value;
                          break;
             }
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);

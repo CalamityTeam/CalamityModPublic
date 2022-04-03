@@ -221,7 +221,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.velocity == Vector2.Zero)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             float beamLength = Projectile.localAI[1];
             Vector2 centerFloored = Projectile.Center.Floor() + Projectile.velocity * Projectile.scale * BeamRenderTileOffset;
             Vector2 scaleVec = new Vector2(Projectile.scale);

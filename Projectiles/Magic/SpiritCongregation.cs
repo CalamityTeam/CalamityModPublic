@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             int maxFrame = CurrentPower <= LargeMouthPowerLowerBound ? 6 : 9;
             Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * maxFrame * 0.03f;
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
             Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAura");
             Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1");

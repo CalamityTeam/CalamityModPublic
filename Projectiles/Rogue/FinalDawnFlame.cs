@@ -59,8 +59,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
-            int frameHeight = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int frameHeight = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
 
 
             if (Flames.Length > 0)

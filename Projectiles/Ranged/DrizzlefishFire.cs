@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
             if (Projectile.ai[1] == 1f)

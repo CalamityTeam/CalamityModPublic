@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texLight = Main.projectileTexture[Projectile.type];
+            Texture2D texLight = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D texDark = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NychthemeronOrb2");
             if (Projectile.ai[0] == 0f)
             {

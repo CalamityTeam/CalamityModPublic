@@ -263,9 +263,9 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D headTexture = Main.projectileTexture[Projectile.type];
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Vector2 headTextureOrigin = Main.projectileTexture[Projectile.type].Size() * 0.5f;
+            Vector2 headTextureOrigin = ModContent.Request<Texture2D>(Texture).Value.Size() * 0.5f;
             drawPosition -= headTexture.Size() * Projectile.scale * 0.5f;
             drawPosition += headTextureOrigin * Projectile.scale + new Vector2(0f, 4f + Projectile.gfxOffY);
 

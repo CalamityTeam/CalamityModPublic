@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture;
             if (Projectile.localAI[1] == 0f)

@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Melee
                 color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
             }
             Vector2 vector42 = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture2D33 = Main.projectileTexture[Projectile.type];
+            Texture2D texture2D33 = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle rectangle15 = texture2D33.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Color alpha5 = Projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle15.Size() / 2f;

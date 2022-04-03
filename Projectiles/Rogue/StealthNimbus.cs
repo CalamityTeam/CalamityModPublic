@@ -24,9 +24,9 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.Calamity().rogue = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[0] == 1f)
                 texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/StealthNimbus2");
             int height = texture.Height / Main.projFrames[Projectile.type];

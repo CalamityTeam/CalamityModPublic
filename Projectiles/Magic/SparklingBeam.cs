@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)
             {
-                DrawLaser(spriteBatch, Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center,
+                DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
                     Projectile.velocity, 10, Projectile.damage, -1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
             }
             return false;

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft < 90)
             {
@@ -43,8 +43,9 @@ namespace CalamityMod.Projectiles.Typeless
                     byte a2 = (byte)(100f * (b2 / 255f));
                     color = new Color(b2, b2, b2, a2);
                 }
-                Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[Projectile.type].Width, Main.projectileTexture[Projectile.type].Height);
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow"), Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+                Texture2D baseTexture = ModContent.Request<Texture2D>(Texture).Value;
+                Rectangle frame = new Rectangle(0, 0, baseTexture.Width, baseTexture.Height);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow").Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
             }
         }
 

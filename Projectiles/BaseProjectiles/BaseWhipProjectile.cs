@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Behavior();
             ExtraBehavior();
         }
-        public Texture2D FlailTexture => Main.projectileTexture[Projectile.type];
+        public Texture2D FlailTexture => ModContent.Request<Texture2D>(Texture).Value;
 
         #region Virtual Values
         public virtual Color SpecialDrawColor => new Color(255, 200, 0);
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         #endregion
 
         #region Draw Helpers
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // If the velocity is zero, don't draw anything.
             // Doing so would lead to various divison by 0 errors during the normalization process.
@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public void DrawHandleSprite(in Color lightColor)
         {
             Rectangle handleFrame = new Rectangle(0, 0, FlailTexture.Width, HandleHeight);
-            Main.spriteBatch.Draw(FlailTexture,
+            Main.EntitySpriteDraw(FlailTexture,
                                   Projectile.Center.Floor() - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                   new Rectangle?(handleFrame),
                                   lightColor,
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                                   handleFrame.Size() / 2f - Vector2.UnitY * 4f,
                                   Projectile.scale,
                                   SpriteEffects.None,
-                                  0f);
+                                  0);
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                     {
                         drawPositionDeltaMult *= 0.75f;
                     }
-                    Main.spriteBatch.Draw(FlailTexture,
+                    Main.EntitySpriteDraw(FlailTexture,
                                           bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                           new Rectangle?(type1BodyFrame),
                                           lightColor,
@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                                           new Vector2(type1BodyFrame.Width / 2, 0f),
                                           Projectile.scale,
                                           SpriteEffects.None,
-                                          0f);
+                                          0);
                     bodyDrawPosition += normalizedVelocity * drawPositionDeltaMult;
                 }
             }
@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                     {
                         type2BodyFrame.Height = (int)(speed - counter);
                     }
-                    Main.spriteBatch.Draw(FlailTexture,
+                    Main.EntitySpriteDraw(FlailTexture,
                                           bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                           new Rectangle?(type2BodyFrame),
                                           lightColor,
@@ -264,7 +264,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                                           new Vector2(type2BodyFrame.Width / 2, 0f),
                                           Projectile.scale,
                                           SpriteEffects.None,
-                                          0f);
+                                          0);
                     counter += type2BodyFrame.Height * Projectile.scale;
                     bodyDrawPosition += normalizedVelocity * type2BodyFrame.Height * Projectile.scale;
                 }
@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public void DrawWhipTail(in Vector2 whipEndPosition, in Color lightColor)
         {
             Rectangle tailFrame = new Rectangle(0, TailStartY, FlailTexture.Width, TailHeight);
-            Main.spriteBatch.Draw(FlailTexture,
+            Main.EntitySpriteDraw(FlailTexture,
                 whipEndPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                 new Rectangle?(tailFrame),
                 lightColor,
@@ -287,7 +287,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 FlailTexture.Frame(1, 1, 0, 0).Top(),
                 Projectile.scale,
                 SpriteEffects.None,
-                0f);
+                0);
         }
         #endregion
 

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 maxLength = Main.MouseWorld - Main.player[Projectile.owner].Center;
 
-                DrawLaser(spriteBatch, Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center,
+                DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Main.player[Projectile.owner].Center,
                     Projectile.velocity, 15f, Projectile.damage, -1.57f, Projectile.scale, maxLength.Length(), new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
             }
             return false;

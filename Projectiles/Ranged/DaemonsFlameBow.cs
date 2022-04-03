@@ -155,8 +155,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
-            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
             Vector2 origin = new Vector2(27f, 58f);
             SpriteEffects spriteEffects = SpriteEffects.None;

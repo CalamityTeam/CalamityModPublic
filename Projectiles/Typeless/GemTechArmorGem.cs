@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 case (int)GemTechArmorGemType.Melee:
                 default:
-                    texture = Main.projectileTexture[Projectile.type];
+                    texture = ModContent.Request<Texture2D>(Texture).Value;
                     break;
                 case (int)GemTechArmorGemType.Ranged:
                     texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");

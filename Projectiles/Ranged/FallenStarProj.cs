@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 offsets = new Vector2(0f, Projectile.gfxOffY) - Main.screenPosition;
             Color alpha = Projectile.GetAlpha(lightColor);
             Rectangle spriteRec = new Microsoft.Xna.Framework.Rectangle(0, 0, tex.Width, tex.Height);

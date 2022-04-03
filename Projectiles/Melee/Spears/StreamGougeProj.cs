@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             bool portalIsInteractable = portalOpacity >= 1f;
             Vector2 portalDrawPosition = Owner.Center + InitialDirection.ToRotationVector2() * 130f - Main.screenPosition;
 
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (portalIsInteractable)
             {
                 spriteBatch.EnterShaderRegion();

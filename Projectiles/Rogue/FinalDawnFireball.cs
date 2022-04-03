@@ -67,10 +67,10 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FinalDawnReticle>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D glowmask = Main.projectileTexture[Projectile.type];
-            int height = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D glowmask = ModContent.Request<Texture2D>(Texture).Value;
+            int height = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int yStart = height * Projectile.frame;
             Main.spriteBatch.Draw(glowmask,
                                   Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),

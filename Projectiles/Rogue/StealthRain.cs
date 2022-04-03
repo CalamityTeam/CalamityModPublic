@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.alpha = 50;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
             if (Projectile.ai[0] == 1f)

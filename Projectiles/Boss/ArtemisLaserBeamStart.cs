@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
         public override float Lifetime => 600;
         public override Color LaserOverlayColor => new Color(250, 180, 100, 100);
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => Main.projectileTexture[Projectile.type];
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>(Texture).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle");
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd");
         public override string Texture => "CalamityMod/Projectiles/Boss/AresLaserBeamStart";

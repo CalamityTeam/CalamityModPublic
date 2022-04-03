@@ -57,7 +57,8 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 
         public static bool DoChlorophyteCrystalDrawing(SpriteBatch spriteBatch, Projectile projectile)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            //Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
+            Texture2D texture = ModContent.Request<Texture2D>(projectile.Texture).Value; <- We have an issue
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
 

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity.Y *= 0.985f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
             if (Projectile.ai[0] == 1f)

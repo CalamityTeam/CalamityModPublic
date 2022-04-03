@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawPosition;
-            Texture2D starTexture = Main.projectileTexture[Projectile.type];
+            Texture2D starTexture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 1; i < Projectile.oldPos.Length; i++)
             {
                 float scale = Projectile.scale * MathHelper.Lerp(0.9f, 0.6f, i / (float)Projectile.oldPos.Length) * 0.56f;

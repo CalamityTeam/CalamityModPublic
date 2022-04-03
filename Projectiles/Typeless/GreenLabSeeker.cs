@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (Time > 80f && Projectile.ai[1] == 0f)
             {
                 for (int i = 0; i < 24; i += 2)

@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Pets
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Drawing(spriteBatch, lightColor,
-                Main.projectileTexture[Projectile.type],
+                ModContent.Request<Texture2D>(Texture).Value,
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDex"),
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWash"),
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeat"),

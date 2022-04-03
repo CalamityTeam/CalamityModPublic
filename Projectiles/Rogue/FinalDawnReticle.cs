@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D ring = Main.projectileTexture[Projectile.type];
+            Texture2D ring = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D symbol = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
             spriteBatch.Draw(symbol,
                              Projectile.Center - Main.screenPosition,

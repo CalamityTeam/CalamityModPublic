@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 50, 50, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
@@ -83,8 +83,8 @@ namespace CalamityMod.Projectiles.Magic
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.projectileTexture[Projectile.type];
-            int num155 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            Texture2D texture2D3 = ModContent.Request<Texture2D>(Texture).Value;
+            int num155 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y3 = num155 * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num155);
             Vector2 origin2 = rectangle.Size() / 2f;

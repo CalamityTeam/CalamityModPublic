@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
             Point projTile = Projectile.Center.ToTileCoordinates();
             Color localLight = Lighting.GetColor(projTile.X, projTile.Y);
 
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle rect = new Rectangle(38 * Projectile.frame, 0, 38, 38);
             Vector2 halfSpriteSize = rect.Size() / 2f;
 

@@ -229,14 +229,14 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             GameShaders.Armor.ApplySecondary(Main.player[Projectile.owner].cBody, Main.player[Projectile.owner], new DrawData?());
             Projectile.rotation = (Projectile.Center - segment[5]).ToRotation();
-            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D segmentSprite = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/OmegaBlueTentacleSegment");
             for (int i = 0; i < 6; i++)
             {

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             spriteBatch.SetBlendState(BlendState.Additive);
 
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             Color color = new Color(83, 137, 230); // Auric Blue but slightly more blue. (#5389e6)

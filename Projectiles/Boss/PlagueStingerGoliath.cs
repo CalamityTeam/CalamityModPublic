@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == 1)
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Vector2 center = new Vector2(Projectile.Center.X, Projectile.Center.Y);
-            Vector2 vector11 = new Vector2(Main.projectileTexture[Projectile.type].Width / 2, Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type] / 2);
+            Vector2 vector11 = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width / 2, ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type] / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Width, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow").Height / Main.projFrames[Projectile.type]) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);

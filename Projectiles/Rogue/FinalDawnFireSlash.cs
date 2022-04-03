@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             int width = 918 / 3;
             int height = 1990 / 5;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 drawCenter = Projectile.Center;
             Rectangle frameRectangle = new Rectangle(Projectile.frame / 5 * width, Projectile.frame % 5 * height, width, height);
 
-            Texture2D scytheTexture = Main.projectileTexture[Projectile.type];
+            Texture2D scytheTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnFireSlash_Glow");
 
             Main.spriteBatch.Draw(scytheTexture,

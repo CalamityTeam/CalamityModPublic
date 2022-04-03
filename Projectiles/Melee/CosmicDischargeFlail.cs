@@ -45,7 +45,8 @@ namespace CalamityMod.Projectiles.Melee
         public override int TailHeight => 84;
 
         //All of this wouldnt be here if depthLayer fucking worked, i wanna hit someone - Shucks
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        //the hell you mean, depthlayer is a useless fucking variable bro - Iban 2022
+        public override void PostDraw(Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Color colorAtCenter = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16,

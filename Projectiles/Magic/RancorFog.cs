@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             spriteBatch.SetBlendState(BlendState.Additive);
 
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             float opacity = Utils.InverseLerp(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;

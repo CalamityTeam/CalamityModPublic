@@ -231,8 +231,8 @@ namespace CalamityMod.Projectiles.Ranged
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Rectangle frameRectangle = Main.projectileTexture[Projectile.type].Frame(1, 9, 0, Projectile.frame);
-            spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPosition, frameRectangle, lightColor, Projectile.rotation, frameRectangle.Size() * 0.5f, 1f, Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Rectangle frameRectangle = ModContent.Request<Texture2D>(Texture).Value.Frame(1, 9, 0, Projectile.frame);
+            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPosition, frameRectangle, lightColor, Projectile.rotation, frameRectangle.Size() * 0.5f, 1f, Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             spriteBatch.ExitShaderRegion();
 

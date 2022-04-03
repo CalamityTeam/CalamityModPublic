@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.frameCounter <= 1)
                 return false;
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
             Rectangle frame = texture.Frame(2, 7, frameX, frameY);
             SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

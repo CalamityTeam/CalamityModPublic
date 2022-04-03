@@ -291,7 +291,7 @@ namespace CalamityMod.Projectiles.Melee
                 sightLine.Kill();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride");
@@ -335,7 +335,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (CurrentState == 1f && snapTimer > 0)
             {
-                drawChain(spriteBatch, snapTimer, retractionTimer);
+                drawChain(snapTimer, retractionTimer);
             }
 
             //Back to normal
@@ -345,7 +345,7 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public void drawChain(SpriteBatch spriteBatch, float snapProgress, float retractProgress)
+        public void drawChain(float snapProgress, float retractProgress)
         {
             Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMightChain");
 

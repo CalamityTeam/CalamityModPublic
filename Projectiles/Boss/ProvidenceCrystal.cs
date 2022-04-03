@@ -125,11 +125,11 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Color color25 = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16, (int)((Projectile.position.Y + Projectile.height * 0.5) / 16.0));
             Vector2 vector59 = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture2D34 = Main.projectileTexture[Projectile.type];
+            Texture2D texture2D34 = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Color alpha5 = Projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;

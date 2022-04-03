@@ -460,26 +460,26 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (!Thrown)
             {
                 if (Charge > 0)
-                    DrawSwungScissors(spriteBatch, lightColor);
+                    DrawSwungScissors(lightColor);
                 else
-                    DrawSingleSwungScissorBlade(spriteBatch, lightColor);
+                    DrawSingleSwungScissorBlade(lightColor);
             }
             else
             {
                 if (Charge > 0)
-                    DrawThrownScissors(spriteBatch, lightColor);
+                    DrawThrownScissors(lightColor);
                 else
-                    DrawSingleThrownScissorBlade(spriteBatch, lightColor);
+                    DrawSingleThrownScissorBlade(lightColor);
             }
             return false;
         }
 
-        public void DrawSingleSwungScissorBlade(SpriteBatch spriteBatch, Color lightColor)
+        public void DrawSingleSwungScissorBlade(Color lightColor)
         {
             Texture2D sword = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
             Texture2D glowmask = GetTexture(Combo == 0 ? "CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
@@ -526,7 +526,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public void DrawSwungScissors(SpriteBatch spriteBatch, Color lightColor)
+        public void DrawSwungScissors(Color lightColor)
         {
             Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
             Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
@@ -587,7 +587,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public void DrawSingleThrownScissorBlade(SpriteBatch spriteBatch, Color lightColor)
+        public void DrawSingleThrownScissorBlade(Color lightColor)
         {
             Texture2D sword = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
             Texture2D glowmask = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");
@@ -613,7 +613,7 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Draw(glowmask, drawPos - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
         }
 
-        public void DrawThrownScissors(SpriteBatch spriteBatch, Color lightColor)
+        public void DrawThrownScissors(Color lightColor)
         {
             Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
             Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow");

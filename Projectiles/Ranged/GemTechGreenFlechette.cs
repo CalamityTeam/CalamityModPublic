@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int afterimageCount = ProjectileID.Sets.TrailCacheLength[Projectile.type];
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             for (int i = 0; i < afterimageCount; i++)

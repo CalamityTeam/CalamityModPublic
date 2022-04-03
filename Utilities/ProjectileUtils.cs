@@ -261,7 +261,7 @@ namespace CalamityMod
         public static bool DrawBeam(this Projectile projectile, float length, float spacer, Color lightColor, Texture2D texture = null, bool curve = false)
         {
             if (texture is null)
-                texture = Main.projectileTexture[projectile.type];
+                texture = ModContent.Request<Texture2D>(Texture).Value;
 
             float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
             float heightOffset = (float)(projectile.height / 2);

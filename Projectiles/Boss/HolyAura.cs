@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() / 2f;
             float time = Main.GlobalTime % 10f / 10f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

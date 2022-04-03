@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-            Texture2D texture2D19 = Main.projectileTexture[Projectile.type];
+            Texture2D texture2D19 = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D texture2D20 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayMid");
             Texture2D texture2D21 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayEnd");
             float num223 = Projectile.localAI[1]; //length of laser

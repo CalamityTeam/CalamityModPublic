@@ -67,11 +67,11 @@ namespace CalamityMod.Projectiles.Rogue
             Main.dust[idx].noLight = false;
             Main.dust[idx].scale = 1.0f;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D scytheTexture = Main.projectileTexture[Projectile.type];
+            Texture2D scytheTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D scytheGlowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnThrow_Glow");
-            int height = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int height = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int yStart = height * Projectile.frame;
             Main.spriteBatch.Draw(scytheTexture,
                                   Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,

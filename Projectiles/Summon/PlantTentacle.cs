@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[1] < 0 || Projectile.ai[1] >= Main.maxProjectiles)
             {

@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
         #region Drawing
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D lightningSegmentTexture = Main.projectileTexture[Projectile.type];
+            Texture2D lightningSegmentTexture = ModContent.Request<Texture2D>(Texture).Value;
             Projectile.GetAlpha(lightColor);
             Vector2 lightningScale = new Vector2(Projectile.scale) / 2f;
             for (int i = 0; i < 3; i++)

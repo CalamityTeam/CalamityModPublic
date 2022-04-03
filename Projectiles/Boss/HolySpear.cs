@@ -119,9 +119,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D value = Main.projectileTexture[Projectile.type];
+            Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
             int green = Projectile.ai[0] != 0f ? 255 : 125;
             int blue = Projectile.ai[0] != 0f ? 0 : 125;
             Color baseColor = new Color(255, green, blue, 255);

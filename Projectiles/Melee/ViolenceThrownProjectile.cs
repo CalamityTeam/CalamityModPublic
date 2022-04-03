@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
 
-            Texture2D spearProjectile = Main.projectileTexture[Projectile.type];
+            Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 
             // Not cloning the points causes the below operations to be applied to the original oldPos value by reference
             // and thus causes it to be consistently added over and over, which is not intended behavior.
