@@ -36,7 +36,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CalamityGlobalNPC.DraedonMayhem = true;
             CalamityNetcode.SyncWorld();
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.SpawnOnPlayer(player.whoAmI, NPCID.TheDestroyer);

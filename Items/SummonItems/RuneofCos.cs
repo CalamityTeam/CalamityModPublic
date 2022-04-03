@@ -44,7 +44,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             if (player.ZoneDungeon)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
