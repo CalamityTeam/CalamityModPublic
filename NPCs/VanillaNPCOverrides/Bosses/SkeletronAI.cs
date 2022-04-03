@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
                             Main.projectile[proj].timeLeft = 600;
                         }
                         npc.netUpdate = true;
@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
                         vector18 += vector19 * 5f;
-                        int num168 = Projectile.NewProjectile(vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
+                        int num168 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
                         Main.projectile[num168].timeLeft = 300;
 
                         npc.netUpdate = true;
@@ -749,7 +749,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = 2500;
                             int projType = ProjectileID.Skull;
                             source += offset * 5f;
-                            int skull = Projectile.NewProjectile(source, velocity, projType, damage, 0f, Main.myPlayer, -1f, 0f);
+                            int skull = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), source, velocity, projType, damage, 0f, Main.myPlayer, -1f, 0f);
                             Main.projectile[skull].timeLeft = 300;
                         }
                     }

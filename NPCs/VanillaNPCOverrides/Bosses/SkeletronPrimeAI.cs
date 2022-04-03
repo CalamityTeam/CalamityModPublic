@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
                                 Main.projectile[proj].timeLeft = 480;
                             }
                             calamityGlobalNPC.newAI[3] += 1f;
@@ -251,17 +251,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 rotation = MathHelper.ToRadians(8);
                                 for (int i = 0; i < numProj; i++)
                                 {
-                                    Projectile.NewProjectile(npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                    Projectile.NewProjectile(npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
                                 }
-                                Projectile.NewProjectile(npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                             else
                             {
                                 for (int i = 0; i < numProj + 1; i++)
                                 {
                                     Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                    Projectile.NewProjectile(npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
                                 }
                             }
                         }
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
                                 Main.projectile[proj].timeLeft = 480;
                             }
                             calamityGlobalNPC.newAI[3] += 1f;
@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 int type = ProjectileID.Skull;
                                 vector16 += value * 5f;
-                                int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, type, 250, 0f, Main.myPlayer, -1f, 0f);
+                                int num165 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector16.X, vector16.Y, num160, num161, type, 250, 0f, Main.myPlayer, -1f, 0f);
                                 Main.projectile[num165].timeLeft = 300;
                             }
                         }
@@ -555,7 +555,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     int type = ProjectileID.Skull;
                                     int damage = npc.GetProjectileDamage(type);
                                     vector16 += value * 5f;
-                                    int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, type, damage, 0f, Main.myPlayer, -1f, 0f);
+                                    int num165 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector16.X, vector16.Y, num160, num161, type, damage, 0f, Main.myPlayer, -1f, 0f);
                                     Main.projectile[num165].timeLeft = 480;
                                     Main.projectile[num165].tileCollide = false;
                                 }
@@ -609,7 +609,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int type = ProjectileID.SaucerMissile;
                                 int damage = npc.GetProjectileDamage(type);
                                 float delayBeforeHoming = malice ? 25f : 45f;
-                                Projectile.NewProjectile(npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
                             }
 
                             SoundEngine.PlaySound(SoundID.Item39, npc.Center);
@@ -794,7 +794,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num507 *= num508;
                         vector62.X += num506 * 8f;
                         vector62.Y += num507 * 8f;
-                        Projectile.NewProjectile(vector62.X, vector62.Y, num506, num507, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector62.X, vector62.Y, num506, num507, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -888,7 +888,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                            int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].timeLeft = 480;
                         }
                         npc.localAI[1] += 1f;
@@ -1094,7 +1094,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num493 *= num494;
                         vector60.X += num492 * 5f;
                         vector60.Y += num493 * 5f;
-                        Projectile.NewProjectile(vector60.X, vector60.Y, num492, num493, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector60.X, vector60.Y, num492, num493, type, damage, 0f, Main.myPlayer, 0f, 1f);
                     }
                 }
             }
@@ -1168,17 +1168,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             rotation = MathHelper.ToRadians(8);
                             for (int i = 0; i < numProj; i++)
                             {
-                                Projectile.NewProjectile(npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                Projectile.NewProjectile(npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
-                            Projectile.NewProjectile(npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {
                             for (int i = 0; i < numProj + 1; i++)
                             {
                                 Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
                     }

@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num424 *= num425;
                         vector39.X += num423 * 15f;
                         vector39.Y += num424 * 15f;
-                        int num428 = Projectile.NewProjectile(vector39.X, vector39.Y, num423, num424, num427, attackDamage_ForProjectiles4, 0f, Main.myPlayer);
+                        int num428 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector39.X, vector39.Y, num423, num424, num427, attackDamage_ForProjectiles4, 0f, Main.myPlayer);
                     }
                     return false;
                 }
@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num433 *= num434;
                         vector40.X += num432 * 15f;
                         vector40.Y += num433 * 15f;
-                        int num437 = Projectile.NewProjectile(vector40.X, vector40.Y, num432, num433, num436, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
+                        int num437 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector40.X, vector40.Y, num432, num433, num436, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
                     }
                 }
                 npc.ai[2] += 1f;
@@ -518,7 +518,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 vector40.X += num385 * 15f;
                                 vector40.Y += num386 * 15f;
 
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num385, num386, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector40.X, vector40.Y, num385, num386, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -747,10 +747,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 vector42.Y += num402 * 15f;
 
                                 if (canHit)
-                                    Projectile.NewProjectile(vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 else
                                 {
-                                    int proj = Projectile.NewProjectile(vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector42.X, vector42.Y, num401, num402, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].tileCollide = false;
                                     Main.projectile[proj].timeLeft = 300;
                                 }
@@ -838,10 +838,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     vector43.Y += num412 * 15f;
 
                                     if (canHit)
-                                        Projectile.NewProjectile(vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     else
                                     {
-                                        int proj = Projectile.NewProjectile(vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector43.X, vector43.Y, num411, num412, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                         Main.projectile[proj].tileCollide = false;
                                         Main.projectile[proj].timeLeft = 300;
                                     }
@@ -934,7 +934,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                         vector34.X += num349;
                                         vector34.Y += num350;
 
-                                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector34.X, vector34.Y, num349, num350, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     }
                                 }
                             }
@@ -1239,7 +1239,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 vector44.X += num427 * 4f;
                                 vector44.Y += num428 * 4f;
 
-                                Projectile.NewProjectile(vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -1503,10 +1503,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 vector46.Y -= num444 * 1f;
 
                                 if (canHit)
-                                    Projectile.NewProjectile(vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 else
                                 {
-                                    int proj = Projectile.NewProjectile(vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector46.X, vector46.Y, num443, num444, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[proj].tileCollide = false;
                                 }
                             }
@@ -1735,7 +1735,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int type = ModContent.ProjectileType<ShadowflameFireball>();
                                 int damage = npc.GetProjectileDamage(type);
                                 Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
-                                Projectile.NewProjectile(npc.Center + Vector2.Normalize(projectileVelocity) * 4f, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
+                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center + Vector2.Normalize(projectileVelocity) * 4f, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
                             }
                         }
 

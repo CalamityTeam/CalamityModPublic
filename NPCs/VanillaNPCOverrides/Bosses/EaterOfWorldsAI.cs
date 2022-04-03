@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             vector34.Y -= num350;
 
                             int type = ProjectileID.CursedFlameHostile;
-                            Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

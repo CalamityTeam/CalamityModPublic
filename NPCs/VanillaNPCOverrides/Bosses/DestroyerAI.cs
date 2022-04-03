@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int i = 0; i < numProj; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
                                     Main.projectile[proj].timeLeft = 900;
                                 }
                             }
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
                             int damage = npc.GetProjectileDamage(projectileType);
-                            int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
+                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
                             Main.projectile[proj].timeLeft = 900;
 
                             npc.netUpdate = true;
@@ -723,7 +723,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 velocityMultiplier = 0.8f;
                                 break;
                         }
-                        Projectile.NewProjectile(vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
                     }
 
                     npc.netUpdate = true;
