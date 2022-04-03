@@ -1,11 +1,13 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +42,7 @@ namespace CalamityMod
         public static void DrawAfterimagesCentered(Projectile proj, int mode, Color lightColor, int typeOneIncrement = 1, Texture2D texture = null, bool drawCentered = true)
         {
             if (texture is null)
-                texture = Main.projectileTexture[proj.type];
+                texture = TextureAssets.Projectile[proj.type].Value;
 
             int frameHeight = texture.Height / Main.projFrames[proj.type];
             int frameY = frameHeight * proj.frame;
@@ -130,7 +132,7 @@ namespace CalamityMod
         public static void DrawAfterimagesFromEdge(Projectile proj, int mode, Color lightColor, Texture2D texture = null)
         {
             if (texture is null)
-                texture = Main.projectileTexture[proj.type];
+                texture = TextureAssets.Projectile[proj.type].Value;
 
             int frameHeight = texture.Height / Main.projFrames[proj.type];
             int frameY = frameHeight * proj.frame;
@@ -252,7 +254,7 @@ namespace CalamityMod
             start -= Main.screenPosition;
             end -= Main.screenPosition;
 
-            Texture2D line = ModContent.Request<Texture2D>("InfernumMode/ExtraTextures/Line");
+            Texture2D line = ModContent.Request<Texture2D>("InfernumMode/ExtraTextures/Line").Value;
             float rotation = (end - start).ToRotation();
             Vector2 scale = new Vector2(Vector2.Distance(start, end) / line.Width, width);
 
@@ -310,6 +312,7 @@ namespace CalamityMod
             if (!projectile.bobber || item.holdStyle <= 0)
                 return false;
 
+            Texture2D fishingLineTexture = TextureAssets.FishingLine.Value;
             float originX = player.MountedCenter.X;
             float originY = player.MountedCenter.Y;
             originY += player.gfxOffY;
@@ -409,7 +412,7 @@ namespace CalamityMod
                 Color lineColor = Lighting.GetColor((int)mountedCenter.X / 16, (int)mountedCenter.Y / 16, poleColor);
                 float rotation = lineOrigin.ToRotation() - MathHelper.PiOver2;
 
-                Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + Main.fishingLineTexture.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), lineColor, rotation, new Vector2(Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + fishingLineTexture.Height * 0.5f), new Rectangle(0, 0, fishingLineTexture.Width, (int)height), lineColor, rotation, new Vector2(fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -505,7 +508,7 @@ namespace CalamityMod
         public static string ColorMessage(string msg, Color color)
         {
             StringBuilder sb;
-            if (!msg.Contains("\n"))
+            if (!msg.Contains('\n'))
             {
                 sb = new StringBuilder(msg.Length + 12);
                 sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
@@ -575,19 +578,19 @@ namespace CalamityMod
         public static void EnterShaderRegion(this SpriteBatch spriteBatch, BlendState newBlendState = null)
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, newBlendState ?? BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, newBlendState ?? BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public static void ExitShaderRegion(this SpriteBatch spriteBatch)
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
-        public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
+        public static IEnumerable<DrawData> DrawAuroras(Player player, float auroraCount, float opacity, Color color)
         {
             float time = Main.GlobalTimeWrappedHourly % 3f / 3f;
-            Texture2D auroraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture");
+            Texture2D auroraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture").Value;
             for (int i = 0; i < auroraCount; i++)
             {
                 float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
@@ -595,7 +598,7 @@ namespace CalamityMod
                 float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
                 float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
                 Vector2 offset = new Vector2(xOffset, yOffset - 14f);
-                DrawData drawData = new DrawData(auroraTexture,
+                yield return new DrawData(auroraTexture,
                                  player.Top + offset - Main.screenPosition,
                                  null,
                                  color * opacity,
@@ -604,7 +607,6 @@ namespace CalamityMod
                                  0.135f,
                                  SpriteEffects.None,
                                  1);
-                Main.playerDrawData.Add(drawData);
             }
         }
     }

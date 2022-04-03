@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs.TownNPCs;
 using Microsoft.Xna.Framework;

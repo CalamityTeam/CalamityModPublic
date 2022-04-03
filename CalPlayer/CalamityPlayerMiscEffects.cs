@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -79,6 +79,15 @@ namespace CalamityMod.CalPlayer
 
             // Bool for any existing events, true if any event is active
             areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(Player);
+
+            // Go through the old positions for the player.
+            for (int i = Player.Calamity().OldPositions.Length - 1; i > 0; i--)
+            {
+                if (OldPositions[i - 1] == Vector2.Zero)
+                    OldPositions[i - 1] = Player.position;
+                OldPositions[i] = OldPositions[i - 1];
+            }
+            OldPositions[0] = Player.position;
 
             // Hurt the nearest NPC to the mouse if using the burning mouse.
             if (blazingCursorDamage)
