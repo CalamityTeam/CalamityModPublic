@@ -2847,17 +2847,17 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region HotKeys
+        #region Keybinds
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.3f &&
+            if (CalamityKeybinds.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.3f &&
                 wearingRogueArmor && rogueStealthMax > 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<MomentumCapacitorOrb>()) == 0)
             {
                 rogueStealth -= rogueStealthMax * 0.3f;
                 Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
                 Projectile.NewProjectile(fieldSpawnCenter, Vector2.Zero, ModContent.ProjectileType<MomentumCapacitorOrb>(), 0, 0f, Player.whoAmI, 0f, 0f);
             }
-            if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
+            if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
                 {
@@ -2895,7 +2895,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == Player.whoAmI && !divineBless && !Player.HasCooldown(Cooldowns.DivineBless.ID))
+            if (CalamityKeybinds.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == Player.whoAmI && !divineBless && !Player.HasCooldown(Cooldowns.DivineBless.ID))
             {
                 int seconds = CalamityUtils.SecondsToFrames(15f);
                 Player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>(), seconds, false);
@@ -2922,7 +2922,7 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                 }
             }
-            if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+            if (CalamityKeybinds.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !Player.HasCooldown(Cooldowns.SandCloak.ID))
             {
                 Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(30));
@@ -2930,7 +2930,7 @@ namespace CalamityMod.CalPlayer
                 Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
                 SoundEngine.PlaySound(SoundID.Item, Player.position, 45);
             }
-            if (CalamityMod.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+            if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
             {
                 if (!Player.chaosState)
@@ -2982,7 +2982,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+            if (CalamityKeybinds.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !Player.HasCooldown(RogueBooster.ID) && !Player.mount.Active)
             {
                 jetPackDash = blunderBooster ? 15 : 10;
@@ -2992,7 +2992,7 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.Item66, Player.Center);
                 SoundEngine.PlaySound(SoundID.Item34, Player.Center);
             }
-            if (CalamityMod.TarraHotKey.JustPressed)
+            if (CalamityKeybinds.TarraHotKey.JustPressed)
             {
                 if (brimflameSet && !Player.HasCooldown(BrimflameFrenzy.ID))
                 {
@@ -3172,11 +3172,11 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !Player.HasCooldown(PrismaticLaser.ID) && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
+            if (CalamityKeybinds.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
             {
                 AstralArcanumUI.Toggle();
             }
-            if (CalamityMod.AstralTeleportHotKey.JustPressed)
+            if (CalamityKeybinds.AstralTeleportHotKey.JustPressed)
             {
                 if (celestialJewel && !areThereAnyDamnBosses)
                 {
@@ -3191,7 +3191,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.AegisHotKey.JustPressed)
+            if (CalamityKeybinds.AegisHotKey.JustPressed)
             {
                 if (elysianAegis && !Player.mount.Active)
                 {
@@ -3200,11 +3200,11 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the God Slayer dash key
-            if (CalamityMod.GodSlayerDashHotKey.JustPressed && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
+            if (CalamityKeybinds.GodSlayerDashHotKey.JustPressed && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
                 godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
-            if (CalamityMod.RageHotKey.JustPressed)
+            if (CalamityKeybinds.RageHotKey.JustPressed)
             {
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
                 if (gaelRageAttackCooldown == 0 && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
@@ -3277,7 +3277,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the Adrenaline hotkey.
-            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
+            if (CalamityKeybinds.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -4027,7 +4027,7 @@ namespace CalamityMod.CalPlayer
             if (ExoChair)
             {
                 float speed = DraedonGamerChairMount.MovementSpeed;
-                if (CalamityMod.ExoChairSpeedupHotkey.Current)
+                if (CalamityKeybinds.ExoChairSpeedupHotkey.Current)
                     speed *= 2f;
 
                 if (Player.controlLeft)
@@ -4055,7 +4055,7 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.velocity.Y = 0f;
 
-                if (CalamityMod.ExoChairSlowdownHotkey.Current)
+                if (CalamityKeybinds.ExoChairSlowdownHotkey.Current)
                     Player.velocity *= 0.5f;
             }
         }
