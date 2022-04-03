@@ -40,7 +40,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             // AS is available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-				player.TryGettingDevArmor(GetItemSource_OpenItem(Item.type));
+				player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
