@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Localization;
 
 namespace CalamityMod.UI
@@ -23,7 +24,7 @@ namespace CalamityMod.UI
             barDrawPosition.Y += barOffsetY;
 
             Rectangle screenCoordsRectangle = new Rectangle((int)barDrawPosition.X - barWidth / 2, (int)barDrawPosition.Y - barHeight / 2, barWidth, barHeight);
-            Texture2D barTexture = Main.colorBarTexture;
+            Texture2D barTexture = TextureAssets.ColorBar.Value;
 
             Utils.DrawInvBG(spriteBatch, screenCoordsRectangle, new Color(63, 65, 151, 255) * 0.785f);
             spriteBatch.Draw(barTexture, barDrawPosition, null, Color.White, 0f, new Vector2(barTexture.Width / 2, 0f), 1f, SpriteEffects.None, 0f);
@@ -33,7 +34,7 @@ namespace CalamityMod.UI
             string progressText = (100 * CompletionRatio).ToString($"N{SecondaryDigitPrecision}") + "%";
             progressText = Language.GetTextValue("Game.WaveCleared", progressText);
 
-            Vector2 textSize = Main.fontMouseText.MeasureString(progressText);
+            Vector2 textSize = FontAssets.MouseText.Value.MeasureString(progressText);
             float progressTextScale = 1f;
             if (textSize.Y > 22f)
                 progressTextScale *= 22f / textSize.Y;
@@ -45,13 +46,13 @@ namespace CalamityMod.UI
         {
             float barDrawOffsetX = 169f;
             Vector2 barDrawPosition = baseBarDrawPosition + Vector2.UnitX * (CompletionRatio - 0.5f) * barDrawOffsetX;
-            spriteBatch.Draw(Main.magicPixel, barDrawPosition, new Rectangle(0, 0, 1, 1), new Color(255, 241, 51), 0f, new Vector2(1f, 0.5f), new Vector2(barDrawOffsetX * CompletionRatio, yScale), SpriteEffects.None, 0f);
-            spriteBatch.Draw(Main.magicPixel, barDrawPosition, new Rectangle(0, 0, 1, 1), new Color(255, 165, 0, 127), 0f, new Vector2(1f, 0.5f), new Vector2(2f, yScale), SpriteEffects.None, 0f);
-            spriteBatch.Draw(Main.magicPixel, barDrawPosition, new Rectangle(0, 0, 1, 1), Color.Black, 0f, Vector2.UnitY * 0.5f, new Vector2(barDrawOffsetX * (1f - CompletionRatio), yScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, barDrawPosition, new Rectangle(0, 0, 1, 1), new Color(255, 241, 51), 0f, new Vector2(1f, 0.5f), new Vector2(barDrawOffsetX * CompletionRatio, yScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, barDrawPosition, new Rectangle(0, 0, 1, 1), new Color(255, 165, 0, 127), 0f, new Vector2(1f, 0.5f), new Vector2(2f, yScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, barDrawPosition, new Rectangle(0, 0, 1, 1), Color.Black, 0f, Vector2.UnitY * 0.5f, new Vector2(barDrawOffsetX * (1f - CompletionRatio), yScale), SpriteEffects.None, 0f);
         }
         public virtual void DrawProgressTextAndIcons(SpriteBatch spriteBatch, int barOffsetY)
         {
-            Vector2 textMeasurement = Main.fontMouseText.MeasureString(InvasionName);
+            Vector2 textMeasurement = FontAssets.MouseText.Value.MeasureString(InvasionName);
             float x = 120f;
             if (textMeasurement.X > 200f)
             {

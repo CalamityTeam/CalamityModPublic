@@ -100,7 +100,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             // Drop the base of the codebreaker.
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<CodebreakerBase>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<CodebreakerBase>());
 
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;

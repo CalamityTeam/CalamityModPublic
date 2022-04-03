@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Calamitas;
@@ -23,11 +23,13 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -97,15 +99,15 @@ namespace CalamityMod.UI
 
             if (!Main.dedServ)
             {
-                BossMainHPBar = GetTexture("CalamityMod/ExtraTextures/UI/BossHPMainBar");
-                BossComboHPBar = GetTexture("CalamityMod/ExtraTextures/UI/BossHPComboBar");
-                BossSeperatorBar = GetTexture("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar");
+                BossMainHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPMainBar", AssetRequestMode.ImmediateLoad).Value;
+                BossComboHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPComboBar", AssetRequestMode.ImmediateLoad).Value;
+                BossSeperatorBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar", AssetRequestMode.ImmediateLoad).Value;
 
                 PlatformID id = Environment.OSVersion.Platform;
-                if (id == PlatformID.Win32NT && !Environment.Is64BitProcess)
-                    HPBarFont = mod.GetFont("Fonts/HPBarFont");
+                if (id == PlatformID.Win32NT)
+                    HPBarFont = Request<DynamicSpriteFont>("CalamityMod/Fonts/HPBarFont", AssetRequestMode.ImmediateLoad).Value;
                 else
-                    HPBarFont = Main.fontMouseText;
+                    HPBarFont = FontAssets.MouseText.Value;
             }
 
             OneToMany = new Dictionary<int, int[]>();
@@ -682,7 +684,7 @@ namespace CalamityMod.UI
                 // Draw a red back-glow of the text if the NPC is enraged or a gray back-glow if the NPC is increasing defense or DR.
                 string name = OverridingName ?? AssociatedNPC.FullName;
 
-                Vector2 nameSize = Main.fontMouseText.MeasureString(name);
+                Vector2 nameSize = FontAssets.MouseText.Value.MeasureString(name);
                 if (NPCIsEnraged)
                 {
                     if (EnrageTimer > 0)
@@ -692,7 +694,7 @@ namespace CalamityMod.UI
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
-                            CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
                         }
                     }
                 }
@@ -705,13 +707,13 @@ namespace CalamityMod.UI
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
-                            CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.LightGray * 0.6f, Color.Black * 0.2f);
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.LightGray * 0.6f, Color.Black * 0.2f);
                         }
                     }
                 }
 
                 // And draw the text to indicate the name of the boss.
-                CalamityUtils.DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
+                CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
                 if (CanDrawExtraSmallText)
                 {
@@ -721,11 +723,11 @@ namespace CalamityMod.UI
                         int totalExtraEntities = CalamityUtils.CountNPCsBetter(extraEntityData.TypesToSearchFor);
 
                         string text = $"({extraEntityData.NameOfExtensions} left: {totalExtraEntities})";
-                        Vector2 textAreaSize = Main.fontItemStack.MeasureString(text) * SmallTextScale;
+                        Vector2 textAreaSize = FontAssets.ItemStack.Value.MeasureString(text) * SmallTextScale;
                         float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
                         float verticalDrawPosition = y + MainBarYOffset + 17;
                         Vector2 smallBarDrawPosition = new Vector2(horizontalDrawPosition, verticalDrawPosition);
-                        CalamityUtils.DrawBorderStringEightWay(sb, Main.fontItemStack, text, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
+                        CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, text, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
                     }
 
                     // If that isn't necessary, simply display the precise amount of remaining life for the boss.
@@ -733,11 +735,11 @@ namespace CalamityMod.UI
                     {
                         // Draw the precise life.
                         string actualLifeText = $"({CombinedNPCLife} / {InitialMaxLife})";
-                        Vector2 textAreaSize = Main.fontItemStack.MeasureString(actualLifeText) * SmallTextScale;
+                        Vector2 textAreaSize = FontAssets.ItemStack.Value.MeasureString(actualLifeText) * SmallTextScale;
                         float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
                         float verticalDrawPosition = y + MainBarYOffset + 17;
                         Vector2 smallBarDrawPosition = new Vector2(horizontalDrawPosition, verticalDrawPosition);
-                        CalamityUtils.DrawBorderStringEightWay(sb, Main.fontItemStack, actualLifeText, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
+                        CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, actualLifeText, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
                     }
                 }
             }

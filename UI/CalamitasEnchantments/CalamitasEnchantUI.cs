@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
@@ -55,7 +56,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 // If an item was stored, release it back into the world.
                 if (!CurrentlyHeldItem.IsAir)
                 {
-                    Main.LocalPlayer.QuickSpawnClonedItem(CurrentlyHeldItem, CurrentlyHeldItem.stack);
+                    Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetItemSource_Misc(CurrentlyHeldItem.type), CurrentlyHeldItem, CurrentlyHeldItem.stack);
                     CurrentlyHeldItem.TurnToAir();
                 }
 
@@ -82,7 +83,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             Main.playerInventory = true;
             Main.npcChatText = string.Empty;
 
-            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
+            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground").Value;
             Vector2 backgroundScale = Vector2.One * Main.UIScale;
 
             // Draw the background.
@@ -107,7 +108,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 DrawEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
                 if (!string.IsNullOrEmpty(SelectedEnchantment.Value.IconTexturePath))
                 {
-                    Texture2D iconTexture = ModContent.Request<Texture2D>(SelectedEnchantment.Value.IconTexturePath);
+                    Texture2D iconTexture = ModContent.Request<Texture2D>(SelectedEnchantment.Value.IconTexturePath).Value;
                     DrawIcon(spriteBatch, iconDrawPositionTopLeft, iconTexture);
                 }
             }
@@ -156,7 +157,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             // If no possible enchantments were found, default to null.
             SelectedEnchantment = null;
 
-            if (possibleEnchantments.Count() > 0)
+            if (possibleEnchantments.Any())
                 SelectedEnchantment = possibleEnchantments.ElementAt(EnchantIndex);
 
             return possibleEnchantments;
@@ -179,15 +180,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 
             // Draw the coin costs.
             string costText = "Cost: ";
-            Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
-            costDrawPositionTopLeft.X += (int)((Main.fontMouseText.MeasureString(costText).X * 0.5f + 12f) * Main.UIScale);
+            Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
+            costDrawPositionTopLeft.X += (int)((FontAssets.MouseText.Value.MeasureString(costText).X * 0.5f + 12f) * Main.UIScale);
 
             int[] coinsArray = Utils.CoinsSplit(cost);
             for (int i = 0; i < 4; i++)
             {
-                Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + (ChatManager.GetStringSize(Main.fontMouseText, costText, Vector2.One, -1f).X + ((24 * i) - 24f)) * Main.UIScale, costDrawPositionTopLeft.Y + 54f * Main.UIScale);
-                spriteBatch.Draw(Main.itemTexture[ItemID.PlatinumCoin - i], drawPosition, null, Color.White, 0f, Main.itemTexture[ItemID.PlatinumCoin - i].Size() * 0.5f, Main.UIScale, SpriteEffects.None, 0f);
-                Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f * Main.UIScale);
+                Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + (ChatManager.GetStringSize(FontAssets.MouseText.Value, costText, Vector2.One, -1f).X + ((24 * i) - 24f)) * Main.UIScale, costDrawPositionTopLeft.Y + 54f * Main.UIScale);
+                spriteBatch.Draw(TextureAssets.Item[ItemID.PlatinumCoin - i].Value, drawPosition, null, Color.White, 0f, TextureAssets.Item[ItemID.PlatinumCoin - i].Size() * 0.5f, Main.UIScale, SpriteEffects.None, 0f);
+                Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f * Main.UIScale);
             }
 
             return cost;
@@ -199,12 +200,12 @@ namespace CalamityMod.UI.CalamitasEnchants
             Vector2 scale = new Vector2(0.8f, 0.825f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
 
             string unifiedDescription = SelectedEnchantment.Value.Description.Replace("\n", " ");
-            foreach (string line in Utils.WordwrapString(unifiedDescription, Main.fontMouseText, 400, 16, out _))
+            foreach (string line in Utils.WordwrapString(unifiedDescription, FontAssets.MouseText.Value, 400, 16, out _))
             {
                 if (string.IsNullOrEmpty(line))
                     continue;
 
-                ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
+                ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
                 vectorDrawPosition.Y += Main.UIScale * 16f;
             }
         }
@@ -217,20 +218,20 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
         {
             isHoveringOverReforgeIcon = false;
-            Texture2D itemSlotTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot");
+            Texture2D itemSlotTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot").Value;
 
-            Texture2D reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button");
+            Texture2D reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button").Value;
             Rectangle reforgeIconArea = new Rectangle((int)reforgeIconDrawPosition.X, (int)reforgeIconDrawPosition.Y, (int)(reforgeIconTexture.Width * scale.X), (int)(reforgeIconTexture.Height * scale.Y));
 
             // Have the reforge icon light up if the mouse is hovering over it.
             if (MouseScreenArea.Intersects(reforgeIconArea))
             {
-                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered");
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered").Value;
                 isHoveringOverReforgeIcon = true;
             }
 
             if (ReforgeButtonClickCountdown > 0f)
-                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked");
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked").Value;
 
             // This will be used for item deposit/withdrawal logic.
             isHoveringOverItemIcon = MouseScreenArea.Intersects(new Rectangle((int)itemSlotDrawPosition.X, (int)itemSlotDrawPosition.Y, (int)(itemSlotTexture.Width * scale.X), (int)(itemSlotTexture.Height * scale.Y)));
@@ -247,7 +248,7 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void AttemptToDrawItemInIcon(SpriteBatch spriteBatch, Vector2 drawPosition)
         {
             float inventoryScale = Main.inventoryScale;
-            Texture2D itemTexture = Main.itemTexture[CurrentlyHeldItem.type];
+            Texture2D itemTexture = TextureAssets.Item[CurrentlyHeldItem.type].Value;
             Rectangle itemFrame = itemTexture.Frame(1, 1, 0, 0);
             bool hasMultipleFrames = Main.itemAnimations[CurrentlyHeldItem.type] != null;
             if (hasMultipleFrames)
@@ -295,26 +296,26 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawAndInteractWithButtons(SpriteBatch spriteBatch, IEnumerable<Enchantment> possibleEnchantments, Vector2 topButtonTopLeft, Vector2 bottomButtonTopLeft, Vector2 scale)
         {
             // Leave the arrows blank if no possible enchants exist.
-            if (possibleEnchantments.Count() == 0)
+            if (!possibleEnchantments.Any())
                 return;
 
             // Decide textures.
-            Texture2D topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp");
-            Texture2D bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown");
+            Texture2D topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp").Value;
+            Texture2D bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown").Value;
             if (TopButtonClickCountdown > 0f)
-                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked");
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked").Value;
             if (BottomButtonClickCountdown > 0f)
-                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked");
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked").Value;
 
             Rectangle topButtonArea = new Rectangle((int)topButtonTopLeft.X, (int)topButtonTopLeft.Y, (int)(topArrowTexture.Width * scale.X), (int)(topArrowTexture.Height * scale.Y));
             Rectangle bottomButtonArea = new Rectangle((int)bottomButtonTopLeft.X, (int)bottomButtonTopLeft.Y, (int)(bottomArrowTexture.Width * scale.X), (int)(bottomArrowTexture.Height * scale.Y));
             bool hoveringOverTopArrow = MouseScreenArea.Intersects(topButtonArea);
             bool hoveringOverBottomArrow = MouseScreenArea.Intersects(bottomButtonArea);
             if (hoveringOverTopArrow)
-                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered");
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered").Value;
 
             if (hoveringOverBottomArrow)
-                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered");
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered").Value;
 
             // Draw the arrows.
             if (EnchantIndex > 0)
@@ -345,10 +346,10 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawCenter)
         {
             Vector2 scale = new Vector2(0.8f, 0.745f) * Main.UIScale;
-            float textWidth = Main.fontMouseText.MeasureString(SelectedEnchantment.Value.Name).X * scale.X;
+            float textWidth = FontAssets.MouseText.Value.MeasureString(SelectedEnchantment.Value.Name).X * scale.X;
             Color drawColor = SelectedEnchantment.Value.Equals(EnchantmentManager.ClearEnchantment) ? Color.White : Color.Orange;
             nameDrawCenter.X -= textWidth * 0.5f;
-            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Name, nameDrawCenter, drawColor, 0f, Vector2.Zero, scale);
+            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, SelectedEnchantment.Value.Name, nameDrawCenter, drawColor, 0f, Vector2.Zero, scale);
         }
 
         public static void InteractWithEnchantIcon(int cost)
@@ -366,7 +367,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 return;
 
             Item originalItem = CurrentlyHeldItem.Clone();
-            byte oldPrefix = CurrentlyHeldItem.prefix;
+            int oldPrefix = CurrentlyHeldItem.prefix;
             CurrentlyHeldItem.SetDefaults(CurrentlyHeldItem.type);
             CurrentlyHeldItem.Prefix(oldPrefix);
             CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem);
@@ -382,17 +383,17 @@ namespace CalamityMod.UI.CalamitasEnchants
                 SelectedEnchantment.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
             }
 
-            // Update the compare item. This is used check comparisons when showing reforge tooltip bonuses.
+            // Update the compare item. This is used to check comparisons when showing reforge tooltip bonuses.
             // Updating it with the same bonuses as what was applied to the real item will negate the incorrect numbers,
             // such as absurd damage boosts.
-            if (Main.cpItem is null)
-                Main.cpItem = new Item();
-            Main.cpItem.SetDefaults(Main.cpItem.type);
+            if (Main.tooltipPrefixComparisonItem is null)
+                Main.tooltipPrefixComparisonItem = new Item();
+            Main.tooltipPrefixComparisonItem.SetDefaults(Main.tooltipPrefixComparisonItem.type);
 
             if (SelectedEnchantment.Value.Name != EnchantmentManager.UpgradeEnchantName)
             {
-                Main.cpItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
-                SelectedEnchantment.Value.CreationEffect?.Invoke(Main.cpItem);
+                Main.tooltipPrefixComparisonItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
+                SelectedEnchantment.Value.CreationEffect?.Invoke(Main.tooltipPrefixComparisonItem);
             }
 
             // Take away the money for the cost.

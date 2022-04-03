@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Vector2 offset = new Vector2(Main.rand.NextFloat(-800f, 800f), -1460f);
+                    Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);
                     Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
                                              Projectile.Center + offset,
                                              -Vector2.Normalize(offset),

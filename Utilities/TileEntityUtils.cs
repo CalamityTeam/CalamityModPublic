@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod
 {
@@ -69,11 +70,11 @@ namespace CalamityMod
         // Draws the Power Cell item slot in a UI. Used by both the Power Cell Factory and Charging Station.
         internal static void DrawPowercellSlot(SpriteBatch spriteBatch, Item item, Vector2 drawPosition, float iconScale = 0.7f)
         {
-            Texture2D slotBackgroundTex = GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
+            Texture2D slotBackgroundTex = Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty").Value;
 
             // This check is done twice because the draw order matters. We want to draw the background icon before any text.
             if (item.stack > 0)
-                slotBackgroundTex = GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
+                slotBackgroundTex = Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled").Value;
 
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, iconScale, SpriteEffects.None, 0f);
             if (item.stack > 0)
@@ -82,7 +83,7 @@ namespace CalamityMod
                 Vector2 numberOffset = slotBackgroundTex.Size() * 0.2f;
                 numberOffset.X -= 17f;
                 ChatManager.DrawColorCodedStringWithShadow(spriteBatch,
-                    Main.fontItemStack,
+                    FontAssets.ItemStack.Value,
                     item.stack.ToString(),
                     drawPosition + numberOffset * inventoryScale,
                     Color.White,

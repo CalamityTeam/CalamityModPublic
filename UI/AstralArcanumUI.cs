@@ -1,10 +1,11 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.UI
 {
@@ -144,8 +145,8 @@ namespace CalamityMod.UI
                 text = CircleNames[selectedCircle];
             }
 
-            Vector2 size = Main.fontMouseText.MeasureString(text);
-            Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
+            Vector2 size = FontAssets.MouseText.Value.MeasureString(text);
+            Utils.DrawBorderStringFourWay(sb, FontAssets.MouseText.Value, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
         }
 
         public static void DoTeleportation(int circle)
