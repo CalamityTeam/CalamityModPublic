@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.8f;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.aiStyle = -1;
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<BigSightseerBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BigSightseerBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 85;
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Astral
                 {
                     NPC.ai[1] = 0f;
 
-                    int n = NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
+                    int n = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
                     Main.npc[n].Center = spawnPoint;
                     Main.npc[n].velocity = vector * (CalamityWorld.death ? 12f : 10f);
                 }

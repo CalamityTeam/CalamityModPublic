@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.defense = 40;
             NPC.lifeMax = 50000;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -107,11 +107,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
-                            segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
                         }
                         else
                         {
-                            segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
                         }
                         Main.npc[segment].realLife = NPC.whoAmI;
                         Main.npc[segment].ai[2] = NPC.whoAmI;

@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.Opacity = 0f;
             NPC.behindTiles = true;
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
                         int type = ProjectileID.CultistBossFireBallClone;
                         int damage = NPC.GetProjectileDamage(type);
-                        int proj = Projectile.NewProjectile(NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
                         Main.projectile[proj].tileCollide = false;
                     }
                 }

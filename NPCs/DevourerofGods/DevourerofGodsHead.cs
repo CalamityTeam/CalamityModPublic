@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.takenDamageMultiplier = 1.1f;
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.value = Item.buyPrice(6, 0, 0, 0);
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.noTileCollide = true;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<DevourerofGodsBag>();
         }
 
@@ -1378,11 +1378,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                             int segment;
                             if (segmentSpawn >= 0 && segmentSpawn < minLength)
                             {
-                                segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody>(), NPC.whoAmI);
+                                segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody>(), NPC.whoAmI);
                                 Main.npc[segment].ModNPC<DevourerofGodsBody>().SegmentIndex = maxLength - segmentSpawn;
                             }
                             else
-                                segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail>(), NPC.whoAmI);
+                                segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail>(), NPC.whoAmI);
 
                             Main.npc[segment].realLife = NPC.whoAmI;
                             Main.npc[segment].ai[2] = NPC.whoAmI;

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.defense = 20;
             NPC.DR_NERD(0.1f);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.LifeMaxNERB(77000, 92000, 1000000);

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -45,10 +45,10 @@ namespace CalamityMod.NPCs.Crabulon
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             NPC.boss = true;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 10, 0, 0);
@@ -580,8 +580,8 @@ namespace CalamityMod.NPCs.Crabulon
                             int x = (int)(NPC.position.X + Main.rand.Next(NPC.width - 32));
                             int y = (int)(NPC.position.Y + Main.rand.Next(NPC.height - 32));
                             int num663 = ModContent.NPCType<CrabShroom>();
-                            int num664 = NPC.NewNPC(x, y, num663);
-                            Main.npc[num664].SetDefaults(num663, -1f);
+                            int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663);
+                            Main.npc[num664].SetDefaults(num663);
                             Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * 0.1f;
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)

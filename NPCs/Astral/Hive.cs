@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -37,8 +37,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
-            banner = NPC.type;
-            bannerItem = ModContent.ItemType<HiveBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<HiveBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 NPC.damage = 90;
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Astral
                     NPC.ai[0] = 0;
 
                     //spawn hiveling, it's ai[0] is the hive npc index.
-                    int n = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Hiveling>(), 0, NPC.whoAmI);
+                    int n = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Hiveling>(), 0, NPC.whoAmI);
                     Main.npc[n].velocity.X = Main.rand.NextFloat(-0.4f, 0.4f);
                     Main.npc[n].velocity.Y = Main.rand.NextFloat(-0.5f, -0.05f);
                 }

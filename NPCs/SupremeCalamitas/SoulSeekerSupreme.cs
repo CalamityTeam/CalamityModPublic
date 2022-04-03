@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.width = 40;
             NPC.height = 40;
             NPC.noGravity = true;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
                     Vector2 shootVelocity = (Target.Center - EyePosition).SafeNormalize(Vector2.UnitY) * 9f;
-                    Projectile.NewProjectile(EyePosition, shootVelocity, type, damage, 1f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), EyePosition, shootVelocity, type, damage, 1f, Main.myPlayer);
                 }
                 timer = 0;
                 NPC.netUpdate = true;

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.defense = 0;
             NPC.LifeMaxNERB(24550, 29440, 10000);
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.noGravity = true;
